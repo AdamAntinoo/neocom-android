@@ -6,24 +6,24 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>NeocomDatabaseAdapterLibrary</name>
 	<description>SQLite database access library. Isolates Neocom database access from any environment limits.</description>
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<!-- <build> -->
+	<!-- <sourceDirectory>src</sourceDirectory> -->
+	<!-- <plugins> -->
+	<!-- <plugin> -->
+	<!-- <artifactId>maven-compiler-plugin</artifactId> -->
+	<!-- <version>3.3</version> -->
+	<!-- <configuration> -->
+	<!-- <source>1.8</source> -->
+	<!-- <target>1.8</target> -->
+	<!-- </configuration> -->
+	<!-- </plugin> -->
+	<!-- </plugins> -->
+	<!-- </build> -->
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-android -->
+		<!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc -->
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>
-			<artifactId>ormlite-android</artifactId>
+			<artifactId>ormlite-jdbc</artifactId>
 			<version>5.0</version>
 		</dependency>
 	</dependencies>

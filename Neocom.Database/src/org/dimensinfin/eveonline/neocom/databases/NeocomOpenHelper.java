@@ -1,22 +1,17 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        NeoCom.Databases (NEOC.D)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//	COPYRIGHT:      (c) 2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Java 1.8 Library.
+//	DESCRIPTION:		SQLite database access library. Isolates Neocom database access from any
+//									environment limits.
 package org.dimensinfin.eveonline.neocom.databases;
 
-// - IMPORT SECTION .........................................................................................
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeocomOpenHelper implements ISQLiteOpenHelper {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("org.dimensinfin.eveonline.neocom.databases");
+	private static Logger logger = Logger.getLogger("NeocomOpenHelper");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
