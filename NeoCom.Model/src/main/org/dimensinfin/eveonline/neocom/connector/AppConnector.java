@@ -132,6 +132,13 @@ public class AppConnector {
 			throw new RuntimeException("Application connector not defined. Functionality 'getResourceString' disabled.");
 	}
 
+	public static String getResourceString(final String reference) {
+		if (null != AppConnector.connection)
+			return AppConnector.connection.getResourceString(reference);
+		else
+			throw new RuntimeException("Application connector not defined. Functionality 'getResourceString' disabled.");
+	}
+
 	public static IConnector getSingleton() {
 		if (null != AppConnector.connection)
 			return AppConnector.connection.getSingleton();

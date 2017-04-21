@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.databases.NeocomDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.microservices.adapter.MicroServiceAbstractConnector;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 import org.dimensinfin.neocom.models.PlanetaryResource;
 import org.dimensinfin.poc.asb.planetaryoptimizer.main.NeoComApplication;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 // - CLASS IMPLEMENTATION ...................................................................................
 @SpringBootApplication
 @Controller
-public class PlanetaryOptimizerServiceApp {
+public class PlanetaryOptimizerServiceApp extends MicroServiceAbstractConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("PlanetaryOptimizerServiceApp");
 
