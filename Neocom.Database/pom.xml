@@ -8,6 +8,11 @@
 	<description>SQLite database access library. Isolates Neocom database access from any environment limits.</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc -->
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>

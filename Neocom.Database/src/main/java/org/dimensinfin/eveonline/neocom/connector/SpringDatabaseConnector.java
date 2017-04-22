@@ -30,11 +30,11 @@ import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.model.Schematics;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SpringDatabaseConnector extends AbstractDatabaseConnector {
+public abstract class SpringDatabaseConnector extends AbstractDatabaseConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final String										DATABASE_NAME							= AppConnector
+	protected static final String									DATABASE_NAME							= AppConnector
 			.getResourceString("R.string.appdatabasepath") + AppConnector.getResourceString("R.string.appdatabasefilename");
-	private static final int											DATABASE_VERSION					= new Integer(
+	protected static final int										DATABASE_VERSION					= new Integer(
 			AppConnector.getResourceString("R.string.databaseversion")).intValue();
 
 	private static final String										SELECT_RAW_PRODUCTRESULT	= "SELECT pstmo.typeID, pstmo.quantity, pstmo.schematicID"
@@ -100,7 +100,7 @@ public class SpringDatabaseConnector extends AbstractDatabaseConnector {
 			+ " dgmTypeAttributes.typeID = invTypeReactions.typeID";
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeocomDBHelper												neocomDBHelper						= new NeocomDBHelper(DATABASE_NAME,
+	protected NeocomDBHelper											neocomDBHelper						= new NeocomDBHelper(DATABASE_NAME,
 			DATABASE_VERSION);
 	private Connection														ccpDatabase								= null;
 

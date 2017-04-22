@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
-import org.dimensinfin.eveonline.neocom.connector.SpringDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -61,7 +61,7 @@ public abstract class MicroServiceAbstractConnector implements IConnector {
 
 	@Override
 	public IDatabaseConnector getDBConnector() {
-		if (null == dbNeocomConnector) dbNeocomConnector = new SpringDatabaseConnector();
+		if (null == dbNeocomConnector) dbNeocomConnector = new NeocomDatabaseConnector();
 		return dbNeocomConnector;
 	}
 

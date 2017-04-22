@@ -4,7 +4,7 @@
 //	ENVIRONMENT:	Angular-SpringBoot.
 //	DESCRIPTION:	Proof of Concept. Use of Angular 2.0 and Sprint Boot to create a test service
 //					to display and process the Planetary Data of a sample Eve account.
-package org.dimensinfin.poc.asb.planetaryoptimizer.main;
+package org.dimensinfin.eveonline.neocom.microservices.controller;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -24,6 +24,7 @@ import org.dimensinfin.eveonline.poc.planetary.PlanetaryProcessor;
 import org.dimensinfin.eveonline.poc.planetary.PlanetaryScenery;
 import org.dimensinfin.eveonline.poc.planetary.ProcessingAction;
 import org.dimensinfin.neocom.models.PlanetaryResource;
+import org.dimensinfin.poc.asb.planetaryoptimizer.main.AppAbstractConnector;
 import org.joda.time.DateTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

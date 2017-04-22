@@ -14,6 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -23,17 +26,20 @@ import com.j256.ormlite.table.TableUtils;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger									logger								= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
-	private static final String						SELECT_VERSION_NUMBER	= "SELECT versionNumber from Version";
+	private static Logger											logger									= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
+	private static final String								SELECT_VERSION_NUMBER		= "SELECT versionNumber from Version";
+	private static final long									MAX_CONNECTION_AGE			= 5 * 60 * 1000;
+	private static final long									CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String												databaseName					= "neocomdata.db";
-	private int														databaseVersion				= 0;
-	private boolean												isOpen								= false;
-	private Connection										neocomDatabase				= null;
-	private JdbcPooledConnectionSource		neocomDatasource			= null;
+	private String														databaseName						= "neocomdata.db";
+	private int																databaseVersion					= 0;
+	private boolean														isOpen									= false;
+	private Connection												neocomDatabase					= null;
+	private JdbcPooledConnectionSource				neocomDatasource				= null;
 
-	private Dao<DatabaseVersion, String>	versionDao						= null;
+	private Dao<DatabaseVersion, String>			versionDao							= null;
+	private Dao<ResourceListHandler, String>	resourceList						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomDBHelper(String databaseName, int databaseVersion) {
@@ -70,7 +76,23 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		versionDao = null;
 	}
 
-	public Dao<DatabaseVersion, String> getVersionDao() throws java.sql.SQLException {
+	public Connection getNeocomDatabase() {
+		if (null == neocomDatabase) if (openNeocomDB())
+			return neocomDatabase;
+		else
+			new RuntimeException(
+					"RT [NeocomDBHelper.getNeocomDatabase]> Neocom database not found and unable to be openned.");
+		return neocomDatabase;
+	}
+
+	public Dao<ResourceListHandler, String> getResourceListDao() throws SQLException {
+		if (null == resourceList) {
+			resourceList = DaoManager.createDao(this.getNeocomSource(), ResourceListHandler.class);
+		}
+		return resourceList;
+	}
+
+	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
 		if (null == versionDao) {
 			versionDao = DaoManager.createDao(this.getNeocomSource(), DatabaseVersion.class);
 		}
@@ -92,7 +114,7 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		if (oldVersion < 1) {
 			try {
 				// Create the version table and insert the initial new version code.
-				TableUtils.dropTable(databaseConnection, DatabaseVersion.class, true);
+				//				TableUtils.dropTable(databaseConnection, DatabaseVersion.class, true);
 				TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
 				DatabaseVersion version = new DatabaseVersion(newVersion);
 				// Persist the version object to the database
@@ -116,15 +138,6 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		onCreate(databaseConnection);
 	}
 
-	private Connection getNeocomDatabase() {
-		if (null == neocomDatabase) if (openNeocomDB())
-			return neocomDatabase;
-		else
-			new RuntimeException(
-					"RT [NeocomDBHelper.getNeocomDatabase]> Neocom database not found and unable to be openned.");
-		return neocomDatabase;
-	}
-
 	private ConnectionSource getNeocomSource() {
 		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
 		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
@@ -142,11 +155,11 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		if (!isOpen) if (null == neocomDatasource) {
 			// Open and configure the connection datasource for DAO queries.
 			try {
-				neocomDatasource = new JdbcPooledConnectionSource("jdbc:h2:mem:account");
+				neocomDatasource = new JdbcPooledConnectionSource(this.databaseName);
 				// Only keep the connections open for 5 minutes
-				neocomDatasource.setMaxConnectionAgeMillis(5 * 60 * 1000);
+				neocomDatasource.setMaxConnectionAgeMillis(MAX_CONNECTION_AGE);
 				// Change the check-every milliseconds from 30 seconds to 60
-				neocomDatasource.setCheckConnectionsEveryMillis(60 * 1000);
+				neocomDatasource.setCheckConnectionsEveryMillis(CHECK_CONNECTION_EVERY);
 				// For extra protection, enable the testing of connections
 				// right before they are handed to the user
 				neocomDatasource.setTestBeforeGet(true);
