@@ -3,7 +3,7 @@
 //	COPYRIGHT:      (c) 2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Java 1.7.
 //	DESCRIPTION:		Projects for Proof Of Concept desings.
-package org.dimensinfin.evemarket.service;
+package org.dimensinfin.eveonline.neocom.marketservice;
 
 import java.io.IOException;
 import java.util.HashMap;

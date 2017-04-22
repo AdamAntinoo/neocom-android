@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.databases.NeocomDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.NeocomDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.microservices.adapter.MicroServiceAbstractConnector;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 import org.dimensinfin.neocom.models.PlanetaryResource;

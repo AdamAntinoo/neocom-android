@@ -1,0 +1,203 @@
+//	PROJECT:        NeoCom.Databases (NEOC.D)
+//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
+//	COPYRIGHT:      (c) 2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Java 1.8 Library.
+//	DESCRIPTION:		SQLite database access library. Isolates Neocom database access from any
+//									environment limits.
+package org.dimensinfin.eveonline.neocom.database;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Logger;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+// - CLASS IMPLEMENTATION ...................................................................................
+public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
+	// - S T A T I C - S E C T I O N ..........................................................................
+	private static Logger									logger								= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
+	private static final String						SELECT_VERSION_NUMBER	= "SELECT versionNumber from Version";
+
+	// - F I E L D - S E C T I O N ............................................................................
+	private String												databaseName					= "neocomdata.db";
+	private int														databaseVersion				= 0;
+	private boolean												isOpen								= false;
+	private Connection										neocomDatabase				= null;
+	private JdbcPooledConnectionSource		neocomDatasource			= null;
+
+	private Dao<DatabaseVersion, String>	versionDao						= null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public NeocomDBHelper(String databaseName, int databaseVersion) {
+		this.databaseName = databaseName;
+		this.databaseVersion = databaseVersion;
+		// Open the database and check the version number.
+		if (openNeocomDB()) {
+			// Read the version information from the database.
+			int version = readDatabaseVersion();
+			if (0 == version) {
+				onUpgrade(neocomDatasource, version, version);
+			} else {
+				// Check if the version is equal to the current software version.
+				if (version != databaseVersion) onUpgrade(neocomDatasource, version, databaseVersion);
+			}
+		}
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	/**
+	 * Close the database connections and clear any cached DAOs.
+	 */
+	public void close() {
+		try {
+			neocomDatasource.close();
+			neocomDatabase.close();
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		versionDao = null;
+	}
+
+	public Dao<DatabaseVersion, String> getVersionDao() throws java.sql.SQLException {
+		if (null == versionDao) {
+			versionDao = DaoManager.createDao(this.getNeocomSource(), DatabaseVersion.class);
+		}
+		return versionDao;
+	}
+
+	public void onCreate(final ConnectionSource databaseConnection) {
+		try {
+			// Now open the DAO connector and create tables if they not exist
+			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
+		} catch (SQLException sqle) {
+			logger.severe("E> Error creating the initial table on the app database.");
+			sqle.printStackTrace();
+		}
+	}
+
+	public void onUpgrade(final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
+		// Execute different actions depending on the new version.
+		if (oldVersion < 1) {
+			try {
+				// Create the version table and insert the initial new version code.
+				TableUtils.dropTable(databaseConnection, DatabaseVersion.class, true);
+				TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
+				DatabaseVersion version = new DatabaseVersion(newVersion);
+				// Persist the version object to the database
+				getVersionDao().create(version);
+			} catch (RuntimeException rtex) {
+				logger.severe("E> Error dropping table on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				logger.severe("E> Error dropping table on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		// Update on the database the database version.
+		try {
+			DatabaseVersion version = getVersionDao().queryForFirst(null);
+			version.setVersionNumber(newVersion);
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		onCreate(databaseConnection);
+	}
+
+	private Connection getNeocomDatabase() {
+		if (null == neocomDatabase) if (openNeocomDB())
+			return neocomDatabase;
+		else
+			new RuntimeException(
+					"RT [NeocomDBHelper.getNeocomDatabase]> Neocom database not found and unable to be openned.");
+		return neocomDatabase;
+	}
+
+	private ConnectionSource getNeocomSource() {
+		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
+		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
+		return neocomDatasource;
+	}
+
+	/**
+	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
+	 * services. Being a pooled connection it can create as many connections as required to do requests in
+	 * parallel to the database instance.
+	 * 
+	 * @return
+	 */
+	private boolean openNeocomDB() {
+		if (!isOpen) if (null == neocomDatasource) {
+			// Open and configure the connection datasource for DAO queries.
+			try {
+				neocomDatasource = new JdbcPooledConnectionSource("jdbc:h2:mem:account");
+				// Only keep the connections open for 5 minutes
+				neocomDatasource.setMaxConnectionAgeMillis(5 * 60 * 1000);
+				// Change the check-every milliseconds from 30 seconds to 60
+				neocomDatasource.setCheckConnectionsEveryMillis(60 * 1000);
+				// For extra protection, enable the testing of connections
+				// right before they are handed to the user
+				neocomDatasource.setTestBeforeGet(true);
+				logger.info("--[NeocomDBHelper.openNeocomDB]> Opened database " + databaseName + " successfully with version "
+						+ databaseVersion + ".");
+			} catch (Exception sqle) {
+				logger.severe("E>[NeocomDBHelper.openNeocomDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
+			}
+			if (null == neocomDatabase) {
+				// Open the standard JDBC connection for direct SQL executions.
+				try {
+					Class.forName("org.sqlite.JDBC");
+					neocomDatabase = DriverManager.getConnection(databaseName);
+					neocomDatabase.setAutoCommit(false);
+					isOpen = true;
+				} catch (Exception sqle) {
+					logger.severe("E>[NeocomDBHelper.openNeocomDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
+				}
+			}
+		}
+		return isOpen;
+	}
+
+	private int readDatabaseVersion() {
+		int result = 0;
+		PreparedStatement prepStmt = null;
+		ResultSet cursor = null;
+		try {
+			prepStmt = getNeocomDatabase().prepareStatement(SELECT_VERSION_NUMBER);
+			cursor = prepStmt.executeQuery();
+			while (cursor.next()) {
+				result = cursor.getInt(1);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
+		} finally {
+			try {
+				if (cursor != null) cursor.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
+			}
+			try {
+				if (prepStmt != null) prepStmt.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
+			}
+		}
+		return result;
+	}
+}
+// - UNUSED CODE ............................................................................................

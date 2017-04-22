@@ -1,17 +1,15 @@
-//	PROJECT:        NeoCom.angularjs
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API15.
-//	DESCRIPTION:		Application to get access to character data from Eve Online. Specialized on
-//									industrial management.
-
-package org.dimensinfin.eveonline.poc.connector;
+//	PROJECT:      NeoCom.Databases (NEOC.D)
+//	AUTHORS:      Adam Antinoo - adamantinoo.git@gmail.com
+//	COPYRIGHT:    (c) 2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:	Java 1.8 Library.
+//	DESCRIPTION:	SQLite database access library. Isolates Neocom database access from any
+//								environment limits.
+package org.dimensinfin.eveonline.neocom.connector;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -28,7 +26,7 @@ import com.j256.ormlite.dao.Dao;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("org.dimensinfin.neocom.connector");
+	protected static Logger logger = Logger.getLogger("AbstractDatabaseConnector");
 
 	// - F I E L D - S E C T I O N ............................................................................
 

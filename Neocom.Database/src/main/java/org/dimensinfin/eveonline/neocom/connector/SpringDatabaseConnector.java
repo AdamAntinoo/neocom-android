@@ -1,10 +1,10 @@
-//	PROJECT:        NeoCom (NEOC)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2015 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application to get access to character data from Eve Online. Specialized on
-//									industrial management.
-package org.dimensinfin.eveonline.poc.connector;
+//	PROJECT:      NeoCom.Databases (NEOC.D)
+//	AUTHORS:      Adam Antinoo - adamantinoo.git@gmail.com
+//	COPYRIGHT:    (c) 2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:	Java 1.8 Library.
+//	DESCRIPTION:	SQLite database access library. Isolates Neocom database access from any
+//								environment limits.
+package org.dimensinfin.eveonline.neocom.connector;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,13 +18,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.logging.Logger;
 
-import org.dimensinfin.evemarket.service.MarketDataService;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.marketservice.MarketDataService;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
@@ -32,10 +31,11 @@ import org.dimensinfin.eveonline.neocom.model.Schematics;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SpringDatabaseConnector extends AbstractDatabaseConnector {
-
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger													logger										= Logger
-			.getLogger("AndroidDatabaseConnector");
+	private static final String										DATABASE_NAME							= AppConnector
+			.getResourceString("R.string.appdatabasepath") + AppConnector.getResourceString("R.string.appdatabasefilename");
+	private static final int											DATABASE_VERSION					= new Integer(
+			AppConnector.getResourceString("R.string.databaseversion")).intValue();
 
 	private static final String										SELECT_RAW_PRODUCTRESULT	= "SELECT pstmo.typeID, pstmo.quantity, pstmo.schematicID"
 			+ " FROM   planetSchematicsTypeMap pstmi, planetSchematicsTypeMap pstmo" + " WHERE  pstmi.typeID = ?"
@@ -100,9 +100,12 @@ public class SpringDatabaseConnector extends AbstractDatabaseConnector {
 			+ " dgmTypeAttributes.typeID = invTypeReactions.typeID";
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private NeocomDBHelper												neocomDBHelper						= new NeocomDBHelper(DATABASE_NAME,
+			DATABASE_VERSION);
+	private Connection														ccpDatabase								= null;
+
 	//	private Context														_context									= null;
 	//	private SQLiteDatabase										staticDatabase						= null;
-	private Connection														ccpDatabase								= null;
 	//	private EveDroidDBHelper									appDatabaseHelper					= null;
 	private final HashMap<Integer, EveItem>				itemCache									= new HashMap<Integer, EveItem>();
 	private final HashMap<Integer, MarketDataSet>	buyMarketDataCache				= new HashMap<Integer, MarketDataSet>();

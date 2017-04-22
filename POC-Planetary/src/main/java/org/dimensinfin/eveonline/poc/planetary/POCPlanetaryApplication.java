@@ -12,9 +12,9 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.SpringDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.poc.connector.AbstractAppConnector;
-import org.dimensinfin.eveonline.poc.connector.SpringDatabaseConnector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class POCPlanetaryApplication extends AbstractAppConnector {

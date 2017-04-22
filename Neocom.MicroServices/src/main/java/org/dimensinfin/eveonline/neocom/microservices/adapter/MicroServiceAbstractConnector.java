@@ -7,29 +7,28 @@
 //								asset items properties..
 package org.dimensinfin.eveonline.neocom.microservices.adapter;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.SpringDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class MicroServiceAbstractConnector implements IConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger								logger					= Logger.getLogger("MicroServiceAdapter.java");
-	private static final String					BUNDLE_NAME			= "org.dimensinfin.eveonline.neocom.constant.R";	//$NON-NLS-1$
-	private static final ResourceBundle	RESOURCE_BUNDLE	= ResourceBundle.getBundle(BUNDLE_NAME);
+	private static Logger				logger						= Logger.getLogger("MicroServiceAdapter.java");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private IDatabaseConnector	dbNeocomConnector	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MicroServiceAbstractConnector() {
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public void addCharacterUpdateRequest(long characterID) {
 		// TODO Auto-generated method stub
@@ -62,8 +61,8 @@ public abstract class MicroServiceAbstractConnector implements IConnector {
 
 	@Override
 	public IDatabaseConnector getDBConnector() {
-		// TODO Auto-generated method stub
-		return null;
+		if (null == dbNeocomConnector) dbNeocomConnector = new SpringDatabaseConnector();
+		return dbNeocomConnector;
 	}
 
 	@Override
@@ -72,21 +71,16 @@ public abstract class MicroServiceAbstractConnector implements IConnector {
 		return null;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getResourceString(int key) {
-		try {
-			return RESOURCE_BUNDLE.getString("R." + Integer.valueOf(key).toString());
-		} catch (MissingResourceException e) {
-			return '!' + Integer.valueOf(key).toString() + '!';
-		}
+	@Override
+	public String getResourceString(int reference) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public String getResourceString(String key) {
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
+	@Override
+	public String getResourceString(String reference) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

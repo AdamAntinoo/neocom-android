@@ -9,7 +9,6 @@ package org.dimensinfin.eveonline.neocom.microservices;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.databases.NeocomDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.microservices.adapter.MicroServiceAbstractConnector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,7 +41,6 @@ public class NeocomMicroServiceApplication extends MicroServiceAbstractConnector
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeocomDatabaseAdapter dbNeocomAdapter = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomMicroServiceApplication() {
