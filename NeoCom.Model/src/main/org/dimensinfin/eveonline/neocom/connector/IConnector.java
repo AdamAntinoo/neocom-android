@@ -28,7 +28,7 @@ public interface IConnector {
 
 	public String getResourceString(int reference);
 
-	public String getResourceString(String reference);
+	//	public String getResourceString(String reference);
 
 	public IConnector getSingleton();
 

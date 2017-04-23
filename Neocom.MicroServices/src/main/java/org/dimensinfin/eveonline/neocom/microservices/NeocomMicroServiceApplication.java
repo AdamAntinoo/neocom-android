@@ -12,7 +12,6 @@ import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.microservices.adapter.MicroServiceAbstractConnector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Controller;
  * @author Adam Antinoo
  */
 @SpringBootApplication
-@Controller
 public class NeocomMicroServiceApplication extends MicroServiceAbstractConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger													logger		= Logger.getLogger("NeocomMicroServiceApplication");

@@ -32,10 +32,8 @@ import org.dimensinfin.eveonline.neocom.model.Schematics;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class SpringDatabaseConnector extends AbstractDatabaseConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static final String									DATABASE_NAME							= AppConnector
-			.getResourceString("R.string.appdatabasepath") + AppConnector.getResourceString("R.string.appdatabasefilename");
-	protected static final int										DATABASE_VERSION					= new Integer(
-			AppConnector.getResourceString("R.string.databaseversion")).intValue();
+	protected static String												DATABASE_NAME							= "neocomdata.db";
+	protected static int													DATABASE_VERSION					= 010;
 
 	private static final String										SELECT_RAW_PRODUCTRESULT	= "SELECT pstmo.typeID, pstmo.quantity, pstmo.schematicID"
 			+ " FROM   planetSchematicsTypeMap pstmi, planetSchematicsTypeMap pstmo" + " WHERE  pstmi.typeID = ?"

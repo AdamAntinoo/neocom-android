@@ -8,6 +8,7 @@ package org.dimensinfin.eveonline.neocom.connector;
 
 import java.sql.SQLException;
 
+import org.dimensinfin.eveonline.neocom.constant.R;
 import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 
@@ -20,6 +21,11 @@ public class NeocomDatabaseConnector extends SpringDatabaseConnector {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public NeocomDatabaseConnector() {
+		DATABASE_NAME = R.getResourceString("R.string.appdatabasepath")
+				+ R.getResourceString("R.string.appdatabasefilename");
+		DATABASE_VERSION = new Integer(R.getResourceString("R.string.databaseversion")).intValue();
+	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public Dao<ResourceListHandler, String> getResourceListDao() throws SQLException {

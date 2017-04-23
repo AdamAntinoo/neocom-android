@@ -78,12 +78,6 @@ public abstract class MicroServiceAbstractConnector implements IConnector {
 	}
 
 	@Override
-	public String getResourceString(String reference) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public IConnector getSingleton() {
 		// TODO Auto-generated method stub
 		return null;

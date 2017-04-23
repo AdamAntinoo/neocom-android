@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
-import org.dimensinfin.eveonline.neocom.connector.SpringDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.poc.connector.AbstractAppConnector;
 
@@ -35,7 +35,7 @@ public class POCPlanetaryApplication extends AbstractAppConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private SpringDatabaseConnector dbConnector = null;
+	private NeocomDatabaseConnector dbConnector = null;
 	//	private long										itemIdSequence	= 1000000000000L;
 	//	private long										locationID			= 20000547L;
 
@@ -46,7 +46,7 @@ public class POCPlanetaryApplication extends AbstractAppConnector {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public IDatabaseConnector getDBConnector() {
-		if (null == dbConnector) dbConnector = new SpringDatabaseConnector();
+		if (null == dbConnector) dbConnector = new NeocomDatabaseConnector();
 		return dbConnector;
 	}
 
