@@ -26,6 +26,7 @@ public class NeocomDatabaseConnector extends SpringDatabaseConnector {
 		DATABASE_NAME = R.getResourceString("R.string.appdatabasepath")
 				+ R.getResourceString("R.string.appdatabasefilename");
 		DATABASE_VERSION = new Integer(R.getResourceString("R.string.databaseversion")).intValue();
+		neocomDBHelper = new NeocomDBHelper(DATABASE_NAME, DATABASE_VERSION);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

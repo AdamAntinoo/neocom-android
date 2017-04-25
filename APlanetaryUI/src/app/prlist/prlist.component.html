@@ -7,8 +7,15 @@
             <td class="list list-title pr-list-title">Planetary Resources List</td>
             <td>
               <input class="pr-list-name" [ngModel]="listTitle" (ngModelChange)="nameChange($event)" />
+            </td>
+            <td>
+              <select class="pr-list-name" id="ResourListSelector">
+      <option ng-repeat="list in rlLists" value="{{list.id}}">{{list.name}}</option>
+    </select>
+            </td>
+            <td>
               <button type="button" class="btn btn-default pr-button" (click)="openNewResource()">New</button>
-              <button type="button" class="btn btn-danger pr-button">Clean List</button>
+              <!--button type="button" class="btn btn-danger pr-button">Clean List</button-->
             </td>
           </tr>
         </table>
@@ -53,8 +60,8 @@
   <form (ngSubmit)="onSubmit()" #newResourceForm="ngForm">
     <div class="form-group">
       <label for="typeid">Resource Identifier</label>
-      <input type="text" class="form-control" id="typeid" required [(ngModel)]="newResource.typeid" name="typeid" (ngModelChange)="newIdChange($event)"
-        #spy #typeid="ngModel" />
+      <input type="text" class="form-control" id="typeid" required [(ngModel)]="newResource.typeid" name="typeid"
+        (ngModelChange)="newIdChange($event)" #spy #typeid="ngModel" />
       <div [hidden]="idIsValid" class="alert alert-danger">
         Resource type identifier should point to Planetary Resources.
       </div>

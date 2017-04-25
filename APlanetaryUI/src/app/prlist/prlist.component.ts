@@ -4,13 +4,17 @@ import { OnInit }                       from '@angular/core';
 import { AppCoreDataService }           from '../services/app-core-data.service';
 import { PlanetaryResourceListService } from '../services/planetary-resource-list.service';
 import { PlanetaryResource }            from '../models/planetary-resource';
+import { ResourceList }                 from '../models/ResourceList';
 
 @Component({
   selector: 'app-prlist',
   templateUrl: './prlist.component.html',
   styleUrls: ['./prlist.component.css']
 })
+
 export class PRListComponent implements OnInit {
+  public rlLists: ResourceList[] = [];
+
   public listTitle: string = "ResourceList";
   public prList: PlanetaryResource[] = [];
   public transformList: PlanetaryResource[] = [];
@@ -27,6 +31,13 @@ export class PRListComponent implements OnInit {
   */
   ngOnInit() {
     console.log(">>[PRListComponent.ngOnInit]");
+    // Download the list of Resource Lists that are stored on the database.
+    this.resourceListService.getAllResourceLists()
+      .subscribe(result => {
+        console.log("--[PRListComponent.ngOnInit.subscribe]> resource lists: " + JSON.stringify(result));
+        this.rlLists = result;
+      });
+
     // Read the list of Planetry Resources from the backend service.
     this.resourceListService.getPRList(this.listTitle)
       .subscribe(result => {

@@ -98,8 +98,7 @@ public abstract class SpringDatabaseConnector extends AbstractDatabaseConnector 
 			+ " dgmTypeAttributes.typeID = invTypeReactions.typeID";
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected NeocomDBHelper											neocomDBHelper						= new NeocomDBHelper(DATABASE_NAME,
-			DATABASE_VERSION);
+	protected NeocomDBHelper											neocomDBHelper						= null;
 	private Connection														ccpDatabase								= null;
 
 	//	private Context														_context									= null;

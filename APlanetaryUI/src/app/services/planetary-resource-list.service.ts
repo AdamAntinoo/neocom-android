@@ -9,16 +9,60 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { PlanetaryResource } from '../models/planetary-resource';
+import { ResourceList } from '../models/ResourceList';
 
 @Injectable()
 export class PlanetaryResourceListService {
-  static RESOURCE_SERVICE_URL: string = "http://localhost:8090/api/v1";
+  static APPLICATION_SERVICE_PORT = "9000";
+  static RESOURCE_SERVICE_URL: string = "http://localhost:" + PlanetaryResourceListService.APPLICATION_SERVICE_PORT + "/api/v1";
+
+  private lastId: number = 0;
+  private resourceLists: ResourceList[] = [];
 
   constructor(private http: Http) { }
 
+  public addResourceList(newlist: ResourceList): PlanetaryResourceListService {
+    if (!newlist.id) {
+      newlist.id = ++this.lastId;
+    }
+    this.resourceLists.push(newlist);
+    return this;
+  }
+  public deleteTodoById(id: number): PlanetaryResourceListService {
+    this.resourceLists = this.resourceLists
+      .filter(rl => rl.id !== id);
+    return this;
+  }
+  public updateTodoById(id: number, values: Object = {}): ResourceList {
+    let rl = this.getResourceListById(id);
+    if (!rl) {
+      return null;
+    }
+    Object.assign(rl, values);
+    return rl;
+  }
+  public getAllResourceLists() {
+    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelists")
+      .map(res => res.json())
+      .map(result => {
+        console.log("--[PlanetaryResourceListService.getAllResourceLists.map]> result: " + JSON.stringify(result));
+        for (let rl of result) {
+          let newrl = new ResourceList(rl);
+          this.resourceLists.push(newrl);
+        }
+        return this.resourceLists;
+      });
+  }
+  private getResourceListById(id: number): ResourceList {
+    return this.resourceLists
+      .filter(rl => rl.id === id)
+      .pop();
+  }
+
+  /*************************************************/
   public getPRList(name: string) {
     // Read from the backend the list with this name.
-    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelist/" + name)
+    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelists/" + name)
       .map(res => res.json())
       .map(result => {
         console.log("--[PlanetaryResourceListService.getPRList.map]> result: " + JSON.stringify(result));
@@ -60,7 +104,7 @@ export class PlanetaryResourceListService {
       .map(result => {
         console.log("--[PlanetaryResourceListService.addResource2List.map]> result: " + JSON.stringify(result));
         return result;
-      });      
+      });
     //    .catch(res => Observable.throw(res.json()));
   }
 }

@@ -15,12 +15,16 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
-import org.dimensinfin.eveonline.neocom.database.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 @Controller
@@ -32,23 +36,32 @@ public class PlanetaryOptimizerController {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	@CrossOrigin()
 	@RequestMapping(value = "/api/v1/resourcelist/{name}", method = RequestMethod.GET, produces = "application/json")
-	public List<ResourceListHandler> resourcelist4Name(@PathVariable final String name) {
+	public List<PlanetaryResource> resourcelist4Name(@PathVariable final String name) {
 		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]");
 		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]> name: " + name);
 		// Get the resources for this specific list name.
-		List<ResourceListHandler> resources = new Vector<PlanetaryResource>(1);
+		List<PlanetaryResource> resources = new Vector<PlanetaryResource>(1);
 		try {
-			resourceLists = AppConnector.getDBConnector().getNeocomDBHelper().getPlanetaryResourceDao().queryFo
+			Dao<ResourceListHandler, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
+			Dao<PlanetaryResource, String> planetaryResourceDao = AppConnector.getDBConnector().getPlanetaryResourceDao();
+			QueryBuilder<ResourceListHandler, String> queryList = resourceListDao.queryBuilder();
+			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
+			Where<ResourceListHandler, String> where = queryList.where();
+			where.eq("name", name);
+			queryResource.join(queryList);
+
+			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
+			resources = planetaryResourceDao.query(preparedQuery);
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
 		logger.info("<< [PlanetaryOptimizerController.resourcelist4Name]");
-		return resourceLists;
+		return resources;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	@CrossOrigin()
 	@RequestMapping(value = "/api/v1/resourcelists", method = RequestMethod.GET, produces = "application/json")
 	public List<ResourceListHandler> resourcelists() {
