@@ -32,14 +32,14 @@ export class PRListComponent implements OnInit {
   ngOnInit() {
     console.log(">>[PRListComponent.ngOnInit]");
     // Download the list of Resource Lists that are stored on the database.
-    this.resourceListService.getAllResourceLists()
+    console.log("--[PRListComponent.ngOnInit]> firing getAllResourceLists"); this.resourceListService.getAllResourceLists()
       .subscribe(result => {
         console.log("--[PRListComponent.ngOnInit.subscribe]> resource lists: " + JSON.stringify(result));
         this.rlLists = result;
       });
 
     // Read the list of Planetry Resources from the backend service.
-    this.resourceListService.getPRList(this.listTitle)
+    console.log("--[PRListComponent.ngOnInit]> firing getPRList"); this.resourceListService.getPRList(this.listTitle)
       .subscribe(result => {
         //    this.listTitle = result.name;
         console.log("--[PRListComponent.ngOnInit.subscribe]> setting name: " + JSON.stringify(result));

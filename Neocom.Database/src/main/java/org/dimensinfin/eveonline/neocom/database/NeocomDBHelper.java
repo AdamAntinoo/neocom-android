@@ -8,7 +8,6 @@ package org.dimensinfin.eveonline.neocom.database;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
@@ -18,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -31,11 +30,13 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	private static final long									CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String														databaseName						= "neocomdata.db";
+	private String														databaseName						= "jdbc:sqlite:neocomdata.db";
 	private int																databaseVersion					= 0;
 	private boolean														isOpen									= false;
 	private Connection												neocomDatabase					= null;
-	private JdbcPooledConnectionSource				neocomDatasource				= null;
+	private JdbcConnectionSource							neocomDatasource				= null;
+	//	private DataSourceConnectionSource				neocomDatasource				= null;
+	//	private DatabaseConnection	neocomConnection=null;
 
 	private Dao<DatabaseVersion, String>			versionDao							= null;
 	private Dao<ResourceListHandler, String>	resourceList						= null;
@@ -172,43 +173,51 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		if (!isOpen) if (null == neocomDatasource) {
 			// Open and configure the connection datasource for DAO queries.
 			try {
-				neocomDatasource = new JdbcPooledConnectionSource(this.databaseName);
+				//				SQLiteDataSource slds = new SQLiteDataSource();
+				//				slds.setUrl("jdbc:sqlite:src/main/resources/neocomdata.db");
+				//				slds.setDatabaseName("neocomdata.db");
+				//				DataSourceConnectionSource dcs = new DataSourceConnectionSource(slds, "jdbc:sqlite:src/main/resources/");
+				//				new JdbcConnectionSource()
+				//				neocomDatasource = dcs;
+				neocomDatasource = new JdbcConnectionSource("jdbc:sqlite:src/main/resources/neocomdata.db");
 				// Only keep the connections open for 5 minutes
-				neocomDatasource.setMaxConnectionAgeMillis(MAX_CONNECTION_AGE);
-				// Change the check-every milliseconds from 30 seconds to 60
-				neocomDatasource.setCheckConnectionsEveryMillis(CHECK_CONNECTION_EVERY);
-				// For extra protection, enable the testing of connections
-				// right before they are handed to the user
-				neocomDatasource.setTestBeforeGet(true);
+				//				neocomDatasource.setMaxConnectionAgeMillis(MAX_CONNECTION_AGE);
+				//				// Change the check-every milliseconds from 30 seconds to 60
+				//				neocomDatasource.setCheckConnectionsEveryMillis(CHECK_CONNECTION_EVERY);
+				//				// For extra protection, enable the testing of connections
+				//				// right before they are handed to the user
+				//				neocomDatasource.setTestBeforeGet(true);
 				logger.info("--[NeocomDBHelper.openNeocomDB]> Opened database " + databaseName + " successfully with version "
 						+ databaseVersion + ".");
+				isOpen = true;
 			} catch (Exception sqle) {
 				logger.severe("E>[NeocomDBHelper.openNeocomDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
 			}
-			if (null == neocomDatabase) {
-				// Open the standard JDBC connection for direct SQL executions.
-				try {
-					Class.forName("org.sqlite.JDBC");
-					neocomDatabase = DriverManager.getConnection(databaseName);
-					neocomDatabase.setAutoCommit(false);
-					isOpen = true;
-				} catch (Exception sqle) {
-					logger.severe("E>[NeocomDBHelper.openNeocomDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
-				}
-			}
+			//			if (null == neocomDatabase) {
+			//				// Open the standard JDBC connection for direct SQL executions.
+			//				try {
+			//					Class.forName("org.sqlite.JDBC");
+			//					neocomDatabase = DriverManager.getConnection(databaseName);
+			//					neocomDatabase.setAutoCommit(false);
+			//					isOpen = true;
+			//				} catch (Exception sqle) {
+			//					logger.severe("E>[NeocomDBHelper.openNeocomDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
+			//				}
+			//			}
 		}
 		return isOpen;
 	}
 
 	private int readDatabaseVersion() {
-		// Access the version object persistent on the database.
-		try {
-			DatabaseVersion version = getVersionDao().queryForFirst(null);
-			return version.getVersionNumber();
-		} catch (SQLException sqle) {
-			logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage());
-			return 0;
-		}
+		return 0;
+		//		// Access the version object persistent on the database.
+		//		try {
+		//			DatabaseVersion version = getVersionDao().queryForFirst(null);
+		//			return version.getVersionNumber();
+		//		} catch (SQLException sqle) {
+		//			logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage());
+		//			return 0;
+		//		}
 	}
 }
 // - UNUSED CODE ............................................................................................

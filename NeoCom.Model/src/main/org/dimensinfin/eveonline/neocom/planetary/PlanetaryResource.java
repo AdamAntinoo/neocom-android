@@ -28,6 +28,7 @@ public class PlanetaryResource {
 	private double				quantity;
 	@DatabaseField
 	private String				name		= "<NAME>";
+	@DatabaseField(canBeNull = false, foreign = true)
 	private int						ownerListid;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
