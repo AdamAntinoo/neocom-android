@@ -1,10 +1,12 @@
-//	PROJECT:        MS-PlanetaryOptimizer (MS-PO)
+//	PROJECT:        NeoCom.model (NEOC.M)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:	SpringBoot-MS-Java 1.8.
-//	DESCRIPTION:	Initial step to have an Eve application based on the Android code. This version exports
-//								a list of assets and also has access to the Eve Item CCP database to get some of the
-//								asset items properties..
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API16.
+//	DESCRIPTION:		Isolated model structures to access and manage Eve Online character data and their
+//									available databases.
+//									This version includes the access to the latest 6.x version of eveapi libraries to
+//									download and parse the CCP XML API data.
+//									Code integration that is not dependent on any specific platform.
 package org.dimensinfin.eveonline.neocom.planetary;
 
 import java.util.logging.Logger;
@@ -19,7 +21,7 @@ public class ResourceListHandler {
 	private static Logger	logger	= Logger.getLogger("ResourceListHandler");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
 	public int						id			= -1;
 	@DatabaseField
 	public String					name		= "<NAME>";

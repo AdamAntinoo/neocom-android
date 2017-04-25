@@ -21,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Property;
 import org.dimensinfin.eveonline.neocom.model.Schematics;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 
 import com.j256.ormlite.dao.Dao;
@@ -48,6 +49,10 @@ public interface IDatabaseConnector {
 	public Dao<EveLocation, String> getLocationDAO() throws java.sql.SQLException;
 
 	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws java.sql.SQLException;
+
+	//	public NeocomDBHelper getNeocomDBHelper();
+
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException;
 
 	public Dao<Property, String> getPropertyDAO() throws SQLException;
 

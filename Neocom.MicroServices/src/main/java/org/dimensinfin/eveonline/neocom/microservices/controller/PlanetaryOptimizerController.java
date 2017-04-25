@@ -13,9 +13,12 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
+import org.dimensinfin.eveonline.neocom.database.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,6 +31,22 @@ public class PlanetaryOptimizerController {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/resourcelist/{name}", method = RequestMethod.GET, produces = "application/json")
+	public List<ResourceListHandler> resourcelist4Name(@PathVariable final String name) {
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]");
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]> name: " + name);
+		// Get the resources for this specific list name.
+		List<ResourceListHandler> resources = new Vector<PlanetaryResource>(1);
+		try {
+			resourceLists = AppConnector.getDBConnector().getNeocomDBHelper().getPlanetaryResourceDao().queryFo
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		logger.info("<< [PlanetaryOptimizerController.resourcelist4Name]");
+		return resourceLists;
+	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@CrossOrigin()

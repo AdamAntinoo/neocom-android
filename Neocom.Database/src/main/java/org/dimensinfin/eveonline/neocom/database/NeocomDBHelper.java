@@ -9,12 +9,11 @@ package org.dimensinfin.eveonline.neocom.database;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
 
 import com.j256.ormlite.dao.Dao;
@@ -27,7 +26,7 @@ import com.j256.ormlite.table.TableUtils;
 public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger											logger									= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
-	private static final String								SELECT_VERSION_NUMBER		= "SELECT versionNumber from Version";
+	//	private static final String								SELECT_VERSION_NUMBER		= "SELECT versionNumber from Version";
 	private static final long									MAX_CONNECTION_AGE			= 5 * 60 * 1000;
 	private static final long									CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
 
@@ -40,6 +39,7 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 
 	private Dao<DatabaseVersion, String>			versionDao							= null;
 	private Dao<ResourceListHandler, String>	resourceList						= null;
+	private Dao<PlanetaryResource, String>		planetaryResourceDao		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomDBHelper(String databaseName, int databaseVersion) {
@@ -85,6 +85,13 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		return neocomDatabase;
 	}
 
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
+		if (null == planetaryResourceDao) {
+			planetaryResourceDao = DaoManager.createDao(this.getNeocomSource(), PlanetaryResource.class);
+		}
+		return planetaryResourceDao;
+	}
+
 	public Dao<ResourceListHandler, String> getResourceListDao() throws SQLException {
 		if (null == resourceList) {
 			resourceList = DaoManager.createDao(this.getNeocomSource(), ResourceListHandler.class);
@@ -103,8 +110,19 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		try {
 			// Now open the DAO connector and create tables if they not exist
 			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
+			TableUtils.createTableIfNotExists(databaseConnection, ResourceListHandler.class);
+			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
 		} catch (SQLException sqle) {
 			logger.severe("E> Error creating the initial table on the app database.");
+			sqle.printStackTrace();
+		}
+		try {
+			// Create the version table and insert the initial new version code.
+			DatabaseVersion version = new DatabaseVersion(1);
+			// Persist the version object to the database
+			getVersionDao().create(version);
+		} catch (SQLException sqle) {
+			logger.severe("E> Error dropping table on Database new version.");
 			sqle.printStackTrace();
 		}
 	}
@@ -114,7 +132,6 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		if (oldVersion < 1) {
 			try {
 				// Create the version table and insert the initial new version code.
-				//				TableUtils.dropTable(databaseConnection, DatabaseVersion.class, true);
 				TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
 				DatabaseVersion version = new DatabaseVersion(newVersion);
 				// Persist the version object to the database
@@ -184,33 +201,14 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	}
 
 	private int readDatabaseVersion() {
-		int result = 0;
-		PreparedStatement prepStmt = null;
-		ResultSet cursor = null;
+		// Access the version object persistent on the database.
 		try {
-			prepStmt = getNeocomDatabase().prepareStatement(SELECT_VERSION_NUMBER);
-			cursor = prepStmt.executeQuery();
-			while (cursor.next()) {
-				result = cursor.getInt(1);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
-		} finally {
-			try {
-				if (cursor != null) cursor.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-				logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
-			}
-			try {
-				if (prepStmt != null) prepStmt.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-				logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + ex.getMessage());
-			}
+			DatabaseVersion version = getVersionDao().queryForFirst(null);
+			return version.getVersionNumber();
+		} catch (SQLException sqle) {
+			logger.warning("W- [NeocomDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage());
+			return 0;
 		}
-		return result;
 	}
 }
 // - UNUSED CODE ............................................................................................
