@@ -8,7 +8,7 @@ import { EveItem }                            from '../models/eve-item';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { PlanetaryResource } from '../models/planetary-resource';
+import { PlanetaryResource } from '../models/PlanetaryResource';
 import { ResourceList } from '../models/ResourceList';
 
 @Injectable()
@@ -20,6 +20,29 @@ export class PlanetaryResourceListService {
   private resourceLists: ResourceList[] = [];
 
   constructor(private http: Http) { }
+
+  public addResource2List(listid: number, newResource: PlanetaryResource) {
+    let prListData = { id: name, data: newResource };
+    return this.http.post(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/newresource/", prListData)
+      .map(res => res.json())
+      .map(result => {
+        console.log("--[PlanetaryResourceListService.addResource2List.map]> result: " + JSON.stringify(result));
+        return result;
+      });
+    //    .catch(res => Observable.throw(res.json()));
+  }
+  public deleteResource(listid: number, resourceId: number) {
+    console.log(">>[PlanetaryResourceListService.deleteResource]")
+    console.log("--[PlanetaryResourceListService.deleteResource]> listid: " + listid)
+    console.log("--[PlanetaryResourceListService.deleteResource]> resourceId: " + resourceId)
+    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/deleteResource/" + listid + "/" + resourceId)
+      .map(res => res.json())
+      .map(result => {
+        console.log("--[PlanetaryResourceListService.getPRList.map]> result: " + JSON.stringify(result));
+        return result;
+      });
+  }
+  /**********************************************************************************************/
 
   public addResourceList(newlist: ResourceList): PlanetaryResourceListService {
     if (!newlist.id) {
@@ -77,32 +100,11 @@ export class PlanetaryResourceListService {
   //     });
   //   //  .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
   // }
-  public deleteResource(listName: string, resourceId: number) {
-    console.log(">>[PlanetaryResourceListService.deleteResource]")
-    console.log("--[PlanetaryResourceListService.deleteResource]> listName: " + listName)
-    console.log("--[PlanetaryResourceListService.deleteResource]> resourceId: " + resourceId)
-    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/deleteResource/" + listName + "/" + resourceId)
-      .map(res => res.json())
-      .map(result => {
-        console.log("--[PlanetaryResourceListService.getPRList.map]> result: " + JSON.stringify(result));
-        return result;
-      });
-  }
   public searchTypeName(id: number) {
     return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/eveitem/" + id)
       .map(res => res.json())
       .map(result => {
         console.log("--[PlanetaryResourceListService.searchTypeName.map]> result: " + JSON.stringify(result));
-        return result;
-      });
-    //    .catch(res => Observable.throw(res.json()));
-  }
-  public addResource2List(name: string, newResource: PlanetaryResource) {
-    let prListData = { name: name, data: newResource };
-    return this.http.post(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/newresource/", prListData)
-      .map(res => res.json())
-      .map(result => {
-        console.log("--[PlanetaryResourceListService.addResource2List.map]> result: " + JSON.stringify(result));
         return result;
       });
     //    .catch(res => Observable.throw(res.json()));

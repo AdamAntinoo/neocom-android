@@ -5,12 +5,13 @@
         <table width="100%">
           <tr>
             <td class="list list-title pr-list-title">Planetary Resources List</td>
-            <td>
+            <!-- <td>
               <input class="pr-list-name" [ngModel]="listTitle" (ngModelChange)="nameChange($event)" />
-            </td>
+            </td> -->
             <td>
               <select class="pr-list-name" id="ResourListSelector">
-      <option ng-repeat="list in rlLists" value="{{list.id}}">{{list.name}}</option>
+                <option *ngIf="rlLists.length < 1" value="0">-Default-</option>
+      <option *ngIf="rlLists.length > 0" ng-repeat="list in rlLists" value="{{list.id}}">{{list.name}}</option>
     </select>
             </td>
             <td>
@@ -60,8 +61,8 @@
   <form (ngSubmit)="onSubmit()" #newResourceForm="ngForm">
     <div class="form-group">
       <label for="typeid">Resource Identifier</label>
-      <input type="text" class="form-control" id="typeid" required [(ngModel)]="newResource.typeid" name="typeid"
-        (ngModelChange)="newIdChange($event)" #spy #typeid="ngModel" />
+      <input autofocus="" type="text" class="form-control" id="typeid" required [(ngModel)]="newResource.typeid"
+        name="typeid" (ngModelChange)="newIdChange($event)" #spy #typeid="ngModel" />
       <div [hidden]="idIsValid" class="alert alert-danger">
         Resource type identifier should point to Planetary Resources.
       </div>

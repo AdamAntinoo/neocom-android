@@ -28,6 +28,7 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	//	private static final String								SELECT_VERSION_NUMBER		= "SELECT versionNumber from Version";
 	private static final long									MAX_CONNECTION_AGE			= 5 * 60 * 1000;
 	private static final long									CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
+	public static final String								OWNERLISTID_FN					= "ownerListid";
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String														databaseName						= "jdbc:sqlite:neocomdata.db";

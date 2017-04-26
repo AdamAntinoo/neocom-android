@@ -4,8 +4,8 @@
 // ENVIRONMENT: Angular - CLASS
 // DESCRIPTION: Defines the structure for a list of resources. Basically the id and the name of the list and possible it can be extended to contain the list of associated resources.
 export class ResourceList {
-  public id: number;
-  public name: string = "<Default>";
+  public id: number = 0.0;
+  public name: string = "-Default-";
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

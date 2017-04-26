@@ -36,8 +36,8 @@ public class PlanetaryResource {
 	public PlanetaryResource() {
 	}
 
-	public PlanetaryResource(final int newid, final double newquantity) {
-		typeid = newid;
+	public PlanetaryResource(final int newtype, final double newquantity) {
+		typeid = newtype;
 		quantity = newquantity;
 	}
 
