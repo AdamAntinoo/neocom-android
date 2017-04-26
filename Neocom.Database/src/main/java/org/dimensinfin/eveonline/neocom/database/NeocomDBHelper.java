@@ -6,9 +6,9 @@
 //									environment limits.
 package org.dimensinfin.eveonline.neocom.database;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
@@ -67,9 +67,9 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		try {
 			neocomDatasource.close();
 			neocomDatabase.close();
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
+			//		} catch (IOException ex) {
+			//			// TODO Auto-generated catch block
+			//			ex.printStackTrace();
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
@@ -147,8 +147,12 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		}
 		// Update on the database the database version.
 		try {
-			DatabaseVersion version = getVersionDao().queryForFirst(null);
-			version.setVersionNumber(newVersion);
+			List<DatabaseVersion> versionList = getVersionDao().queryForAll();
+			if (versionList.size() > 0) {
+				DatabaseVersion version = versionList.get(0);
+				version.setVersionNumber(newVersion);
+				getVersionDao().refresh(version);
+			}
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();

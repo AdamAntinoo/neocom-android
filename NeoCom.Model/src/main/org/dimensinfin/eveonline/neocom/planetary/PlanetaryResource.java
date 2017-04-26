@@ -15,7 +15,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-@DatabaseTable(tableName = "resourcelist")
+@DatabaseTable(tableName = "planetaryresource")
 public class PlanetaryResource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger	= Logger.getLogger("PlanetaryResource");
@@ -28,7 +28,8 @@ public class PlanetaryResource {
 	private double				quantity;
 	@DatabaseField
 	private String				name		= "<NAME>";
-	@DatabaseField(canBeNull = false, foreign = true)
+	//	@DatabaseField(canBeNull = false, foreign = true)
+	@DatabaseField
 	private int						ownerListid;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
