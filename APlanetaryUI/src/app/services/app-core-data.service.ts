@@ -6,27 +6,27 @@
 // information.
 
 import { Injectable } from '@angular/core';
-import { PlanetaryResource } from '../models/planetary-resource';
+import { PlanetaryResource } from '../models/PlanetaryResource';
 import { PlanetaryResourceListService }from '../services/planetary-resource-list.service';
 
 @Injectable()
 export class AppCoreDataService {
   //--- Application Globals
   private title: string = "<TITLE>";
-//  private prList: PlanetaryResource[] = [];
-  private version: string="<VERSION>";
+  //  private prList: PlanetaryResource[] = [];
+  private version: string = "<VERSION>";
 
-  constructor(private resourceListService:PlanetaryResourceListService) { }
+  constructor(private resourceListService: PlanetaryResourceListService) { }
   public setTitle(newtitle: string) {
     this.title = newtitle;
   }
-  public getTitle() :string{
+  public getTitle(): string {
     return this.title;
   }
-  public getVersion() :string{
+  public getVersion(): string {
     return this.version;
   }
-  public setVersion(newversion:string){
-    this.version=newversion;
+  public setVersion(newversion: string) {
+    this.version = newversion;
   }
 }

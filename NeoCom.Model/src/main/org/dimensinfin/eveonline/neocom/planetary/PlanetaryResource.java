@@ -25,10 +25,10 @@ public class PlanetaryResource {
 	private int						id			= -1;
 	@DatabaseField
 	private int						typeid;
+	@DatabaseField
 	private double				quantity;
 	@DatabaseField
 	private String				name		= "<NAME>";
-	//	@DatabaseField(canBeNull = false, foreign = true)
 	@DatabaseField
 	private int						ownerListid;
 

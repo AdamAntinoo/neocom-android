@@ -35,7 +35,7 @@ export class PRListComponent implements OnInit {
     console.log(">>[PRListComponent.ngOnInit]");
     // Pre inititialize the list of resources.
     if (this.rlLists.length < 1) {
-      let newrl = new ResourceList();
+      let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
       this.rlLists.push(newrl);
       this.currentResourceList = newrl;
     }
@@ -49,7 +49,7 @@ export class PRListComponent implements OnInit {
 
         // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
         if (this.rlLists.length < 1) {
-          let newrl = new ResourceList();
+          let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
           this.rlLists.push(newrl);
           this.currentResourceList = newrl;
         }
@@ -114,14 +114,14 @@ export class PRListComponent implements OnInit {
     // Save the new list of resources on the backend list.
     this.resourceListService.addResource2List(this.currentResourceList.getId(), this.newResource)
       .subscribe(result => {
-        console.log("--[PRListComponent.onSubmit.subscribe]> result: " + JSON.stringify(result));
+        // console.log("--[PRListComponent.onSubmit.subscribe]> result: " + JSON.stringify(result));
         // Clear the list before loading it again with the new list
         this.transformList = [];
         for (let resource of result) {
-          let trresource = new PlanetaryResource(resource);
-          // trresource.typeid = resource.typeID;
-          // trresource.quantity = resource.quantity;
-          // trresource.name = resource.name;
+          let trresource = new PlanetaryResource();
+          trresource.typeid = resource.typeID;
+          trresource.quantity = resource.quantity;
+          trresource.name = resource.name;
           this.transformList.push(trresource);
         }
       });

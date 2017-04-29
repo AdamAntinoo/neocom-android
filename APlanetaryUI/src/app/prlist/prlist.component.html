@@ -1,18 +1,15 @@
 <div>
   <table width="100%">
-    <tr>
+    <tr vertical-align="top">
       <td width="50%">
         <table width="100%">
           <tr>
             <td class="list list-title pr-list-title">Planetary Resources List</td>
-            <!-- <td>
-              <input class="pr-list-name" [ngModel]="listTitle" (ngModelChange)="nameChange($event)" />
-            </td> -->
             <td>
-              <select class="pr-list-name" id="ResourListSelector">
-                <option *ngIf="rlLists.length < 1" value="0">-Default-</option>
-      <option *ngIf="rlLists.length > 0" ng-repeat="list in rlLists" value="{{list.id}}">{{list.name}}</option>
-    </select>
+              <!-- <input [id]="currentResourceList.id" [type]="currentResourceList.name"> -->
+              <select class="list-group-item" [(ngModel)]="currentResourceList.id">
+                <option *ngFor="let list of rlLists" [value]="list.id">{{list.name}}</option>
+              </select>
             </td>
             <td>
               <button type="button" class="btn btn-default pr-button" (click)="openNewResource()">New</button>
