@@ -1,60 +1,24 @@
 <div>
   <table width="100%">
-    <tr vertical-align="top">
-      <td width="50%">
-        <table width="100%">
-          <tr>
-            <td class="list list-title pr-list-title">Planetary Resources List</td>
-            <td>
-              <input type="text" class="form-control list-input" [(ngModel)]="currentResourceList.name">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-              <div class="input-group-btn">
-                <ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
-                  <li *ngFor="let list of rlLists" class="input-lg"><a href="#" (click)="changeList(list)">{{list.name}}</a></li>
-                </ul>
-              </div>
-              <!-- <input [id]="currentResourceList.id" [type]="currentResourceList.name"> -->
-              <!-- <select class="list-group-item" [(ngModel)]="currentResourceList.id">
-                <option *ngFor="let list of rlLists" [value]="list.id">{{list.name}}</option>
-              </select> -->
-            </td>
-            <td>
-              <button type="button" class="btn btn-default pr-button" (click)="openNewResource()">New</button>
-              <!--button type="button" class="btn btn-danger pr-button">Clean List</button-->
-            </td>
-          </tr>
-        </table>
-        <table width="100%">
-          <tr *ngFor="let resource of prList">
-            <td class="badge badge-blue">{{resource.typeid}}</td>
-            <td width="90%">
-              <span class="pr-list">{{resource.name}}</span>
-            </td>
-            <td class="badge">{{resource.quantity}} units</td>
-            <td>
-              <span class="glyphicon glyphicon-remove" (click)="deleteResource(resource)"></span>
-            </td>
-          </tr>
-        </table>
+    <tr>
+      <td class="list list-title pr-list-title">Planetary Resources List</td>
+      <td>
+        <app-resourcelistselector></app-resourcelistselector>
       </td>
-      <td width="50%">
-        <table width="100%">
-          <tr>
-            <td class="list list-title pr-list-title">Transformed Resource List</td>
-          </tr>
-        </table>
-        <table>
-          <tr *ngFor="let resource of transformList">
-            <td class="badge badge-blue">{{resource.typeid}}</td>
-            <td width="90%">
-              <span class="pr-list">{{resource.name}}</span>
-            </td>
-            <td class="badge">{{resource.quantity}} units</td>
-            <td>
-              <span class="glyphicon glyphicon-remove" (click)="deleteResource(resource)"></span>
-            </td>
-          </tr>
-        </table>
+      <td>
+        <button type="button" class="btn btn-default pr-button" (click)="openNewResource()">New</button>
+      </td>
+    </tr>
+  </table>
+  <table width="100%">
+    <tr *ngFor="let resource of prList">
+      <td class="badge badge-blue">{{resource.typeid}}</td>
+      <td width="90%">
+        <span class="pr-list">{{resource.name}}</span>
+      </td>
+      <td class="badge">{{resource.quantity}} units</td>
+      <td>
+        <span class="glyphicon glyphicon-remove" (click)="deleteResource(resource)"></span>
       </td>
     </tr>
   </table>

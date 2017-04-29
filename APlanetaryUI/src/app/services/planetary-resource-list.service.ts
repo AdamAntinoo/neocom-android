@@ -22,6 +22,9 @@ export class PlanetaryResourceListService {
   constructor(private http: Http) { }
 
   public addResource2List(listid: number, newResource: PlanetaryResource) {
+    console.log(">>[PlanetaryResourceListService.addResource2List]");
+    console.log(">>[PlanetaryResourceListService.addResource2List]> listid: " + listid);
+    console.log(">>[PlanetaryResourceListService.addResource2List]> newResource: " + JSON.stringify(newResource));
     let prListData = { id: name, data: newResource };
     return this.http.post(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/newresource/", prListData)
       .map(res => res.json())
@@ -32,9 +35,9 @@ export class PlanetaryResourceListService {
     //    .catch(res => Observable.throw(res.json()));
   }
   public deleteResource(listid: number, resourceId: number) {
-    console.log(">>[PlanetaryResourceListService.deleteResource]")
-    console.log("--[PlanetaryResourceListService.deleteResource]> listid: " + listid)
-    console.log("--[PlanetaryResourceListService.deleteResource]> resourceId: " + resourceId)
+    console.log(">>[PlanetaryResourceListService.deleteResource]");
+    console.log("--[PlanetaryResourceListService.deleteResource]> listid: " + listid);
+    console.log("--[PlanetaryResourceListService.deleteResource]> resourceId: " + resourceId);
     return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/deleteResource/" + listid + "/" + resourceId)
       .map(res => res.json())
       .map(result => {
@@ -44,12 +47,9 @@ export class PlanetaryResourceListService {
   }
   /**********************************************************************************************/
 
-  public addResourceList(newlist: ResourceList): PlanetaryResourceListService {
-    if (!newlist.id) {
-      newlist.id = ++this.lastId;
-    }
-    this.resourceLists.push(newlist);
-    return this;
+  public addResourceList(newlist: ResourceList) {
+    console.log(">>[PlanetaryResourceListService.addResource2List]");
+    console.log(">>[PlanetaryResourceListService.addResource2List]> newlist: " + JSON.stringify(newlist));
   }
   public deleteTodoById(id: number): PlanetaryResourceListService {
     this.resourceLists = this.resourceLists
