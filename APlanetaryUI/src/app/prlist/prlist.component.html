@@ -6,10 +6,17 @@
           <tr>
             <td class="list list-title pr-list-title">Planetary Resources List</td>
             <td>
+              <input type="text" class="form-control list-input" [(ngModel)]="currentResourceList.name">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <div class="input-group-btn">
+                <ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li *ngFor="let list of rlLists" class="input-lg"><a href="#" (click)="changeList(list)">{{list.name}}</a></li>
+                </ul>
+              </div>
               <!-- <input [id]="currentResourceList.id" [type]="currentResourceList.name"> -->
-              <select class="list-group-item" [(ngModel)]="currentResourceList.id">
+              <!-- <select class="list-group-item" [(ngModel)]="currentResourceList.id">
                 <option *ngFor="let list of rlLists" [value]="list.id">{{list.name}}</option>
-              </select>
+              </select> -->
             </td>
             <td>
               <button type="button" class="btn btn-default pr-button" (click)="openNewResource()">New</button>

@@ -126,6 +126,9 @@ export class PRListComponent implements OnInit {
         }
       });
   }
+  public changeList(newlist) {
+
+  }
   /**********************************************************************************************/
   public newIdChange(event) {
     console.log(">>[PRListComponent.newIdChange]> event: " + JSON.stringify(event));
