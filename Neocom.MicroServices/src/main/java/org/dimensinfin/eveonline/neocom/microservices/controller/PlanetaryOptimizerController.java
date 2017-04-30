@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import org.dimensinfin.eveonline.poc.planetary.PlanetaryProcessor;
 import org.dimensinfin.eveonline.poc.planetary.PlanetaryScenery;
 import org.dimensinfin.eveonline.poc.planetary.ProcessingAction;
@@ -44,6 +44,20 @@ public class PlanetaryOptimizerController {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/newlist", method = RequestMethod.POST, produces = "application/json")
+	public List<ResourceList> newlist(@RequestBody final ResourceList newlist) {
+		logger.info(">> [PlanetaryOptimizerController.newlist]");
+		if (null != newlist) try {
+			AppConnector.getDBConnector().getResourceListDao().create(newlist);
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		logger.info("<< [PlanetaryOptimizerController.newlist]");
+		return resourcelists();
+	}
+
 	@CrossOrigin()
 	@RequestMapping(value = "/api/v1/newresource", method = RequestMethod.POST, produces = "application/json")
 	public Vector<Resource> newresource(@RequestBody final ResourcePack newlist) {
@@ -74,11 +88,11 @@ public class PlanetaryOptimizerController {
 		// Get the resources for this specific list name.
 		List<PlanetaryResource> resources = new Vector<PlanetaryResource>(1);
 		try {
-			Dao<ResourceListHandler, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
+			Dao<ResourceList, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
 			Dao<PlanetaryResource, String> planetaryResourceDao = AppConnector.getDBConnector().getPlanetaryResourceDao();
-			QueryBuilder<ResourceListHandler, String> queryList = resourceListDao.queryBuilder();
+			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
 			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
-			Where<ResourceListHandler, String> where = queryList.where();
+			Where<ResourceList, String> where = queryList.where();
 			where.eq("name", name);
 			queryResource.join(queryList);
 
@@ -93,10 +107,10 @@ public class PlanetaryOptimizerController {
 
 	@CrossOrigin()
 	@RequestMapping(value = "/api/v1/resourcelists", method = RequestMethod.GET, produces = "application/json")
-	public List<ResourceListHandler> resourcelists() {
+	public List<ResourceList> resourcelists() {
 		logger.info(">> [PlanetaryOptimizerController.resourcelists]");
 		// Get all the resource lists from the database.
-		List<ResourceListHandler> resourceLists = new Vector<ResourceListHandler>(1);
+		List<ResourceList> resourceLists = new Vector<ResourceList>(1);
 		try {
 			resourceLists = AppConnector.getDBConnector().getResourceListDao().queryForAll();
 		} catch (SQLException sqle) {

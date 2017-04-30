@@ -18,6 +18,7 @@ export class ResourceListSelectorComponent implements OnInit {
   private rlLists: ResourceList[] = [];
   private currentResourceList: ResourceList;
   private listName: string;
+  private isEnteringNewList: boolean = false;
 
   constructor(private resourceListService: PlanetaryResourceListService, private appDataService: AppCoreDataService) { }
 
@@ -36,24 +37,8 @@ export class ResourceListSelectorComponent implements OnInit {
     console.log("--[ResourcelistselectorComponent.ngOnInit]> firing getAllResourceLists"); this.resourceListService.getAllResourceLists()
       .subscribe(result => {
         console.log("--[ResourcelistselectorComponent.ngOnInit.subscribe]> resource lists: " + JSON.stringify(result));
-        // The the list of planatary resource lists to the data returned.
-        this.rlLists = result;
-
-        // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
-        if (this.rlLists.length < 1) {
-          let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
-          this.rlLists.push(newrl);
-          this.currentResourceList = newrl;
-          this.appDataService.setCurrentResourceList(this.currentResourceList);
-          this.listName = this.currentResourceList.getName();
-        } else {
-          // We should get the first element and set it as the current resource list.
-          this.currentResourceList = this.rlLists[0];
-          this.appDataService.setCurrentResourceList(this.currentResourceList);
-        }
-        let newrl = new ResourceList({ id: 1.0, name: "NewResourceList" });
-        this.rlLists.push(newrl);
-        this.updateListIdSequence();
+        // The the list of planetary resource lists to the data returned.
+        this.setResourceLists(result);
       });
 
     console.log("<<[ResourcelistselectorComponent.ngOnInit]");
@@ -63,6 +48,9 @@ export class ResourceListSelectorComponent implements OnInit {
     let name = event.target.value;
     console.log("--[ResourcelistselectorComponent.onInputBlur]> name value: " + name);
     this.newResourceList(name);
+  }
+  public openNewList() {
+    this.isEnteringNewList = true;
   }
   // Check if the name introduced is not already matched as an available resource list. In that case we create a new list and set it up as the default list. This default llist is stored on the data service to be used by the other components.
   private newResourceList(newname) {
@@ -81,14 +69,35 @@ export class ResourceListSelectorComponent implements OnInit {
     newrl.id = this.rlidsequence;
     newrl.setName(newname);
     console.log(">>[ResourcelistselectorComponent.newResourceList]> newrl: " + JSON.stringify(newrl));
-    this.rlLists.push(newrl);
+    //  this.rlLists.push(newrl);
     // Set this new list as the default list.
-    this.setDefaultList(newrl);
+    //  this.setDefaultList(newrl);
     // Create the list on the backend data service.
-    this.resourceListService.addResourceList(newrl);
+    this.resourceListService.newResourceList(newrl)
+      .subscribe(result => {
+        console.log(">>[ResourcelistselectorComponent.newResourceList.subscribe]> result: " + JSON.stringify(result));
+        // Set the list to the new list.
+        this.setResourceLists(result);
+        this.isEnteringNewList = false;
+        this.setDefaultList(newrl);
+      })
+  }
+  private setResourceLists(newdata: ResourceList[]) {
+    // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
+    if (newdata.length < 1) {
+      let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
+      this.rlLists.push(newrl);
+      this.setDefaultList(newrl);
+    } else {
+      // We should get the first element and set it as the current resource list.
+      this.rlLists = newdata;
+      this.setDefaultList(this.rlLists[0]);
+    }
   }
   private setDefaultList(targetList: ResourceList) {
+    this.currentResourceList = targetList;
     this.appDataService.setCurrentResourceList(targetList);
+    this.listName = this.currentResourceList.getName();
   }
   private updateListIdSequence() {
     for (let list of this.rlLists) {

@@ -1,24 +1,12 @@
 <div>
-  <form (ngSubmit)="onSubmit()" #newResourceForm="ngForm" role="form">
+  <form #newListForm="ngForm" role="form">
     <div class="input-group">
-      <input type="text" class="form-control" [(ngModel)]="listName" name="listName">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-        <ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
-          <li *ngFor="let list of rlLists" class="input-lg"><a href="#" (click)="changeList(list)">{{list.name}}</a></li>
-        </ul>
-      </div>
+      <input class="form-control" *ngIf="isEnteringNewList" type="text" [(ngModel)]="listName" name="listName">
+      <select class="list-group-item list-select" *ngIf="!isEnteringNewList" [(ngModel)]="currentResourceList.id"
+        name="selectedListName">
+        <option *ngFor="let list of rlLists" [value]="list.id">{{list.name}}</option>
+      </select>
+      <button class="btn btn-default newlist-button" *ngIf="!isEnteringNewList" type="button" (click)="openNewList()"><span>+</span></button>
     </div>
   </form>
 </div>
-
-
-
-
-<!-- <input type="text" class="form-control list-input" [(ngModel)]="currentResourceList.name">
-<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-<div class="input-group-btn">
-  <ul id="color-dropdown-menu" class="dropdown-menu dropdown-menu-right" role="menu">
-  </ul>
-</div>
-</div> -->

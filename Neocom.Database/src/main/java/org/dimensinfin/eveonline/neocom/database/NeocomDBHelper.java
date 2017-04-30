@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -40,7 +40,7 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	//	private DatabaseConnection	neocomConnection=null;
 
 	private Dao<DatabaseVersion, String>			versionDao							= null;
-	private Dao<ResourceListHandler, String>	resourceList						= null;
+	private Dao<ResourceList, String>	resourceList						= null;
 	private Dao<PlanetaryResource, String>		planetaryResourceDao		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -94,9 +94,9 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		return planetaryResourceDao;
 	}
 
-	public Dao<ResourceListHandler, String> getResourceListDao() throws SQLException {
+	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
 		if (null == resourceList) {
-			resourceList = DaoManager.createDao(this.getNeocomSource(), ResourceListHandler.class);
+			resourceList = DaoManager.createDao(this.getNeocomSource(), ResourceList.class);
 		}
 		return resourceList;
 	}
@@ -112,7 +112,7 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		try {
 			// Now open the DAO connector and create tables if they not exist
 			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
-			TableUtils.createTableIfNotExists(databaseConnection, ResourceListHandler.class);
+			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
 			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
 		} catch (SQLException sqle) {
 			logger.severe("E> Error creating the initial table on the app database.");
