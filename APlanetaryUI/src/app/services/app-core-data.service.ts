@@ -19,18 +19,22 @@ export class AppCoreDataService {
   private version: string = "<VERSION>";
   private transformList: PlanetaryResource[] = [];
   private currentResourceList: ResourceList;
+  private currentResources: PlanetaryResource[] = [];
 
   constructor(private resourceListService: PlanetaryResourceListService) { }
 
-  public setCurrentResourceList(target: ResourceList) {
-    this.currentResourceList = target;
-  }
   public getCurrentResourceList() {
     if (undefined == this.currentResourceList) {
       // Create the default resource list and set it up.
       this.currentResourceList = new ResourceList({ id: 0.0, name: "-Default-" });
     }
     return this.currentResourceList;
+  }
+  public setCurrentResourceList(target: ResourceList) {
+    this.currentResourceList = target;
+  }
+  public getCurrentResources() {
+    return this.currentResources;
   }
   /**
   // Set the new transformed list from the data receoved from another component after a new resource is added. The data returned by the backgrund to the initial component is relayed to this component for display.

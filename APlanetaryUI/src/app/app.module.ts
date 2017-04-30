@@ -13,8 +13,9 @@ import { PlanetaryResourceListService } from './services/planetary-resource-list
 //--- COMPONENTS
 import { HeaderComponent }                  from './header/header.component';
 import { PlanetaryResourcesHomeComponent }  from './planetaryresources-home/planetaryresources-home.component';
-import { PRListComponent }                  from './prlist/prlist.component';
-import { TransformedResourceListComponent } from './transformedresourcelist/transformedresourcelist.component';
+import { ResourceListComponent }            from './resource-list/resource-list.component';
+//import { PRListComponent }                  from './prlist/prlist.component';
+import { TransformedResourceListComponent } from './transformed-resource-list/transformed-resource-list.component';
 import { ResourceListSelectorComponent }    from './resourcelistselector/resourcelistselector.component';
 
 
@@ -36,10 +37,11 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     PlanetaryResourcesHomeComponent,
-    PRListComponent,
+    ResourceListComponent,
+    //  PRListComponent,
     TransformedResourceListComponent,
     ResourceListSelectorComponent,
-    BlurForwarder
+    BlurForwarder,
   ],
   imports: [
     BrowserModule,
