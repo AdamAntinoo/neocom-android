@@ -85,6 +85,7 @@ export class ResourceListSelectorComponent implements OnInit {
   private setResourceLists(newdata: ResourceList[]) {
     // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
     if (newdata.length < 1) {
+      this.rlLists=[];
       let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
       this.rlLists.push(newrl);
       this.setDefaultList(newrl);
