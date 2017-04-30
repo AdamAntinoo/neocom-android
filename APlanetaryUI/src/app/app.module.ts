@@ -51,8 +51,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     AppCoreDataService,
-    EveItemService,
-    PlanetaryResourceListService
+    PlanetaryResourceListService,
+    EveItemService
   ],
   bootstrap: [AppComponent]
 })

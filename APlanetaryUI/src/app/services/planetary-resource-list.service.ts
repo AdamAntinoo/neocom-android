@@ -1,6 +1,7 @@
 import { Injectable }                         from '@angular/core';
+import { Inject }                             from '@angular/core';
 //--- SERVICES
-import { AppCoreDataService }           from '../services/app-core-data.service';
+import { AppCoreDataService }                 from '../services/app-core-data.service';
 //--- HTTP PACKAGE
 import { Http }                               from '@angular/http';
 import { Response, Headers, RequestOptions }  from '@angular/http';
@@ -10,8 +11,8 @@ import { EveItem }                            from '../models/eve-item';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 //--- MODELS
-import { PlanetaryResource } from '../models/PlanetaryResource';
-import { ResourceList } from '../models/ResourceList';
+import { PlanetaryResource }  from '../models/PlanetaryResource';
+import { ResourceList }       from '../models/ResourceList';
 
 @Injectable()
 export class PlanetaryResourceListService {
@@ -21,7 +22,7 @@ export class PlanetaryResourceListService {
   private lastId: number = 0;
   private resourceLists: ResourceList[] = [];
 
-  constructor(private http: Http, private appService: AppCoreDataService) { }
+  constructor(private http: Http/*, private appService: AppCoreDataService*/) { }
 
   // Gets the list of resources for a named list.
   public getScenario4Name(name: string) {
@@ -54,7 +55,7 @@ export class PlanetaryResourceListService {
           transformList.push(trresource);
         }
         // Send the transformed data to the transformed ui component.
-        this.appService.updateTransformList(transformList);
+        //    this.appService.updateTransformList(transformList);
 
         return result;
       });
@@ -142,6 +143,5 @@ export class PlanetaryResourceListService {
         console.log("--[PlanetaryResourceListService.searchTypeName.map]> result: " + JSON.stringify(result));
         return result;
       });
-    //    .catch(res => Observable.throw(res.json()));
   }
 }

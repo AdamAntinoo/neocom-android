@@ -23,6 +23,7 @@ export class ResourceListComponent implements OnInit {
 
   ngOnInit() {
   }
+
   // Go to the application data store service and get the list of resources to display on the table. This removed the requirement to maintain a duplicated list on inside the component and all operations are performed with the data service as a proxy to the underlying backend system.
   public getResourceList() {
     console.log(">>[ResourceListComponent.getResourceList]");
