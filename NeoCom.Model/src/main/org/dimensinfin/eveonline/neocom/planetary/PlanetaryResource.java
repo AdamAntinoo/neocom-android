@@ -85,7 +85,7 @@ public class PlanetaryResource {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("PlanetaryResource [");
-		buffer.append("#").append(id);
+		buffer.append("#").append(id).append(" ");
 		buffer.append("name:").append(name);
 		buffer.append(" [").append(quantity).append("]");
 		buffer.append("]");

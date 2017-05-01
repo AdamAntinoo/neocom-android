@@ -67,7 +67,8 @@ public class PlanetaryOptimizerController {
 		// Create the new resource to be stored on the database.
 		try {
 			// Get access to the list identified by its id.
-			List<ResourceList> list = AppConnector.getDBConnector().getResourceListDao().queryForEq("id", newlist.getId());
+			List<ResourceList> list = AppConnector.getDBConnector().getResourceListDao()
+					.queryForEq(NeocomDBHelper.RESOURCELISTID_FN, newlist.getId());
 			PlanetaryResource newr = newlist.getData();
 			newr.setOwnerList(list.get(0));
 			AppConnector.getDBConnector().getPlanetaryResourceDao().create(newr);
@@ -96,7 +97,7 @@ public class PlanetaryOptimizerController {
 			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
 			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
 			Where<ResourceList, String> where = queryList.where();
-			where.eq("id", ident);
+			where.eq(NeocomDBHelper.RESOURCELISTID_FN, ident);
 			queryResource.join(queryList);
 
 			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
@@ -121,7 +122,7 @@ public class PlanetaryOptimizerController {
 			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
 			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
 			Where<ResourceList, String> where = queryList.where();
-			where.eq("name", name);
+			where.eq(NeocomDBHelper.RESURCELISTNAME_FN, name);
 			queryResource.join(queryList);
 
 			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
