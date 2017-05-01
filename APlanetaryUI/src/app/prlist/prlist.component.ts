@@ -1,8 +1,9 @@
 import { Component }                    from '@angular/core';
 import { OnInit }                       from '@angular/core';
-// import { OnChanges, SimpleChange }      from '@angular/core';
+//--- SERVICES
 import { AppCoreDataService }           from '../services/app-core-data.service';
 import { PlanetaryResourceListService } from '../services/planetary-resource-list.service';
+//--- MODELS
 import { PlanetaryResource }            from '../models/PlanetaryResource';
 import { ResourceList }                 from '../models/ResourceList';
 
@@ -16,7 +17,6 @@ export class PRListComponent implements OnInit {
   public rlLists: ResourceList[] = [];
   public currentResourceList: ResourceList;
   public prList: PlanetaryResource[] = [];
-  public transformList: PlanetaryResource[] = [];
 
   private showNewResourceForm: boolean = false;
   private doingDownload: boolean = true;
@@ -27,7 +27,7 @@ export class PRListComponent implements OnInit {
 
   //  public listTitle: string = "ResourceList";
 
-  constructor(private resourceListService: PlanetaryResourceListService) { }
+  constructor(private resourceListService: PlanetaryResourceListService, private dataService: AppCoreDataService) { }
   /**
   // This method is called during initialization of the component a single time. So the code should load the last list that was being used. We are going to use a backend service so this service that has persistence will be able to identify that last list and the return it as the initial list for the POC.
   */
@@ -116,15 +116,20 @@ export class PRListComponent implements OnInit {
       .subscribe(result => {
         // console.log("--[PRListComponent.onSubmit.subscribe]> result: " + JSON.stringify(result));
         // Clear the list before loading it again with the new list
-        this.transformList = [];
+        let transformList = [];
         for (let resource of result) {
           let trresource = new PlanetaryResource();
           trresource.typeid = resource.typeID;
           trresource.quantity = resource.quantity;
           trresource.name = resource.name;
-          this.transformList.push(trresource);
+          transformList.push(trresource);
         }
+        // Send the transformed data to the transformed ui component.
+        this.dataService.updateTransformList(transformList);
       });
+  }
+  public changeList(newlist) {
+
   }
   /**********************************************************************************************/
   public newIdChange(event) {

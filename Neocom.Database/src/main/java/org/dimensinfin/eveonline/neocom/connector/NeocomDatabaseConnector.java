@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import org.dimensinfin.eveonline.neocom.constant.R;
 import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -34,7 +34,7 @@ public class NeocomDatabaseConnector extends SpringDatabaseConnector {
 		return getNeocomDBHelper().getPlanetaryResourceDao();
 	}
 
-	public Dao<ResourceListHandler, String> getResourceListDao() throws SQLException {
+	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
 		return getNeocomDBHelper().getResourceListDao();
 	}
 

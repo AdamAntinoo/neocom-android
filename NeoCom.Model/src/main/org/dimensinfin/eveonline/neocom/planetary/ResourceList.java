@@ -16,9 +16,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 @DatabaseTable(tableName = "resourcelist")
-public class ResourceListHandler {
+public class ResourceList {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger	logger	= Logger.getLogger("ResourceListHandler");
+	private static Logger	logger	= Logger.getLogger("ResourceList");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	@DatabaseField(generatedId = true)
@@ -27,7 +27,7 @@ public class ResourceListHandler {
 	public String					name		= "<NAME>";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ResourceListHandler() {
+	public ResourceList() {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

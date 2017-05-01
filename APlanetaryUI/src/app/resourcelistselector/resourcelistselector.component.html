@@ -1,0 +1,12 @@
+<div>
+  <form #newListForm="ngForm" role="form">
+    <div class="input-group">
+      <input class="form-control" *ngIf="isEnteringNewList" type="text" [(ngModel)]="listName" name="listName">
+      <select class="list-group-item list-select" *ngIf="!isEnteringNewList" [(ngModel)]="currentResourceList.id"
+        name="selectedListName">
+        <option class="list-group-item" *ngFor="let list of rlLists" [value]="list.id">{{list.name}}</option>
+      </select>
+      <button class="btn btn-default newlist-button" *ngIf="!isEnteringNewList" type="button" (click)="openNewList()"><span>+</span></button>
+    </div>
+  </form>
+</div>
