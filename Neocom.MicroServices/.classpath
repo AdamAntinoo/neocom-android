@@ -23,5 +23,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/NeoCom.Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.Database"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/POC-Planetary"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

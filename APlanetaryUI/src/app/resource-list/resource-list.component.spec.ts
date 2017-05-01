@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListaPlanetaryComponent } from './lista-planetary.component';
+import { ResourceListComponent } from './resource-list.component';
 
-describe('ListaPlanetaryComponent', () => {
-  let component: ListaPlanetaryComponent;
-  let fixture: ComponentFixture<ListaPlanetaryComponent>;
+describe('ResourceListComponent', () => {
+  let component: ResourceListComponent;
+  let fixture: ComponentFixture<ResourceListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListaPlanetaryComponent ]
+      declarations: [ ResourceListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListaPlanetaryComponent);
+    fixture = TestBed.createComponent(ResourceListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,7 @@ input {
   width: 33%;
 }
 
-.ng-valid[required], .ng-valid.required {
+.ng-valid.required, .ng-valid[required] {
   border-left: 5px solid #42A948;
   /* green */
 }
@@ -13,15 +13,16 @@ input {
 }
 
 .pr-list-title {
+  border-bottom-color: black;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   font-family: Roboto;
   font-size: 16px;
   font-weight: 600;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: black;
 }
 
 .pr-list-name {
+  background-color: aliceblue;
   border: 1px solid #CCC;
   border-radius: 4px;
   font-family: Roboto;
@@ -30,8 +31,14 @@ input {
   margin-left: 5px;
   padding: 8px 12px;
   vertical-align: middle;
-  /*width: 100%;*/
-  background-color: aliceblue;
+  /* width: 100%; */
+}
+
+.pr-list-input {
+  border-bottom-right-radius: 0px;
+  border-right: 0px;
+  border-top-right-radius: initial;
+  display: inline-block;
 }
 
 .pr-list-name:hover {
@@ -55,25 +62,25 @@ input {
 .badge {
   background-color: #BCE954;
   border-radius: 4px;
+  display: block;
   font-family: Roboto;
   font-size: 14px;
-  margin-right: 5px;
   margin-left: 5px;
-  padding-top: 4px;
+  margin-right: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  display: block;
+  padding-top: 4px;
   text-align: right;
 }
 
 .badge-blue {
   background-color: #5882FA;
-  text-align: right;
   padding-left: 5px;
   padding-right: 5px;
+  text-align: right;
 }
 
 .resourceName {
-  margin-left: 5px;
   font-size: 16px;
+  margin-left: 5px;
 }

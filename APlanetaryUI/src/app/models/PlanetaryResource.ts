@@ -7,11 +7,12 @@ import { ReflectiveInjector } from '@angular/core';
 import { EveItemService } from '../services/eve-item.service';
 
 export class PlanetaryResource {
-  static eveItemService: EveItemService = null;
+  // static eveItemService: EveItemService = null;
 
   public typeid: number;
   public quantity: number;
   public name: string = "<NAME>";
+  public ownerListid:number;
 
   // ReflectiveInjector.resolveAndCreate([EveItemService]).get(EveItemService);
 
@@ -19,8 +20,9 @@ export class PlanetaryResource {
   //   this.typeid = newresourceid;
   //   this.quantity = newquantity;
   // }
-  constructor() { }
-
+  constructor(values: Object = {}) {
+      Object.assign(this, values);
+    }
   public getTypeid(): number {
     return this.typeid;
   }

@@ -15,7 +15,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-@DatabaseTable(tableName = "resourcelist")
+@DatabaseTable(tableName = "planetaryresource")
 public class PlanetaryResource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger	= Logger.getLogger("PlanetaryResource");
@@ -25,17 +25,19 @@ public class PlanetaryResource {
 	private int						id			= -1;
 	@DatabaseField
 	private int						typeid;
+	@DatabaseField
 	private double				quantity;
 	@DatabaseField
 	private String				name		= "<NAME>";
-	private int						ownerListid;
+	@DatabaseField(foreign = true)
+	private ResourceList	ownerList;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public PlanetaryResource() {
 	}
 
-	public PlanetaryResource(final int newid, final double newquantity) {
-		typeid = newid;
+	public PlanetaryResource(final int newtype, final double newquantity) {
+		typeid = newtype;
 		quantity = newquantity;
 	}
 
@@ -48,8 +50,8 @@ public class PlanetaryResource {
 		return name;
 	}
 
-	public int getOwnerListid() {
-		return ownerListid;
+	public ResourceList getOwnerListid() {
+		return ownerList;
 	}
 
 	public double getQuantity() {
@@ -68,8 +70,8 @@ public class PlanetaryResource {
 		name = newname;
 	}
 
-	public void setOwnerListid(final int ownerListid) {
-		this.ownerListid = ownerListid;
+	public void setOwnerList(final ResourceList list) {
+		ownerList = list;
 	}
 
 	public void setQuantity(final double newq) {
@@ -78,6 +80,16 @@ public class PlanetaryResource {
 
 	public void setTypeid(final int typeid) {
 		this.typeid = typeid;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("PlanetaryResource [");
+		buffer.append("#").append(id).append(" ");
+		buffer.append("name:").append(name);
+		buffer.append(" [").append(quantity).append("]");
+		buffer.append("]");
+		return buffer.toString();
 	}
 }
 // - UNUSED CODE ............................................................................................

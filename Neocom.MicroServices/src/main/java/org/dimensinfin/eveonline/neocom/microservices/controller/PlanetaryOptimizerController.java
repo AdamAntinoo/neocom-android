@@ -7,23 +7,34 @@
 //								asset items properties..
 package org.dimensinfin.eveonline.neocom.microservices.controller;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.ResourceListHandler;
-import org.dimensinfin.eveonline.neocom.database.*;
-import org.springframework.stereotype.Controller;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
+import org.dimensinfin.eveonline.poc.planetary.PlanetaryProcessor;
+import org.dimensinfin.eveonline.poc.planetary.PlanetaryScenery;
+import org.dimensinfin.eveonline.poc.planetary.ProcessingAction;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-@Controller
+@RestController
 public class PlanetaryOptimizerController {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("PlanetaryOptimizerServiceApp");
@@ -32,29 +43,103 @@ public class PlanetaryOptimizerController {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	@CrossOrigin()
-	@RequestMapping(value = "/api/v1/resourcelist/{name}", method = RequestMethod.GET, produces = "application/json")
-	public List<ResourceListHandler> resourcelist4Name(@PathVariable final String name) {
-		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]");
-		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]> name: " + name);
-		// Get the resources for this specific list name.
-		List<ResourceListHandler> resources = new Vector<PlanetaryResource>(1);
+	@RequestMapping(value = "/api/v1/newlist", method = RequestMethod.POST, produces = "application/json")
+	public List<ResourceList> newlist(@RequestBody final ResourceList newlist) {
+		logger.info(">> [PlanetaryOptimizerController.newlist]");
+		if (null != newlist) try {
+			AppConnector.getDBConnector().getResourceListDao().create(newlist);
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		logger.info("<< [PlanetaryOptimizerController.newlist]");
+		return resourcelists();
+	}
+
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/newresource", method = RequestMethod.POST, produces = "application/json")
+	public Vector<Resource> newresource(@RequestBody final ResourcePack newlist) {
+		logger.info(">> [PlanetaryOptimizerController.newresource]");
+		Vector<Resource> planetaryAssets = new Vector<Resource>();
+
+		// Create the new resource to be stored on the database.
 		try {
-			resourceLists = AppConnector.getDBConnector().getNeocomDBHelper().getPlanetaryResourceDao().queryFo
+			// Get access to the list identified by its id.
+			List<ResourceList> list = AppConnector.getDBConnector().getResourceListDao()
+					.queryForEq(NeocomDBHelper.RESOURCELISTID_FN, newlist.getId());
+			PlanetaryResource newr = newlist.getData();
+			newr.setOwnerList(list.get(0));
+			AppConnector.getDBConnector().getPlanetaryResourceDao().create(newr);
+
+			// Generate the list of transformed resources and return it to the UI.
+			logger.info("<< [PlanetaryOptimizerController.newresource]");
+			planetaryAssets = transformList(newlist.getId());
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		return planetaryAssets;
+	}
+
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/resourcelist/id/{id}", method = RequestMethod.GET, produces = "application/json")
+	public List<PlanetaryResource> resourcelist4Id(@PathVariable final String id) {
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Id]");
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Id]> id: " + id);
+		// Get the resources for this specific list number.
+		List<PlanetaryResource> resources = new Vector<PlanetaryResource>(1);
+		int ident = Integer.valueOf(id).intValue();
+		try {
+			Dao<ResourceList, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
+			Dao<PlanetaryResource, String> planetaryResourceDao = AppConnector.getDBConnector().getPlanetaryResourceDao();
+			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
+			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
+			Where<ResourceList, String> where = queryList.where();
+			where.eq(NeocomDBHelper.RESOURCELISTID_FN, ident);
+			queryResource.join(queryList);
+
+			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
+			resources = planetaryResourceDao.query(preparedQuery);
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
 		logger.info("<< [PlanetaryOptimizerController.resourcelist4Name]");
-		return resourceLists;
+		return resources;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/resourcelist/name/{name}", method = RequestMethod.GET, produces = "application/json")
+	public List<PlanetaryResource> resourcelist4Name(@PathVariable final String name) {
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]");
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]> name: " + name);
+		// Get the resources for this specific list name.
+		List<PlanetaryResource> resources = new Vector<PlanetaryResource>(1);
+		try {
+			Dao<ResourceList, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
+			Dao<PlanetaryResource, String> planetaryResourceDao = AppConnector.getDBConnector().getPlanetaryResourceDao();
+			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
+			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
+			Where<ResourceList, String> where = queryList.where();
+			where.eq(NeocomDBHelper.RESURCELISTNAME_FN, name);
+			queryResource.join(queryList);
+
+			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
+			resources = planetaryResourceDao.query(preparedQuery);
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		logger.info("<< [PlanetaryOptimizerController.resourcelist4Name]");
+		return resources;
+	}
+
 	@CrossOrigin()
 	@RequestMapping(value = "/api/v1/resourcelists", method = RequestMethod.GET, produces = "application/json")
-	public List<ResourceListHandler> resourcelists() {
+	public List<ResourceList> resourcelists() {
 		logger.info(">> [PlanetaryOptimizerController.resourcelists]");
 		// Get all the resource lists from the database.
-		List<ResourceListHandler> resourceLists = new Vector<ResourceListHandler>(1);
+		List<ResourceList> resourceLists = new Vector<ResourceList>(1);
 		try {
 			resourceLists = AppConnector.getDBConnector().getResourceListDao().queryForAll();
 		} catch (SQLException sqle) {
@@ -63,5 +148,51 @@ public class PlanetaryOptimizerController {
 		logger.info("<< [PlanetaryOptimizerController.resourcelists]");
 		return resourceLists;
 	}
+
+	private Vector<Resource> transformList(int listid) throws SQLException {
+		// Get all the resources on the list and process them.
+		List<PlanetaryResource> resources = AppConnector.getDBConnector().getPlanetaryResourceDao()
+				.queryForEq(NeocomDBHelper.OWNERLISTID_FN, listid);
+		// Thansform the list of planetary resources into standard Eve resources.
+		Vector<Resource> planetaryAssets = new Vector<Resource>();
+		for (PlanetaryResource pr : resources) {
+			Resource pa = new Resource(pr.getTypeid(), Double.valueOf(pr.getQuantity()).intValue());
+			planetaryAssets.add(pa);
+		}
+
+		// The Planetary Advisor requires a list of Planetary Resources to be stocked to start the profit calculations.
+		PlanetaryScenery scenery = new PlanetaryScenery();
+		scenery.stock(planetaryAssets);
+
+		// Create the initial processing point and start the optimization recursively.
+		PlanetaryProcessor proc = new PlanetaryProcessor(scenery);
+		// Start running the best profit search.
+		Vector<ProcessingAction> bestScenario = proc.startProfitSearch(null);
+		// Print the output
+		return proc.getResources();
+	}
+}
+
+final class ResourcePack implements Serializable {
+	private static final long	serialVersionUID	= 9043918926214241311L;
+	public int								id;
+	public PlanetaryResource	data;
+
+	public PlanetaryResource getData() {
+		return data;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setData(PlanetaryResource data) {
+		this.data = data;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }
 // - UNUSED CODE ............................................................................................
