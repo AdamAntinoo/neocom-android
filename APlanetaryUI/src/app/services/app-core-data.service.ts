@@ -6,8 +6,16 @@
 // information.
 
 import { Injectable } from '@angular/core';
+//--- HTTP PACKAGE
+import { Http }                               from '@angular/http';
+import { Response, Headers, RequestOptions }  from '@angular/http';
+import { Observable }                         from 'rxjs/Rx';
+import { EveItem }                            from '../models/eve-item';
+// Import RxJs required methods
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 //--- SERVICES
-import { PlanetaryResourceListService } from '../services/planetary-resource-list.service';
+//import { PlanetaryResourceListService } from '../services/planetary-resource-list.service';
 //--- MODELS
 import { PlanetaryResource } from '../models/PlanetaryResource';
 import { ResourceList }      from '../models/ResourceList';
@@ -15,29 +23,38 @@ import { ResourceList }      from '../models/ResourceList';
 @Injectable()
 export class AppCoreDataService {
   //--- Application Globals
+  static APPLICATION_SERVICE_PORT = "9000";
+  static RESOURCE_SERVICE_URL: string = "http://localhost:" + AppCoreDataService.APPLICATION_SERVICE_PORT + "/api/v1";
+  //--- Application variables
   private title: string = "<TITLE>";
   private version: string = "<VERSION>";
   private currentScenario: ResourceList;
   private currentResources: PlanetaryResource[] = [];
-  private transformList: PlanetaryResource[] = [];
+  private transformedResources: PlanetaryResource[] = [];
 
-  constructor(private resourceListService: PlanetaryResourceListService) { }
+  constructor(private http: Http/*private resourceListService: PlanetaryResourceListService*/) { }
+
   // Returns the current list of resources that belongs to the current selected list.
   public getCurrentResources() {
-    console.log(">>[AppCoreDataService.getCurrentResources]");
+    //    console.log(">>[AppCoreDataService.getCurrentResources]");
     return this.currentResources;
   }
-  // Selects a list as the current list. This generates the events to recover the resource llist orm the backend and populates the list of resources.
-  public setCurrentResourceList(target: ResourceList) {
+  // Selects a list as the current list. This generates the events to retrieve the resource list form the backend and populates the list of resources.
+  public setScenario(target: ResourceList) {
+    console.log(">>[AppCoreDataService.setScenario]");
     this.currentScenario = target;
-    this.resourceListService.getScenario4Name(this.currentScenario.getName())
+    console.log("--[AppCoreDataService.setScenario]> firing retrieval of list resources");
+    this.http.get(AppCoreDataService.RESOURCE_SERVICE_URL + "/resourcelist/id/" + this.currentScenario.getId())
+      .map(res => res.json())
       .subscribe(result => {
+        console.log("--[AppCoreDataService.setScenario.subscribe]> received: " + result.lenght + " resources");
         this.currentResources = [];
         result.forEach(resource => {
           let pr = new PlanetaryResource(resource);
           this.currentResources.push(pr);
         })
-      })
+      });
+    console.log("<<[AppCoreDataService.setScenario]");
   }
   public getCurrentResourceList() {
     if (undefined == this.currentScenario) {
@@ -52,7 +69,11 @@ export class AppCoreDataService {
   }
   // Update the contents of the transformation resource list for the data returned when a new resurce is added to the current list.
   public updateTransformList(newlist: PlanetaryResource[]) {
-    this.transformList = newlist;
+    console.log("><[AppCoreDataService.updateTransformList]");
+    this.transformedResources = newlist;
+  }
+  public getTransformedResources() {
+    return this.transformedResources;
   }
   // Adds a new created resource to the current list of resources to keep it in synch with the backend data
   public addResource2List(newResource: PlanetaryResource) {

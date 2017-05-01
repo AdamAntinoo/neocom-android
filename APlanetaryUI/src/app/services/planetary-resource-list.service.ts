@@ -22,23 +22,37 @@ export class PlanetaryResourceListService {
   private lastId: number = 0;
   private resourceLists: ResourceList[] = [];
 
-  constructor(private http: Http/*, private appService: AppCoreDataService*/) { }
+  constructor(private http: Http, private appService: AppCoreDataService) { }
 
-  // Gets the list of resources for a named list.
-  public getScenario4Name(name: string) {
-    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelist/" + name)
+  // Return the list of all list registered on the backend service
+  public getAllResourceLists() {
+    console.log("><[PlanetaryResourceListService.getAllResourceLists]");
+    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelists")
       .map(res => res.json())
       .map(result => {
-        console.log("--[PlanetaryResourceListService.getScenario4Name.map]> result: " + JSON.stringify(result));
-        return result;
+        //      console.log("--[PlanetaryResourceListService.getAllResourceLists.map]> result: " + JSON.stringify(result));
+        for (let rl of result) {
+          let newrl = new ResourceList(rl);
+          this.resourceLists.push(newrl);
+        }
+        return this.resourceLists;
       });
   }
+  // // Gets the list of resources for a named list.
+  // public getScenario4Name(name: string) {
+  //   return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelist/" + name)
+  //     .map(res => res.json())
+  //     .map(result => {
+  //       console.log("--[PlanetaryResourceListService.getScenario4Name.map]> result: " + JSON.stringify(result));
+  //       return result;
+  //     });
+  // }
   // Adds a new resource to the backend implementation of the list.
   public addResource2List(listid: number, newResource: PlanetaryResource) {
     console.log(">>[PlanetaryResourceListService.addResource2List]");
     console.log(">>[PlanetaryResourceListService.addResource2List]> listid: " + listid);
     console.log(">>[PlanetaryResourceListService.addResource2List]> newResource: " + JSON.stringify(newResource));
-    let prListData = { id: name, data: newResource };
+    let prListData = { id: listid, data: newResource };
     return this.http.post(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/newresource/", prListData)
       .map(res => res.json())
       .subscribe(result => {
@@ -55,8 +69,15 @@ export class PlanetaryResourceListService {
           transformList.push(trresource);
         }
         // Send the transformed data to the transformed ui component.
-        //    this.appService.updateTransformList(transformList);
-
+        this.appService.updateTransformList(transformList);
+        return result;
+      });
+  }
+  public searchTypeName(id: number) {
+    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/eveitem/" + id)
+      .map(res => res.json())
+      .map(result => {
+        //    console.log("--[PlanetaryResourceListService.searchTypeName.map]> result: " + JSON.stringify(result));
         return result;
       });
   }
@@ -109,18 +130,6 @@ export class PlanetaryResourceListService {
     Object.assign(rl, values);
     return rl;
   }
-  public getAllResourceLists() {
-    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/resourcelists")
-      .map(res => res.json())
-      .map(result => {
-        console.log("--[PlanetaryResourceListService.getAllResourceLists.map]> result: " + JSON.stringify(result));
-        for (let rl of result) {
-          let newrl = new ResourceList(rl);
-          this.resourceLists.push(newrl);
-        }
-        return this.resourceLists;
-      });
-  }
   private getResourceListById(id: number): ResourceList {
     return this.resourceLists
       .filter(rl => rl.id === id)
@@ -136,12 +145,4 @@ export class PlanetaryResourceListService {
   //     });
   //   //  .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
   // }
-  public searchTypeName(id: number) {
-    return this.http.get(PlanetaryResourceListService.RESOURCE_SERVICE_URL + "/eveitem/" + id)
-      .map(res => res.json())
-      .map(result => {
-        console.log("--[PlanetaryResourceListService.searchTypeName.map]> result: " + JSON.stringify(result));
-        return result;
-      });
-  }
 }

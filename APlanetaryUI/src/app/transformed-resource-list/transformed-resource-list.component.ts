@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component }          from '@angular/core';
+import { OnInit }             from '@angular/core';
+//--- SERVICES
+import { AppCoreDataService } from '../services/app-core-data.service';
 
 @Component({
   selector: 'app-transformed-resource-list',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransformedResourceListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private appService: AppCoreDataService) { }
 
   ngOnInit() {
   }
 
+  public getTransformedResources() {
+    return this.appService.getTransformedResources();
+  }
 }

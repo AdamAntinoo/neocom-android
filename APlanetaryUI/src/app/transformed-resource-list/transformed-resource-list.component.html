@@ -1,3 +1,14 @@
-<p>
-  transformed-resource-list works!
-</p>
+<div>
+  <table width="100%">
+    <tr>
+      <td colspan="3" class="list list-title transformed-list-title">Transformed Resource List</td>
+    </tr>
+    <tr *ngFor="let resource of getTransformedResources()">
+      <td class="badge badge-blue">{{resource.typeid}}</td>
+      <td width="90%">
+        <span class="resource-name">{{resource.name}}</span>
+      </td>
+      <td class="badge">{{resource.quantity}} units</td>
+    </tr>
+  </table>
+</div>

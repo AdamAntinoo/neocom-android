@@ -65,9 +65,11 @@ public class PlanetaryOptimizerController {
 		Vector<Resource> planetaryAssets = new Vector<Resource>();
 
 		// Create the new resource to be stored on the database.
-		PlanetaryResource newr = newlist.getData();
-		newr.setOwnerListid(newlist.getId());
 		try {
+			// Get access to the list identified by its id.
+			List<ResourceList> list = AppConnector.getDBConnector().getResourceListDao().queryForEq("id", newlist.getId());
+			PlanetaryResource newr = newlist.getData();
+			newr.setOwnerList(list.get(0));
 			AppConnector.getDBConnector().getPlanetaryResourceDao().create(newr);
 
 			// Generate the list of transformed resources and return it to the UI.
@@ -81,7 +83,33 @@ public class PlanetaryOptimizerController {
 	}
 
 	@CrossOrigin()
-	@RequestMapping(value = "/api/v1/resourcelist/{name}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/api/v1/resourcelist/id/{id}", method = RequestMethod.GET, produces = "application/json")
+	public List<PlanetaryResource> resourcelist4Id(@PathVariable final String id) {
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Id]");
+		logger.info(">> [PlanetaryOptimizerController.resourcelist4Id]> id: " + id);
+		// Get the resources for this specific list number.
+		List<PlanetaryResource> resources = new Vector<PlanetaryResource>(1);
+		int ident = Integer.valueOf(id).intValue();
+		try {
+			Dao<ResourceList, String> resourceListDao = AppConnector.getDBConnector().getResourceListDao();
+			Dao<PlanetaryResource, String> planetaryResourceDao = AppConnector.getDBConnector().getPlanetaryResourceDao();
+			QueryBuilder<ResourceList, String> queryList = resourceListDao.queryBuilder();
+			QueryBuilder<PlanetaryResource, String> queryResource = planetaryResourceDao.queryBuilder();
+			Where<ResourceList, String> where = queryList.where();
+			where.eq("id", ident);
+			queryResource.join(queryList);
+
+			PreparedQuery<PlanetaryResource> preparedQuery = queryResource.prepare();
+			resources = planetaryResourceDao.query(preparedQuery);
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		logger.info("<< [PlanetaryOptimizerController.resourcelist4Name]");
+		return resources;
+	}
+
+	@CrossOrigin()
+	@RequestMapping(value = "/api/v1/resourcelist/name/{name}", method = RequestMethod.GET, produces = "application/json")
 	public List<PlanetaryResource> resourcelist4Name(@PathVariable final String name) {
 		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]");
 		logger.info(">> [PlanetaryOptimizerController.resourcelist4Name]> name: " + name);

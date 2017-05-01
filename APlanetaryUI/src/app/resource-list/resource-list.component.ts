@@ -26,7 +26,7 @@ export class ResourceListComponent implements OnInit {
 
   // Go to the application data store service and get the list of resources to display on the table. This removed the requirement to maintain a duplicated list on inside the component and all operations are performed with the data service as a proxy to the underlying backend system.
   public getResourceList() {
-    console.log(">>[ResourceListComponent.getResourceList]");
+    //    console.log(">>[ResourceListComponent.getResourceList]");
     return this.appService.getCurrentResources();
   }
   /**********************************************************************************************/
@@ -38,6 +38,34 @@ export class ResourceListComponent implements OnInit {
     this.newResource = new PlanetaryResource();
     this.idIsValid = false;
     this.showNewResourceForm = true;
+  }
+  public newIdChange(event) {
+    console.log("><[ResourceListComponent.newIdChange]> event: " + JSON.stringify(event));
+    // Search for the resource name that matches the new id.
+    this.idIsValid = false;
+    // Check the range for valid resource values
+    if (event == 44) {
+      this.resourceListService.searchTypeName(event)
+        .subscribe(result => {
+          console.log("--[ResourceListComponent.newIdChange]> result: " + JSON.stringify(result));
+          let category = result.category;
+          if (category == "Planetary Resources") this.idIsValid = true;
+          if (category == "Planetary Commodities") this.idIsValid = true;
+          if (this.idIsValid) this.newResource.name = result.name;
+        });
+    }
+    if (event > 2072) {
+      if (event < 28975) {
+        this.resourceListService.searchTypeName(event)
+          .subscribe(result => {
+            console.log("--[ResourceListComponent.newIdChange]> result: " + JSON.stringify(result));
+            let category = result.category;
+            if (category == "Planetary Resources") this.idIsValid = true;
+            if (category == "Planetary Commodities") this.idIsValid = true;
+            if (this.idIsValid) this.newResource.name = result.name;
+          });
+      }
+    }
   }
   /**********************************************************************************************/
   //  F O R M   M E T H O D S

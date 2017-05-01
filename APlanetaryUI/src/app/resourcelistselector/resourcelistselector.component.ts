@@ -29,7 +29,7 @@ export class ResourceListSelectorComponent implements OnInit {
       let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
       this.rlLists.push(newrl);
       this.currentResourceList = newrl;
-      this.appDataService.setCurrentResourceList(this.currentResourceList);
+      this.appDataService.setScenario(this.currentResourceList);
     }
     console.log("--[ResourcelistselectorComponent.ngOnInit]> Preinitialize the list: " + JSON.stringify(this.rlLists));
 
@@ -52,6 +52,35 @@ export class ResourceListSelectorComponent implements OnInit {
   public openNewList() {
     this.isEnteringNewList = true;
   }
+  /**********************************************************************************************/
+  //  P R I V A T E   M E T H O D S
+  /**********************************************************************************************/
+  // Stores the received list of resource list definition and sets the options structures. After this setup selects the first of the available lists.
+  private setResourceLists(newdata: ResourceList[]) {
+    console.log("><[ResourcelistselectorComponent.setResourceLists]");
+    // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
+    if (newdata.length < 1) {
+      this.rlLists = [];
+      let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
+      this.rlLists.push(newrl);
+      this.setDefaultList(newrl);
+    } else {
+      // We should get the first element and set it as the current resource list.
+      this.rlLists = newdata;
+      this.setDefaultList(this.rlLists[0]);
+    }
+  }
+  // Sets the current active list and on changes updates the application data to be rendered on the ui.
+  private setDefaultList(targetList: ResourceList) {
+    console.log("><[ResourcelistselectorComponent.setDefaultList]> targetList: " + JSON.stringify(targetList));
+    this.currentResourceList = targetList;
+    this.appDataService.setScenario(targetList);
+    this.listName = this.currentResourceList.getName();
+  }
+
+
+
+
   // Check if the name introduced is not already matched as an available resource list. In that case we create a new list and set it up as the default list. This default llist is stored on the data service to be used by the other components.
   private newResourceList(newname) {
     console.log(">>[ResourcelistselectorComponent.newResourceList]> newname: " + newname);
@@ -81,24 +110,6 @@ export class ResourceListSelectorComponent implements OnInit {
         this.isEnteringNewList = false;
         this.setDefaultList(newrl);
       })
-  }
-  private setResourceLists(newdata: ResourceList[]) {
-    // If the size of the list is 0 then we should create the default list where to assign all resources until the user sets a new list name.
-    if (newdata.length < 1) {
-      this.rlLists = [];
-      let newrl = new ResourceList({ id: 0.0, name: "-Default-" });
-      this.rlLists.push(newrl);
-      this.setDefaultList(newrl);
-    } else {
-      // We should get the first element and set it as the current resource list.
-      this.rlLists = newdata;
-      this.setDefaultList(this.rlLists[0]);
-    }
-  }
-  private setDefaultList(targetList: ResourceList) {
-    this.currentResourceList = targetList;
-    this.appDataService.setCurrentResourceList(targetList);
-    this.listName = this.currentResourceList.getName();
   }
   private updateListIdSequence() {
     for (let list of this.rlLists) {

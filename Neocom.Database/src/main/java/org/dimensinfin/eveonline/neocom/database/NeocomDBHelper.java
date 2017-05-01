@@ -24,24 +24,24 @@ import com.j256.ormlite.table.TableUtils;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger											logger									= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
+	private static Logger										logger									= Logger.getLogger("NeocomDBHelper");	//$NON-NLS-1$
 	//	private static final String								SELECT_VERSION_NUMBER		= "SELECT versionNumber from Version";
-	private static final long									MAX_CONNECTION_AGE			= 5 * 60 * 1000;
-	private static final long									CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
-	public static final String								OWNERLISTID_FN					= "ownerListid";
+	private static final long								MAX_CONNECTION_AGE			= 5 * 60 * 1000;
+	private static final long								CHECK_CONNECTION_EVERY	= 2 * 60 * 1000;
+	public static final String							OWNERLISTID_FN					= "ownerListid";
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String														databaseName						= "jdbc:sqlite:neocomdata.db";
-	private int																databaseVersion					= 0;
-	private boolean														isOpen									= false;
-	private Connection												neocomDatabase					= null;
-	private JdbcConnectionSource							neocomDatasource				= null;
+	private String													databaseName						= "jdbc:sqlite:neocomdata.db";
+	private int															databaseVersion					= 0;
+	private boolean													isOpen									= false;
+	private Connection											neocomDatabase					= null;
+	private JdbcConnectionSource						neocomDatasource				= null;
 	//	private DataSourceConnectionSource				neocomDatasource				= null;
 	//	private DatabaseConnection	neocomConnection=null;
 
-	private Dao<DatabaseVersion, String>			versionDao							= null;
-	private Dao<ResourceList, String>	resourceList						= null;
-	private Dao<PlanetaryResource, String>		planetaryResourceDao		= null;
+	private Dao<DatabaseVersion, String>		versionDao							= null;
+	private Dao<ResourceList, String>				resourceList						= null;
+	private Dao<PlanetaryResource, String>	planetaryResourceDao		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomDBHelper(String databaseName, int databaseVersion) {
@@ -49,14 +49,16 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 		this.databaseVersion = databaseVersion;
 		// Open the database and check the version number.
 		if (openNeocomDB()) {
-			// Read the version information from the database.
-			int version = readDatabaseVersion();
-			if (0 == version) {
-				onUpgrade(neocomDatasource, version, version);
-			} else {
-				// Check if the version is equal to the current software version.
-				if (version != databaseVersion) onUpgrade(neocomDatasource, version, databaseVersion);
-			}
+			// During the current POC version force the creation of the tables and forget the version control.
+			onCreate(neocomDatasource);
+			//			// Read the version information from the database.
+			//			int version = readDatabaseVersion();
+			//			if (0 == version) {
+			//				onUpgrade(neocomDatasource, version, version);
+			//			} else {
+			//				// Check if the version is equal to the current software version.
+			//				if (version != databaseVersion) onUpgrade(neocomDatasource, version, databaseVersion);
+			//			}
 		}
 	}
 
@@ -118,15 +120,15 @@ public class NeocomDBHelper /* implements ISQLiteOpenHelper */ {
 			logger.severe("E> Error creating the initial table on the app database.");
 			sqle.printStackTrace();
 		}
-		try {
-			// Create the version table and insert the initial new version code.
-			DatabaseVersion version = new DatabaseVersion(1);
-			// Persist the version object to the database
-			getVersionDao().create(version);
-		} catch (SQLException sqle) {
-			logger.severe("E> Error dropping table on Database new version.");
-			sqle.printStackTrace();
-		}
+		//		try {
+		//			// Create the version table and insert the initial new version code.
+		//			DatabaseVersion version = new DatabaseVersion(1);
+		//			// Persist the version object to the database
+		//			getVersionDao().create(version);
+		//		} catch (SQLException sqle) {
+		//			logger.severe("E> Error dropping table on Database new version.");
+		//			sqle.printStackTrace();
+		//		}
 	}
 
 	public void onUpgrade(final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
