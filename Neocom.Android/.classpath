@@ -10,6 +10,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/NeoCom.Model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.AndroidDatabase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.MarketService"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.Models"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.dimensinfin.core"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
