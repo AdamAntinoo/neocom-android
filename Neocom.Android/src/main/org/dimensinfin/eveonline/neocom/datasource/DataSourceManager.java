@@ -12,6 +12,7 @@ package org.dimensinfin.eveonline.neocom.datasource;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -21,16 +22,10 @@ import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
  * 
  * @author Adam Antinoo
  */
-public class DataSourceManager implements IDataSourceConnector {
+public class DataSourceManager /* implements IDataSourceConnector */{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger																logger			= Logger.getLogger("DataSourceManager");
-
-	// - F I E L D - S E C T I O N ............................................................................
-	private final HashMap<String, IExtendedDataSource>	dataSources	= new HashMap<String, IExtendedDataSource>();
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-
-	// - M E T H O D - S E C T I O N ..........................................................................
+	private static final HashMap<String, IExtendedDataSource>	dataSources	= new HashMap<String, IExtendedDataSource>();
 	/**
 	 * Registers this new DataSource on the Manager or returns the source located already on the cache if they
 	 * match. This way I will get a cached and already prepared DataSource if I try to create it again.
@@ -39,7 +34,7 @@ public class DataSourceManager implements IDataSourceConnector {
 	 *          - new DataSource to add to the Manager
 	 * @return the oldest DataSource with the same identifier.
 	 */
-	public IExtendedDataSource registerDataSource(final IExtendedDataSource newSource) {
+	public static IExtendedDataSource registerDataSource(final IExtendedDataSource newSource) {
 		DataSourceLocator locator = newSource.getDataSourceLocator();
 		// Search for locator on cache.
 		IExtendedDataSource found = dataSources.get(locator.getIdentity());
@@ -49,11 +44,17 @@ public class DataSourceManager implements IDataSourceConnector {
 			dataSources.put(locator.getIdentity(), newSource);
 			DataSourceManager.logger
 					.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: " + locator.getIdentity());
-			newSource.connect(this);
+//			newSource.connect(this);
 			return newSource;
 		} else
 			return found;
 	}
+
+	// - F I E L D - S E C T I O N ............................................................................
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	// - M E T H O D - S E C T I O N ..........................................................................
 }
 
 // - UNUSED CODE ............................................................................................

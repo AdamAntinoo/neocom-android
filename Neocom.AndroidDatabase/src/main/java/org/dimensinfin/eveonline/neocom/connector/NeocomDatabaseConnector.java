@@ -6,9 +6,10 @@
 //								environment limits.
 package org.dimensinfin.eveonline.neocom.connector;
 
+import static org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector.logger;
+
 import java.sql.SQLException;
 
-import org.dimensinfin.eveonline.neocom.constant.R;
 import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.Property;
@@ -18,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import com.j256.ormlite.dao.Dao;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeocomDatabaseConnector extends SpringDatabaseConnector {
+public class NeocomDatabaseConnector extends AndroidDatabaseConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -31,11 +32,11 @@ public class NeocomDatabaseConnector extends SpringDatabaseConnector {
 		neocomDBHelper = new NeocomDBHelper(DATABASE_NAME, DATABASE_VERSION);
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
 		return getNeocomDBHelper().getApiKeysDao();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
 		return getNeocomDBHelper().getPlanetaryResourceDao();
 	}

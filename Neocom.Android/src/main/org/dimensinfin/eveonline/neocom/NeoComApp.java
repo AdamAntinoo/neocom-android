@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -24,13 +24,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.eveonline.neocom.adapter.AndroidCacheConnector;
-import org.dimensinfin.eveonline.neocom.adapter.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.adapter.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
@@ -79,14 +80,16 @@ import android.widget.TextView;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApp extends Application implements IConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger							logger									= Logger.getLogger("EVEDroidApp");
-	public static Typeface						daysFace								= null;
-	private static DecimalFormat			pendingCounter					= new DecimalFormat("0.0##");
+	private static Logger							logger									= Logger.getLogger("NeoComApp");
 	private static NeoComApp					singleton								= null;
-	private static boolean						firstTimeInitialization	= false;
 	private static BroadcastReceiver	timeTickReceiver				= null;
 	public static int									topCounter							= 0;
 	public static int									marketCounter						= 0;
+
+	/** Global typeface to be used on nos standard activities or in places with no layout. */
+	public static Typeface						daysFace								= null;
+	private static DecimalFormat			pendingCounter					= new DecimalFormat("0.0##");
+	private static boolean						firstTimeInitialization	= false;
 
 	//	private static AppModelStore			appModelStore						= null;
 
@@ -622,7 +625,7 @@ public class NeoComApp extends Application implements IConnector {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private AndroidStorageConnector		storage			= null;
-	private AndroidDatabaseConnector	dbconnector	= null;
+	private NeocomDatabaseConnector	dbNeocomConnector	= null;
 	private AndroidCacheConnector			cache				= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -631,14 +634,14 @@ public class NeoComApp extends Application implements IConnector {
 		// Setup the referencing structures that will serve as proxy and global references.
 		// If singleton already defined this is not a first time initialization.
 		if (null == NeoComApp.singleton) {
-			Log.i("EVEDroidApp", ".. First Time Initialization.");
+			Log.i("NeoComApp", ".. First Time Initialization.");
 			NeoComApp.singleton = this;
 			AppConnector.setConnector(NeoComApp.getSingletonApp());
-			NeoComApp.firstTimeInitialization = true;
-		} else {
-			Log.i("EVEDroidApp", ".. User reload requested.");
+//			NeoComApp.firstTimeInitialization = true;
+		}/* else {
+			Log.i("NeoComApp", ".. User reload requested.");
 			NeoComApp.firstTimeInitialization = false;
-		}
+		}*/
 		NeoComApp.logger.info("<< [NeoComApp.<init>]");
 	}
 
@@ -704,12 +707,6 @@ public class NeoComApp extends Application implements IConnector {
 		return cache;
 	}
 
-	public IDatabaseConnector getDBConnector() {
-		if (null == dbconnector) {
-			dbconnector = new AndroidDatabaseConnector(this);
-		}
-		return dbconnector;
-	}
 
 	@Deprecated
 	public INeoComModelStore getModelStore() {
@@ -739,36 +736,39 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	public void init() {
-		NeoComApp.logger.info(">> [EVEDroidApp.init]");
+		NeoComApp.logger.info(">> [NeoCom.init]");
 		// Close databases if they were left open.
 		this.getDBConnector().closeDatabases();
+		// Get rid of any previous copy of the application linked to the singleton.
 		NeoComApp.singleton = this;
 		// Remove any reference to old adapters.
 		storage = null;
-		dbconnector = null;
+		dbNeocomConnector = null;
 		cache = null;
-		//		appModelStore = null;
-		// this.appContext = null;
-		// firstTimeInitialization = true;
-		NeoComApp.logger.info("<< [EVEDroidApp.init]");
+			NeoComApp.logger.info("<< [NeoCom.init]");
 	}
-
+/**
+ * Events called during the Application life cycle.
+ */
 	@Override
 	public void onCreate() {
-		NeoComApp.logger.info(">> [EVEDroidApp.onCreate]");
+		NeoComApp.logger.info(">> [NeoCom.onCreate]");
 		super.onCreate();
 		NeoComApp.daysFace = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// Remove the secure XML access and configure the ApiConnector.
 		//		ApiConnector.setSecureXmlProcessing(false);
-		NeoComApp.logger.info("<< [EVEDroidApp.onCreate]");
+		NeoComApp.logger.info("<< [NeoCom.onCreate]");
 	}
 
+	/**
+	 * Events called during the Application life cycle.
+	 */
 	@Override
 	public void onTerminate() {
-		NeoComApp.logger.info(">> [EVEDroidApp.onTerminate]");
+		NeoComApp.logger.info(">> [NeoCom.onTerminate]");
 		this.unregisterReceiver(NeoComApp.timeTickReceiver);
 		super.onTerminate();
-		NeoComApp.logger.info("<< [EVEDroidApp.onTerminate]");
+		NeoComApp.logger.info("<< [NeoCom.onTerminate]");
 	}
 
 	public void openDatabases() {
@@ -869,6 +869,19 @@ public class NeoComApp extends Application implements IConnector {
 			}
 			actionView.invalidate();
 		}
+	}
+
+	public ICCPDatabaseConnector getCCPDBConnector() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public IDatabaseConnector getDBConnector() {
+		if (null == dbNeocomConnector) dbNeocomConnector = new NeocomDatabaseConnector();
+		return dbNeocomConnector;
+	}
+	public NeocomPreferences getDefaultSharedPreferences() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 // - UNUSED CODE ............................................................................................

@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
+import org.dimensinfin.eveonline.neocom.activity.PilotRoasterActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
@@ -42,7 +43,7 @@ public class SplashActivity extends Activity {
 	private class NeoComInitialization extends AsyncTask<Void, Void, Boolean> {
 		private static final boolean	showProgress	= false;
 		// - F I E L D - S E C T I O N ............................................................................
-		private Activity							_activity			= null;
+		protected Activity							_activity			= null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public NeoComInitialization(final Activity act) {
@@ -99,7 +100,7 @@ public class SplashActivity extends Activity {
 			}
 		}
 
-		private boolean checkAppFile(final String resourceString) {
+		protected boolean checkAppFile(final String resourceString) {
 			return AppConnector.getStorageConnector()
 					.checkStorageResource(AppConnector.getStorageConnector().accessAppStorage(null), resourceString);
 		}
@@ -110,7 +111,7 @@ public class SplashActivity extends Activity {
 		 * 
 		 * @param resourceId
 		 */
-		private void copyFromAssets(final int resourceId) {
+		protected void copyFromAssets(final int resourceId) {
 			InputStream istream = null;
 			OutputStream ostream = null;
 			String resourceName = AppConnector.getResourceString(resourceId);
@@ -146,7 +147,7 @@ public class SplashActivity extends Activity {
 		/**
 		 * Creates the application directory if it already does not exist on the sdcard.
 		 */
-		private boolean createAppDir() {
+		protected boolean createAppDir() {
 			// Create file application directory if it doesn't exist
 			final File sdcarddir = new File(Environment.getExternalStorageDirectory(),
 					AppConnector.getResourceString(R.string.appfoldername)
@@ -158,7 +159,7 @@ public class SplashActivity extends Activity {
 			return !existence;
 		}
 
-		private void createCacheDirectories() {
+		protected void createCacheDirectories() {
 			// Create additional cache folders.
 			File cachedir = AppConnector.getStorageConnector().getCacheStorage();
 			cachedir.mkdir();
@@ -169,7 +170,7 @@ public class SplashActivity extends Activity {
 		}
 		//[05]
 
-		private void updateStateLabel(final String newLabel) {
+		protected void updateStateLabel(final String newLabel) {
 			SplashActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
 					stateLabel.setText(newLabel);
@@ -179,12 +180,70 @@ public class SplashActivity extends Activity {
 		}
 	}
 
+	private class NeoComInitializationBeta extends NeoComInitialization {
+		private static final boolean	showProgress	= false;
+		// - F I E L D - S E C T I O N ............................................................................
+//		private Activity							_activity			= null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public NeoComInitializationBeta(final Activity act) {
+			super(act);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		/**
+		 * This is the main method where we do the application data initialization. The process has some steps
+		 * that are listed below:
+		 * <ol>
+		 * <li>STEP 01. Check required files availability on app directory.</li>
+		 * </ol>
+		 */
+		@Override
+		protected Boolean doInBackground(final Void... entry) {
+			SplashActivity.logger.info(">> [NeoComInitialization.doInBackground]");
+			doStep01();
+			// Start the timers for background processing.
+			NeoComApp.getSingletonApp().startTimer();
+			SplashActivity.logger.info("<< [NeoComInitialization.doInBackground]");
+			return true;
+		}
+		private void doStep01() {
+			// Just check that the files exist and if not load the Api list and their characters.
+			SplashActivity.logger.info(">> [NeoComInitialization.doStep01]");
+			this.updateStateLabel("Checking application database...");
+			// STEP 01. Check required files availability on app directory.
+			this.createAppDir();
+			this.createCacheDirectories();
+			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
+			// STEP 02. Check existence of required files.
+			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+				// TODO The CCP database is not distributed with the application. If not available then close the App
+				this.copyFromAssets(R.string.ccpdatabasefilename);
+			}
+//			if (AppWideConstants.DEVELOPMENT)
+//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
+//				this.copyFromAssets(R.string.apikeysfilename);
+//				}
+			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
+
+			// Create the login information that later will be requested to the user at the login page.
+			this.updateStateLabel("Loading user data...");
+				 AppModelStore.getSingleton().setLoginIdentifier("Beth");
+		SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
+		}
+		protected void onPostExecute(final Boolean result) {
+			// Check if we have pilots to show or we have to go to the AddAPI page.
+			if (result) {
+				SplashActivity.this.startActivity(new Intent(_activity, PilotListActivity.class));
+			}
+		}
+	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger			= Logger.getLogger("SplashActivity");
-	//	protected static Typeface	daysFace		= Typeface
-	//			.createFromAsset(EVEDroidApp.getSingletonApp().getApplicationContext().getAssets(), "fonts/Days.otf");
+
 	// - F I E L D - S E C T I O N ............................................................................
-	//	private final boolean			_lock				= false;
+/** Shows the current initialization stage. */
 	private TextView			stateLabel	= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -227,12 +286,11 @@ public class SplashActivity extends Activity {
 		//	stateLabel.setText("Instantiating user selected theme...");
 		stateLabel.setText("Checking application database...");
 		stateLabel.invalidate();
-		new NeoComInitialization(this).execute();
-		//		performLogoAnimations();
+		// Removed all initalization code until new boostraping is ready.
+			new NeoComInitializationBeta(this).execute();
 		SplashActivity.logger.info("<< SplashActivity.onStart");
 	}
 	//[02]
-
 }
 //- UNUSED CODE ............................................................................................
 //[01]

@@ -147,6 +147,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	private transient Menu									_appMenu					= null;
 	/** Reference to the current active Activity. Sometimes this is needed to access application resources. */
 	private transient Activity							_activity					= null;
+	/** This is the string identifier assigned to this session and that relates to an specific set of api keys. */
+	private String loginIdentifier = "Default";
+	
+	
 	private transient NeoComCharacter				_pilot						= null;
 	protected long													_pilotIdentifier	= -1L;
 	/** Check to verify if the recovery process is successful. */
@@ -424,6 +428,15 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	private boolean isRestored() {
 		return recovered;
 	}
+
+	public void setLoginIdentifier(String login) {
+		this.loginIdentifier=login;
+	}
+
+	public String getLoginIdentifier() {
+		return loginIdentifier;
+	}
+	
 }
 
 // - UNUSED CODE ............................................................................................

@@ -15,6 +15,7 @@ import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;

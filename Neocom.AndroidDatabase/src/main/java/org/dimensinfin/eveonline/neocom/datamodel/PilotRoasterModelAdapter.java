@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -24,7 +26,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotRoasterModelAdapter implements IModelAdapter {
+public class PilotRoasterModelAdapter implements IModelGenerator {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger									logger					= Logger.getLogger("PilorRoasterModelAdapter");
 
