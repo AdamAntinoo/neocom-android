@@ -44,22 +44,6 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 	public String getTitle() {
 		return "Select Capsuleer";
 	}
-
-	//	@Override
-	//	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-	//		Log.i("NEOCOM", ">> PilotListFragment.onCreateView");
-	//		final View theView = super.onCreateView(inflater, container, savedInstanceState);
-	//		try {
-	//			//			this.setIdentifier(_variant.hashCode());
-	//			this.registerDataSource();
-	//		} catch (final RuntimeException rtex) {
-	//			Log.e("EVEI", "RTEX> PilotListFragment.onCreateView - " + rtex.getMessage());
-	//			rtex.printStackTrace();
-	//			this.stopActivity(new RuntimeException("RTEX> PilotListFragment.onCreateView - " + rtex.getMessage()));
-	//		}
-	//		Log.i("NEOCOM", "<< PilotListFragment.onCreateView");
-	//		return theView;
-	//	}
 /**
  * This is the method that any new fragment should override to implement the right DataSource association that corresponds to this activity contents.
  * The new implementation divides the creation into two steps. One creates the custom model generator that will be used on Android and on the Web platform.
@@ -73,11 +57,10 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 		String login = AppModelStore.getSingleton().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
-		IModelGenerator adapter = ModelGeneratorManager.registerGenerator(new PilotRoasterModelAdapter(locator,login));
+		IModelGenerator generator = ModelGeneratorManager.registerGenerator(new PilotRoasterModelAdapter(locator,login));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
-//		SpecialDataSource ds = ;
-		SpecialDataSource		ds = (SpecialDataSource) DataSourceManager.registerDataSource(new PilotListDataSource(locator, this.getFactory()));
+		SpecialDataSource		ds = (SpecialDataSource) DataSourceManager.registerDataSource(new PilotListDataSource(locator, generator,this.getFactory()));
 		ds.setVariant(this.getVariant());
 		ds.setCacheable(true);
 		this.setDataSource(ds);
@@ -89,39 +72,4 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 	protected void setHeaderContents() {
 	}
 }
-
-//// - CLASS IMPLEMENTATION ...................................................................................
-//final class PilotListPartFactory implements IPartFactory {
-//	// - S T A T I C - S E C T I O N ..........................................................................
-//	// - F I E L D - S E C T I O N ............................................................................
-//	private EFragment variant = AppWideConstants.EFragment.DEFAULT_VARIANT;
-//
-//	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public PilotListPartFactory(final EFragment variantSelected) {
-//		variant = variantSelected;
-//	}
-//
-//	//- M E T H O D - S E C T I O N ..........................................................................
-//	/**
-//	 * The method should create the matching part for the model received but there is no other place where we
-//	 * should create the next levels of the hierarchy. So we will create the part trasnformationes here.
-//	 */
-//	@Override
-//	public IEditPart createPart(final IGEFNode node) {
-//		if (node instanceof NeoComApiKey) {
-//			AbstractCorePart part = new APIKeyPart((AbstractComplexNode) node).setFactory(this);
-//			return part;
-//		}
-//		if (node instanceof NeoComCharacter) {
-//			AbstractCorePart part = new PilotInfoPart((AbstractComplexNode) node).setFactory(this);
-//			return part;
-//		}
-//		return null;
-//	}
-//
-//	public String getVariant() {
-//		return variant.name();
-//	}
-//}
-//
 // - UNUSED CODE ............................................................................................
