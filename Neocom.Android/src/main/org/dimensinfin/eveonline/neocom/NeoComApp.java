@@ -33,7 +33,9 @@ import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.constant.DBR;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
+import org.dimensinfin.eveonline.neocom.database.INeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.ICache;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
@@ -627,6 +629,7 @@ public class NeoComApp extends Application implements IConnector {
 	private AndroidStorageConnector		storage			= null;
 	private NeocomDatabaseConnector	dbNeocomConnector	= null;
 	private AndroidCacheConnector			cache				= null;
+	//private INeocomDBHelper									neocomDBHelper		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComApp() {
@@ -870,6 +873,14 @@ public class NeoComApp extends Application implements IConnector {
 			actionView.invalidate();
 		}
 	}
+//	private INeocomDBHelper getNeocomDBHelper() {
+//		if (null == neocomDBHelper) {
+//			logger.warning(
+//					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
+//			neocomDBHelper = OpenHelperManager.getHelper(this, NeocomAndroidDBHelper.class);
+//		}
+//		return neocomDBHelper;
+//	}
 
 	public ICCPDatabaseConnector getCCPDBConnector() {
 		// TODO Auto-generated method stub
@@ -885,18 +896,3 @@ public class NeoComApp extends Application implements IConnector {
 	}
 }
 // - UNUSED CODE ............................................................................................
-//[01]
-
-// public static void setAppTheme(final int themeCode) {
-// switch (themeCode) {
-// case 1:
-// appTheme = new RubiconRedTheme();
-// break;
-// case 2:
-// appTheme = new CryosBlueTheme();
-// break;
-// default:
-// appTheme = new RubiconRedTheme();
-// }
-//
-// }

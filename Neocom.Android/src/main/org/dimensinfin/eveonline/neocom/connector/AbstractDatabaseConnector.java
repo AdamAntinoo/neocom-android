@@ -4,6 +4,7 @@
 //	ENVIRONMENT:	Java 1.8 Library.
 //	DESCRIPTION:	SQLite database access library. Isolates Neocom database access from any
 //								environment limits.
+//								Database and model adaptations for storage model independency.
 package org.dimensinfin.eveonline.neocom.connector;
 
 import java.sql.SQLException;
@@ -37,22 +38,22 @@ public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public boolean checkInvention(int typeID) {
 		throw new RuntimeException(
-				"Application connector not defined. Functionality 'checkExpiration' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+				"Application connector not defined. Functionality 'checkInvention' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
 	public boolean checkManufacturable(int typeid) {
 		throw new RuntimeException(
-				"Application connector not defined. Functionality 'checkExpiration' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+				"Application connector not defined. Functionality 'checkManufacturable' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
 	public void clearInvalidRecords() {
 		throw new RuntimeException(
-				"Application connector not defined. Functionality 'checkExpiration' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+				"Application connector not defined. Functionality 'clearInvalidRecords' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
 	public void closeDatabases() {
 		throw new RuntimeException(
-				"Application connector not defined. Functionality 'checkExpiration' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+				"Application connector not defined. Functionality 'closeDatabases' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
 	//	public Dao<Asset, String> getAssetDAO() throws java.sql.SQLException {
@@ -63,34 +64,34 @@ public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 	//		throw new RuntimeException("Application connector not defined. Functionality 'checkExpiration' disabled.");
 	//	}
 
-	public Dao<NeoComAsset, String> getAssetDAO() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public Dao<NeoComAsset, String> getAssetDAO() throws SQLException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	//	public Dao<MarketOrder, String> getMarketOrderDAO() throws java.sql.SQLException {
 	//		throw new RuntimeException("Application connector not defined. Functionality 'checkExpiration' disabled.");
 	//	}
 
-	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public Dao<Job, String> getJobDAO() throws SQLException {
 		throw new RuntimeException(
-				"Application connector not defined. Functionality 'checkExpiration' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+				"Application connector not defined. Functionality 'getJobDAO' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
-	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public Dao<Property, String> getPropertyDAO() throws SQLException {
 		throw new RuntimeException(
@@ -145,20 +146,20 @@ public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 				"Application connector not defined. Functionality 'replaceJobs' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
-	public ArrayList<NeoComAsset> searchAsset4Type(long characterID, int typeID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public ArrayList<NeoComAsset> searchAsset4Type(long characterID, int typeID) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	public NeoComAsset searchAssetByID(long parentAssetID) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
-	public NeoComAsset searchAssetByID(long parentAssetID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public ArrayList<NeoComAsset> searchAssetContainedAt(long pilotID, long assetID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public ArrayList<NeoComAsset> searchAssetContainedAt(long pilotID, long assetID) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public int searchBlueprint4Module(final int moduleID) {
 		throw new RuntimeException(
@@ -225,10 +226,10 @@ public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 				"Application connector not defined. Functionality 'searchModule4Blueprint' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
-	public int searchReactionOutputMultiplier(int itemID) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	public int searchReactionOutputMultiplier(int itemID) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 	public int searchStationType(long systemID) {
 		throw new RuntimeException(

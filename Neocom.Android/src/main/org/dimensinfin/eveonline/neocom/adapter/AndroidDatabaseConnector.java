@@ -20,7 +20,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveDroidDBHelper;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -135,7 +134,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	private Context														_context						= null;
 	private SQLiteDatabase										staticDatabase			= null;
 	private SQLiteDatabase										ccpDatabase					= null;
-	private EveDroidDBHelper									appDatabaseHelper		= null;
 	private final SparseArray<EveItem>				itemCache						= new SparseArray<EveItem>();
 	private final SparseArray<MarketDataSet>	buyMarketDataCache	= new SparseArray<MarketDataSet>();
 	private final SparseArray<MarketDataSet>	sellMarketDataCache	= new SparseArray<MarketDataSet>();
@@ -303,7 +301,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	 */
 	public boolean openDAO() {
 		if (null == appDatabaseHelper) {
-			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
+			appDatabaseHelper = OpenHelperManager.getHelper(_context, NeocomAndroidDBHelper.class);
 			return true;
 		}
 		return false;

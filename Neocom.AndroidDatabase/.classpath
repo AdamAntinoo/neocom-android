@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/dimensinfin/eveonline/neocom/database/ISQLiteOpenHelper.java|org/dimensinfin/eveonline/neocom/database/NeocomConnectionSource.java|org/dimensinfin/eveonline/neocom/datamodel/DataSourceLocator.java|org/dimensinfin/eveonline/neocom/datamodel/IModelAdapter.java" kind="src" path="src/main/java"/>
+	<classpathentry excluding="org/dimensinfin/eveonline/neocom/database/ISQLiteOpenHelper.java|org/dimensinfin/eveonline/neocom/database/NeocomConnectionSource.java|org/dimensinfin/eveonline/neocom/datamodel/DataSourceLocator.java|org/dimensinfin/eveonline/neocom/datamodel/IModelAdapter.java|org/dimensinfin/eveonline/neocom/database/NeocomDBHelper.java|org/dimensinfin/eveonline/neocom/connector/SpringDatabaseConnector.java" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
 		<attributes>

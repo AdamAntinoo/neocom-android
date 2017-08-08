@@ -29,7 +29,6 @@ import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
-import org.dimensinfin.eveonline.neocom.datasource.IDataSourceConnector;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -270,12 +269,12 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return _appMenu;
 	}
 
-	public IDataSourceConnector getDataSourceConector() {
-		if (null == dsManager) {
-			dsManager = new DataSourceManager();
-		}
-		return dsManager;
-	}
+//	public IDataSourceConnector getDataSourceConector() {
+//		if (null == dsManager) {
+//			dsManager = new DataSourceManager();
+//		}
+//		return dsManager;
+//	}
 
 	public HashMap<String, Fitting> getFittings() {
 		return fittings;

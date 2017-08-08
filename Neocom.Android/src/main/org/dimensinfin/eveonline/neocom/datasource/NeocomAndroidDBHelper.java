@@ -2,7 +2,7 @@
 //  AUTHORS:        Adam Antinoo - haddockgit@gmail.com
 //  COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
 
-package org.dimensinfin.eveonline.neocom.core;
+package org.dimensinfin.eveonline.neocom.datasource;
 
 // - IMPORT SECTION .........................................................................................
 import java.sql.SQLException;
@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.constant.DBR;
+import org.dimensinfin.eveonline.neocom.database.INeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -28,13 +30,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class EveDroidDBHelper extends OrmLiteSqliteOpenHelper {
+public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeocomDBHelper{
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger							logger						= Logger.getLogger("EveDroidDBHelper");
-	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
-			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
-	private static final int					DATABASE_VERSION	= new Integer(
-			AppConnector.getResourceString(R.string.databaseversion)).intValue();
+	private static Logger							logger						= Logger.getLogger("NeocomAndroidDBHelper");
+//	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
+//			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
+//	private static final int					DATABASE_VERSION	= new Integer(
+//			AppConnector.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Dao<NeoComAsset, String>				assetDao					= null;
@@ -45,8 +47,8 @@ public class EveDroidDBHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<EveLocation, String>	locationDao				= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public EveDroidDBHelper(final Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+	public NeocomAndroidDBHelper(final Context context) {
+		super(context, DBR.getResourceString("R.string.appdatabasepath")+DBR.getResourceString("R.string.appdatabasefilename"), null, new Integer( DBR.getResourceString("R.string.databaseversion")).intValue(), R.raw.ormlite_config);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -222,7 +224,7 @@ public class EveDroidDBHelper extends OrmLiteSqliteOpenHelper {
 		if (oldVersion < 47) {
 			try {
 				// Delete all the CCP data tables to create then again on open.
-				NeoComApp.getSingletonApp().getApplicationContext().deleteDatabase(DATABASE_NAME);
+				NeoComApp.getSingletonApp().getApplicationContext().deleteDatabase(DBR.getResourceString("R.string.appdatabasepath")+DBR.getResourceString("R.string.appdatabasefilename"));
 			} catch (RuntimeException rtex) {
 				logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
