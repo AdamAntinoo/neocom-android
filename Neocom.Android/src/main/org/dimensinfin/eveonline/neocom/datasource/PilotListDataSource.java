@@ -16,6 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
@@ -32,7 +33,14 @@ public final class PilotListDataSource extends SpecialDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 4576522670385611140L;
 
+	// - F I E L D - S E C T I O N ............................................................................
+	private IModelGenerator modelGenerator;
+	
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public PilotListDataSource(final DataSourceLocator locator, IModelGenerator generator,final IPartFactory partFactory) {
+		this(locator, partFactory);
+		this.modelGenerator = generator;
+	}
 	public PilotListDataSource(final DataSourceLocator locator, final IPartFactory partFactory) {
 		super(locator, partFactory);
 	}

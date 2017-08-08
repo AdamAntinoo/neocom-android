@@ -11,8 +11,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
+import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;

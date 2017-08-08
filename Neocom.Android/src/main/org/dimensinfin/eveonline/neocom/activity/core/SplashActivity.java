@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
-import org.dimensinfin.eveonline.neocom.activity.PilotRoasterActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.constant.DBR;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.app.Activity;
@@ -70,9 +70,9 @@ public class SplashActivity extends Activity {
 			this.createCacheDirectories();
 			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 01. App Directories created");
 			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+			if (!this.checkAppFile(DBR.getResourceString("R.string.ccpdatabasefilename"))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(R.string.ccpdatabasefilename);
+				this.copyFromAssets("R.string.ccpdatabasefilename");
 			}
 			if (AppWideConstants.DEVELOPMENT)
 				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
@@ -112,9 +112,12 @@ public class SplashActivity extends Activity {
 		 * @param resourceId
 		 */
 		protected void copyFromAssets(final int resourceId) {
+			copyFromAssets( AppConnector.getResourceString(resourceId));
+		}
+		protected void copyFromAssets(final String resourceId) {
 			InputStream istream = null;
 			OutputStream ostream = null;
-			String resourceName = AppConnector.getResourceString(resourceId);
+			String resourceName = DBR.getResourceString(resourceId);
 			//		final Context context = singleton.getApplicationContext();
 			try {
 				istream = _activity.getAssets().open(resourceName);
@@ -216,9 +219,9 @@ public class SplashActivity extends Activity {
 			this.createCacheDirectories();
 			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
 			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+			if (!this.checkAppFile(DBR.getResourceString("R.string.ccpdatabasefilename"))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(R.string.ccpdatabasefilename);
+				this.copyFromAssets("R.string.ccpdatabasefilename");
 			}
 //			if (AppWideConstants.DEVELOPMENT)
 //				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {

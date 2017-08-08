@@ -11,9 +11,9 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
+import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.AssetsByLocationDataSource;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
