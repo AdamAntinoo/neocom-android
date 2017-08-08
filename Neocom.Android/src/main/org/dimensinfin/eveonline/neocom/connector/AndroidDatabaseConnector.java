@@ -7,7 +7,6 @@
 //								Database and model adaptations for storage model independency.
 package org.dimensinfin.eveonline.neocom.connector;
 
-import java.awt.Cursor;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -29,11 +31,27 @@ import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.model.Property;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.logger.Log;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.os.Environment;
+import android.util.Log;
+import android.util.SparseArray;
+import net.nikr.eve.jeveasset.data.MyLocation;
+import net.nikr.eve.jeveasset.data.StaticData;
+import net.nikr.eve.jeveasset.gui.tabs.assets.MyAsset;
+import net.nikr.eve.jeveasset.io.online.CitadelGetter;
 
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -115,13 +133,11 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context														_context						= null;
-
-	private Connection														ccpDatabase								= null;
-
+	protected Context														_context						= null;
 	private SQLiteDatabase										staticDatabase			= null;
 	private SQLiteDatabase										ccpDatabase					= null;
-	private EveDroidDBHelper									appDatabaseHelper		= null;
+
+
 	private final SparseArray<EveItem>				itemCache						= new SparseArray<EveItem>();
 	private final SparseArray<MarketDataSet>	buyMarketDataCache	= new SparseArray<MarketDataSet>();
 	private final SparseArray<MarketDataSet>	sellMarketDataCache	= new SparseArray<MarketDataSet>();
@@ -130,8 +146,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	private final HashMap<Long, NeoComAsset>	containerCache			= new HashMap<Long, NeoComAsset>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AndroidDatabaseConnector() {
-	}
 	public AndroidDatabaseConnector(final Context app) {
 		_context = app;
 	}
@@ -192,53 +206,7 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		ccpDatabase = null;
 	}
 
-	@Override
-	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getAssetDAO();
-	}
 
-	@Override
-	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getBlueprintDAO();
-	}
-
-	@Override
-	public Dao<Job, String> getJobDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getJobDAO();
-	}
-
-	@Override
-	public Dao<EveLocation, String> getLocationDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getLocationDAO();
-	}
-
-	@Override
-	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getMarketOrderDAO();
-	}
-
-	@Override
-	public Dao<Property, String> getPropertyDAO() throws java.sql.SQLException {
-		if (null == appDatabaseHelper) {
-			this.openDAO();
-		}
-		return appDatabaseHelper.getPropertyDAO();
-	}
 
 	public SQLiteDatabase getStaticDatabase() throws SQLException {
 		if (null == staticDatabase) {
@@ -256,9 +224,9 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	@Override
 	public boolean openAppDataBase() {
 		if (null == staticDatabase) {
-			final String database = AppConnector.getAppFilePath(R.string.appdatabasefilename);
+			final String database = AppConnector.getAppFilePath( R.string.appdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
-			try {
+//			try {
 				if (AppConnector.sdcardAvailable()) {
 					// Open the helper to check version and availability.
 					// appDatabaseHelper = new EveDroidDBHelper(_context);
@@ -266,11 +234,11 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 				} else
 					return true;
 				return false;
-			} catch (final SQLException sqle) {
-				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
-				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
-				throw new RuntimeException("E> Failed to open database: " + database + ". " + sqle.getMessage());
-			}
+//			} catch (final SQLException sqle) {
+//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+//				throw new RuntimeException("E> Failed to open database: " + database + ". " + sqle.getMessage());
+//			}
 		}
 		return true;
 	}
@@ -280,7 +248,7 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		if (null == ccpDatabase) {
 			final String database = AppConnector.getAppFilePath(R.string.ccpdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
-			try {
+//			try {
 				// InputStream dbStream =
 				// _context.getResources().openRawResource(R.raw.eve);
 				if (AppConnector.sdcardAvailable()) {
@@ -288,27 +256,27 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 				} else
 					return true;
 				return false;
-			} catch (final SQLException sqle) {
-				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
-				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
-			}
+//			} catch (final SQLException sqle) {
+//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+//			}
 		}
 		return true;
 	}
 
-	/**
-	 * Like the other initialization methods this return a true if there was any problem during the process.
-	 * 
-	 * @return
-	 */
-	@Override
-	public boolean openDAO() {
-		if (null == appDatabaseHelper) {
-			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
-			return true;
-		}
-		return false;
-	}
+//	/**
+//	 * Like the other initialization methods this return a true if there was any problem during the process.
+//	 * 
+//	 * @return
+//	 */
+//	@Override
+//	public boolean openDAO() {
+//		if (null == appDatabaseHelper) {
+//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	@Override
 	public int queryBlueprintDependencies(final int bpitemID) {
@@ -437,7 +405,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		}
 	}
 
-	@Override
 	public ArrayList<NeoComAsset> searchAsset4Type(final long characterID, final int typeID) {
 		// Select assets for the owner and with an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
@@ -456,7 +423,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return (ArrayList<NeoComAsset>) assetList;
 	}
 
-	@Override
 	public NeoComAsset searchAssetByID(final long assetID) {
 		// search for the asset on the cache. Usually searching for containers.
 		NeoComAsset hit = containerCache.get(assetID);
@@ -481,7 +447,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return hit;
 	}
 
-	@Override
 	public ArrayList<NeoComAsset> searchAssetContainedAt(final long characterID, final long containerId) {
 		// Select assets for the owner and with an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
@@ -1076,7 +1041,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return -1;
 	}
 
-	@Override
 	public int searchReactionOutputMultiplier(final int itemID) {
 		int multiplier = 200;
 		AppConnector.startChrono();

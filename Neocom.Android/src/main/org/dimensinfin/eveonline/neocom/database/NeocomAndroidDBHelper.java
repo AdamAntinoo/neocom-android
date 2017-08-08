@@ -7,26 +7,36 @@
 //								Database and model adaptations for storage model independency.
 package org.dimensinfin.eveonline.neocom.database;
 
-// - IMPORT SECTION .........................................................................................
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.constant.DBR;
-import org.dimensinfin.eveonline.neocom.database.INeocomDBHelper;
+import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Property;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeocomDBHelper{
+public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger						= Logger.getLogger("NeocomAndroidDBHelper");
 //	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
@@ -35,16 +45,26 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 //			AppConnector.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private boolean													isOpen									= false;
+	private Connection											neocomDatabase					= null;
+	private Connection						neocomDatasource				= null;
+//	private Connection														ccpDatabase								= null;
+
+	private Dao<DatabaseVersion, String>		versionDao							= null;
+	private Dao<ApiKey, String>							apiKeysDao							= null;
+	private Dao<Property, String>						propertyDao							= null;
+	private Dao<ResourceList, String>				resourceList						= null;
+	private Dao<PlanetaryResource, String>	planetaryResourceDao		= null;
 	private Dao<NeoComAsset, String>				assetDao					= null;
 	private Dao<NeoComBlueprint, String>		blueprintDao			= null;
 	private Dao<Job, String>					jobDao						= null;
 	private Dao<NeoComMarketOrder, String>	marketOrderDao		= null;
-	private Dao<Property, String>			propertyDao				= null;
 	private Dao<EveLocation, String>	locationDao				= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomAndroidDBHelper(final Context context) {
-		super(context, DBR.getResourceString("R.string.appdatabasepath")+DBR.getResourceString("R.string.appdatabasefilename"), null, new Integer( DBR.getResourceString("R.string.databaseversion")).intValue(), R.raw.ormlite_config);
+		super(context, AppConnector.getResourceString(R.string.appdatabasepath)+AppConnector.getResourceString(R.string.appdatabasefilename)
+		, null, new Integer( AppConnector.getResourceString(R.string.databaseversion)).intValue(), R.raw.ormlite_config);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -57,7 +77,37 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		assetDao = null;
 		blueprintDao = null;
 	}
+//	private ConnectionSource getNeocomSource() {
+//		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
+//		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
+//		return neocomDatasource;
+//	}
 
+	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+		if (null == apiKeysDao) {
+			apiKeysDao = DaoManager.createDao(this.getConnectionSource(), ApiKey.class);
+		}
+		return apiKeysDao;
+	}
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
+		if (null == planetaryResourceDao) {
+			planetaryResourceDao = DaoManager.createDao(this.getConnectionSource(), PlanetaryResource.class);
+		}
+		return planetaryResourceDao;
+	}
+	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
+		if (null == resourceList) {
+			resourceList = DaoManager.createDao(this.getConnectionSource(), ResourceList.class);
+		}
+		return resourceList;
+	}
+
+	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
+		if (null == versionDao) {
+			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
+		}
+		return versionDao;
+	}
 	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
 		if (null == assetDao) {
 			assetDao = DaoManager.createDao(this.getConnectionSource(), NeoComAsset.class);
@@ -220,7 +270,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		if (oldVersion < 47) {
 			try {
 				// Delete all the CCP data tables to create then again on open.
-				NeoComApp.getSingletonApp().getApplicationContext().deleteDatabase(DBR.getResourceString("R.string.appdatabasepath")+DBR.getResourceString("R.string.appdatabasefilename"));
+				NeoComApp.getSingletonApp().getApplicationContext().deleteDatabase(AppConnector.getResourceString(R.string.appdatabasepath)+AppConnector.getResourceString(R.string.appdatabasefilename));
 			} catch (RuntimeException rtex) {
 				logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();

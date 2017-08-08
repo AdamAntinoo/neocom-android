@@ -17,6 +17,7 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVariants;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
@@ -104,7 +105,7 @@ public class FittingListFragment extends AbstractNewPagerFragment implements IPa
 			SpecialDataSource ds = new FittingListDataSource(locator, this.getFactory());
 			ds.setVariant(this.getVariant());
 			ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-			this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
+			this.setDataSource(DataSourceManager.registerDataSource(ds));
 		}
 		FittingListFragment.logger.info("<< [FittingListFragment.registerDataSource]");
 	}

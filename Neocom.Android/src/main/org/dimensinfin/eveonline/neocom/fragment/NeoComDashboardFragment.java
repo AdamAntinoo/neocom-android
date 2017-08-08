@@ -24,6 +24,7 @@ import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
+import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
@@ -118,7 +119,7 @@ public class NeoComDashboardFragment extends AbstractNewPagerFragment {
 		SpecialDataSource ds = new PilotDashboardDataSource(locator, this.getFactory());
 		ds.setVariant(this.getVariant());
 		ds.addParameter(EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		ds = (SpecialDataSource) AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds);
+		ds = (SpecialDataSource) DataSourceManager.registerDataSource(ds);
 		this.setDataSource(ds);
 		NeoComDashboardFragment.logger.info("<< [NeoComDashboardFragment.registerDataSource]");
 	}

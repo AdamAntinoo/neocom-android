@@ -24,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
+import org.dimensinfin.eveonline.neocom.adapter.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.adapter.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
@@ -33,9 +34,7 @@ import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.constant.DBR;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
-import org.dimensinfin.eveonline.neocom.database.INeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.ICache;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
@@ -887,7 +886,7 @@ public class NeoComApp extends Application implements IConnector {
 		return null;
 	}
 	public IDatabaseConnector getDBConnector() {
-		if (null == dbNeocomConnector) dbNeocomConnector = new NeocomDatabaseConnector();
+		if (null == dbNeocomConnector) dbNeocomConnector = new NeocomDatabaseConnector(this);
 		return dbNeocomConnector;
 	}
 	public NeocomPreferences getDefaultSharedPreferences() {

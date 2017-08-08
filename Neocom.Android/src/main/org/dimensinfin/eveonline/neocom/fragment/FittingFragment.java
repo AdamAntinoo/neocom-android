@@ -18,6 +18,7 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
@@ -116,7 +117,7 @@ public class FittingFragment extends AbstractNewPagerFragment {
 		ds.setVariant(this.getVariant());
 		ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
 		ds.addParameter(AppWideConstants.EExtras.EXTRA_FITTINGID.name(), fittingLabel);
-		ds = (SpecialDataSource) AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds);
+		ds = (SpecialDataSource) DataSourceManager.registerDataSource(ds);
 		this.setDataSource(ds);
 	}
 

@@ -108,10 +108,10 @@ public abstract class AbstractDatabaseConnector implements IDatabaseConnector {
 				"Application connector not defined. Functionality 'openCCPDataBase' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
 	}
 
-	public boolean openDAO() {
-		throw new RuntimeException(
-				"Application connector not defined. Functionality 'openDAO' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
-	}
+//	public boolean openDAO() {
+//		throw new RuntimeException(
+//				"Application connector not defined. Functionality 'openDAO' disabled. Call intercepted by abstract class 'AbstractDatabaseConnector'.");
+//	}
 
 	public int queryBlueprintDependencies(int bpitemID) {
 		throw new RuntimeException(
