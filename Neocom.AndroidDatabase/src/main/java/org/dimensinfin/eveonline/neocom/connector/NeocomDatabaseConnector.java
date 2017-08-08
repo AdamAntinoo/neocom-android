@@ -6,10 +6,10 @@
 //								environment limits.
 package org.dimensinfin.eveonline.neocom.connector;
 
-import static org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector.logger;
 
 import java.sql.SQLException;
 
+import org.dimensinfin.eveonline.neocom.constant.DBR;
 import org.dimensinfin.eveonline.neocom.database.NeocomDBHelper;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.Property;
@@ -26,8 +26,8 @@ public class NeocomDatabaseConnector extends AndroidDatabaseConnector {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomDatabaseConnector() {
-		DATABASE_NAME = R.getResourceString("R.string.appdatabasepath")
-				+ R.getResourceString("R.string.appdatabasefilename");
+		DATABASE_NAME = DBR.getResourceString("R.string.appdatabasepath")
+				+ DBR.getResourceString("R.string.appdatabasefilename");
 		DATABASE_VERSION = new Integer(R.getResourceString("R.string.databaseversion")).intValue();
 		neocomDBHelper = new NeocomDBHelper(DATABASE_NAME, DATABASE_VERSION);
 	}

@@ -10,7 +10,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class R {
+public class DBR {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final String					BUNDLE_NAME			= "org.dimensinfin.eveonline.neocom.constant.R";	//$NON-NLS-1$
 	private static final ResourceBundle	RESOURCE_BUNDLE	= ResourceBundle.getBundle(BUNDLE_NAME);
