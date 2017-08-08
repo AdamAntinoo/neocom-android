@@ -42,61 +42,11 @@ public class SplashActivity extends Activity {
 	private class NeoComInitialization extends AsyncTask<Void, Void, Boolean> {
 		private static final boolean	showProgress	= false;
 		// - F I E L D - S E C T I O N ............................................................................
-		protected Activity							_activity			= null;
+		protected Activity						_activity			= null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public NeoComInitialization(final Activity act) {
 			_activity = act;
-		}
-
-		// - M E T H O D - S E C T I O N ..........................................................................
-		/**
-		 * This is the main method where we do the application data initialization. The process has some steps
-		 * that are listed below:
-		 * <ol>
-		 * <li>STEP 01. Check required files availability on app directory.</li>
-		 * <li>STEP 02. Check existence of required files.</li>
-		 * <li>STEP 03. Initialize the Model store and force a refresh from the api list file.</li>
-		 * </ol>
-		 */
-		@Override
-		protected Boolean doInBackground(final Void... entry) {
-			// Just check that the files exist and if not load the Api list and their characters.
-			SplashActivity.logger.info(">> [EveDroidInitialization.doInBackground]");
-			this.updateStateLabel("Checking application database...");
-			// STEP 01. Check required files availability on app directory.
-			this.createAppDir();
-			this.createCacheDirectories();
-			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 01. App Directories created");
-			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
-				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(R.string.ccpdatabasefilename);
-			}
-			if (AppWideConstants.DEVELOPMENT)
-				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
-				this.copyFromAssets(R.string.apikeysfilename);
-				}
-			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 02. Required files on place");
-
-			this.updateStateLabel("Loading user data...");
-			// STEP 03. Initialize the Model store and force a refresh from the api list file.
-			AppModelStore.getSingleton();
-			//[03]
-			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 09. API list refreshed");
-			NeoComApp.getSingletonApp().startTimer();
-			SplashActivity.logger.info("<< [EveDroidInitialization.doInBackground]");
-			return true;
-		}
-		//[01]
-		//[04]
-
-		@Override
-		protected void onPostExecute(final Boolean result) {
-			// Check if we have pilots to show or we have to go to the AddAPI page.
-			if (result) {
-				SplashActivity.this.startActivity(new Intent(_activity, PilotListActivity.class));
-			}
 		}
 
 		protected boolean checkAppFile(final String resourceString) {
@@ -110,9 +60,9 @@ public class SplashActivity extends Activity {
 		 * 
 		 * @param resourceId
 		 */
-//		protected void copyFromAssets(final int resourceId) {
-//			copyFromAssets( AppConnector.getResourceString(resourceId));
-//		}
+		//		protected void copyFromAssets(final int resourceId) {
+		//			copyFromAssets( AppConnector.getResourceString(resourceId));
+		//		}
 		protected void copyFromAssets(final int resourceId) {
 			InputStream istream = null;
 			OutputStream ostream = null;
@@ -172,6 +122,56 @@ public class SplashActivity extends Activity {
 		}
 		//[05]
 
+		// - M E T H O D - S E C T I O N ..........................................................................
+		/**
+		 * This is the main method where we do the application data initialization. The process has some steps
+		 * that are listed below:
+		 * <ol>
+		 * <li>STEP 01. Check required files availability on app directory.</li>
+		 * <li>STEP 02. Check existence of required files.</li>
+		 * <li>STEP 03. Initialize the Model store and force a refresh from the api list file.</li>
+		 * </ol>
+		 */
+		@Override
+		protected Boolean doInBackground(final Void... entry) {
+			// Just check that the files exist and if not load the Api list and their characters.
+			SplashActivity.logger.info(">> [EveDroidInitialization.doInBackground]");
+			this.updateStateLabel("Checking application database...");
+			// STEP 01. Check required files availability on app directory.
+			this.createAppDir();
+			this.createCacheDirectories();
+			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 01. App Directories created");
+			// STEP 02. Check existence of required files.
+			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+				// TODO The CCP database is not distributed with the application. If not available then close the App
+				this.copyFromAssets(R.string.ccpdatabasefilename);
+			}
+			if (AppWideConstants.DEVELOPMENT)
+				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
+				this.copyFromAssets(R.string.apikeysfilename);
+				}
+			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 02. Required files on place");
+
+			this.updateStateLabel("Loading user data...");
+			// STEP 03. Initialize the Model store and force a refresh from the api list file.
+			AppModelStore.getSingleton();
+			//[03]
+			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 09. API list refreshed");
+			NeoComApp.getSingletonApp().startTimer();
+			SplashActivity.logger.info("<< [EveDroidInitialization.doInBackground]");
+			return true;
+		}
+		//[01]
+		//[04]
+
+		@Override
+		protected void onPostExecute(final Boolean result) {
+			// Check if we have pilots to show or we have to go to the AddAPI page.
+			if (result) {
+				SplashActivity.this.startActivity(new Intent(_activity, PilotListActivity.class));
+			}
+		}
+
 		protected void updateStateLabel(final String newLabel) {
 			SplashActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
@@ -183,9 +183,9 @@ public class SplashActivity extends Activity {
 	}
 
 	private class NeoComInitializationBeta extends NeoComInitialization {
-		private static final boolean	showProgress	= false;
+		private static final boolean showProgress = false;
 		// - F I E L D - S E C T I O N ............................................................................
-//		private Activity							_activity			= null;
+		//		private Activity							_activity			= null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public NeoComInitializationBeta(final Activity act) {
@@ -203,12 +203,21 @@ public class SplashActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(final Void... entry) {
 			SplashActivity.logger.info(">> [NeoComInitialization.doInBackground]");
-			doStep01();
+			this.doStep01();
 			// Start the timers for background processing.
-			NeoComApp.getSingletonApp().startTimer();
+			//	NeoComApp.getSingletonApp().startTimer();
 			SplashActivity.logger.info("<< [NeoComInitialization.doInBackground]");
 			return true;
 		}
+
+		@Override
+		protected void onPostExecute(final Boolean result) {
+			// Check if we have pilots to show or we have to go to the AddAPI page.
+			if (result) {
+				SplashActivity.this.startActivity(new Intent(_activity, PilotListActivity.class));
+			}
+		}
+
 		private void doStep01() {
 			// Just check that the files exist and if not load the Api list and their characters.
 			SplashActivity.logger.info(">> [NeoComInitialization.doStep01]");
@@ -222,22 +231,16 @@ public class SplashActivity extends Activity {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
 				this.copyFromAssets(R.string.ccpdatabasefilename);
 			}
-//			if (AppWideConstants.DEVELOPMENT)
-//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
-//				this.copyFromAssets(R.string.apikeysfilename);
-//				}
+			//			if (AppWideConstants.DEVELOPMENT)
+			//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
+			//				this.copyFromAssets(R.string.apikeysfilename);
+			//				}
 			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
 
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Loading user data...");
-				 AppModelStore.getSingleton().setLoginIdentifier("Beth");
-		SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
-		}
-		protected void onPostExecute(final Boolean result) {
-			// Check if we have pilots to show or we have to go to the AddAPI page.
-			if (result) {
-				SplashActivity.this.startActivity(new Intent(_activity, PilotListActivity.class));
-			}
+			AppModelStore.getSingleton().setLoginIdentifier("Beth");
+			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
 		}
 	}
 
@@ -245,7 +248,7 @@ public class SplashActivity extends Activity {
 	private static Logger	logger			= Logger.getLogger("SplashActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-/** Shows the current initialization stage. */
+	/** Shows the current initialization stage. */
 	private TextView			stateLabel	= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -289,7 +292,7 @@ public class SplashActivity extends Activity {
 		stateLabel.setText("Checking application database...");
 		stateLabel.invalidate();
 		// Removed all initalization code until new boostraping is ready.
-			new NeoComInitializationBeta(this).execute();
+		new NeoComInitializationBeta(this).execute();
 		SplashActivity.logger.info("<< SplashActivity.onStart");
 	}
 	//[02]

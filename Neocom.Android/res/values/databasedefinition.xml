@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ccpdatabasefilename">eve.db</string>
-    <string name="appdatabasepath">eve.db</string>
+    <string name="appdatabasepath">jdbc:sqlite:</string>
     <string name="appdatabasefilename">neocom-090.db</string>
     <string name="databaseversion">090</string>
  </resources>

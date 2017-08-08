@@ -28,7 +28,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -92,10 +91,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		AppModelStore.singleton = new AppModelStore(new UserModelPersistenceHandler());
 		// Load any data from storage and then update the information from CCP.
 		AppModelStore.getSingleton().restore();
-		AppModelStore.readApiKeys();
+		//	AppModelStore.readApiKeys();
 
 		// Make sure we get the characters on a thread out of the main one.
-		AppModelStore.getSingleton().getCharacters();
+		//	AppModelStore.getSingleton().getCharacters();
 		// Set back the current pilot whose id is stored on the _pilotIdentifier
 		if (AppModelStore.getSingleton()._pilotIdentifier > 0) {
 			AppModelStore.getSingleton().activatePilot(AppModelStore.getSingleton()._pilotIdentifier);
@@ -146,17 +145,18 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	private transient Menu									_appMenu					= null;
 	/** Reference to the current active Activity. Sometimes this is needed to access application resources. */
 	private transient Activity							_activity					= null;
-	/** This is the string identifier assigned to this session and that relates to an specific set of api keys. */
-	private String loginIdentifier = "Default";
-	
-	
+	/**
+	 * This is the string identifier assigned to this session and that relates to an specific set of api keys.
+	 */
+	private String													loginIdentifier		= "Default";
+
 	private transient NeoComCharacter				_pilot						= null;
 	protected long													_pilotIdentifier	= -1L;
 	/** Check to verify if the recovery process is successful. */
 	private boolean													recovered					= false;
 
 	/** List of registered DataSources. This data is not stored on switch or termination. */
-	private transient DataSourceManager			dsManager					= null;
+	//	private transient DataSourceManager			dsManager					= null;
 	private HashMap<Integer, NeoComApiKey>	apiKeys						= new HashMap<Integer, NeoComApiKey>();
 	/** List of fittings by name. This is the source for the Fittings DataSource. */
 	private HashMap<String, Fitting>				fittings					= new HashMap<String, Fitting>();
@@ -269,15 +269,19 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return _appMenu;
 	}
 
-//	public IDataSourceConnector getDataSourceConector() {
-//		if (null == dsManager) {
-//			dsManager = new DataSourceManager();
-//		}
-//		return dsManager;
-//	}
+	//	public IDataSourceConnector getDataSourceConector() {
+	//		if (null == dsManager) {
+	//			dsManager = new DataSourceManager();
+	//		}
+	//		return dsManager;
+	//	}
 
 	public HashMap<String, Fitting> getFittings() {
 		return fittings;
+	}
+
+	public String getLoginIdentifier() {
+		return loginIdentifier;
 	}
 
 	public NeoComCharacter getPilot() {
@@ -294,25 +298,6 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	public boolean needsRestore() {
 		if (apiKeys.size() < 1) return true;
 		return false;
-	}
-
-	/**
-	 * Restores the stored state from the disk file. If there any problem the method returns true.
-	 * 
-	 * @return <code>true</code> if there is a problem and the restore was not executed.
-	 */
-	@Override
-	public boolean restore() {
-		AppConnector.startChrono();
-		recovered = super.restore();
-		if (recovered) {
-			AppModelStore.logger.info("~~ Time lapse for APPSTORE[RESTORE] - " + AppConnector.timeLapse());
-			return recovered;
-		} else {
-			// The handler was not able to retrieve the file. Possibly because there was no file.
-			this.setDirty(true);
-			return false;
-		}
 	}
 
 	//	/**
@@ -338,6 +323,25 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	//	public void refresh() {
 	//		// TODO Auto-generated method stub
 	//	}
+
+	/**
+	 * Restores the stored state from the disk file. If there any problem the method returns true.
+	 * 
+	 * @return <code>true</code> if there is a problem and the restore was not executed.
+	 */
+	@Override
+	public boolean restore() {
+		AppConnector.startChrono();
+		recovered = super.restore();
+		if (recovered) {
+			AppModelStore.logger.info("~~ Time lapse for APPSTORE[RESTORE] - " + AppConnector.timeLapse());
+			return recovered;
+		} else {
+			// The handler was not able to retrieve the file. Possibly because there was no file.
+			this.setDirty(true);
+			return false;
+		}
+	}
 
 	/**
 	 * Save data to disk only when we have detected it has changed.
@@ -396,6 +400,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		fittings = readObject;
 	}
 
+	public void setLoginIdentifier(final String login) {
+		loginIdentifier = login;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer("AppModelStore [");
@@ -428,14 +436,6 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return recovered;
 	}
 
-	public void setLoginIdentifier(String login) {
-		this.loginIdentifier=login;
-	}
-
-	public String getLoginIdentifier() {
-		return loginIdentifier;
-	}
-	
 }
 
 // - UNUSED CODE ............................................................................................

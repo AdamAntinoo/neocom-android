@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry excluding="org/dimensinfin/eveonline/neocom/datasource/AssetsMaterialsDataSource.java|org/dimensinfin/eveonline/neocom/datasource/DataSourceLocator.java|org/dimensinfin/eveonline/neocom/datasource/IDataSourceConnector.java|org/dimensinfin/eveonline/neocom/datasource/NeocomAndroidDBHelper.java|org/dimensinfin/eveonline/neocom/adapter/AndroidDatabaseConnector.java|org/dimensinfin/eveonline/neocom/database/INeocomDBHelper.java|org/dimensinfin/eveonline/neocom/database/ISQLiteOpenHelper.java|org/dimensinfin/eveonline/neocom/database/NeocomConnectionSource.java|org/dimensinfin/eveonline/neocom/database/NeocomDBHelper.java|org/dimensinfin/eveonline/neocom/constant/DBR.java|org/dimensinfin/eveonline/neocom/connector/SpringDatabaseConnector.java" kind="src" path="src/main"/>
+	<classpathentry excluding="org/dimensinfin/eveonline/neocom/datasource/AssetsMaterialsDataSource.java|org/dimensinfin/eveonline/neocom/datasource/DataSourceLocator.java|org/dimensinfin/eveonline/neocom/datasource/IDataSourceConnector.java|org/dimensinfin/eveonline/neocom/datasource/NeocomAndroidDBHelper.java|org/dimensinfin/eveonline/neocom/adapter/AndroidDatabaseConnector.java|org/dimensinfin/eveonline/neocom/database/INeocomDBHelper.java|org/dimensinfin/eveonline/neocom/database/ISQLiteOpenHelper.java|org/dimensinfin/eveonline/neocom/database/NeocomConnectionSource.java|org/dimensinfin/eveonline/neocom/database/NeocomDBHelper.java|org/dimensinfin/eveonline/neocom/constant/DBR.java|org/dimensinfin/eveonline/neocom/connector/SpringDatabaseConnector.java|org/dimensinfin/eveonline/neocom/datasource/IExtendedDataSource.java" kind="src" path="src/main"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
@@ -10,8 +10,19 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.MarketService"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Neocom.Models"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.dimensinfin.core"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Neocom.MarketService"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Neocom.Models"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.dimensinfin.core"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

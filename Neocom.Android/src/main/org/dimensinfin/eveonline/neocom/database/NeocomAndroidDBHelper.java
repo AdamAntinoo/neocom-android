@@ -34,37 +34,38 @@ import com.j256.ormlite.table.TableUtils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
+public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger							logger						= Logger.getLogger("NeocomAndroidDBHelper");
-//	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
-//			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
-//	private static final int					DATABASE_VERSION	= new Integer(
-//			AppConnector.getResourceString(R.string.databaseversion)).intValue();
+	private static Logger										logger								= Logger.getLogger("NeocomAndroidDBHelper");
+	//	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
+	//			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
+	//	private static final int					DATABASE_VERSION	= new Integer(
+	//			AppConnector.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private boolean													isOpen									= false;
-	private Connection											neocomDatabase					= null;
-	private Connection						neocomDatasource				= null;
-//	private Connection														ccpDatabase								= null;
+	private final boolean										isOpen								= false;
+	private final Connection								neocomDatabase				= null;
+	private final Connection								neocomDatasource			= null;
+	//	private Connection														ccpDatabase								= null;
 
-	private Dao<DatabaseVersion, String>		versionDao							= null;
-	private Dao<ApiKey, String>							apiKeysDao							= null;
-	private Dao<Property, String>						propertyDao							= null;
-	private Dao<ResourceList, String>				resourceList						= null;
-	private Dao<PlanetaryResource, String>	planetaryResourceDao		= null;
-	private Dao<NeoComAsset, String>				assetDao					= null;
-	private Dao<NeoComBlueprint, String>		blueprintDao			= null;
-	private Dao<Job, String>					jobDao						= null;
-	private Dao<NeoComMarketOrder, String>	marketOrderDao		= null;
-	private Dao<EveLocation, String>	locationDao				= null;
+	private Dao<DatabaseVersion, String>		versionDao						= null;
+	private Dao<ApiKey, String>							apiKeysDao						= null;
+	private Dao<Property, String>						propertyDao						= null;
+	private Dao<ResourceList, String>				resourceList					= null;
+	private Dao<PlanetaryResource, String>	planetaryResourceDao	= null;
+	private Dao<NeoComAsset, String>				assetDao							= null;
+	private Dao<NeoComBlueprint, String>		blueprintDao					= null;
+	private Dao<Job, String>								jobDao								= null;
+	private Dao<NeoComMarketOrder, String>	marketOrderDao				= null;
+	private Dao<EveLocation, String>				locationDao						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomAndroidDBHelper(final Context context) {
-		super(context, AppConnector.getResourceString(R.string.appdatabasepath)+AppConnector.getResourceString(R.string.appdatabasefilename)
-		, null, new Integer( AppConnector.getResourceString(R.string.databaseversion)).intValue(), R.raw.ormlite_config);
+		super(context,
+				AppConnector.getStorageConnector()
+						.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath(),
+				null, new Integer(AppConnector.getResourceString(R.string.databaseversion)).intValue(), R.raw.ormlite_config);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -77,11 +78,11 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 		assetDao = null;
 		blueprintDao = null;
 	}
-//	private ConnectionSource getNeocomSource() {
-//		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
-//		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
-//		return neocomDatasource;
-//	}
+	//	private ConnectionSource getNeocomSource() {
+	//		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
+	//		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
+	//		return neocomDatasource;
+	//	}
 
 	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
 		if (null == apiKeysDao) {
@@ -89,25 +90,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 		}
 		return apiKeysDao;
 	}
-	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
-		if (null == planetaryResourceDao) {
-			planetaryResourceDao = DaoManager.createDao(this.getConnectionSource(), PlanetaryResource.class);
-		}
-		return planetaryResourceDao;
-	}
-	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
-		if (null == resourceList) {
-			resourceList = DaoManager.createDao(this.getConnectionSource(), ResourceList.class);
-		}
-		return resourceList;
-	}
 
-	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
-		if (null == versionDao) {
-			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
-		}
-		return versionDao;
-	}
 	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
 		if (null == assetDao) {
 			assetDao = DaoManager.createDao(this.getConnectionSource(), NeoComAsset.class);
@@ -143,6 +126,13 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 		return marketOrderDao;
 	}
 
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
+		if (null == planetaryResourceDao) {
+			planetaryResourceDao = DaoManager.createDao(this.getConnectionSource(), PlanetaryResource.class);
+		}
+		return planetaryResourceDao;
+	}
+
 	public Dao<Property, String> getPropertyDAO() throws java.sql.SQLException {
 		if (null == propertyDao) {
 			propertyDao = DaoManager.createDao(this.getConnectionSource(), Property.class);
@@ -150,18 +140,38 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 		return propertyDao;
 	}
 
+	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
+		if (null == resourceList) {
+			resourceList = DaoManager.createDao(this.getConnectionSource(), ResourceList.class);
+		}
+		return resourceList;
+	}
+
+	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
+		if (null == versionDao) {
+			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
+		}
+		return versionDao;
+	}
+
 	@Override
 	public void onCreate(final SQLiteDatabase database, final ConnectionSource databaseConnection) {
 		try {
 			// Now open the DAO connector and create tables if they not exist
+			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
+			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
+			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
+
+			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
+			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
+
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
 			TableUtils.createTableIfNotExists(databaseConnection, Job.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComMarketOrder.class);
-			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
 			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
 		} catch (SQLException sqle) {
-			logger.severe("E> Error creating the initial table on the app database.");
+			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
 			sqle.printStackTrace();
 		}
 	}
@@ -176,30 +186,30 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, NeoComBlueprint.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, Job.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -208,40 +218,40 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, NeoComBlueprint.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, Job.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, Property.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -250,29 +260,31 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, NeoComBlueprint.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				TableUtils.dropTable(databaseConnection, Property.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
 		if (oldVersion < 47) {
 			try {
 				// Delete all the CCP data tables to create then again on open.
-				NeoComApp.getSingletonApp().getApplicationContext().deleteDatabase(AppConnector.getResourceString(R.string.appdatabasepath)+AppConnector.getResourceString(R.string.appdatabasefilename));
+				NeoComApp.getSingletonApp().getApplicationContext()
+						.deleteDatabase(AppConnector.getResourceString(R.string.appdatabasepath)
+								+ AppConnector.getResourceString(R.string.appdatabasefilename));
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			}
 		}
@@ -280,10 +292,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -291,10 +303,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -304,10 +316,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 				TableUtils.dropTable(databaseConnection, NeoComMarketOrder.class, true);
 				TableUtils.dropTable(databaseConnection, Property.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -315,10 +327,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.dropTable(databaseConnection, NeoComBlueprint.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -326,10 +338,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.dropTable(databaseConnection, NeoComBlueprint.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -337,10 +349,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.dropTable(databaseConnection, Property.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -348,10 +360,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 			try {
 				TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -360,14 +372,14 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper{
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
 				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
 			} catch (RuntimeException rtex) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.severe("E> Error dropping table on Database new version.");
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
-		onCreate(database, databaseConnection);
+		this.onCreate(database, databaseConnection);
 	}
 }
 // - UNUSED CODE ............................................................................................

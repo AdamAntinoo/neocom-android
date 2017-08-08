@@ -8,9 +8,6 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.datasource;
 
-//- CLASS IMPLEMENTATION ...................................................................................
-import java.util.HashMap;
-
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
@@ -18,29 +15,34 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 /**
  * Generates the list of keys and then the character authenticated for each key. By default the keys are
  * expanded but the user may choose to collapse them and that information will be stored inside the model. The
- * current version does not store the expand/collapse state at any other place.
+ * current version does not store the expand/collapse state at any other place.<br>
+ * New version. This class connects to the model Generator to ge the list and hierarchy of model objects that
+ * should be represented and then runs the other methods to generate the list of views to feed to the Adapter.
+ * The <code>collaborate2Model</code> feature is then moved to the <code>modelGenerator</code> instance
+ * assigned during creatin.
  * 
  * @author Adam Antinoo
  */
 public final class PilotListDataSource extends SpecialDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long serialVersionUID = 4576522670385611140L;
+	private static final long	serialVersionUID	= 4576522670385611140L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private IModelGenerator modelGenerator;
-	
+	private IModelGenerator		modelGenerator		= null;
+
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PilotListDataSource(final DataSourceLocator locator, IModelGenerator generator,final IPartFactory partFactory) {
+	public PilotListDataSource(final DataSourceLocator locator, final IModelGenerator generator,
+			final IPartFactory partFactory) {
 		this(locator, partFactory);
-		this.modelGenerator = generator;
+		if (null == generator) throw new RuntimeException("UNEX. The Model Generator should not be empty.");
+		modelGenerator = generator;
 	}
+
 	public PilotListDataSource(final DataSourceLocator locator, final IPartFactory partFactory) {
 		super(locator, partFactory);
 	}
@@ -59,18 +61,19 @@ public final class PilotListDataSource extends SpecialDataSource {
 	 * required by the model transformation.
 	 */
 	public RootNode collaborate2Model() {
-		SpecialDataSource.logger.info(">> [PilotListDataSource.collaborate2Model]");
-		//		AppModelStore store = AppModelStore.getSingleton();
-		// The model contains the list of current registered api keys with their characters.
-		HashMap<Integer, NeoComApiKey> keys = AppModelStore.getSingleton().getApiKeys();
-		this.setDataModel(new RootNode());
-		// Add all the characters to the new root
-		for (NeoComApiKey key : keys.values()) {
-			_dataModelRoot.addChild(key);
-			SpecialDataSource.logger
-					.info("-- [PilotListDataSource.collaborate2Model]> Adding " + key.getKey() + " to the _dataModelRoot");
-		}
-		SpecialDataSource.logger.info("<< [PilotListDataSource.collaborate2Model]");
+		SpecialDataSource.logger.info(">< [PilotListDataSource.collaborate2Model]");
+		//		//		AppModelStore store = AppModelStore.getSingleton();
+		//		// The model contains the list of current registered api keys with their characters.
+		//		HashMap<Integer, NeoComApiKey> keys = AppModelStore.getSingleton().getApiKeys();
+		//		this.setDataModel(new RootNode());
+		//		// Add all the characters to the new root
+		//		for (NeoComApiKey key : keys.values()) {
+		//			_dataModelRoot.addChild(key);
+		//			SpecialDataSource.logger
+		//					.info("-- [PilotListDataSource.collaborate2Model]> Adding " + key.getKey() + " to the _dataModelRoot");
+		//		}
+		//		SpecialDataSource.logger.info("<< [PilotListDataSource.collaborate2Model]");
+		_dataModelRoot = modelGenerator.collaborate2Model();
 		return _dataModelRoot;
 	}
 

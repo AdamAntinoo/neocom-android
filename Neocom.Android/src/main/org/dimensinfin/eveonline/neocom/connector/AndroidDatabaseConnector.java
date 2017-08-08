@@ -10,7 +10,6 @@ package org.dimensinfin.eveonline.neocom.connector;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +26,7 @@ import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
-import org.dimensinfin.eveonline.neocom.model.Property;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,15 +49,14 @@ import net.nikr.eve.jeveasset.data.StaticData;
 import net.nikr.eve.jeveasset.gui.tabs.assets.MyAsset;
 import net.nikr.eve.jeveasset.io.online.CitadelGetter;
 
-
 // - CLASS IMPLEMENTATION ...................................................................................
 @Deprecated
 public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger				logger										= Logger.getLogger("AndroidDatabaseConnector");
-	protected static String												DATABASE_NAME							= "neocom-v.r.db";
-	protected static int													DATABASE_VERSION					= 010;
+	//	protected static String												DATABASE_NAME							= "neocom-v.r.db";
+	//	protected static int													DATABASE_VERSION					= 010;
 
 	private static final String	SELECT_ITEM_BYID					= "SELECT it.typeID AS typeID, it.typeName AS typeName"
 			+ " , ig.groupName AS groupName" + " , ic.categoryName AS categoryName" + " , it.basePrice AS basePrice"
@@ -133,10 +128,9 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected Context														_context						= null;
+	protected Context													_context						= null;
 	private SQLiteDatabase										staticDatabase			= null;
 	private SQLiteDatabase										ccpDatabase					= null;
-
 
 	private final SparseArray<EveItem>				itemCache						= new SparseArray<EveItem>();
 	private final SparseArray<MarketDataSet>	buyMarketDataCache	= new SparseArray<MarketDataSet>();
@@ -206,8 +200,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		ccpDatabase = null;
 	}
 
-
-
 	public SQLiteDatabase getStaticDatabase() throws SQLException {
 		if (null == staticDatabase) {
 			this.openAppDataBase();
@@ -224,21 +216,21 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	@Override
 	public boolean openAppDataBase() {
 		if (null == staticDatabase) {
-			final String database = AppConnector.getAppFilePath( R.string.appdatabasefilename);
+			final String database = AppConnector.getAppFilePath(R.string.appdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
-//			try {
-				if (AppConnector.sdcardAvailable()) {
-					// Open the helper to check version and availability.
-					// appDatabaseHelper = new EveDroidDBHelper(_context);
-					staticDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
-				} else
-					return true;
-				return false;
-//			} catch (final SQLException sqle) {
-//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
-//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
-//				throw new RuntimeException("E> Failed to open database: " + database + ". " + sqle.getMessage());
-//			}
+			//			try {
+			if (AppConnector.sdcardAvailable()) {
+				// Open the helper to check version and availability.
+				// appDatabaseHelper = new EveDroidDBHelper(_context);
+				staticDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
+			} else
+				return true;
+			return false;
+			//			} catch (final SQLException sqle) {
+			//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+			//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+			//				throw new RuntimeException("E> Failed to open database: " + database + ". " + sqle.getMessage());
+			//			}
 		}
 		return true;
 	}
@@ -248,35 +240,35 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		if (null == ccpDatabase) {
 			final String database = AppConnector.getAppFilePath(R.string.ccpdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
-//			try {
-				// InputStream dbStream =
-				// _context.getResources().openRawResource(R.raw.eve);
-				if (AppConnector.sdcardAvailable()) {
-					ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
-				} else
-					return true;
-				return false;
-//			} catch (final SQLException sqle) {
-//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
-//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
-//			}
+			//			try {
+			// InputStream dbStream =
+			// _context.getResources().openRawResource(R.raw.eve);
+			if (AppConnector.sdcardAvailable()) {
+				ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+			} else
+				return true;
+			return false;
+			//			} catch (final SQLException sqle) {
+			//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+			//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+			//			}
 		}
 		return true;
 	}
 
-//	/**
-//	 * Like the other initialization methods this return a true if there was any problem during the process.
-//	 * 
-//	 * @return
-//	 */
-//	@Override
-//	public boolean openDAO() {
-//		if (null == appDatabaseHelper) {
-//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
-//			return true;
-//		}
-//		return false;
-//	}
+	//	/**
+	//	 * Like the other initialization methods this return a true if there was any problem during the process.
+	//	 * 
+	//	 * @return
+	//	 */
+	//	@Override
+	//	public boolean openDAO() {
+	//		if (null == appDatabaseHelper) {
+	//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
+	//			return true;
+	//		}
+	//		return false;
+	//	}
 
 	@Override
 	public int queryBlueprintDependencies(final int bpitemID) {
