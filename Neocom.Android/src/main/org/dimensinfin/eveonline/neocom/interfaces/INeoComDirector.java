@@ -11,8 +11,6 @@ package org.dimensinfin.eveonline.neocom.interfaces;
 import android.content.Context;
 import android.content.Intent;
 
-// - IMPORT SECTION .........................................................................................
-
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface INeoComDirector extends IDirector {
 

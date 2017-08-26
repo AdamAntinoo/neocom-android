@@ -35,14 +35,18 @@
         </activity>
 <!--         Section where to add the new Activities to match the new model presentation. -->
  <!-- A C T I V I T I E S -->
-
-
-
-<!--         Section where to add the new Activities to match the new model presentation. -->
-        <activity
+       <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PilotListActivity"
             android:label="@string/title_activity_PilotList" >
         </activity>
+        <activity
+            android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailedActivity"
+            android:label="Pilot Details" >
+        </activity>
+       
+
+
+<!--         Section where to add the new Activities to match the new model presentation. -->
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
             android:label="Settings" >

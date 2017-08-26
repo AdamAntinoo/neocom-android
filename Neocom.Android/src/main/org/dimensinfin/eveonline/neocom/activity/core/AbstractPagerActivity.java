@@ -8,6 +8,8 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
+import java.util.logging.Logger;
+
 //- IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.activity.TitledFragment;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -86,7 +88,9 @@ public abstract class AbstractPagerActivity extends Activity {
 			return true;
 		}
 	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
+	protected static Logger			logger					= Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected ActionBar					_actionBar			= null;

@@ -13,6 +13,7 @@ import java.util.Vector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.model.IGEFNode;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
@@ -28,7 +29,6 @@ import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.ItemHeader4IndustryPart;
 import org.dimensinfin.eveonline.neocom.part.JobTimePart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.util.Log;
 
@@ -48,12 +48,12 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 	private static final long	serialVersionUID	= 5845417980378961177L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore			_store						= null;
+	private AbstractModelStore			_store						= null;
 	private BlueprintPart			_bppart						= null;
 	private double						balance						= 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryLOMResourcesDataSource(final AppModelStore store) {
+	public IndustryLOMResourcesDataSource(final AbstractModelStore store) {
 		if (null != store) _store = store;
 	}
 

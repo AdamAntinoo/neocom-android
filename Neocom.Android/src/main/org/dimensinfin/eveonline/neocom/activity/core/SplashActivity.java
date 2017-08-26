@@ -286,14 +286,14 @@ public class SplashActivity extends Activity {
 	 */
 	@Override
 	protected void onStart() {
-		SplashActivity.logger.info(">> SplashActivity.onStart");
+		SplashActivity.logger.info(">> [SplashActivity.onStart]");
 		super.onStart();
 		//	stateLabel.setText("Instantiating user selected theme...");
 		stateLabel.setText("Checking application database...");
 		stateLabel.invalidate();
 		// Removed all initalization code until new boostraping is ready.
 		new NeoComInitializationBeta(this).execute();
-		SplashActivity.logger.info("<< SplashActivity.onStart");
+		SplashActivity.logger.info("<< [SplashActivity.onStart]");
 	}
 	//[02]
 }

@@ -16,8 +16,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -284,7 +284,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		ArrayList<NeoComCharacter> characters = AppModelStore.getSingleton().getActiveCharacters();
+		List<NeoComCharacter> characters = AppModelStore.getSingleton().getActiveCharacters();
 		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
 			if (updateCode != EDataBlock.READY) {

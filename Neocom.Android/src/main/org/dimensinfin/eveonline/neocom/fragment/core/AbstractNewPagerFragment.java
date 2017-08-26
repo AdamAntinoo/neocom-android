@@ -172,7 +172,7 @@ public abstract class AbstractNewPagerFragment extends TitledFragment {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger												logger						= Logger.getLogger("AbstractNewPagerFragment");
+	protected static Logger											logger						= Logger.getLogger("AbstractNewPagerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private IPartFactory												_factory					= new PartFactory(

@@ -26,12 +26,12 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.eveonline.neocom.adapter.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.adapter.AndroidStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
-import org.dimensinfin.eveonline.neocom.connector.NeocomDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
@@ -625,9 +625,9 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AndroidStorageConnector		storage			= null;
-	private NeocomDatabaseConnector	dbNeocomConnector	= null;
-	private AndroidCacheConnector			cache				= null;
+	private AndroidStorageConnector		storage						= null;
+	private AndroidDatabaseConnector	dbNeocomConnector	= null;
+	private AndroidCacheConnector			cache							= null;
 	//private INeocomDBHelper									neocomDBHelper		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -639,11 +639,10 @@ public class NeoComApp extends Application implements IConnector {
 			Log.i("NeoComApp", ".. First Time Initialization.");
 			NeoComApp.singleton = this;
 			AppConnector.setConnector(NeoComApp.getSingletonApp());
-//			NeoComApp.firstTimeInitialization = true;
-		}/* else {
-			Log.i("NeoComApp", ".. User reload requested.");
-			NeoComApp.firstTimeInitialization = false;
-		}*/
+			//			NeoComApp.firstTimeInitialization = true;
+		} /*
+			 * else { Log.i("NeoComApp", ".. User reload requested."); NeoComApp.firstTimeInitialization = false; }
+			 */
 		NeoComApp.logger.info("<< [NeoComApp.<init>]");
 	}
 
@@ -709,8 +708,24 @@ public class NeoComApp extends Application implements IConnector {
 		return cache;
 	}
 
+	public ICCPDatabaseConnector getCCPDBConnector() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	@Deprecated
+	public IDatabaseConnector getDBConnector() {
+		if (null == dbNeocomConnector) {
+			dbNeocomConnector = new AndroidDatabaseConnector(this);
+		}
+		return dbNeocomConnector;
+	}
+
+	public NeocomPreferences getDefaultSharedPreferences() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//	@Deprecated
 	public INeoComModelStore getModelStore() {
 		return AppModelStore.getSingleton();
 	}
@@ -720,6 +735,7 @@ public class NeoComApp extends Application implements IConnector {
 		return NeoComApp.getSingletonApp().getResources().getString(reference);
 	}
 
+	@Deprecated
 	public IConnector getSingleton() {
 		return NeoComApp.singleton;
 	}
@@ -738,7 +754,7 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	public void init() {
-		NeoComApp.logger.info(">> [NeoCom.init]");
+		NeoComApp.logger.info(">> [NeoComApp.init]");
 		// Close databases if they were left open.
 		this.getDBConnector().closeDatabases();
 		// Get rid of any previous copy of the application linked to the singleton.
@@ -747,19 +763,20 @@ public class NeoComApp extends Application implements IConnector {
 		storage = null;
 		dbNeocomConnector = null;
 		cache = null;
-			NeoComApp.logger.info("<< [NeoCom.init]");
+		NeoComApp.logger.info("<< [NeoComApp.init]");
 	}
-/**
- * Events called during the Application life cycle.
- */
+
+	/**
+	 * Events called during the Application life cycle.
+	 */
 	@Override
 	public void onCreate() {
-		NeoComApp.logger.info(">> [NeoCom.onCreate]");
+		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
 		super.onCreate();
 		NeoComApp.daysFace = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// Remove the secure XML access and configure the ApiConnector.
 		//		ApiConnector.setSecureXmlProcessing(false);
-		NeoComApp.logger.info("<< [NeoCom.onCreate]");
+		NeoComApp.logger.info("<< [NeoComApp.onCreate]");
 	}
 
 	/**
@@ -767,10 +784,10 @@ public class NeoComApp extends Application implements IConnector {
 	 */
 	@Override
 	public void onTerminate() {
-		NeoComApp.logger.info(">> [NeoCom.onTerminate]");
+		NeoComApp.logger.info(">> [NeoComApp.onTerminate]");
 		this.unregisterReceiver(NeoComApp.timeTickReceiver);
 		super.onTerminate();
-		NeoComApp.logger.info("<< [NeoCom.onTerminate]");
+		NeoComApp.logger.info("<< [NeoComApp.onTerminate]");
 	}
 
 	public void openDatabases() {
@@ -872,26 +889,13 @@ public class NeoComApp extends Application implements IConnector {
 			actionView.invalidate();
 		}
 	}
-//	private INeocomDBHelper getNeocomDBHelper() {
-//		if (null == neocomDBHelper) {
-//			logger.warning(
-//					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
-//			neocomDBHelper = OpenHelperManager.getHelper(this, NeocomAndroidDBHelper.class);
-//		}
-//		return neocomDBHelper;
-//	}
-
-	public ICCPDatabaseConnector getCCPDBConnector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public IDatabaseConnector getDBConnector() {
-		if (null == dbNeocomConnector) dbNeocomConnector = new NeocomDatabaseConnector(this);
-		return dbNeocomConnector;
-	}
-	public NeocomPreferences getDefaultSharedPreferences() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//	private INeocomDBHelper getNeocomDBHelper() {
+	//		if (null == neocomDBHelper) {
+	//			logger.warning(
+	//					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
+	//			neocomDBHelper = OpenHelperManager.getHelper(this, NeocomAndroidDBHelper.class);
+	//		}
+	//		return neocomDBHelper;
+	//	}
 }
 // - UNUSED CODE ............................................................................................
