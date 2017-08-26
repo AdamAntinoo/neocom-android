@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity;
+import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -93,7 +93,8 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 			// Pilot are expected to be at the global context
 			final NeoComCharacter pilot = ((PilotInfoPart) pilotPart).getCastedModel();
 			AppConnector.getModelStore().activatePilot(pilot.getCharacterID());
-			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
+			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
+			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
 			AppModelStore.getSingleton().getActivity().startActivity(intent);
 		}

@@ -40,7 +40,7 @@
             android:label="@string/title_activity_PilotList" >
         </activity>
         <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailedActivity"
+            android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
             android:label="Pilot Details" >
         </activity>
        
