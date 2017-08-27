@@ -14,8 +14,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity.EDashboardVariants;
-import org.dimensinfin.eveonline.neocom.activity.PilotListActivity.EAccountsVariants;
-import org.dimensinfin.eveonline.neocom.constant.EActivityVariants;
+import org.dimensinfin.eveonline.neocom.constant.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Director;
@@ -46,7 +45,7 @@ public class PilotPartFactory extends PartFactory {
 	@Override
 	public IPart createPart(final AbstractComplexNode node) {
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> Node class: " + node.getClass().getName());
-		if (this.getVariant() == EAccountsVariants.CAPSULEER_LIST.name()) {
+		if (this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name()) {
 			if (node instanceof NeoComApiKey) {
 				IPart part = new ApiKeyPart(node).setFactory(this);
 				return part;
@@ -70,7 +69,7 @@ public class PilotPartFactory extends PartFactory {
 				return part;
 			}
 		}
-		if (this.getVariant() == EActivityVariants.PILOT_DETAILS.name()) {
+		if (this.getVariant() == ENeoComVariants.PILOT_DETAILS.name()) {
 			if (node instanceof Pilot) {
 				IPart part = new PilotInfoPart(node).setFactory(this);
 				return part;

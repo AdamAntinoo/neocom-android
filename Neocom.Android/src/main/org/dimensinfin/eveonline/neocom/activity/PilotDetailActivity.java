@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.constant.EActivityVariants;
+import org.dimensinfin.eveonline.neocom.constant.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
@@ -67,7 +67,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 			// Register this Activity as the current active Activity.
 			AppModelStore.getSingleton().activateActivity(this);
 			int page = 0;
-			this.addPage(new PilotDetailedFragment().setVariant(EActivityVariants.PILOT_DETAILS.name()), page++);
+			this.addPage(new PilotDetailedFragment().setVariant(ENeoComVariants.PILOT_DETAILS.name()), page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger
 					.severe("[PilotDetailActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
@@ -123,7 +123,8 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 		String login = AppConnector.getModelStore().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
-		IModelGenerator generator = ModelGeneratorManager.registerGenerator(new PilotDirectorsGenerator(locator, login));
+		IModelGenerator generator = ModelGeneratorManager
+				.registerGenerator(new PilotDirectorsGenerator(locator, this.getVariant(), login));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager

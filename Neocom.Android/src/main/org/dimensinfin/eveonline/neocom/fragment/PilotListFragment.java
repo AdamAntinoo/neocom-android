@@ -10,7 +10,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
@@ -44,12 +43,14 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 	public String getTitle() {
 		return "Select Capsuleer";
 	}
-/**
- * This is the method that any new fragment should override to implement the right DataSource association that corresponds to this activity contents.
- * The new implementation divides the creation into two steps. One creates the custom model generator that will be used on Android and on the Web platform.
- * With this model generator we then instantiate the DataSource that is only used on the Android platform
- * because the Web uses javascript to manage the model and the MVC presentation layer.
- */
+
+	/**
+	 * This is the method that any new fragment should override to implement the right DataSource association
+	 * that corresponds to this activity contents. The new implementation divides the creation into two steps.
+	 * One creates the custom model generator that will be used on Android and on the Web platform. With this
+	 * model generator we then instantiate the DataSource that is only used on the Android platform because the
+	 * Web uses javascript to manage the model and the MVC presentation layer.
+	 */
 	@Override
 	protected void registerDataSource() {
 		PilotListFragment.logger.info(">> [PilotListFragment.registerDataSource]");
@@ -57,17 +58,21 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 		String login = AppModelStore.getSingleton().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
-		IModelGenerator generator = ModelGeneratorManager.registerGenerator(new PilotRoasterModelGenerator(locator,login));
+		IModelGenerator generator = ModelGeneratorManager
+				.registerGenerator(new PilotRoasterModelGenerator(locator, this.getVariant(), login));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
-		SpecialDataSource		ds = (SpecialDataSource) DataSourceManager.registerDataSource(new PilotListDataSource(locator, generator,this.getFactory()));
+		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
+				.registerDataSource(new PilotListDataSource(locator, generator, this.getFactory()));
 		ds.setVariant(this.getVariant());
 		ds.setCacheable(true);
 		this.setDataSource(ds);
 	}
-/**
- * This methods is used to define the parts that go inside the header section of the page. On this activity there is no content on the head section.
- */
+
+	/**
+	 * This methods is used to define the parts that go inside the header section of the page. On this activity
+	 * there is no content on the head section.
+	 */
 	@Override
 	protected void setHeaderContents() {
 	}

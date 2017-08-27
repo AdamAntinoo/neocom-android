@@ -25,6 +25,7 @@ public class AssetsManagerRender extends EveAbstractHolder {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
+	private ImageView	managerIcon	= null;
 	private TextView	managerName	= null;
 	private TextView	assetsCount	= null;
 	//	private TextView	locationStation	= null;
@@ -52,6 +53,7 @@ public class AssetsManagerRender extends EveAbstractHolder {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
+		managerIcon = (ImageView) _convertView.findViewById(R.id.managerIcon);
 		managerName = (TextView) _convertView.findViewById(R.id.managerName);
 		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
 	}
@@ -63,9 +65,9 @@ public class AssetsManagerRender extends EveAbstractHolder {
 		assetsCount.setText(this.getPart().get_assetsCount());
 		// Needs the check to test of the manager is active to select the right icon.
 		if (this.getPart().checkActivation()) {
-			this.loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), this.getPart().getActiveIcon(), true);
+			managerIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));
 		} else {
-			this.loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), this.getPart().getDimmedIcon(), true);
+			managerIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
 		}
 		_convertView.setBackgroundResource(R.drawable.topwhiteline);
 	}

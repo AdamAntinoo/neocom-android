@@ -19,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.render.Location4IndustryRender;
+import org.dimensinfin.eveonline.neocom.render.AssetsManagerRender;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +96,7 @@ public class AssetsManagerPart extends EveAbstractPart
 
 	@Override
 	protected AbstractHolder selectHolder() {
-		return new Location4IndustryRender(this, _activity);
+		return new AssetsManagerRender(this, _activity);
 	}
 }
 
