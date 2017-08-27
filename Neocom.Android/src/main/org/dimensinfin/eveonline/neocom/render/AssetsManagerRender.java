@@ -28,14 +28,6 @@ public class AssetsManagerRender extends EveAbstractHolder {
 	private ImageView	managerIcon	= null;
 	private TextView	managerName	= null;
 	private TextView	assetsCount	= null;
-	//	private TextView	locationStation	= null;
-	//	private TextView	childCount			= null;
-	//	public TextView		roles						= null;
-	//	public TextView		rolesLabel			= null;
-	//
-	//	private ViewGroup	containerBlock	= null;
-	//	private ImageView	containerIcon		= null;
-	//	private TextView	containerName		= null;
 
 	// - L A Y O U T   L A B E L S
 

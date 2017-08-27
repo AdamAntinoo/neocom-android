@@ -16,6 +16,7 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity.EDashboardVariants;
 import org.dimensinfin.eveonline.neocom.constant.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
@@ -24,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
+import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PilotPartFactory extends PartFactory {
@@ -76,6 +78,10 @@ public class PilotPartFactory extends PartFactory {
 			}
 			if (node instanceof AssetsManager) {
 				IPart part = new AssetsManagerPart(node).setFactory(this);
+				return part;
+			}
+			if (node instanceof PlanetaryManager) {
+				IPart part = new PlanetaryManagerPart(node).setFactory(this);
 				return part;
 			}
 		}
