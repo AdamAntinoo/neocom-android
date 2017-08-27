@@ -19,7 +19,7 @@
 
     <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/totalItems"
-        style="@style/NumberStyle.XL"
+        style="@style/Number.Style.16"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="right"

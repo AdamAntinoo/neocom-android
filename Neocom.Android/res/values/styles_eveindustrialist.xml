@@ -82,13 +82,13 @@
         <item name="android:textColor">@color/redName</item>
     </style>
 
-    <style name="NumberStyle.Big">
-        <item name="android:textSize">13sp</item>
-    </style>
+<!--     <style name="NumberStyle.Big"> -->
+<!--         <item name="android:textSize">13sp</item> -->
+<!--     </style> -->
 
-    <style name="NumberStyle.XL">
-        <item name="android:textSize">16sp</item>
-    </style>
+<!--     <style name="NumberStyle.XL"> -->
+<!--         <item name="android:textSize">16sp</item> -->
+<!--     </style> -->
 
 <!--     <style name="LabelStyle"> -->
 <!--         <item name="android:layout_width">fill_parent</item> -->
