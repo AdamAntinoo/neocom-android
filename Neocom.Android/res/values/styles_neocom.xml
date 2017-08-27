@@ -98,10 +98,11 @@
     <style name="Number.Style.14">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="Number.Style.16">
         <item name="android:textSize">16sp</item>
     </style>
-    
+
     <style name="PriceStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -111,7 +112,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="LabelStyle">
+    <style name="Label">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">marquee</item>
@@ -120,7 +121,15 @@
         <item name="android:textSize">8sp</item>
     </style>
 
-    <style name="LabelStyle.LineUp">
+    <style name="Label.Style">
+        <item name="android:textSize">7sp</item>
+    </style>
+
+    <style name="Label.Style.BottomLine">
+        <item name="android:background">@drawable/bottomwhiteline</item>
+    </style>
+
+    <style name="Label.Style.TopLine">
         <item name="android:background">@drawable/topwhiteline</item>
     </style>
 

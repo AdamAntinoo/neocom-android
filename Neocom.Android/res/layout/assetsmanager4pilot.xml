@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/redtraslucent20" >
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/RightArrow" />
+
+    <ImageView
+        android:id="@+id/itemIcon"
+        style="@style/ItemIcon.Style.Size40" />
+
+    <RelativeLayout
+        android:id="@+id/managerBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:layout_toRightOf="@+id/itemIcon" >
+
+        <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
+            android:id="@+id/managerName"
+            style="@style/Name.Style.Manager"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Assets" />
+
+        <LinearLayout
+            android:id="@+id/qtyBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/assetsCount"
+                style="@style/Name.Style.16"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/default_smallnumber"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/countLabel"
+                style="@style/Label.Style.TopLine"                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="NO. ASSETS" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -248,7 +248,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 */
 	public NeoComCharacter getCurrentPilot() {
 		if (null == _pilot)
-			throw new NeocomRuntimeException("Selected character is not selected. Go back to home to select one.");
+			throw new NeocomRuntimeException("UNEX. Selected character is not selected. Go back to home to select one.");
 		else
 			return _pilot;
 	}

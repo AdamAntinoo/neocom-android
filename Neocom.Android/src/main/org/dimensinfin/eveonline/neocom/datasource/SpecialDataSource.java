@@ -22,6 +22,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.constant.CVariant;
 import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
 import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
@@ -40,7 +41,10 @@ public abstract class SpecialDataSource extends AbstractDataSource implements IE
 	public static Logger									logger						= Logger.getLogger("SpecialDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	/** The unique idetifier of the DataSource */
 	private DataSourceLocator							_locator					= null;
+	/** Reference to the Model Generator that will be the source point for the model hierarchy. */
+	protected IModelGenerator							_modelGenerator		= null;
 	private String												_variant					= CVariant
 			.getName4Variant(EDefaultVariant.DEFAULT_VARIANT.hashCode());
 	private boolean												_cacheable				= true;
@@ -77,6 +81,17 @@ public abstract class SpecialDataSource extends AbstractDataSource implements IE
 	public SpecialDataSource addParameter(final String name, final String value) {
 		_parameters.put(name, value);
 		return this;
+	}
+
+	/**
+	 * On the new change where we include the usage of Generators, this feature is delegated to the generator
+	 * that will provide the model that matches the definition. Is then the Generator the one that will manage
+	 * the model elements that are part of the visible presentation.
+	 */
+	public RootNode collaborate2Model() {
+		SpecialDataSource.logger.info(">< [SpecialDataSource.collaborate2Model]");
+		_dataModelRoot = _modelGenerator.collaborate2Model();
+		return _dataModelRoot;
 	}
 
 	@Deprecated
@@ -141,6 +156,7 @@ public abstract class SpecialDataSource extends AbstractDataSource implements IE
 	 * because we should change the final class level returned to the higher level possible and now for
 	 * compatibility we keep the <code>AbstractAndroidPart</code>.
 	 */
+	@Override
 	public ArrayList<AbstractAndroidPart> getBodyParts() {
 		SpecialDataSource.logger.info(">> [SpecialDataSource.getBodyParts]");
 		// Get the list of Parts that will be used for the ListView

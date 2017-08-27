@@ -214,6 +214,10 @@ public abstract class AbstractNewPagerFragment extends TitledFragment {
 	}
 
 	public IPartFactory getFactory() {
+		// Check if we have already a factory.
+		if (null == _factory) {
+			this.createFactory();
+		}
 		return _factory;
 	}
 

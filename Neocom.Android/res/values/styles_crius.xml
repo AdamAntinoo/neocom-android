@@ -7,13 +7,13 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="AppTheme.EntryLabelStyle" parent="LabelStyle">
+    <style name="AppTheme.EntryLabelStyle" parent="Label.Style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="AppTheme.SectionStyle" parent="LabelStyle">
+    <style name="AppTheme.SectionStyle" parent="Label.Style">
         <item name="android:background">@drawable/bottomwhiteline</item>
         <item name="android:textSize">12sp</item>
     </style>
@@ -53,7 +53,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="AppTheme.LabelBottomLineStyle" parent="LabelStyle">
+    <style name="AppTheme.LabelBottomLineStyle" parent="Label.Style">
         <item name="android:background">@drawable/bottomwhiteline</item>
     </style>
 
@@ -74,7 +74,7 @@
 
     <style name="locationStyle" parent="LocationStyle"></style>
 
-    <style name="AppTheme.LabelStyle" parent="LabelStyle"></style>
+    <style name="AppTheme.LabelStyle" parent="Label.Style"></style>
 
     <style name="AppTheme.sellPriceStyle" parent="AppTheme.PriceStyle">
         <item name="android:textColor">@color/greenPrice</item>
@@ -82,7 +82,7 @@
 
     <style name="AppTheme.ItemNameStyle" parent="NameStyle"></style>
 
-    <style name="Theme.EveDroidRubicon.LabelStyle" parent="LabelStyle"></style>
+    <style name="Theme.EveDroidRubicon.LabelStyle" parent="Label.Style"></style>
 
     <style name="Theme.EveDroidRubicon.LocationStyle" parent="LocationStyle"></style>
     

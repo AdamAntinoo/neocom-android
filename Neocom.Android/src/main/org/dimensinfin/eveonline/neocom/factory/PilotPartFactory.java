@@ -12,20 +12,22 @@ package org.dimensinfin.eveonline.neocom.factory;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity.EDashboardVariants;
 import org.dimensinfin.eveonline.neocom.activity.PilotListActivity.EAccountsVariants;
+import org.dimensinfin.eveonline.neocom.constant.EActivityVariants;
+import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
+import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotPartFactory extends PartFactory implements IPartFactory {
+public class PilotPartFactory extends PartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("PilotPartFactory");
 
@@ -68,7 +70,18 @@ public class PilotPartFactory extends PartFactory implements IPartFactory {
 				return part;
 			}
 		}
+		if (this.getVariant() == EActivityVariants.PILOT_DETAILS.name()) {
+			if (node instanceof Pilot) {
+				IPart part = new PilotInfoPart(node).setFactory(this);
+				return part;
+			}
+			if (node instanceof AssetsManager) {
+				IPart part = new AssetsManagerPart(node).setFactory(this);
+				return part;
+			}
+		}
 		// If no part is trapped then call the parent chain until one is found.
+		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> calling suoer imaplementation to get a part");
 		return super.createPart(node);
 	}
 }

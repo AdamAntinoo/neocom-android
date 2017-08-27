@@ -30,7 +30,7 @@
         <item name="android:textSize">9sp</item>
     </style>
 
-    <style name="sectionStyle" parent="LabelStyle">
+    <style name="sectionStyle" parent="Label.Style">
         <item name="android:textSize">10sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -23,8 +23,8 @@
 
     <!-- DEFAUL VALUES FOR UI BUILD UP -->
     <string name="default_description">ImageView Content Description</string>
-    <string name="default_number">50.32-</string>
-    <string name="default_smallnumber">1-</string>
+    <string name="default_number">50.32</string>
+    <string name="default_smallnumber">1</string>
     <string name="default_bignumber">345,897.--</string>
     <string name="default_paiddate">2017.01.12 20:30</string>
     <string name="default_apikeynumber">1084582</string>
