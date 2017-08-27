@@ -205,7 +205,7 @@ public class SplashActivity extends Activity {
 			SplashActivity.logger.info(">> [NeoComInitialization.doInBackground]");
 			this.doStep01();
 			// Start the timers for background processing.
-			//	NeoComApp.getSingletonApp().startTimer();
+			NeoComApp.getSingletonApp().startTimer();
 			SplashActivity.logger.info("<< [NeoComInitialization.doInBackground]");
 			return true;
 		}

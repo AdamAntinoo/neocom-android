@@ -13,8 +13,7 @@ import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.Action;
@@ -29,22 +28,19 @@ import android.util.Log;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class InventionProcess extends AbstractManufactureProcess implements IJobProcess {
 
-	// - S T A T I C - S E C T I O N
-	// ..........................................................................
+	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long					serialVersionUID	= -1284879453130050090L;
 	private final ArrayList<Resource>	datacores					= new ArrayList<Resource>();
 	/** New and locally used AssetsManager used to process the job requests. */
-	private final AssetsManager				manager						= null;
+	private final AbstractManager			manager						= null;
 	private int												maxRuns						= -2;
 
-	// - C O N S T R U C T O R - S E C T I O N
-	// ................................................................
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public InventionProcess(final AssetsManager manager) {
 		super(manager);
 	}
 
-	// - M E T H O D - S E C T I O N
-	// ..........................................................................
+	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * This method starts with a blueprint and generates the corresponding list of actions to be executed to
 	 * have all the resources to launch and complete the job. This depends on the global generation settings
@@ -74,7 +70,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 		threads = 1;
 		// Copy the LOM received to not modify the original data during the job
 		// processing.
-		for (Resource r : getLOM()) {
+		for (Resource r : this.getLOM()) {
 			requirements.add(new Resource(r.getTypeID(), r.getQuantity()));
 		}
 
@@ -102,7 +98,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 				// treatment.
 				if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
 					currentAction = new Skill(resource);
-					registerAction(currentAction);
+					this.registerAction(currentAction);
 					continue;
 				}
 				if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
@@ -113,14 +109,14 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 				// We register the action before to get erased on restarts.
 				// This has no impact on data since we use pointers to the
 				// global structures.
-				registerAction(currentAction);
-				processRequest(newTask);
+				this.registerAction(currentAction);
+				this.processRequest(newTask);
 
 			} while (pointer < (requirements.size() - 1));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return getActions();
+		return this.getActions();
 	}
 
 	/**
@@ -139,7 +135,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 
 	public double getJobCost() {
 		if (cost < 0.0) {
-			cost = calculateInventionCost();
+			cost = this.calculateInventionCost();
 		}
 		return cost;
 	}
@@ -171,7 +167,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 			if (maxRuns < -1) {
 				EveLocation location = blueprint.getLocation();
 				maxRuns = 999999;
-				ArrayList<Resource> resourceList = getLOM();
+				ArrayList<Resource> resourceList = this.getLOM();
 				for (Resource resource : resourceList) {
 					// Remove blueprints from the list of assets.
 					if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint)) {
@@ -182,7 +178,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 					}
 					// Get the corresponding resource quantity from the
 					// location.
-					ArrayList<NeoComAsset> available = getAsset4Type(resource.getTypeID());
+					ArrayList<NeoComAsset> available = this.getAsset4Type(resource.getTypeID());
 					Log.i("EVEI", "-- InventionProcess.getManufacturableCount - available:" + available);
 					int resourceCount = 0;
 					for (NeoComAsset asset : available)
@@ -205,7 +201,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 
 	public double getMultiplier() {
 		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
-		return topBuyerPrice / getJobCost();
+		return topBuyerPrice / this.getJobCost();
 	}
 
 	/**
@@ -218,7 +214,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 
 	public int getProfitIndex() {
 		if (index < 0) {
-			calculateIndex();
+			this.calculateIndex();
 		}
 		return index;
 	}
@@ -242,7 +238,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 		moduleid = blueprint.getModuleTypeID();
 		// Do only if the blueprint is real.
 		if (!blueprint.isPrototype()) {
-			calculateMaxRuns();
+			this.calculateMaxRuns();
 		}
 	}
 
@@ -262,14 +258,14 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	 * benefit * sets = index<br>
 	 */
 	private void calculateIndex() {
-		double manufactureTime = getCycleDuration() * 10.0;
+		double manufactureTime = this.getCycleDuration() * 10.0;
 		double sets = Math.round((24 * 60 * 60) / manufactureTime);
 		double sellPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
-		double cost = getJobCost();
+		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
 		} else {
-			int profit = Double.valueOf((sellPrice - getJobCost()) / 10000.0).intValue();
+			int profit = Double.valueOf((sellPrice - this.getJobCost()) / 10000.0).intValue();
 			if (profit > 0) {
 				index = Double.valueOf(Math.floor(profit * sets)).intValue();
 			} else {
@@ -280,7 +276,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 
 	private double calculateInventionCost() {
 		double inventionCost = 0.0;
-		for (Resource resource : getLOM()) {
+		for (Resource resource : this.getLOM()) {
 			// Drop from the calculation the Data Interfaces
 			if (resource.getItem().getGroupName().equalsIgnoreCase("Data Interfaces")) {
 				continue;
@@ -300,7 +296,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	}
 
 	private void calculateMaxRuns() {
-		getManufacturableCount();
+		this.getManufacturableCount();
 	}
 
 	private double calculateSkillModifier() {

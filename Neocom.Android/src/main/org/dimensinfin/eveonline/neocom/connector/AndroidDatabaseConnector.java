@@ -14,13 +14,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -29,18 +27,11 @@ import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
-import org.dimensinfin.eveonline.neocom.model.Property;
-import org.dimensinfin.eveonline.neocom.model.Schematics;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -60,7 +51,7 @@ import net.nikr.eve.jeveasset.gui.tabs.assets.MyAsset;
 import net.nikr.eve.jeveasset.io.online.CitadelGetter;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
+public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger				logger										= Logger.getLogger("AndroidDatabaseConnector");
@@ -138,7 +129,7 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected NeocomAndroidDBHelper						neocomDBHelper			= null;
+	//	protected NeocomAndroidDBHelper						neocomDBHelper			= null;
 	protected Context													_context						= null;
 	private SQLiteDatabase										staticDatabase			= null;
 	private SQLiteDatabase										ccpDatabase					= null;
@@ -211,9 +202,9 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		ccpDatabase = null;
 	}
 
-	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
-		return this.getNeocomDBHelper().getApiKeysDao();
-	}
+	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getApiKeysDao();
+	//	}
 
 	public List<ApiKey> getApiList4Login(final String login) {
 		AndroidDatabaseConnector.logger.info(">> [AndroidDatabaseConnector.getApiList4Login] login=" + login);
@@ -233,39 +224,39 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return apilist;
 	}
 
-	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
-		return this.getNeocomDBHelper().getAssetDAO();
-	}
-
-	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
-		return this.getNeocomDBHelper().getBlueprintDAO();
-	}
-
-	@Override
-	public Dao<Job, String> getJobDAO() throws SQLException {
-		return this.getNeocomDBHelper().getJobDAO();
-	}
-
-	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
-		return this.getNeocomDBHelper().getLocationDAO();
-	}
-
-	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
-		return this.getNeocomDBHelper().getMarketOrderDAO();
-	}
-
-	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
-		return this.getNeocomDBHelper().getPlanetaryResourceDao();
-	}
-
-	@Override
-	public Dao<Property, String> getPropertyDAO() throws SQLException {
-		return this.getNeocomDBHelper().getPropertyDAO();
-	}
-
-	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
-		return this.getNeocomDBHelper().getResourceListDao();
-	}
+	//	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
+	//		return this.getNeocomDBHelper().getAssetDAO();
+	//	}
+	//
+	//	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
+	//		return this.getNeocomDBHelper().getBlueprintDAO();
+	//	}
+	//
+	//	@Override
+	//	public Dao<Job, String> getJobDAO() throws SQLException {
+	//		return this.getNeocomDBHelper().getJobDAO();
+	//	}
+	//
+	//	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
+	//		return this.getNeocomDBHelper().getLocationDAO();
+	//	}
+	//
+	//	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
+	//		return this.getNeocomDBHelper().getMarketOrderDAO();
+	//	}
+	//
+	//	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getPlanetaryResourceDao();
+	//	}
+	//
+	//	@Override
+	//	public Dao<Property, String> getPropertyDAO() throws SQLException {
+	//		return this.getNeocomDBHelper().getPropertyDAO();
+	//	}
+	//
+	//	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getResourceListDao();
+	//	}
 
 	public SQLiteDatabase getStaticDatabase() throws SQLException {
 		if (null == staticDatabase) {
@@ -274,9 +265,9 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return staticDatabase;
 	}
 
-	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
-		return this.getNeocomDBHelper().getVersionDao();
-	}
+	//	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getVersionDao();
+	//	}
 
 	/**
 	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
@@ -552,11 +543,6 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + moduleID + ">.");
 		}
 		return -1;
-	}
-
-	public Vector<Integer> searchInputResources(final int target) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -1109,11 +1095,6 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return -1;
 	}
 
-	public int searchRawPlanetaryOutput(final int itemID) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	public int searchReactionOutputMultiplier(final int itemID) {
 		int multiplier = 200;
 		AppConnector.startChrono();
@@ -1185,11 +1166,6 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return multiplier;
 	}
 
-	public Vector<Schematics> searchSchematics4Output(final int targetId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Returns the resource identifier of the station class to locate icons or other type related resources.
 	 * 
@@ -1242,6 +1218,13 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return ModelWideConstants.eveglobal.TechI;
 	}
 
+	protected SQLiteDatabase getCCPDatabase() {
+		if (null == ccpDatabase) {
+			this.openCCPDataBase();
+		}
+		return ccpDatabase;
+	}
+
 	private boolean checkRecordExistence(final int typeID, final String query) {
 		int count = 0;
 		try {
@@ -1269,21 +1252,14 @@ public class AndroidDatabaseConnector extends AbstractDatabaseConnector {
 		return staticDatabase;
 	}
 
-	private SQLiteDatabase getCCPDatabase() {
-		if (null == ccpDatabase) {
-			this.openCCPDataBase();
-		}
-		return ccpDatabase;
-	}
-
-	private NeocomAndroidDBHelper getNeocomDBHelper() {
-		if (null == neocomDBHelper) {
-			AndroidDatabaseConnector.logger.warning(
-					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
-			neocomDBHelper = OpenHelperManager.getHelper(_context, NeocomAndroidDBHelper.class);
-		}
-		return neocomDBHelper;
-	}
+	//	private NeocomAndroidDBHelper getNeocomDBHelper() {
+	//		if (null == neocomDBHelper) {
+	//			AndroidDatabaseConnector.logger.warning(
+	//					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
+	//			neocomDBHelper = OpenHelperManager.getHelper(_context, NeocomAndroidDBHelper.class);
+	//		}
+	//		return neocomDBHelper;
+	//	}
 
 	private String readJsonData() {
 		StringBuffer data = new StringBuffer();

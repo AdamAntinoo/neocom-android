@@ -39,7 +39,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -280,40 +279,36 @@ public class AndroidCacheConnector implements ICache {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger													logger						= Logger.getLogger("AndroidCacheConnector");
+	private static Logger								logger						= Logger.getLogger("AndroidCacheConnector");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context																_context					= null;
-	private final EveItemCache										_eveItemCache			= new EveItemCache();
-	private DrawableCache													_cacheDrawables		= null;
+	private Context											_context					= null;
+	private final EveItemCache					_eveItemCache			= new EveItemCache();
+	private DrawableCache								_cacheDrawables		= null;
 	// private final HashMap<String, CacheEntry> _pendingDrawableDownloads = new
 	// HashMap<String, CacheEntry>();
-	private HashMap<PendingRequestEntry, Integer>	_pendingRequests	= new HashMap<PendingRequestEntry, Integer>();
+	private Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidCacheConnector(final Context app) {
 		_context = app;
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Add a new request to download and update the database of locations. This is an special request that it is
-	 * initialized at startup and probably in some other conditions.
+	 * initialized at startup and probably in some other conditions like when the information is stale and needs
+	 * to be updated.
 	 */
-	public synchronized void addCharacterUpdateRequest(final long localizer) {
-		Log.i("AndroidCacheConnector", ">> AndroidCacheConnector.addCharacterUpdateRequest");
+	public void addCharacterUpdateRequest(final long localizer) {
+		AndroidCacheConnector.logger.info(">> [AndroidCacheConnector.addCharacterUpdateRequest]");
 		final PendingRequestEntry request = new PendingRequestEntry(localizer);
-		request.reqClass = ERequestClass.CHARACTERUPDATE;
-		final int priority = 20;
-		request.setPriority(priority);
-
-		// Check for duplicates before adding the new element.
-		final String requestid = request.getIdentifier();
-		for (final PendingRequestEntry entry : _pendingRequests.keySet()) {
-			final String entryid = entry.getIdentifier();
-			if (entryid.equalsIgnoreCase(requestid)) return;
+		request.setClass(ERequestClass.CHARACTERUPDATE);
+		request.setPriority(20);
+		if (this.addNoDuplicate(request)) {
+			this.incrementTopCounter();
 		}
-		_pendingRequests.put(request, priority);
-		Log.i("AndroidCacheConnector", "<< AndroidCacheConnector.addCharacterUpdateRequest");
+		AndroidCacheConnector.logger.info("<< [AndroidCacheConnector.addCharacterUpdateRequest]");
 	}
 
 	@TargetApi(12)
@@ -322,28 +317,20 @@ public class AndroidCacheConnector implements ICache {
 		this.getCache().loads();
 	}
 
-	// - M E T H O D - S E C T I O N
-	// ..........................................................................
 	/**
 	 * Adds a new request to download character information. The information to download depends on the timing
 	 * for the different blocks of data. Each block has a different refresh time. When a blocks finishes it may
 	 * trigger the update of another block.
 	 */
-	public synchronized void addLocationUpdateRequest(final ERequestClass locationClass) {
-		AndroidCacheConnector.logger.info(">> [AndroidCacheConnector.addCharacterUpdateRequest]");
+	public void addLocationUpdateRequest(final ERequestClass locationClass) {
+		AndroidCacheConnector.logger.info(">> [AndroidCacheConnector.addLocationUpdateRequest]");
 		final PendingRequestEntry request = new PendingRequestEntry(locationClass.name().hashCode());
-		request.reqClass = locationClass;
-		final int priority = 20;
-		request.setPriority(priority);
-
-		// Check for duplicates before adding the new element.
-		final String requestid = request.getIdentifier();
-		for (final PendingRequestEntry entry : _pendingRequests.keySet()) {
-			final String entryid = entry.getIdentifier();
-			if (entryid.equalsIgnoreCase(requestid)) return;
+		request.setClass(locationClass);
+		request.setPriority(30);
+		if (this.addNoDuplicate(request)) {
+			this.incrementTopCounter();
 		}
-		_pendingRequests.put(request, priority);
-		AndroidCacheConnector.logger.info("<< [AndroidCacheConnector.addCharacterUpdateRequest]");
+		AndroidCacheConnector.logger.info("<< [AndroidCacheConnector.addLocationUpdateRequest]");
 	}
 
 	/**
@@ -357,9 +344,9 @@ public class AndroidCacheConnector implements ICache {
 	public synchronized void addMarketDataRequest(final long localizer) {
 		// Log.i("AndroidCacheConnector", ">>
 		// AndroidCacheConnector.addMarketDataRequest");
-		final EveItem item = AppConnector.getDBConnector().searchItembyID(new Long(localizer).intValue());
-		Log.i("AndroidCacheConnector",
-				"-- AndroidCacheConnector.addMarketDataRequest. Posting market update for: " + item.getName());
+		final EveItem item = AppConnector.getDBConnector().searchItembyID(Long.valueOf(localizer).intValue());
+		AndroidCacheConnector.logger
+				.info("-- [AndroidCacheConnector.addMarketDataRequest] Posting market update for: " + item.getName());
 		// Detect priority from the Category of the item. Download data from
 		// Asteroids and Minerals first.
 		final String category = item.getCategory();
@@ -379,25 +366,26 @@ public class AndroidCacheConnector implements ICache {
 		}
 		final PendingRequestEntry request = new PendingRequestEntry(localizer);
 		request.setPriority(priority);
-
-		// Check for duplicates before adding the new element.
-		final String requestid = request.getIdentifier();
-		for (final PendingRequestEntry entry : _pendingRequests.keySet()) {
-			final String entryid = entry.getIdentifier();
-			if (entryid.equalsIgnoreCase(requestid)) return;
+		if (this.addNoDuplicate(request)) {
+			this.incrementMarketCounter();
 		}
-		_pendingRequests.put(request, priority);
-		// incrementMarketCounter();
-		// Log.i("AndroidCacheConnector", "<<
-		// AndroidCacheConnector.addMarketDataRequest");
+	}
+
+	public synchronized void clearPendingRequest(final long localizer) {
+		this.clearPendingRequest(Long.valueOf(localizer).toString());
 	}
 
 	public synchronized void clearPendingRequest(final String localizer) {
-		for (final PendingRequestEntry entry : _pendingRequests.keySet()) {
+		for (final PendingRequestEntry entry : _pendingRequests) {
 			final String entryid = entry.getIdentifier();
 			if (entryid.equalsIgnoreCase(localizer)) {
 				entry.state = ERequestState.COMPLETED;
-				this.decrementMarketCounter();
+				// Update the right counter depending on the priority range.
+				if (entry.getPriority() < 20) {
+					this.decrementMarketCounter();
+				} else {
+					this.decrementTopCounter();
+				}
 			}
 		}
 	}
@@ -452,16 +440,16 @@ public class AndroidCacheConnector implements ICache {
 
 	public synchronized Vector<PendingRequestEntry> getPendingRequests() {
 		if (null == _pendingRequests) {
-			_pendingRequests = new HashMap<PendingRequestEntry, Integer>();
+			_pendingRequests = new Vector<PendingRequestEntry>();
 		}
 		// Clean up all completed requests.
-		final HashMap<PendingRequestEntry, Integer> openRequests = new HashMap<PendingRequestEntry, Integer>();
-		for (final PendingRequestEntry entry : _pendingRequests.keySet())
+		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
+		for (final PendingRequestEntry entry : _pendingRequests)
 			if (entry.state != ERequestState.COMPLETED) {
-				openRequests.put(entry, _pendingRequests.get(entry));
+				openRequests.add(entry);
 			}
 		_pendingRequests = openRequests;
-		return new Vector<PendingRequestEntry>(_pendingRequests.keySet());
+		return _pendingRequests;
 	}
 
 	public String getURLForItem(final int typeID) {
@@ -472,6 +460,22 @@ public class AndroidCacheConnector implements ICache {
 	public String getURLForStation(final int typeID) {
 		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
 		return iconUrl;
+	}
+
+	/**
+	 * Adds a new entry if not already found on the pending list.
+	 * 
+	 * @param request
+	 */
+	private synchronized boolean addNoDuplicate(final PendingRequestEntry request) {
+		// Check for duplicates before adding the new element.
+		final String requestid = request.getIdentifier();
+		for (final PendingRequestEntry entry : _pendingRequests) {
+			final String entryid = entry.getIdentifier();
+			if (entryid.equalsIgnoreCase(requestid)) return false;
+		}
+		_pendingRequests.add(request);
+		return true;
 	}
 
 	// /**
@@ -526,6 +530,43 @@ public class AndroidCacheConnector implements ICache {
 	// return hit;
 	// }
 
+	private void decrementMarketCounter() {
+		NeoComApp.marketCounter--;
+		if (NeoComApp.marketCounter < 0) {
+			NeoComApp.marketCounter = 0;
+		}
+		final Activity activity = AppModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(new Runnable() {
+				public void run() {
+					NeoComApp.updateProgressSpinner();
+				}
+			});
+		}
+	}
+
+	private void decrementTopCounter() {
+		NeoComApp.topCounter--;
+		if (NeoComApp.topCounter < 0) {
+			NeoComApp.topCounter = 0;
+		}
+		final Activity activity = AppModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(new Runnable() {
+				public void run() {
+					NeoComApp.updateProgressSpinner();
+				}
+			});
+		}
+	}
+
+	private DrawableCache getCache() {
+		if (null == _cacheDrawables) {
+			_cacheDrawables = new DrawableCache();
+		}
+		return _cacheDrawables;
+	}
+
 	// /**
 	// * This method does the same of the coupled <code>searchItembuID</code>
 	// but instead searching for the
@@ -569,27 +610,12 @@ public class AndroidCacheConnector implements ICache {
 	// }
 	// return hit;
 	// }
-
-	private void decrementMarketCounter() {
-		NeoComApp.marketCounter--;
-		if (NeoComApp.marketCounter < 0) {
-			NeoComApp.marketCounter = 0;
-		}
-		final Activity activity = AppModelStore.getSingleton().getActivity();
-		if (null != activity) {
-			activity.runOnUiThread(new Runnable() {
-				public void run() {
-					NeoComApp.updateProgressSpinner();
-				}
-			});
-		}
+	private void incrementMarketCounter() {
+		NeoComApp.marketCounter++;
 	}
 
-	private DrawableCache getCache() {
-		if (null == _cacheDrawables) {
-			_cacheDrawables = new DrawableCache();
-		}
-		return _cacheDrawables;
+	private void incrementTopCounter() {
+		NeoComApp.topCounter++;
 	}
 
 	// private void incrementMarketCounter() {

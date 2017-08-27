@@ -20,6 +20,7 @@ import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.ETaskCompletion;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
+import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -150,8 +151,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		return moveAllowed;
 	}
 
-	public void setAssetsManager(final AssetsManager iam) {
-		industryAssetsManager = iam;
+	public void setAssetsManager(final AbstractManager iam) {
+		industryAssetsManager = (AssetsManager) iam;
 		totalcalculated = false;
 		if (null != industryAssetsManager) {
 			industryAssetsManager.setPilot(this.getPilot());

@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2015 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -27,8 +27,6 @@ public class PendingRequestEntry extends AbstractGEFNode {
 	private Number						content						= null;
 	private int								priority					= 1;
 
-	//	private Instant						timestamp					= new Instant(0);
-
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	/**
 	 * When creating a new card fill it with a new Market Data information so we can have the information that
@@ -42,7 +40,6 @@ public class PendingRequestEntry extends AbstractGEFNode {
 		content = new Long(requestLocalizer);
 		reqClass = ERequestClass.MARKETDATA;
 		state = ERequestState.PENDING;
-		//		timestamp = new Instant();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -58,6 +55,10 @@ public class PendingRequestEntry extends AbstractGEFNode {
 		return priority;
 	}
 
+	public void setClass(final ERequestClass newClass) {
+		reqClass = newClass;
+	}
+
 	public void setPriority(final int priority) {
 		this.priority = priority;
 	}
@@ -67,7 +68,7 @@ public class PendingRequestEntry extends AbstractGEFNode {
 		StringBuffer buffer = new StringBuffer("PendingRequestEntry [");
 		buffer.append("[").append(reqClass).append("] ");
 		buffer.append("[").append(state).append("] ").append(priority);
-		buffer.append(" - ").append(getIdentifier());
+		buffer.append(" - ").append(this.getIdentifier());
 		buffer.append(" ]");
 		return buffer.toString();
 	}

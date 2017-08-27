@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,6 +31,7 @@ import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
@@ -55,6 +55,7 @@ import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Instant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -102,7 +103,7 @@ public class NeoComApp extends Application implements IConnector {
 		return false;
 	}
 
-	@Deprecated
+	//	@Deprecated
 	public static Comparator<AbstractPropertyChanger> createComparator(final int code) {
 		Comparator<AbstractPropertyChanger> comparator = new Comparator<AbstractPropertyChanger>() {
 			public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
@@ -666,7 +667,7 @@ public class NeoComApp extends Application implements IConnector {
 	public boolean checkExpiration(final long timestamp, final long window) {
 		// logger.info("-- Checking expiration for " + timestamp + ". Window " + window);
 		if (0 == timestamp) return true;
-		final long now = GregorianCalendar.getInstance().getTimeInMillis();
+		final long now = new Instant().now().getMillis();
 		final long endWindow = timestamp + window;
 		if (now < endWindow)
 			return false;
@@ -715,7 +716,7 @@ public class NeoComApp extends Application implements IConnector {
 
 	public IDatabaseConnector getDBConnector() {
 		if (null == dbNeocomConnector) {
-			dbNeocomConnector = new AndroidDatabaseConnector(this);
+			dbNeocomConnector = new NeoComDatabaseConnector(this);
 		}
 		return dbNeocomConnector;
 	}

@@ -341,12 +341,12 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	}
 
 	/**
-	 * Search for the specified character id in the list of associated charatcer list.
+	 * Search for the specified character id in the list of associated characters list.
 	 * 
 	 * @param characterID
 	 * @return
 	 */
-	@Deprecated
+	//	@Deprecated
 	public NeoComCharacter searchCharacter(final long characterID) {
 		for (NeoComCharacter character : _neocomCharacters) {
 			if (character.getCharacterID() == characterID) return character;

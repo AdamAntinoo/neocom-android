@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2015 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -242,13 +242,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		TimeTickReceiver.logger.info(">> TimeTickReceiver.onReceive");
+		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]");
 		// Run only if the network is active.
 		if (!NeoComApp.checkNetworkAccess()) return;
 		// Or if the service is disables by configuration.
 		if (this.blockedDownload()) return;
 
-		// STEP 01. Pending Market Data Requests
+		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
 		Vector<PendingRequestEntry> requests = NeoComApp.getTheCacheConnector().getPendingRequests();
 		synchronized (requests) {
@@ -284,12 +284,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		List<NeoComCharacter> characters = AppModelStore.getSingleton().getActiveCharacters();
+		List<NeoComCharacter> characters = AppConnector.getModelStore().getActiveCharacters();
 		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
 			if (updateCode != EDataBlock.READY) {
 				TimeTickReceiver.logger
-						.info(".. TimeTickReceiver.onReceive.EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
+						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
 				NeoComApp.getTheCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
@@ -394,13 +394,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
 		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
 		Number content = entry.getContent();
-		serialService.putExtra(AppWideConstants.extras.EXTRA_CHARACTER_LOCALIZER, content.longValue());
+		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
 		if (null != _context) {
 			_context.startService(serialService);
 		}
 		entry.state = ERequestState.ON_PROGRESS;
-		// Increment the counter.
-		NeoComApp.topCounter++;
+		//		// Increment the counter.
+		//		NeoComApp.topCounter++;
 	}
 
 	private void launchMarketUpdate(final PendingRequestEntry entry) {

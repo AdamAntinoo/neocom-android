@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
@@ -25,20 +23,17 @@ import android.util.Log;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class T1ManufactureProcess extends AbstractManufactureProcess implements IJobProcess {
 
-	// - S T A T I C - S E C T I O N
-	// ..........................................................................
+	// - S T A T I C - S E C T I O N ..........................................................................
 	// private static final long serialVersionUID = -1284879453130050091L;
 	// private static final double T1ME_LEVEL = 10.0;
 	// private static final double T1PE_LEVEL = 20.0;
 
-	// - C O N S T R U C T O R - S E C T I O N
-	// ................................................................
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public T1ManufactureProcess(final AssetsManager manager) {
 		super(manager);
 	}
 
-	// - M E T H O D - S E C T I O N
-	// ..........................................................................
+	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * This method starts with a blueprint and generates the corresponding list of actions to be executed to
 	 * have all the resources to launch and complete the job. This depends on the global generation settings
@@ -66,7 +61,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 		threads = 1;
 		// Copy the LOM received to not modify the original data during the job
 		// processing.
-		for (Resource r : getLOM()) {
+		for (Resource r : this.getLOM()) {
 			requirements.add(new Resource(r.getTypeID(), r.getQuantity()));
 		}
 		for (Resource resource : requirements) {
@@ -96,7 +91,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 				// treatment.
 				if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
 					currentAction = new Skill(resource);
-					registerAction(currentAction);
+					this.registerAction(currentAction);
 				} else {
 					currentAction = new Action(resource);
 					EveTask newTask = new EveTask(ETaskType.REQUEST, resource);
@@ -104,8 +99,8 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 					// We register the action before to get erased on restarts.
 					// This has no impact on data since we use pointers to the
 					// global structures.
-					registerAction(currentAction);
-					processRequest(newTask);
+					this.registerAction(currentAction);
+					this.processRequest(newTask);
 				}
 			} while (pointer < (requirements.size() - 1));
 		} catch (Exception ex) {
@@ -113,7 +108,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 					"RT> T1ManufactureProcess.generateActions4Blueprint - Unexpected code behaviour. See stacktrace.");
 			ex.printStackTrace();
 		}
-		return getActions();
+		return this.getActions();
 	}
 
 	public int getCycleDuration() {
@@ -126,17 +121,17 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 
 	public double getJobCost() {
 		if (cost < 0.0) {
-			cost = calculateCost();
+			cost = this.calculateCost();
 		}
 		return cost;
 	}
 
 	public ArrayList<Resource> getLOM() {
 		if (null == lom) {
-			lom = adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
+			lom = this.adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
 		}
 		if (lom.size() == 0) {
-			lom = adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
+			lom = this.adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
 		}
 		return lom;
 	}
@@ -147,12 +142,12 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	 */
 	public double getMultiplier() {
 		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
-		return topBuyerPrice / getJobCost();
+		return topBuyerPrice / this.getJobCost();
 	}
 
 	public int getProfitIndex() {
 		if (index < 0) {
-			calculateIndex();
+			this.calculateIndex();
 		}
 		return index;
 	}
@@ -212,7 +207,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	 */
 	private double calculateCost() {
 		double manufactureCost = 0.0;
-		for (Resource resource : getLOM()) {
+		for (Resource resource : this.getLOM()) {
 			// Remove blueprints and skill books.
 			if (resource.item.getCategory().equalsIgnoreCase("Blueprint")) {
 				continue;
@@ -241,7 +236,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	private void calculateIndex() {
 		// double profit = ((getSellPrice() - getCost()) * runs);
 		// double estimatedIndex = profit / 10000.0;
-		index = Double.valueOf(getMultiplier() * 10.0).intValue();
+		index = Double.valueOf(this.getMultiplier() * 10.0).intValue();
 	}
 }
 
