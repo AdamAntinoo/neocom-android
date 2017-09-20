@@ -16,8 +16,8 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -62,6 +62,7 @@ public class ShipsDataSource extends SpecialDataSource {
 	 * 
 	 * @return
 	 */
+	@Override
 	public RootNode collaborate2Model() {
 		SpecialDataSource.logger.info(">> [ShipsDatasource.collaborate2Model]");
 		try {

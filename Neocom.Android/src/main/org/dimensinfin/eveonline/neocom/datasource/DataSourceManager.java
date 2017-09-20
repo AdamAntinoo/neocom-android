@@ -13,7 +13,7 @@ package org.dimensinfin.eveonline.neocom.datasource;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -25,7 +25,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
  */
 public class DataSourceManager /* implements IDataSourceConnector */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger																logger			= Logger.getLogger("DataSourceManager");
+	private static Logger																			logger			= Logger.getLogger("DataSourceManager");
 	private static final HashMap<String, IExtendedDataSource>	dataSources	= new HashMap<String, IExtendedDataSource>();
 
 	/**
@@ -39,14 +39,14 @@ public class DataSourceManager /* implements IDataSourceConnector */ {
 	public static IExtendedDataSource registerDataSource(final IExtendedDataSource newSource) {
 		DataSourceLocator locator = newSource.getDataSourceLocator();
 		// Search for locator on cache.
-		IExtendedDataSource found = dataSources.get(locator.getIdentity());
+		IExtendedDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
 		// REFACTOR Do not return cached datasources.
 		found = null;
 		if (null == found) {
-			dataSources.put(locator.getIdentity(), newSource);
+			DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 			DataSourceManager.logger
 					.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: " + locator.getIdentity());
-	//		newSource.connect(this);
+			//		newSource.connect(this);
 			return newSource;
 		} else
 			return found;

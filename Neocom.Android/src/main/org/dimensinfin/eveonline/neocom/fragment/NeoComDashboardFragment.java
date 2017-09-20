@@ -22,8 +22,8 @@ import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity;
 import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
@@ -199,6 +199,7 @@ final class PilotDashboardDataSource extends SpecialDataSource {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
 	public RootNode collaborate2Model() {
 		this.setDataModel(new RootNode());
 		return _dataModelRoot;

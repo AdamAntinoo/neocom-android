@@ -11,10 +11,9 @@ import java.util.ArrayList;
 
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
@@ -72,7 +71,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		threads = blueprint.getQuantity();
 		// Copy the LOM received to not modify the original data during the job
 		// processing.
-		for (Resource r : getLOM()) {
+		for (Resource r : this.getLOM()) {
 			requirements.add(new Resource(r.getTypeID(), r.getQuantity()));
 		}
 		// Update the resource count depending on the sizing requirements for the job.
@@ -101,7 +100,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 				// treatment.
 				if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
 					currentAction = new Skill(resource);
-					registerAction(currentAction);
+					this.registerAction(currentAction);
 					continue;
 				}
 				currentAction = new Action(resource);
@@ -110,8 +109,8 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 				// We register the action before to get erased on restarts.
 				// This has no impact on data since we use pointers to the
 				// global structures.
-				registerAction(currentAction);
-				processRequest(newTask);
+				this.registerAction(currentAction);
+				this.processRequest(newTask);
 			} while (pointer < (requirements.size() - 1));
 		} catch (RuntimeException rtex) {
 			Log.e("RTEXCEPTION.CODE",
@@ -119,7 +118,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 			rtex.printStackTrace();
 		}
 		Log.i("EVEI", "<< T2ManufactureProcess.generateActions4Blueprint.");
-		return getActions();
+		return this.getActions();
 	}
 
 	/**
@@ -133,13 +132,13 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		int basetime = AppConnector.getDBConnector().searchJobExecutionTime(bpid,
 				ModelWideConstants.activities.MANUFACTURING);
 		// Adjust to the time with new industry equations.
-		double time = basetime * ((100.0 - blueprint.getTimeEfficiency()) / 100.0) * calculateSkillModifier() * 1;
+		double time = basetime * ((100.0 - blueprint.getTimeEfficiency()) / 100.0) * this.calculateSkillModifier() * 1;
 		return Long.valueOf(Math.round(time)).intValue();
 	}
 
 	public double getJobCost() {
 		if (cost < 0.0) {
-			cost = calculateCost();
+			cost = this.calculateCost();
 		}
 		return cost;
 	}
@@ -160,12 +159,12 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 
 	public double getMultiplier() {
 		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
-		return topBuyerPrice / getJobCost();
+		return topBuyerPrice / this.getJobCost();
 	}
 
 	public int getProfitIndex() {
 		if (index < 0) {
-			calculateIndex();
+			this.calculateIndex();
 		}
 		return index;
 	}
@@ -228,7 +227,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	private double calculateCost() {
 		double manufactureCost = 0.0;
 		StringBuffer resourceIDs = new StringBuffer(Integer.valueOf(bpid).toString());
-		for (Resource resource : getLOM()) {
+		for (Resource resource : this.getLOM()) {
 			// Remove blueprints and skills from budget.
 			if (resource.item.getCategory().equalsIgnoreCase("Blueprint")) {
 				continue;
@@ -249,7 +248,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 			manufactureCost += realcost;
 		}
 		// Search for the inventionable elements and get their invention costs.
-		manufactureCost += calculateInventionCosts(resourceIDs.toString());
+		manufactureCost += this.calculateInventionCosts(resourceIDs.toString());
 		return manufactureCost;
 	}
 
@@ -265,11 +264,11 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		// double sets = Math.round((24 * 60 * 60) / manufactureTime);
 		double sets = 1.0;
 		double sellPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
-		double cost = getJobCost();
+		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
 		} else {
-			int profit = Double.valueOf((sellPrice - getJobCost()) / 10000.0).intValue();
+			int profit = Double.valueOf((sellPrice - this.getJobCost()) / 10000.0).intValue();
 			if (profit > 0) {
 				index = Double.valueOf(Math.floor(profit * sets)).intValue();
 			} else {
@@ -291,7 +290,8 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		ArrayList<Integer> ids = AppConnector.getDBConnector().searchInventionableBlueprints(resourceIDs);
 		for (Integer id : ids) {
 			// Get access to the Invention process.
-			IJobProcess invention = JobManager.generateJobProcess(getPilot(), new NeoComBlueprint(id), EJobClasses.INVENTION);
+			IJobProcess invention = JobManager.generateJobProcess(this.getPilot(), new NeoComBlueprint(id),
+					EJobClasses.INVENTION);
 			inventionCost += invention.getJobCost();
 		}
 		return inventionCost;

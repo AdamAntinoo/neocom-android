@@ -21,11 +21,11 @@ import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.constant.CVariant;
 import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
+import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 
 // - CLASS IMPLEMENTATION ...................................................................................

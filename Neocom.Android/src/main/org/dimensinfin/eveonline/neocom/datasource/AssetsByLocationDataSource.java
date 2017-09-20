@@ -18,8 +18,8 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -62,6 +62,7 @@ public class AssetsByLocationDataSource extends SpecialDataSource {
 	 * the assets from the database and they are already stored on the AssetsManager. If the number of locations
 	 * is below the limit then do not use the Regions.
 	 */
+	@Override
 	public RootNode collaborate2Model() {
 		AbstractDataSource.logger.info(">> `[AssetsByLocationDataSource.collaborate2Model]");
 		_dataModelRoot = new RootNode();
