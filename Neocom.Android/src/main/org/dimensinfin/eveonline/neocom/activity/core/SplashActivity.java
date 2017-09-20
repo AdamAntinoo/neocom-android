@@ -66,7 +66,7 @@ public class SplashActivity extends Activity {
 		protected void copyFromAssets(final int resourceId) {
 			InputStream istream = null;
 			OutputStream ostream = null;
-			String resourceName = AppConnector.getResourceString(resourceId);
+			String resourceName = NeoComApp.getSingletonApp().getResourceString(resourceId);
 			//		final Context context = singleton.getApplicationContext();
 			try {
 				istream = _activity.getAssets().open(resourceName);
@@ -102,8 +102,8 @@ public class SplashActivity extends Activity {
 		protected boolean createAppDir() {
 			// Create file application directory if it doesn't exist
 			final File sdcarddir = new File(Environment.getExternalStorageDirectory(),
-					AppConnector.getResourceString(R.string.appfoldername)
-							+ AppConnector.getResourceString(R.string.app_versionsuffix));
+					NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername)
+							+ NeoComApp.getSingletonApp().getResourceString(R.string.app_versionsuffix));
 			final boolean existence = sdcarddir.exists();
 			if (!sdcarddir.exists()) {
 				sdcarddir.mkdir();
@@ -115,9 +115,11 @@ public class SplashActivity extends Activity {
 			// Create additional cache folders.
 			File cachedir = AppConnector.getStorageConnector().getCacheStorage();
 			cachedir.mkdir();
-			File alternatedir = new File(cachedir, AppConnector.getResourceString(R.string.drawablecachefoldername));
+			File alternatedir = new File(cachedir,
+					NeoComApp.getSingletonApp().getResourceString(R.string.drawablecachefoldername));
 			alternatedir.mkdir();
-			alternatedir = new File(cachedir, AppConnector.getResourceString(R.string.marketdatacachefoldername));
+			alternatedir = new File(cachedir,
+					NeoComApp.getSingletonApp().getResourceString(R.string.marketdatacachefoldername));
 			alternatedir.mkdir();
 		}
 		//[05]
@@ -142,12 +144,12 @@ public class SplashActivity extends Activity {
 			this.createCacheDirectories();
 			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 01. App Directories created");
 			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+			if (!this.checkAppFile(NeoComApp.getSingletonApp().getResourceString(R.string.ccpdatabasefilename))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
 				this.copyFromAssets(R.string.ccpdatabasefilename);
 			}
 			if (AppWideConstants.DEVELOPMENT)
-				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
+				if (!this.checkAppFile(NeoComApp.getSingletonApp().getResourceString(R.string.apikeysfilename))) {
 				this.copyFromAssets(R.string.apikeysfilename);
 				}
 			SplashActivity.logger.info("-- [EveDroidInitialization.doInBackground]> STEP 02. Required files on place");
@@ -227,7 +229,7 @@ public class SplashActivity extends Activity {
 			this.createCacheDirectories();
 			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
 			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(AppConnector.getResourceString(R.string.ccpdatabasefilename))) {
+			if (!this.checkAppFile(NeoComApp.getSingletonApp().getResourceString(R.string.ccpdatabasefilename))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
 				this.copyFromAssets(R.string.ccpdatabasefilename);
 			}

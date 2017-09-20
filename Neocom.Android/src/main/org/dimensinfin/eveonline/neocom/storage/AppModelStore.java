@@ -16,8 +16,8 @@ import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
 import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
+import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
@@ -186,10 +186,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	//		}
 	//	}
 
-	@Deprecated
-	public boolean checkStorage() {
-		return AppConnector.sdcardAvailable();
-	}
+	//	@Deprecated
+	//	public boolean checkStorage() {
+	//		return AppConnector.sdcardAvailable();
+	//	}
 
 	@Override
 	@Deprecated

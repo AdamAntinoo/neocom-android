@@ -12,7 +12,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.activity.core.AbstractPagerActivity;
-import org.dimensinfin.eveonline.neocom.constant.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.PilotListFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 

@@ -31,17 +31,15 @@ import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
-import org.dimensinfin.eveonline.neocom.connector.NeoComDatabaseConnector;
-import org.dimensinfin.eveonline.neocom.connector.NeocomPreferences;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
+import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.ICache;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
 import org.dimensinfin.eveonline.neocom.interfaces.INamed;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
+import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IWeigthedNode;
-import org.dimensinfin.eveonline.neocom.model.JobQueue;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
@@ -543,7 +541,8 @@ public class NeoComApp extends Application implements IConnector {
 	 * Return the file that points to the application folder on the external (SDCARD) storage.
 	 */
 	public static File getAppDirectory() {
-		return new File(Environment.getExternalStorageDirectory(), AppConnector.getResourceString(R.string.appfoldername));
+		return new File(Environment.getExternalStorageDirectory(),
+				NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername));
 	}
 
 	//	/**
@@ -716,7 +715,7 @@ public class NeoComApp extends Application implements IConnector {
 
 	public IDatabaseConnector getDBConnector() {
 		if (null == dbNeocomConnector) {
-			dbNeocomConnector = new NeoComDatabaseConnector(this);
+			dbNeocomConnector = new AndroidDatabaseConnector(this);
 		}
 		return dbNeocomConnector;
 	}
@@ -726,7 +725,6 @@ public class NeoComApp extends Application implements IConnector {
 		return null;
 	}
 
-	//	@Deprecated
 	public INeoComModelStore getModelStore() {
 		return AppModelStore.getSingleton();
 	}
@@ -736,10 +734,10 @@ public class NeoComApp extends Application implements IConnector {
 		return NeoComApp.getSingletonApp().getResources().getString(reference);
 	}
 
-	@Deprecated
-	public IConnector getSingleton() {
-		return NeoComApp.singleton;
-	}
+	//	public NeoComApp getSingleton() {
+	//		//	if(null==singleton)singleton=new NeoComApp();
+	//		return NeoComApp.singleton;
+	//	}
 
 	public IStorageConnector getStorageConnector() {
 		if (null == storage) {
@@ -751,7 +749,7 @@ public class NeoComApp extends Application implements IConnector {
 	@Deprecated
 	public File getUserDataStorage() {
 		return new File(Environment.getExternalStorageDirectory(),
-				AppConnector.getResourceString(R.string.userdatamodelfilename));
+				NeoComApp.getSingletonApp().getResourceString(R.string.userdatamodelfilename));
 	}
 
 	public void init() {
