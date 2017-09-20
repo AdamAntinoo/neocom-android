@@ -22,9 +22,9 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Skill;
@@ -61,7 +61,9 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public IndustryT2ManufactureDataSource(final AppModelStore store) {
 		super();
-		if (null != store) _store = store;
+		if (null != store) {
+			_store = store;
+		}
 	}
 
 	public RootNode collaborate2Model() {
@@ -106,7 +108,9 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 			ArrayList<Action> actions = process.generateActions4Blueprint();
 			for (Action action : actions) {
 				ActionPart apart = new ActionPart(action);
-				if (action instanceof Skill) apart.setRenderMode(3000);
+				if (action instanceof Skill) {
+					apart.setRenderMode(3000);
+				}
 				apart.createHierarchy();
 				_bppart.addChild(apart);
 			}
@@ -178,11 +182,16 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 		try {
 			Collections.sort(_root, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_PRIORITY));
 			for (AbstractAndroidPart node : _root) {
-				if (node instanceof GroupPart) if (node.getChildren().size() == 0) continue;
+				if (node instanceof GroupPart) if (node.getChildren().size() == 0) {
+					continue;
+				}
 				result.add(node);
 				// Check if the node is expanded. Then add its children.
-				if (node.isExpanded()) for (IPart part : node.collaborate2View())
-					result.add((AbstractAndroidPart) part);
+				if (node.isExpanded()) {
+					for (IPart part : node.collaborate2View()) {
+						result.add((AbstractAndroidPart) part);
+					}
+				}
 			}
 		} catch (RuntimeException rtex) {
 		}
@@ -198,9 +207,10 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE))
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 	}
 
 	public void setBlueprint(final BlueprintPart blueprintPart) {
@@ -210,7 +220,9 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 	private void add2Group(final ActionPart action, final EIndustryGroup igroup) {
 		for (AbstractAndroidPart group : _root)
 			if (group instanceof GroupPart)
-				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) group.addChild(action);
+				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild(action);
+				}
 	}
 
 	//	private void taskCreation(final AbstractAndroidPart part) {

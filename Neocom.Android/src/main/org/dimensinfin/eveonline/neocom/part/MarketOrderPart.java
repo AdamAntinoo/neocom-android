@@ -18,8 +18,8 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.render.MarketOrderRender;
 import org.joda.time.DateTime;
 
@@ -130,8 +130,9 @@ public class MarketOrderPart extends EveAbstractPart
 
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
 		// Activate the menu only of the order is scheduled.
-		if (this.getOrderState() == ModelWideConstants.orderstates.SCHEDULED)
+		if (this.getOrderState() == ModelWideConstants.orderstates.SCHEDULED) {
 			this.getActivity().getMenuInflater().inflate(R.menu.marketorder_menu, menu);
+		}
 	}
 
 	@Override

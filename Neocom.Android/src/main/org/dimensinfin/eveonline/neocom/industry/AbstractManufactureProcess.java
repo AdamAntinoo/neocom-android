@@ -22,6 +22,7 @@ import org.dimensinfin.eveonline.neocom.enums.ETaskCompletion;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -29,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.model.EveTask;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Property;
 
 import com.j256.ormlite.dao.Dao;

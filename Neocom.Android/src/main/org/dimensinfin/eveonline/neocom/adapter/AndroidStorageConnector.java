@@ -29,11 +29,11 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.dimensinfin.evemarket.model.TrackEntry;
+import org.dimensinfin.evemarket.parser.EVEMarketDataParser;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.config.DevelopmentStorageConnector;
-import org.dimensinfin.evemarket.model.TrackEntry;
-import org.dimensinfin.evemarket.parser.EVEMarketDataParser;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -63,11 +63,13 @@ public class AndroidStorageConnector implements IStorageConnector {
 
 	public File accessAppStorage(final String resourceString) {
 		if (null != resourceString)
-			return new File(Environment.getExternalStorageDirectory(), AppConnector.getResourceString(R.string.appfoldername)
-					+ AppConnector.getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
+			return new File(Environment.getExternalStorageDirectory(),
+					NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername)
+							+ NeoComApp.getSingletonApp().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
 		else
-			return new File(Environment.getExternalStorageDirectory(), AppConnector.getResourceString(R.string.appfoldername)
-					+ AppConnector.getResourceString(R.string.app_versionsuffix));
+			return new File(Environment.getExternalStorageDirectory(),
+					NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername)
+							+ NeoComApp.getSingletonApp().getResourceString(R.string.app_versionsuffix));
 	}
 
 	/**
@@ -82,14 +84,14 @@ public class AndroidStorageConnector implements IStorageConnector {
 	 * @param force
 	 */
 	public Element accessDOMDocument(final String url) {
-		logger.info(">> AndroidStorageConnector.accessDOMDocument");
+		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.accessDOMDocument");
 		AppConnector.startChrono();
 		Element element = null;
 		try {
 			element = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument().getDocumentElement();
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
-			logger.info("E> Cannot generate simple element");
+			AndroidStorageConnector.logger.info("E> Cannot generate simple element");
 			return element;
 		}
 		try {
@@ -102,7 +104,8 @@ public class AndroidStorageConnector implements IStorageConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		logger.info("<< AndroidStorageConnector.accessDOMDocument [" + AppConnector.timeLapse() + "]");
+		AndroidStorageConnector.logger
+				.info("<< AndroidStorageConnector.accessDOMDocument [" + AppConnector.timeLapse() + "]");
 		return element;
 	}
 
@@ -111,8 +114,8 @@ public class AndroidStorageConnector implements IStorageConnector {
 	}
 
 	public InputStream accessNetworkResource(final String link) throws IOException {
-		logger.info(">> AndroidStorageConnector.accessNetworkResource");
-		logger.info("-- AccessNetworkResource MISS!. Reading DOM Document [" + link + "]");
+		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.accessNetworkResource");
+		AndroidStorageConnector.logger.info("-- AccessNetworkResource MISS!. Reading DOM Document [" + link + "]");
 		BufferedInputStream is = null;
 		if (AppWideConstants.DEVELOPMENT) {
 			// Try to locate the resource on the recorded list. If not go to network.
@@ -121,16 +124,16 @@ public class AndroidStorageConnector implements IStorageConnector {
 				// ANDROID This line cannot be changed because it is the way we get an asset on Android.
 				is = new BufferedInputStream(
 						NeoComApp.getSingletonApp().getApplicationContext().getAssets().open(recordFileName));
-				logger.info("-- Using test file downloader.");
+				AndroidStorageConnector.logger.info("-- Using test file downloader.");
 			}
 		}
 		if (null == is) {
 			URL url = new URL(link);
 			HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 			is = new BufferedInputStream(urlConnection.getInputStream());
-			logger.info("-- Using network downloader.");
+			AndroidStorageConnector.logger.info("-- Using network downloader.");
 		}
-		logger.info("<< AndroidStorageConnector.accessNetworkResource");
+		AndroidStorageConnector.logger.info("<< AndroidStorageConnector.accessNetworkResource");
 		return is;
 	}
 
@@ -146,42 +149,21 @@ public class AndroidStorageConnector implements IStorageConnector {
 	 */
 	public File getCacheStorage() {
 		if (AppWideConstants.DEVELOPMENT)
-			return accessAppStorage(AppConnector.getResourceString(R.string.cachefoldername));
+			return this.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.cachefoldername));
 		else
 			return new File(NeoComApp.getSingletonApp().getApplicationContext().getCacheDir(),
-					AppConnector.getResourceString(R.string.cachefoldername));
-	}
-
-	private String readJsonData(final int typeid) {
-		StringBuffer data = new StringBuffer();
-		try {
-			String str = "";
-			URL url = new URL("http://api.eve-central.com/api/marketstat/json?typeid=" + typeid + "&regionlimit=10000002");
-			URLConnection urlConnection = url.openConnection();
-			InputStream is = new BufferedInputStream(urlConnection.getInputStream());
-			// InputStream is = AppConnector.getStorageConnector().accessNetworkResource(
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			if (is != null) {
-				while ((str = reader.readLine()) != null) {
-					data.append(str);
-				}
-			}
-			is.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return data.toString();
+					NeoComApp.getSingletonApp().getResourceString(R.string.cachefoldername));
 	}
 
 	/**
 	 * New version that downloads the information from eve-central in json format.
 	 */
 	public Vector<TrackEntry> parseMarketDataEC(final int itemid, final EMarketSide opType) {
-		logger.info(">> AndroidStorageConnector.parseMarketData");
+		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.parseMarketData");
 		Vector<TrackEntry> marketEntries = new Vector<TrackEntry>();
 		// try {
 		// Making a request to url and getting response
-		String jsonStr = readJsonData(itemid);
+		String jsonStr = this.readJsonData(itemid);
 		try {
 			JSONArray jsonObj = new JSONArray(jsonStr);
 			JSONObject part1 = jsonObj.getJSONObject(0);
@@ -218,12 +200,13 @@ public class AndroidStorageConnector implements IStorageConnector {
 		// ioe.printStackTrace();
 		// logger.severe("E> Error parsing the market information. " + ioe.getMessage());
 		// }
-		logger.info("<< AndroidStorageConnector.parseMarketData. marketEntries [" + marketEntries.size() + "]");
+		AndroidStorageConnector.logger
+				.info("<< AndroidStorageConnector.parseMarketData. marketEntries [" + marketEntries.size() + "]");
 		return marketEntries;
 	}
 
 	public Vector<TrackEntry> parseMarketDataEMD(final String itemName, final EMarketSide opType) {
-		logger.info(">> AndroidStorageConnector.parseMarketData");
+		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.parseMarketData");
 		Vector<TrackEntry> marketEntries = new Vector<TrackEntry>();
 		try {
 			org.xml.sax.XMLReader reader;
@@ -235,38 +218,39 @@ public class AndroidStorageConnector implements IStorageConnector {
 			reader.setErrorHandler(content);
 			String URLDestination = null;
 			if (opType == EMarketSide.SELLER) {
-				URLDestination = getModuleLink(itemName, "SELL");
+				URLDestination = this.getModuleLink(itemName, "SELL");
 			}
 			if (opType == EMarketSide.BUYER) {
-				URLDestination = getModuleLink(itemName, "BUY");
+				URLDestination = this.getModuleLink(itemName, "BUY");
 			}
 			if (null != URLDestination) {
 				reader.parse(URLDestination);
 				marketEntries = content.getEntries();
 			}
 		} catch (SAXException saxe) {
-			logger.severe(
+			AndroidStorageConnector.logger.severe(
 					"E> Parsing exception while downloading market data for module [" + itemName + "]. " + saxe.getMessage());
 		} catch (IOException ioe) {
 			// TODO Auto-generated catch block
 			ioe.printStackTrace();
-			logger.severe("E> Error parsing the market information. " + ioe.getMessage());
+			AndroidStorageConnector.logger.severe("E> Error parsing the market information. " + ioe.getMessage());
 		}
-		logger.info("<< AndroidStorageConnector.parseMarketData. marketEntries [" + marketEntries.size() + "]");
+		AndroidStorageConnector.logger
+				.info("<< AndroidStorageConnector.parseMarketData. marketEntries [" + marketEntries.size() + "]");
 		return marketEntries;
 	}
 
 	public MarketDataSet readDiskMarketData(final int itemID, final EMarketSide side) {
 		try {
-			String filePath = AppConnector.getResourceString(R.string.marketdatacachefoldername) + "/"
-					+ createMarketDataFileName(itemID, side);
+			String filePath = NeoComApp.getSingletonApp().getResourceString(R.string.marketdatacachefoldername) + "/"
+					+ this.createMarketDataFileName(itemID, side);
 			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(dataFile));
 			final ObjectInputStream input = new ObjectInputStream(buffer);
 			MarketDataSet data = null;
 			try {
 				data = (MarketDataSet) input.readObject();
-				logger.info("-- MarketUpdaterService.readDiskData [done]"); //$NON-NLS-1$
+				AndroidStorageConnector.logger.info("-- MarketUpdaterService.readDiskData [done]"); //$NON-NLS-1$
 				return data;
 			} finally {
 				input.close();
@@ -274,21 +258,21 @@ public class AndroidStorageConnector implements IStorageConnector {
 			}
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
-			logger.info("-- MarketUpdaterService.readDiskData. [Unexpected exception]"); //$NON-NLS-1$
-			logger.info("-- MarketUpdaterService.readDiskData." + cnfe.getMessage()); //$NON-NLS-1$
+			AndroidStorageConnector.logger.info("-- MarketUpdaterService.readDiskData. [Unexpected exception]"); //$NON-NLS-1$
+			AndroidStorageConnector.logger.info("-- MarketUpdaterService.readDiskData." + cnfe.getMessage()); //$NON-NLS-1$
 		} catch (final FileNotFoundException fnfe) {
-			logger.info("-- MarketUpdaterService.readDiskData. [Cache not found]"); //$NON-NLS-1$
+			AndroidStorageConnector.logger.info("-- MarketUpdaterService.readDiskData. [Cache not found]"); //$NON-NLS-1$
 		} catch (final IOException ex) {
-			logger.info("-- MarketUpdaterService.readDiskData. [Cache not found]"); //$NON-NLS-1$
+			AndroidStorageConnector.logger.info("-- MarketUpdaterService.readDiskData. [Cache not found]"); //$NON-NLS-1$
 		}
 		return null;
 	}
 
 	public void writeDiskMarketData(final MarketDataSet reference, final int itemID, final EMarketSide side) {
-		logger.info(">> UpdaterService.writeDiskData"); //$NON-NLS-1$
+		AndroidStorageConnector.logger.info(">> UpdaterService.writeDiskData"); //$NON-NLS-1$
 		try {
-			String filePath = AppConnector.getResourceString(R.string.marketdatacachefoldername) + "/"
-					+ createMarketDataFileName(itemID, side);
+			String filePath = NeoComApp.getSingletonApp().getResourceString(R.string.marketdatacachefoldername) + "/"
+					+ this.createMarketDataFileName(itemID, side);
 			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(dataFile));
 			final ObjectOutput output = new ObjectOutputStream(buffer);
@@ -297,7 +281,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 				reference.markUpdate();
 				output.writeObject(reference);
 				output.flush();
-				logger.info("<< UpdaterService.writeDiskData [true]"); //$NON-NLS-1$
+				AndroidStorageConnector.logger.info("<< UpdaterService.writeDiskData [true]"); //$NON-NLS-1$
 				return;
 			} finally {
 				output.flush();
@@ -309,7 +293,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 		} catch (final IOException ex) {
 			ex.printStackTrace();
 		}
-		logger.info("<< UpdaterService.writeDiskData [false]"); //$NON-NLS-1$
+		AndroidStorageConnector.logger.info("<< UpdaterService.writeDiskData [false]"); //$NON-NLS-1$
 	}
 
 	private String createMarketDataFileName(final int itemID, final EMarketSide side) {
@@ -330,6 +314,27 @@ public class AndroidStorageConnector implements IStorageConnector {
 		String name = moduleName.replace(" ", "+");
 		return "http://eve-marketdata.com/price_check.php?type=" + opType.toLowerCase() + "&region_id=-1&type_name_header="
 				+ name;
+	}
+
+	private String readJsonData(final int typeid) {
+		StringBuffer data = new StringBuffer();
+		try {
+			String str = "";
+			URL url = new URL("http://api.eve-central.com/api/marketstat/json?typeid=" + typeid + "&regionlimit=10000002");
+			URLConnection urlConnection = url.openConnection();
+			InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+			// InputStream is = AppConnector.getStorageConnector().accessNetworkResource(
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			if (is != null) {
+				while ((str = reader.readLine()) != null) {
+					data.append(str);
+				}
+			}
+			is.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return data.toString();
 	}
 }
 

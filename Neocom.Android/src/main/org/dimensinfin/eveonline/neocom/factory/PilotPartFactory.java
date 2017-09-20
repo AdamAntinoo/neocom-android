@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity.EDashboardVariants;
-import org.dimensinfin.eveonline.neocom.constant.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;

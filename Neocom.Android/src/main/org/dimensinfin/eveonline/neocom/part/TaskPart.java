@@ -19,9 +19,9 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.dialog.BuyQtyDialog;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.render.TaskRender;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -93,7 +93,9 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final String security = this.getCastedModel().getLocation().getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		htmlLocation.append("<font color='").append(secColor).append("'>")
 				.append(this.getCastedModel().getLocation().getSecurity()).append("</font>");
 		htmlLocation.append(" ").append(this.getCastedModel().getLocation().getStation());
@@ -141,7 +143,9 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		EveLocation loc = this.getCastedModel().getLocation();
 		String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		htmlLocation.append("<font color='").append(secColor).append("'>")
 				.append(EveAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getSystem());
@@ -150,7 +154,9 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		loc = this.getCastedModel().getDestination();
 		security = loc.getSecurity();
 		secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		htmlLocation.append("<font color='").append(secColor).append("'>")
 				.append(EveAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getSystem());
@@ -167,7 +173,9 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		final EveLocation loc = this.getCastedModel().getLocation();
 		final String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		htmlLocation.append("<font color='").append(secColor).append("'>").append(loc.getSecurity()).append("</font>");
 		htmlLocation.append(" ").append(loc.getSystem());
 		return Html.fromHtml(htmlLocation.toString());

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.core.model.IModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
+import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
@@ -54,7 +55,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	public synchronized boolean restore() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.restore");
 		File modelStoreFile = AppConnector.getStorageConnector()
-				.accessAppStorage(AppConnector.getResourceString(R.string.userdatamodelfilename));
+				.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.userdatamodelfilename));
 		try {
 			// Read the contents of the character information.
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(modelStoreFile));
@@ -88,7 +89,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.save"); //$NON-NLS-1$
 		try {
 			File modelStoreFile = AppConnector.getStorageConnector()
-					.accessAppStorage(AppConnector.getResourceString(R.string.userdatamodelfilename));
+					.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.userdatamodelfilename));
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(modelStoreFile));
 
 			final ObjectOutput output = new ObjectOutputStream(buffer);

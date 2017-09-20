@@ -18,10 +18,10 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.render.JobRender;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -66,7 +66,9 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 		EveLocation loc = AppConnector.getDBConnector().searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
 		String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		// Append the Region -> system
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
 				.append(AppWideConstants.FLOW_ARROW_RIGHT);
@@ -180,8 +182,9 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
 		Log.i("EVEI", ">> JobPart.onCreateContextMenu");
 		// Create the menu only for user generated jobs.
-		if (!this.getCastedModel().getJobType().equalsIgnoreCase("CCP"))
+		if (!this.getCastedModel().getJobType().equalsIgnoreCase("CCP")) {
 			this.getActivity().getMenuInflater().inflate(R.menu.jobactions_menu, menu);
+		}
 		Log.i("EVEI", "<< JobPart.onCreateContextMenu");
 	}
 

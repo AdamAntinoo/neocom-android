@@ -53,7 +53,7 @@ public class AndroidCacheConnector implements ICache {
 
 		public DrawableCache() {
 			final File cacheFolder = new File(AppConnector.getStorageConnector().getCacheStorage(),
-					AppConnector.getResourceString(R.string.drawablecachefoldername));
+					NeoComApp.getSingletonApp().getResourceString(R.string.drawablecachefoldername));
 			try {
 				cacheDrawables = SimpleDiskCache.open(cacheFolder, 1, 100 * 1024 * 1024);
 			} catch (final IOException e) {

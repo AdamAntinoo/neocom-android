@@ -10,15 +10,14 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.connector.IModelGenerator;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.PilotListDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
-import org.dimensinfin.eveonline.neocom.generator.PilotRoasterModelGenerator;
-import org.dimensinfin.eveonline.neocom.manager.ModelGeneratorManager;
+import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
+import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -58,7 +57,7 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 		String login = AppModelStore.getSingleton().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
-		IModelGenerator generator = ModelGeneratorManager
+		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new PilotRoasterModelGenerator(locator, this.getVariant(), login));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.

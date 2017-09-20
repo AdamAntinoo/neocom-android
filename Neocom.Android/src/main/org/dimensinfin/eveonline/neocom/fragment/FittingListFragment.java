@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVariants;
-import org.dimensinfin.eveonline.neocom.connector.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
@@ -138,6 +138,7 @@ final class FittingListDataSource extends SpecialDataSource {
 	/**
 	 * Get the list of available fittings from the store and classify them from the Group category.
 	 */
+	@Override
 	public RootNode collaborate2Model() {
 		FittingListDataSource.logger.info(">> [FittingListDataSource.collaborate2Model]");
 		try {

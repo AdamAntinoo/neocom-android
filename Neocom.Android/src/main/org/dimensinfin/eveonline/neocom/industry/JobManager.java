@@ -16,13 +16,11 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
@@ -62,8 +60,8 @@ public class JobManager implements Serializable {
 
 	public static void clearCache() {
 		Log.i("CACHE", "-- CLEARING job process cache");
-		jobprocesscache.clear();
-		industryAssetsManager = null;
+		JobManager.jobprocesscache.clear();
+		JobManager.industryAssetsManager = null;
 	}
 
 	public static IJobProcess generateJobProcess(final NeoComCharacter thePilot, final NeoComBlueprint target,
@@ -75,44 +73,44 @@ public class JobManager implements Serializable {
 				// Get the tech of the blueprint to generate the correct job processor.
 				final String tech = target.getTech();
 				if (tech.equalsIgnoreCase(ModelWideConstants.eveglobal.TechI)) {
-					IJobProcess job = checkCache("T1", thePilot, target);
+					IJobProcess job = JobManager.checkCache("T1", thePilot, target);
 					if (null == job) {
-						job = new T1ManufactureProcess(industryAssetsManager);
-						job.setAssetsManager(industryAssetsManager);
+						job = new T1ManufactureProcess(JobManager.industryAssetsManager);
+						job.setAssetsManager(JobManager.industryAssetsManager);
 						job.setPilot(thePilot);
 						job.setBlueprint(target);
 						final String jobid = "T1." + Long.valueOf(thePilot.getCharacterID()).toString() + "."
 								+ Long.valueOf(target.getAssetID()).toString();
-						jobprocesscache.put(jobid, job);
+						JobManager.jobprocesscache.put(jobid, job);
 						Log.i("CACHE", "-- Adding new process " + jobid);
 					}
 					return job;
 				}
 				if (tech.equalsIgnoreCase(ModelWideConstants.eveglobal.TechII)) {
-					IJobProcess job = checkCache("T2", thePilot, target);
+					IJobProcess job = JobManager.checkCache("T2", thePilot, target);
 					if (null == job) {
-						job = new T2ManufactureProcess(industryAssetsManager);
-						job.setAssetsManager(industryAssetsManager);
+						job = new T2ManufactureProcess(JobManager.industryAssetsManager);
+						job.setAssetsManager(JobManager.industryAssetsManager);
 						job.setPilot(thePilot);
 						job.setBlueprint(target);
 						final String jobid = "T2." + Long.valueOf(thePilot.getCharacterID()).toString() + "."
 								+ Long.valueOf(target.getAssetID()).toString();
-						jobprocesscache.put(jobid, job);
+						JobManager.jobprocesscache.put(jobid, job);
 						Log.i("CACHE", "-- Adding new process " + jobid);
 					}
 					return job;
 				}
 				break;
 			case INVENTION:
-				IJobProcess job = checkCache("INV", thePilot, target);
+				IJobProcess job = JobManager.checkCache("INV", thePilot, target);
 				if (null == job) {
-					job = new InventionProcess(industryAssetsManager);
-					job.setAssetsManager(industryAssetsManager);
+					job = new InventionProcess(JobManager.industryAssetsManager);
+					job.setAssetsManager(JobManager.industryAssetsManager);
 					job.setPilot(thePilot);
 					job.setBlueprint(target);
 					final String jobid = "INV." + Long.valueOf(thePilot.getCharacterID()).toString() + "."
 							+ Long.valueOf(target.getAssetID()).toString();
-					jobprocesscache.put(jobid, job);
+					JobManager.jobprocesscache.put(jobid, job);
 					Log.i("CACHE", "-- Adding new process " + jobid);
 				}
 				return job;
@@ -147,14 +145,14 @@ public class JobManager implements Serializable {
 	public static void initializeAssets(final NeoComCharacter pilot) {
 		Log.i("EVEI", ">> JobManager.initializeAssets");
 		if (null != pilot) {
-			industryAssetsManager = new AssetsManager(pilot);
+			JobManager.industryAssetsManager = new AssetsManager(pilot);
 
 			// Get the user jobs and start processing their resources.
 			final ArrayList<Job> userjobs = AppConnector.getDBConnector().searchJob4Class(pilot.getCharacterID(), "UJOB");
 			Log.i("EVEI", "-- JobManager.initializeAssets.userjobs:" + userjobs);
 			for (final Job job : userjobs) {
 				// Get the unique blueprint used on the job and generate the jobs tasks.
-				final NeoComBlueprint blueprint = industryAssetsManager.searchBlueprintByID(job.getBlueprintID());
+				final NeoComBlueprint blueprint = JobManager.industryAssetsManager.searchBlueprintByID(job.getBlueprintID());
 				// If the blueprint if not found then the job has been started on real. Drop the job
 				if (null == blueprint) {
 					try {
@@ -278,7 +276,7 @@ public class JobManager implements Serializable {
 	private static IJobProcess checkCache(final String tech, final NeoComCharacter pilot, final NeoComBlueprint target) {
 		final String jobid = tech + "." + Long.valueOf(pilot.getCharacterID()).toString() + "."
 				+ Long.valueOf(target.getTypeID()).toString();
-		final IJobProcess hit = jobprocesscache.get(jobid);
+		final IJobProcess hit = JobManager.jobprocesscache.get(jobid);
 		return hit;
 	}
 	// - F I E L D - S E C T I O N ............................................................................
