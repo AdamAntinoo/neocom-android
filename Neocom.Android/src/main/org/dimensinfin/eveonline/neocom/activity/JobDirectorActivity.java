@@ -42,7 +42,7 @@ public class JobDirectorActivity extends PilotPagerActivity implements INeoComDi
 		else {
 			// Fire a forced download of the job list.
 			checkPilot.cleanJobs();
-			NeoComApp.getTheCacheConnector().addCharacterUpdateRequest(checkPilot.getCharacterID());
+			NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(checkPilot.getCharacterID());
 			return false;
 		}
 	}

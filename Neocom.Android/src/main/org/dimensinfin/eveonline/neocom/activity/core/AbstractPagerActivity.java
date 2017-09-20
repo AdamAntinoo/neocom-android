@@ -15,8 +15,8 @@ import org.dimensinfin.android.mvc.activity.TitledFragment;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.ERequestClass;
 import org.dimensinfin.eveonline.neocom.core.EvePagerAdapter;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
@@ -136,8 +136,8 @@ public abstract class AbstractPagerActivity extends Activity {
 				return true;
 			case R.id.action_downloadlocations:
 				// Insert into the download queue the action to download the locations.
-				NeoComApp.getTheCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
-				NeoComApp.getTheCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
+				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
+				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
 				break;
 			case R.id.action_updateaccounts:
 				// Refresh the store data

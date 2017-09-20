@@ -79,7 +79,7 @@ public class PilotInfoHolder extends EveAbstractHolder {
 
 		if (null != pilotAvatar) {
 			String link = pilot.getURLForAvatar();
-			final Drawable draw = NeoComApp.getTheCacheConnector().getCacheDrawable(link, pilotAvatar);
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
 			pilotAvatar.setImageDrawable(draw);
 		}
 		//		_convertView.invalidate();

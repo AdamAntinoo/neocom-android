@@ -1184,7 +1184,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 				// dummy placeholder.
 				entry = new MarketDataSet(itemID, side);
 				if (true) {
-					NeoComApp.getTheCacheConnector().addMarketDataRequest(itemID);
+					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
 				}
 			}
 			cache.put(itemID, entry);
@@ -1194,7 +1194,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			// update and remove it from the cache.
 			long lid = entry.getBestMarket().getLocation().getID();
 			if (lid < 0) {
-				NeoComApp.getTheCacheConnector().addMarketDataRequest(itemID);
+				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
 				cache.put(itemID, null);
 			}
 		}
@@ -1203,7 +1203,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// return entry;
 		// else {
 		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
-			NeoComApp.getTheCacheConnector().addMarketDataRequest(itemID);
+			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
 		}
 		return entry;
 		// }

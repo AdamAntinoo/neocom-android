@@ -124,7 +124,7 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
 		IModelGenerator generator = ModelGeneratorStore
-				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), login));
+				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), this.getPilot()));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager

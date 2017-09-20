@@ -249,11 +249,11 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 		// Check if the layout has the icon placeholder.
 		if (null != targetIcon) {
 			// If the flag signals an station change the code.
-			String link = NeoComApp.getTheCacheConnector().getURLForItem(typeID);
+			String link = NeoComApp.getSingletonApp().getCacheConnector().getURLForItem(typeID);
 			if (station) {
-				link = NeoComApp.getTheCacheConnector().getURLForStation(typeID);
+				link = NeoComApp.getSingletonApp().getCacheConnector().getURLForStation(typeID);
 			}
-			final Drawable draw = NeoComApp.getTheCacheConnector().getCacheDrawable(link, targetIcon);
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
 			targetIcon.setImageDrawable(draw);
 		}
 	}

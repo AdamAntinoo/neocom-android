@@ -30,7 +30,7 @@ import android.util.Log;
 public class MarketUpdaterService extends IntentService {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger	logger	= Logger.getLogger("MarketUpdaterService");
+	private static Logger logger = Logger.getLogger("MarketUpdaterService");
 
 	private static boolean filterStations(final TrackEntry entry, final Vector<String> stationList) {
 		final Iterator<String> slit = stationList.iterator();
@@ -74,6 +74,45 @@ public class MarketUpdaterService extends IntentService {
 		super("MarketUpdaterService");
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	protected void onHandleIntent(final Intent intent) {
+		Log.i("SERVICE", ">> UpdaterService.onHandleIntent");
+		final Integer localizer = (Integer) intent.getSerializableExtra(AppWideConstants.extras.EXTRA_MARKETDATA_LOCALIZER);
+		// Be sure we have access to the network. Otherwise intercept the exceptions.
+		if (NeoComApp.checkNetworkAccess()) {
+			final EveItem item = AppConnector.getDBConnector().searchItembyID(localizer);
+			//			if(market==EVEMARKETDATA)
+			Vector<TrackEntry> marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(),
+					EMarketSide.SELLER);
+			if (marketEntries.size() < 1) {
+				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.SELLER);
+			}
+			Vector<MarketDataEntry> hubData = this.extractMarketData(marketEntries);
+			// Update the structures related to the newly downloaded data.
+			MarketDataSet reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.SELLER);
+			reference.setData(hubData);
+			if (marketEntries.size() > 1) {
+				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.SELLER);
+			}
+
+			// Do the same for the other side.
+			marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(), EMarketSide.BUYER);
+			if (marketEntries.size() < 1) {
+				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.BUYER);
+			}
+			hubData = this.extractMarketData(marketEntries);
+			reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.BUYER);
+			reference.setData(hubData);
+			if (marketEntries.size() > 1) {
+				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.BUYER);
+			}
+			// Create a new method to access the cache for requests and change the state
+			NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer.toString());
+		}
+		MarketUpdaterService.logger.info("<< UpdaterService.onHandleIntent");
+	}
+
 	//	private boolean checkPresence(final String id) {
 	//		// Check for duplicates before adding the new element.
 	//		for (PendingRequestEntry entry : pendingRequests.keySet()) {
@@ -96,12 +135,12 @@ public class MarketUpdaterService extends IntentService {
 	 */
 	private Vector<MarketDataEntry> extractMarketData(final Vector<TrackEntry> entries) {
 		final HashMap<String, MarketDataEntry> stations = new HashMap<String, MarketDataEntry>();
-		final Vector<String> stationList = getMarketHubs();
+		final Vector<String> stationList = MarketUpdaterService.getMarketHubs();
 		final Iterator<TrackEntry> meit = entries.iterator();
 		while (meit.hasNext()) {
 			final TrackEntry entry = meit.next();
 			// Filtering for only preferred market hubs.
-			if (filterStations(entry, stationList)) {
+			if (MarketUpdaterService.filterStations(entry, stationList)) {
 				// Start searching for more records to sum all entries with the same or a close price to get
 				// a better understanding of the market depth. That information is not to relevant so make a
 				// best try.
@@ -112,7 +151,8 @@ public class MarketUpdaterService extends IntentService {
 					final TrackEntry searchEntry = meit.next();
 					// Check that station and prices are the same or price is inside margin.
 					if (searchEntry.getStationName().equals(stationName)) {
-						if ((stationPrice >= (searchEntry.getPrice() * 0.99)) && (stationPrice <= (searchEntry.getPrice() * 1.01))) {
+						if ((stationPrice >= (searchEntry.getPrice() * 0.99))
+								&& (stationPrice <= (searchEntry.getPrice() * 1.01))) {
 							stationQty += searchEntry.getQty();
 						} else {
 							break;
@@ -122,7 +162,7 @@ public class MarketUpdaterService extends IntentService {
 					}
 				}
 				// Convert to standard location.
-				final EveLocation entryLocation = generateLocation(stationName);
+				final EveLocation entryLocation = this.generateLocation(stationName);
 				final MarketDataEntry data = new MarketDataEntry(entryLocation);
 				data.setQty(stationQty);
 				data.setPrice(stationPrice);
@@ -196,45 +236,6 @@ public class MarketUpdaterService extends IntentService {
 
 		// Search for the system on the list of locations.
 		return AppConnector.getDBConnector().searchLocationBySystem(hubSystem);
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	protected void onHandleIntent(final Intent intent) {
-		Log.i("SERVICE", ">> UpdaterService.onHandleIntent");
-		final Integer localizer = (Integer) intent.getSerializableExtra(AppWideConstants.extras.EXTRA_MARKETDATA_LOCALIZER);
-		// Be sure we have access to the network. Otherwise intercept the exceptions.
-		if (NeoComApp.checkNetworkAccess()) {
-			final EveItem item = AppConnector.getDBConnector().searchItembyID(localizer);
-			//			if(market==EVEMARKETDATA)
-			Vector<TrackEntry> marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(),
-					EMarketSide.SELLER);
-			if (marketEntries.size() < 1) {
-				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.SELLER);
-			}
-			Vector<MarketDataEntry> hubData = extractMarketData(marketEntries);
-			// Update the structures related to the newly downloaded data.
-			MarketDataSet reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.SELLER);
-			reference.setData(hubData);
-			if (marketEntries.size() > 1) {
-				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.SELLER);
-			}
-
-			// Do the same for the other side.
-			marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(), EMarketSide.BUYER);
-			if (marketEntries.size() < 1) {
-				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.BUYER);
-			}
-			hubData = extractMarketData(marketEntries);
-			reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.BUYER);
-			reference.setData(hubData);
-			if (marketEntries.size() > 1) {
-				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.BUYER);
-			}
-			// Create a new method to access the cache for requests and change the state
-			NeoComApp.getTheCacheConnector().clearPendingRequest(localizer.toString());
-		}
-		logger.info("<< UpdaterService.onHandleIntent");
 	}
 }
 // - UNUSED CODE ............................................................................................

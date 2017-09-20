@@ -27,14 +27,12 @@ import org.dimensinfin.eveonline.neocom.adapter.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.adapter.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.interfaces.ICache;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
 import org.dimensinfin.eveonline.neocom.interfaces.INamed;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
@@ -48,8 +46,8 @@ import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.ContainerPart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
 import org.dimensinfin.eveonline.neocom.part.ShipPart;
-import org.dimensinfin.eveonline.neocom.service.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -572,9 +570,9 @@ public class NeoComApp extends Application implements IConnector {
 		return NeoComApp.singleton;
 	}
 
-	public static ICache getTheCacheConnector() {
-		return NeoComApp.getSingletonApp().getCacheConnector();
-	}
+	//	public static ICacheConnector getTheCacheConnector() {
+	//		return NeoComApp.getSingletonApp().getCacheConnector();
+	//	}
 
 	public static boolean isFirstTimeInit() {
 		return NeoComApp.firstTimeInitialization;
@@ -701,17 +699,17 @@ public class NeoComApp extends Application implements IConnector {
 		return sdcarddir + "/" + file;
 	}
 
-	public ICache getCacheConnector() {
+	public AndroidCacheConnector getCacheConnector() {
 		if (null == cache) {
 			cache = new AndroidCacheConnector(this);
 		}
 		return cache;
 	}
 
-	public ICCPDatabaseConnector getCCPDBConnector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//	public ICCPDatabaseConnector getCCPDBConnector() {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 
 	public IDatabaseConnector getDBConnector() {
 		if (null == dbNeocomConnector) {
@@ -720,10 +718,10 @@ public class NeoComApp extends Application implements IConnector {
 		return dbNeocomConnector;
 	}
 
-	public NeocomPreferences getDefaultSharedPreferences() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//	public NeocomPreferences getDefaultSharedPreferences() {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 
 	public INeoComModelStore getModelStore() {
 		return AppModelStore.getSingleton();

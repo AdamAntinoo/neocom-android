@@ -22,13 +22,14 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.core.ERequestClass;
-import org.dimensinfin.eveonline.neocom.core.ERequestState;
+import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
+import org.dimensinfin.eveonline.neocom.core.CoreCacheConnector;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache.BitmapEntry;
-import org.dimensinfin.eveonline.neocom.interfaces.ICache;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
+import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.service.PendingRequestEntry;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.annotation.TargetApi;
@@ -42,10 +43,9 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AndroidCacheConnector implements ICache {
+public class AndroidCacheConnector extends CoreCacheConnector implements ICacheConnector {
 	private class DrawableCache extends Statisticscache {
-		// - F I E L D - S E C T I O N
-		// ............................................................................
+		// - F I E L D - S E C T I O N ............................................................................
 		private SimpleDiskCache				cacheDrawables		= null;
 		private volatile int					loads							= 0;
 		private final CompressFormat	mCompressFormat		= CompressFormat.PNG;
@@ -61,8 +61,7 @@ public class AndroidCacheConnector implements ICache {
 			}
 		}
 
-		// - M E T H O D - S E C T I O N
-		// ..........................................................................
+		// - M E T H O D - S E C T I O N ..........................................................................
 		public synchronized void add(final String key, final Drawable target) {
 			AndroidCacheConnector.logger.info("-- Storing Drawable instance [" + key + "] ");
 			// cacheDrawables.put(key, target);
@@ -123,13 +122,11 @@ public class AndroidCacheConnector implements ICache {
 	}
 
 	private class DrawableDownloaderTask extends AsyncTask<String, Void, Drawable> {
-		// - F I E L D - S E C T I O N
-		// ............................................................................
+		// - F I E L D - S E C T I O N ............................................................................
 		private ImageView	targetImage	= null;
 		private Drawable	source			= null;
 
-		// - M E T H O D - S E C T I O N
-		// ..........................................................................
+		// - M E T H O D - S E C T I O N  ..........................................................................
 		public void setImageTarget(final ImageView target) {
 			// TODO Auto-generated method stub
 			targetImage = target;
@@ -143,7 +140,7 @@ public class AndroidCacheConnector implements ICache {
 				urlConn = new URL(reference[0]).openConnection();
 				is = urlConn.getInputStream();
 				source = Drawable.createFromStream(is, "src");
-				NeoComApp.getTheCacheConnector().addDrawableToCache(reference[0], source);
+				NeoComApp.getSingletonApp().getCacheConnector().addDrawableToCache(reference[0], source);
 				return source;
 			} catch (final Exception ex) {
 			} finally {
@@ -279,15 +276,15 @@ public class AndroidCacheConnector implements ICache {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger								logger						= Logger.getLogger("AndroidCacheConnector");
+	private static Logger											logger						= Logger.getLogger("AndroidCacheConnector");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context											_context					= null;
-	private final EveItemCache					_eveItemCache			= new EveItemCache();
-	private DrawableCache								_cacheDrawables		= null;
+	private Context														_context					= null;
+	private final EveItemCache								_eveItemCache			= new EveItemCache();
+	private DrawableCache											_cacheDrawables		= null;
 	// private final HashMap<String, CacheEntry> _pendingDrawableDownloads = new
 	// HashMap<String, CacheEntry>();
-	private Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
+	private final Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidCacheConnector(final Context app) {
@@ -300,6 +297,7 @@ public class AndroidCacheConnector implements ICache {
 	 * initialized at startup and probably in some other conditions like when the information is stale and needs
 	 * to be updated.
 	 */
+	@Override
 	public void addCharacterUpdateRequest(final long localizer) {
 		AndroidCacheConnector.logger.info(">> [AndroidCacheConnector.addCharacterUpdateRequest]");
 		final PendingRequestEntry request = new PendingRequestEntry(localizer);
@@ -341,6 +339,7 @@ public class AndroidCacheConnector implements ICache {
 	 * @param localizer
 	 *          identifier of the item related to the data to download.
 	 */
+	@Override
 	public synchronized void addMarketDataRequest(final long localizer) {
 		// Log.i("AndroidCacheConnector", ">>
 		// AndroidCacheConnector.addMarketDataRequest");
@@ -371,10 +370,12 @@ public class AndroidCacheConnector implements ICache {
 		}
 	}
 
+	@Override
 	public synchronized void clearPendingRequest(final long localizer) {
 		this.clearPendingRequest(Long.valueOf(localizer).toString());
 	}
 
+	@Override
 	public synchronized void clearPendingRequest(final String localizer) {
 		for (final PendingRequestEntry entry : _pendingRequests) {
 			final String entryid = entry.getIdentifier();
@@ -389,6 +390,55 @@ public class AndroidCacheConnector implements ICache {
 			}
 		}
 	}
+
+	@Override
+	public int decrementMarketCounter() {
+		NeoComApp.marketCounter--;
+		if (NeoComApp.marketCounter < 0) {
+			NeoComApp.marketCounter = 0;
+		}
+		final Activity activity = AppModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(new Runnable() {
+				public void run() {
+					NeoComApp.updateProgressSpinner();
+				}
+			});
+		}
+		return NeoComApp.marketCounter;
+	}
+
+	@Override
+	public int decrementTopCounter() {
+		NeoComApp.topCounter--;
+		if (NeoComApp.topCounter < 0) {
+			NeoComApp.topCounter = 0;
+		}
+		final Activity activity = AppModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(new Runnable() {
+				public void run() {
+					NeoComApp.updateProgressSpinner();
+				}
+			});
+		}
+		return NeoComApp.topCounter;
+	}
+
+	//	@Override
+	//	public synchronized Vector<PendingRequestEntry> getPendingRequests() {
+	//		if (null == _pendingRequests) {
+	//			_pendingRequests = new Vector<PendingRequestEntry>();
+	//		}
+	//		// Clean up all completed requests.
+	//		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
+	//		for (final PendingRequestEntry entry : _pendingRequests)
+	//			if (entry.state != ERequestState.COMPLETED) {
+	//				openRequests.add(entry);
+	//			}
+	//		_pendingRequests = openRequests;
+	//		return _pendingRequests;
+	//	}
 
 	/**
 	 * Gets a drawable by its URL. Most of the Eve icons can be reached though an URL and also this is valid for
@@ -438,44 +488,9 @@ public class AndroidCacheConnector implements ICache {
 		return null;
 	}
 
-	public synchronized Vector<PendingRequestEntry> getPendingRequests() {
-		if (null == _pendingRequests) {
-			_pendingRequests = new Vector<PendingRequestEntry>();
-		}
-		// Clean up all completed requests.
-		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
-		for (final PendingRequestEntry entry : _pendingRequests)
-			if (entry.state != ERequestState.COMPLETED) {
-				openRequests.add(entry);
-			}
-		_pendingRequests = openRequests;
-		return _pendingRequests;
-	}
-
 	public String getURLForItem(final int typeID) {
 		final String iconUrl = "http://image.eveonline.com/Type/" + typeID + "_64.png";
 		return iconUrl;
-	}
-
-	public String getURLForStation(final int typeID) {
-		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
-		return iconUrl;
-	}
-
-	/**
-	 * Adds a new entry if not already found on the pending list.
-	 * 
-	 * @param request
-	 */
-	private synchronized boolean addNoDuplicate(final PendingRequestEntry request) {
-		// Check for duplicates before adding the new element.
-		final String requestid = request.getIdentifier();
-		for (final PendingRequestEntry entry : _pendingRequests) {
-			final String entryid = entry.getIdentifier();
-			if (entryid.equalsIgnoreCase(requestid)) return false;
-		}
-		_pendingRequests.add(request);
-		return true;
 	}
 
 	// /**
@@ -530,41 +545,9 @@ public class AndroidCacheConnector implements ICache {
 	// return hit;
 	// }
 
-	private void decrementMarketCounter() {
-		NeoComApp.marketCounter--;
-		if (NeoComApp.marketCounter < 0) {
-			NeoComApp.marketCounter = 0;
-		}
-		final Activity activity = AppModelStore.getSingleton().getActivity();
-		if (null != activity) {
-			activity.runOnUiThread(new Runnable() {
-				public void run() {
-					NeoComApp.updateProgressSpinner();
-				}
-			});
-		}
-	}
-
-	private void decrementTopCounter() {
-		NeoComApp.topCounter--;
-		if (NeoComApp.topCounter < 0) {
-			NeoComApp.topCounter = 0;
-		}
-		final Activity activity = AppModelStore.getSingleton().getActivity();
-		if (null != activity) {
-			activity.runOnUiThread(new Runnable() {
-				public void run() {
-					NeoComApp.updateProgressSpinner();
-				}
-			});
-		}
-	}
-
-	private DrawableCache getCache() {
-		if (null == _cacheDrawables) {
-			_cacheDrawables = new DrawableCache();
-		}
-		return _cacheDrawables;
+	public String getURLForStation(final int typeID) {
+		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
+		return iconUrl;
 	}
 
 	// /**
@@ -610,12 +593,37 @@ public class AndroidCacheConnector implements ICache {
 	// }
 	// return hit;
 	// }
-	private void incrementMarketCounter() {
-		NeoComApp.marketCounter++;
+	@Override
+	public int incrementMarketCounter() {
+		return NeoComApp.marketCounter++;
 	}
 
-	private void incrementTopCounter() {
-		NeoComApp.topCounter++;
+	@Override
+	public int incrementTopCounter() {
+		return NeoComApp.topCounter++;
+	}
+
+	/**
+	 * Adds a new entry if not already found on the pending list.
+	 * 
+	 * @param request
+	 */
+	private synchronized boolean addNoDuplicate(final PendingRequestEntry request) {
+		// Check for duplicates before adding the new element.
+		final String requestid = request.getIdentifier();
+		for (final PendingRequestEntry entry : _pendingRequests) {
+			final String entryid = entry.getIdentifier();
+			if (entryid.equalsIgnoreCase(requestid)) return false;
+		}
+		_pendingRequests.add(request);
+		return true;
+	}
+
+	private DrawableCache getCache() {
+		if (null == _cacheDrawables) {
+			_cacheDrawables = new DrawableCache();
+		}
+		return _cacheDrawables;
 	}
 
 	// private void incrementMarketCounter() {

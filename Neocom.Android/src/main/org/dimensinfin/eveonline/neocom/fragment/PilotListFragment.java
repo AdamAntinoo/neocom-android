@@ -17,6 +17,7 @@ import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
+import org.dimensinfin.eveonline.neocom.generator.PilotRoasterGenerator;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -58,7 +59,7 @@ public class PilotListFragment extends AbstractNewPagerFragment {
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
 		IModelGenerator generator = ModelGeneratorStore
-				.registerGenerator(new PilotRoasterModelGenerator(locator, this.getVariant(), login));
+				.registerGenerator(new PilotRoasterGenerator(locator, this.getVariant(), login));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager

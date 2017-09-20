@@ -54,7 +54,7 @@ public class CharacterUpdaterService extends IntentService {
 					switch (datacode) {
 						case CHARACTERDATA:
 							pilot.updateCharacterInfo();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(localizer);
+							NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer);
 							NeoComApp.topCounter--;
 							break;
 						case ASSETDATA:
@@ -66,7 +66,7 @@ public class CharacterUpdaterService extends IntentService {
 							}
 							//							pilot.downloadAssets();
 							//							pilot.downloadBlueprints();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(localizer);
+							NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer);
 							NeoComApp.topCounter--;
 							break;
 						//													case BLUEPRINTDATA:

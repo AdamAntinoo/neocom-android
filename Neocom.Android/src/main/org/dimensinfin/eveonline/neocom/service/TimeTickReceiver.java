@@ -33,12 +33,13 @@ import javax.net.ssl.X509TrustManager;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.ERequestClass;
-import org.dimensinfin.eveonline.neocom.core.ERequestState;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
+import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -250,7 +251,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
-		Vector<PendingRequestEntry> requests = NeoComApp.getTheCacheConnector().getPendingRequests();
+		Vector<PendingRequestEntry> requests = NeoComApp.getSingletonApp().getCacheConnector().getPendingRequests();
 		synchronized (requests) {
 			// Get the pending requests and order them by the priority.
 			Collections.sort(requests, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY));
@@ -273,12 +274,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 					if (entry.reqClass == ERequestClass.CITADELUPDATE) {
 						// Launch the update and remove the event from the queue.
 						new UpdateCitadelsTask().execute();
-						NeoComApp.getTheCacheConnector().clearPendingRequest(entry.getIdentifier());
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
 					}
 					if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
 						// Launch the update and remove the event from the queue.
 						new UpdateOutpostsTask().execute();
-						NeoComApp.getTheCacheConnector().clearPendingRequest(entry.getIdentifier());
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
 					}
 				}
 		}
@@ -290,7 +291,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			if (updateCode != EDataBlock.READY) {
 				TimeTickReceiver.logger
 						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
-				NeoComApp.getTheCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
+				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
 		Activity activity = AppModelStore.getSingleton().getActivity();
