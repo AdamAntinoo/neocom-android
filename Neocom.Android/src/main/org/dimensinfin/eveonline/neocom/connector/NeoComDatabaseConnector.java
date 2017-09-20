@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
+import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -54,7 +55,7 @@ public class NeoComDatabaseConnector extends AndroidDatabaseConnector {
 		return this.getNeocomDBHelper().getApiKeysDao();
 	}
 
-	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
+	public Dao<NeoComAsset, String> getAssetDAO() throws SQLException {
 		return this.getNeocomDBHelper().getAssetDAO();
 	}
 

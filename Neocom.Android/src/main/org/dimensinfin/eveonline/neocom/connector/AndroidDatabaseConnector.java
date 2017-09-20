@@ -10,28 +10,40 @@ package org.dimensinfin.eveonline.neocom.connector;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
+import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
+import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
+import org.dimensinfin.eveonline.neocom.model.Property;
+import org.dimensinfin.eveonline.neocom.model.TimeStamp;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
+import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
+import org.dimensinfin.eveonline.neocom.planetary.Schematics;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -51,7 +63,7 @@ import net.nikr.eve.jeveasset.gui.tabs.assets.MyAsset;
 import net.nikr.eve.jeveasset.io.online.CitadelGetter;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector {
+public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger				logger										= Logger.getLogger("AndroidDatabaseConnector");
@@ -59,6 +71,9 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	//	protected static String												DATABASE_NAME							= "neocom-v.r.db";
 	//	protected static int													DATABASE_VERSION					= 010;
 
+	private static final String	SELECT_SCHEMATICS_INFO		= "SELECT pstms.typeID, pstms.quantity, pstms.isInput"
+			+ " FROM   planetSchematicsTypeMap pstmt, planetSchematicsTypeMap pstms" + " WHERE  pstmt.typeID = ?"
+			+ " AND    pstmt.isInput = 0" + " AND    pstms.schematicID = pstmt.schematicID";
 	private static final String	SELECT_ITEM_BYID					= "SELECT it.typeID AS typeID, it.typeName AS typeName"
 			+ " , ig.groupName AS groupName" + " , ic.categoryName AS categoryName" + " , it.basePrice AS basePrice"
 			+ " , it.volume AS volume" + " , IFNULL(img.metaGroupName, " + '"' + "NOTECH" + '"' + ") AS Tech"
@@ -129,7 +144,7 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	//	protected NeocomAndroidDBHelper						neocomDBHelper			= null;
+	private NeocomAndroidDBHelper							neocomDBHelper			= null;
 	protected Context													_context						= null;
 	private SQLiteDatabase										staticDatabase			= null;
 	private SQLiteDatabase										ccpDatabase					= null;
@@ -147,12 +162,10 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
 	public boolean checkInvention(final int typeID) {
 		return this.checkRecordExistence(typeID, AndroidDatabaseConnector.CHECK_INVENTION);
 	}
 
-	@Override
 	public boolean checkManufacturable(final int typeID) {
 		return this.checkRecordExistence(typeID, AndroidDatabaseConnector.CHECK_MANUFACTURABLE);
 	}
@@ -162,7 +175,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 * owner identifier. Those records are from older downloads and have to be removed to avoid merging with the
 	 * new download.
 	 */
-	@Override
 	public synchronized void clearInvalidRecords() {
 		SQLiteDatabase database = null;
 		try {
@@ -189,7 +201,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		}
 	}
 
-	@Override
 	public void closeDatabases() {
 		//		appDatabaseHelper.close();
 		if (null != staticDatabase) {
@@ -202,9 +213,9 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		ccpDatabase = null;
 	}
 
-	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getApiKeysDao();
-	//	}
+	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+		return this.getNeocomDBHelper().getApiKeysDao();
+	}
 
 	public List<ApiKey> getApiList4Login(final String login) {
 		AndroidDatabaseConnector.logger.info(">> [AndroidDatabaseConnector.getApiList4Login] login=" + login);
@@ -224,39 +235,41 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return apilist;
 	}
 
-	//	public Dao<NeoComAsset, String> getAssetDAO() throws java.sql.SQLException {
-	//		return this.getNeocomDBHelper().getAssetDAO();
+	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getApiKeysDao();
 	//	}
-	//
-	//	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
-	//		return this.getNeocomDBHelper().getBlueprintDAO();
-	//	}
-	//
-	//	@Override
-	//	public Dao<Job, String> getJobDAO() throws SQLException {
-	//		return this.getNeocomDBHelper().getJobDAO();
-	//	}
-	//
-	//	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
-	//		return this.getNeocomDBHelper().getLocationDAO();
-	//	}
-	//
-	//	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
-	//		return this.getNeocomDBHelper().getMarketOrderDAO();
-	//	}
-	//
-	//	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getPlanetaryResourceDao();
-	//	}
-	//
-	//	@Override
-	//	public Dao<Property, String> getPropertyDAO() throws SQLException {
-	//		return this.getNeocomDBHelper().getPropertyDAO();
-	//	}
-	//
-	//	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getResourceListDao();
-	//	}
+
+	public Dao<NeoComAsset, String> getAssetDAO() throws SQLException {
+		return this.getNeocomDBHelper().getAssetDAO();
+	}
+
+	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
+		return this.getNeocomDBHelper().getBlueprintDAO();
+	}
+
+	public Dao<Job, String> getJobDAO() throws SQLException {
+		return this.getNeocomDBHelper().getJobDAO();
+	}
+
+	public Dao<EveLocation, String> getLocationDAO() throws SQLException {
+		return this.getNeocomDBHelper().getLocationDAO();
+	}
+
+	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
+		return this.getNeocomDBHelper().getMarketOrderDAO();
+	}
+
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao() throws SQLException {
+		return this.getNeocomDBHelper().getPlanetaryResourceDao();
+	}
+
+	public Dao<Property, String> getPropertyDAO() throws SQLException {
+		return this.getNeocomDBHelper().getPropertyDAO();
+	}
+
+	public Dao<ResourceList, String> getResourceListDao() throws SQLException {
+		return this.getNeocomDBHelper().getResourceListDao();
+	}
 
 	public SQLiteDatabase getStaticDatabase() throws SQLException {
 		if (null == staticDatabase) {
@@ -265,9 +278,13 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return staticDatabase;
 	}
 
-	//	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getVersionDao();
-	//	}
+	public Dao<TimeStamp, String> getTimeStampDAO() throws SQLException {
+		return this.getNeocomDBHelper().getTimeStampDAO();
+	}
+
+	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
+		return this.getNeocomDBHelper().getVersionDao();
+	}
 
 	/**
 	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
@@ -275,13 +292,12 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 * 
 	 * @return <code>true</code> if there was any problem.
 	 */
-	@Override
 	public boolean openAppDataBase() {
 		if (null == staticDatabase) {
-			final String database = AppConnector.getAppFilePath(R.string.appdatabasefilename);
+			final String database = NeoComApp.getSingletonApp().getAppFilePath(R.string.appdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 			//			try {
-			if (AppConnector.sdcardAvailable()) {
+			if (NeoComApp.getSingletonApp().sdcardAvailable()) {
 				// Open the helper to check version and availability.
 				// appDatabaseHelper = new EveDroidDBHelper(_context);
 				staticDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
@@ -297,15 +313,14 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return true;
 	}
 
-	@Override
 	public boolean openCCPDataBase() {
 		if (null == ccpDatabase) {
-			final String database = AppConnector.getAppFilePath(R.string.ccpdatabasefilename);
+			final String database = NeoComApp.getSingletonApp().getAppFilePath(R.string.ccpdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 			//			try {
 			// InputStream dbStream =
 			// _context.getResources().openRawResource(R.raw.eve);
-			if (AppConnector.sdcardAvailable()) {
+			if (NeoComApp.getSingletonApp().sdcardAvailable()) {
 				ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 			} else
 				return true;
@@ -317,8 +332,54 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		}
 		return true;
 	}
+	//	/**
+	//	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
+	//	 * returns true.
+	//	 * 
+	//	 * @return <code>true</code> if there was any problem.
+	//	 */
+	//	public boolean openAppDataBase() {
+	//		if (null == staticDatabase) {
+	//			final String database = AppConnector.getAppFilePath(R.string.appdatabasefilename);
+	//			final String path = Environment.getExternalStorageDirectory() + "/" + database;
+	//			//			try {
+	//			if (AppConnector.sdcardAvailable()) {
+	//				// Open the helper to check version and availability.
+	//				// appDatabaseHelper = new EveDroidDBHelper(_context);
+	//				staticDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
+	//			} else
+	//				return true;
+	//			return false;
+	//			//			} catch (final SQLException sqle) {
+	//			//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+	//			//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+	//			//				throw new RuntimeException("E> Failed to open database: " + database + ". " + sqle.getMessage());
+	//			//			}
+	//		}
+	//		return true;
+	//	}
+	//
+	//	@Override
+	//	public boolean openCCPDataBase() {
+	//		if (null == ccpDatabase) {
+	//			final String database = AppConnector.getAppFilePath(R.string.ccpdatabasefilename);
+	//			final String path = Environment.getExternalStorageDirectory() + "/" + database;
+	//			//			try {
+	//			// InputStream dbStream =
+	//			// _context.getResources().openRawResource(R.raw.eve);
+	//			if (AppConnector.sdcardAvailable()) {
+	//				ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+	//			} else
+	//				return true;
+	//			return false;
+	//			//			} catch (final SQLException sqle) {
+	//			//				AndroidDatabaseConnector.logger.severe("E> Failed to open database: " + database);
+	//			//				AndroidDatabaseConnector.logger.severe("E> " + sqle.getMessage());
+	//			//			}
+	//		}
+	//		return true;
+	//	}
 
-	@Override
 	public int queryBlueprintDependencies(final int bpitemID) {
 		try {
 			if (null == ccpDatabase) {
@@ -341,7 +402,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return -1;
 	}
 
-	@Override
 	public ArrayList<Resource> refineOre(final int oreID) {
 		ArrayList<Resource> results = new ArrayList<Resource>();
 		try {
@@ -370,7 +430,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 * completes the download and the assignment of the resources to the character without interrupting the
 	 * processing of data by the application.
 	 */
-	@Override
 	public synchronized void replaceAssets(final long characterID) {
 		SQLiteDatabase database = null;
 		try {
@@ -395,7 +454,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		}
 	}
 
-	@Override
 	public synchronized void replaceBlueprints(final long characterID) {
 		SQLiteDatabase database = null;
 		try {
@@ -420,21 +478,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		}
 	}
 
-	//	/**
-	//	 * Like the other initialization methods this return a true if there was any problem during the process.
-	//	 * 
-	//	 * @return
-	//	 */
-	//	@Override
-	//	public boolean openDAO() {
-	//		if (null == appDatabaseHelper) {
-	//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
-	//			return true;
-	//		}
-	//		return false;
-	//	}
-
-	@Override
 	public synchronized void replaceJobs(final long characterID) {
 		SQLiteDatabase database = null;
 		try {
@@ -457,6 +500,58 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 				database.endTransaction();
 			}
 		}
+	}
+
+	/**
+	 * Get the list of all the Blueprints for a given Character. It can ge a Pilot or a Corporation and the
+	 * differences should be none.
+	 * 
+	 * @param characterID
+	 * @return
+	 */
+	public ArrayList<NeoComAsset> searchAllBlueprintAssets(final long characterID) {
+		// Select assets for each one of the Planetary categories.
+		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
+		assetList.addAll(this.searchAsset4Category(characterID, "Blueprint"));
+		return assetList;
+	}
+
+	/**
+	 * Get the complete list of assets that are Planetary Materials.
+	 * 
+	 * @return
+	 */
+	public ArrayList<NeoComAsset> searchAllPlanetaryAssets(final long characterID) {
+		// Select assets for each one of the Planetary categories.
+		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
+		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Commodities"));
+		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Resources"));
+		return assetList;
+	}
+
+	/**
+	 * gets the list of assets of a select Category
+	 * 
+	 * @param characterID
+	 * @param typeID
+	 * @return
+	 */
+	public ArrayList<NeoComAsset> searchAsset4Category(final long characterID, final String categoryName) {
+		// Select assets for the owner and with an specific type id.
+		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			where.eq("ownerID", characterID);
+			where.and();
+			where.eq("category", categoryName);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			assetList = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return (ArrayList<NeoComAsset>) assetList;
 	}
 
 	public ArrayList<NeoComAsset> searchAsset4Type(final long characterID, final int typeID) {
@@ -519,10 +614,23 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return (ArrayList<NeoComAsset>) assetList;
 	}
 
+	//	/**
+	//	 * Like the other initialization methods this return a true if there was any problem during the process.
+	//	 * 
+	//	 * @return
+	//	 */
+	//	@Override
+	//	public boolean openDAO() {
+	//		if (null == appDatabaseHelper) {
+	//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
+	//			return true;
+	//		}
+	//		return false;
+	//	}
+
 	/**
 	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
 	 */
-	@Override
 	public int searchBlueprint4Module(final int moduleID) {
 		try {
 			if (null == ccpDatabase) {
@@ -545,7 +653,46 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return -1;
 	}
 
-	@Override
+	/**
+	 * Gets the list of type ids for the required resources to get an output batch of the former planetary
+	 * resource.
+	 * 
+	 * @param typeID
+	 * @return
+	 */
+	public Vector<Integer> searchInputResources(final int typeID) {
+		Vector<Integer> result = new Vector<Integer>();
+		//		PreparedStatement prepStmt = null;
+		//		ResultSet cursor = null;
+		//		try {
+		//			prepStmt = this.getCCPDatabase().prepareStatement(SELECT_TIER2_INPUTS);
+		//			prepStmt.setString(1, Integer.valueOf(typeID).toString());
+		//			cursor = prepStmt.executeQuery();
+		//			while (cursor.next()) {
+		//				result.add(cursor.getInt(1));
+		//			}
+		//		} catch (Exception ex) {
+		//			AndroidDatabaseConnector.logger
+		//					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		//		} finally {
+		//			try {
+		//				if (cursor != null) {
+		//					cursor.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//			try {
+		//				if (prepStmt != null) {
+		//					prepStmt.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//		}
+		return result;
+	}
+
 	public ArrayList<Integer> searchInventionableBlueprints(final String idList) {
 		Log.i("DBQUERY", ">> AndroidDatabaseConnector.searchInventionableBlueprints");
 		ArrayList<Integer> blueprintIds = new ArrayList<Integer>();
@@ -572,7 +719,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return blueprintIds;
 	}
 
-	@Override
 	public int searchInventionProduct(final int typeID) {
 		int product = -1;
 		try {
@@ -596,7 +742,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 * different treatment and also we check for the availability of the item at the current cache if
 	 * implemented.
 	 */
-	@Override
 	public EveItem searchItembyID(final int typeID) {
 		// Search the item on the cache.
 		EveItem hit = itemCache.get(typeID);
@@ -642,7 +787,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return hit;
 	}
 
-	@Override
 	public ArrayList<Job> searchJob4Class(final long characterID, final String classname) {
 		// Select assets for the owner and woth an specific type id.
 		List<Job> joblist = new ArrayList<Job>();
@@ -662,7 +806,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 
 	}
 
-	@Override
 	public int searchJobExecutionTime(final int typeID, final int activityID) {
 		Log.i("EVEI", ">> AndroidDatabaseConnector.searchJobExecutionTime");
 		int jobTime = ModelWideConstants.HOURS2 / 1000;
@@ -687,7 +830,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return jobTime;
 	}
 
-	@Override
 	public ArrayList<Resource> searchListOfDatacores(final int itemID) {
 		// Log.i("AndroidDatabaseConnector", ">>
 		// AndroidDatabaseConnector.searchListOfDatacores");
@@ -718,25 +860,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return inventionJob;
 	}
 
-	// public EveItem searchItembyIDoff(final int typeID) {
-	// // Search the item on the cache.
-	// EveItem hit = itemCache.get(new Integer(typeID));
-	// if (null == hit) {
-	// try {
-	// Dao<EveItem, String> dao = getItemDAO();
-	// EveItem newItem = dao.queryForId(new Integer(typeID).toString());
-	// if (null == newItem) return new EveItem();
-	// itemCache.put(new Integer(typeID), newItem);
-	// return newItem;
-	// } catch (final Exception ex) {
-	// logger.warning("W> Item <" + typeID + "> not found.");
-	// }
-	// return new EveItem();
-	// } else
-	// return hit;
-	// }
-
-	@Override
 	public ArrayList<Resource> searchListOfMaterials(final int itemID) {
 		// Log.i("AndroidDatabaseConnector", ">>
 		// AndroidDatabaseConnector.searchListOfMaterials");
@@ -796,7 +919,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return buildJob;
 	}
 
-	@Override
 	public ArrayList<Resource> searchListOfReaction(final int itemID) {
 		ArrayList<Resource> buildJob = new ArrayList<Resource>();
 		AppConnector.startChrono();
@@ -868,7 +990,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 * a parameter. New >>>>>>> 0.6.2-NewEveapi implementation use this ID to calculate if this matches a
 	 * corporation outpost or a corporation office hangar.
 	 */
-	@Override
 	public EveLocation searchLocationbyID(final long locationID) {
 		// Try to get that id from the cache tables
 		try {
@@ -995,7 +1116,24 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		//		return hit;
 	}
 
-	@Override
+	// public EveItem searchItembyIDoff(final int typeID) {
+	// // Search the item on the cache.
+	// EveItem hit = itemCache.get(new Integer(typeID));
+	// if (null == hit) {
+	// try {
+	// Dao<EveItem, String> dao = getItemDAO();
+	// EveItem newItem = dao.queryForId(new Integer(typeID).toString());
+	// if (null == newItem) return new EveItem();
+	// itemCache.put(new Integer(typeID), newItem);
+	// return newItem;
+	// } catch (final Exception ex) {
+	// logger.warning("W> Item <" + typeID + "> not found.");
+	// }
+	// return new EveItem();
+	// } else
+	// return hit;
+	// }
+
 	public EveLocation searchLocationBySystem(final String name) {
 		final EveLocation newLocation = new EveLocation();
 		try {
@@ -1028,7 +1166,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 	 *          differentiates if we like to BUY or SELL the item.
 	 * @return the cached data or an empty locator ready to receive downloaded data.
 	 */
-	@Override
 	public MarketDataSet searchMarketData(final int itemID, final EMarketSide side) {
 		// Log.i("EVEI","-- MarketUpdaterService.searchMarketDataByID. Searching
 		// for Market Data: " + itemID + " - " + side);
@@ -1072,7 +1209,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		// }
 	}
 
-	@Override
 	public int searchModule4Blueprint(final int bpitemID) {
 		try {
 			if (null == ccpDatabase) {
@@ -1093,6 +1229,39 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 			AndroidDatabaseConnector.logger.severe("E> Error locating module for BPO <" + bpitemID + ">.");
 		}
 		return -1;
+	}
+
+	public int searchRawPlanetaryOutput(final int typeID) {
+		int outputResourceId = typeID;
+		//		PreparedStatement prepStmt = null;
+		//		ResultSet cursor = null;
+		//		try {
+		//			prepStmt = this.getCCPDatabase().prepareStatement(SELECT_RAW_PRODUCTRESULT);
+		//			prepStmt.setString(1, Integer.valueOf(typeID).toString());
+		//			cursor = prepStmt.executeQuery();
+		//			while (cursor.next()) {
+		//				outputResourceId = cursor.getInt(1);
+		//			}
+		//		} catch (Exception ex) {
+		//			AndroidDatabaseConnector.logger
+		//					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		//		} finally {
+		//			try {
+		//				if (cursor != null) {
+		//					cursor.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//			try {
+		//				if (prepStmt != null) {
+		//					prepStmt.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//		}
+		return outputResourceId;
 	}
 
 	public int searchReactionOutputMultiplier(final int itemID) {
@@ -1166,13 +1335,51 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return multiplier;
 	}
 
+	public Vector<Schematics> searchSchematics4Output(final int targetId) {
+		Vector<Schematics> scheList = new Vector<Schematics>();
+		PreparedStatement prepStmt = null;
+		Cursor cursor = null;
+		try {
+			cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.SELECT_SCHEMATICS_INFO,
+					new String[] { Integer.valueOf(targetId).toString() });
+			while (cursor.moveToNext()) {
+				boolean flag = true;
+				if (cursor.getInt(3) == 0) {
+					flag = false;
+				} else {
+					flag = true;
+				}
+				scheList.add(new Schematics().addData(cursor.getInt(1), cursor.getInt(2), flag));
+				cursor.close();
+			}
+		} catch (Exception ex) {
+			AndroidDatabaseConnector.logger
+					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+			//		} finally {
+			//			try {
+			//				if (cursor != null) {
+			//					cursor.close();
+			//				}
+			////			} catch (SQLException ex) {
+			////				ex.printStackTrace();
+			////			}
+			//			try {
+			//				if (prepStmt != null) {
+			//					prepStmt.close();
+			//				}
+			////			} catch (SQLException ex) {
+			////				ex.printStackTrace();
+			////			}
+		}
+		return scheList;
+	}
+
 	/**
 	 * Returns the resource identifier of the station class to locate icons or other type related resources.
 	 * 
 	 * @param stationID
 	 * @return
 	 */
-	@Override
 	public int searchStationType(final long stationID) {
 		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
 		int stationTypeID = 1529;
@@ -1196,7 +1403,6 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 		return stationTypeID;
 	}
 
-	@Override
 	public String searchTech4Blueprint(final int blueprintID) {
 		try {
 			if (null == ccpDatabase) {
@@ -1250,6 +1456,15 @@ public abstract class AndroidDatabaseConnector extends AbstractDatabaseConnector
 			this.openAppDataBase();
 		}
 		return staticDatabase;
+	}
+
+	private NeocomAndroidDBHelper getNeocomDBHelper() {
+		if (null == neocomDBHelper) {
+			AndroidDatabaseConnector.logger.warning(
+					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
+			neocomDBHelper = OpenHelperManager.getHelper(_context, NeocomAndroidDBHelper.class);
+		}
+		return neocomDBHelper;
 	}
 
 	//	private NeocomAndroidDBHelper getNeocomDBHelper() {

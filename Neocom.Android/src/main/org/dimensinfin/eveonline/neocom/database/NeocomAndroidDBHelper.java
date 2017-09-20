@@ -14,14 +14,15 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.industry.Job;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
+import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Property;
+import org.dimensinfin.eveonline.neocom.model.TimeStamp;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 
@@ -50,6 +51,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	//	private Connection														ccpDatabase								= null;
 
 	private Dao<DatabaseVersion, String>		versionDao						= null;
+	private Dao<TimeStamp, String>					timeStampDao					= null;
 	private Dao<ApiKey, String>							apiKeysDao						= null;
 	private Dao<Property, String>						propertyDao						= null;
 	private Dao<ResourceList, String>				resourceList					= null;
@@ -64,8 +66,10 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	public NeocomAndroidDBHelper(final Context context) {
 		super(context,
 				AppConnector.getStorageConnector()
-						.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath(),
-				null, new Integer(AppConnector.getResourceString(R.string.databaseversion)).intValue(), R.raw.ormlite_config);
+						.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasefilename))
+						.getAbsolutePath(),
+				null, new Integer(NeoComApp.getSingletonApp().getResourceString(R.string.databaseversion)).intValue(),
+				R.raw.ormlite_config);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -145,6 +149,13 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			resourceList = DaoManager.createDao(this.getConnectionSource(), ResourceList.class);
 		}
 		return resourceList;
+	}
+
+	public Dao<TimeStamp, String> getTimeStampDAO() throws SQLException {
+		if (null == timeStampDao) {
+			timeStampDao = DaoManager.createDao(this.getConnectionSource(), TimeStamp.class);
+		}
+		return timeStampDao;
 	}
 
 	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
@@ -281,8 +292,8 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			try {
 				// Delete all the CCP data tables to create then again on open.
 				NeoComApp.getSingletonApp().getApplicationContext()
-						.deleteDatabase(AppConnector.getResourceString(R.string.appdatabasepath)
-								+ AppConnector.getResourceString(R.string.appdatabasefilename));
+						.deleteDatabase(NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasepath)
+								+ NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasefilename));
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();
