@@ -29,6 +29,7 @@ import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -163,6 +164,36 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
 		}
 		return versionDao;
+	}
+
+	public void loadSeedData() {
+		// Add seed data to the new database is the tables are empty.
+		try {
+			//--- A P I   K E Y S
+			Dao<ApiKey, String> apikey = this.getApiKeysDao();
+			QueryBuilder<ApiKey, String> queryBuilder = apikey.queryBuilder();
+			queryBuilder.setCountOf(true);
+			long records = apikey.countOf(queryBuilder.prepare());
+
+			// If the table is empty then insert the seeded Api Keys
+			if (records < 1) {
+				ApiKey key = new ApiKey("Beth Ripley").setKeynumber(2889577)
+						.setValidationcode("Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw");
+				key = new ApiKey("Perico").setKeynumber(3106761)
+						.setValidationcode("gltCmvVoZl5akrM8d6DbNKZn7Jm2SaukrmqjnSOyqKbvzz5CtNfknTEwdBe6IIFf");
+				key = new ApiKey("CapitanHaddock09").setKeynumber(924767)
+						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P");
+				key = new ApiKey("CapitanHaddock29").setKeynumber(6472981)
+						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z");
+				key = new ApiKey("CapitanHaddock").setKeynumber(924767)
+						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P");
+				key = new ApiKey("CapitanHaddock").setKeynumber(6472981)
+						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z");
+			}
+		} catch (SQLException sqle) {
+			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
+			sqle.printStackTrace();
+		}
 	}
 
 	@Override

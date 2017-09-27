@@ -27,6 +27,8 @@ import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.CCPDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
@@ -624,6 +626,7 @@ public class NeoComApp extends Application implements IConnector {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private AndroidStorageConnector		storage						= null;
+	private CCPDatabaseConnector			dbCCPConnector		= null;
 	private AndroidDatabaseConnector	dbNeocomConnector	= null;
 	private AndroidCacheConnector			cache							= null;
 	//private INeocomDBHelper									neocomDBHelper		= null;
@@ -706,10 +709,12 @@ public class NeoComApp extends Application implements IConnector {
 		return cache;
 	}
 
-	//	public ICCPDatabaseConnector getCCPDBConnector() {
-	//		// TODO Auto-generated method stub
-	//		return null;
-	//	}
+	public ICCPDatabaseConnector getCCPDBConnector() {
+		if (null == dbCCPConnector) {
+			dbCCPConnector = new CCPDatabaseConnector();
+		}
+		return dbCCPConnector;
+	}
 
 	public IDatabaseConnector getDBConnector() {
 		if (null == dbNeocomConnector) {
@@ -788,7 +793,7 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	public void openDatabases() {
-		this.getDBConnector().openCCPDataBase();
+		this.getCCPDBConnector().openCCPDataBase();
 		this.getDBConnector().openAppDataBase();
 	}
 

@@ -59,10 +59,11 @@ public abstract class LocationPart extends EveAbstractPart implements INamedPart
 	public String get_locationContentCount() {
 		int locationAssets = this.getChildren().size();
 		String countString = null;
-		if (locationAssets > 1)
+		if (locationAssets > 1) {
 			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
-		else
+		} else {
 			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
+		}
 		return countString;
 	}
 
@@ -133,7 +134,7 @@ public abstract class LocationPart extends EveAbstractPart implements INamedPart
 	}
 
 	public int searchStationType() {
-		return AppConnector.getDBConnector().searchStationType(this.getCastedModel().getStationID());
+		return AppConnector.getCCPDBConnector().searchStationType(this.getCastedModel().getStationID());
 	}
 
 	@Override
@@ -157,10 +158,11 @@ public abstract class LocationPart extends EveAbstractPart implements INamedPart
 					double price = apart.getCastedModel().getItem().getHighestBuyerPrice().getPrice();
 					itemsValueISK += price * quantity;
 					// Add volume but if it is an assembled ship or assembled container
-					if ((group.equalsIgnoreCase("Secure Cargo Container")) || (category.equalsIgnoreCase("Ship")))
+					if ((group.equalsIgnoreCase("Secure Cargo Container")) || (category.equalsIgnoreCase("Ship"))) {
 						itemsVolume += 0;
-					else
+					} else {
 						itemsVolume += quantity * apart.getCastedModel().getItem().getVolume();
+					}
 				}
 			}
 		}

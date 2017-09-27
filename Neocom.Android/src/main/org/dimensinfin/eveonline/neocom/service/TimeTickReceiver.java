@@ -16,10 +16,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
@@ -251,37 +250,54 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
-		Vector<PendingRequestEntry> requests = NeoComApp.getSingletonApp().getCacheConnector().getPendingRequests();
-		synchronized (requests) {
-			// Get the pending requests and order them by the priority.
-			Collections.sort(requests, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY));
+		PriorityBlockingQueue<PendingRequestEntry> requests = AppConnector.getCacheConnector().getPendingRequests();
+		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]> Pending requests level: " + requests.size());
+		//	synchronized (requests) {
+		// Get the pending requests and order them by the priority.
+		//		Collections.sort(requests, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY));
 
+		// Process request by priority. Additions to queue are limited.
+		limit = 0;
+		if (this.blockedMarket()) {
+			TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onReceive]> Blocked the Market processing. Exiting.");
+			return;
+		}
+		while (limit <= TimeTickReceiver.LAUNCH_LIMIT) {
 			// Process request by priority. Additions to queue are limited.
-			limit = 0;
-			for (PendingRequestEntry entry : requests)
-				if (entry.state == ERequestState.PENDING) {
-					// Filter only MARKETDATA requests.
-					if (entry.reqClass == ERequestClass.MARKETDATA)
-						if (limit <= TimeTickReceiver.LAUNCH_LIMIT) if (this.blockedMarket()) {
-						continue;
-						} else {
-						this.launchMarketUpdate(entry);
-						}
-					// Filter the rest of the character data to be updated
-					if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
-						this.launchCharacterDataUpdate(entry);
-					}
-					if (entry.reqClass == ERequestClass.CITADELUPDATE) {
-						// Launch the update and remove the event from the queue.
-						new UpdateCitadelsTask().execute();
-						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-					}
-					if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
-						// Launch the update and remove the event from the queue.
-						new UpdateOutpostsTask().execute();
-						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-					}
+			PendingRequestEntry entry = requests.poll();
+			if (null == entry) {
+				TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onTime]> Queue empty. Exiting.");
+				return;
+			}
+			// Remove completed entries.
+			if (entry.state == ERequestState.COMPLETED) {
+				continue;
+			}
+			//	for (PendingRequestEntry entry : requests)
+			if (entry.state == ERequestState.PENDING) {
+				// Filter only MARKETDATA requests.
+				if (entry.reqClass == ERequestClass.MARKETDATA) {
+					//					if (limit <= TimeTickReceiver.LAUNCH_LIMIT) if (this.blockedMarket()) {
+					//					continue;
+					//					} else {
+					this.launchMarketUpdate(entry);
 				}
+				//					}
+				// Filter the rest of the character data to be updated
+				if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
+					this.launchCharacterDataUpdate(entry);
+				}
+				if (entry.reqClass == ERequestClass.CITADELUPDATE) {
+					// Launch the update and remove the event from the queue.
+					new UpdateCitadelsTask().execute();
+					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
+				}
+				if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
+					// Launch the update and remove the event from the queue.
+					new UpdateOutpostsTask().execute();
+					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
+				}
+			}
 		}
 
 		// STEP 02. Check characters for pending structures to update.

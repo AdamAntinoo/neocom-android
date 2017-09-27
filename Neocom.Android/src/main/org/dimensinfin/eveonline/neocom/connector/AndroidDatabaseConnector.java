@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
@@ -175,21 +177,16 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	 * owner identifier. Those records are from older downloads and have to be removed to avoid merging with the
 	 * new download.
 	 */
-	public synchronized void clearInvalidRecords() {
+	public synchronized void clearInvalidRecords(final long pilotid) {
 		SQLiteDatabase database = null;
 		try {
 			database = this.getAppDatabase();
 			synchronized (database) {
 				database.beginTransaction();
-				Log.i("", "-- clearInvalidAssets rows deleted ASSETS [OWNERID = -1] - "
-						+ database.delete("Assets", "ownerID" + "=-1", null));
-				//				Log.i("", "-- clearInvalidAssets rows deleted ASSETS [LOCATIONID = -1] - "
-				//						+ database.delete("Assets", "locationId" + "=-1", null));
-				Log.i("", "-- clearInvalidAssets rows deleted BLUEPRINTS [OWNERID = -1] - "
-						+ database.delete("Blueprints", "ownerID" + "=-1", null));
-				// Log.i("", "-- clearInvalidAssets rows deleted JOBS [OWNERID =
-				// -1] - "
-				// + database.delete("Jobs", "ownerID" + "=-1", null));
+				AndroidDatabaseConnector.logger.info("-- clearInvalidAssets rows deleted ASSETS [OWNERID = -1] - "
+						+ database.delete("Assets", "ownerID" + "=" + (pilotid * -1), null));
+				AndroidDatabaseConnector.logger.info("-- clearInvalidAssets rows deleted BLUEPRINTS [OWNERID = -1] - "
+						+ database.delete("Blueprints", "ownerID" + "=" + (pilotid * -1), null));
 				database.setTransactionSuccessful();
 			}
 		} catch (final SQLiteException ex) {
@@ -286,6 +283,10 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return this.getNeocomDBHelper().getVersionDao();
 	}
 
+	public void loadSeedData() {
+		neocomDBHelper.loadSeedData();
+	}
+
 	/**
 	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
 	 * returns true.
@@ -380,6 +381,67 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		return true;
 	//	}
 
+	/**
+	 * Return the list of all the distinct Locations where a Character has assets. There is one location with a
+	 * minus value id that is the <code>undefined</code> that contains all the items inside another elements
+	 * (before assets processing) and the items on stations or space locations that do not belong to this
+	 * character.<br>
+	 * Once the assets are processed inside a location this list can change because it may contain other
+	 * elements that are Ships or Containers. When processing the list we should connect them properly on the
+	 * new hierarchy.<br>
+	 * 
+	 * @return
+	 */
+	public List<NeoComAsset> queryAllAssetLocations(final long identifier) {
+		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
+		List<NeoComAsset> uniqueLocations = new Vector<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder().distinct().selectColumns("locationID");
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			where.eq("ownerID", identifier);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			uniqueLocations = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger
+					.warning("W [SpringDatabaseConnector.queryAllLogins]> Excpetion reading all Logins" + sqle.getMessage());
+		}
+		return uniqueLocations;
+	}
+
+	/**
+	 * Reads all the keys stored at the database and classified them into a set of Login names.
+	 */
+	public Hashtable<String, Login> queryAllLogins() {
+		// Get access to all ApiKey registers
+		List<ApiKey> keyList = new Vector<ApiKey>();
+		try {
+			Dao<ApiKey, String> keysDao = this.getApiKeysDao();
+			QueryBuilder<ApiKey, String> queryBuilder = keysDao.queryBuilder();
+			PreparedQuery<ApiKey> preparedQuery = queryBuilder.prepare();
+			keyList = keysDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger
+					.warning("W [SpringDatabaseConnector.queryAllLogins]> Excpetion reading all Logins" + sqle.getMessage());
+		}
+		// Classify the keys on they matching Logins.
+		Hashtable<String, Login> loginList = new Hashtable<String, Login>();
+		for (ApiKey apiKey : keyList) {
+			String name = apiKey.getLogin();
+			// Search for this on the list before creating a new Login.
+			Login hit = loginList.get(name);
+			if (null == hit) {
+				Login login = new Login(name).addKey(apiKey);
+				loginList.put(name, login);
+			} else {
+				hit.addKey(apiKey);
+			}
+		}
+		return loginList;
+	}
+
 	public int queryBlueprintDependencies(final int bpitemID) {
 		try {
 			if (null == ccpDatabase) {
@@ -440,7 +502,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 						+ database.delete("Assets", "ownerID" + "=" + characterID, null));
 				ContentValues values = new ContentValues();
 				values.put("ownerID", characterID);
-				database.update("Assets", values, "ownerID=-1", null);
+				database.update("Assets", values, "ownerID=" + (characterID * -1), null);
 				database.setTransactionSuccessful();
 			}
 		} catch (final SQLiteException ex) {

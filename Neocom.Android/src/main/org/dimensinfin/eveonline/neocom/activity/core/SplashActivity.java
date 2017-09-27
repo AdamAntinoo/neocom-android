@@ -241,7 +241,7 @@ public class SplashActivity extends Activity {
 
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Loading user data...");
-			AppModelStore.getSingleton().setLoginIdentifier("Beth");
+			//AppModelStore.getSingleton().setLoginIdentifier("Beth");
 			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
 		}
 	}

@@ -768,7 +768,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 			this.getAsset4Type(itemID);
 			this.registerAssetChange(qty, itemID, location);
 		} else {
-			final EveItem item = AppConnector.getDBConnector().searchItembyID(itemID);
+			final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(itemID);
 			final NeoComAsset newAsset = new NeoComAsset();
 			//		newAsset.setItem(AppConnector.getDBConnector().searchItembyID(itemID));
 			newAsset.setAssetID(AbstractManufactureProcess.GENERATED_ASSETCOUNTER++);

@@ -12,13 +12,13 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.dimensinfin.evemarket.model.TrackEntry;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.market.TrackEntry;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
@@ -81,7 +81,7 @@ public class MarketUpdaterService extends IntentService {
 		final Integer localizer = (Integer) intent.getSerializableExtra(AppWideConstants.extras.EXTRA_MARKETDATA_LOCALIZER);
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
 		if (NeoComApp.checkNetworkAccess()) {
-			final EveItem item = AppConnector.getDBConnector().searchItembyID(localizer);
+			final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(localizer);
 			//			if(market==EVEMARKETDATA)
 			Vector<TrackEntry> marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(),
 					EMarketSide.SELLER);
@@ -90,7 +90,7 @@ public class MarketUpdaterService extends IntentService {
 			}
 			Vector<MarketDataEntry> hubData = this.extractMarketData(marketEntries);
 			// Update the structures related to the newly downloaded data.
-			MarketDataSet reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.SELLER);
+			MarketDataSet reference = AppConnector.getCacheConnector().searchMarketData(localizer, EMarketSide.SELLER);
 			reference.setData(hubData);
 			if (marketEntries.size() > 1) {
 				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.SELLER);
@@ -102,7 +102,7 @@ public class MarketUpdaterService extends IntentService {
 				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.BUYER);
 			}
 			hubData = this.extractMarketData(marketEntries);
-			reference = AppConnector.getDBConnector().searchMarketData(localizer, EMarketSide.BUYER);
+			reference = AppConnector.getCacheConnector().searchMarketData(localizer, EMarketSide.BUYER);
 			reference.setData(hubData);
 			if (marketEntries.size() > 1) {
 				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.BUYER);
@@ -235,7 +235,7 @@ public class MarketUpdaterService extends IntentService {
 		final String hubRegion = parts[0].trim();
 
 		// Search for the system on the list of locations.
-		return AppConnector.getDBConnector().searchLocationBySystem(hubSystem);
+		return AppConnector.getCCPDBConnector().searchLocationBySystem(hubSystem);
 	}
 }
 // - UNUSED CODE ............................................................................................

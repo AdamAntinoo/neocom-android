@@ -77,14 +77,15 @@ public class ManufactureLOMFragment extends AbstractPagerFragment {
 				bppart.setActivity(activity);
 				// REFACTOR This piece of code may be optimized to return the item identifier for the matching activity of a blueprint.
 				final int productID = bppart.getProductID();
-				final EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+				final EveItem productItem = AppConnector.getCCPDBConnector().searchItembyID(productID);
 				final IndustryLOMResourcesDataSource ds = new IndustryLOMResourcesDataSource(_store);
 				ds.setBlueprint(bppart);
 
 				// This fragment has a header. Populate it with the datasource header contents.
 				ArrayList<AbstractAndroidPart> headerData = ds.getHeaderPartHierarchy();
-				for (AbstractAndroidPart headerPart : headerData)
+				for (AbstractAndroidPart headerPart : headerData) {
 					this.addtoHeader(headerPart);
+				}
 
 				this.setDataSource(ds);
 			}

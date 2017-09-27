@@ -201,7 +201,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	}
 
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 
@@ -261,7 +261,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	private void calculateIndex() {
 		double manufactureTime = this.getCycleDuration() * 10.0;
 		double sets = Math.round((24 * 60 * 60) / manufactureTime);
-		double sellPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double sellPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
 		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
@@ -287,7 +287,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 			resource.setQuantity(newQty);
 			resource.setStackSize(1);
 			// Calculate the cost.
-			MarketDataSet data = AppConnector.getDBConnector().searchMarketData(resource.item.getItemID(),
+			MarketDataSet data = AppConnector.getCacheConnector().searchMarketData(resource.item.getItemID(),
 					EMarketSide.SELLER);
 			double resourcePrice = data.getBestMarket().getPrice();
 			double realcost = resource.getQuantity() * resourcePrice;

@@ -21,8 +21,6 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
 import org.dimensinfin.eveonline.neocom.core.CoreCacheConnector;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache.BitmapEntry;
@@ -343,7 +341,7 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	public synchronized void addMarketDataRequest(final long localizer) {
 		// Log.i("AndroidCacheConnector", ">>
 		// AndroidCacheConnector.addMarketDataRequest");
-		final EveItem item = AppConnector.getDBConnector().searchItembyID(Long.valueOf(localizer).intValue());
+		final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(Long.valueOf(localizer).intValue());
 		AndroidCacheConnector.logger
 				.info("-- [AndroidCacheConnector.addMarketDataRequest] Posting market update for: " + item.getName());
 		// Detect priority from the Category of the item. Download data from

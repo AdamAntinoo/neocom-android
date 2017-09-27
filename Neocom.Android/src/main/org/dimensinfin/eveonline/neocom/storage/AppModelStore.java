@@ -10,6 +10,7 @@ package org.dimensinfin.eveonline.neocom.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.dimensinfin.core.model.AbstractModelStore;
@@ -20,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
+import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 
@@ -99,16 +101,19 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 
 	/** Reference to the current active Activity. Sometimes this is needed to access application resources. */
 	private transient Activity									_activity					= null;
+	/** This is the unique list for all registered distinct Logins at the database. */
+	private Hashtable<String, Login>						_loginList				= null;
 	/**
 	 * This is the string identifier assigned to this session and that relates to an specific set of api keys.
 	 */
-	private String															_loginIdentifier	= "Default";
+	private Login																_loginIdentifier	= null;
+	/** Reference to the current active Character, be it a Pilot or a Corporation */
+	private transient NeoComCharacter						_pilot						= null;
+
 	/** The list of keys related to a login identifier */
 	private List<NeoComApiKey>									_neocomApiKeys		= null;
 	private List<NeoComCharacter>								_neocomCharacters	= null;
 	protected long															_pilotIdentifier	= -1L;
-	/** Reference to the current active Character, be it a Pilot or a Corporation */
-	private transient NeoComCharacter						_pilot						= null;
 	/** Check to verify if the recovery process is successful. */
 	private boolean															recovered					= false;
 	/** List of registered DataSources. This data is not stored on switch or termination. */
@@ -131,6 +136,17 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		}
 	}
 
+	/**
+	 * Gets access to the complete list of Logins. If this list is empty we go back to the database to populate
+	 * it.
+	 */
+	public Hashtable<String, Login> accessLoginList() {
+		if (null == _loginList) {
+			_loginList = AppConnector.getDBConnector().queryAllLogins();
+		}
+		return _loginList;
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Stores a reference to the current activity if this is required for some actions inside the DataSources.
@@ -142,6 +158,33 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	}
 
 	/**
+	 * This is the main activation entry point for the Login. If there are no logins already on the ModelStore
+	 * we should get them from the backend database and then search for the indicated login. If finally that
+	 * login is not found we can fire an Exception.
+	 * 
+	 * @param login
+	 */
+	public Login activateLoginIdentifier(final String loginTarget) {
+		AbstractModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
+		if (null == _loginList) {
+			_loginList = AppConnector.getDBConnector().queryAllLogins();
+		}
+		// OPTIMIZATION: If the character is already the selected one do nothing.
+		if (null != _loginIdentifier) if (_loginIdentifier.getName().equalsIgnoreCase(loginTarget)) return _loginIdentifier;
+		for (String key : _loginList.keySet()) {
+			if (_loginList.get(key).getName().equalsIgnoreCase(loginTarget)) {
+				_loginIdentifier = _loginList.get(key);
+				//				// Update the list of api keys and the characters related to the login.
+				//				this.readApiKeys();
+				return _loginIdentifier;
+			}
+		}
+		// We run through all the login list and did not found the login. Or a problem of an error. Fire exception.
+		throw new NeocomRuntimeException(
+				"RT [AppModelStore.activateLoginIdentifier]>Login " + loginTarget + " not found on current login list.");
+	}
+
+	/**
 	 * Searches for the pilot on the character list active after the API key processing and copies it to the
 	 * store slot.<br>
 	 * On the new implementation change the search to delegate the action to a new data model where the list of
@@ -149,8 +192,9 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * 
 	 * @param characterid
 	 *          id of the character to activate and select for work with.
+	 * @return
 	 */
-	public void activatePilot(final long characterid) {
+	public NeoComCharacter activatePilot(final long characterid) {
 		AbstractModelStore.logger.info(">> [AppModelStore.activatePilot] id=" + characterid);
 		_pilot = this.searchCharacter(characterid);
 		if (null == _pilot)
@@ -159,6 +203,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		_pilot.setParent(this);
 		_pilotIdentifier = _pilot.getCharacterID();
 		AbstractModelStore.logger.info("<< [AppModelStore.activatePilot]");
+		return _pilot;
 	}
 
 	/**
@@ -172,24 +217,6 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		this.setDirty(true);
 		this.save();
 	}
-
-	//	/**
-	//	 * Before adding the key check if already exists. If so then only update its contents.
-	//	 * 
-	//	 * @param newKey
-	//	 */
-	//	public void addApiKey(final NeoComApiKey newKey) {
-	//		if (null != newKey) {
-	//			newKey.setParent(this);
-	//			apiKeys.put(newKey.getKey(), newKey);
-	//			this.setDirty(true);
-	//		}
-	//	}
-
-	//	@Deprecated
-	//	public boolean checkStorage() {
-	//		return AppConnector.sdcardAvailable();
-	//	}
 
 	@Override
 	@Deprecated
@@ -257,10 +284,11 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return fittings;
 	}
 
+	@Deprecated
 	public String getLoginIdentifier() {
-		if (null == _loginIdentifier)
-			throw new NeocomRuntimeException("Login Identifier not defined. Setting to default if possible.");
-		return _loginIdentifier;
+		if (null != _loginIdentifier) return _loginIdentifier.getName();
+		throw new NeocomRuntimeException(
+				"RT [AppModelStore.getLoginIdentifier]>Login Identifier not defined. Setting to default if possible.");
 	}
 
 	@Deprecated
@@ -383,11 +411,11 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		fittings = readObject;
 	}
 
-	public void setLoginIdentifier(final String login) {
-		_loginIdentifier = login;
-		// Update the list of api keys and the characters related to the,.
-		this.readApiKeys();
-	}
+	//	public void setLoginIdentifier(final String login) {
+	//		_loginIdentifier = login;
+	//		// Update the list of api keys and the characters related to the,.
+	//		this.readApiKeys();
+	//	}
 
 	@Override
 	public String toString() {

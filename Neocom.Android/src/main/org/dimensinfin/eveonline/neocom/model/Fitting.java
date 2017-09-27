@@ -22,11 +22,6 @@ import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.industry.AbstractManufactureProcess;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.model.Action;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.EveTask;
-import org.dimensinfin.eveonline.neocom.model.Property;
-import org.dimensinfin.eveonline.neocom.model.Skill;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -238,8 +233,8 @@ public class Fitting extends AbstractManufactureProcess implements INeoComNode {
 			//			String value = role.getPropertyType().name();
 			if (role.getPropertyType() == matchingRole) {
 				// Search for the location type we need. This is the FITTING place
-				if (role.getPropertyValue().equalsIgnoreCase(locationType))
-					return AppConnector.getDBConnector().searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
+				if (role.getPropertyValue().equalsIgnoreCase(locationType)) return AppConnector.getCCPDBConnector()
+						.searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
 			}
 			//				return AppConnector.getDBConnector().searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
 			//		Property currentRole = locationRoles.get(locID);

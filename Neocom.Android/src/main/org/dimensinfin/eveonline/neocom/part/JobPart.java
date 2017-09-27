@@ -63,7 +63,8 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 
 	public Spanned get_jobLocation() {
 		StringBuffer htmlLocation = new StringBuffer();
-		EveLocation loc = AppConnector.getDBConnector().searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
+		EveLocation loc = AppConnector.getCCPDBConnector()
+				.searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
 		String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
 		if (null == secColor) {

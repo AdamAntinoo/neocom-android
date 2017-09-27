@@ -142,7 +142,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	 * buyers top paying price will be divided by the manufacture cost price.
 	 */
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 

@@ -158,7 +158,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	// }
 
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 
@@ -263,7 +263,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		// double manufactureTime = getCycleDuration() * 10.0;
 		// double sets = Math.round((24 * 60 * 60) / manufactureTime);
 		double sets = 1.0;
-		double sellPrice = AppConnector.getDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double sellPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
 		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
