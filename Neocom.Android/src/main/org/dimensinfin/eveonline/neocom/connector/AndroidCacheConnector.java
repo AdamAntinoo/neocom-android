@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.CoreCacheConnector;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache.BitmapEntry;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
