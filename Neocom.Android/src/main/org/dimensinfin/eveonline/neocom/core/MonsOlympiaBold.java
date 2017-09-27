@@ -40,7 +40,7 @@ public class MonsOlympiaBold extends TextView {
 	private void init(final AttributeSet attrs) {
 		if (!this.isInEditMode()) {
 			MonsOlympiaBold.typefaceName = Typeface.createFromAsset(this.getContext().getAssets(),
-					"fonts/Mons Olympia Bold.ttf");
+					"fonts/Mons Olympia Bold.otf");
 			this.setTypeface(MonsOlympiaBold.typefaceName);
 		}
 	}

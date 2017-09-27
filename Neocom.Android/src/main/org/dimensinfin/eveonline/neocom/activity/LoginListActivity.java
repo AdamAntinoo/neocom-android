@@ -8,8 +8,6 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import java.util.List;
-
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
@@ -27,7 +25,6 @@ import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -224,7 +221,7 @@ final class LoginListGenerator extends AbstractGenerator implements IModelGenera
 	public RootNode collaborate2Model() {
 		AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
 		// Get the list for registered Logins.
-		List<NeoComCharacter> characters = AppConnector.getModelStore().getActiveCharacters();
+		//	List<NeoComCharacter> characters = AppConnector.getModelStore().getActiveCharacters();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add each Login to the list. They will expand to show the Character selection.
@@ -233,6 +230,9 @@ final class LoginListGenerator extends AbstractGenerator implements IModelGenera
 			AbstractGenerator.logger
 					.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getName() + "' to the _dataModelRoot");
 		}
+		// Order the logins by name.
+		//		Collections.sort(_dataModelRoot.getChildren(),
+		//			NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		AbstractGenerator.logger.info("<< [LoginListGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}

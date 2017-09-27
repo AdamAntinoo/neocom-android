@@ -233,6 +233,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
 			sqle.printStackTrace();
 		}
+		this.loadSeedData();
 	}
 
 	@Override

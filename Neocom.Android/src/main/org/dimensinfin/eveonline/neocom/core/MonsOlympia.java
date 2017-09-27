@@ -39,7 +39,7 @@ public class MonsOlympia extends TextView {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	private void init(final AttributeSet attrs) {
 		if (!this.isInEditMode()) {
-			MonsOlympia.typefaceName = Typeface.createFromAsset(this.getContext().getAssets(), "fonts/Mons Olympia.ttf");
+			MonsOlympia.typefaceName = Typeface.createFromAsset(this.getContext().getAssets(), "fonts/Mons Olympia.otf");
 			this.setTypeface(MonsOlympia.typefaceName);
 		}
 	}
