@@ -169,7 +169,24 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	public void loadSeedData() {
 		// Add seed data to the new database is the tables are empty.
 		try {
-			//--- A P I   K E Y S
+			//---  D A T A B A S E    V E R S I O N
+			Dao<DatabaseVersion, String> version = this.getVersionDao();
+			QueryBuilder<DatabaseVersion, String> queryBuilder = version.queryBuilder();
+			queryBuilder.setCountOf(true);
+			long records = version.countOf(queryBuilder.prepare());
+
+			// If the table is empty then insert the seeded Api Keys
+			if (records < 1) {
+				DatabaseVersion key = new DatabaseVersion(
+						NeoComApp.getSingletonApp().getResourceString(R.string.databaseversion));
+			}
+		} catch (SQLException sqle) {
+			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
+			sqle.printStackTrace();
+		}
+
+		//--- A P I   K E Y S
+		try {
 			Dao<ApiKey, String> apikey = this.getApiKeysDao();
 			QueryBuilder<ApiKey, String> queryBuilder = apikey.queryBuilder();
 			queryBuilder.setCountOf(true);
@@ -202,16 +219,16 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			// Now open the DAO connector and create tables if they not exist
 			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
 			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
-			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
-
-			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
-			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
 
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
 			TableUtils.createTableIfNotExists(databaseConnection, Job.class);
-			TableUtils.createTableIfNotExists(databaseConnection, NeoComMarketOrder.class);
 			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+			TableUtils.createTableIfNotExists(databaseConnection, NeoComMarketOrder.class);
+			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
+			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
+			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
+			TableUtils.createTableIfNotExists(databaseConnection, TimeStamp.class);
 		} catch (SQLException sqle) {
 			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
 			sqle.printStackTrace();

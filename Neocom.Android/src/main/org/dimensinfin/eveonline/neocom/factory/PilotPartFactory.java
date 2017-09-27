@@ -19,11 +19,13 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Director;
+import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
+import org.dimensinfin.eveonline.neocom.part.LoginPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
 
@@ -48,6 +50,10 @@ public class PilotPartFactory extends PartFactory {
 	public IPart createPart(final AbstractComplexNode node) {
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name()) {
+			if (node instanceof Login) {
+				IPart part = new LoginPart(node).setFactory(this);
+				return part;
+			}
 			if (node instanceof NeoComApiKey) {
 				IPart part = new ApiKeyPart(node).setFactory(this);
 				return part;

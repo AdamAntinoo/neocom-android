@@ -23,7 +23,7 @@
         android:padding="-4dp"
         android:src="@drawable/arrowleft" />
 
-    <TextView
+    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/name"
         style="@style/NameStyle.Green"
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:text="@string/default_regionname"
         android:singleLine="true" />
 
-    <TextView
+    <org.dimensinfin.eveonline.neocom.core.MonsOlympia
         android:id="@+id/titleLabel"
         style="@style/LabelStyle"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:text="LOGIN"
         android:textSize="9sp" />
 
-    <TextView
+    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/childCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,8 +63,5 @@
         android:layout_toLeftOf="@+id/rightArrow"
         android:gravity="right"
         android:text="CHARACTERS" />
-
-    <TextView>
-    </TextView>
 
 </RelativeLayout>

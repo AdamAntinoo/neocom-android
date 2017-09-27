@@ -24,7 +24,7 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.constant.CVariant;
 import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
 import org.dimensinfin.eveonline.neocom.factory.PartFactory;
@@ -426,7 +426,7 @@ public abstract class AbstractNewPagerFragment extends TitledFragment {
 	}
 
 	protected void goFirstActivity() {
-		this.startActivity(new Intent(this.getActivity(), PilotListActivity.class));
+		this.startActivity(new Intent(this.getActivity(), LoginListActivity.class));
 	}
 
 	protected abstract void registerDataSource();

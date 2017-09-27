@@ -36,7 +36,7 @@ public class GroupPart extends EveAbstractPart {
 	// - F I E L D - S E C T I O N ............................................................................
 	private int								priority					= 10;
 	private int								iconReference			= R.drawable.defaultitemicon;
-	private String						renderModeName		= "-DEFAULT-RENDER-MODE-";
+	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public GroupPart(final Separator node) {
@@ -92,13 +92,13 @@ public class GroupPart extends EveAbstractPart {
 		return this;
 	}
 
-	@Override
-	public IPart setRenderMode(final String renderMode) {
-		if (null != renderMode) {
-			renderModeName = renderMode;
-		}
-		return this;
-	}
+	//	@Override
+	//	public IPart setRenderMode(int renderMode) {
+	//		if (null != renderMode) {
+	//			renderModeName = renderMode;
+	//		}
+	//		return this;
+	//	}
 
 	@Override
 	public String toString() {

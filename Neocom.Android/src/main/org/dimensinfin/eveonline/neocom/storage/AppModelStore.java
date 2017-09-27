@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
-import org.dimensinfin.eveonline.neocom.activity.PilotListActivity;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
@@ -56,7 +57,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID	= 8777607802616543118L;
-	//	private static Logger					logger						= Logger.getLogger("AppModelStore");
+	private static Logger					logger						= Logger.getLogger("AppModelStore");
 	private static AppModelStore	singleton					= null;
 
 	/**
@@ -79,7 +80,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * store file it will process the api list and reload all the character information from scratch.
 	 */
 	public static void initialize() {
-		AbstractModelStore.logger.info(">> [AppModelStore.initialize]");
+		AppModelStore.logger.info(">> [AppModelStore.initialize]");
 		// Create a new from scratch. Read the api key list.
 		AppModelStore.singleton = new AppModelStore(new UserModelPersistenceHandler());
 		// Load any data from storage and then update the information from CCP.
@@ -92,7 +93,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		if (AppModelStore.getSingleton()._pilotIdentifier > 0) {
 			AppModelStore.getSingleton().activatePilot(AppModelStore.getSingleton()._pilotIdentifier);
 		}
-		AbstractModelStore.logger.info("<< [AppModelStore.initialize]");
+		AppModelStore.logger.info("<< [AppModelStore.initialize]");
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -165,7 +166,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * @param login
 	 */
 	public Login activateLoginIdentifier(final String loginTarget) {
-		AbstractModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
+		AppModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
 		if (null == _loginList) {
 			_loginList = AppConnector.getDBConnector().queryAllLogins();
 		}
@@ -195,14 +196,14 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * @return
 	 */
 	public NeoComCharacter activatePilot(final long characterid) {
-		AbstractModelStore.logger.info(">> [AppModelStore.activatePilot] id=" + characterid);
+		AppModelStore.logger.info(">> [AppModelStore.activatePilot] id=" + characterid);
 		_pilot = this.searchCharacter(characterid);
 		if (null == _pilot)
 			throw new RuntimeException("RT AppModelStore.activatePilot - Pilot not located. Problem of initialization.");
 		// Link the pilot to the store for dirty processing.
 		_pilot.setParent(this);
 		_pilotIdentifier = _pilot.getCharacterID();
-		AbstractModelStore.logger.info("<< [AppModelStore.activatePilot]");
+		AppModelStore.logger.info("<< [AppModelStore.activatePilot]");
 		return _pilot;
 	}
 
@@ -246,7 +247,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	}
 
 	public Activity getActivity() {
-		if (null == _activity) return new PilotListActivity();
+		if (null == _activity) return new LoginListActivity();
 		return _activity;
 	}
 
@@ -449,6 +450,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return recovered;
 	}
 
+	@Deprecated
 	private void readApiKeys() {
 		AppModelStore.logger.info(">> [AppModelStore.readApiKeys]");
 		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
@@ -463,7 +465,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 				// Scan for the characters declared into this key.
 				for (NeoComCharacter pilot : key.getApiCharacters()) {
 					_neocomCharacters.add(pilot);
-					AbstractModelStore.logger
+					AppModelStore.logger
 							.info("-- [AppModelStore.readApiKeys]> Adding " + pilot.getName() + " to the _neocomCharacters");
 				}
 			} catch (ApiException apiex) {

@@ -21,7 +21,6 @@ import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.part.ActionPart;
 import org.dimensinfin.eveonline.neocom.part.FittingListPart;
 import org.dimensinfin.eveonline.neocom.part.FittingPart;
@@ -86,8 +85,7 @@ public class FittingPartFactory extends PartFactory implements IPartFactory {
 								.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING);
 						break;
 					case EMPTY_FITTINGLIST:
-						part = new GroupPart((Separator) node).setFactory(this)
-								.setRenderMode(ESeparatorType.EMPTY_FITTINGLIST.name());
+						part = new GroupPart((Separator) node).setFactory(this).setRenderMode(999);
 						break;
 					default:
 						part = new GroupPart((Separator) node).setFactory(this)
