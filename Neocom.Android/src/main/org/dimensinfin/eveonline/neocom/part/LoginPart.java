@@ -69,6 +69,7 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 
 	public void onClick(final View view) {
 		// Toggle location to show its contents.
+		this.invalidate();
 		this.toggleExpanded();
 		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
 	}

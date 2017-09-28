@@ -13,18 +13,15 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity.EDashboardVariants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
-import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
-import org.dimensinfin.eveonline.neocom.part.DirectorPart;
 import org.dimensinfin.eveonline.neocom.part.LoginPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
@@ -59,7 +56,7 @@ public class PilotPartFactory extends PartFactory {
 				return part;
 			}
 			if (node instanceof Pilot) {
-				IPart part = new PilotInfoPart(node).setFactory(this);
+				IPart part = new PilotInfoPart(node).setFactory(this).setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
 			if (node instanceof Corporation) {
@@ -67,19 +64,19 @@ public class PilotPartFactory extends PartFactory {
 				return part;
 			}
 		}
-		if (this.getVariant() == EDashboardVariants.NEOCOM_DASHBOARD.name()) {
-			if (node instanceof Director) {
-				IPart part = new DirectorPart((Director) node);
-				return part;
-			}
-			if (node instanceof Pilot) {
-				IPart part = new PilotInfoPart(node).setFactory(this);
-				return part;
-			}
-		}
+		//		if (this.getVariant() == EDashboardVariants.NEOCOM_DASHBOARD.name()) {
+		//			if (node instanceof Director) {
+		//				IPart part = new DirectorPart((Director) node);
+		//				return part;
+		//			}
+		//			if (node instanceof Pilot) {
+		//				IPart part = new PilotInfoPart(node).setFactory(this);
+		//				return part;
+		//			}
+		//		}
 		if (this.getVariant() == ENeoComVariants.PILOT_DETAILS.name()) {
 			if (node instanceof Pilot) {
-				IPart part = new PilotInfoPart(node).setFactory(this);
+				IPart part = new PilotInfoPart(node).setFactory(this).setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
 			if (node instanceof AssetsManager) {

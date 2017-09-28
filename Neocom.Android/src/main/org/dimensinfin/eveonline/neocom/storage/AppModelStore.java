@@ -227,6 +227,13 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	}
 
 	/**
+	 * Returns any previously activated character
+	 */
+	public NeoComCharacter getActiveCharacter() {
+		return _pilot;
+	}
+
+	/**
 	 * Return the list of pilots that are currently active as selected by the user. The user may deactivate some
 	 * pilots to reduce the view of data or pilots that are no longer active.<br>
 	 * The start list is the list of characters associated to the llist of kays assocated to the current login.

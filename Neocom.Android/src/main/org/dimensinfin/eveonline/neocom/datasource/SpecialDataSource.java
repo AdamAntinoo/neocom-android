@@ -41,7 +41,7 @@ public abstract class SpecialDataSource extends AbstractDataSource implements IE
 	public static Logger									logger						= Logger.getLogger("SpecialDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	/** The unique idetifier of the DataSource */
+	/** The unique identifier of the DataSource */
 	private DataSourceLocator							_locator					= null;
 	/** Reference to the Model Generator that will be the source point for the model hierarchy. */
 	protected IModelGenerator							_modelGenerator		= null;
@@ -87,6 +87,17 @@ public abstract class SpecialDataSource extends AbstractDataSource implements IE
 	 * On the new change where we include the usage of Generators, this feature is delegated to the generator
 	 * that will provide the model that matches the definition. Is then the Generator the one that will manage
 	 * the model elements that are part of the visible presentation.
+	 *
+	 * This method is called to initialize the model structures. Those structures are copies or transformations
+	 * from the main model stored in the <code>store</code> reference. <br>
+	 * This is the method to initialize the copy of the model structures on the DataSource. Every time this
+	 * method is called, the complete model is recreated. There are two ways to recreate it, comparing with the
+	 * old copy and inserting/deleting different nodes or recreating completely the new model copy. Once this
+	 * method is called we can create the depending part hierarchy. In the current implementation we always
+	 * recreate the model from scratch.<br>
+	 * The resulting model always has a RootNode and the contents are stored as children of that node. The model
+	 * only deals with the first level so each on the childs will create their own set of the model on call when
+	 * required by the model transformation.
 	 */
 	public RootNode collaborate2Model() {
 		SpecialDataSource.logger.info(">< [SpecialDataSource.collaborate2Model]");

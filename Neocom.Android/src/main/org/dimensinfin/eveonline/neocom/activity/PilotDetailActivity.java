@@ -8,9 +8,15 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.activity.core.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
@@ -22,9 +28,11 @@ import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
-import org.dimensinfin.eveonline.neocom.generator.PilotManagersGenerator;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
+import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -41,6 +49,8 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private String	loginid			= null;
+	private long		characterid	= -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -66,8 +76,20 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 		try {
 			// Register this Activity as the current active Activity.
 			AppModelStore.getSingleton().activateActivity(this);
+			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			Bundle extras = null;
+			if (null != savedInstanceState) {
+				extras = savedInstanceState;
+				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			} else {
+				extras = this.getIntent().getExtras();
+				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			}
 			int page = 0;
-			this.addPage(new PilotDetailedFragment().setVariant(ENeoComVariants.PILOT_DETAILS.name()), page++);
+			this.addPage(new PilotDetailedFragment().setVariant(ENeoComVariants.PILOT_DETAILS.name()).setExtras(extras),
+					page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger
 					.severe("[PilotDetailActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
@@ -77,6 +99,27 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
 		AbstractPagerActivity.logger.info("<< [PilotDetailActivity.onCreate]"); //$NON-NLS-1$
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	/**
+	 * Save the extra parameters information to be able to restore the page to their same state. There is no
+	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
+	 * recondtruct the AppModel state.
+	 * 
+	 */
+	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// Save the extra parameters information to be able to restore the page to their same state.
+		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
+		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
 	}
 }
 
@@ -119,12 +162,17 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 	@Override
 	protected void registerDataSource() {
 		AbstractNewPagerFragment.logger.info(">> [PilotDetailedFragment.registerDataSource]");
-		// Get the model generator with the informed variant. And use the global login that is ever defined.
-		String login = AppConnector.getModelStore().getLoginIdentifier();
+		// Get access to the parameters and reconstruct the data chain if required.
+		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		AppConnector.getModelStore().activateLoginIdentifier(loginid);
+		AppConnector.getModelStore().activatePilot(characterid);
+		//		// Get the model generator with the informed variant. And use the global login that is ever defined.
+		//		String login = AppConnector.getModelStore().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
-		IModelGenerator generator = ModelGeneratorStore
-				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), this.getPilot()));
+		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(loginid);
+		IModelGenerator generator = ModelGeneratorStore.registerGenerator(
+				new PilotManagersGenerator(locator, this.getVariant(), AppConnector.getModelStore().getActiveCharacter()));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
@@ -144,7 +192,8 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 		AbstractNewPagerFragment.logger.info(">> [PilotDetailedFragment.setHeaderContents]");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
 		this.addtoHeader(
-				(AbstractAndroidPart) this.getFactory().createPart(AppModelStore.getSingleton().getCurrentPilot()));
+				(AbstractAndroidPart) this.getFactory().createPart(AppConnector.getModelStore().getActiveCharacter())
+						.setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
 		AbstractNewPagerFragment.logger.info("<< [PilotDetailedFragment.setHeaderContents]");
 	}
 }
@@ -175,14 +224,86 @@ final class PilotManagersDataSource extends SpecialDataSource {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
-	 * Initialize the root part and set the sorting roperties before going to the SuperDataSource to perform the
-	 * function.
+	 * Initialize the root part and set the sorting properties before going to the SuperDataSource to perform
+	 * the function.
 	 */
 	@Override
 	public void createContentHierarchy() {
 		_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
 				.setSorting(NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		super.createContentHierarchy();
+	}
+
+	/**
+	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
+	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
+	 * The model does not change but the result from the collaborate2View transformation does.
+	 */
+	@Override
+	public void propertyChange(final PropertyChangeEvent event) {
+		// The expand/collapse state has changed.
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
+			// REFACTOR Trying to fire a new model generation to solve the problem of renderization.
+			//	_dataModelRoot = modelGenerator.collaborate2Model();
+			this.createContentHierarchy();
+
+			_bodyParts = new ArrayList<IPart>();
+			_bodyParts.addAll(_partModelRoot.collaborate2View());
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+					event.getNewValue());
+			return;
+		}
+		// TODO Check if we should get this event and fire it again.
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES)) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+					event.getNewValue());
+			return;
+		}
+		super.propertyChange(event);
+	}
+}
+
+//- CLASS IMPLEMENTATION ...................................................................................
+final class PilotManagersGenerator extends AbstractGenerator implements IModelGenerator {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+	private final String		login			= "Default";
+	private NeoComCharacter	character	= null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public PilotManagersGenerator(final DataSourceLocator locator, final String variant,
+			final NeoComCharacter pilotCorp) {
+		super(locator, variant);
+		character = pilotCorp;
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	/**
+	 * The collaboration for a Pilot or Corporation on this Activity is the list of Managers that can be applied
+	 * to the Character. So we can move the decission to the place where it better suits that is the Character
+	 * that is already selected. This is performed internally in a recursive way by calling the model
+	 * collaboration depending on the variant.
+	 */
+	public RootNode collaborate2Model() {
+		AbstractGenerator.logger.info(">> [PilotDirectorsGenerator.collaborate2Model]");
+		// Initialize the Adapter data structures.
+		this.setDataModel(new RootNode());
+
+		// Add to the data model list the Directors that can be used on this character.
+		AbstractManager manager = character.getAssetsManager();
+		if (!manager.isInitialized()) {
+			manager.initialize();
+		}
+		_dataModelRoot.addChild(manager);
+		manager = character.getPlanetaryManager();
+		if (!manager.isInitialized()) {
+			manager.initialize();
+		}
+		_dataModelRoot.addChild(manager);
+
+		AbstractGenerator.logger.info("<< [PilotDirectorsGenerator.collaborate2Model]");
+		return _dataModelRoot;
 	}
 }
 
