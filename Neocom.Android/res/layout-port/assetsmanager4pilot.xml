@@ -12,7 +12,10 @@
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="Actionable.Arrow"
+        style="@style/Actionable.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
         android:contentDescription="@string/default_actionablearrow" />
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
@@ -27,7 +30,7 @@
         android:id="@+id/leftBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/rightArrow"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
@@ -35,6 +38,7 @@
             android:id="@+id/assetCountBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:orientation="horizontal" >
 
             <TextView
@@ -57,6 +61,7 @@
             android:id="@+id/regionCountBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:orientation="horizontal" >
 
             <TextView
