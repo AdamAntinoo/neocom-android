@@ -25,9 +25,10 @@ public class PlanetaryManagerRender extends EveAbstractHolder {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
-	private ImageView	managerIcon	= null;
-	private TextView	managerName	= null;
+	private ImageView	nodeIcon		= null;
+	private TextView	name				= null;
 	private TextView	assetsCount	= null;
+	private TextView	regionCount	= null;
 
 	// - L A Y O U T   L A B E L S
 
@@ -45,23 +46,25 @@ public class PlanetaryManagerRender extends EveAbstractHolder {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		managerIcon = (ImageView) _convertView.findViewById(R.id.managerIcon);
-		managerName = (TextView) _convertView.findViewById(R.id.managerName);
-		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+		name = (TextView) _convertView.findViewById(R.id.name);
+		assetsCount = (TextView) _convertView.findViewById(R.id.managerAssetsCount);
+		regionCount = (TextView) _convertView.findViewById(R.id.managerRegionCount);
 	}
 
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		managerName.setText(this.getPart().getName());
+		name.setText(this.getPart().getName());
 		assetsCount.setText(this.getPart().get_assetsCount());
+		regionCount.setText(this.getPart().get_regionCount());
 		// Needs the check to test of the manager is active to select the right icon.
 		if (this.getPart().checkActivation()) {
-			managerIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));
 		} else {
-			managerIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
 		}
-		_convertView.setBackgroundResource(R.drawable.topwhiteline);
+		//		_convertView.setBackgroundResource(R.drawable.topwhiteline);
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class PlanetaryManagerRender extends EveAbstractHolder {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		// The view is a new view. We have to fill all the items
-		_convertView = mInflater.inflate(R.layout.assetsmanager4pilot, null);
+		_convertView = mInflater.inflate(R.layout.planetarymanager4pilot, null);
 		_convertView.setTag(this);
 	}
 }

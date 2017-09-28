@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="@style/RightArrow"
+        style="@style/Actionable.Arrow"
         android:visibility="gone" />
 
     <LinearLayout

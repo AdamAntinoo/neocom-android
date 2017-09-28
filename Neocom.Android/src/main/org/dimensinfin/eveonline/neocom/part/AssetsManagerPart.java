@@ -62,6 +62,10 @@ public class AssetsManagerPart extends EveAbstractPart
 		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
 	}
 
+	public String get_regionCount() {
+		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
+	}
+
 	public int getActiveIcon() {
 		return R.drawable.assets;
 	}

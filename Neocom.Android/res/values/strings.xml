@@ -13,6 +13,7 @@
     <string name="default_description">ImageView Content Description</string>
     <string name="default_number">50.32</string>
     <string name="default_smallnumber">1</string>
+    <string name="default_stocknumber">84</string>
     <string name="default_bignumber">345,897.--</string>
     <string name="default_paiddate">2017.01.12 20:30</string>
     <string name="default_apikeynumber">1084582</string>
@@ -28,12 +29,16 @@
     <string name="default_security">0.9</string>
     <string name="default_itemname">Nanofiber Internal Structure II</string>
     <string name="default_bponame">Nanofiber Internal Structure I Blueprint</string>
+    <string name="default_loginname">CatptainHaddock</string>
+    <string name="default_managername">Assets Manager</string>
     <string name="default_shipname">Epithal - Industrial</string>
     <string name="default_grouptitle">SCHEDULED SELL</string>
     <string name="default_regionname">Tash-Murkon - Moon 22</string>
     <string name="default_fittingname">HCBC Impact 1.0</string>
     <string name="default_fittingclass">Combat Battlecruiser >> Harbinger</string>
     <string name="default_label">-LABEL-</string>
+    <string name="default_actionablearrow">Arrow button to expand/collapse a group item.</string>
+    <string name="default_nodeicon">EveOnline icon for the representing item.</string>
     
     <!-- CONTEXT MENU VALUES -->
     <string-array name="assetActions">
