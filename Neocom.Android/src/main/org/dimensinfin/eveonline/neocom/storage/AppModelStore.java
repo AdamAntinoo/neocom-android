@@ -8,10 +8,12 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.storage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.core.model.AbstractModelStore;
@@ -20,13 +22,9 @@ import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
-import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-
-import com.beimin.eveapi.exception.ApiException;
 
 import android.app.Activity;
 import android.view.Menu;
@@ -112,8 +110,8 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	private transient NeoComCharacter						_pilot						= null;
 
 	/** The list of keys related to a login identifier */
-	private List<NeoComApiKey>									_neocomApiKeys		= null;
-	private List<NeoComCharacter>								_neocomCharacters	= null;
+	//	private List<NeoComApiKey>									_neocomApiKeys		= null;
+	//	private List<NeoComCharacter>								_neocomCharacters	= null;
 	protected long															_pilotIdentifier	= -1L;
 	/** Check to verify if the recovery process is successful. */
 	private boolean															recovered					= false;
@@ -135,6 +133,23 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 			// TODO This is a quite serious error because invalidates any storage of the model data
 			ex.printStackTrace();
 		}
+	}
+
+	/**
+	 * Gets a unique list of all the different characters available to the system from the different Logins.
+	 * This action is done without disturbing the login selected or any other AppModel structure. The list is
+	 * not kept and is calculated each time the call is received.
+	 */
+	public Set<NeoComCharacter> accessCharacterList() {
+		Hashtable<String, Login> loginList = AppConnector.getModelStore().accessLoginList();
+		Set<NeoComCharacter> charList = new HashSet<NeoComCharacter>();
+		for (String key : loginList.keySet()) {
+			Login login = loginList.get(key);
+			for (NeoComCharacter c : login.getCharacters()) {
+				charList.add(c);
+			}
+		}
+		return charList;
 	}
 
 	/**
@@ -186,26 +201,41 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	}
 
 	/**
-	 * Searches for the pilot on the character list active after the API key processing and copies it to the
-	 * store slot.<br>
+	 * Searches for the pilot on the character list of the active Login and stores it to the current slot.<br>
 	 * On the new implementation change the search to delegate the action to a new data model where the list of
-	 * keys comes from a database search and the list of associated keys are stored on the App Model.
+	 * keys comes from a database search and the list of associated keys are stored on the App Model. The list
+	 * of characters are on the Login class and there should be an active Login. Otherwise we raise and
+	 * exception because there is no Login or the Character is not found.
 	 * 
 	 * @param characterid
 	 *          id of the character to activate and select for work with.
-	 * @return
 	 */
 	public NeoComCharacter activatePilot(final long characterid) {
-		AppModelStore.logger.info(">> [AppModelStore.activatePilot] id=" + characterid);
-		_pilot = this.searchCharacter(characterid);
-		if (null == _pilot)
-			throw new RuntimeException("RT AppModelStore.activatePilot - Pilot not located. Problem of initialization.");
-		// Link the pilot to the store for dirty processing.
-		_pilot.setParent(this);
-		_pilotIdentifier = _pilot.getCharacterID();
-		AppModelStore.logger.info("<< [AppModelStore.activatePilot]");
-		return _pilot;
+		AppModelStore.logger.info(">< [AppModelStore.activatePilot]Id: " + characterid);
+		// If the current pilot is the one searched simplify the search.
+		if ((null != _pilot) && ((_pilot.getCharacterID()) == characterid)) return _pilot;
+		// If the active Login is empty then we do not know where to search.
+		if (null == _loginIdentifier) throw new NeocomRuntimeException(
+				"RT [AppModelStore.activatePilot]> There is no active Login. Cannot search for character.");
+
+		// Search for character at the active Login.
+		NeoComCharacter hit = _loginIdentifier.searchCharacter(characterid);
+		if (null == hit) throw new RuntimeException(
+				"RT [AppModelStore.activatePilot]>Pilot with id: " + characterid + " not located at active Login.");
+		_pilot = hit;
+		return hit;
 	}
+
+	public NeoComCharacter activatePilot(final String characterstring) {
+		return this.activatePilot(Long.valueOf(characterstring).longValue());
+	}
+
+	//	@Override
+	//	@Deprecated
+	//	public void clean() {
+	//		_neocomApiKeys.clear();
+	//		fittings = new HashMap<String, Fitting>();
+	//	}
 
 	/**
 	 * Adds a new fitting to the list of stored ones and persists the data structures.
@@ -217,13 +247,6 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		fittings.put(label, fit);
 		this.setDirty(true);
 		this.save();
-	}
-
-	@Override
-	@Deprecated
-	public void clean() {
-		_neocomApiKeys.clear();
-		fittings = new HashMap<String, Fitting>();
 	}
 
 	/**
@@ -240,17 +263,12 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public List<NeoComCharacter> getActiveCharacters() {
-		// Iterate the list of pilots and accumulate the active ones.
-		final ArrayList<NeoComCharacter> activePilots = new ArrayList<NeoComCharacter>();
-		if (null == _neocomCharacters) {
-			this.readApiKeys();
-		}
-		for (final NeoComCharacter pilot : _neocomCharacters)
-			if (pilot.isActive()) {
-				activePilots.add(pilot);
-			}
-		return activePilots;
+		if (null == _loginIdentifier)
+			return new Vector<NeoComCharacter>();
+		else
+			return _loginIdentifier.getCharacters();
 	}
 
 	public Activity getActivity() {
@@ -258,12 +276,12 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return _activity;
 	}
 
-	public List<NeoComApiKey> getApiKeys() {
-		if (null == _neocomApiKeys) {
-			this.readApiKeys();
-		}
-		return _neocomApiKeys;
-	}
+	//	public List<NeoComApiKey> getApiKeys() {
+	//		if (null == _neocomApiKeys) {
+	//			this.readApiKeys();
+	//		}
+	//		return _neocomApiKeys;
+	//	}
 
 	@Deprecated
 	public Menu getAppMenu() {
@@ -334,7 +352,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * @return true is we have to read the data because the containers are empty.
 	 */
 	public boolean needsRestore() {
-		if (_neocomApiKeys.size() < 1) return true;
+		//	if (_neocomApiKeys.size() < 1) return true;
 		return false;
 	}
 
@@ -376,40 +394,40 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 			return false;
 	}
 
-	/**
-	 * Search for the specified character id in the list of associated characters list.
-	 * 
-	 * @param characterID
-	 * @return
-	 */
-	//	@Deprecated
-	public NeoComCharacter searchCharacter(final long characterID) {
-		for (NeoComCharacter character : _neocomCharacters) {
-			if (character.getCharacterID() == characterID) return character;
-		}
-		throw new NeocomRuntimeException("Character with id=" + characterID + " not found on list");
-	}
+	//	/**
+	//	 * Search for the specified character id in the list of associated characters list.
+	//	 * 
+	//	 * @param characterID
+	//	 * @return
+	//	 */
+	//	//	@Deprecated
+	//	public NeoComCharacter searchCharacter(final long characterID) {
+	//		for (NeoComCharacter character : _neocomCharacters) {
+	//			if (character.getCharacterID() == characterID) return character;
+	//		}
+	//		throw new NeocomRuntimeException("Character with id=" + characterID + " not found on list");
+	//	}
 
 	public Fitting searchFitting(final String fittingLabel) {
 		return fittings.get(fittingLabel);
 	}
 
-	/**
-	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
-	 * fields not stored and marked as transient.
-	 * 
-	 * @param newkeys
-	 */
-	public void setApiKeys(final List<NeoComApiKey> newkeys) {
-		_neocomApiKeys = newkeys;
-		// we have to reparent the new data because this is not stored on the serialization.
-		// Also reinitialize transient fields that are not saved
-		//		final Iterator<ApiKey> eit = apiKeys.values().iterator();
-		//		while (eit.hasNext()) {
-		//			final ApiKey apiKey = eit.next();
-		//			//	apiKey.setParent(this);
-		//		}
-	}
+	//	/**
+	//	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
+	//	 * fields not stored and marked as transient.
+	//	 * 
+	//	 * @param newkeys
+	//	 */
+	//	public void setApiKeys(final List<NeoComApiKey> newkeys) {
+	//		_neocomApiKeys = newkeys;
+	//		// we have to reparent the new data because this is not stored on the serialization.
+	//		// Also reinitialize transient fields that are not saved
+	//		//		final Iterator<ApiKey> eit = apiKeys.values().iterator();
+	//		//		while (eit.hasNext()) {
+	//		//			final ApiKey apiKey = eit.next();
+	//		//			//	apiKey.setParent(this);
+	//		//		}
+	//	}
 
 	public void setAppMenu(final Menu appMenu) {
 		_appMenu = appMenu;
@@ -428,7 +446,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer("AppModelStore [");
-		buffer.append(" _neocomApiKeys(").append(_neocomApiKeys.size()).append("): ").append(_neocomApiKeys);
+		//		buffer.append(" _neocomApiKeys(").append(_neocomApiKeys.size()).append("): ").append(_neocomApiKeys);
 		buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
 		buffer.append(" ]");
 		return buffer.toString();
@@ -457,30 +475,30 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return recovered;
 	}
 
-	@Deprecated
-	private void readApiKeys() {
-		AppModelStore.logger.info(">> [AppModelStore.readApiKeys]");
-		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
-		List<ApiKey> apiKeys = AppConnector.getDBConnector().getApiList4Login(this.getLoginIdentifier());
-		// For each key get the list of characters and instantiate them to the resulting list.
-		_neocomApiKeys = new ArrayList<NeoComApiKey>();
-		_neocomCharacters = new ArrayList<NeoComCharacter>();
-		for (ApiKey apiKey : apiKeys) {
-			try {
-				NeoComApiKey key = NeoComApiKey.build(apiKey.getKeynumber(), apiKey.getValidationcode());
-				_neocomApiKeys.add(key);
-				// Scan for the characters declared into this key.
-				for (NeoComCharacter pilot : key.getApiCharacters()) {
-					_neocomCharacters.add(pilot);
-					AppModelStore.logger
-							.info("-- [AppModelStore.readApiKeys]> Adding " + pilot.getName() + " to the _neocomCharacters");
-				}
-			} catch (ApiException apiex) {
-				apiex.printStackTrace();
-			}
-		}
-		AppModelStore.logger.info("<< [AppModelStore.readApiKeys]");
-	}
+	//	@Deprecated
+	//	private void readApiKeys() {
+	//		AppModelStore.logger.info(">> [AppModelStore.readApiKeys]");
+	//		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
+	//		List<ApiKey> apiKeys = AppConnector.getDBConnector().getApiList4Login(this.getLoginIdentifier());
+	//		// For each key get the list of characters and instantiate them to the resulting list.
+	//		_neocomApiKeys = new ArrayList<NeoComApiKey>();
+	//		_neocomCharacters = new ArrayList<NeoComCharacter>();
+	//		for (ApiKey apiKey : apiKeys) {
+	//			try {
+	//				NeoComApiKey key = NeoComApiKey.build(apiKey.getKeynumber(), apiKey.getValidationcode());
+	//				_neocomApiKeys.add(key);
+	//				// Scan for the characters declared into this key.
+	//				for (NeoComCharacter pilot : key.getApiCharacters()) {
+	//					_neocomCharacters.add(pilot);
+	//					AppModelStore.logger
+	//							.info("-- [AppModelStore.readApiKeys]> Adding " + pilot.getName() + " to the _neocomCharacters");
+	//				}
+	//			} catch (ApiException apiex) {
+	//				apiex.printStackTrace();
+	//			}
+	//		}
+	//		AppModelStore.logger.info("<< [AppModelStore.readApiKeys]");
+	//	}
 
 }
 
