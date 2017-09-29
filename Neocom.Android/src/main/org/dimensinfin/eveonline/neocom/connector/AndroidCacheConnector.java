@@ -273,15 +273,15 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger											logger						= Logger.getLogger("AndroidCacheConnector");
+	private static Logger				logger					= Logger.getLogger("AndroidCacheConnector");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context														_context					= null;
-	private final EveItemCache								_eveItemCache			= new EveItemCache();
-	private DrawableCache											_cacheDrawables		= null;
+	private Context							_context				= null;
+	private final EveItemCache	_eveItemCache		= new EveItemCache();
+	private DrawableCache				_cacheDrawables	= null;
 	// private final HashMap<String, CacheEntry> _pendingDrawableDownloads = new
 	// HashMap<String, CacheEntry>();
-	private final Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
+	//	private final Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidCacheConnector(final Context app) {

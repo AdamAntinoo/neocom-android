@@ -8,12 +8,14 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.service;
 
+import java.util.Set;
+
 import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -44,7 +46,13 @@ public class CharacterUpdaterService extends IntentService {
 		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name());
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
 		if (NeoComApp.checkNetworkAccess()) {
-			NeoComCharacter pilot = AppModelStore.getSingleton().searchCharacter(localizer);
+			Set<NeoComCharacter> activeCharacters = AppConnector.getModelStore().accessCharacterList();
+			NeoComCharacter pilot = null;
+			for (NeoComCharacter neocomchar : activeCharacters) {
+				if (neocomchar.getCharacterID() == localizer) {
+					pilot = neocomchar;
+				}
+			}
 			if (null != pilot) {
 				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
 				EDataBlock datacode = pilot.needsUpdate();
