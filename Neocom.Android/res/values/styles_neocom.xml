@@ -13,9 +13,11 @@
         <item name="android:layout_height">@dimen/itemIcon48</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_marginRight">2dp</item>
-        <item name="android:layout_marginBottom">1dp</item>
-        <item name="android:layout_marginTop">2px</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@drawable/whiteborderbox</item>
     </style>
 
     <style name="ItemIcon.Style.Size96" parent="ItemIcon.Style">
@@ -57,29 +59,48 @@
     </style>
 
     <style name="Name.Style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Name.Style.12">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Name.Style.14">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Name.Style.16">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Name.Style.14.Clickable">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/nameClickable</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Name.Style.Manager">
-        <item name="android:textColor">@color/nameClickable</item>
-        <item name="android:textSize">10sp</item>
+    <style name="Name.Selectable">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/nameSelectable</item>
+    </style>
+
+    <style name="Name.Selectable.14">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Number">
@@ -92,14 +113,20 @@
     </style>
 
     <style name="Number.Style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="Number.Style.14">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Number.Style.16">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -122,15 +149,64 @@
     </style>
 
     <style name="Label.Style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">7sp</item>
     </style>
 
     <style name="Label.Style.BottomLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/bottomwhiteline</item>
     </style>
 
     <style name="Label.Style.TopLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/topwhiteline</item>
+    </style>
+
+    <style name="Actionable">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/defaultitemicon</item>
+    </style>
+
+    <style name="RightArrow">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:padding">-4dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/arrowleft</item>
+    </style>
+
+    <style name="Actionable.Arrow">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:padding">-4dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/arrowleft</item>
+    </style>
+
+    <style name="StockCounter" parent="Name.Style.16">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">right</item>
+        <item name="android:text">@string/default_stocknumber</item>
     </style>
 
 </resources>

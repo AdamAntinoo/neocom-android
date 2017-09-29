@@ -6,31 +6,23 @@
 
     <ImageView
         android:id="@+id/nodeIcon"
-        style="@style/ItemIconStyle.Size32"
-        android:layout_margin="2dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/whiteborderbox"
+        style="@style/ItemIcon.Style.Size32"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/nopilot" />
 
     <ImageView
         android:id="@+id/rightArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/imageview_defaultcontent"
-        android:padding="-4dp"
-        android:src="@drawable/arrowleft" />
+        style="Actionable.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true" />
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/name"
-        style="@style/NameStyle.Green"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        style="@style/Name.Selectable.14"
         android:layout_toRightOf="@+id/nodeIcon"
-        android:text="@string/default_regionname"
-        android:singleLine="true" />
+        android:text="@string/default_loginname" />
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympia
         android:id="@+id/titleLabel"

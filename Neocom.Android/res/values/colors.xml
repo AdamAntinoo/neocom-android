@@ -2,6 +2,7 @@
     <!-- NeoCom UI colors. Common colors -->
     <color name="nameClickable" alias="clickable">#FF50B71D</color>
     <color name="neocompanelnormal">#FF000000</color>
+    <color name="nameSelectable" alias="clickable">#FF50B71D</color>
     
    
     <color name="groupiconbackground" >#FFE0E0E0</color>
