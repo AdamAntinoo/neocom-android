@@ -14,10 +14,11 @@
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/locationRegion"
-        style="@style/NameStyle"
+        style="@style/Name.Style"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="right"
+        android:textSize="12sp"
         android:text="@string/default_region" />
 
     <RelativeLayout
@@ -30,11 +31,10 @@
 
         <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
             android:id="@+id/locationSystem"
-            style="@style/NameStyle"
+            style="@style/Name.Selectable.14"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Tash-Murkon - Moon 22"
-            android:textSize="14sp" />
+            android:text="Tash-Murkon - Moon 22" />
 
         <RelativeLayout
             android:id="@+id/stationBlock"

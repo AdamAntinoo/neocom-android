@@ -384,6 +384,37 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	 * @return
 	 */
 	public int searchStationType(final long stationID) {
+		//		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
+		int stationTypeID = 1529;
+		AppConnector.startChrono();
+		try {
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.STATIONTYPE,
+					new String[] { Long.valueOf(stationID).toString() });
+			if (null != cursor) {
+				while (cursor.moveToNext()) {
+					stationTypeID = cursor.getInt(cursor.getColumnIndex("stationTypeID"));
+				}
+				cursor.close();
+			}
+		} catch (final Exception ex) {
+			AndroidDatabaseConnector.logger.severe("E> Error searching for station type <" + stationID + "> not found.");
+		}
+		// Log.i("AndroidDatabaseConnector", "<<
+		// AndroidDatabaseConnector.searchListOfDatacores " +
+		// inventionJob.getSize());
+		AndroidCCPDatabaseConnector.logger
+				.info("~~ [AndroidCCPDatabaseConnector.searchStationType]> Time lapse for [SELECT STATIONTYPEID " + stationID
+						+ "] " + AppConnector.timeLapse());
+		return stationTypeID;
+	}
+
+	/**
+	 * Returns the resource identifier of the station class to locate icons or other type related resources.
+	 * 
+	 * @param stationID
+	 * @return
+	 */
+	public int searchStationType2(final long stationID) {
 		int stationTypeID = 1529;
 		AppConnector.startChrono();
 		//	PreparedStatement prepStmt = null;

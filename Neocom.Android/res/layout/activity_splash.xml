@@ -2,12 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/neocompanelborder40" >
 
-    <ImageView
-        android:id="@+id/backgroundFrame"
-        style="@style/AppTheme.ActivityBackground"
-        android:src="@drawable/redshadebackground" />
+    <!-- <ImageView -->
+    <!-- android:id="@+id/backgroundFrame" -->
+    <!-- style="@style/AppTheme.ActivityBackground" -->
+    <!-- android:src="@drawable/redshadebackground" /> -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,25 +16,63 @@
 
         <ProgressBar
             android:id="@+id/progress"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/applicationName"
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/stateLabel"
             android:indeterminateDrawable="@drawable/progressspinner" >
         </ProgressBar>
 
-        <TextView
+        <org.dimensinfin.eveonline.neocom.core.ElementalEnd
+            android:id="@+id/applicationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:shadowColor="@android:color/white"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="16"
+            android:text="NEOCOM"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <org.dimensinfin.eveonline.neocom.core.ElementalEnd
+            android:id="@+id/applicationVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/applicationName"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/applicationName"
+            android:shadowColor="@color/orangeName"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"
+            android:text="v0.9.2"
+            android:textColor="@color/orangeName"
+            android:textSize="20sp" />
+
+        <org.dimensinfin.eveonline.neocom.core.ElementalEnd
             android:id="@+id/stateLabel"
             style="@style/AppTheme.InitializationStateMessage"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/applicationName"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="50dp"
-            android:layout_toRightOf="@+id/progress"
-            android:text="Please wait..." />
+            android:layout_marginTop="25dp"
+            android:shadowColor="@android:color/white"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="10"
+            android:text="Please wait..."
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/logoDroid"

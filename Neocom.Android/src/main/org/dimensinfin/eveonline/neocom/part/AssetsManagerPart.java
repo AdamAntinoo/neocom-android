@@ -18,6 +18,7 @@ import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
@@ -107,7 +108,9 @@ public class AssetsManagerPart extends EveAbstractPart
 			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
 			//	intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.ASSETS_MANAGER.name());
 			AppModelStore.getSingleton().getActivity().startActivity(intent);
 		}
 		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
