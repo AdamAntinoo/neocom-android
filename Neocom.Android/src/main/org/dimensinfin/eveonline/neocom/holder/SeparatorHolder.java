@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
+import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.part.SeparatorPart;
 
 import android.app.Activity;
@@ -60,7 +61,15 @@ public class SeparatorHolder extends EveAbstractHolder {
 	protected void createView() {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		_convertView = mInflater.inflate(R.layout.separator_4list, null);
+		int renderer = R.layout.separator_4list;
+		// Select the rendering depending on the Separator type.
+		if (this.getPart().getCastedModel().getType() == ESeparatorType.LINE_ORANGE) {
+			renderer = R.layout.separatororangeline;
+		}
+		if (this.getPart().getCastedModel().getType() == ESeparatorType.LINE_ORANGE) {
+			renderer = R.layout.separatorgreenline;
+		}
+		_convertView = mInflater.inflate(renderer, null);
 		_convertView.setTag(this);
 	}
 }
