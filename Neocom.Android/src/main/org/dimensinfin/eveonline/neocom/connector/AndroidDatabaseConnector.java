@@ -23,7 +23,6 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -203,11 +202,11 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		if (null != staticDatabase) {
 			staticDatabase.close();
 		}
-		if (null != ccpDatabase) {
-			ccpDatabase.close();
-		}
+		//		if (null != ccpDatabase) {
+		//			ccpDatabase.close();
+		//		}
 		staticDatabase = null;
-		ccpDatabase = null;
+		//	ccpDatabase = null;
 	}
 
 	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
@@ -442,27 +441,27 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return loginList;
 	}
 
-	public int queryBlueprintDependencies(final int bpitemID) {
-		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(
-					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
-					new String[] { Integer.valueOf(bpitemID).toString() });
-			if (null != cursor) {
-				int parentBlueprintTypeID = -1;
-				while (cursor.moveToNext()) {
-					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
-				}
-				cursor.close();
-				return parentBlueprintTypeID;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
-		}
-		return -1;
-	}
+	//	public int queryBlueprintDependencies(final int bpitemID) {
+	//		try {
+	//			if (null == ccpDatabase) {
+	//				ccpDatabase = this.getCCPDatabase();
+	//			}
+	//			final Cursor cursor = ccpDatabase.rawQuery(
+	//					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
+	//					new String[] { Integer.valueOf(bpitemID).toString() });
+	//			if (null != cursor) {
+	//				int parentBlueprintTypeID = -1;
+	//				while (cursor.moveToNext()) {
+	//					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
+	//				}
+	//				cursor.close();
+	//				return parentBlueprintTypeID;
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
+	//		}
+	//		return -1;
+	//	}
 
 	public ArrayList<Resource> refineOre(final int oreID) {
 		ArrayList<Resource> results = new ArrayList<Resource>();
@@ -798,56 +797,56 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return product;
 	}
 
-	/**
-	 * Search on the eve.db database for the attributes that describe an Item. Items are the lowest data
-	 * structure for EVE resources or modules. Everything on Eve is an Item. We detect blueprints that require a
-	 * different treatment and also we check for the availability of the item at the current cache if
-	 * implemented.
-	 */
-	public EveItem searchItembyID(final int typeID) {
-		// Search the item on the cache.
-		EveItem hit = itemCache.get(typeID);
-		if (null == hit) {
-			try {
-				hit = new EveItem();
-				final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.SELECT_ITEM_BYID,
-						new String[] { Integer.valueOf(typeID).toString() });
-				if (null != cursor) {
-					if (cursor.moveToFirst()) {
-						hit.setTypeID(cursor.getInt(0));
-						hit.setName(cursor.getString(1));
-						hit.setGroupname(cursor.getString(2));
-						hit.setCategory(cursor.getString(3));
-						hit.setBasePrice(cursor.getDouble(4));
-						hit.setVolume(cursor.getDouble(5));
-						// Process the Tech field. The query marks blueprints
-						String tech = cursor.getString(6);
-						if (tech.equalsIgnoreCase("NOTECH")) {
-							// Double check it is a Blueprint
-							hit.setTech(ModelWideConstants.eveglobal.TechI);
-							if (hit.getName().contains(" II Blueprint")) {
-								hit.setBlueprint(true);
-								if (hit.getName().contains(" II Blueprint")) {
-									hit.setTech(ModelWideConstants.eveglobal.TechII);
-								}
-								if (hit.getName().contains(" III Blueprint")) {
-									hit.setTech(ModelWideConstants.eveglobal.TechIII);
-								}
-							}
-						} else {
-							hit.setTech(tech);
-						}
-					}
-					cursor.close();
-					itemCache.put(new Integer(typeID), hit);
-				}
-			} catch (final Exception ex) {
-				Log.w("EVEI", "W> AndroidDatabaseConnector.searchItembyID -- Item <" + typeID + "> not found.");
-				return new EveItem();
-			}
-		}
-		return hit;
-	}
+	//	/**
+	//	 * Search on the eve.db database for the attributes that describe an Item. Items are the lowest data
+	//	 * structure for EVE resources or modules. Everything on Eve is an Item. We detect blueprints that require a
+	//	 * different treatment and also we check for the availability of the item at the current cache if
+	//	 * implemented.
+	//	 */
+	//	public EveItem searchItembyID(final int typeID) {
+	//		// Search the item on the cache.
+	//		EveItem hit = itemCache.get(typeID);
+	//		if (null == hit) {
+	//			try {
+	//				hit = new EveItem();
+	//				final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.SELECT_ITEM_BYID,
+	//						new String[] { Integer.valueOf(typeID).toString() });
+	//				if (null != cursor) {
+	//					if (cursor.moveToFirst()) {
+	//						hit.setTypeID(cursor.getInt(0));
+	//						hit.setName(cursor.getString(1));
+	//						hit.setGroupname(cursor.getString(2));
+	//						hit.setCategory(cursor.getString(3));
+	//						hit.setBasePrice(cursor.getDouble(4));
+	//						hit.setVolume(cursor.getDouble(5));
+	//						// Process the Tech field. The query marks blueprints
+	//						String tech = cursor.getString(6);
+	//						if (tech.equalsIgnoreCase("NOTECH")) {
+	//							// Double check it is a Blueprint
+	//							hit.setTech(ModelWideConstants.eveglobal.TechI);
+	//							if (hit.getName().contains(" II Blueprint")) {
+	//								hit.setBlueprint(true);
+	//								if (hit.getName().contains(" II Blueprint")) {
+	//									hit.setTech(ModelWideConstants.eveglobal.TechII);
+	//								}
+	//								if (hit.getName().contains(" III Blueprint")) {
+	//									hit.setTech(ModelWideConstants.eveglobal.TechIII);
+	//								}
+	//							}
+	//						} else {
+	//							hit.setTech(tech);
+	//						}
+	//					}
+	//					cursor.close();
+	//					itemCache.put(new Integer(typeID), hit);
+	//				}
+	//			} catch (final Exception ex) {
+	//				Log.w("EVEI", "W> AndroidDatabaseConnector.searchItembyID -- Item <" + typeID + "> not found.");
+	//				return new EveItem();
+	//			}
+	//		}
+	//		return hit;
+	//	}
 
 	public ArrayList<Job> searchJob4Class(final long characterID, final String classname) {
 		// Select assets for the owner and woth an specific type id.
@@ -1046,137 +1045,137 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return buildJob;
 	}
 
-	/**
-	 * <<<<<<< HEAD Loates the system and other information for a location based on the ID received as a
-	 * parameter. New ======= Loates the systema nd other information for a location based on the ID received as
-	 * a parameter. New >>>>>>> 0.6.2-NewEveapi implementation use this ID to calculate if this matches a
-	 * corporation outpost or a corporation office hangar.
-	 */
-	public EveLocation searchLocationbyID(final long locationID) {
-		// Try to get that id from the cache tables
-		try {
-			Dao<EveLocation, String> locationDao = AppConnector.getDBConnector().getLocationDAO();
-			QueryBuilder<EveLocation, String> queryBuilder = locationDao.queryBuilder();
-			Where<EveLocation, String> where = queryBuilder.where();
-			where.eq("id", locationID);
-			PreparedQuery<EveLocation> preparedQuery = queryBuilder.prepare();
-			List<EveLocation> locationList = locationDao.query(preparedQuery);
-
-			// Check list contents. If found we have the location. Else then check if Office
-			if (locationList.size() < 1) {
-				AndroidDatabaseConnector.logger
-						.info("-- [searchLocationbyID]> Location: " + locationID + " not found on cache.");
-				// Offices
-				long fixedLocationID = locationID;
-				if (fixedLocationID >= 66000000) {
-					if (fixedLocationID < 66014933) {
-						fixedLocationID = fixedLocationID - 6000001;
-					} else {
-						fixedLocationID = fixedLocationID - 6000000;
-					}
-				}
-				EveLocation hit = new EveLocation(fixedLocationID);
-				try {
-					final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.SELECT_LOCATIONBYID,
-							new String[] { Long.valueOf(fixedLocationID).toString() });
-					if (null != cursor) {
-						boolean detected = false;
-						if (cursor.moveToFirst()) {
-							AndroidDatabaseConnector.logger
-									.info("-- [searchLocationbyID]> Location: " + locationID + " Obtained from CCP data.");
-							detected = true;
-							// Check returned values when doing the assignments.
-							long fragmentID = cursor.getLong(cursor.getColumnIndex("systemID"));
-							if (fragmentID > 0) {
-								hit.setSystemID(fragmentID);
-								hit.setSystem(cursor.getString(cursor.getColumnIndex("system")));
-							} else {
-								hit.setSystem(cursor.getString(cursor.getColumnIndex("locationName")));
-							}
-							fragmentID = cursor.getLong(cursor.getColumnIndex("constellationID"));
-							if (fragmentID > 0) {
-								hit.setConstellationID(fragmentID);
-								hit.setConstellation(cursor.getString(cursor.getColumnIndex("constellation")));
-							}
-							fragmentID = cursor.getLong(cursor.getColumnIndex("regionID"));
-							if (fragmentID > 0) {
-								hit.setRegionID(fragmentID);
-								hit.setRegion(cursor.getString(cursor.getColumnIndex("region")));
-							}
-							hit.setTypeID(cursor.getInt(cursor.getColumnIndex("typeID")));
-							hit.setStation(cursor.getString(cursor.getColumnIndex("locationName")));
-							hit.setLocationID(cursor.getLong(cursor.getColumnIndex("locationID")));
-							hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
-							cursor.close();
-						}
-						if (!detected) {
-							AndroidDatabaseConnector.logger
-									.info("-- [searchLocationbyID]> Location: " + locationID + " not found on CCP data.");
-							hit.setSystem("ID>" + Long.valueOf(locationID).toString());
-						}
-					}
-				} catch (final Exception ex) {
-					AndroidDatabaseConnector.logger.warning(
-							"W- [AndroidDatabaseConnector.searchLocationbyID]> Location <" + fixedLocationID + "> not found.");
-				}
-				// If the location is not cached nor in the CCP database. Return default location
-				return hit;
-			}
-			return locationList.get(0);
-		} catch (java.sql.SQLException sqle) {
-			sqle.printStackTrace();
-			return new EveLocation(locationID);
-		}
-		//		return new EveLocation(locationID);
-
-		//		loc= new EveLocation(locationID);
-
-		//		EveLocation hit = new EveLocation(locationID);
-		//		// Check if a corporation hangar. ID > 66000000
-		//		if (locationID > 66000000) {
-		//			locationID -= 6000001;
-		//		}
-		//		try {
-		//			final Cursor cursor = getCCPDatabase().rawQuery(SELECT_LOCATIONBYID,
-		//					new String[] { Long.valueOf(locationID).toString() });
-		//			if (null != cursor) {
-		//				boolean detected = false;
-		//				if (cursor.moveToFirst()) {
-		//					detected = true;
-		//					// Check returned values when doing the assignments.
-		//					long fragmentID = cursor.getLong(cursor.getColumnIndex("systemID"));
-		//					if (fragmentID > 0) {
-		//						hit.setSystemID(fragmentID);
-		//						hit.setSystem(cursor.getString(cursor.getColumnIndex("system")));
-		//					} else {
-		//						hit.setSystem(cursor.getString(cursor.getColumnIndex("locationName")));
-		//					}
-		//					fragmentID = cursor.getLong(cursor.getColumnIndex("constellationID"));
-		//					if (fragmentID > 0) {
-		//						hit.setConstellationID(fragmentID);
-		//						hit.setConstellation(cursor.getString(cursor.getColumnIndex("constellation")));
-		//					}
-		//					fragmentID = cursor.getLong(cursor.getColumnIndex("regionID"));
-		//					if (fragmentID > 0) {
-		//						hit.setRegionID(fragmentID);
-		//						hit.setRegion(cursor.getString(cursor.getColumnIndex("region")));
-		//					}
-		//					hit.setTypeID(cursor.getInt(cursor.getColumnIndex("typeID")));
-		//					hit.setStation(cursor.getString(cursor.getColumnIndex("locationName")));
-		//					hit.setLocationID(cursor.getLong(cursor.getColumnIndex("locationID")));
-		//					hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
-		//					cursor.close();
-		//				}
-		//				if (!detected) {
-		//					// Search the location on the list of outposts.
-		//					hit = searchOutpostbyID(locationID);
-		//				}
-		//			}
-		//		} catch (final Exception ex) {
-		//			logger.warning("Location <" + locationID + "> not found.");
-		//		}
-		//		return hit;
-	}
+	//	/**
+	//	 * <<<<<<< HEAD Loates the system and other information for a location based on the ID received as a
+	//	 * parameter. New ======= Loates the systema nd other information for a location based on the ID received as
+	//	 * a parameter. New >>>>>>> 0.6.2-NewEveapi implementation use this ID to calculate if this matches a
+	//	 * corporation outpost or a corporation office hangar.
+	//	 */
+	//	public EveLocation searchLocationbyID(final long locationID) {
+	//		// Try to get that id from the cache tables
+	//		try {
+	//			Dao<EveLocation, String> locationDao = AppConnector.getDBConnector().getLocationDAO();
+	//			QueryBuilder<EveLocation, String> queryBuilder = locationDao.queryBuilder();
+	//			Where<EveLocation, String> where = queryBuilder.where();
+	//			where.eq("id", locationID);
+	//			PreparedQuery<EveLocation> preparedQuery = queryBuilder.prepare();
+	//			List<EveLocation> locationList = locationDao.query(preparedQuery);
+	//
+	//			// Check list contents. If found we have the location. Else then check if Office
+	//			if (locationList.size() < 1) {
+	//				AndroidDatabaseConnector.logger
+	//						.info("-- [searchLocationbyID]> Location: " + locationID + " not found on cache.");
+	//				// Offices
+	//				long fixedLocationID = locationID;
+	//				if (fixedLocationID >= 66000000) {
+	//					if (fixedLocationID < 66014933) {
+	//						fixedLocationID = fixedLocationID - 6000001;
+	//					} else {
+	//						fixedLocationID = fixedLocationID - 6000000;
+	//					}
+	//				}
+	//				EveLocation hit = new EveLocation(fixedLocationID);
+	//				try {
+	//					final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.SELECT_LOCATIONBYID,
+	//							new String[] { Long.valueOf(fixedLocationID).toString() });
+	//					if (null != cursor) {
+	//						boolean detected = false;
+	//						if (cursor.moveToFirst()) {
+	//							AndroidDatabaseConnector.logger
+	//									.info("-- [searchLocationbyID]> Location: " + locationID + " Obtained from CCP data.");
+	//							detected = true;
+	//							// Check returned values when doing the assignments.
+	//							long fragmentID = cursor.getLong(cursor.getColumnIndex("systemID"));
+	//							if (fragmentID > 0) {
+	//								hit.setSystemID(fragmentID);
+	//								hit.setSystem(cursor.getString(cursor.getColumnIndex("system")));
+	//							} else {
+	//								hit.setSystem(cursor.getString(cursor.getColumnIndex("locationName")));
+	//							}
+	//							fragmentID = cursor.getLong(cursor.getColumnIndex("constellationID"));
+	//							if (fragmentID > 0) {
+	//								hit.setConstellationID(fragmentID);
+	//								hit.setConstellation(cursor.getString(cursor.getColumnIndex("constellation")));
+	//							}
+	//							fragmentID = cursor.getLong(cursor.getColumnIndex("regionID"));
+	//							if (fragmentID > 0) {
+	//								hit.setRegionID(fragmentID);
+	//								hit.setRegion(cursor.getString(cursor.getColumnIndex("region")));
+	//							}
+	//							hit.setTypeID(cursor.getInt(cursor.getColumnIndex("typeID")));
+	//							hit.setStation(cursor.getString(cursor.getColumnIndex("locationName")));
+	//							hit.setLocationID(cursor.getLong(cursor.getColumnIndex("locationID")));
+	//							hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
+	//							cursor.close();
+	//						}
+	//						if (!detected) {
+	//							AndroidDatabaseConnector.logger
+	//									.info("-- [searchLocationbyID]> Location: " + locationID + " not found on CCP data.");
+	//							hit.setSystem("ID>" + Long.valueOf(locationID).toString());
+	//						}
+	//					}
+	//				} catch (final Exception ex) {
+	//					AndroidDatabaseConnector.logger.warning(
+	//							"W- [AndroidDatabaseConnector.searchLocationbyID]> Location <" + fixedLocationID + "> not found.");
+	//				}
+	//				// If the location is not cached nor in the CCP database. Return default location
+	//				return hit;
+	//			}
+	//			return locationList.get(0);
+	//		} catch (java.sql.SQLException sqle) {
+	//			sqle.printStackTrace();
+	//			return new EveLocation(locationID);
+	//		}
+	//		//		return new EveLocation(locationID);
+	//
+	//		//		loc= new EveLocation(locationID);
+	//
+	//		//		EveLocation hit = new EveLocation(locationID);
+	//		//		// Check if a corporation hangar. ID > 66000000
+	//		//		if (locationID > 66000000) {
+	//		//			locationID -= 6000001;
+	//		//		}
+	//		//		try {
+	//		//			final Cursor cursor = getCCPDatabase().rawQuery(SELECT_LOCATIONBYID,
+	//		//					new String[] { Long.valueOf(locationID).toString() });
+	//		//			if (null != cursor) {
+	//		//				boolean detected = false;
+	//		//				if (cursor.moveToFirst()) {
+	//		//					detected = true;
+	//		//					// Check returned values when doing the assignments.
+	//		//					long fragmentID = cursor.getLong(cursor.getColumnIndex("systemID"));
+	//		//					if (fragmentID > 0) {
+	//		//						hit.setSystemID(fragmentID);
+	//		//						hit.setSystem(cursor.getString(cursor.getColumnIndex("system")));
+	//		//					} else {
+	//		//						hit.setSystem(cursor.getString(cursor.getColumnIndex("locationName")));
+	//		//					}
+	//		//					fragmentID = cursor.getLong(cursor.getColumnIndex("constellationID"));
+	//		//					if (fragmentID > 0) {
+	//		//						hit.setConstellationID(fragmentID);
+	//		//						hit.setConstellation(cursor.getString(cursor.getColumnIndex("constellation")));
+	//		//					}
+	//		//					fragmentID = cursor.getLong(cursor.getColumnIndex("regionID"));
+	//		//					if (fragmentID > 0) {
+	//		//						hit.setRegionID(fragmentID);
+	//		//						hit.setRegion(cursor.getString(cursor.getColumnIndex("region")));
+	//		//					}
+	//		//					hit.setTypeID(cursor.getInt(cursor.getColumnIndex("typeID")));
+	//		//					hit.setStation(cursor.getString(cursor.getColumnIndex("locationName")));
+	//		//					hit.setLocationID(cursor.getLong(cursor.getColumnIndex("locationID")));
+	//		//					hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
+	//		//					cursor.close();
+	//		//				}
+	//		//				if (!detected) {
+	//		//					// Search the location on the list of outposts.
+	//		//					hit = searchOutpostbyID(locationID);
+	//		//				}
+	//		//			}
+	//		//		} catch (final Exception ex) {
+	//		//			logger.warning("Location <" + locationID + "> not found.");
+	//		//		}
+	//		//		return hit;
+	//	}
 
 	// public EveItem searchItembyIDoff(final int typeID) {
 	// // Search the item on the cache.
@@ -1196,102 +1195,80 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	// return hit;
 	// }
 
-	public EveLocation searchLocationBySystem(final String name) {
-		final EveLocation newLocation = new EveLocation();
-		try {
-			final Cursor cursor = this.getCCPDatabase()
-					.rawQuery("SELECT solarSystemID from mapSolarSystems WHERE solarSystemName = ?", new String[] { name });
-			if (null != cursor) {
-				if (cursor.moveToFirst()) {
-					int locationID = cursor.getInt(cursor.getColumnIndex("solarSystemID"));
-					cursor.close();
-					return this.searchLocationbyID(locationID);
-				}
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.warning("W> Location <" + name + "> not found.");
-		}
-		return newLocation;
-	}
+	//	public EveLocation searchLocationBySystem(final String name) {
+	//		final EveLocation newLocation = new EveLocation();
+	//		try {
+	//			final Cursor cursor = this.getCCPDatabase()
+	//					.rawQuery("SELECT solarSystemID from mapSolarSystems WHERE solarSystemName = ?", new String[] { name });
+	//			if (null != cursor) {
+	//				if (cursor.moveToFirst()) {
+	//					int locationID = cursor.getInt(cursor.getColumnIndex("solarSystemID"));
+	//					cursor.close();
+	//					return this.searchLocationbyID(locationID);
+	//				}
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.warning("W> Location <" + name + "> not found.");
+	//		}
+	//		return newLocation;
+	//	}
 
-	/**
-	 * Search for this data on the cache. <br>
-	 * The cache used for the search depends on the side parameter received on the call. All default prices are
-	 * references to the cost of the price to be spent to buy the item.<br>
-	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
-	 * this action also fails return an empty data structure with the minimum filed data information from the
-	 * related item and fire the update request.
-	 * 
-	 * @param itemID
-	 *          item id code of the item assigned to this market request.
-	 * @param side
-	 *          differentiates if we like to BUY or SELL the item.
-	 * @return the cached data or an empty locator ready to receive downloaded data.
-	 */
-	public MarketDataSet searchMarketData(final int itemID, final EMarketSide side) {
-		// Log.i("EVEI","-- MarketUpdaterService.searchMarketDataByID. Searching
-		// for Market Data: " + itemID + " - " + side);
-		// Search on the cache. By default load the SELLER as If I am buying the
-		// item.
-		SparseArray<MarketDataSet> cache = sellMarketDataCache;
-		if (side == EMarketSide.BUYER) {
-			cache = buyMarketDataCache;
-		}
-		MarketDataSet entry = cache.get(itemID);
-		if (null == entry) {
-			// Try to get the data from disk.
-			entry = AppConnector.getStorageConnector().readDiskMarketData(itemID, side);
-			if (null == entry) {
-				// Neither on disk. Make a request for download and return a
-				// dummy placeholder.
-				entry = new MarketDataSet(itemID, side);
-				if (true) {
-					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
-				}
-			}
-			cache.put(itemID, entry);
-		} else {
-			Log.i("EVEI", "-- MarketUpdaterService.searchMarketDataByID. Cache hit on memory.");
-			// Check again the location. If is the default then request a new
-			// update and remove it from the cache.
-			long lid = entry.getBestMarket().getLocation().getID();
-			if (lid < 0) {
-				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
-				cache.put(itemID, null);
-			}
-		}
-		// Check entry timestamp before return. Post an update if old.
-		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
-		// return entry;
-		// else {
-		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
-			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
-		}
-		return entry;
-		// }
-	}
-
-	public int searchModule4Blueprint(final int bpitemID) {
-		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(
-					"SELECT productTypeID FROM industryActivityProducts BT WHERE typeID = ? AND activityID = 1",
-					new String[] { Integer.valueOf(bpitemID).toString() });
-			if (null != cursor) {
-				int productTypeID = -1;
-				while (cursor.moveToNext()) {
-					productTypeID = cursor.getInt(cursor.getColumnIndex("productTypeID"));
-				}
-				cursor.close();
-				return productTypeID;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error locating module for BPO <" + bpitemID + ">.");
-		}
-		return -1;
-	}
+	//	/**
+	//	 * Search for this data on the cache. <br>
+	//	 * The cache used for the search depends on the side parameter received on the call. All default prices are
+	//	 * references to the cost of the price to be spent to buy the item.<br>
+	//	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
+	//	 * this action also fails return an empty data structure with the minimum filed data information from the
+	//	 * related item and fire the update request.
+	//	 * 
+	//	 * @param itemID
+	//	 *          item id code of the item assigned to this market request.
+	//	 * @param side
+	//	 *          differentiates if we like to BUY or SELL the item.
+	//	 * @return the cached data or an empty locator ready to receive downloaded data.
+	//	 */
+	//	public MarketDataSet searchMarketData(final int itemID, final EMarketSide side) {
+	//		// Log.i("EVEI","-- MarketUpdaterService.searchMarketDataByID. Searching
+	//		// for Market Data: " + itemID + " - " + side);
+	//		// Search on the cache. By default load the SELLER as If I am buying the
+	//		// item.
+	//		SparseArray<MarketDataSet> cache = sellMarketDataCache;
+	//		if (side == EMarketSide.BUYER) {
+	//			cache = buyMarketDataCache;
+	//		}
+	//		MarketDataSet entry = cache.get(itemID);
+	//		if (null == entry) {
+	//			// Try to get the data from disk.
+	//			entry = AppConnector.getStorageConnector().readDiskMarketData(itemID, side);
+	//			if (null == entry) {
+	//				// Neither on disk. Make a request for download and return a
+	//				// dummy placeholder.
+	//				entry = new MarketDataSet(itemID, side);
+	//				if (true) {
+	//					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//				}
+	//			}
+	//			cache.put(itemID, entry);
+	//		} else {
+	//			Log.i("EVEI", "-- MarketUpdaterService.searchMarketDataByID. Cache hit on memory.");
+	//			// Check again the location. If is the default then request a new
+	//			// update and remove it from the cache.
+	//			long lid = entry.getBestMarket().getLocation().getID();
+	//			if (lid < 0) {
+	//				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//				cache.put(itemID, null);
+	//			}
+	//		}
+	//		// Check entry timestamp before return. Post an update if old.
+	//		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
+	//		// return entry;
+	//		// else {
+	//		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
+	//			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//		}
+	//		return entry;
+	//		// }
+	//	}
 
 	public int searchRawPlanetaryOutput(final int typeID) {
 		int outputResourceId = typeID;
@@ -1436,34 +1413,34 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return scheList;
 	}
 
-	/**
-	 * Returns the resource identifier of the station class to locate icons or other type related resources.
-	 * 
-	 * @param stationID
-	 * @return
-	 */
-	public int searchStationType(final long stationID) {
-		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
-		int stationTypeID = 1529;
-		AppConnector.startChrono();
-		try {
-			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.STATIONTYPE,
-					new String[] { Long.valueOf(stationID).toString() });
-			if (null != cursor) {
-				while (cursor.moveToNext()) {
-					stationTypeID = cursor.getInt(cursor.getColumnIndex("stationTypeID"));
-				}
-				cursor.close();
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error searching for station type <" + stationID + "> not found.");
-		}
-		// Log.i("AndroidDatabaseConnector", "<<
-		// AndroidDatabaseConnector.searchListOfDatacores " +
-		// inventionJob.getSize());
-		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + AppConnector.timeLapse());
-		return stationTypeID;
-	}
+	//	/**
+	//	 * Returns the resource identifier of the station class to locate icons or other type related resources.
+	//	 * 
+	//	 * @param stationID
+	//	 * @return
+	//	 */
+	//	public int searchStationType(final long stationID) {
+	//		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
+	//		int stationTypeID = 1529;
+	//		AppConnector.startChrono();
+	//		try {
+	//			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.STATIONTYPE,
+	//					new String[] { Long.valueOf(stationID).toString() });
+	//			if (null != cursor) {
+	//				while (cursor.moveToNext()) {
+	//					stationTypeID = cursor.getInt(cursor.getColumnIndex("stationTypeID"));
+	//				}
+	//				cursor.close();
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.severe("E> Error searching for station type <" + stationID + "> not found.");
+	//		}
+	//		// Log.i("AndroidDatabaseConnector", "<<
+	//		// AndroidDatabaseConnector.searchListOfDatacores " +
+	//		// inventionJob.getSize());
+	//		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + AppConnector.timeLapse());
+	//		return stationTypeID;
+	//	}
 
 	public String searchTech4Blueprint(final int blueprintID) {
 		try {
@@ -1594,7 +1571,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		Outpost hit = outpostsCache.get(Long.valueOf(locationID).intValue());
 		EveLocation location = new EveLocation(locationID);
 		if (null != hit) {
-			EveLocation systemLocation = this.searchLocationbyID(hit.getSolarSystem());
+			EveLocation systemLocation = AppConnector.getCCPDBConnector().searchLocationbyID(hit.getSolarSystem());
 			location.setStation(hit.getName());
 			location.setSystemID(hit.getSolarSystem());
 			location.setSystem(systemLocation.getSystem());

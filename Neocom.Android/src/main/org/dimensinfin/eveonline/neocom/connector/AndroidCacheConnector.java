@@ -15,16 +15,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.core.ComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache.BitmapEntry;
+import org.dimensinfin.eveonline.neocom.enums.EComparatorField;
+import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
+import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
@@ -37,10 +44,12 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.util.SparseArray;
 import android.widget.ImageView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AndroidCacheConnector extends CoreCacheConnector implements ICacheConnector {
+public class AndroidCacheConnector implements ICacheConnector {
 	private class DrawableCache extends Statisticscache {
 		// - F I E L D - S E C T I O N ............................................................................
 		private SimpleDiskCache				cacheDrawables		= null;
@@ -273,19 +282,19 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger				logger					= Logger.getLogger("AndroidCacheConnector");
+	private static Logger											logger							= Logger.getLogger("AndroidCacheConnector");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context							_context				= null;
-	private final EveItemCache	_eveItemCache		= new EveItemCache();
-	private DrawableCache				_cacheDrawables	= null;
-	// private final HashMap<String, CacheEntry> _pendingDrawableDownloads = new
-	// HashMap<String, CacheEntry>();
-	//	private final Vector<PendingRequestEntry>	_pendingRequests	= new Vector<PendingRequestEntry>();
+	//	private Context														_context					= null;
+	private final EveItemCache								_eveItemCache				= new EveItemCache();
+	private DrawableCache											_cacheDrawables			= null;
+	private Vector<PendingRequestEntry>				_pendingRequests		= new Vector<PendingRequestEntry>();
+	private final SparseArray<MarketDataSet>	buyMarketDataCache	= new SparseArray<MarketDataSet>();
+	private final SparseArray<MarketDataSet>	sellMarketDataCache	= new SparseArray<MarketDataSet>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidCacheConnector(final Context app) {
-		_context = app;
+		//		_context = app;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -337,28 +346,32 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	 *          identifier of the item related to the data to download.
 	 */
 	@Override
-	public synchronized void addMarketDataRequest(final long localizer) {
-		// Log.i("AndroidCacheConnector", ">>
-		// AndroidCacheConnector.addMarketDataRequest");
+	public void addMarketDataRequest(final long localizer) {
+		AndroidCacheConnector.logger.info(">> [CoreCacheConnector.addMarketDataRequest]>Localizer: " + localizer);
 		final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(Long.valueOf(localizer).intValue());
 		AndroidCacheConnector.logger
 				.info("-- [AndroidCacheConnector.addMarketDataRequest] Posting market update for: " + item.getName());
-		// Detect priority from the Category of the item. Download data from
-		// Asteroids and Minerals first.
+		// Detect priority from the Category of the item. Download data from Asteroids and Minerals first.
 		final String category = item.getCategory();
 		final String group = item.getGroupName();
-		int priority = 1;
-		if (category.equalsIgnoreCase("Asteroid")) {
-			priority = 6;
-		}
+		int priority = 30;
 		if (category.equalsIgnoreCase("Material")) {
 			priority = 5;
 		}
-		if (category.equalsIgnoreCase("Module")) {
-			priority = 8;
+		if (category.equalsIgnoreCase("Asteroid")) {
+			priority = 6;
+		}
+		if (category.equalsIgnoreCase("Planetary Commodities")) {
+			priority = 7;
+		}
+		if (category.equalsIgnoreCase("Planetary Resources")) {
+			priority = 7;
 		}
 		if (group.equalsIgnoreCase("Datacores")) {
-			priority = 3;
+			priority = 8;
+		}
+		if (category.equalsIgnoreCase("Module")) {
+			priority = 10;
 		}
 		final PendingRequestEntry request = new PendingRequestEntry(localizer);
 		request.setPriority(priority);
@@ -422,20 +435,20 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 		return NeoComApp.topCounter;
 	}
 
-	//	@Override
-	//	public synchronized Vector<PendingRequestEntry> getPendingRequests() {
-	//		if (null == _pendingRequests) {
-	//			_pendingRequests = new Vector<PendingRequestEntry>();
-	//		}
-	//		// Clean up all completed requests.
-	//		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
-	//		for (final PendingRequestEntry entry : _pendingRequests)
-	//			if (entry.state != ERequestState.COMPLETED) {
-	//				openRequests.add(entry);
-	//			}
-	//		_pendingRequests = openRequests;
-	//		return _pendingRequests;
-	//	}
+	public synchronized Vector<PendingRequestEntry> getAndroidPendingRequests() {
+		if (null == _pendingRequests) {
+			_pendingRequests = new Vector<PendingRequestEntry>();
+		}
+		// Clean up all completed requests.
+		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
+		for (final PendingRequestEntry entry : _pendingRequests)
+			if (entry.state != ERequestState.COMPLETED) {
+				openRequests.add(entry);
+			}
+		_pendingRequests = openRequests;
+		Collections.sort(_pendingRequests, ComparatorFactory.createComparator(EComparatorField.REQUEST_PRIORITY));
+		return _pendingRequests;
+	}
 
 	/**
 	 * Gets a drawable by its URL. Most of the Eve icons can be reached though an URL and also this is valid for
@@ -481,8 +494,28 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 		return hit;
 	}
 
+	//	@Override
+	//	public synchronized Vector<PendingRequestEntry> getPendingRequests() {
+	//		if (null == _pendingRequests) {
+	//			_pendingRequests = new Vector<PendingRequestEntry>();
+	//		}
+	//		// Clean up all completed requests.
+	//		final Vector<PendingRequestEntry> openRequests = new Vector<PendingRequestEntry>(_pendingRequests.size());
+	//		for (final PendingRequestEntry entry : _pendingRequests)
+	//			if (entry.state != ERequestState.COMPLETED) {
+	//				openRequests.add(entry);
+	//			}
+	//		_pendingRequests = openRequests;
+	//		return _pendingRequests;
+	//	}
+
 	public File getCacheStorage() {
 		return null;
+	}
+
+	@Override
+	public PriorityBlockingQueue<PendingRequestEntry> getPendingRequests() {
+		return new PriorityBlockingQueue<PendingRequestEntry>();
 	}
 
 	public String getURLForItem(final int typeID) {
@@ -601,6 +634,80 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	}
 
 	/**
+	 * Search for this market data on the cache. <br>
+	 * The cache used for the search depends on the side parameter received on the call. All default prices are
+	 * references to the cost of the price to be spent to buy the item.<br>
+	 * If not found on the memory cache then try to load from the serialized version stored on disk. This is an
+	 * special implementation for SpringBoot applications that may run on a server so the cache disk location is
+	 * implemented in a different way that on Android, indeed, because we can access the market data online we
+	 * are not going to cache the data but get a fresh copy if not found on the cache.<br>
+	 * If the data is not located on the case call the market data downloader and processor to get a new copy
+	 * and store it on the cache.
+	 * 
+	 * @param itemID
+	 *          item id code of the item assigned to this market request.
+	 * @param side
+	 *          differentiates if we like to BUY or SELL the item.
+	 * @return the cached data or an empty locator ready to receive downloaded data.
+	 */
+	/**
+	 * Search for this data on the cache. <br>
+	 * The cache used for the search depends on the side parameter received on the call. All default prices are
+	 * references to the cost of the price to be spent to buy the item.<br>
+	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
+	 * this action also fails return an empty data structure with the minimum filed data information from the
+	 * related item and fire the update request.
+	 * 
+	 * @param itemID
+	 *          item id code of the item assigned to this market request.
+	 * @param side
+	 *          differentiates if we like to BUY or SELL the item.
+	 * @return the cached data or an empty locator ready to receive downloaded data.
+	 */
+	public MarketDataSet searchMarketData(final int itemID, final EMarketSide side) {
+		// Log.i("EVEI","-- MarketUpdaterService.searchMarketDataByID. Searching
+		// for Market Data: " + itemID + " - " + side);
+		// Search on the cache. By default load the SELLER as If I am buying the
+		// item.
+		SparseArray<MarketDataSet> cache = sellMarketDataCache;
+		if (side == EMarketSide.BUYER) {
+			cache = buyMarketDataCache;
+		}
+		MarketDataSet entry = cache.get(itemID);
+		if (null == entry) {
+			// Try to get the data from disk.
+			entry = AppConnector.getStorageConnector().readDiskMarketData(itemID, side);
+			if (null == entry) {
+				// Neither on disk. Make a request for download and return a
+				// dummy placeholder.
+				entry = new MarketDataSet(itemID, side);
+				if (true) {
+					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+				}
+			}
+			cache.put(itemID, entry);
+		} else {
+			Log.i("EVEI", "-- MarketUpdaterService.searchMarketDataByID. Cache hit on memory.");
+			// Check again the location. If is the default then request a new
+			// update and remove it from the cache.
+			long lid = entry.getBestMarket().getLocation().getID();
+			if (lid < 0) {
+				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+				cache.put(itemID, null);
+			}
+		}
+		// Check entry timestamp before return. Post an update if old.
+		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
+		// return entry;
+		// else {
+		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
+			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+		}
+		return entry;
+		// }
+	}
+
+	/**
 	 * Adds a new entry if not already found on the pending list.
 	 * 
 	 * @param request
@@ -616,13 +723,6 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 		return true;
 	}
 
-	private DrawableCache getCache() {
-		if (null == _cacheDrawables) {
-			_cacheDrawables = new DrawableCache();
-		}
-		return _cacheDrawables;
-	}
-
 	// private void incrementMarketCounter() {
 	// EVEDroidApp.marketCounter++;
 	// Activity activity = EVEDroidApp.getAppContext().getActivity();
@@ -634,6 +734,13 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	// });
 	// }
 	// }
+
+	private DrawableCache getCache() {
+		if (null == _cacheDrawables) {
+			_cacheDrawables = new DrawableCache();
+		}
+		return _cacheDrawables;
+	}
 
 	/**
 	 * Keeps track of the requests to download data that are pending and of all the images that are waiting to
@@ -658,94 +765,4 @@ public class AndroidCacheConnector extends CoreCacheConnector implements ICacheC
 	}
 
 }
-
-//// - CLASS IMPLEMENTATION
-//// ...................................................................................
-// final class CacheEntry implements Serializable {
-// // - S T A T I C - S E C T I O N
-//// ..........................................................................
-// private static final long serialVersionUID = -1265302408516975156L;
-//// private static Logger logger = Logger.getLogger("CacheEntry");
-//
-// // - F I E L D - S E C T I O N
-//// ............................................................................
-//// private MarketDataSet data = null;
-// private ECacheState state = ECacheState.EMPTY;
-// private long timestamp = 0;
-//
-// // - C O N S T R U C T O R - S E C T I O N
-//// ................................................................
-//// /**
-//// * When creating a new card fill it with a new Market Data information so we
-//// can have the information that
-//// * needs to be updated. There are two ways to create on request, an empty
-//// one (this is the default) and one
-//// * that already exists but that we like to be udpated.
-//// *
-//// * @param id
-//// * item id related to the market data to be updated.
-//// */
-//// public CacheEntry(final int id) {
-//// data = new MarketDataSet(id, ModelWideConstants.marketSide.SELLER);
-//// }
-//
-//// public CacheEntry(final MarketDataSet data) {
-//// this.data = data;
-//// }
-//
-// // - M E T H O D - S E C T I O N
-//// ..........................................................................
-// public MarketDataSet getContent() {
-// return data;
-// }
-//
-// public Integer getLocalizer() {
-// return new Integer(data.getItemID());
-// }
-//
-// /**
-// * Updates the real cache entry state from the elapsed time from the last
-//// update end the refresh period set
-// * to this element class. Also detects empty data that requires a prioritized
-//// update.
-// *
-// * @return
-// */
-// public ECacheState getState() {
-// if (state == ECacheState.UPDATED) {
-// // Check if the state should be changed.
-// boolean needsUpdate = AppConnector.checkExpiration(timestamp,
-//// ModelWideConstants.MINUTES60);
-// if (needsUpdate) setState(ECacheState.NEEDSUPDATE);
-// }
-// return state;
-// }
-//
-// public void markRefresh() {
-// setState(ECacheState.NEEDSUPDATE);
-// }
-//
-// public void setState(final ECacheState newState) {
-// state = newState;
-// }
-//
-// @Override
-// public String toString() {
-// StringBuffer buffer = new StringBuffer("CacheEntry [");
-// buffer.append("[").append(state).append("]").append(data);
-// buffer.append(" ]");
-// return buffer.toString();
-// }
-//
-// public void update() {
-// setState(ECacheState.COMPLETED);
-// timestamp = GregorianCalendar.getInstance().getTimeInMillis();
-// }
-// }
-//
-// enum ECacheState {
-// EMPTY, NEEDSUPDATE, UPDATED, ON_PROGRESS, ERROR, NOT_FOUND, COMPLETED
-// }
-
-// - UNUSED CODE
-// ............................................................................................
+// - UNUSED CODE ............................................................................................

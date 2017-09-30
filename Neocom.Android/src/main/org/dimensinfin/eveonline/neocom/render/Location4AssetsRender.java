@@ -77,28 +77,28 @@ public class Location4AssetsRender extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		locationSystem.setText(getPart().get_locationSystem());
-		locationRegion.setText(getPart().get_locationRegion());
-		locationStation.setText(getPart().get_locationStation());
-		childCount.setText(getPart().get_locationContentCount());
+		locationSystem.setText(this.getPart().get_locationSystem());
+		locationRegion.setText(this.getPart().get_locationRegion());
+		locationStation.setText(this.getPart().get_locationStation());
+		childCount.setText(this.getPart().get_locationContentCount());
 
 		// The value and volume depends on a setting.
-		double itemsValueISK = getPart().getItemsValoration();
+		double itemsValueISK = this.getPart().getItemsValoration();
 		if (itemsValueISK > 0.0) {
-			locationItemsValue.setText(generatePriceString(itemsValueISK, true, false));
-			locationItemsValueLabel.setText(generatePriceSuffix(itemsValueISK));
+			locationItemsValue.setText(this.generatePriceString(itemsValueISK, true, false));
+			locationItemsValueLabel.setText(this.generatePriceSuffix(itemsValueISK));
 		} else {
 			locationItemsValue.setText("-");
 		}
-		double itemsVolume = getPart().getItemsVolume();
+		double itemsVolume = this.getPart().getItemsVolume();
 		if (itemsVolume > 0.0) {
-			locationItemsVolume.setText(qtyFormatter.format(itemsVolume));
+			locationItemsVolume.setText(EveAbstractHolder.qtyFormatter.format(itemsVolume));
 		} else {
 			locationItemsVolume.setText("-");
 		}
 
 		// Control the ROLE block
-		ArrayList<Property> roles = getPart().accessLocationFunction();
+		ArrayList<Property> roles = this.getPart().accessLocationFunction();
 		function.setVisibility(View.GONE);
 		functionLabel.setVisibility(View.GONE);
 		if ((null != roles) && (roles.size() > 0)) {
@@ -110,13 +110,14 @@ public class Location4AssetsRender extends EveAbstractHolder {
 			functionLabel.setVisibility(View.VISIBLE);
 			function.setText(functionName);
 		}
-		loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), getPart().searchStationType(), true);
-		_convertView.setBackgroundResource(R.drawable.topwhiteline);
+		this.loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), this.getPart().searchStationType(), true);
+		//	_convertView.setBackgroundResource(R.drawable.topwhiteline);
 	}
 
 	@Override
 	protected void createView() {
-		final LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		// The view is a new view. We have to fill all the items
 		_convertView = mInflater.inflate(R.layout.location4assets, null);
 		_convertView.setTag(this);

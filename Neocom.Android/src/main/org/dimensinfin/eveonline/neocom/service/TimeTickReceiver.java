@@ -18,7 +18,7 @@ import java.net.URLConnection;
 import java.security.cert.X509Certificate;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
@@ -238,9 +238,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 * more requests will be queued on the next tick if they are more than the queue limit.<br>
 	 * The user data is refreshed on step two and the time limit is one hour.<br>
 	 * The asset information is also updated on step 2 but with a duration of 8 hours. <br>
-	 * Every minute the process checks for pending market data downloads. Separate the Market Data and the
-	 * Character processes because they have differenct schedules and different controls. The Market Data if
-	 * only updated at times while the Characters should bypass most of the limitations.
+	 * Every minute the process checks for pending market data downloads.
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
@@ -250,83 +248,46 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		// Or if the service is disables by configuration.
 		if (this.blockedDownload()) return;
 
+		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
-		PriorityBlockingQueue<PendingRequestEntry> requests = AppConnector.getCacheConnector().getPendingRequests();
-		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]> Pending requests level: " + requests.size());
-
-		// Check if we should activate the Market Data block
-		if (!this.blockedMarket()) {
-			this.doMarketDataProcessing(requests);
-			//			TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onReceive]> Blocked the Market processing. Exiting.");
-			//			return;
-		}
-		// We always do the Character processing
-		limit = 0;
-		//	if (this.blockedMarket()) {
-		//		TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onReceive]> Blocked the Market processing. Exiting.");
-		//		return;
-		//	}
-		while (limit <= TimeTickReceiver.LAUNCH_LIMIT) {
+		Vector<PendingRequestEntry> requests = NeoComApp.getSingletonApp().getCacheConnector().getAndroidPendingRequests();
+		synchronized (requests) {
 			// Process request by priority. Additions to queue are limited.
-			PendingRequestEntry entry = requests.poll();
-			if (null == entry) {
-				TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onTime]> Queue empty. Exiting.");
-				limit = TimeTickReceiver.LAUNCH_LIMIT + 100;
-				continue;
-			}
-			// Remove completed entries.
-			if (entry.state == ERequestState.COMPLETED) {
-				continue;
-			}
-			//	for (PendingRequestEntry entry : requests)
-			if (entry.state == ERequestState.PENDING) {
-				// Filter only MARKETDATA requests.
-				if (entry.reqClass == ERequestClass.MARKETDATA) {
-					requests.put(entry);
-					limit++;
+			limit = 0;
+			for (PendingRequestEntry entry : requests)
+				if (entry.state == ERequestState.PENDING) {
+					// Filter only MARKETDATA requests.
+					if (entry.reqClass == ERequestClass.MARKETDATA)
+						if (limit <= TimeTickReceiver.LAUNCH_LIMIT) if (this.blockedMarket()) {
+						continue;
+						} else {
+						this.launchMarketUpdate(entry);
+						}
+					// Filter the rest of the character data to be updated
+					if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
+						this.launchCharacterDataUpdate(entry);
+					}
+					if (entry.reqClass == ERequestClass.CITADELUPDATE) {
+						// Launch the update and remove the event from the queue.
+						new UpdateCitadelsTask().execute();
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
+					}
+					if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
+						// Launch the update and remove the event from the queue.
+						new UpdateOutpostsTask().execute();
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
+					}
 				}
-				//					}
-				// Filter the rest of the character data to be updated
-				if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
-					this.launchCharacterDataUpdate(entry);
-					limit++;
-				}
-				if (entry.reqClass == ERequestClass.CITADELUPDATE) {
-					// Launch the update and remove the event from the queue.
-					new UpdateCitadelsTask().execute();
-					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-				}
-				if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
-					// Launch the update and remove the event from the queue.
-					new UpdateOutpostsTask().execute();
-					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-				}
-			}
-			if (entry.state == ERequestState.ON_PROGRESS) {
-				requests.put(entry);
-			} else {
-				// Other states should go back to the queue.
-				requests.put(entry);
-			}
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		// Compile the complete list of characters.
-		//		Hashtable<String, Login> loginList = AppConnector.getModelStore().accessLoginList();
-		//		Set<NeoComCharacter> charList = new HashSet<NeoComCharacter>();
-		//		for (String key : loginList.keySet()) {
-		//			Login login = loginList.get(key);
-		//			for (NeoComCharacter c : login.getCharacters()) {
-		//				charList.add(c);
-		//			}
-		//		}
-		Set<NeoComCharacter> charList = AppConnector.getModelStore().accessCharacterList();
-		for (NeoComCharacter eveChar : charList) {
+		Set<NeoComCharacter> characters = AppConnector.getModelStore().accessCharacterList();
+		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
 			if (updateCode != EDataBlock.READY) {
 				TimeTickReceiver.logger
 						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
-				AppConnector.getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
+				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
 		Activity activity = AppModelStore.getSingleton().getActivity();
@@ -423,58 +384,6 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			}
 		}
 		//[02]
-	}
-
-	private void doMarketDataProcessing(final PriorityBlockingQueue<PendingRequestEntry> requests) {
-		// STEP 01. Launch pending Data Requests
-		//	synchronized (requests) {
-		// Get the pending requests and order them by the priority.
-		//		Collections.sort(requests, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY));
-
-		// Process request by priority. Additions to queue are limited.
-		limit = 0;
-		//	if (this.blockedMarket()) {
-		//		TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onReceive]> Blocked the Market processing. Exiting.");
-		//		return;
-		//	}
-		while (limit <= TimeTickReceiver.LAUNCH_LIMIT) {
-			// Process request by priority. Additions to queue are limited.
-			PendingRequestEntry entry = requests.poll();
-			if (null == entry) {
-				TimeTickReceiver.logger.info("<< [TimedServiceLauncher.onTime]> Queue empty. Exiting.");
-				return;
-			}
-			// Remove completed entries.
-			if (entry.state == ERequestState.COMPLETED) {
-				continue;
-			}
-			//	for (PendingRequestEntry entry : requests)
-			if (entry.state == ERequestState.PENDING) {
-				// Filter only MARKETDATA requests.
-				if (entry.reqClass == ERequestClass.MARKETDATA) {
-					//					if (limit <= TimeTickReceiver.LAUNCH_LIMIT) if (this.blockedMarket()) {
-					//					continue;
-					//					} else {
-					this.launchMarketUpdate(entry);
-				}
-				//					}
-				// Filter the rest of the character data to be updated
-				if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
-					this.launchCharacterDataUpdate(entry);
-				}
-				if (entry.reqClass == ERequestClass.CITADELUPDATE) {
-					// Launch the update and remove the event from the queue.
-					new UpdateCitadelsTask().execute();
-					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-				}
-				if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
-					// Launch the update and remove the event from the queue.
-					new UpdateOutpostsTask().execute();
-					NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
-				}
-			}
-		}
-
 	}
 
 	private void launchCharacterDataUpdate(final PendingRequestEntry entry) {

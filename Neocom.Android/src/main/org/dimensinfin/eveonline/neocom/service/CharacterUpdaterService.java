@@ -14,7 +14,6 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
-import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 
 import android.app.IntentService;
@@ -51,6 +50,7 @@ public class CharacterUpdaterService extends IntentService {
 			for (NeoComCharacter neocomchar : activeCharacters) {
 				if (neocomchar.getCharacterID() == localizer) {
 					pilot = neocomchar;
+					break;
 				}
 			}
 			if (null != pilot) {
@@ -62,20 +62,20 @@ public class CharacterUpdaterService extends IntentService {
 					switch (datacode) {
 						case CHARACTERDATA:
 							pilot.updateCharacterInfo();
-							NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer);
-							NeoComApp.topCounter--;
+							AppConnector.getCacheConnector().clearPendingRequest(localizer);
+							AppConnector.getCacheConnector().decrementTopCounter();
 							break;
 						case ASSETDATA:
 							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
 							if (pilot.isCorporation()) {
-								new AssetsManager(pilot).downloadCorporationAssets();
+								pilot.getAssetsManager().downloadCorporationAssets();
 							} else {
-								new AssetsManager(pilot).downloadPilotAssets();
+								pilot.getAssetsManager().downloadPilotAssets();
 							}
 							//							pilot.downloadAssets();
 							//							pilot.downloadBlueprints();
-							NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer);
-							NeoComApp.topCounter--;
+							AppConnector.getCacheConnector().clearPendingRequest(localizer);
+							AppConnector.getCacheConnector().decrementTopCounter();
 							break;
 						//													case BLUEPRINTDATA:
 						////							pilot.downloadAssets();

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/redtraslucent40" >
+    android:background="@drawable/neocompanelborder40" >
 
     <ImageView
         android:id="@+id/rightArrow"
@@ -12,7 +12,7 @@
         android:id="@+id/itemIcon"
         style="@style/ItemIconStyle" />
 
-    <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
+    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/locationRegion"
         style="@style/NameStyle"
         android:layout_alignParentRight="true"
@@ -28,7 +28,7 @@
         android:layout_toLeftOf="@+id/rightArrow"
         android:layout_toRightOf="@+id/itemIcon" >
 
-        <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
             android:id="@+id/locationSystem"
             style="@style/NameStyle"
             android:layout_alignParentLeft="true"

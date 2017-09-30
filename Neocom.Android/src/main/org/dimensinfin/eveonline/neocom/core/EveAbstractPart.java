@@ -9,6 +9,7 @@ package org.dimensinfin.eveonline.neocom.core;
 // - IMPORT SECTION .........................................................................................
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -27,6 +28,7 @@ import android.text.Spanned;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class EveAbstractPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	protected static Logger										logger										= Logger.getLogger("EveAbstractPart");
 	private static final long									serialVersionUID					= -2988276062110424930L;
 	private static final long									ONEMINUTE									= 60 * 1000;
 	private static final long									ONEHOUR										= 60 * EveAbstractPart.ONEMINUTE;

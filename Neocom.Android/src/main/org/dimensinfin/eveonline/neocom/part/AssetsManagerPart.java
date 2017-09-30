@@ -10,17 +10,22 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import java.util.ArrayList;
 
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
+import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.AssetsManagerRender;
+import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -83,12 +88,29 @@ public class AssetsManagerPart extends EveAbstractPart
 	}
 
 	/**
-	 * A click on the Manager should trigger the expand/collapse pattern.
+	 * If the Pilot is active the click has to show the Pilot Dashboard Activity. If the Pilot is not active the
+	 * event should be discarded.<br>
+	 * If this part is used on more places we should control the variant so the click can be active for ones and
+	 * not active for others.
 	 */
 	public void onClick(final View view) {
-		// Toggle node to show its contents.
-		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		EveAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
+		// Set the pilot selected on the context and then go to the Pilot Dashboard.
+		final Object pilotPart = view.getTag();
+		if (pilotPart instanceof AssetsManagerPart) {
+			// TODO This is to keep compatibility with the old data management.
+			// Pilot are expected to be at the global context
+			final NeoComCharacter pilot = AppConnector.getModelStore().getActiveCharacter();
+			// TODO This should be done at the destination Activity
+			//	AppConnector.getModelStore().activatePilot(pilot.getCharacterID());
+			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
+			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
+			//	intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+			AppModelStore.getSingleton().getActivity().startActivity(intent);
+		}
+		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}
 
 	/**
