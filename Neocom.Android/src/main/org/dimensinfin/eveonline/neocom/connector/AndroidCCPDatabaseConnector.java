@@ -206,10 +206,9 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	//	}
 
 	/**
-	 * <<<<<<< HEAD Loates the system and other information for a location based on the ID received as a
-	 * parameter. New ======= Loates the systema nd other information for a location based on the ID received as
-	 * a parameter. New >>>>>>> 0.6.2-NewEveapi implementation use this ID to calculate if this matches a
-	 * corporation outpost or a corporation office hangar.
+	 * Loads the system and other information for a location based on the ID received as a parameter. New
+	 * implementation use this ID to calculate if this matches a corporation outpost or a corporation office
+	 * hangar.
 	 */
 	public EveLocation searchLocationbyID(final long locationID) {
 		// Try to get that id from the cache tables

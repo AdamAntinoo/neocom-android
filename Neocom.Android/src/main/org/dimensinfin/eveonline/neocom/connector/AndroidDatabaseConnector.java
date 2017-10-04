@@ -582,7 +582,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	 * 
 	 * @return
 	 */
-	public ArrayList<NeoComAsset> searchAllPlanetaryAssets(final long characterID) {
+	public ArrayList<NeoComAsset> accessAllPlanetaryAssets(final long characterID) {
 		// Select assets for each one of the Planetary categories.
 		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Commodities"));
