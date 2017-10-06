@@ -14,17 +14,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.CVariant;
 import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
-import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 
 // - CLASS IMPLEMENTATION ...................................................................................

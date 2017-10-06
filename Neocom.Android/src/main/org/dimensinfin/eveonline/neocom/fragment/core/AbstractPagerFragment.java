@@ -14,18 +14,16 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.connector.ApplicationConnector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.DataSourceAdapter;
+import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.CVariant;
-import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
-import org.dimensinfin.eveonline.neocom.factory.PartFactory;
-import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -44,7 +42,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-//import android.widget.Toast;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
@@ -53,11 +50,11 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 	protected class CreatePartsTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private AbstractPagerFragment fragment = null;
+		private AbstractPagerFragment _fragment = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public CreatePartsTask(final AbstractPagerFragment fragment) {
-			this.fragment = fragment;
+			_fragment = fragment;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -88,7 +85,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 		protected void onPostExecute(final Void result) {
 			Log.i("NEOCOM", ">> CreatePartsTask.onPostExecute");
 			// Activate the display of the list to force a redraw. Stop user UI waiting.
-			_adapter = new DataSourceAdapter(fragment, _datasource);
+			_adapter = new DataSourceAdapter(_fragment, _datasource);
 			_modelContainer.setAdapter(_adapter);
 
 			_progressLayout.setVisibility(View.GONE);
@@ -101,7 +98,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 				_headerContainer.removeAllViews();
 				_headerContainer.invalidate();
 				for (final AbstractAndroidPart part : headerContents) {
-					fragment.addViewtoHeader(part);
+					_fragment.addViewtoHeader(part);
 				}
 			}
 			super.onPostExecute(result);
@@ -113,11 +110,11 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 	protected class StructureChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private final AbstractPagerFragment fragment;
+		private final AbstractPagerFragment _fragment;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public StructureChangeTask(final AbstractPagerFragment fragment) {
-			this.fragment = fragment;
+			_fragment = fragment;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -162,7 +159,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 				_headerContainer.removeAllViews();
 				_headerContainer.invalidate();
 				for (final AbstractAndroidPart part : headerContents) {
-					fragment.addViewtoHeader(part);
+					_fragment.addViewtoHeader(part);
 				}
 			}
 			super.onPostExecute(result);
@@ -176,14 +173,12 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 	// - F I E L D - S E C T I O N ............................................................................
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
-	private IPartFactory												_factory					= new PartFactory(
-			EDefaultVariant.DEFAULT_VARIANT.name());
+	private IPartFactory												_factory					= null;
 	protected IExtendedDataSource								_datasource				= null;
 	protected DataSourceAdapter									_adapter					= null;
 	// REFACTOR Set back to private after the PagerFragment is removed
 	protected final Vector<AbstractAndroidPart>	_headerContents		= new Vector<AbstractAndroidPart>();
-	private String															_variant					= CVariant
-			.getName4Variant(EDefaultVariant.DEFAULT_VARIANT.hashCode());
+	private String															_variant					= null;
 
 	// - U I    F I E L D S
 	protected ViewGroup													_container				= null;
@@ -441,7 +436,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 	}
 
 	protected void goFirstActivity() {
-		this.startActivity(new Intent(this.getActivity(), AppModelStore.getSingleton().getFirstActivity()));
+		this.startActivity(new Intent(this.getActivity(), ApplicationConnector.access().getFirstActivity()));
 	}
 
 	protected abstract void registerDataSource();

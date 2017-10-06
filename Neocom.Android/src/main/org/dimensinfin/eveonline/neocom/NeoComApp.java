@@ -21,8 +21,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.dimensinfin.android.connector.ApplicationConnector;
+import org.dimensinfin.android.connector.IAppGenericConnector;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
@@ -78,7 +81,7 @@ import android.view.View;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeoComApp extends Application implements IConnector {
+public class NeoComApp extends Application implements IAppGenericConnector, IConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger									= Logger.getLogger("NeoComApp");
 	private static NeoComApp					singleton								= null;
@@ -625,6 +628,11 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
+	/**
+	 * Reference to the startup activity of the application. This Activity gets restarted when there is an
+	 * intercepted runtime exception.
+	 */
+	private Class<?>										_firstActivity		= null;
 	private AndroidStorageConnector			storage						= null;
 	private AndroidCCPDatabaseConnector	dbCCPConnector		= null;
 	private AndroidDatabaseConnector		dbNeocomConnector	= null;
@@ -639,6 +647,7 @@ public class NeoComApp extends Application implements IConnector {
 		if (null == NeoComApp.singleton) {
 			Log.i("NeoComApp", ".. First Time Initialization.");
 			NeoComApp.singleton = this;
+			ApplicationConnector.setConnector(NeoComApp.getSingletonApp());
 			AppConnector.setConnector(NeoComApp.getSingletonApp());
 			//			NeoComApp.firstTimeInitialization = true;
 		} /*
@@ -707,11 +716,6 @@ public class NeoComApp extends Application implements IConnector {
 		return NeoComApp.singleton;
 	}
 
-	@Override
-	public boolean getAssetsFormat() {
-		return true;
-	}
-
 	public AndroidCacheConnector getCacheConnector() {
 		if (null == cache) {
 			cache = new AndroidCacheConnector(this);
@@ -743,6 +747,12 @@ public class NeoComApp extends Application implements IConnector {
 	//		return NeoComApp.singleton;
 	//	}
 
+	public Class<?> getFirstActivity() {
+		if (null == _firstActivity) throw new RuntimeException(
+				"RTEX [AppModelStore.getFirstActivity]> Target destionation First Activity of application is not defined.");
+		return _firstActivity;
+	}
+
 	public INeoComModelStore getModelStore() {
 		return AppModelStore.getSingleton();
 	}
@@ -767,14 +777,18 @@ public class NeoComApp extends Application implements IConnector {
 
 	public void init() {
 		NeoComApp.logger.info(">> [NeoComApp.init]");
-		// Close databases if they were left open.
-		this.getDBConnector().closeDatabases();
 		// Get rid of any previous copy of the application linked to the singleton.
 		NeoComApp.singleton = this;
+		//Connect the new application to the Connector proxy.
+		ApplicationConnector.setConnector(this);
+
+		// Close databases if they were left open.
+		this.getDBConnector().closeDatabases();
 		// Remove any reference to old adapters.
 		storage = null;
 		dbNeocomConnector = null;
 		cache = null;
+		_firstActivity = LoginListActivity.class;
 		NeoComApp.logger.info("<< [NeoComApp.init]");
 	}
 

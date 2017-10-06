@@ -11,8 +11,10 @@ package org.dimensinfin.eveonline.neocom.fragment;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
@@ -22,8 +24,6 @@ import org.dimensinfin.eveonline.neocom.activity.FittingListActivity;
 import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
-import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;

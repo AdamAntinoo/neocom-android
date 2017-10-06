@@ -12,12 +12,12 @@ import java.util.HashMap;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
