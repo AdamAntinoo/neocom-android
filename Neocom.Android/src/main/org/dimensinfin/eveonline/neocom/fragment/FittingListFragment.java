@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
@@ -20,9 +21,9 @@ import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVar
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
@@ -78,9 +79,10 @@ public class FittingListFragment extends AbstractPagerFragment implements IPager
 			// This fragment has a header. Populate it with the datasource header contents.
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			FittingListFragment.logger.warning("RTEX> FittingListFragment.onCreateView - " + rtex.getMessage());
+			FittingListFragment.logger.severe("RTEX [FittingListFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> FittingListFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		FittingListFragment.logger.info("<< [FittingListFragment.onStart]");
@@ -115,6 +117,10 @@ public class FittingListFragment extends AbstractPagerFragment implements IPager
 	 */
 	@Override
 	public void setHeaderContents() {
+	}
+
+	private NeoComCharacter getPilot() {
+		return AppModelStore.getSingleton().getCurrentPilot();
 	}
 }
 

@@ -49,13 +49,13 @@ import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
  */
 public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long		serialVersionUID	= -1904434849082581300L;
+	private static final long	serialVersionUID	= -1904434849082581300L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private BlueprintPart				_bppart						= null;
-	private final PagerFragment	_fragment					= null;
-	private final AppContext		_context					= null;
-	private AppModelStore				_store						= null;
+	private BlueprintPart			_bppart						= null;
+	//	private final PagerFragment	_fragment					= null;
+	private final AppContext	_context					= null;
+	private AppModelStore			_store						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public IndustryT2ManufactureDataSource(final AppModelStore store) {

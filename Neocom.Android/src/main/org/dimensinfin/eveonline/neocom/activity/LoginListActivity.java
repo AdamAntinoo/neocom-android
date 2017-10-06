@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -26,7 +27,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;

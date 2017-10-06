@@ -1,16 +1,9 @@
-//	PROJECT:        EveIndustrialAssistant (EIA)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Minery and mainly on Manufacture.
-
 package org.dimensinfin.eveonline.neocom.core;
 
 // - IMPORT SECTION .........................................................................................
 import java.util.Vector;
 
-import org.dimensinfin.android.mvc.activity.PagerFragment;
-import org.dimensinfin.android.mvc.activity.TitledFragment;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 
 import android.app.Fragment;
@@ -22,8 +15,8 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final Vector<TitledFragment>	_fragments	= new Vector<TitledFragment>();
-	private int														_pagerid		= R.id.pager;
+	private final Vector<Fragment>	_fragments	= new Vector<Fragment>();
+	private int											_pagerid		= R.id.pager;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public EvePagerAdapter(final FragmentManager fm) {
@@ -32,18 +25,20 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 
 	public EvePagerAdapter(final FragmentManager fm, final int pagerid) {
 		super(fm);
-		this._pagerid = pagerid;
+		_pagerid = pagerid;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public void addPage(final TitledFragment fragNew) {
-		if (null != fragNew) this._fragments.add(fragNew);
-		notifyDataSetChanged();
+	public void addPage(final Fragment fragNew) {
+		if (null != fragNew) {
+			_fragments.add(fragNew);
+		}
+		this.notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
-		return this._fragments.size();
+		return _fragments.size();
 	}
 
 	/**
@@ -55,28 +50,50 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 	 * @return
 	 */
 	public String getFragmentId(final int position) {
-		return "android:switcher:" + this._pagerid + ":" + getItemId(position);
+		return "android:switcher:" + _pagerid + ":" + this.getItemId(position);
+	}
+
+	public Fragment getInitialPage() {
+		return this.getItem(0);
 	}
 
 	@Override
 	public Fragment getItem(final int position) {
-		final Fragment frag = new PagerFragment();
+		final Fragment frag = new DefaultPagerFragment();
 		// Check if the requested position is available.
-		if (position >= getCount()) return frag;
-		return this._fragments.get(position);
+		if (position >= this.getCount()) return frag;
+		return _fragments.get(position);
 	}
 
 	public String getSubTitle(final int position) {
-		return ((TitledFragment) getItem(position)).getSubtitle();
+		return ((AbstractPagerFragment) this.getItem(position)).getSubtitle();
 	}
 
 	public String getTitle(final int position) {
-		return ((TitledFragment) getItem(position)).getTitle();
-	}
-
-	public Fragment getInitialPage() {
-		return getItem(0);
+		return ((AbstractPagerFragment) this.getItem(position)).getTitle();
 	}
 }
 
+//- CLASS IMPLEMENTATION ...................................................................................
+final class DefaultPagerFragment extends AbstractPagerFragment {
+
+	@Override
+	public void createFactory() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void registerDataSource() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void setHeaderContents() {
+		// TODO Auto-generated method stub
+
+	}
+
+}
 // - UNUSED CODE ............................................................................................

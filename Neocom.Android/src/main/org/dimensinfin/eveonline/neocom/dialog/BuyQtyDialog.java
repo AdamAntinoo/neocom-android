@@ -8,14 +8,12 @@ package org.dimensinfin.eveonline.neocom.dialog;
 
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
-import org.dimensinfin.android.mvc.activity.PagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.TaskPart;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,8 +40,8 @@ public class BuyQtyDialog extends DialogFragment {
 
 	/** The core element selected by the user and base of the information to be displayed on the dialog. */
 	private TaskPart				_part							= null;
-//	private Fragment				_fragment					= null;
-//
+	//	private Fragment				_fragment					= null;
+	//
 
 	// - D I A L O G   F I E L D S
 	private TextView				_itemName					= null;
@@ -63,11 +61,12 @@ public class BuyQtyDialog extends DialogFragment {
 		return _quantity;
 	}
 
+	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState) {
 		// Create the dialog and all its elements.
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
 		// Inflate and set the layout for the dialog
-		LayoutInflater inflater = getActivity().getLayoutInflater();
+		LayoutInflater inflater = this.getActivity().getLayoutInflater();
 		_dialogContainer = inflater.inflate(R.layout.dialog_buyqty, null);
 
 		// Get access to the dialog UI components.
@@ -89,11 +88,12 @@ public class BuyQtyDialog extends DialogFragment {
 					if (null != _dialogCallback) {
 						if (null != _qtyRequested) {
 							_quantity = Integer.parseInt(_qtyRequested.getEditableText().toString());
-							Toast.makeText(getActivity(), "Scheduled buy qty: " + _quantity, Toast.LENGTH_LONG);
+							Toast.makeText(BuyQtyDialog.this.getActivity(), "Scheduled buy qty: " + _quantity, Toast.LENGTH_LONG);
 							_dialogCallback.onDialogPositiveClick(self);
 						}
-					} else
-						Toast.makeText(getActivity(), "Fragment invalid.", Toast.LENGTH_LONG);
+					} else {
+						Toast.makeText(BuyQtyDialog.this.getActivity(), "Fragment invalid.", Toast.LENGTH_LONG);
+					}
 				} catch (RuntimeException rtex) {
 				}
 			}
@@ -106,7 +106,9 @@ public class BuyQtyDialog extends DialogFragment {
 	}
 
 	public void setDialogCallback(final ADialogCallback callback) {
-		if (null != callback) _dialogCallback = callback;
+		if (null != callback) {
+			_dialogCallback = callback;
+		}
 	}
 
 	public void setPart(final TaskPart taskPart) {

@@ -10,15 +10,12 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.activity.TitledFragment;
-//- IMPORT SECTION .........................................................................................
-//import org.dimensinfin.android.mvc.activity.TitledFragment;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EvePagerAdapter;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -215,9 +212,15 @@ public abstract class AbstractPagerActivity extends Activity {
 	}
 
 	protected void updateInitialTitle() {
-		TitledFragment firstFragment = (TitledFragment) this.getPageAdapter().getInitialPage();
-		_actionBar.setTitle(firstFragment.getTitle());
-		_actionBar.setSubtitle(firstFragment.getSubtitle());
+		Fragment firstFragment = this.getPageAdapter().getInitialPage();
+		if (firstFragment instanceof AbstractObsoletePagerFragment) {
+			_actionBar.setTitle(((AbstractObsoletePagerFragment) firstFragment).getTitle());
+			_actionBar.setSubtitle(((AbstractObsoletePagerFragment) firstFragment).getSubtitle());
+		}
+		if (firstFragment instanceof AbstractPagerFragment) {
+			_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
+			_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
+		}
 	}
 }
 // - UNUSED CODE

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -26,9 +27,9 @@ import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -93,9 +94,10 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 			this.setHeaderContents();
 			this.setNeoComMenu(theView);
 		} catch (final RuntimeException rtex) {
-			Log.e("EVEI", "RTEX> NeoComDashboardFragment.onCreateView - " + rtex.getMessage());
+			NeoComDashboardFragment.logger.severe("RTEX [NeoComDashboardFragment.onCreateView]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> NeoComDashboardFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		NeoComDashboardFragment.logger.info("<< [NeoComDashboardFragment.onCreateView]");
 		return theView;
@@ -128,6 +130,14 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 		IPart pilotPart = this.getFactory().createPart(AppModelStore.getSingleton().getPilot());
 		((AbstractPropertyChanger) pilotPart).addPropertyChangeListener(this.getDataSource());
 		this.addtoHeader((AbstractAndroidPart) pilotPart);
+	}
+
+	private NeoComCharacter getPilot() {
+		return AppModelStore.getSingleton().getCurrentPilot();
+	}
+
+	private String getPilotName() {
+		return AppModelStore.getSingleton().getCurrentPilot().getName();
 	}
 
 	/**

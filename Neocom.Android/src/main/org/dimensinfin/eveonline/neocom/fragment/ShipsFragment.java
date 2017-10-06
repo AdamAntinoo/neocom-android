@@ -11,15 +11,15 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
-
-import android.util.Log;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class ShipsFragment extends AbstractPagerFragment {
@@ -60,9 +60,10 @@ public class ShipsFragment extends AbstractPagerFragment {
 			//		this.setIdentifier(_variant.hashCode());
 			this.registerDataSource();
 		} catch (final RuntimeException rtex) {
-			Log.e("NEOCOM", "RTEX> ShipsFragment.onStart - " + rtex.getMessage());
+			ShipsFragment.logger.severe("RTEX [ShipsFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> ShipsFragment.onStart - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		ShipsFragment.logger.info("<< [ShipsFragment.onStart]");
@@ -90,6 +91,14 @@ public class ShipsFragment extends AbstractPagerFragment {
 	protected void setHeaderContents() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private NeoComCharacter getPilot() {
+		return AppModelStore.getSingleton().getCurrentPilot();
+	}
+
+	private String getPilotName() {
+		return AppModelStore.getSingleton().getCurrentPilot().getName();
 	}
 }
 

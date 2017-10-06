@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -22,7 +23,8 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -53,11 +55,30 @@ public class FittingFragment extends AbstractPagerFragment {
 		this.setFactory(new FittingPartFactory(this.getVariant()));
 	}
 
+	public NeoComCharacter getPilot() {
+		return AppModelStore.getSingleton().getPilot();
+	}
+
+	public String getPilotName() {
+		return this.getPilot().getName();
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public String getSubtitle() {
 		return "";
 	}
+
+	//	private IExtendedDataSource getDataSource() {
+	//		return _datasource;
+	//	}
+	//
+	//	private IPartFactory getFactory() {
+	//		if (null == factory) {
+	//			factory = new FittingPartFactory(this.getVariant());
+	//		}
+	//		return factory;
+	//	}
 
 	@Override
 	public String getTitle() {
@@ -75,24 +96,14 @@ public class FittingFragment extends AbstractPagerFragment {
 			// This fragment has a header. Populate it with the datasource header contents.
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			Log.e("EVEI", "RTEX> FittingFragment.onCreateView - " + rtex.getMessage());
+			FittingFragment.logger.severe("RTEX [FittingFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> FittingFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		Log.i("NEOCOM", "<< FittingFragment.onStart");
 	}
-
-	//	private IExtendedDataSource getDataSource() {
-	//		return _datasource;
-	//	}
-	//
-	//	private IPartFactory getFactory() {
-	//		if (null == factory) {
-	//			factory = new FittingPartFactory(this.getVariant());
-	//		}
-	//		return factory;
-	//	}
 
 	/**
 	 * This is the single piece f code specific for this fragment. It should create the right class DataSource

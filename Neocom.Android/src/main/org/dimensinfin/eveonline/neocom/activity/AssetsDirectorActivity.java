@@ -17,6 +17,7 @@ import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -31,7 +32,6 @@ import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
@@ -399,6 +399,10 @@ final class AssetsFragment extends AbstractPagerFragment {
 	public void setHeaderContents() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private String getPilotName() {
+		return AppModelStore.getSingleton().getCurrentPilot().getName();
 	}
 }
 
