@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
@@ -327,7 +327,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class AssetsFragment extends AbstractNewPagerFragment {
+final class AssetsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//private static Logger logger = Logger.getLogger("AssetsFragment");
 

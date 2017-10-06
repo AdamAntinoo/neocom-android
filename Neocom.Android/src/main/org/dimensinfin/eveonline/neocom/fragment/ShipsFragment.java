@@ -17,12 +17,12 @@ import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 
 import android.util.Log;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ShipsFragment extends AbstractNewPagerFragment {
+public class ShipsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("ShipsFragment");
 

@@ -10,31 +10,25 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 
 import java.util.logging.Logger;
 
-//- IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.activity.TitledFragment;
+//- IMPORT SECTION .........................................................................................
+//import org.dimensinfin.android.mvc.activity.TitledFragment;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EvePagerAdapter;
-import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
-import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -50,45 +44,6 @@ import android.widget.ImageView;
  * @author Adam Antinoo
  */
 public abstract class AbstractPagerActivity extends Activity {
-	/**
-	 * Asynchronous task to perform actions out of main thread when a menu item is selected.
-	 * 
-	 * @author Adam Antinoo
-	 */
-	//- CLASS IMPLEMENTATION ...................................................................................
-	private class BackgroundMenuAction extends AsyncTask<Void, Void, Boolean> {
-		private static final boolean	showProgress	= false;
-		// - F I E L D - S E C T I O N ............................................................................
-		private Activity							_activity			= null;
-		int														action				= 0;
-
-		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public BackgroundMenuAction(final Activity act, final int action) {
-			_activity = act;
-			this.action = action;
-		}
-
-		// - M E T H O D - S E C T I O N ..........................................................................
-		/**
-		 * This is the main method where we do the application data initialization. The process has some steps
-		 * that are listed below:
-		 * <ol>
-		 * <li>STEP 01. Check required files availability on app directory.</li>
-		 * <li>STEP 02. Check existence of required files.</li>
-		 * <li>STEP 03. Initialize the Model store and force a refresh from the api list file.</li>
-		 * </ol>
-		 */
-		@Override
-		protected Boolean doInBackground(final Void... entry) {
-			switch (action) {
-				case R.id.action_updateaccounts:
-					AppModelStore.initialize();
-					break;
-			}
-			return true;
-		}
-	}
-
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger			logger					= Logger.getLogger("AbstractPagerActivity");
 
@@ -106,65 +61,6 @@ public abstract class AbstractPagerActivity extends Activity {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
-		final MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.eiabasemenu, menu);
-		AppModelStore.getSingleton().setAppMenu(menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				// This ID represents the Home or Up button. In the case of this
-				// activity, the Up button is shown. Use NavUtils to allow users
-				// to navigate up one level in the application structure. For
-				// more details, see the Navigation pattern on Android Design:
-				//
-				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-				//
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
-			case R.id.action_settings:
-				final Intent intent = new Intent(this, SettingsActivity.class);
-				this.startActivity(intent);
-				return false;
-			case R.id.action_fullreload:
-				this.startActivity(new Intent(this, SplashActivity.class));
-				return true;
-			case R.id.action_downloadlocations:
-				// Insert into the download queue the action to download the locations.
-				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
-				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
-				break;
-			case R.id.action_updateaccounts:
-				// Refresh the store data
-				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
-				break;
-			case R.id.action_createFitting:
-				// Create demo fittings to test the save/restore and continue the development.
-				Fitting onConstructionFit = new Fitting();
-				onConstructionFit.setName("Testing - Crusader");
-				onConstructionFit.addHull(11184);
-				onConstructionFit.fitModule(6719, 4);
-				onConstructionFit.fitModule(5973);
-				onConstructionFit.fitModule(5405);
-				onConstructionFit.fitModule(5839);
-				onConstructionFit.fitModule(5849);
-				onConstructionFit.fitModule(11563);
-				onConstructionFit.fitModule(33076);
-				onConstructionFit.fitRig(26929);
-				onConstructionFit.fitRig(26929);
-				onConstructionFit.addCargo(244, 4);
-				onConstructionFit.addCargo(240, 4);
-				AppModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
 		if (null != _indicator) {
@@ -210,10 +106,9 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	protected void addPage(final AbstractNewPagerFragment newFrag, final int position) {
+	protected void addPage(final AbstractObsoletePagerFragment newFrag, final int position) {
 		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
-		final TitledFragment frag = (TitledFragment) this.getFragmentManager()
-				.findFragmentByTag(_pageAdapter.getFragmentId(position));
+		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -229,8 +124,7 @@ public abstract class AbstractPagerActivity extends Activity {
 
 	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
 		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
-		final TitledFragment frag = (TitledFragment) this.getFragmentManager()
-				.findFragmentByTag(_pageAdapter.getFragmentId(position));
+		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -256,7 +150,7 @@ public abstract class AbstractPagerActivity extends Activity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-		Log.i("EVEI", ">> AbstractPagerActivity.onCreate"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_pager);
 		try {

@@ -27,7 +27,7 @@ import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
@@ -131,7 +131,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
  * 
  * @author Adam Antinoo
  */
-final class PilotDetailedFragment extends AbstractNewPagerFragment {
+final class PilotDetailedFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -161,7 +161,7 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 	 */
 	@Override
 	protected void registerDataSource() {
-		AbstractNewPagerFragment.logger.info(">> [PilotDetailedFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info(">> [PilotDetailedFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
@@ -180,7 +180,7 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 		ds.setVariant(this.getVariant());
 		ds.setCacheable(true);
 		this.setDataSource(ds);
-		AbstractNewPagerFragment.logger.info("<< [PilotDetailedFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info("<< [PilotDetailedFragment.registerDataSource]");
 	}
 
 	/**
@@ -189,12 +189,12 @@ final class PilotDetailedFragment extends AbstractNewPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents() {
-		AbstractNewPagerFragment.logger.info(">> [PilotDetailedFragment.setHeaderContents]");
+		AbstractPagerFragment.logger.info(">> [PilotDetailedFragment.setHeaderContents]");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
 		this.addtoHeader(
 				(AbstractAndroidPart) this.getFactory().createPart(AppConnector.getModelStore().getActiveCharacter())
 						.setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
-		AbstractNewPagerFragment.logger.info("<< [PilotDetailedFragment.setHeaderContents]");
+		AbstractPagerFragment.logger.info("<< [PilotDetailedFragment.setHeaderContents]");
 	}
 }
 

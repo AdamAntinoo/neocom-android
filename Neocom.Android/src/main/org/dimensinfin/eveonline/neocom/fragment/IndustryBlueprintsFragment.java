@@ -11,7 +11,7 @@ import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT1BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT3BlueprintsDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class IndustryBlueprintsFragment extends AbstractPagerFragment {
+public class IndustryBlueprintsFragment extends AbstractObsoletePagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -107,7 +107,7 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< IndustryBlueprintsFragment.onStart");
 	}
 
-	public AbstractPagerFragment setTechLevel(final String tech) {
+	public AbstractObsoletePagerFragment setTechLevel(final String tech) {
 		_tech = tech;
 		return this;
 	}

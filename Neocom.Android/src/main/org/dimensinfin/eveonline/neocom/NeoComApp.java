@@ -23,11 +23,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
+import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.IConnector;
 import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
@@ -625,10 +625,10 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AndroidStorageConnector		storage						= null;
-	private AndroidCCPDatabaseConnector			dbCCPConnector		= null;
-	private AndroidDatabaseConnector	dbNeocomConnector	= null;
-	private AndroidCacheConnector			cache							= null;
+	private AndroidStorageConnector			storage						= null;
+	private AndroidCCPDatabaseConnector	dbCCPConnector		= null;
+	private AndroidDatabaseConnector		dbNeocomConnector	= null;
+	private AndroidCacheConnector				cache							= null;
 	//private INeocomDBHelper									neocomDBHelper		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -702,12 +702,27 @@ public class NeoComApp extends Application implements IConnector {
 		return sdcarddir + "/" + file;
 	}
 
+	@Override
+	public IConnector getAppSingleton() {
+		return NeoComApp.singleton;
+	}
+
+	@Override
+	public boolean getAssetsFormat() {
+		return true;
+	}
+
 	public AndroidCacheConnector getCacheConnector() {
 		if (null == cache) {
 			cache = new AndroidCacheConnector(this);
 		}
 		return cache;
 	}
+
+	//	public NeocomPreferences getDefaultSharedPreferences() {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 
 	public ICCPDatabaseConnector getCCPDBConnector() {
 		if (null == dbCCPConnector) {
@@ -723,9 +738,9 @@ public class NeoComApp extends Application implements IConnector {
 		return dbNeocomConnector;
 	}
 
-	//	public NeocomPreferences getDefaultSharedPreferences() {
-	//		// TODO Auto-generated method stub
-	//		return null;
+	//	public NeoComApp getSingleton() {
+	//		//	if(null==singleton)singleton=new NeoComApp();
+	//		return NeoComApp.singleton;
 	//	}
 
 	public INeoComModelStore getModelStore() {
@@ -736,11 +751,6 @@ public class NeoComApp extends Application implements IConnector {
 		NeoComApp.logger.fine("R>" + "Accessing resource: " + reference);
 		return NeoComApp.getSingletonApp().getResources().getString(reference);
 	}
-
-	//	public NeoComApp getSingleton() {
-	//		//	if(null==singleton)singleton=new NeoComApp();
-	//		return NeoComApp.singleton;
-	//	}
 
 	public IStorageConnector getStorageConnector() {
 		if (null == storage) {

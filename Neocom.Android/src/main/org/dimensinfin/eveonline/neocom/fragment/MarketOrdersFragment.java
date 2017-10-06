@@ -23,7 +23,7 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EVARIANT;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
@@ -41,7 +41,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MarketOrdersFragment extends AbstractPagerFragment {
+public class MarketOrdersFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

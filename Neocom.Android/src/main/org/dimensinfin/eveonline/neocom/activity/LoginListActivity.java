@@ -17,6 +17,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -25,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
 import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
@@ -35,7 +36,7 @@ import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import android.os.Bundle;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginListActivity extends AbstractPagerActivity {
+public class LoginListActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = Logger.getLogger("PilotListActivity");
 
@@ -174,7 +175,7 @@ final class LoginListDataSource extends SpecialDataSource {
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class LoginListFragment extends AbstractNewPagerFragment {
+final class LoginListFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//private static Logger logger = Logger.getLogger("PilotListFragment");
 
@@ -205,7 +206,7 @@ final class LoginListFragment extends AbstractNewPagerFragment {
 	 */
 	@Override
 	protected void registerDataSource() {
-		AbstractNewPagerFragment.logger.info(">> [LoginListFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info(">> [LoginListFragment.registerDataSource]");
 		// Get the model generator with the informed variant. And use the global login that is ever defined.
 		//	String login = AppModelStore.getSingleton().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
@@ -219,7 +220,7 @@ final class LoginListFragment extends AbstractNewPagerFragment {
 		ds.setVariant(this.getVariant());
 		ds.setCacheable(true);
 		this.setDataSource(ds);
-		AbstractNewPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
 	}
 
 	/**

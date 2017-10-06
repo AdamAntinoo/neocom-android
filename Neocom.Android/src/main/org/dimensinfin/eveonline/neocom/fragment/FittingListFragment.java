@@ -20,7 +20,7 @@ import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.Separator;
@@ -41,7 +41,7 @@ import android.os.Bundle;
  * 
  * @author Adam Antinoo
  */
-public class FittingListFragment extends AbstractNewPagerFragment implements IPagerFragment {
+public class FittingListFragment extends AbstractPagerFragment implements IPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger	= Logger.getLogger("FittingListFragment");
 

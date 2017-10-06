@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.JobListDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobsFragment extends AbstractPagerFragment {
+public class JobsFragment extends AbstractObsoletePagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -98,7 +98,7 @@ public class JobsFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< ManufactureJobsFragment.onStart");
 	}
 
-	public AbstractPagerFragment setActivity(final int activityType) {
+	public AbstractObsoletePagerFragment setActivity(final int activityType) {
 		_activity = activityType;
 		return this;
 	}

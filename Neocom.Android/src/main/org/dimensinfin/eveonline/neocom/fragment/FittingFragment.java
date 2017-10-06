@@ -22,7 +22,7 @@ import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +39,7 @@ import android.util.Log;
  * 
  * @author Adam Antinoo
  */
-public class FittingFragment extends AbstractNewPagerFragment {
+public class FittingFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger	= Logger.getLogger("FittingFragment");
 

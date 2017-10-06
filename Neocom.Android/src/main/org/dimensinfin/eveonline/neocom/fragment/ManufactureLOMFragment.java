@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.factory.IndustryLOMResourcesDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ManufactureLOMFragment extends AbstractPagerFragment {
+public class ManufactureLOMFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -98,7 +98,7 @@ public class ManufactureLOMFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< ManufactureLOMFragment.onStart");
 	}
 
-	public AbstractPagerFragment setExtras(final Bundle extras) {
+	public AbstractObsoletePagerFragment setExtras(final Bundle extras) {
 		_extras = extras;
 		return this;
 	}
