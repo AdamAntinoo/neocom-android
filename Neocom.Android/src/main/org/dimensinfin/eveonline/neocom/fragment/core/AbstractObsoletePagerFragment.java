@@ -8,13 +8,13 @@ package org.dimensinfin.eveonline.neocom.fragment.core;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.activity.SafeStopActivity;
-import org.dimensinfin.android.mvc.activity.TitledFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.DataSourceAdapter;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -33,7 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AbstractObsoletePagerFragment extends TitledFragment {
+public class AbstractObsoletePagerFragment extends Fragment implements ITitledFragment {
 	//- CLASS IMPLEMENTATION ...................................................................................
 	private class InitializeDataSourceTask extends AsyncTask<Fragment, Void, Void> {
 
@@ -91,8 +91,8 @@ public class AbstractObsoletePagerFragment extends TitledFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	//	private String															_title							= "<TITLE>";
-	//	private String															_subtitle						= "";
+	private String														_title							= "<TITLE>";
+	private String														_subtitle						= "";
 	private int																_fragmentID					= -1;
 	protected IDataSource											_datasource					= null;
 	private DataSourceAdapter									_adapter						= null;
@@ -135,6 +135,14 @@ public class AbstractObsoletePagerFragment extends TitledFragment {
 
 	public String getPilotName() {
 		return AppModelStore.getSingleton().getPilot().getName();
+	}
+
+	public String getSubtitle() {
+		return _subtitle;
+	}
+
+	public String getTitle() {
+		return _title;
 	}
 
 	public void notifyDataSetChanged() {
@@ -257,6 +265,14 @@ public class AbstractObsoletePagerFragment extends TitledFragment {
 		if (null != callback) {
 			_listCallback = callback;
 		}
+	}
+
+	public void setSubtitle(final String subtitle) {
+		_subtitle = subtitle;
+	}
+
+	public void setTitle(final String title) {
+		_title = title;
 	}
 
 	//	@Override

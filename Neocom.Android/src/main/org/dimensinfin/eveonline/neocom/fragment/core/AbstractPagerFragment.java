@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.activity.SafeStopActivity;
-import org.dimensinfin.android.mvc.activity.TitledFragment;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.DataSourceAdapter;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.constant.CVariant;
 import org.dimensinfin.eveonline.neocom.constant.CVariant.EDefaultVariant;
 import org.dimensinfin.eveonline.neocom.factory.PartFactory;
@@ -32,6 +29,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IExtendedDataSource;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,10 +44,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+//import android.widget.Toast;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
-public abstract class AbstractPagerFragment extends TitledFragment {
+public abstract class AbstractPagerFragment extends Fragment implements ITitledFragment {
 	//- CLASS IMPLEMENTATION ...................................................................................
 	protected class CreatePartsTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
 
@@ -175,6 +174,8 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 	protected static Logger											logger						= Logger.getLogger("AbstractNewPagerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private String															_title						= "<TITLE>";
+	private String															_subtitle					= "";
 	private IPartFactory												_factory					= new PartFactory(
 			EDefaultVariant.DEFAULT_VARIANT.name());
 	protected IExtendedDataSource								_datasource				= null;
@@ -229,11 +230,13 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 		return this.getPilot().getName();
 	}
 
-	@Override
-	public abstract String getSubtitle();
+	public String getSubtitle() {
+		return _subtitle;
+	}
 
-	@Override
-	public abstract String getTitle();
+	public String getTitle() {
+		return _title;
+	}
 
 	public void notifyDataSetChanged() {
 		if (null != _adapter) {
@@ -294,9 +297,11 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 			this.registerDataSource();
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			Log.e("EVEI", "RTEX> AbstractPagerFragment.onCreateView - " + rtex.getMessage());
+			AbstractPagerFragment.logger.severe("RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> AbstractPagerFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			Toast.makeText(this.getActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
+			this.goFirstActivity();
 		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
 		return theView;
@@ -310,7 +315,7 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 	public View onCreateViewSuper(final int layout, final LayoutInflater inflater, final ViewGroup container,
 			final Bundle savedInstanceState) {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onCreateViewSuper]");
-		final View theView = super.onCreateView(inflater, container, savedInstanceState);
+		super.onCreateView(inflater, container, savedInstanceState);
 		try {
 			_container = (ViewGroup) inflater.inflate(layout, container, false);
 			_headerContainer = (ViewGroup) _container.findViewById(R.id.headerContainer);
@@ -320,9 +325,11 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 			this.registerForContextMenu(_headerContainer);
 			this.registerForContextMenu(_modelContainer);
 		} catch (final RuntimeException rtex) {
-			Log.e("NEOCOM", "RTEX> AbstractPagerFragment.onCreateViewSuper - " + rtex.getMessage());
+			AbstractPagerFragment.logger.severe("RTEX [AbstractPagerFragment.onCreateViewSuper]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> AbstractPagerFragment.onCreateViewSuper - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			Toast.makeText(this.getActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
+			this.goFirstActivity();
 		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateViewSuper]");
 		return _container;
@@ -392,6 +399,14 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 		}
 	}
 
+	public void setSubtitle(final String subtitle) {
+		_subtitle = subtitle;
+	}
+
+	public void setTitle(final String title) {
+		_title = title;
+	}
+
 	public AbstractPagerFragment setVariant(final String selectedVariant) {
 		_variant = selectedVariant;
 		return this;
@@ -426,26 +441,26 @@ public abstract class AbstractPagerFragment extends TitledFragment {
 	}
 
 	protected void goFirstActivity() {
-		this.startActivity(new Intent(this.getActivity(), LoginListActivity.class));
+		this.startActivity(new Intent(this.getActivity(), AppModelStore.getSingleton().getFirstActivity()));
 	}
 
 	protected abstract void registerDataSource();
 
 	protected abstract void setHeaderContents();
 
-	/**
-	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
-	 * defined by the application so this is another abstract method.
-	 * 
-	 * @param exception
-	 */
-	protected void stopActivity(final Exception exception) {
-		final Intent intent = new Intent(this.getActivity(), SafeStopActivity.class);
-		// Pass the user message to the activity for display.
-		intent.putExtra(SystemWideConstants.extras.EXTRA_EXCEPTIONMESSAGE, exception.getMessage());
-		//		EVEDroidApp.getSingletonApp().init();
-		this.startActivity(intent);
-	}
+	//	/**
+	//	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
+	//	 * defined by the application so this is another abstract method.
+	//	 * 
+	//	 * @param exception
+	//	 */
+	//	protected void stopActivity(final Exception exception) {
+	//		final Intent intent = new Intent(this.getActivity(), SafeStopActivity.class);
+	//		// Pass the user message to the activity for display.
+	//		intent.putExtra(SystemWideConstants.extras.EXTRA_EXCEPTIONMESSAGE, exception.getMessage());
+	//		//		EVEDroidApp.getSingletonApp().init();
+	//		this.startActivity(intent);
+	//	}
 
 	private void addViewtoHeader(final AbstractAndroidPart target) {
 		Log.i("NEOCOM", ">> AbstractPagerFragment.addViewtoHeader");

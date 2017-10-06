@@ -230,13 +230,6 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return this.activatePilot(Long.valueOf(characterstring).longValue());
 	}
 
-	//	@Override
-	//	@Deprecated
-	//	public void clean() {
-	//		_neocomApiKeys.clear();
-	//		fittings = new HashMap<String, Fitting>();
-	//	}
-
 	/**
 	 * Adds a new fitting to the list of stored ones and persists the data structures.
 	 * 
@@ -248,6 +241,13 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		this.setDirty(true);
 		this.save();
 	}
+
+	//	@Override
+	//	@Deprecated
+	//	public void clean() {
+	//		_neocomApiKeys.clear();
+	//		fittings = new HashMap<String, Fitting>();
+	//	}
 
 	/**
 	 * Returns any previously activated character
@@ -276,17 +276,17 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		return _activity;
 	}
 
+	@Deprecated
+	public Menu getAppMenu() {
+		return _appMenu;
+	}
+
 	//	public List<NeoComApiKey> getApiKeys() {
 	//		if (null == _neocomApiKeys) {
 	//			this.readApiKeys();
 	//		}
 	//		return _neocomApiKeys;
 	//	}
-
-	@Deprecated
-	public Menu getAppMenu() {
-		return _appMenu;
-	}
 
 	//	public IDataSourceConnector getDataSourceConector() {
 	//		if (null == dsManager) {
@@ -304,6 +304,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 			throw new NeocomRuntimeException("UNEX. Selected character is not selected. Go back to home to select one.");
 		else
 			return _pilot;
+	}
+
+	public Class<?> getFirstActivity() {
+		return LoginListActivity.class;
 	}
 
 	public HashMap<String, Fitting> getFittings() {
