@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.model.AbstractGEFNode;
@@ -23,7 +24,6 @@ import org.dimensinfin.eveonline.neocom.enums.EVARIANT;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderAnalyticalGroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderPart;

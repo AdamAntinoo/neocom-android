@@ -10,6 +10,7 @@ package org.dimensinfin.eveonline.neocom.factory;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -23,7 +24,6 @@ import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.ItemHeader4IndustryPart;

@@ -10,11 +10,11 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.holder.TerminatorHolder;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class TerminatorPart extends NeoComAbstractPart {

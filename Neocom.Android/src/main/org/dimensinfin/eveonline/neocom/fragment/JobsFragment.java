@@ -10,10 +10,10 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.JobListDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -35,6 +35,10 @@ public class JobsFragment extends AbstractObsoletePagerFragment {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public int getJobActivity() {
 		return _activity;
+	}
+
+	public String getPilotName() {
+		return AppModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override

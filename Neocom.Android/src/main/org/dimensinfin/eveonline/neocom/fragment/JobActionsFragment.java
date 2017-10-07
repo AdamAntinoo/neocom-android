@@ -10,9 +10,9 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryJobActionsDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
@@ -33,6 +33,10 @@ public class JobActionsFragment extends AbstractObsoletePagerFragment {
 	private Bundle				_extras	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return AppModelStore.getSingleton().getPilot().getName();
+	}
 
 	@Override
 	public String getSubtitle() {
@@ -79,8 +83,9 @@ public class JobActionsFragment extends AbstractObsoletePagerFragment {
 
 				// This fragment has a header. Populate it with the datasource header contents.
 				ArrayList<AbstractAndroidPart> headerData = ds.getHeaderPartHierarchy();
-				for (AbstractAndroidPart headerPart : headerData)
+				for (AbstractAndroidPart headerPart : headerData) {
 					this.addtoHeader(headerPart);
+				}
 			}
 		} catch (final RuntimeException rtex) {
 			Log.e("NEOCOM", "RTEX> JobActionsFragment.onStart - " + rtex.getMessage());

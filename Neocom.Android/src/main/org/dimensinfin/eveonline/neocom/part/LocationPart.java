@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;

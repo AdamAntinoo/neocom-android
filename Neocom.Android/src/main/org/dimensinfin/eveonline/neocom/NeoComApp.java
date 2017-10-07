@@ -22,7 +22,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.dimensinfin.android.connector.ApplicationConnector;
-import org.dimensinfin.android.connector.IAppGenericConnector;
+import org.dimensinfin.android.connector.IGenericAppConnector;
+import org.dimensinfin.android.model.INamed;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
@@ -39,8 +41,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
-import org.dimensinfin.eveonline.neocom.interfaces.INamed;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.interfaces.IWeigthedNode;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
@@ -56,7 +56,6 @@ import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Instant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -67,12 +66,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,7 +76,7 @@ import android.view.View;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeoComApp extends Application implements IAppGenericConnector, IConnector {
+public class NeoComApp extends Application implements IGenericAppConnector, IConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger									= Logger.getLogger("NeoComApp");
 	private static NeoComApp					singleton								= null;
@@ -95,16 +90,14 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 	private static boolean						firstTimeInitialization	= false;
 
 	//	private static AppModelStore			appModelStore						= null;
-
-	public static boolean checkNetworkAccess() {
-		final ConnectivityManager cm = (ConnectivityManager) NeoComApp.singleton
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
-		return false;
-	}
-
-	//	@Deprecated
+	//	public static boolean checkNetworkAccess() {
+	//		final ConnectivityManager cm = (ConnectivityManager) NeoComApp.singleton
+	//				.getSystemService(Context.CONNECTIVITY_SERVICE);
+	//		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	//		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
+	//		return false;
+	//	}
+	@Deprecated
 	public static Comparator<AbstractPropertyChanger> createComparator(final int code) {
 		Comparator<AbstractPropertyChanger> comparator = new Comparator<AbstractPropertyChanger>() {
 			public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
@@ -412,6 +405,7 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 		return comparator;
 	}
 
+	@Deprecated
 	public static Comparator<IPart> createPartComparator(final int code) {
 		Comparator<IPart> comparator = new Comparator<IPart>() {
 			public int compare(final IPart left, final IPart right) {
@@ -540,13 +534,20 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 		return comparator;
 	}
 
-	/**
-	 * Return the file that points to the application folder on the external (SDCARD) storage.
-	 */
-	public static File getAppDirectory() {
-		return new File(Environment.getExternalStorageDirectory(),
-				NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername));
+	public static NeoComApp getSingletonApp() {
+		if (null == NeoComApp.singleton) {
+			new NeoComApp();
+		}
+		return NeoComApp.singleton;
 	}
+
+	//	/**
+	//	 * Return the file that points to the application folder on the external (SDCARD) storage.
+	//	 */
+	//	public static File getAppDirectory() {
+	//		return new File(Environment.getExternalStorageDirectory(),
+	//				NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername));
+	//	}
 
 	//	/**
 	//	 * Gets a reference to the main app global data store. If the store is not defined it will start the
@@ -560,25 +561,18 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 	//		return AppModelStore.getSingleton();
 	//	}
 
-	public static boolean getBooleanPreference(final String preferenceName, final boolean defaultValue) {
-		// Read the flag values from the preferences.
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
-		boolean pref = sharedPrefs.getBoolean(preferenceName, defaultValue);
-		return pref;
-	}
-
-	public static NeoComApp getSingletonApp() {
-		if (null == NeoComApp.singleton) {
-			new NeoComApp();
-		}
-		return NeoComApp.singleton;
-	}
+	//	public static boolean getBooleanPreference(final String preferenceName, final boolean defaultValue) {
+	//		// Read the flag values from the preferences.
+	//		SharedPreferences sharedPrefs = PreferenceManager
+	//				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
+	//		boolean pref = sharedPrefs.getBoolean(preferenceName, defaultValue);
+	//		return pref;
+	//	}
 
 	//	public static ICacheConnector getTheCacheConnector() {
 	//		return NeoComApp.getSingletonApp().getCacheConnector();
 	//	}
-
+	@Deprecated
 	public static boolean isFirstTimeInit() {
 		return NeoComApp.firstTimeInitialization;
 	}
@@ -633,12 +627,13 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 	 * intercepted runtime exception.
 	 */
 	private Class<?>										_firstActivity		= null;
+
 	private AndroidStorageConnector			storage						= null;
 	private AndroidCCPDatabaseConnector	dbCCPConnector		= null;
 	private AndroidDatabaseConnector		dbNeocomConnector	= null;
 	private AndroidCacheConnector				cache							= null;
-	//private INeocomDBHelper									neocomDBHelper		= null;
 
+	//private INeocomDBHelper									neocomDBHelper		= null;
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComApp() {
 		NeoComApp.logger.info(">> [NeoComApp.<init>]");
@@ -665,29 +660,29 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 		this.getCacheConnector().addCharacterUpdateRequest(characterID);
 	}
 
-	/**
-	 * Checks that the current parameter timestamp is still on the frame of the window.
-	 * 
-	 * @param timestamp
-	 *          the current and last timestamp of the object.
-	 * @param window
-	 *          time span window in milliseconds.
-	 */
-	public boolean checkExpiration(final long timestamp, final long window) {
-		// logger.info("-- Checking expiration for " + timestamp + ". Window " + window);
-		if (0 == timestamp) return true;
-		final long now = new Instant().now().getMillis();
-		final long endWindow = timestamp + window;
-		if (now < endWindow)
-			return false;
-		else
-			return true;
-	}
-
 	@Deprecated
 	public void closeDB() {
 		this.getDBConnector().closeDatabases();
 	}
+
+	//	/**
+	//	 * Checks that the current parameter timestamp is still on the frame of the window.
+	//	 * 
+	//	 * @param timestamp
+	//	 *          the current and last timestamp of the object.
+	//	 * @param window
+	//	 *          time span window in milliseconds.
+	//	 */
+	//	public boolean checkExpiration(final long timestamp, final long window) {
+	//		// logger.info("-- Checking expiration for " + timestamp + ". Window " + window);
+	//		if (0 == timestamp) return true;
+	//		final long now = new Instant().now().getMillis();
+	//		final long endWindow = timestamp + window;
+	//		if (now < endWindow)
+	//			return false;
+	//		else
+	//			return true;
+	//	}
 
 	/**
 	 * Return the path to a file resource from the stand point of the application. We have to add the folder
@@ -709,6 +704,12 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 				+ this.getResourceString(R.string.app_versionsuffix);
 		final String file = fileresourceName;
 		return sdcarddir + "/" + file;
+	}
+
+	@Override
+	public Context getApplicationContext() {
+		// TODO Auto-generated method stub
+		return super.getApplicationContext();
 	}
 
 	@Override
@@ -747,20 +748,20 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 	//		return NeoComApp.singleton;
 	//	}
 
-	public Class<?> getFirstActivity() {
-		if (null == _firstActivity) throw new RuntimeException(
-				"RTEX [AppModelStore.getFirstActivity]> Target destionation First Activity of application is not defined.");
-		return _firstActivity;
-	}
+	//	public Class<?> getFirstActivity() {
+	//		if (null == _firstActivity) throw new RuntimeException(
+	//				"RTEX [AppModelStore.getFirstActivity]> Target destionation First Activity of application is not defined.");
+	//		return _firstActivity;
+	//	}
 
 	public INeoComModelStore getModelStore() {
 		return AppModelStore.getSingleton();
 	}
 
-	public String getResourceString(final int reference) {
-		NeoComApp.logger.fine("R>" + "Accessing resource: " + reference);
-		return NeoComApp.getSingletonApp().getResources().getString(reference);
-	}
+	//	public String getResourceString(final int reference) {
+	//		NeoComApp.logger.fine("R>" + "Accessing resource: " + reference);
+	//		return NeoComApp.getSingletonApp().getResources().getString(reference);
+	//	}
 
 	public IStorageConnector getStorageConnector() {
 		if (null == storage) {
@@ -821,35 +822,35 @@ public class NeoComApp extends Application implements IAppGenericConnector, ICon
 		this.getDBConnector().openAppDataBase();
 	}
 
-	/**
-	 * This method checks if the application has access to the external disk (SDCARD) and if that access
-	 * included the writing operations.<br>
-	 * This method should be called before any expected access to the filesystem by the minor number of classes
-	 * because it is a method strictly related to the Android OS. The execution may change the state of some
-	 * external variables but taking on account that this state may change dynamically I would prefer to call
-	 * repeatedly the method than storing the initial call results.
-	 * 
-	 * @return if the FS is writable. This also implies that the SDCARD is available.
-	 */
-	public boolean sdcardAvailable() {
-		boolean mExternalStorageAvailable = false;
-		boolean mExternalStorageWriteable = false;
-		final String state = Environment.getExternalStorageState();
-
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			// We can read and write the media
-			mExternalStorageAvailable = mExternalStorageWriteable = true;
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			// We can only read the media
-			mExternalStorageAvailable = true;
-			mExternalStorageWriteable = false;
-		} else {
-			// Something else is wrong. It may be one of many other states, but all we need
-			// to know is we can neither read nor write
-			mExternalStorageAvailable = mExternalStorageWriteable = false;
-		}
-		return mExternalStorageWriteable;
-	}
+	//	/**
+	//	 * This method checks if the application has access to the external disk (SDCARD) and if that access
+	//	 * included the writing operations.<br>
+	//	 * This method should be called before any expected access to the filesystem by the minor number of classes
+	//	 * because it is a method strictly related to the Android OS. The execution may change the state of some
+	//	 * external variables but taking on account that this state may change dynamically I would prefer to call
+	//	 * repeatedly the method than storing the initial call results.
+	//	 * 
+	//	 * @return if the FS is writable. This also implies that the SDCARD is available.
+	//	 */
+	//	public boolean sdcardAvailable() {
+	//		boolean mExternalStorageAvailable = false;
+	//		boolean mExternalStorageWriteable = false;
+	//		final String state = Environment.getExternalStorageState();
+	//
+	//		if (Environment.MEDIA_MOUNTED.equals(state)) {
+	//			// We can read and write the media
+	//			mExternalStorageAvailable = mExternalStorageWriteable = true;
+	//		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	//			// We can only read the media
+	//			mExternalStorageAvailable = true;
+	//			mExternalStorageWriteable = false;
+	//		} else {
+	//			// Something else is wrong. It may be one of many other states, but all we need
+	//			// to know is we can neither read nor write
+	//			mExternalStorageAvailable = mExternalStorageWriteable = false;
+	//		}
+	//		return mExternalStorageWriteable;
+	//	}
 
 	/**
 	 * Start the background broadcast receiver to intercept the minute tick and process the data structures

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.IGEFNode;
@@ -22,7 +24,6 @@ import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 /**

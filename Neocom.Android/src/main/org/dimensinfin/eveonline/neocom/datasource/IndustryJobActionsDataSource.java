@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
@@ -24,7 +25,6 @@ import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Skill;
 import org.dimensinfin.eveonline.neocom.part.ActionPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;

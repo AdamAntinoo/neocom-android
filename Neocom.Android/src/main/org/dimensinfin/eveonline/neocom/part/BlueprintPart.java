@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractGEFNode;
@@ -25,7 +26,6 @@ import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryHeaderRender;

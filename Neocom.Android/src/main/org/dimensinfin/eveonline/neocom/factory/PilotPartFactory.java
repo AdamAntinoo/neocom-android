@@ -11,6 +11,7 @@ package org.dimensinfin.eveonline.neocom.factory;
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;

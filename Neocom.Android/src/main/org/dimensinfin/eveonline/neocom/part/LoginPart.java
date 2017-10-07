@@ -16,13 +16,13 @@ import java.util.Vector;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.Login;
 
 import android.app.Activity;

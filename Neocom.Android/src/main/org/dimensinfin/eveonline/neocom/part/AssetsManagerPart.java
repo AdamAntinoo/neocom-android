@@ -11,6 +11,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
@@ -19,7 +20,6 @@ import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;

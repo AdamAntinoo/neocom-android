@@ -13,19 +13,19 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;

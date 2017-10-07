@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
@@ -23,7 +24,6 @@ import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.JobPart;
 import org.dimensinfin.eveonline.neocom.part.QueueAnalyticsPart;

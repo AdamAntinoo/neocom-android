@@ -6,12 +6,12 @@
 
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT1BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT3BlueprintsDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
@@ -31,6 +31,10 @@ public class IndustryBlueprintsFragment extends AbstractObsoletePagerFragment {
 	// - U I    F I E L D S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return AppModelStore.getSingleton().getPilot().getName();
+	}
 
 	@Override
 	public String getSubtitle() {

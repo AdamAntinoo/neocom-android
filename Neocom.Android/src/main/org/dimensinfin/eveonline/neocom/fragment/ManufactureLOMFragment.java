@@ -10,10 +10,10 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.factory.IndustryLOMResourcesDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
@@ -36,6 +36,10 @@ public class ManufactureLOMFragment extends AbstractObsoletePagerFragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public ManufactureLOMFragment(final AppModelStore store) {
 		_store = store;
+	}
+
+	public String getPilotName() {
+		return AppModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override

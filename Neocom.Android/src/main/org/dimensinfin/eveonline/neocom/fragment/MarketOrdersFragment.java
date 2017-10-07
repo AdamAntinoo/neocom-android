@@ -13,9 +13,11 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractGEFNode;
 import org.dimensinfin.core.model.IGEFNode;
@@ -23,11 +25,9 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EVARIANT;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderAnalyticalGroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderPart;
@@ -47,6 +47,10 @@ public class MarketOrdersFragment extends AbstractObsoletePagerFragment {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return AppModelStore.getSingleton().getPilot().getName();
+	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override

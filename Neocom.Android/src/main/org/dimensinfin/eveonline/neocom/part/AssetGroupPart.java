@@ -9,9 +9,9 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.AssetGroupRender;
 

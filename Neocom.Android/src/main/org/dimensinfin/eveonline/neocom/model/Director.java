@@ -11,9 +11,9 @@ package org.dimensinfin.eveonline.neocom.model;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
-import org.dimensinfin.eveonline.neocom.core.AbstractNeoComNode;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirector;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -25,7 +25,7 @@ import android.content.Intent;
  * 
  * @author Adam Antinoo
  */
-public class Director extends AbstractNeoComNode {
+public class Director extends AbstractViewableNode {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger					logger	= Logger.getLogger("Director");
 	// - F I E L D - S E C T I O N ............................................................................

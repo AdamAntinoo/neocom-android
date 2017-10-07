@@ -14,27 +14,27 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.datasource.ModelGeneratorStore;
+import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.core.AbstractGenerator;
+import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
-import org.dimensinfin.eveonline.neocom.activity.core.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
-import org.dimensinfin.eveonline.neocom.generator.AbstractGenerator;
-import org.dimensinfin.eveonline.neocom.generator.ModelGeneratorStore;
-import org.dimensinfin.eveonline.neocom.interfaces.IModelGenerator;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -318,7 +318,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		for (Long key : regs.keySet()) {
 			_dataModelRoot.addChild(regs.get(key));
 			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
-					+ regs.get(key).getContent() + "' to the _dataModelRoot");
+					+ regs.get(key).getContents() + "' to the _dataModelRoot");
 		}
 		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 		return _dataModelRoot;

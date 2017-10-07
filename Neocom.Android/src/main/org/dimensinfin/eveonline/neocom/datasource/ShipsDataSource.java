@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -22,8 +25,6 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.content.SharedPreferences;

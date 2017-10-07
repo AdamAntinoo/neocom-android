@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.dimensinfin.core.interfaces.INeoComNode;
+import org.dimensinfin.core.interfaces.IViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -31,7 +31,7 @@ import com.j256.ormlite.stmt.Where;
 import android.util.Log;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class Fitting extends AbstractManufactureProcess implements INeoComNode {
+public class Fitting extends AbstractManufactureProcess implements IViewableNode {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long				serialVersionUID	= 6740483226926234807L;
 	private static Logger						logger						= Logger.getLogger("Fitting");

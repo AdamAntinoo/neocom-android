@@ -13,15 +13,15 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.RegionHolder;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 
 import android.view.View;
 import android.view.View.OnClickListener;

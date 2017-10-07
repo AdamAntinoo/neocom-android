@@ -8,6 +8,7 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
+import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
@@ -18,6 +19,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -129,6 +131,24 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		NeoComApp.updateProgressSpinner();
+	}
+
+	/**
+	 * This is a test to try to close the databases when the activity is closed to see if this affects to the
+	 * data availability at the local database. This is a test and can cause later access problems to the
+	 * database data.
+	 */
+	@Override
+	protected void onStop() {
+		Log.i("EVEI", ">> AbstractPagerActivity.onStop"); //$NON-NLS-1$
+		NeoComApp.getSingletonApp().closeDB();
+		super.onStop();
 	}
 }
 

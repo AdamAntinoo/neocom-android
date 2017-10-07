@@ -11,6 +11,8 @@ package org.dimensinfin.eveonline.neocom.factory;
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -20,7 +22,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Ship;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;

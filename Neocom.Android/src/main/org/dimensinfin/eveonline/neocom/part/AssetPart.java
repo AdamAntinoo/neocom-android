@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
 import org.dimensinfin.eveonline.neocom.holder.AssetHolder;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.AssetLineRender;
 
