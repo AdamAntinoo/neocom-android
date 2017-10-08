@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 // - CLASS IMPLEMENTATION ...................................................................................
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
@@ -30,7 +30,9 @@ public abstract class AbstractIndustryDataSource extends AbstractDataSource {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AbstractIndustryDataSource(final AppModelStore store) {
 		super();
-		if (null != store) _store = store;
+		if (null != store) {
+			_store = store;
+		}
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -70,8 +72,9 @@ public abstract class AbstractIndustryDataSource extends AbstractDataSource {
 	protected void add2Group(final IItemPart action, final EIndustryGroup igroup) {
 		for (AbstractAndroidPart group : _root)
 			if (group instanceof GroupPart)
-				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString()))
-					group.addChild((IPart) action);
+				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild((IPart) action);
+				}
 	}
 
 	protected void classifyResources(final Vector<IPart> nodes) {

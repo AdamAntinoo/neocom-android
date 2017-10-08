@@ -62,12 +62,12 @@ public class AndroidStorageConnector implements IStorageConnector {
 	public File accessAppStorage(final String resourceString) {
 		if (null != resourceString)
 			return new File(Environment.getExternalStorageDirectory(),
-					NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername)
-							+ NeoComApp.getSingletonApp().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
+					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
 		else
 			return new File(Environment.getExternalStorageDirectory(),
-					NeoComApp.getSingletonApp().getResourceString(R.string.appfoldername)
-							+ NeoComApp.getSingletonApp().getResourceString(R.string.app_versionsuffix));
+					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 	}
 
 	public InputStream accessInternalStorage(final String resourceName) throws IOException {
-		return NeoComApp.getSingletonApp().getApplicationContext().getAssets().open(resourceName);
+		return NeoComAppConnector.getSingleton().getApplicationContext().getAssets().open(resourceName);
 	}
 
 	public InputStream accessNetworkResource(final String link) throws IOException {
@@ -121,7 +121,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 			if (null != recordFileName) {
 				// ANDROID This line cannot be changed because it is the way we get an asset on Android.
 				is = new BufferedInputStream(
-						NeoComApp.getSingletonApp().getApplicationContext().getAssets().open(recordFileName));
+						NeoComAppConnector.getSingleton().getApplicationContext().getAssets().open(recordFileName));
 				AndroidStorageConnector.logger.info("-- Using test file downloader.");
 			}
 		}
@@ -147,10 +147,10 @@ public class AndroidStorageConnector implements IStorageConnector {
 	 */
 	public File getCacheStorage() {
 		if (AppWideConstants.DEVELOPMENT)
-			return this.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.cachefoldername));
+			return this.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.cachefoldername));
 		else
-			return new File(NeoComApp.getSingletonApp().getApplicationContext().getCacheDir(),
-					NeoComApp.getSingletonApp().getResourceString(R.string.cachefoldername));
+			return new File(NeoComAppConnector.getSingleton().getApplicationContext().getCacheDir(),
+					NeoComAppConnector.getSingleton().getResourceString(R.string.cachefoldername));
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 
 	public MarketDataSet readDiskMarketData(final int itemID, final EMarketSide side) {
 		try {
-			String filePath = NeoComApp.getSingletonApp().getResourceString(R.string.marketdatacachefoldername) + "/"
+			String filePath = NeoComAppConnector.getSingleton().getResourceString(R.string.marketdatacachefoldername) + "/"
 					+ this.createMarketDataFileName(itemID, side);
 			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(dataFile));
@@ -269,7 +269,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 	public void writeDiskMarketData(final MarketDataSet reference, final int itemID, final EMarketSide side) {
 		AndroidStorageConnector.logger.info(">> UpdaterService.writeDiskData"); //$NON-NLS-1$
 		try {
-			String filePath = NeoComApp.getSingletonApp().getResourceString(R.string.marketdatacachefoldername) + "/"
+			String filePath = NeoComAppConnector.getSingleton().getResourceString(R.string.marketdatacachefoldername) + "/"
 					+ this.createMarketDataFileName(itemID, side);
 			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(dataFile));

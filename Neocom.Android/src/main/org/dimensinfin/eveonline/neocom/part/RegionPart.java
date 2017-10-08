@@ -17,6 +17,7 @@ import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -133,6 +134,12 @@ public class RegionPart extends AbstractAndroidPart implements INamedPart, OnCli
 	protected AbstractHolder selectHolder() {
 		// Get the proper holder from the render mode.
 		return new RegionHolder(this, _activity);
+	}
+
+	@Override
+	protected AbstractRender selectRenderer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

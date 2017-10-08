@@ -14,7 +14,7 @@ import java.util.Vector;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -90,7 +90,9 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 			for (final Action action : actions) {
 				final ActionPart apart = new ActionPart(action);
 				apart.setBlueprintID(_bppart.getCastedModel().getAssetID());
-				if (action instanceof Skill) apart.setRenderMode(AppWideConstants.rendermodes.RENDER_SKILLACTION);
+				if (action instanceof Skill) {
+					apart.setRenderMode(AppWideConstants.rendermodes.RENDER_SKILLACTION);
+				}
 				apart.createHierarchy();
 				_bppart.addChild(apart);
 			}
@@ -117,10 +119,12 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 		final int productID = _bppart.getProductID();
 		final ResourcePart outputResource = new ResourcePart(new Resource(productID, _bppart.getPossibleRuns()));
 		// Set the render depending on the blueprint job activity.
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING)
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTJOB);
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION)
+		}
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTBLUEPRINT);
+		}
 		output.addChild(outputResource);
 		// Now classify each resource in their Industry group.
 		this.classifyResources(_bppart.getChildren());
@@ -135,11 +139,16 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 		try {
 			//		Collections.sort(_root, EVEDroidApp.createComparator(AppWideConstants.comparators.COMPARATOR_PRIORITY));
 			for (final AbstractAndroidPart node : _root) {
-				if (node instanceof GroupPart) if (node.getChildren().size() == 0) continue;
+				if (node instanceof GroupPart) if (node.getChildren().size() == 0) {
+					continue;
+				}
 				result.add(node);
 				// Check if the node is expanded. Then add its children.
-				if (node.isExpanded()) for (IPart part : node.collaborate2View())
-					result.add((AbstractAndroidPart) part);
+				if (node.isExpanded()) {
+					for (IPart part : node.collaborate2View()) {
+						result.add((AbstractAndroidPart) part);
+					}
+				}
 			}
 		} catch (final RuntimeException rtex) {
 		}
@@ -198,12 +207,14 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE))
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
-		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH))
+		}
+		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_RECALCULATE)) {
 			// Clean all asset managers before restarting the action list.
 			_bppart.clean();
@@ -223,8 +234,9 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	protected void add2Group(final IItemPart action, final EIndustryGroup igroup) {
 		for (final AbstractAndroidPart group : _root)
 			if (group instanceof GroupPart)
-				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString()))
-					group.addChild((IPart) action);
+				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild((IPart) action);
+				}
 	}
 
 	@Override

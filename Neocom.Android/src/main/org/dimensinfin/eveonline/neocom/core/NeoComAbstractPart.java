@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 
@@ -43,6 +44,12 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 
 	@Override
 	protected AbstractHolder selectHolder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected AbstractRender selectRenderer() {
 		// TODO Auto-generated method stub
 		return null;
 	}

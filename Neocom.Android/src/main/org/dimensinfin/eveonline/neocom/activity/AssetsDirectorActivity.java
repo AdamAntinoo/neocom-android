@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
-import org.dimensinfin.android.mvc.core.AbstractGenerator;
-import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -302,7 +302,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	 * REFACTOR: For testing purposes we are going to download all the assets.
 	 */
 	public RootNode collaborate2Model() {
-		AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
+		logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
 		// Get the Assets Manager active at the character.
 		NeoComCharacter pilot = AppConnector.getModelStore().activatePilot(_characterid);
 		AssetsManager assetsMan = pilot.getAssetsManager();
@@ -320,7 +320,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
 					+ regs.get(key).getContents() + "' to the _dataModelRoot");
 		}
-		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
+		logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}
 

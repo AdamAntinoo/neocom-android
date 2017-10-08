@@ -15,7 +15,7 @@ import java.util.HashMap;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -50,7 +50,9 @@ public class IndustryT2InventionDataSource extends AbstractDataSource {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public IndustryT2InventionDataSource(final AppModelStore store) {
-		if (null != store) _store = store;
+		if (null != store) {
+			_store = store;
+		}
 	}
 
 	public RootNode collaborate2Model() {
@@ -80,10 +82,11 @@ public class IndustryT2InventionDataSource extends AbstractDataSource {
 				BlueprintPart bppart = new BlueprintPart(currentbpc);
 				bppart.setActivity(ModelWideConstants.activities.MANUFACTURING);
 				bppart.setRenderMode(AppWideConstants.rendermodes.RENDER_BLUEPRINTT2INVENTION);
-				if (null == parent)
+				if (null == parent) {
 					this.add2Location(locid, bppart);
-				else
+				} else {
 					this.add2Container(parent, bppart);
+				}
 			}
 
 		// Filter our all the locations that do not contain datacores.
@@ -107,8 +110,9 @@ public class IndustryT2InventionDataSource extends AbstractDataSource {
 			result.add(node);
 			// Check if the node is expanded. Then add its children.
 			if (node.isExpanded()) {
-				for (IPart part : node.collaborate2View())
+				for (IPart part : node.collaborate2View()) {
 					result.add((AbstractAndroidPart) part);
+				}
 				result.add(new TerminatorPart(new Separator("")));
 			}
 		}
@@ -124,9 +128,10 @@ public class IndustryT2InventionDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE))
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 	}
 
 	/**
@@ -146,10 +151,11 @@ public class IndustryT2InventionDataSource extends AbstractDataSource {
 					.setRenderMode(AppWideConstants.rendermodes.RENDER_BLUEPRINTINDUSTRY);
 			lochit.setContainerLocation(true);
 			String containername = container.getUserLabel();
-			if (null == containername)
+			if (null == containername) {
 				lochit.setContainerName("#" + container.getAssetID());
-			else
+			} else {
 				lochit.setContainerName(containername);
+			}
 			locations.put(cid, lochit);
 		}
 		lochit.addChild(part);

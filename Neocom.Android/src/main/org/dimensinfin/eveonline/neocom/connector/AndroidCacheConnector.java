@@ -59,7 +59,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 
 		public DrawableCache() {
 			final File cacheFolder = new File(AppConnector.getStorageConnector().getCacheStorage(),
-					NeoComApp.getSingletonApp().getResourceString(R.string.drawablecachefoldername));
+					NeoComAppConnector.getSingleton().getResourceString(R.string.drawablecachefoldername));
 			try {
 				cacheDrawables = SimpleDiskCache.open(cacheFolder, 1, 100 * 1024 * 1024);
 			} catch (final IOException e) {
@@ -79,8 +79,8 @@ public class AndroidCacheConnector implements ICacheConnector {
 			try {
 				final BitmapEntry bit = cacheDrawables.getBitmap(hash);
 				if (null == bit) return null;
-				final Drawable draw = new BitmapDrawable(NeoComApp.getSingletonApp().getApplicationContext().getResources(),
-						bit.getBitmap());
+				final Drawable draw = new BitmapDrawable(
+						NeoComAppConnector.getSingleton().getApplicationContext().getResources(), bit.getBitmap());
 				return draw;
 			} catch (final IOException e) {
 				// TODO Auto-generated catch block
@@ -146,7 +146,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 				urlConn = new URL(reference[0]).openConnection();
 				is = urlConn.getInputStream();
 				source = Drawable.createFromStream(is, "src");
-				NeoComApp.getSingletonApp().getCacheConnector().addDrawableToCache(reference[0], source);
+				NeoComAppConnector.getSingleton().getCacheConnector().addDrawableToCache(reference[0], source);
 				return source;
 			} catch (final Exception ex) {
 			} finally {
@@ -489,7 +489,8 @@ public class AndroidCacheConnector implements ICacheConnector {
 		}
 		this.getCache().access();
 		if (null == hit) {
-			hit = NeoComApp.getSingletonApp().getApplicationContext().getResources().getDrawable(R.drawable.defaultitemicon);
+			hit = NeoComAppConnector.getSingleton().getApplicationContext().getResources()
+					.getDrawable(R.drawable.defaultitemicon);
 		}
 		return hit;
 	}
@@ -682,7 +683,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 				// dummy placeholder.
 				entry = new MarketDataSet(itemID, side);
 				if (true) {
-					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+					NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 				}
 			}
 			cache.put(itemID, entry);
@@ -692,7 +693,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 			// update and remove it from the cache.
 			long lid = entry.getBestMarket().getLocation().getID();
 			if (lid < 0) {
-				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+				NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 				cache.put(itemID, null);
 			}
 		}
@@ -701,7 +702,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		// return entry;
 		// else {
 		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
-			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+			NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 		}
 		return entry;
 		// }

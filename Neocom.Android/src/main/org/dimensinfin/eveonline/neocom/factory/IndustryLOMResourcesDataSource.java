@@ -12,7 +12,7 @@ import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.model.IGEFNode;

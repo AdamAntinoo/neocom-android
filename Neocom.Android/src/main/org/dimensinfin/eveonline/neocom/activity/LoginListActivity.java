@@ -10,16 +10,17 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
+import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractGenerator;
-import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.DataSourceManager;
 import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -38,7 +39,7 @@ import android.os.Bundle;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LoginListActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = Logger.getLogger("PilotListActivity");
+	private static Logger logger = Logger.getLogger("LoginListActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -61,7 +62,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	 */
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-		AbstractPagerActivity.logger.info(">> [PilotListActivity.onCreate]"); //$NON-NLS-1$
+		LoginListActivity.logger.info(">> [PilotListActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
 		_actionBar.setDisplayHomeAsUpEnabled(false);

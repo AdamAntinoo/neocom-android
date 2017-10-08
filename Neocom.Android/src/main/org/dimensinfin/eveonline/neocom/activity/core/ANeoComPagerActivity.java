@@ -8,7 +8,7 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
+import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;

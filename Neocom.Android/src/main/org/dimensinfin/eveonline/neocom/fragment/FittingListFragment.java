@@ -16,7 +16,7 @@ import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;

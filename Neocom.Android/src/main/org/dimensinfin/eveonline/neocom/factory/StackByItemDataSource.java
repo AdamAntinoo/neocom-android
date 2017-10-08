@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.factory;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;

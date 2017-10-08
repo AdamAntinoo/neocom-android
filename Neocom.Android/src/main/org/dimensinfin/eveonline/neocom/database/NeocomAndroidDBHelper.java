@@ -11,9 +11,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
@@ -67,9 +67,9 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	public NeocomAndroidDBHelper(final Context context) {
 		super(context,
 				AppConnector.getStorageConnector()
-						.accessAppStorage(NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasefilename))
+						.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.appdatabasefilename))
 						.getAbsolutePath(),
-				null, new Integer(NeoComApp.getSingletonApp().getResourceString(R.string.databaseversion)).intValue(),
+				null, new Integer(NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion)).intValue(),
 				R.raw.ormlite_config);
 	}
 
@@ -178,7 +178,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			// If the table is empty then insert the seeded Api Keys
 			if (records < 1) {
 				DatabaseVersion key = new DatabaseVersion(
-						NeoComApp.getSingletonApp().getResourceString(R.string.databaseversion));
+						NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion));
 			}
 		} catch (SQLException sqle) {
 			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
@@ -340,9 +340,9 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 		if (oldVersion < 47) {
 			try {
 				// Delete all the CCP data tables to create then again on open.
-				NeoComApp.getSingletonApp().getApplicationContext()
-						.deleteDatabase(NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasepath)
-								+ NeoComApp.getSingletonApp().getResourceString(R.string.appdatabasefilename));
+				NeoComAppConnector.getSingleton().getApplicationContext()
+						.deleteDatabase(NeoComAppConnector.getSingleton().getResourceString(R.string.appdatabasepath)
+								+ NeoComAppConnector.getSingleton().getResourceString(R.string.appdatabasefilename));
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();

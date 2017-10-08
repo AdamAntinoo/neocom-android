@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;

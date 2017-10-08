@@ -17,9 +17,9 @@ import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -221,7 +221,7 @@ public class ShipsDataSource extends SpecialDataSource {
 		final SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
 		final String locLimitString = prefs.getString(AppWideConstants.preference.PREF_LOCATIONSLIMIT,
-				NeoComApp.getSingletonApp().getResourceString(R.string.pref_numberOfLocations_default));
+				NeoComAppConnector.getSingleton().getResourceString(R.string.pref_numberOfLocations_default));
 		// Check for the special value of unlimited.
 		if (locLimitString.equalsIgnoreCase("Unlimited")) return false;
 		// Convert the stored preference value to a number.

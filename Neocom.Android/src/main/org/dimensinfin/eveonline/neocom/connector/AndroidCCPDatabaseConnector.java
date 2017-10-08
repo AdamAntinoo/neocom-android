@@ -11,7 +11,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -64,12 +63,12 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public boolean openCCPDataBase() {
 		if (null == ccpDatabase) {
-			final String database = NeoComApp.getSingletonApp().getAppFilePath(R.string.ccpdatabasefilename);
+			final String database = NeoComAppConnector.getSingleton().getAppFilePath(R.string.ccpdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 			//			try {
 			// InputStream dbStream =
 			// _context.getResources().openRawResource(R.raw.eve);
-			if (NeoComApp.getSingletonApp().sdcardAvailable()) {
+			if (NeoComAppConnector.getSingleton().sdcardAvailable()) {
 				ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 			} else
 				return true;

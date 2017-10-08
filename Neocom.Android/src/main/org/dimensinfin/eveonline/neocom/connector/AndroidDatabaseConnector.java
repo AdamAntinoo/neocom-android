@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
@@ -162,6 +161,19 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		_context = app;
 	}
 
+	/**
+	 * Get the complete list of assets that are Planetary Materials.
+	 * 
+	 * @return
+	 */
+	public ArrayList<NeoComAsset> accessAllPlanetaryAssets(final long characterID) {
+		// Select assets for each one of the Planetary categories.
+		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
+		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Commodities"));
+		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Resources"));
+		return assetList;
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public boolean checkInvention(final int typeID) {
 		return this.checkRecordExistence(typeID, AndroidDatabaseConnector.CHECK_INVENTION);
@@ -213,6 +225,10 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return this.getNeocomDBHelper().getApiKeysDao();
 	}
 
+	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getApiKeysDao();
+	//	}
+
 	public List<ApiKey> getApiList4Login(final String login) {
 		AndroidDatabaseConnector.logger.info(">> [AndroidDatabaseConnector.getApiList4Login] login=" + login);
 		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
@@ -230,10 +246,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		AndroidDatabaseConnector.logger.info("<< [AndroidDatabaseConnector.getApiList4Login]");
 		return apilist;
 	}
-
-	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getApiKeysDao();
-	//	}
 
 	public Dao<NeoComAsset, String> getAssetDAO() throws SQLException {
 		return this.getNeocomDBHelper().getAssetDAO();
@@ -294,10 +306,10 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	 */
 	public boolean openAppDataBase() {
 		if (null == staticDatabase) {
-			final String database = NeoComApp.getSingletonApp().getAppFilePath(R.string.appdatabasefilename);
+			final String database = NeoComAppConnector.getSingleton().getAppFilePath(R.string.appdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 			//			try {
-			if (NeoComApp.getSingletonApp().sdcardAvailable()) {
+			if (NeoComAppConnector.getSingleton().sdcardAvailable()) {
 				// Open the helper to check version and availability.
 				// appDatabaseHelper = new EveDroidDBHelper(_context);
 				staticDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
@@ -315,12 +327,12 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	public boolean openCCPDataBase() {
 		if (null == ccpDatabase) {
-			final String database = NeoComApp.getSingletonApp().getAppFilePath(R.string.ccpdatabasefilename);
+			final String database = NeoComAppConnector.getSingleton().getAppFilePath(R.string.ccpdatabasefilename);
 			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 			//			try {
 			// InputStream dbStream =
 			// _context.getResources().openRawResource(R.raw.eve);
-			if (NeoComApp.getSingletonApp().sdcardAvailable()) {
+			if (NeoComAppConnector.getSingleton().sdcardAvailable()) {
 				ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 			} else
 				return true;
@@ -409,6 +421,28 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return uniqueLocations;
 	}
 
+	//	public int queryBlueprintDependencies(final int bpitemID) {
+	//		try {
+	//			if (null == ccpDatabase) {
+	//				ccpDatabase = this.getCCPDatabase();
+	//			}
+	//			final Cursor cursor = ccpDatabase.rawQuery(
+	//					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
+	//					new String[] { Integer.valueOf(bpitemID).toString() });
+	//			if (null != cursor) {
+	//				int parentBlueprintTypeID = -1;
+	//				while (cursor.moveToNext()) {
+	//					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
+	//				}
+	//				cursor.close();
+	//				return parentBlueprintTypeID;
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
+	//		}
+	//		return -1;
+	//	}
+
 	/**
 	 * Reads all the keys stored at the database and classified them into a set of Login names.
 	 */
@@ -440,28 +474,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		}
 		return loginList;
 	}
-
-	//	public int queryBlueprintDependencies(final int bpitemID) {
-	//		try {
-	//			if (null == ccpDatabase) {
-	//				ccpDatabase = this.getCCPDatabase();
-	//			}
-	//			final Cursor cursor = ccpDatabase.rawQuery(
-	//					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
-	//					new String[] { Integer.valueOf(bpitemID).toString() });
-	//			if (null != cursor) {
-	//				int parentBlueprintTypeID = -1;
-	//				while (cursor.moveToNext()) {
-	//					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
-	//				}
-	//				cursor.close();
-	//				return parentBlueprintTypeID;
-	//			}
-	//		} catch (final Exception ex) {
-	//			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
-	//		}
-	//		return -1;
-	//	}
 
 	public ArrayList<Resource> refineOre(final int oreID) {
 		ArrayList<Resource> results = new ArrayList<Resource>();
@@ -574,19 +586,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Select assets for each one of the Planetary categories.
 		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		assetList.addAll(this.searchAsset4Category(characterID, "Blueprint"));
-		return assetList;
-	}
-
-	/**
-	 * Get the complete list of assets that are Planetary Materials.
-	 * 
-	 * @return
-	 */
-	public ArrayList<NeoComAsset> accessAllPlanetaryAssets(final long characterID) {
-		// Select assets for each one of the Planetary categories.
-		ArrayList<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
-		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Commodities"));
-		assetList.addAll(this.searchAsset4Category(characterID, "Planetary Resources"));
 		return assetList;
 	}
 
@@ -1245,7 +1244,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//				// dummy placeholder.
 	//				entry = new MarketDataSet(itemID, side);
 	//				if (true) {
-	//					NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//					NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 	//				}
 	//			}
 	//			cache.put(itemID, entry);
@@ -1255,7 +1254,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//			// update and remove it from the cache.
 	//			long lid = entry.getBestMarket().getLocation().getID();
 	//			if (lid < 0) {
-	//				NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//				NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 	//				cache.put(itemID, null);
 	//			}
 	//		}
@@ -1264,7 +1263,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		// return entry;
 	//		// else {
 	//		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
-	//			NeoComApp.getSingletonApp().getCacheConnector().addMarketDataRequest(itemID);
+	//			NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 	//		}
 	//		return entry;
 	//		// }

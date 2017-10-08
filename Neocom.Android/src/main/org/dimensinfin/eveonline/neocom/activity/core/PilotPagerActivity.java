@@ -8,8 +8,7 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import org.dimensinfin.android.mvc.core.AbstractPagerActivity;
-//- IMPORT SECTION .........................................................................................
+import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 

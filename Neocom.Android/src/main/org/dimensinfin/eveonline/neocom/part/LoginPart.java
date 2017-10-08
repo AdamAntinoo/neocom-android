@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -96,6 +97,12 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 	protected AbstractHolder selectHolder() {
 		// Get the proper holder from the render mode.
 		return new LoginRender(this, _activity);
+	}
+
+	@Override
+	protected AbstractRender selectRenderer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
