@@ -11,7 +11,10 @@ package org.dimensinfin.eveonline.neocom.interfaces;
 import java.io.File;
 
 import org.dimensinfin.android.mvc.connector.IMVCAppConnector;
+import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -20,9 +23,19 @@ public interface INeoComAppConnector extends IMVCAppConnector {
 
 	public String getAppFilePath(final int fileresourceid);
 
+	public String getAppFilePath(final String fileresourceName);
+
+	public AndroidCacheConnector getCacheConnector();
+
+	public ICCPDatabaseConnector getCCPDBConnector();
+
 	public AndroidDatabaseConnector getDBConnector();
 
 	public NeoComModelStore getModelStore();
+
+	public IStorageConnector getStorageConnector();
+
+	public void startTimer();
 }
 
 // - UNUSED CODE ............................................................................................
