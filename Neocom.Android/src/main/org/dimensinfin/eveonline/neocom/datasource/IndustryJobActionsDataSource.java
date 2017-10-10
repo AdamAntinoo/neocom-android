@@ -47,7 +47,7 @@ import android.util.Log;
  * The locations to take on account are the location where is located the blueprint stack.<br>
  * The resources are the character available resources at that location less the resources used on scheduled
  * jobs. Scheduled jobs are only valid at the <code>MANUFACTURE</code> location
- * 
+ *
  * @author Adam Antinoo
  */
 public class IndustryJobActionsDataSource extends AbstractNewDataSource {
@@ -160,7 +160,7 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	//	@Override
 	//	public ArrayList<AbstractAndroidPart> getHeaderPartsHierarchy(final int panelMarketordersbody) {
 	//		int productID = _bppart.getProductID();
-	//		EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+	//		EveItem productItem = NeoComAppConnector.getSingleton().getDBConnector().searchItembyID(productID);
 	//		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		result.add(new ItemHeader4IndustryPart(productItem));
 	//		return result;
@@ -179,13 +179,13 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	//		//		createHeaderContents();
 	//		//		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		int productID = _bppart.getProductID();
-	//		EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+	//		EveItem productItem = NeoComAppConnector.getSingleton().getDBConnector().searchItembyID(productID);
 	//		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		result.add(new ItemHeader4IndustryPart(productItem));
 	//		return result;
 	//		//		return result;
 	//
-	//	
+	//
 	//	}
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {
 		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();

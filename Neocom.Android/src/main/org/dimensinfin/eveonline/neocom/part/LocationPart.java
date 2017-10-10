@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -53,7 +53,7 @@ public abstract class LocationPart extends EveAbstractPart implements INamedPart
 	/**
 	 * Returns the number of model part children that are the blueprints at that location. If the case on a same
 	 * station there are more than one container they will be represented as different locations.
-	 * 
+	 *
 	 * @return
 	 */
 	public String get_locationContentCount() {
@@ -134,7 +134,8 @@ public abstract class LocationPart extends EveAbstractPart implements INamedPart
 	}
 
 	public int searchStationType() {
-		return AppConnector.getCCPDBConnector().searchStationType(this.getCastedModel().getStationID());
+		return NeoComAppConnector.getSingleton().getCCPDBConnector()
+				.searchStationType(this.getCastedModel().getStationID());
 	}
 
 	@Override

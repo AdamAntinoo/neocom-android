@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 
 import android.app.Activity;
@@ -34,7 +33,7 @@ public class SplashActivity extends Activity {
 	/**
 	 * Class to perform the update of the user information as a background task. If the data is not present or
 	 * if the information is obsolete we launch a task to update and download the pilot information.
-	 * 
+	 *
 	 * @author Adam Antinoo
 	 */
 	//- CLASS IMPLEMENTATION ...................................................................................
@@ -79,7 +78,7 @@ public class SplashActivity extends Activity {
 
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Loading user data...");
-			AppConnector.getModelStore().accessLoginList();
+			NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
 			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
 
 			// Start the timers for background processing.
@@ -97,14 +96,14 @@ public class SplashActivity extends Activity {
 		}
 
 		private boolean checkAppFile(final String resourceString) {
-			return AppConnector.getStorageConnector()
-					.checkStorageResource(AppConnector.getStorageConnector().accessAppStorage(null), resourceString);
+			return NeoComAppConnector.getSingleton().getStorageConnector().checkStorageResource(
+					NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(null), resourceString);
 		}
 
 		/**
 		 * Copies the parameter files from the assets installation directory to the user application directory.
 		 * Current contents are the static database and the initial API list if found.
-		 * 
+		 *
 		 * @param resourceId
 		 */
 		private void copyFromAssets(final int resourceId) {
@@ -114,7 +113,7 @@ public class SplashActivity extends Activity {
 			//		final Context context = singleton.getApplicationContext();
 			try {
 				istream = _activity.getAssets().open(resourceName);
-				final File destination = AppConnector.getStorageConnector().accessAppStorage(resourceName);
+				final File destination = NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(resourceName);
 				destination.createNewFile();
 				ostream = new FileOutputStream(destination);
 				final byte[] buffer = new byte[8192];
@@ -157,7 +156,7 @@ public class SplashActivity extends Activity {
 
 		private void createCacheDirectories() {
 			// Create additional cache folders.
-			File cachedir = AppConnector.getStorageConnector().getCacheStorage();
+			File cachedir = NeoComAppConnector.getSingleton().getStorageConnector().getCacheStorage();
 			cachedir.mkdir();
 			File alternatedir = new File(cachedir,
 					NeoComAppConnector.getSingleton().getResourceString(R.string.drawablecachefoldername));
@@ -192,7 +191,7 @@ public class SplashActivity extends Activity {
 	 * permanent state.<br>
 	 * Currently there are no permanent state that is not stored on the Static and User models.<br>
 	 * The new code also adds the Action bar and start to play with it as a resource for better navigation.
-	 * 
+	 *
 	 */
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {

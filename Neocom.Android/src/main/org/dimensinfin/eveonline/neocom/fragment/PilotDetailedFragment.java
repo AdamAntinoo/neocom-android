@@ -52,7 +52,7 @@ public class PilotDetailedFragment extends AbstractNewPagerFragment {
 	protected void registerDataSource() {
 		AbstractNewPagerFragment.logger.info(">> [PilotDetailedFragment.registerDataSource]");
 		// Get the model generator with the informed variant. And use the global login that is ever defined.
-		String login = AppConnector.getModelStore().getLoginIdentifier();
+		String login = NeoComAppConnector.getSingleton().getModelStore().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(login);
 		IModelGenerator generator = ModelGeneratorManager.registerGenerator(new PilotDirectorsGenerator(locator, login));

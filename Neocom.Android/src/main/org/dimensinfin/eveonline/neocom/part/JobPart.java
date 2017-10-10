@@ -16,7 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.industry.Job;
@@ -63,7 +63,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 
 	public Spanned get_jobLocation() {
 		StringBuffer htmlLocation = new StringBuffer();
-		EveLocation loc = AppConnector.getCCPDBConnector()
+		EveLocation loc = NeoComAppConnector.getSingleton().getCCPDBConnector()
 				.searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
 		String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
@@ -124,7 +124,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	 * the job location is on some fields. The one that relates to us is the stationID. When the app creates
 	 * virtual jobs it should set the station to the station where the blueprint is located and not the
 	 * container for input or output that can be used on the new interface.
-	 * 
+	 *
 	 * @return
 	 */
 	public EveLocation getJobLocation() {
@@ -170,7 +170,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	 */
 	public boolean onContextItemSelected(final MenuItem item) {
 		try {
-			AppConnector.getDBConnector().getJobDAO().delete(this.getCastedModel());
+			NeoComAppConnector.getSingleton.getDBConnector().getJobDAO().delete(this.getCastedModel());
 			// Clear the cache in memory
 			this.getPilot().cleanJobs();
 			this.fireStructureChange(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH, this, this);

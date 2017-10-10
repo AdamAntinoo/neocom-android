@@ -58,7 +58,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		private final int							mCompressQuality	= 90;
 
 		public DrawableCache() {
-			final File cacheFolder = new File(AppConnector.getStorageConnector().getCacheStorage(),
+			final File cacheFolder = new File(NeoComAppConnector.getSingleton().getStorageConnector().getCacheStorage(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.drawablecachefoldername));
 			try {
 				cacheDrawables = SimpleDiskCache.open(cacheFolder, 1, 100 * 1024 * 1024);
@@ -341,14 +341,15 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * Queues a new request to download Market Data for an Item. We only register the ID of the item because the
 	 * side will not be used. On the download phase we will download both sides. Using the ID as key will avoid
 	 * requesting the same item multiple times. <br>
-	 * 
+	 *
 	 * @param localizer
 	 *          identifier of the item related to the data to download.
 	 */
 	@Override
 	public void addMarketDataRequest(final long localizer) {
 		AndroidCacheConnector.logger.info(">> [CoreCacheConnector.addMarketDataRequest]>Localizer: " + localizer);
-		final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(Long.valueOf(localizer).intValue());
+		final EveItem item = NeoComAppConnector.getSingleton().getCCPDBConnector()
+				.searchItembyID(Long.valueOf(localizer).intValue());
 		AndroidCacheConnector.logger
 				.info("-- [AndroidCacheConnector.addMarketDataRequest] Posting market update for: " + item.getName());
 		// Detect priority from the Category of the item. Download data from Asteroids and Minerals first.
@@ -455,7 +456,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * the pilot avatar. The process checks if the image is available at the cache. If the image is not there
 	 * then it will try to locate it on the cache filesystem. If not found there then it will open a request to
 	 * get it form the internet location once the network is available.
-	 * 
+	 *
 	 * @param urlString
 	 *          the location of the resource. This is already developed by the caller and it is treated as a
 	 *          black box name.
@@ -560,7 +561,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	// if (null == hit) {
 	// // Get for the data to the database.
 	// try {
-	// Dao<EveItem, String> dao = AppConnector.getDBConnector().getItemDAO();
+	// Dao<EveItem, String> dao = NeoComAppConnector.getSingleton().getDBConnector().getItemDAO();
 	// hit = dao.queryForId(new Integer(typeID).toString());
 	// _eveItemCache.add(hit);
 	// _eveItemCache.miss();
@@ -600,7 +601,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	// // Get for the data to the database.
 	// try {
 	// Dao<EveItem, String> itemDao =
-	// AppConnector.getDBConnector().getItemDAO();
+	// NeoComAppConnector.getSingleton().getDBConnector().getItemDAO();
 	// QueryBuilder<EveItem, String> queryBuilder = itemDao.queryBuilder();
 	// Where<EveItem, String> where = queryBuilder.where();
 	// where.eq("name", name);
@@ -644,7 +645,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * are not going to cache the data but get a fresh copy if not found on the cache.<br>
 	 * If the data is not located on the case call the market data downloader and processor to get a new copy
 	 * and store it on the cache.
-	 * 
+	 *
 	 * @param itemID
 	 *          item id code of the item assigned to this market request.
 	 * @param side
@@ -658,7 +659,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
 	 * this action also fails return an empty data structure with the minimum filed data information from the
 	 * related item and fire the update request.
-	 * 
+	 *
 	 * @param itemID
 	 *          item id code of the item assigned to this market request.
 	 * @param side
@@ -677,7 +678,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		MarketDataSet entry = cache.get(itemID);
 		if (null == entry) {
 			// Try to get the data from disk.
-			entry = AppConnector.getStorageConnector().readDiskMarketData(itemID, side);
+			entry = NeoComAppConnector.getSingleton().getStorageConnector().readDiskMarketData(itemID, side);
 			if (null == entry) {
 				// Neither on disk. Make a request for download and return a
 				// dummy placeholder.
@@ -701,7 +702,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
 		// return entry;
 		// else {
-		if (AppConnector.checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
+		if (NeoComAppConnector.getSingleton().checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
 			NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 		}
 		return entry;
@@ -710,7 +711,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 
 	/**
 	 * Adds a new entry if not already found on the pending list.
-	 * 
+	 *
 	 * @param request
 	 */
 	private synchronized boolean addNoDuplicate(final PendingRequestEntry request) {
@@ -748,7 +749,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * replace their content by the new downloaded content. The real download process is done on an asych task
 	 * as the writing on disk of the downloaded data for later accesses.<br>
 	 * The tasks will kept the request list updated with the downloaded data and theirs download states.
-	 * 
+	 *
 	 * @param urlString
 	 *          url of the resource to access.
 	 * @param target

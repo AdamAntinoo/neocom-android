@@ -11,7 +11,7 @@ package org.dimensinfin.eveonline.neocom.service;
 import java.util.Set;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -44,8 +44,8 @@ public class CharacterUpdaterService extends IntentService {
 		Log.i("CharacterUpdaterService", ">> [CharacterUpdaterService.onHandleIntent]");
 		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name());
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
-		if (NeoComApp.checkNetworkAccess()) {
-			Set<NeoComCharacter> activeCharacters = AppConnector.getModelStore().accessCharacterList();
+		if (NeoComAppConnector.getSingleton().checkNetworkAccess()) {
+			Set<NeoComCharacter> activeCharacters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
 			NeoComCharacter pilot = null;
 			for (NeoComCharacter neocomchar : activeCharacters) {
 				if (neocomchar.getCharacterID() == localizer) {
@@ -62,8 +62,8 @@ public class CharacterUpdaterService extends IntentService {
 					switch (datacode) {
 						case CHARACTERDATA:
 							pilot.updateCharacterInfo();
-							AppConnector.getCacheConnector().clearPendingRequest(localizer);
-							AppConnector.getCacheConnector().decrementTopCounter();
+							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							break;
 						case ASSETDATA:
 							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
@@ -74,8 +74,8 @@ public class CharacterUpdaterService extends IntentService {
 							}
 							//							pilot.downloadAssets();
 							//							pilot.downloadBlueprints();
-							AppConnector.getCacheConnector().clearPendingRequest(localizer);
-							AppConnector.getCacheConnector().decrementTopCounter();
+							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							break;
 						//													case BLUEPRINTDATA:
 						////							pilot.downloadAssets();

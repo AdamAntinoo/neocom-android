@@ -30,7 +30,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
@@ -68,7 +68,7 @@ import net.nikr.eve.jeveasset.data.Citadel;
  * There are two sets of services, one for character data and the other for market data that have quite
  * different mechanics. All data updates the background counters that inform the user that some background
  * services are active and the number of elements on their queues.
- * 
+ *
  * @author Adam Antinoo
  */
 public class TimeTickReceiver extends BroadcastReceiver {
@@ -281,7 +281,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		Set<NeoComCharacter> characters = AppConnector.getModelStore().accessCharacterList();
+		Set<NeoComCharacter> characters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
 		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
 			if (updateCode != EDataBlock.READY) {
@@ -472,7 +472,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		StringBuffer data = new StringBuffer();
 		try {
 			String str = "";
-			InputStream is = AppConnector.getStorageConnector().accessInternalStorage("outposts.json");
+			InputStream is = NeoComAppConnector.getSingleton().getStorageConnector().accessInternalStorage("outposts.json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			if (is != null) {
 				while ((str = reader.readLine()) != null) {

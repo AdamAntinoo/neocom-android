@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
 
 import org.dimensinfin.core.model.IModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 
 import android.util.Log;
 
@@ -45,7 +45,7 @@ public class AndroidFilePersistenceHandler implements IPersistentHandler {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidFilePersistenceHandler(final String targetFileName) {
 		fileName = targetFileName;
-		modelStoreFile = AppConnector.getStorageConnector().accessAppStorage(fileName);
+		modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(fileName);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -77,13 +77,13 @@ public class AndroidFilePersistenceHandler implements IPersistentHandler {
 	 * <code>null</code> that it is not a valid result. It should be an functionality empty
 	 * <code>ObjectOutput</code> implementation that will do nothing but keeping the application consistent and
 	 * behaving without errors.
-	 * 
+	 *
 	 * @return
 	 */
 	public ObjectOutput prepareStorageOutput() {
 		Log.i("AndroidFilePersistenceHandler", ">> AndroidFilePersistenceHandler.prepareStorageOutput");
 		try {
-			File modelStoreFile = AppConnector.getStorageConnector().accessAppStorage(fileName);
+			File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(fileName);
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(modelStoreFile));
 			output = new ObjectOutputStream(buffer);
 			return output;
@@ -98,13 +98,13 @@ public class AndroidFilePersistenceHandler implements IPersistentHandler {
 			Log.e("AndroidFilePersistenceHandler", "E> IOException - preparing the storage receiver. " + ioe.getMessage());
 		}
 		Log.i("AndroidFilePersistenceHandler", "<< AndroidFilePersistenceHandler.prepareStorageOutput");
-		output = voidoo;
+		output = AndroidFilePersistenceHandler.voidoo;
 		return output;
 	}
 
 	public boolean restore() {
 		Log.i("AndroidFilePersistenceHandler", ">> AndroidFilePersistenceHandler.restore");
-		File modelStoreFile = AppConnector.getStorageConnector().accessAppStorage(fileName);
+		File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(fileName);
 		try {
 			// Read the contents of the character information.
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(modelStoreFile));
@@ -136,7 +136,7 @@ public class AndroidFilePersistenceHandler implements IPersistentHandler {
 	public boolean save() {
 		//	logger.info(">> UserModelPersistenceHandler.save"); //$NON-NLS-1$
 		try {
-			File modelStoreFile = AppConnector.getStorageConnector().accessAppStorage(fileName);
+			File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector().accessAppStorage(fileName);
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(modelStoreFile));
 			final ObjectOutput output = new ObjectOutputStream(buffer);
 			try {

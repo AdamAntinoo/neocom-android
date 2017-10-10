@@ -17,7 +17,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.model.IGEFNode;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
@@ -40,7 +40,7 @@ import android.util.Log;
  * the right job process to get the List Of Materials that are the information required from this DataSource.
  * <br>
  * The hierarchy has groups by resource type as shown on the EVE UI client.
- * 
+ *
  * @author Adam Antinoo
  */
 public class IndustryLOMResourcesDataSource extends AbstractDataSource {
@@ -149,7 +149,7 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {
 		int productID = _bppart.getProductID();
-		EveItem productItem = AppConnector.getCCPDBConnector().searchItembyID(productID);
+		EveItem productItem = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(productID);
 		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 		result.add(new ItemHeader4IndustryPart(productItem));
 		return result;

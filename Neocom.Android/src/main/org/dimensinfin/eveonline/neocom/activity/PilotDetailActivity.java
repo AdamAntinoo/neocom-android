@@ -26,7 +26,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
@@ -42,7 +42,7 @@ import android.os.Bundle;
  * This Activity will show a detailed list of properties of the selected Pilot or Corporation on the header.
  * And then on the body list it will list the Managers with some summary information about them like the
  * number of assets on the Assets Manager or the value of all the Planetary stuff on the Planetary Manager.
- * 
+ *
  * @author Adam Antinoo
  */
 public class PilotDetailActivity extends AbstractPagerActivity {
@@ -57,7 +57,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Return the name of this activity
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -112,7 +112,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	 * Save the extra parameters information to be able to restore the page to their same state. There is no
 	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
 	 * recondtruct the AppModel state.
-	 * 
+	 *
 	 */
 	@Override
 	protected void onSaveInstanceState(final Bundle outState) {
@@ -128,7 +128,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
  * This fragment will manage the Managers that apply to the selected and current Character. The single usage
  * of the fragment is inside the Activity so to reduce file count I have switched to store all single usage
  * code together.
- * 
+ *
  * @author Adam Antinoo
  */
 final class PilotDetailedFragment extends AbstractPagerFragment {
@@ -165,14 +165,14 @@ final class PilotDetailedFragment extends AbstractPagerFragment {
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		AppConnector.getModelStore().activateLoginIdentifier(loginid);
-		AppConnector.getModelStore().activatePilot(characterid);
+		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
+		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		//		// Get the model generator with the informed variant. And use the global login that is ever defined.
-		//		String login = AppConnector.getModelStore().getLoginIdentifier();
+		//		String login = NeoComAppConnector.getSingleton().getModelStore().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(loginid);
-		IModelGenerator generator = ModelGeneratorStore.registerGenerator(
-				new PilotManagersGenerator(locator, this.getVariant(), AppConnector.getModelStore().getActiveCharacter()));
+		IModelGenerator generator = ModelGeneratorStore.registerGenerator(new PilotManagersGenerator(locator,
+				this.getVariant(), NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter()));
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
@@ -191,9 +191,9 @@ final class PilotDetailedFragment extends AbstractPagerFragment {
 	protected void setHeaderContents() {
 		AbstractPagerFragment.logger.info(">> [PilotDetailedFragment.setHeaderContents]");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
-		this.addtoHeader(
-				(AbstractAndroidPart) this.getFactory().createPart(AppConnector.getModelStore().getActiveCharacter())
-						.setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
+		this.addtoHeader((AbstractAndroidPart) this.getFactory()
+				.createPart(NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter())
+				.setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
 		AbstractPagerFragment.logger.info("<< [PilotDetailedFragment.setHeaderContents]");
 	}
 }
@@ -203,7 +203,7 @@ final class PilotDetailedFragment extends AbstractPagerFragment {
  * Creates the DataSource adaptation code for the new generator received as a parameter. This code possibly
  * will be comon and standard so maybe will return back to its own source file. On current implementation go
  * on with the file count reduction for single usage code.
- * 
+ *
  * @author Adam Antinoo
  */
 final class PilotManagersDataSource extends SpecialDataSource {

@@ -13,7 +13,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
@@ -80,32 +80,38 @@ public class MarketUpdaterService extends IntentService {
 		Log.i("SERVICE", ">> UpdaterService.onHandleIntent");
 		final Integer localizer = (Integer) intent.getSerializableExtra(AppWideConstants.extras.EXTRA_MARKETDATA_LOCALIZER);
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
-		if (NeoComApp.checkNetworkAccess()) {
-			final EveItem item = AppConnector.getCCPDBConnector().searchItembyID(localizer);
+		if (NeoComAppConnector.getSingleton().checkNetworkAccess()) {
+			final EveItem item = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(localizer);
 			//			if(market==EVEMARKETDATA)
-			Vector<TrackEntry> marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(),
-					EMarketSide.SELLER);
+			Vector<TrackEntry> marketEntries = NeoComAppConnector.getSingleton().getStorageConnector()
+					.parseMarketDataEMD(item.getName(), EMarketSide.SELLER);
 			if (marketEntries.size() < 1) {
-				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.SELLER);
+				marketEntries = NeoComAppConnector.getSingleton().getStorageConnector().parseMarketDataEC(item.getTypeID(),
+						EMarketSide.SELLER);
 			}
 			Vector<MarketDataEntry> hubData = this.extractMarketData(marketEntries);
 			// Update the structures related to the newly downloaded data.
-			MarketDataSet reference = AppConnector.getCacheConnector().searchMarketData(localizer, EMarketSide.SELLER);
+			MarketDataSet reference = NeoComAppConnector.getSingleton().getCacheConnector().searchMarketData(localizer,
+					EMarketSide.SELLER);
 			reference.setData(hubData);
 			if (marketEntries.size() > 1) {
-				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.SELLER);
+				NeoComAppConnector.getSingleton().getStorageConnector().writeDiskMarketData(reference, localizer,
+						EMarketSide.SELLER);
 			}
 
 			// Do the same for the other side.
-			marketEntries = AppConnector.getStorageConnector().parseMarketDataEMD(item.getName(), EMarketSide.BUYER);
+			marketEntries = NeoComAppConnector.getSingleton().getStorageConnector().parseMarketDataEMD(item.getName(),
+					EMarketSide.BUYER);
 			if (marketEntries.size() < 1) {
-				marketEntries = AppConnector.getStorageConnector().parseMarketDataEC(item.getTypeID(), EMarketSide.BUYER);
+				marketEntries = NeoComAppConnector.getSingleton().getStorageConnector().parseMarketDataEC(item.getTypeID(),
+						EMarketSide.BUYER);
 			}
 			hubData = this.extractMarketData(marketEntries);
-			reference = AppConnector.getCacheConnector().searchMarketData(localizer, EMarketSide.BUYER);
+			reference = NeoComAppConnector.getSingleton().getCacheConnector().searchMarketData(localizer, EMarketSide.BUYER);
 			reference.setData(hubData);
 			if (marketEntries.size() > 1) {
-				AppConnector.getStorageConnector().writeDiskMarketData(reference, localizer, EMarketSide.BUYER);
+				NeoComAppConnector.getSingleton().getStorageConnector().writeDiskMarketData(reference, localizer,
+						EMarketSide.BUYER);
 			}
 			// Create a new method to access the cache for requests and change the state
 			NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(localizer.toString());
@@ -127,7 +133,7 @@ public class MarketUpdaterService extends IntentService {
 	 * implementation that will use real location data for the system to better classify and store the market
 	 * data information. It will also remove the current limit on the selected market hubs and will aggregate
 	 * all the systems found into the highsec and other sec categories.
-	 * 
+	 *
 	 * @param item
 	 * @param entries
 	 * @return
@@ -199,7 +205,7 @@ public class MarketUpdaterService extends IntentService {
 		//				if (searchEntry.getStationName().equals(stationName)) {
 		//					if ((stationPrice >= (hit.getPrice() * 0.99)) && (stationPrice <= (hit.getPrice() * 1.01)))
 		//						hit.addQty(stationQty);
-		//					else						
+		//					else
 		//						break;
 		//				} else {
 		//					// Completes one system. We found a new one but do not throw it.
@@ -235,7 +241,7 @@ public class MarketUpdaterService extends IntentService {
 		final String hubRegion = parts[0].trim();
 
 		// Search for the system on the list of locations.
-		return AppConnector.getCCPDBConnector().searchLocationBySystem(hubSystem);
+		return NeoComAppConnector.getSingleton().getCCPDBConnector().searchLocationBySystem(hubSystem);
 	}
 }
 // - UNUSED CODE ............................................................................................

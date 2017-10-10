@@ -16,7 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
@@ -61,7 +61,7 @@ public class AssetsManagerPart extends EveAbstractPart
 	/**
 	 * Returns the number of assets that belong to this Character related to the number of records on the local
 	 * copy at the database.
-	 * 
+	 *
 	 * @return
 	 */
 	public String get_assetsCount() {
@@ -101,9 +101,9 @@ public class AssetsManagerPart extends EveAbstractPart
 		if (pilotPart instanceof AssetsManagerPart) {
 			// TODO This is to keep compatibility with the old data management.
 			// Pilot are expected to be at the global context
-			final NeoComCharacter pilot = AppConnector.getModelStore().getActiveCharacter();
+			final NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter();
 			// TODO This should be done at the destination Activity
-			//	AppConnector.getModelStore().activatePilot(pilot.getCharacterID());
+			// NeoComAppConnector.getSingleton.getModelStore().activatePilot(pilot.getCharacterID());
 			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
 			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot

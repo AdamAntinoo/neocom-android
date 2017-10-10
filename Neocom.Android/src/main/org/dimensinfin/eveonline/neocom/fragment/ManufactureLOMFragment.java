@@ -81,7 +81,7 @@ public class ManufactureLOMFragment extends AbstractObsoletePagerFragment {
 				bppart.setActivity(activity);
 				// REFACTOR This piece of code may be optimized to return the item identifier for the matching activity of a blueprint.
 				final int productID = bppart.getProductID();
-				final EveItem productItem = AppConnector.getCCPDBConnector().searchItembyID(productID);
+				final EveItem productItem = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(productID);
 				final IndustryLOMResourcesDataSource ds = new IndustryLOMResourcesDataSource(_store);
 				ds.setBlueprint(bppart);
 

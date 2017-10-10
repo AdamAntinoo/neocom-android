@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.industry;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
@@ -40,7 +40,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	 * have all the resources to launch and complete the job. This depends on the global generation settings
 	 * because the resources get exhausted by each of the jobs and that should be reflected on the new action
 	 * for next jobs.
-	 * 
+	 *
 	 * @return
 	 */
 	public ArrayList<Action> generateActions4Blueprint() {
@@ -114,7 +114,8 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 
 	public int getCycleDuration() {
 		double duration = ModelWideConstants.HOURS24;
-		int time = AppConnector.getDBConnector().searchJobExecutionTime(bpid, ModelWideConstants.activities.MANUFACTURING);
+		int time = NeoComAppConnector.getSingleton().getDBConnector().searchJobExecutionTime(bpid,
+				ModelWideConstants.activities.MANUFACTURING);
 		// Adjust to the time with new industry equations.
 		double basetime = Math.round((time * (100.0 - blueprint.getTimeEfficiency())) / 100.0);
 		return Double.valueOf(basetime).intValue();
@@ -129,10 +130,10 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 
 	public ArrayList<Resource> getLOM() {
 		if (null == lom) {
-			lom = this.adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
+			lom = this.adjustRequired(NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid));
 		}
 		if (lom.size() == 0) {
-			lom = this.adjustRequired(AppConnector.getDBConnector().searchListOfMaterials(bpid));
+			lom = this.adjustRequired(NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid));
 		}
 		return lom;
 	}
@@ -142,7 +143,8 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 	 * buyers top paying price will be divided by the manufacture cost price.
 	 */
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(moduleid)
+				.getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 
@@ -203,7 +205,7 @@ public class T1ManufactureProcess extends AbstractManufactureProcess implements 
 
 	/**
 	 * Calculates the manufacture material costs for a single run of this item.
-	 * 
+	 *
 	 * @return
 	 */
 	private double calculateCost() {

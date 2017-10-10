@@ -48,7 +48,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Return the name of this activity
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -93,7 +93,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
  * should be represented and then runs the other methods to generate the list of views to feed to the Adapter.
  * The <code>collaborate2Model</code> feature is then moved to the <code>modelGenerator</code> instance
  * assigned during creatin.
- * 
+ *
  * @author Adam Antinoo
  */
 final class LoginListDataSource extends SpecialDataSource {
@@ -256,11 +256,11 @@ final class LoginListGenerator extends AbstractGenerator implements IModelGenera
 	public RootNode collaborate2Model() {
 		AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
 		// Get the list for registered Logins.
-		//	List<NeoComCharacter> characters = AppConnector.getModelStore().getActiveCharacters();
+		//	List<NeoComCharacter> characters = NeoComAppConnector.getSingleton().getModelStore().getActiveCharacters();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add each Login to the list. They will expand to show the Character selection.
-		for (Login login : AppConnector.getModelStore().accessLoginList().values()) {
+		for (Login login : NeoComAppConnector.getSingleton().getModelStore().accessLoginList().values()) {
 			_dataModelRoot.addChild(login);
 			AbstractGenerator.logger
 					.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getName() + "' to the _dataModelRoot");

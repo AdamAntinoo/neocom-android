@@ -105,7 +105,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	 * The price of the manufacture cost on the output is not tinted with the right color. Use red for cero or
 	 * negative costs, orange for less than 10% and white for higher (or maybe green for higher). This code can
 	 * be refactored to use ever the same generation code.
-	 * 
+	 *
 	 * @param cost
 	 * @param price
 	 * @param suffix
@@ -241,7 +241,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	/**
 	 * Downloads and caches the item icon from the CCP server. The new implementation check for special cases
 	 * such as locations. Stations on locations have an image that can be downloaded from the same place.
-	 * 
+	 *
 	 * @param targetIcon
 	 * @param typeID
 	 */
@@ -261,7 +261,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	protected Spanned regionSystemLocation(final EveLocation loc) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		// EveLocation loc =
-		// AppConnector.getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
+		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
 		final String security = loc.getSecurity();
 		String secColor = EveAbstractHolder.securityLevels.get(security);
 		if (null == secColor) {

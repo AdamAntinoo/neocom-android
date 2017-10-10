@@ -3,7 +3,7 @@
 //	COPYRIGHT:      (c) 2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:	SpringBoot-MS-Java 1.8.
 //	DESCRIPTION:	This project contains a MicroService specially dedicated to get and store the Market Data
-//								information. I should be exposed on a new port and should be accesible to all the backend MS to consult 
+//								information. I should be exposed on a new port and should be accesible to all the backend MS to consult
 //								Item Market Data.
 package org.dimensinfin.eveonline.neocom.connector;
 
@@ -212,7 +212,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	public EveLocation searchLocationbyID(final long locationID) {
 		// Try to get that id from the cache tables
 		try {
-			Dao<EveLocation, String> locationDao = AppConnector.getDBConnector().getLocationDAO();
+			Dao<EveLocation, String> locationDao = NeoComAppConnector.getSingleton().getDBConnector().getLocationDAO();
 			QueryBuilder<EveLocation, String> queryBuilder = locationDao.queryBuilder();
 			Where<EveLocation, String> where = queryBuilder.where();
 			where.eq("id", locationID);
@@ -377,14 +377,14 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 
 	/**
 	 * Returns the resource identifier of the station class to locate icons or other type related resources.
-	 * 
+	 *
 	 * @param stationID
 	 * @return
 	 */
 	public int searchStationType(final long stationID) {
 		//		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
 		int stationTypeID = 1529;
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.STATIONTYPE,
 					new String[] { Long.valueOf(stationID).toString() });
@@ -402,19 +402,19 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		// inventionJob.getSize());
 		AndroidCCPDatabaseConnector.logger
 				.info("~~ [AndroidCCPDatabaseConnector.searchStationType]> Time lapse for [SELECT STATIONTYPEID " + stationID
-						+ "] " + AppConnector.timeLapse());
+						+ "] " + NeoComAppConnector.getSingleton().timeLapse());
 		return stationTypeID;
 	}
 
 	/**
 	 * Returns the resource identifier of the station class to locate icons or other type related resources.
-	 * 
+	 *
 	 * @param stationID
 	 * @return
 	 */
 	public int searchStationType2(final long stationID) {
 		int stationTypeID = 1529;
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		//	PreparedStatement prepStmt = null;
 		Cursor cursor = null;
 		try {
@@ -431,7 +431,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		} finally {
 			cursor.close();
 		}
-		//	logger.info("~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + AppConnector.timeLapse());
+		//	logger.info("~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + NeoComAppConnector.getSingleton().timeLapse());
 		return stationTypeID;
 	}
 

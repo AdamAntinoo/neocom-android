@@ -105,7 +105,7 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 			// Pilot are expected to be at the global context
 			final NeoComCharacter pilot = ((PilotInfoPart) pilotPart).getCastedModel();
 			// TODO This should be done at the destination Activity
-			//	AppConnector.getModelStore().activatePilot(pilot.getCharacterID());
+			// NeoComAppConnector.getSingleton.getModelStore().activatePilot(pilot.getCharacterID());
 			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
 			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot

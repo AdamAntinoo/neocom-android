@@ -54,7 +54,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	 */
 	public synchronized boolean restore() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.restore");
-		File modelStoreFile = AppConnector.getStorageConnector()
+		File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector()
 				.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 		try {
 			// Read the contents of the character information.
@@ -88,7 +88,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	public synchronized boolean save() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.save"); //$NON-NLS-1$
 		try {
-			File modelStoreFile = AppConnector.getStorageConnector()
+			File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector()
 					.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(modelStoreFile));
 

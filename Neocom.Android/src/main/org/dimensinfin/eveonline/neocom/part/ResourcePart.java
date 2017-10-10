@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
@@ -61,7 +61,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	 * NOt all item types can have this value so the display has to reflect that. If the cost of manufacture is
 	 * less that the best sell price then the price is shown in green and the sell multiplier is added to the
 	 * price. If the manufacture cost is greater than the sell price it is shown in red.
-	 * 
+	 *
 	 * @return
 	 */
 	public String display_manufactureCost() {
@@ -84,7 +84,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	 */
 	public String get_inventionCost() {
 		// Locate T1 blueprints.
-		ArrayList<Integer> ids = AppConnector.getDBConnector()
+		ArrayList<Integer> ids = NeoComAppConnector.getSingleton().getDBConnector()
 				.searchInventionableBlueprints(Integer.valueOf(this.getCastedModel().getTypeID()).toString());
 		// Get access to the Invention process.
 		IJobProcess inventionProcess = JobManager.generateJobProcess(this.getPilot(), new NeoComBlueprint(ids.get(0)),
@@ -131,12 +131,12 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	/**
 	 * Gets the cost to manufacture a single run of an item. To calculate this it will use the corresponding
 	 * process.
-	 * 
+	 *
 	 * @return
 	 */
 	public double getManufactureCost() {
 		int moduleid = this.getCastedModel().getTypeID();
-		int blueprintid = AppConnector.getDBConnector().searchBlueprint4Module(moduleid);
+		int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
 		IJobProcess process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(),
 				new NeoComBlueprint(blueprintid), EJobClasses.MANUFACTURE);
 		return process.getJobCost();
@@ -212,7 +212,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	private IJobProcess getJobProcess() {
 		if (null == process) {
 			int moduleid = this.getCastedModel().getTypeID();
-			int blueprintid = AppConnector.getDBConnector().searchBlueprint4Module(moduleid);
+			int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
 			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), new NeoComBlueprint(blueprintid),
 					EJobClasses.MANUFACTURE);
 		}

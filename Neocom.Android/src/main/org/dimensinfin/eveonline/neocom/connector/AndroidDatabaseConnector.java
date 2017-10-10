@@ -163,7 +163,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	/**
 	 * Get the complete list of assets that are Planetary Materials.
-	 * 
+	 *
 	 * @return
 	 */
 	public ArrayList<NeoComAsset> accessAllPlanetaryAssets(final long characterID) {
@@ -234,7 +234,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
 		List<ApiKey> apilist = null;
 		try {
-			Dao<ApiKey, String> keyDao = AppConnector.getDBConnector().getApiKeysDao();
+			Dao<ApiKey, String> keyDao = NeoComAppConnector.getSingleton().getDBConnector().getApiKeysDao();
 			QueryBuilder<ApiKey, String> queryBuilder = keyDao.queryBuilder();
 			Where<ApiKey, String> where = queryBuilder.where();
 			where.eq("login", login);
@@ -301,7 +301,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	/**
 	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
 	 * returns true.
-	 * 
+	 *
 	 * @return <code>true</code> if there was any problem.
 	 */
 	public boolean openAppDataBase() {
@@ -347,12 +347,12 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//	/**
 	//	 * Opens a SQLite database to get access to the Items and locations. If there is any problem the method
 	//	 * returns true.
-	//	 * 
+	//	 *
 	//	 * @return <code>true</code> if there was any problem.
 	//	 */
 	//	public boolean openAppDataBase() {
 	//		if (null == staticDatabase) {
-	//			final String database = AppConnector.getAppFilePath(R.string.appdatabasefilename);
+	//			final String database = NeoComAppConnector.getSingleton().getAppFilePath(R.string.appdatabasefilename);
 	//			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 	//			//			try {
 	//			if (AppConnector.sdcardAvailable()) {
@@ -374,7 +374,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//	@Override
 	//	public boolean openCCPDataBase() {
 	//		if (null == ccpDatabase) {
-	//			final String database = AppConnector.getAppFilePath(R.string.ccpdatabasefilename);
+	//			final String database = NeoComAppConnector.getSingleton().getAppFilePath(R.string.ccpdatabasefilename);
 	//			final String path = Environment.getExternalStorageDirectory() + "/" + database;
 	//			//			try {
 	//			// InputStream dbStream =
@@ -400,7 +400,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	 * Once the assets are processed inside a location this list can change because it may contain other
 	 * elements that are Ships or Containers. When processing the list we should connect them properly on the
 	 * new hierarchy.<br>
-	 * 
+	 *
 	 * @return
 	 */
 	public List<NeoComAsset> queryAllAssetLocations(final long identifier) {
@@ -578,7 +578,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	/**
 	 * Get the list of all the Blueprints for a given Character. It can ge a Pilot or a Corporation and the
 	 * differences should be none.
-	 * 
+	 *
 	 * @param characterID
 	 * @return
 	 */
@@ -591,7 +591,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	/**
 	 * gets the list of assets of a select Category
-	 * 
+	 *
 	 * @param characterID
 	 * @param typeID
 	 * @return
@@ -676,7 +676,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	//	/**
 	//	 * Like the other initialization methods this return a true if there was any problem during the process.
-	//	 * 
+	//	 *
 	//	 * @return
 	//	 */
 	//	@Override
@@ -716,7 +716,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	/**
 	 * Gets the list of type ids for the required resources to get an output batch of the former planetary
 	 * resource.
-	 * 
+	 *
 	 * @param typeID
 	 * @return
 	 */
@@ -756,7 +756,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	public ArrayList<Integer> searchInventionableBlueprints(final String idList) {
 		Log.i("DBQUERY", ">> AndroidDatabaseConnector.searchInventionableBlueprints");
 		ArrayList<Integer> blueprintIds = new ArrayList<Integer>();
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			// if (null == ccpDatabase) ccpDatabase = getCCPDatabase();
 			final Cursor cursor = this.getCCPDatabase().rawQuery(
@@ -769,8 +769,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 				// We have collected the required blueprint. Add it to the list
 				// of resources.
 				cursor.close();
-				Log.i("DBQUERY.TIME",
-						"~~ Time lapse for [SELECT PRODUCTTYPEID IN " + idList + "] - " + AppConnector.timeLapse());
+				Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT PRODUCTTYPEID IN " + idList + "] - "
+						+ NeoComAppConnector.getSingleton().timeLapse());
 			}
 		} catch (final Exception ex) {
 			AndroidDatabaseConnector.logger.severe("E> Error searching for  blueprints.");
@@ -851,7 +851,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Select assets for the owner and woth an specific type id.
 		List<Job> joblist = new ArrayList<Job>();
 		try {
-			Dao<Job, String> jobDao = AppConnector.getDBConnector().getJobDAO();
+			Dao<Job, String> jobDao = NeoComAppConnector.getSingleton().getDBConnector().getJobDAO();
 			QueryBuilder<Job, String> queryBuilder = jobDao.queryBuilder();
 			Where<Job, String> where = queryBuilder.where();
 			where.eq("ownerID", characterID);
@@ -894,7 +894,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Log.i("AndroidDatabaseConnector", ">>
 		// AndroidDatabaseConnector.searchListOfDatacores");
 		ArrayList<Resource> inventionJob = new ArrayList<Resource>();
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.INDUSTRYACTIVITYMATERIALS,
 					new String[] { Integer.valueOf(itemID).toString() });
@@ -916,7 +916,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// AndroidDatabaseConnector.searchListOfDatacores " +
 		// inventionJob.getSize());
 		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT INVENTION LOM " + itemID + "] - [" + inventionJob.size() + "] "
-				+ AppConnector.timeLapse());
+				+ NeoComAppConnector.getSingleton().timeLapse());
 		return inventionJob;
 	}
 
@@ -924,7 +924,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Log.i("AndroidDatabaseConnector", ">>
 		// AndroidDatabaseConnector.searchListOfMaterials");
 		ArrayList<Resource> buildJob = new ArrayList<Resource>();
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			if (null == ccpDatabase) {
 				ccpDatabase = this.getCCPDatabase();
@@ -972,8 +972,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		} catch (final Exception ex) {
 			AndroidDatabaseConnector.logger.severe("E> Error searching for material <" + itemID + "> not found.");
 		}
-		Log.i("DBQUERY.TIME",
-				"~~ Time lapse for [SELECT LOM " + itemID + "] - [" + buildJob.size() + "] " + AppConnector.timeLapse());
+		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT LOM " + itemID + "] - [" + buildJob.size() + "] "
+				+ NeoComAppConnector.getSingleton().timeLapse());
 		// Log.i("AndroidDatabaseConnector", "<<
 		// AndroidDatabaseConnector.searchListOfMaterials " + buildJob.size());
 		return buildJob;
@@ -981,7 +981,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	public ArrayList<Resource> searchListOfReaction(final int itemID) {
 		ArrayList<Resource> buildJob = new ArrayList<Resource>();
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			if (null == ccpDatabase) {
 				ccpDatabase = this.getCCPDatabase();
@@ -1037,8 +1037,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		} catch (final Exception ex) {
 			AndroidDatabaseConnector.logger.severe("E> Error searching for material <" + itemID + "> not found.");
 		}
-		Log.i("DBQUERY.TIME",
-				"~~ Time lapse for [SELECT LOM " + itemID + "] - [" + buildJob.size() + "] " + AppConnector.timeLapse());
+		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT LOM " + itemID + "] - [" + buildJob.size() + "] "
+				+ NeoComAppConnector.getSingleton().timeLapse());
 		// Log.i("AndroidDatabaseConnector", "<<
 		// AndroidDatabaseConnector.searchListOfMaterials " + buildJob.size());
 		return buildJob;
@@ -1053,7 +1053,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//	public EveLocation searchLocationbyID(final long locationID) {
 	//		// Try to get that id from the cache tables
 	//		try {
-	//			Dao<EveLocation, String> locationDao = AppConnector.getDBConnector().getLocationDAO();
+	//			Dao<EveLocation, String> locationDao = NeoComAppConnector.getSingleton().getDBConnector().getLocationDAO();
 	//			QueryBuilder<EveLocation, String> queryBuilder = locationDao.queryBuilder();
 	//			Where<EveLocation, String> where = queryBuilder.where();
 	//			where.eq("id", locationID);
@@ -1219,7 +1219,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
 	//	 * this action also fails return an empty data structure with the minimum filed data information from the
 	//	 * related item and fire the update request.
-	//	 * 
+	//	 *
 	//	 * @param itemID
 	//	 *          item id code of the item assigned to this market request.
 	//	 * @param side
@@ -1238,7 +1238,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		MarketDataSet entry = cache.get(itemID);
 	//		if (null == entry) {
 	//			// Try to get the data from disk.
-	//			entry = AppConnector.getStorageConnector().readDiskMarketData(itemID, side);
+	//			entry = NeoComAppConnector.getSingleton().getStorageConnector().readDiskMarketData(itemID, side);
 	//			if (null == entry) {
 	//				// Neither on disk. Make a request for download and return a
 	//				// dummy placeholder.
@@ -1304,7 +1304,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	public int searchReactionOutputMultiplier(final int itemID) {
 		int multiplier = 200;
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		try {
 			if (null == ccpDatabase) {
 				ccpDatabase = this.getCCPDatabase();
@@ -1366,8 +1366,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		} catch (final Exception ex) {
 			AndroidDatabaseConnector.logger.severe("E> Error searching for material <" + itemID + "> not found.");
 		}
-		Log.i("DBQUERY.TIME",
-				"~~ Time lapse for [SELECT LOM " + itemID + "] - [" + multiplier + "] " + AppConnector.timeLapse());
+		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT LOM " + itemID + "] - [" + multiplier + "] "
+				+ NeoComAppConnector.getSingleton().timeLapse());
 		// Log.i("AndroidDatabaseConnector", "<<
 		// AndroidDatabaseConnector.searchListOfMaterials " + buildJob.size());
 		return multiplier;
@@ -1414,7 +1414,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	//	/**
 	//	 * Returns the resource identifier of the station class to locate icons or other type related resources.
-	//	 * 
+	//	 *
 	//	 * @param stationID
 	//	 * @return
 	//	 */
@@ -1437,7 +1437,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		// Log.i("AndroidDatabaseConnector", "<<
 	//		// AndroidDatabaseConnector.searchListOfDatacores " +
 	//		// inventionJob.getSize());
-	//		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + AppConnector.timeLapse());
+	//		Log.i("DBQUERY.TIME", "~~ Time lapse for [SELECT STATIONTYPEID " + stationID + "] " + NeoComAppConnector.getSingleton().timeLapse());
 	//		return stationTypeID;
 	//	}
 
@@ -1518,7 +1518,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		StringBuffer data = new StringBuffer();
 		try {
 			String str = "";
-			InputStream is = AppConnector.getStorageConnector().accessInternalStorage("outposts.json");
+			InputStream is = NeoComAppConnector.getSingleton().getStorageConnector().accessInternalStorage("outposts.json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			if (is != null) {
 				while ((str = reader.readLine()) != null) {
@@ -1570,7 +1570,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		Outpost hit = outpostsCache.get(Long.valueOf(locationID).intValue());
 		EveLocation location = new EveLocation(locationID);
 		if (null != hit) {
-			EveLocation systemLocation = AppConnector.getCCPDBConnector().searchLocationbyID(hit.getSolarSystem());
+			EveLocation systemLocation = NeoComAppConnector.getSingleton().getCCPDBConnector()
+					.searchLocationbyID(hit.getSolarSystem());
 			location.setStation(hit.getName());
 			location.setSystemID(hit.getSolarSystem());
 			location.setSystem(systemLocation.getSystem());

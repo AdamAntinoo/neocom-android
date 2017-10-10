@@ -30,7 +30,7 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
@@ -130,7 +130,7 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 	 * Save the extra parameters information to be able to restore the page to their same state. There is no
 	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
 	 * recondtruct the AppModel state.
-	 * 
+	 *
 	 */
 	@Override
 	protected void onSaveInstanceState(final Bundle outState) {
@@ -155,7 +155,7 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
  * will have stored all the downloaded information (so a change on an Activity will not clear that data) and
  * all the functionalities to manage assets when they are stored on the database and also if they are stored
  * in local memory.
- * 
+ *
  * @author Adam Antinoo
  */
 final class AssetsByLocationDataSource extends SpecialDataSource {
@@ -302,9 +302,9 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	 * REFACTOR: For testing purposes we are going to download all the assets.
 	 */
 	public RootNode collaborate2Model() {
-		logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
+		AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
 		// Get the Assets Manager active at the character.
-		NeoComCharacter pilot = AppConnector.getModelStore().activatePilot(_characterid);
+		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 		AssetsManager assetsMan = pilot.getAssetsManager();
 		// Check it is initialized.
 		if (!assetsMan.isInitialized()) {
@@ -320,7 +320,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
 					+ regs.get(key).getContents() + "' to the _dataModelRoot");
 		}
-		logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
+		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}
 
@@ -369,8 +369,8 @@ final class AssetsFragment extends AbstractPagerFragment {
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		EManagerType manager = EManagerType
 				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-		AppConnector.getModelStore().activateLoginIdentifier(loginid);
-		AppConnector.getModelStore().activatePilot(characterid);
+		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
+		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(loginid)
 				.addIdentifier(characterid).addIdentifier(manager.name());

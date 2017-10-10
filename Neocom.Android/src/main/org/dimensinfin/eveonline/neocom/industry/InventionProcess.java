@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.industry;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
@@ -50,7 +50,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	 * It uses a new <code>AssetsManager</code> because the resource processing changes some of the resources
 	 * used during the process. With a new manager we avoid clearing the currently cached information on the
 	 * Pilot assets.
-	 * 
+	 *
 	 * @return
 	 */
 	public ArrayList<Action> generateActions4Blueprint() {
@@ -124,11 +124,12 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	 * Gets from the eve database the manufacture duration for this module and applies the hardcoded skills that
 	 * are required to perform perfect manufacture. On next releases maybe the skills are read and used to
 	 * adjust this calculation.
-	 * 
+	 *
 	 * @return the time in seconds to manufacture a copy if this module
 	 */
 	public int getCycleDuration() {
-		int basetime = AppConnector.getDBConnector().searchJobExecutionTime(bpid, ModelWideConstants.activities.INVENTION);
+		int basetime = NeoComAppConnector.getSingleton().getDBConnector().searchJobExecutionTime(bpid,
+				ModelWideConstants.activities.INVENTION);
 		// Adjust to the time with new industry equations.
 		double time = basetime;
 		return Double.valueOf(time).intValue();
@@ -143,10 +144,10 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 
 	public ArrayList<Resource> getLOM() {
 		if (null == lom) {
-			lom = AppConnector.getDBConnector().searchListOfDatacores(bpid);
+			lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfDatacores(bpid);
 		}
 		if (lom.size() == 0) {
-			lom = AppConnector.getDBConnector().searchListOfDatacores(bpid);
+			lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfDatacores(bpid);
 		}
 		return lom;
 	}
@@ -157,7 +158,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	 * from those at the blueprint location prior to the calculations.<br>
 	 * If this gets run after the generate action than the result may differ from the reality because some of
 	 * the resources would have been consumed by the processing.
-	 * 
+	 *
 	 * @param itemasset
 	 * @return
 	 */
@@ -201,7 +202,8 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	}
 
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(moduleid)
+				.getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 
@@ -210,7 +212,7 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	 */
 	@Override
 	public int getProductID() {
-		return AppConnector.getDBConnector().searchInventionProduct(blueprint.getTypeID());
+		return NeoComAppConnector.getSingleton().getDBConnector().searchInventionProduct(blueprint.getTypeID());
 	}
 
 	public int getProfitIndex() {
@@ -261,7 +263,8 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 	private void calculateIndex() {
 		double manufactureTime = this.getCycleDuration() * 10.0;
 		double sets = Math.round((24 * 60 * 60) / manufactureTime);
-		double sellPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double sellPrice = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(moduleid)
+				.getHighestBuyerPrice().getPrice();
 		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
@@ -287,8 +290,8 @@ public class InventionProcess extends AbstractManufactureProcess implements IJob
 			resource.setQuantity(newQty);
 			resource.setStackSize(1);
 			// Calculate the cost.
-			MarketDataSet data = AppConnector.getCacheConnector().searchMarketData(resource.item.getItemID(),
-					EMarketSide.SELLER);
+			MarketDataSet data = NeoComAppConnector.getSingleton().getCacheConnector()
+					.searchMarketData(resource.item.getItemID(), EMarketSide.SELLER);
 			double resourcePrice = data.getBestMarket().getPrice();
 			double realcost = resource.getQuantity() * resourcePrice;
 			inventionCost += realcost;

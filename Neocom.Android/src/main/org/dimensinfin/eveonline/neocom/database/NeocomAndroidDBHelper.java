@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
@@ -40,10 +39,10 @@ import android.database.sqlite.SQLiteDatabase;
 public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger										logger								= Logger.getLogger("NeocomAndroidDBHelper");
-	//	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
+	//	private static final String				DATABASE_NAME			= NeoComAppConnector.getSingleton().getStorageConnector()
 	//			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
 	//	private static final int					DATABASE_VERSION	= new Integer(
-	//			AppConnector.getResourceString(R.string.databaseversion)).intValue();
+	//		 NeoComAppConnector.getSingleton.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final boolean										isOpen								= false;
@@ -66,7 +65,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeocomAndroidDBHelper(final Context context) {
 		super(context,
-				AppConnector.getStorageConnector()
+				NeoComAppConnector.getSingleton().getStorageConnector()
 						.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.appdatabasefilename))
 						.getAbsolutePath(),
 				null, new Integer(NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion)).intValue(),

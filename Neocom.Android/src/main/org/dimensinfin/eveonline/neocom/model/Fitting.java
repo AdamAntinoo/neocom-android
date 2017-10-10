@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.core.interfaces.IViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
@@ -59,7 +59,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 	 * Initializes a fitting. A Fitting is a complex objects that performs manufactuting actions and that should
 	 * have a reference to the current selected pilot because the resources required for manufacturing are
 	 * associated with a pilot.
-	 * 
+	 *
 	 * @param manager
 	 */
 	public Fitting(final AssetsManager manager) {
@@ -73,7 +73,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 	/**
 	 * Adds items to the cargo hold of the ship fitting. Tis is used for charges, ammo and other fit items like
 	 * scripts.
-	 * 
+	 *
 	 * @param itemId
 	 * @param times
 	 */
@@ -89,7 +89,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 
 	/**
 	 * Receives the hull item id that should match to a ship item type.
-	 * 
+	 *
 	 * @param hullTypeId
 	 */
 	public void addHull(final int hullTypeId) {
@@ -105,7 +105,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 	 * FITTING_MODULES) of the list of manufacturing actions if the variant is the FITTING_MANUFACTURE. <br>
 	 * The list of Actions is created following the Industry Manufacture processor that will take on account the
 	 * preferred user action for each item(BUY, MANUFACTURE, INVENT,etc).
-	 * 
+	 *
 	 * @param variant
 	 * @return
 	 */
@@ -126,7 +126,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 
 	/**
 	 * Adds the selected module to the fit the number of times specified. By default it add the module once.
-	 * 
+	 *
 	 * @param moduleId
 	 * @param times
 	 */
@@ -146,7 +146,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 
 	/**
 	 * Adds the selected module to the fit the number of times specified. By default it add the module once.
-	 * 
+	 *
 	 * @param moduleId
 	 * @param times
 	 */
@@ -162,7 +162,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 
 	/**
 	 * Just the same to fit a module. Add a resource of quantity 1 to the list of rigs.
-	 * 
+	 *
 	 * @param rigTypeId
 	 */
 	public void fitRig(final int rigTypeId) {
@@ -209,7 +209,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 	private ArrayList<Property> accessLocationRoles() {
 		ArrayList<Property> roleList = new ArrayList<Property>();
 		try {
-			Dao<Property, String> propertyDao = AppConnector.getDBConnector().getPropertyDAO();
+			Dao<Property, String> propertyDao = NeoComAppConnector.getSingleton().getDBConnector().getPropertyDAO();
 			QueryBuilder<Property, String> queryBuilder = propertyDao.queryBuilder();
 			Where<Property, String> where = queryBuilder.where();
 			where.eq("ownerID", this.getPilot().getCharacterID());
@@ -233,13 +233,13 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 			//			String value = role.getPropertyType().name();
 			if (role.getPropertyType() == matchingRole) {
 				// Search for the location type we need. This is the FITTING place
-				if (role.getPropertyValue().equalsIgnoreCase(locationType)) return AppConnector.getCCPDBConnector()
-						.searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
+				if (role.getPropertyValue().equalsIgnoreCase(locationType)) return NeoComAppConnector.getSingleton()
+						.getCCPDBConnector().searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
 			}
-			//				return AppConnector.getDBConnector().searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
+			//				return NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(Double.valueOf(role.getNumericValue()).longValue());
 			//		Property currentRole = locationRoles.get(locID);
 			//			if (matchingRole.equalsIgnoreCase(currentRole.getStringValue()))
-			//				return AppConnector.getDBConnector().searchLocationbyID(locID);
+			//				return NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(locID);
 		}
 		return null;
 	}
@@ -248,7 +248,7 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 	 * This is the method that constructs the list of actions and resources required to complete the manufacture
 	 * request. The process is a recursive and iterative process using the user item preferences for each item
 	 * processing and dependency management.
-	 * 
+	 *
 	 * @return
 	 */
 	private ArrayList<Action> getManufacturingResources() {

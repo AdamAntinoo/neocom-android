@@ -108,7 +108,7 @@ public class MarketOrderPart extends EveAbstractPart
 		switch (menuItemIndex) {
 			case R.id.deletemarketOrderActionMenuID:
 				try {
-					AppConnector.getDBConnector().getMarketOrderDAO().delete(this.getCastedModel());
+				 NeoComAppConnector.getSingleton.getDBConnector().getMarketOrderDAO().delete(this.getCastedModel());
 					// Clear the cache in memory
 					this.getPilot().cleanOrders();
 					// Remove from parent and clear the view to force a redraw.

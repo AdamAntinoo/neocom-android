@@ -151,7 +151,7 @@ public class JobRunsDialog extends DialogFragment {
 	//	public void setTaskPart(final TaskPart part) {
 	//		_taskPart = part;
 	//		int typeID = _taskPart.getItem().getTypeID();
-	//		int bpid = AppConnector.getDBConnector().searchBlueprint4Module(typeID);
+	//		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
 	//		_blueprintPart = new BlueprintPart(new Blueprint(bpid));
 	//	}
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
@@ -48,7 +48,7 @@ import android.util.Log;
  * The result for all this is a new <code>IJob</code> that will implement the requested Action. The action is
  * not an object and may be a parameter but the result is the object we will use to create the element used by
  * the interface like List Of Materials, durations, costs and more.
- * 
+ *
  * @author Adam Antinoo
  */
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -148,7 +148,8 @@ public class JobManager implements Serializable {
 			JobManager.industryAssetsManager = new AssetsManager(pilot);
 
 			// Get the user jobs and start processing their resources.
-			final ArrayList<Job> userjobs = AppConnector.getDBConnector().searchJob4Class(pilot.getCharacterID(), "UJOB");
+			final ArrayList<Job> userjobs = NeoComAppConnector.getSingleton().getDBConnector()
+					.searchJob4Class(pilot.getCharacterID(), "UJOB");
 			Log.i("EVEI", "-- JobManager.initializeAssets.userjobs:" + userjobs);
 			for (final Job job : userjobs) {
 				// Get the unique blueprint used on the job and generate the jobs tasks.
@@ -156,7 +157,7 @@ public class JobManager implements Serializable {
 				// If the blueprint if not found then the job has been started on real. Drop the job
 				if (null == blueprint) {
 					try {
-						AppConnector.getDBConnector().getJobDAO().delete(job);
+						NeoComAppConnector.getSingleton().getDBConnector().getJobDAO().delete(job);
 						// Clear the cache in memory
 						pilot.cleanJobs();
 					} catch (final SQLException e) {
@@ -183,7 +184,7 @@ public class JobManager implements Serializable {
 	 * We can locate the list of blueprints with a selected typeID and then filter them to the location. It
 	 * would also be possible to pack the single blueprint instances inside the children list of the stack
 	 * during the stacking.
-	 * 
+	 *
 	 * @param pilot
 	 *          the character that is going to launch the manufacture job
 	 * @param part
@@ -228,7 +229,7 @@ public class JobManager implements Serializable {
 				newJob.setStartDate(now.toDate());
 				newJob.setEndDate(now.plus(part.getRunTime() * jobRuns * 1000).toDate());
 				try {
-					final Dao<Job, String> jobDao = AppConnector.getDBConnector().getJobDAO();
+					final Dao<Job, String> jobDao = NeoComAppConnector.getSingleton().getDBConnector().getJobDAO();
 					jobDao.create(newJob);
 					refPosition++;
 					Log.i("EVEI", "-- JobManager.launchJob.Wrote [" + newJob + "]");
@@ -250,7 +251,7 @@ public class JobManager implements Serializable {
 
 	//	/**
 	//	 * Searches in the SDE database the blueprint type id used to invent this T2 blueprint.
-	//	 * 
+	//	 *
 	//	 * @param typeID
 	//	 * @return
 	//	 */
@@ -259,16 +260,16 @@ public class JobManager implements Serializable {
 	//	}
 
 	public static ArrayList<Resource> searchListOfMaterials4Manufacture(final int bpid) {
-		return AppConnector.getDBConnector().searchListOfMaterials(bpid);
+		return NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid);
 	}
 
 	/**
 	 * Check the existence of this precise job process in the cache. If found it will return that instance. This
 	 * will speed up most of the process because if the job is already created all the initialization code can
 	 * be removed from the access and moved to the creation.
-	 * 
+	 *
 	 * @param tech
-	 * 
+	 *
 	 * @param pilot
 	 * @param target
 	 * @return

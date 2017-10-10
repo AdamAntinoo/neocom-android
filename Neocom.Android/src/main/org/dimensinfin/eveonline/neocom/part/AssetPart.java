@@ -70,7 +70,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
 	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
 	 * the background manager.
-	 * 
+	 *
 	 * @return
 	 */
 	public String get_itemPrice() {
@@ -156,7 +156,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 
 	//	private MarketDataSet searchMarketData(final int itemid) {
 	//		if (null == mdata)
-	//			mdata = AppConnector.getDBConnector().searchMarketData(getCastedModel().getItem().getItemID(),
+	//			mdata = NeoComAppConnector.getSingleton().getDBConnector().searchMarketData(getCastedModel().getItem().getItemID(),
 	//					ModelWideConstants.marketSide.BUYER);
 	//		return mdata;
 	//	}

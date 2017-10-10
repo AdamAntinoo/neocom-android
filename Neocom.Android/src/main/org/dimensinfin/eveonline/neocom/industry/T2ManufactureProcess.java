@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.industry;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
@@ -28,7 +28,7 @@ import android.util.Log;
  * class the special codification required to manage T2 jobs is included inside this class. The key method is
  * <code>generateActions4Blueprint</code> that will create the model data to represent at the UI the
  * requirements for this manufacture job.
- * 
+ *
  * @author Adam Antinoo
  */
 public class T2ManufactureProcess extends AbstractManufactureProcess implements IJobProcess {
@@ -54,7 +54,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	 * used during the process. With a new manager we avoid clearing the currently cached information on the
 	 * Pilot assets. <br>
 	 * It also copies the LOM because the references Resources have to be modified to reflect the run counts.
-	 * 
+	 *
 	 * @return
 	 */
 	public ArrayList<Action> generateActions4Blueprint() {
@@ -125,11 +125,11 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	 * Gets from the eve database the manufacture duration for this module and applies the hardcoded skills that
 	 * are required to perform perfect manufacture. On next releases maybe the skills are read and used to
 	 * adjust this calculation.
-	 * 
+	 *
 	 * @return the time in seconds to manufacture a copy if this module
 	 */
 	public int getCycleDuration() {
-		int basetime = AppConnector.getDBConnector().searchJobExecutionTime(bpid,
+		int basetime = NeoComAppConnector.getSingleton().getDBConnector().searchJobExecutionTime(bpid,
 				ModelWideConstants.activities.MANUFACTURING);
 		// Adjust to the time with new industry equations.
 		double time = basetime * ((100.0 - blueprint.getTimeEfficiency()) / 100.0) * this.calculateSkillModifier() * 1;
@@ -145,10 +145,10 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 
 	public ArrayList<Resource> getLOM() {
 		if (null == lom) {
-			lom = AppConnector.getDBConnector().searchListOfMaterials(bpid);
+			lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid);
 		}
 		if (lom.size() == 0) {
-			lom = AppConnector.getDBConnector().searchListOfMaterials(bpid);
+			lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid);
 		}
 		return lom;
 	}
@@ -158,7 +158,8 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	// }
 
 	public double getMultiplier() {
-		double topBuyerPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double topBuyerPrice = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(moduleid)
+				.getHighestBuyerPrice().getPrice();
 		return topBuyerPrice / this.getJobCost();
 	}
 
@@ -214,14 +215,14 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	 * The calculations have to account for the extra cost of the invention of the blueprint. being this a T2
 	 * blueprint job we have to spend some resources (mainly expensive datacores) in the invention of the
 	 * blueprint. Those costs belong to the Invention Process and should be calculated there.<br>
-	 * 
+	 *
 	 * The process skips the cost of the Skill books and other elements that are considered core manufactures
 	 * costs, like the more volatile job launch costs that are on the handling costs.<br>
-	 * 
+	 *
 	 * The invention costs are obtained from the T1 module that is required to obtain a T2 similar module. When
 	 * scanning the resources if we found a T1 module then we can process the invention. Apart from Modules,
 	 * there can be ships and charges that also are obtained in the same way.
-	 * 
+	 *
 	 * @return the cost of the manufacture of a single output resource.
 	 */
 	private double calculateCost() {
@@ -263,7 +264,8 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		// double manufactureTime = getCycleDuration() * 10.0;
 		// double sets = Math.round((24 * 60 * 60) / manufactureTime);
 		double sets = 1.0;
-		double sellPrice = AppConnector.getCCPDBConnector().searchItembyID(moduleid).getHighestBuyerPrice().getPrice();
+		double sellPrice = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(moduleid)
+				.getHighestBuyerPrice().getPrice();
 		double cost = this.getJobCost();
 		if (sellPrice < 0) {
 			index = 0;
@@ -280,14 +282,15 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 	/**
 	 * Searches on the database for blueprints that generate one or more of the resource required to
 	 * manufacture. The id found is the id of the blueprints whose Invention process has to be accounted.
-	 * 
+	 *
 	 * @param resourceIDs
 	 */
 	private double calculateInventionCosts(final String resourceIDs) {
 		double inventionCost = 0.0;
 		// Query the database the ID of the blueprints required for the
 		// invention of the parts.
-		ArrayList<Integer> ids = AppConnector.getDBConnector().searchInventionableBlueprints(resourceIDs);
+		ArrayList<Integer> ids = NeoComAppConnector.getSingleton().getDBConnector()
+				.searchInventionableBlueprints(resourceIDs);
 		for (Integer id : ids) {
 			// Get access to the Invention process.
 			IJobProcess invention = JobManager.generateJobProcess(this.getPilot(), new NeoComBlueprint(id),

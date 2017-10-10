@@ -77,13 +77,13 @@ public class AndroidStorageConnector implements IStorageConnector {
 	 * source by using and object that understands the information being accessed. For that we have to record
 	 * the data inside the cache with the corresponding <code>Interpreter</code>. <br>
 	 * This particular call returns the root of the XML DOM document without processing.
-	 * 
+	 *
 	 * @param link
 	 * @param force
 	 */
 	public Element accessDOMDocument(final String url) {
 		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.accessDOMDocument");
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		Element element = null;
 		try {
 			element = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument().getDocumentElement();
@@ -93,7 +93,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 			return element;
 		}
 		try {
-			InputStream netResource = AppConnector.getStorageConnector().accessNetworkResource(url);
+			InputStream netResource = NeoComAppConnector.getSingleton().getStorageConnector().accessNetworkResource(url);
 			element = NeoComApp.parseDOMDocument(netResource);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -103,7 +103,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 			e.printStackTrace();
 		}
 		AndroidStorageConnector.logger
-				.info("<< AndroidStorageConnector.accessDOMDocument [" + AppConnector.timeLapse() + "]");
+				.info("<< AndroidStorageConnector.accessDOMDocument [" + NeoComAppConnector.getSingleton().timeLapse() + "]");
 		return element;
 	}
 
@@ -242,7 +242,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 		try {
 			String filePath = NeoComAppConnector.getSingleton().getResourceString(R.string.marketdatacachefoldername) + "/"
 					+ this.createMarketDataFileName(itemID, side);
-			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
+			File dataFile = new File(NeoComAppConnector.getSingleton().getStorageConnector().getCacheStorage(), filePath);
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(dataFile));
 			final ObjectInputStream input = new ObjectInputStream(buffer);
 			MarketDataSet data = null;
@@ -271,7 +271,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 		try {
 			String filePath = NeoComAppConnector.getSingleton().getResourceString(R.string.marketdatacachefoldername) + "/"
 					+ this.createMarketDataFileName(itemID, side);
-			File dataFile = new File(AppConnector.getStorageConnector().getCacheStorage(), filePath);
+			File dataFile = new File(NeoComAppConnector.getSingleton().getStorageConnector().getCacheStorage(), filePath);
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(dataFile));
 			final ObjectOutput output = new ObjectOutputStream(buffer);
 			try {
@@ -300,7 +300,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 
 	/**
 	 * Get the eve-marketdata link for a requested module and market side.
-	 * 
+	 *
 	 * @param moduleName
 	 *          The module name to be used on the link.
 	 * @param opType
@@ -321,7 +321,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 			URL url = new URL("http://api.eve-central.com/api/marketstat/json?typeid=" + typeid + "&regionlimit=10000002");
 			URLConnection urlConnection = url.openConnection();
 			InputStream is = new BufferedInputStream(urlConnection.getInputStream());
-			// InputStream is = AppConnector.getStorageConnector().accessNetworkResource(
+			// InputStream is = NeoComAppConnector.getSingleton().getStorageConnector().accessNetworkResource(
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			if (is != null) {
 				while ((str = reader.readLine()) != null) {

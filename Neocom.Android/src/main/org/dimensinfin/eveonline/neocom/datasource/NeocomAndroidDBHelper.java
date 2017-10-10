@@ -33,10 +33,10 @@ import android.database.sqlite.SQLiteDatabase;
 public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeocomDBHelper{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger						= Logger.getLogger("NeocomAndroidDBHelper");
-//	private static final String				DATABASE_NAME			= AppConnector.getStorageConnector()
+//	private static final String				DATABASE_NAME			= NeoComAppConnector.getSingleton().getStorageConnector()
 //			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
 //	private static final int					DATABASE_VERSION	= new Integer(
-//			AppConnector.getResourceString(R.string.databaseversion)).intValue();
+//		 NeoComAppConnector.getSingleton.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Dao<NeoComAsset, String>				assetDao					= null;

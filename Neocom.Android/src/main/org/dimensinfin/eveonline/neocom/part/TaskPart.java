@@ -14,7 +14,7 @@ import org.dimensinfin.android.mvc.activity.ADialogCallback;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.dialog.BuyQtyDialog;
@@ -70,7 +70,8 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 			newMarketOrder.setBid(0);
 			newMarketOrder.setIssuedDate(now.toDate());
 			try {
-				final Dao<NeoComMarketOrder, String> marketOrderDao = AppConnector.getDBConnector().getMarketOrderDAO();
+				final Dao<NeoComMarketOrder, String> marketOrderDao = NeoComAppConnector.getSingleton().getDBConnector()
+						.getMarketOrderDAO();
 				marketOrderDao.createOrUpdate(newMarketOrder);
 				Log.i("EVEI",
 						"-- TaskPart.generateOrder.Wrote MarketOrder to database id [" + newMarketOrder.getOrderID() + "]");
