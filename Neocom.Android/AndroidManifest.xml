@@ -21,6 +21,7 @@
         android:largeHeap="true"
         android:logo="@drawable/evei4"
         android:theme="@style/AppTheme" >
+<!-- S T A R T U P    A C T I V I T Y -->
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SplashActivity"
             android:icon="@drawable/splash_icon"
@@ -34,7 +35,7 @@
             </intent-filter>
         </activity>
 <!--         Section where to add the new Activities to match the new model presentation. -->
- <!-- A C T I V I T I E S -->
+<!-- A C T I V I T I E S -->
        <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.LoginListActivity"
             android:label="LOGIN SELECTION" >

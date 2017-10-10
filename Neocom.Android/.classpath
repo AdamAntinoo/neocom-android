@@ -11,7 +11,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Neocom.Models"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.dimensinfin.core"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
