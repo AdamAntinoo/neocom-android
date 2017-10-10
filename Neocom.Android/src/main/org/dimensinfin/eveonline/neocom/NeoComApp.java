@@ -35,6 +35,7 @@ import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
@@ -579,18 +580,19 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeoComAppConnector					_appConnector			= null;
+	private NeoComAppConnector					_appConnector				= null;
+	private ModelAppConnector						_modelAppConnector	= null;
 	/**
 	 * Reference to the startup activity of the application. This Activity gets restarted when there is an
 	 * intercepted runtime exception.
 	 */
-	private Class<?>										_firstActivity		= null;
+	private Class<?>										_firstActivity			= null;
 
-	private Instant											chrono						= null;
-	private AndroidStorageConnector			storage						= null;
-	private AndroidCCPDatabaseConnector	dbCCPConnector		= null;
-	private AndroidDatabaseConnector		dbNeocomConnector	= null;
-	private AndroidCacheConnector				cache							= null;
+	private Instant											chrono							= null;
+	private AndroidStorageConnector			storage							= null;
+	private AndroidCCPDatabaseConnector	dbCCPConnector			= null;
+	private AndroidDatabaseConnector		dbNeocomConnector		= null;
+	private AndroidCacheConnector				cache								= null;
 
 	//private INeocomDBHelper									neocomDBHelper		= null;
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -601,6 +603,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 			// Just connect the singleton and the Connector chanin to get access to all the methods.
 			NeoComApp.singleton = this;
 			_appConnector = new NeoComAppConnector(this);
+			_modelAppConnector = new ModelAppConnector(this);
 		}
 		NeoComApp.logger.info("<< [NeoComApp.<consructor>]");
 	}
