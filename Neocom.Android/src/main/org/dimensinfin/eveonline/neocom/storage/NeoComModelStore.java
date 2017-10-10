@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
@@ -48,7 +48,7 @@ import android.view.Menu;
  * There should be some type of notification mechanism to report the UI about changes on the data contents
  * performed with background tasks. This is integrated on the GEF model hierarchy but has to be reviewed
  * inside Android special UI/non UI threads structure.
- * 
+ *
  * @author Adam Antinoo
  */
 public class NeoComModelStore extends AbstractModelStore implements INeoComModelStore {
@@ -62,7 +62,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * Returns the single global instance of the Store to be used as an instance. In case the instance does not
 	 * exists then we initiate the initialization process trying to create the most recent instance we have
 	 * recorded or recreate it from scratch from the api_list file.
-	 * 
+	 *
 	 * @return the single global instance
 	 */
 	public static NeoComModelStore getSingleton() {
@@ -141,7 +141,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * not kept and is calculated each time the call is received.
 	 */
 	public Set<NeoComCharacter> accessCharacterList() {
-		Hashtable<String, Login> loginList = AppConnector.getModelStore().accessLoginList();
+		Hashtable<String, Login> loginList = NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
 		Set<NeoComCharacter> charList = new HashSet<NeoComCharacter>();
 		for (String key : loginList.keySet()) {
 			Login login = loginList.get(key);
@@ -158,7 +158,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 */
 	public Hashtable<String, Login> accessLoginList() {
 		if (null == _loginList) {
-			_loginList = AppConnector.getDBConnector().queryAllLogins();
+			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
 		return _loginList;
 	}
@@ -166,7 +166,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Stores a reference to the current activity if this is required for some actions inside the DataSources.
-	 * 
+	 *
 	 * @param currentActivity
 	 */
 	public void activateActivity(final Activity currentActivity) {
@@ -177,13 +177,13 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * This is the main activation entry point for the Login. If there are no logins already on the ModelStore
 	 * we should get them from the backend database and then search for the indicated login. If finally that
 	 * login is not found we can fire an Exception.
-	 * 
+	 *
 	 * @param login
 	 */
 	public Login activateLoginIdentifier(final String loginTarget) {
 		NeoComModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
 		if (null == _loginList) {
-			_loginList = AppConnector.getDBConnector().queryAllLogins();
+			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
 		// OPTIMIZATION: If the character is already the selected one do nothing.
 		if (null != _loginIdentifier) if (_loginIdentifier.getName().equalsIgnoreCase(loginTarget)) return _loginIdentifier;
@@ -206,7 +206,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * keys comes from a database search and the list of associated keys are stored on the App Model. The list
 	 * of characters are on the Login class and there should be an active Login. Otherwise we raise and
 	 * exception because there is no Login or the Character is not found.
-	 * 
+	 *
 	 * @param characterid
 	 *          id of the character to activate and select for work with.
 	 */
@@ -232,7 +232,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Adds a new fitting to the list of stored ones and persists the data structures.
-	 * 
+	 *
 	 * @param fit
 	 * @param label
 	 */
@@ -260,7 +260,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * Return the list of pilots that are currently active as selected by the user. The user may deactivate some
 	 * pilots to reduce the view of data or pilots that are no longer active.<br>
 	 * The start list is the list of characters associated to the llist of kays assocated to the current login.
-	 * 
+	 *
 	 * @return
 	 */
 	@Deprecated
@@ -328,11 +328,11 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	//	/**
 	//	 * Checks if there is a need to retrieve again from the servers the user data.
-	//	 * 
+	//	 *
 	//	 * @return
 	//	 */
 	//	public boolean needsUpdate() {
-	//		return AppConnector.checkExpiration(lastCCPAccessTime, ModelWideConstants.HOURS3);
+	//		return NeoComAppConnector.getSingleton().checkExpiration(lastCCPAccessTime, ModelWideConstants.HOURS3);
 	//	}
 
 	//	public String printReport() {
@@ -352,7 +352,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Checks if we have data or we have to restore from disk, usually only on the initialization.
-	 * 
+	 *
 	 * @return true is we have to read the data because the containers are empty.
 	 */
 	public boolean needsRestore() {
@@ -362,16 +362,16 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Restores the stored state from the disk file. If there any problem the method returns true.
-	 * 
+	 *
 	 * @return <code>true</code> if there is a problem and the restore was not executed.
 	 */
 	@Override
 	public boolean restore() {
-		AppConnector.startChrono();
+		NeoComAppConnector.getSingleton().startChrono();
 		recovered = super.restore();
 		if (recovered) {
 			NeoComModelStore.logger
-					.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - " + AppConnector.timeLapse());
+					.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - " + NeoComAppConnector.getSingleton().timeLapse());
 			return recovered;
 		} else {
 			// The handler was not able to retrieve the file. Possibly because there was no file.
@@ -382,7 +382,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Save data to disk only when we have detected it has changed.
-	 * 
+	 *
 	 */
 	@Override
 	public boolean save() {
@@ -390,9 +390,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 			// Clean the dirty flag.
 			this.setDirty(false);
 			recovered = true;
-			AppConnector.startChrono();
+			NeoComAppConnector.getSingleton().startChrono();
 			final boolean state = super.save();
-			NeoComModelStore.logger.info("~~ Time lapse for APPSTORE[SAVE] - " + AppConnector.timeLapse());
+			NeoComModelStore.logger.info("~~ Time lapse for APPSTORE[SAVE] - " + NeoComAppConnector.getSingleton().timeLapse());
 			return state;
 		} else
 			return false;
@@ -400,7 +400,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	//	/**
 	//	 * Search for the specified character id in the list of associated characters list.
-	//	 * 
+	//	 *
 	//	 * @param characterID
 	//	 * @return
 	//	 */
@@ -419,7 +419,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//	/**
 	//	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
 	//	 * fields not stored and marked as transient.
-	//	 * 
+	//	 *
 	//	 * @param newkeys
 	//	 */
 	//	public void setApiKeys(final List<NeoComApiKey> newkeys) {
@@ -458,7 +458,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	//	/**
 	//	 * Get a complete list of the characters available indexed by the character id.
-	//	 * 
+	//	 *
 	//	 * @return
 	//	 */
 	//	private HashMap<Long, NeoComCharacter> getCharacters() {
@@ -483,7 +483,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//	private void readApiKeys() {
 	//		AppModelStore.logger.info(">> [AppModelStore.readApiKeys]");
 	//		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
-	//		List<ApiKey> apiKeys = AppConnector.getDBConnector().getApiList4Login(this.getLoginIdentifier());
+	//		List<ApiKey> apiKeys = NeoComAppConnector.getSingleton().getDBConnector().getApiList4Login(this.getLoginIdentifier());
 	//		// For each key get the list of characters and instantiate them to the resulting list.
 	//		_neocomApiKeys = new ArrayList<NeoComApiKey>();
 	//		_neocomCharacters = new ArrayList<NeoComCharacter>();

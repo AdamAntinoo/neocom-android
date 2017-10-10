@@ -63,6 +63,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -80,7 +81,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	public static int									marketCounter			= 0;
 
 	/** Global typeface to be used on nos standard activities or in places with no layout. */
-	//	public static Typeface						daysFace								= null;
+	public static Typeface						daysFace					= null;
 	private static DecimalFormat			pendingCounter		= new DecimalFormat("0.0##");
 	//	private static boolean						firstTimeInitialization	= false;
 
@@ -721,7 +722,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	public void onCreate() {
 		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
 		super.onCreate();
-		//		NeoComApp.daysFace = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/Days.otf");
+		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// REFACTOR Remove the secure XML access and configure the ApiConnector.
 		//		ApiConnector.setSecureXmlProcessing(false);
 		NeoComApp.logger.info("<< [NeoComApp.onCreate]");
