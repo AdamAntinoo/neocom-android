@@ -3,12 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/neocompanelborder40" >
-
-    <!-- <ImageView -->
-    <!-- android:id="@+id/backgroundFrame" -->
-    <!-- style="@style/AppTheme.ActivityBackground" -->
-    <!-- android:src="@drawable/redshadebackground" /> -->
+    android:background="@drawable/neocompanelborderred" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,6 +29,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:shadowColor="@android:color/white"
             android:shadowDx="0"
             android:shadowDy="0"
@@ -53,7 +49,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="10"
-            android:text="v0.9.2"
+            android:text="@string/appversion"
             android:textColor="@color/orangeName"
             android:textSize="20sp" />
 

@@ -58,7 +58,30 @@ public class SplashActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(final Void... entry) {
 			SplashActivity.logger.info(">> [NeoComInitialization.doInBackground]");
-			this.doStep01();
+
+			// Just check that the files exist and if not load the Api list and their characters.
+			SplashActivity.logger.info(">> [NeoComInitialization.doStep01]");
+			this.updateStateLabel("Checking application database...");
+			// STEP 01. Check required files availability on app directory.
+			this.createAppDir();
+			this.createCacheDirectories();
+			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
+			// STEP 02. Check existence of required files.
+			if (!this.checkAppFile(NeoComAppConnector.getSingleton().getResourceString(R.string.ccpdatabasefilename))) {
+				// TODO The CCP database is not distributed with the application. If not available then close the App
+				this.copyFromAssets(R.string.ccpdatabasefilename);
+			}
+			//			if (AppWideConstants.DEVELOPMENT)
+			//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
+			//				this.copyFromAssets(R.string.apikeysfilename);
+			//				}
+			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
+
+			// Create the login information that later will be requested to the user at the login page.
+			this.updateStateLabel("Loading user data...");
+			AppConnector.getModelStore().accessLoginList();
+			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
+
 			// Start the timers for background processing.
 			NeoComApp.getSingletonApp().startTimer();
 			SplashActivity.logger.info("<< [NeoComInitialization.doInBackground]");
@@ -144,31 +167,6 @@ public class SplashActivity extends Activity {
 			alternatedir.mkdir();
 		}
 
-		private void doStep01() {
-			// Just check that the files exist and if not load the Api list and their characters.
-			SplashActivity.logger.info(">> [NeoComInitialization.doStep01]");
-			this.updateStateLabel("Checking application database...");
-			// STEP 01. Check required files availability on app directory.
-			this.createAppDir();
-			this.createCacheDirectories();
-			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
-			// STEP 02. Check existence of required files.
-			if (!this.checkAppFile(NeoComAppConnector.getSingleton().getResourceString(R.string.ccpdatabasefilename))) {
-				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(R.string.ccpdatabasefilename);
-			}
-			//			if (AppWideConstants.DEVELOPMENT)
-			//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
-			//				this.copyFromAssets(R.string.apikeysfilename);
-			//				}
-			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
-
-			// Create the login information that later will be requested to the user at the login page.
-			this.updateStateLabel("Loading user data...");
-			AppConnector.getModelStore().accessLoginList();
-			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
-		}
-
 		private void updateStateLabel(final String newLabel) {
 			SplashActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
@@ -180,11 +178,11 @@ public class SplashActivity extends Activity {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger	logger			= Logger.getLogger("SplashActivity");
+	private static Logger		logger			= Logger.getLogger("SplashActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** Shows the current initialization stage. */
-	private TextView			stateLabel	= null;
+	private final TextView	stateLabel	= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
@@ -201,8 +199,8 @@ public class SplashActivity extends Activity {
 		SplashActivity.logger.info(">> [SplashActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_splash);
-		stateLabel = (TextView) this.findViewById(R.id.stateLabel);
-		stateLabel.setTypeface(NeoComApp.daysFace);
+		//		stateLabel = (TextView) this.findViewById(R.id.stateLabel);
+		//		stateLabel.setTypeface(NeoComApp.daysFace);
 		SplashActivity.logger.info("<< [SplashActivity.onCreate]");
 	}
 
@@ -226,7 +224,6 @@ public class SplashActivity extends Activity {
 		//	stateLabel.setText("Instantiating user selected theme...");
 		stateLabel.setText("Checking application database...");
 		stateLabel.invalidate();
-		// Removed all initialization code until new boostraping is ready.
 		new NeoComInitialization(this).execute();
 		SplashActivity.logger.info("<< [SplashActivity.onStart]");
 	}
