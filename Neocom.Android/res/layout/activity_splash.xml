@@ -9,13 +9,13 @@
         android:id="@+id/progress"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/applicationName"
         android:layout_marginBottom="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/stateLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/stateLabel"
         android:indeterminateDrawable="@drawable/progressspinner" >
     </ProgressBar>
 
