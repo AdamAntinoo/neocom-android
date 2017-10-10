@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 
@@ -120,7 +120,7 @@ public class FittingListFragment extends AbstractPagerFragment implements IPager
 	}
 
 	private NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getCurrentPilot();
+		return NeoComModelStore.getSingleton().getCurrentPilot();
 	}
 }
 
@@ -148,7 +148,7 @@ final class FittingListDataSource extends SpecialDataSource {
 	public RootNode collaborate2Model() {
 		FittingListDataSource.logger.info(">> [FittingListDataSource.collaborate2Model]");
 		try {
-			AppModelStore store = AppModelStore.getSingleton();
+			NeoComModelStore store = NeoComModelStore.getSingleton();
 			HashMap<String, Fitting> fitList = store.getFittings();
 			// If the fitting list is empty then show an special message and end the DS.
 			if (fitList.size() < 1) {

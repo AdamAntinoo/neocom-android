@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -108,7 +108,7 @@ public class MarketOrderPart extends EveAbstractPart
 		switch (menuItemIndex) {
 			case R.id.deletemarketOrderActionMenuID:
 				try {
-				 NeoComAppConnector.getSingleton.getDBConnector().getMarketOrderDAO().delete(this.getCastedModel());
+					NeoComAppConnector.getSingleton().getDBConnector().getMarketOrderDAO().delete(this.getCastedModel());
 					// Clear the cache in memory
 					this.getPilot().cleanOrders();
 					// Remove from parent and clear the view to force a redraw.

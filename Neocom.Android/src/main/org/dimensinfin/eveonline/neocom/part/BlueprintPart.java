@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryHeaderRender;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryRender;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4T2InventionRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;
 import android.text.Html;
@@ -268,7 +268,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	// }
 
 	public double getInventionCost() {
-		process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+		process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 				EJobClasses.INVENTION);
 		return process.getJobCost();
 	}
@@ -459,11 +459,11 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 		activity = newActivity;
 		// Set the processor.
 		if (activity == ModelWideConstants.activities.MANUFACTURING) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 					EJobClasses.MANUFACTURE);
 		}
 		if (activity == ModelWideConstants.activities.INVENTION) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 					EJobClasses.INVENTION);
 			// calculateRuns();
 		}

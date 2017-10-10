@@ -39,7 +39,7 @@ import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -244,7 +244,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	public void onReceive(final Context context, final Intent intent) {
 		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]");
 		// Run only if the network is active.
-		if (!NeoComApp.checkNetworkAccess()) return;
+		if (!NeoComAppConnector.getSingleton().checkNetworkAccess()) return;
 		// Or if the service is disables by configuration.
 		if (this.blockedDownload()) return;
 
@@ -290,7 +290,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
-		Activity activity = AppModelStore.getSingleton().getActivity();
+		Activity activity = NeoComModelStore.getSingleton().getActivity();
 		if (null != activity) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {

@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -34,7 +34,7 @@ public class StackByItemDataSource extends AbstractIndustryDataSource {
 	private EveItem						item							= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public StackByItemDataSource(final AppModelStore store) {
+	public StackByItemDataSource(final NeoComModelStore store) {
 		super(store);
 	}
 

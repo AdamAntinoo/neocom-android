@@ -14,7 +14,7 @@ import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.JobListDataSource;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +38,7 @@ public class JobsFragment extends AbstractObsoletePagerFragment {
 	}
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class JobsFragment extends AbstractObsoletePagerFragment {
 		try {
 			if (!_alreadyInitialized) {
 				// Create the datasource and pass it the activity type.
-				JobListDataSource ds = new JobListDataSource(AppModelStore.getSingleton());
+				JobListDataSource ds = new JobListDataSource(NeoComModelStore.getSingleton());
 				ds.setActivityFilter(this.getJobActivity());
 				this.setDataSource(ds);
 				// This fragment has a header. Populate it with the datasource header contents.

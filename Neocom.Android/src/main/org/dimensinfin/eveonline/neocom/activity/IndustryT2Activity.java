@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.fragment.JobActionsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.ManufactureLOMFragment;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -75,23 +75,23 @@ public class IndustryT2Activity extends PilotPagerActivity {
 			final long bpassetid = extras.getLong(AppWideConstants.EExtras.EXTRA_BLUEPRINTID.name());
 			//		final int activity = extras.getInt(AppWideConstants.extras.EXTRA_BLUEPRINTACTIVITY);
 			if (bpassetid > 0) {
-				final NeoComBlueprint blueprint = AppModelStore.getSingleton().getPilot().getAssetsManager()
+				final NeoComBlueprint blueprint = NeoComModelStore.getSingleton().getPilot().getAssetsManager()
 						.searchBlueprintByID(bpassetid);
 				if (null == blueprint) throw new RuntimeException(
 						"RT IndustryT2Activity.onCreate - Unable to continue. Expected blueprint not located.");
 
 				// Initialize the list of assets with the real assets and then remove the resources used by the pending jobs.
-				JobManager.initializeAssets(AppModelStore.getSingleton().getPilot());
+				JobManager.initializeAssets(NeoComModelStore.getSingleton().getPilot());
 				// Create the pages that form this Activity. Each page implemented by a Fragment.
 				int page = 0;
 				//
 				// Create the Manufacture/Invention Job Page.
 				JobActionsFragment frag = new JobActionsFragment();
-				frag.setStore(AppModelStore.getSingleton());
+				frag.setStore(NeoComModelStore.getSingleton());
 				frag.setExtras(extras);
 				this.addPage(frag, page++);
 				// Create the Manufacture/Invention Resources Page.
-				this.addPage(new ManufactureLOMFragment(AppModelStore.getSingleton()).setExtras(extras), page++);
+				this.addPage(new ManufactureLOMFragment(NeoComModelStore.getSingleton()).setExtras(extras), page++);
 			} else
 				throw new RuntimeException(
 						"RT IndustryT2Activity.onCreate - Unable to continue. Required parameters not defined on Extras.");

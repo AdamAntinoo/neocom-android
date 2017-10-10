@@ -15,7 +15,7 @@ import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirector;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;
 
@@ -61,10 +61,10 @@ public class Director extends AbstractViewableNode {
 
 	// TODO the targetActivity should be really replaced bu the Director activity. Just checking if this works
 	public void launchActivity(final NeoComCharacter targetPilot) {
-		final Intent intent = new Intent(AppModelStore.getSingleton().getActivity(), targetActivity.getClass());
+		final Intent intent = new Intent(NeoComModelStore.getSingleton().getActivity(), targetActivity.getClass());
 		// Send the pilot id and transfer it to the next Activity
 		intent.putExtra(EExtras.EXTRA_CAPSULEERID.name(), targetPilot.getCharacterID());
-		AppModelStore.getSingleton().getActivity().startActivity(intent);
+		NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 	}
 }
 

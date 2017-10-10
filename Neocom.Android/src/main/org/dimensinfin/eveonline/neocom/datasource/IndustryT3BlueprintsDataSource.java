@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.LocationIndustryPart;
 import org.dimensinfin.eveonline.neocom.part.TerminatorPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -49,11 +49,11 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 	private static final long													serialVersionUID	= -1904434849082581300L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore															_store						= null;
+	private NeoComModelStore															_store						= null;
 	private final HashMap<Long, LocationIndustryPart>	locations					= new HashMap<Long, LocationIndustryPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryT3BlueprintsDataSource(final AppModelStore store) {
+	public IndustryT3BlueprintsDataSource(final NeoComModelStore store) {
 		if (null != store) {
 			_store = store;
 		}

@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderAnalyticalGroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderPart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -50,7 +50,7 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 	private final ArrayList<AbstractGEFNode>			modelList					= new ArrayList<AbstractGEFNode>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MarketOrdersDataSource(final AppModelStore store) {
+	public MarketOrdersDataSource(final NeoComModelStore store) {
 		super(store);
 	}
 

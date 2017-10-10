@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -101,7 +101,7 @@ public class InventionJobDialog extends DialogFragment {
 		this.initializeViews();
 		this.setupContents();
 		// Calculate the initial values for calculated data.
-		final IJobProcess process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), _blueprint,
+		final IJobProcess process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), _blueprint,
 				EJobClasses.INVENTION);
 		final int jobDuration = process.getCycleDuration();
 		final int bpccount = 1;

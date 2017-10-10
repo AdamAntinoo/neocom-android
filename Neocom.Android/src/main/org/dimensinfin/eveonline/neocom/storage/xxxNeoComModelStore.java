@@ -51,12 +51,12 @@ import android.view.Menu;
  *
  * @author Adam Antinoo
  */
-public class AppModelStore extends AbstractModelStore implements INeoComModelStore {
+public class NeoComModelStore extends AbstractModelStore implements INeoComModelStore {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID	= 8777607802616543118L;
 	private static Logger					logger						= Logger.getLogger("AppModelStore");
-	private static AppModelStore	singleton					= null;
+	private static NeoComModelStore	singleton					= null;
 
 	/**
 	 * Returns the single global instance of the Store to be used as an instance. In case the instance does not
@@ -65,12 +65,12 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 *
 	 * @return the single global instance
 	 */
-	public static AppModelStore getSingleton() {
-		if (null == AppModelStore.singleton) {
+	public static NeoComModelStore getSingleton() {
+		if (null == NeoComModelStore.singleton) {
 			// Initiate the recovery.
-			AppModelStore.initialize();
+			NeoComModelStore.initialize();
 		}
-		return AppModelStore.singleton;
+		return NeoComModelStore.singleton;
 	}
 
 	/**
@@ -78,9 +78,9 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * store file it will process the api list and reload all the character information from scratch.
 	 */
 	public static void initialize() {
-		AppModelStore.logger.info(">> [AppModelStore.initialize]");
+		NeoComModelStore.logger.info(">> [AppModelStore.initialize]");
 		// Create a new from scratch. Read the api key list.
-		AppModelStore.singleton = new AppModelStore(new UserModelPersistenceHandler());
+		NeoComModelStore.singleton = new NeoComModelStore(new UserModelPersistenceHandler());
 		// Load any data from storage and then update the information from CCP.
 		//		AppModelStore.getSingleton().restore();
 		//	AppModelStore.readApiKeys();
@@ -88,10 +88,10 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		// Make sure we get the characters on a thread out of the main one.
 		//	AppModelStore.getSingleton().getCharacters();
 		// Set back the current pilot whose id is stored on the _pilotIdentifier
-		if (AppModelStore.getSingleton()._pilotIdentifier > 0) {
-			AppModelStore.getSingleton().activatePilot(AppModelStore.getSingleton()._pilotIdentifier);
+		if (NeoComModelStore.getSingleton()._pilotIdentifier > 0) {
+			NeoComModelStore.getSingleton().activatePilot(NeoComModelStore.getSingleton()._pilotIdentifier);
 		}
-		AppModelStore.logger.info("<< [AppModelStore.initialize]");
+		NeoComModelStore.logger.info("<< [AppModelStore.initialize]");
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -123,7 +123,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	//	private final long											lastCCPAccessTime	= 0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	private AppModelStore(final IPersistentHandler storageHandler) {
+	private NeoComModelStore(final IPersistentHandler storageHandler) {
 		super();
 		// On creation we can set the proper model persistence handler.
 		try {
@@ -181,7 +181,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 * @param login
 	 */
 	public Login activateLoginIdentifier(final String loginTarget) {
-		AppModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
+		NeoComModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
 		if (null == _loginList) {
 			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
@@ -211,7 +211,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 	 *          id of the character to activate and select for work with.
 	 */
 	public NeoComCharacter activatePilot(final long characterid) {
-		AppModelStore.logger.info(">< [AppModelStore.activatePilot]Id: " + characterid);
+		NeoComModelStore.logger.info(">< [AppModelStore.activatePilot]Id: " + characterid);
 		// If the current pilot is the one searched simplify the search.
 		if ((null != _pilot) && ((_pilot.getCharacterID()) == characterid)) return _pilot;
 		// If the active Login is empty then we do not know where to search.
@@ -370,7 +370,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 		NeoComAppConnector.getSingleton().startChrono();
 		recovered = super.restore();
 		if (recovered) {
-			AppModelStore.logger.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - "
+			NeoComModelStore.logger.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - "
 					+ NeoComAppConnector.getSingleton().timeLapse());
 			return recovered;
 		} else {
@@ -392,7 +392,7 @@ public class AppModelStore extends AbstractModelStore implements INeoComModelSto
 			recovered = true;
 			NeoComAppConnector.getSingleton().startChrono();
 			final boolean state = super.save();
-			AppModelStore.logger.info("~~ Time lapse for APPSTORE[SAVE] - " + NeoComAppConnector.getSingleton().timeLapse());
+			NeoComModelStore.logger.info("~~ Time lapse for APPSTORE[SAVE] - " + NeoComAppConnector.getSingleton().timeLapse());
 			return state;
 		} else
 			return false;

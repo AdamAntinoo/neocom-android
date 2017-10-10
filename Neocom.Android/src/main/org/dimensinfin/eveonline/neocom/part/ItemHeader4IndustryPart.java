@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.render.ItemHeaderRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class ItemHeader4IndustryPart extends MarketDataPart {
@@ -136,7 +136,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 
 	private IJobProcess getJobProcess() {
 		if (null == process) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), new NeoComBlueprint(bpid),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), new NeoComBlueprint(bpid),
 					EJobClasses.MANUFACTURE);
 		}
 		return process;

@@ -24,7 +24,7 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +56,7 @@ public class FittingFragment extends AbstractPagerFragment {
 	}
 
 	public NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getPilot();
+		return NeoComModelStore.getSingleton().getPilot();
 	}
 
 	public String getPilotName() {

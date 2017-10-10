@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.eveonline.neocom.factory.AbstractIndustryDataSource;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractNewDataSource extends AbstractIndustryDataSource {
@@ -19,7 +19,7 @@ public abstract class AbstractNewDataSource extends AbstractIndustryDataSource {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractNewDataSource(final AppModelStore store) {
+	public AbstractNewDataSource(final NeoComModelStore store) {
 		super(store);
 	}
 

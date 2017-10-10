@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -58,7 +58,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 		protected Boolean doInBackground(final Void... entry) {
 			switch (_action) {
 				case R.id.action_updateaccounts:
-					AppModelStore.initialize();
+					NeoComModelStore.getSingleton().initialize();
 					break;
 			}
 			return true;
@@ -77,7 +77,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		final MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.eiabasemenu, menu);
-		AppModelStore.getSingleton().setAppMenu(menu);
+		NeoComModelStore.getSingleton().setAppMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -126,7 +126,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				onConstructionFit.fitRig(26929);
 				onConstructionFit.addCargo(244, 4);
 				onConstructionFit.addCargo(240, 4);
-				AppModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
+				NeoComModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

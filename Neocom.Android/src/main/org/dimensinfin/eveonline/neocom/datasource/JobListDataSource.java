@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.JobPart;
 import org.dimensinfin.eveonline.neocom.part.QueueAnalyticsPart;
 import org.dimensinfin.eveonline.neocom.part.QueuePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -51,13 +51,13 @@ public class JobListDataSource extends AbstractDataSource {
 	private static final long											serialVersionUID	= -199422577570222082L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore													_store						= null;
+	private NeoComModelStore													_store						= null;
 	private int																		_activityFilter		= ModelWideConstants.activities.MANUFACTURING;
 	private DateTime															earliestEndTime		= new DateTime(DateTimeZone.UTC);
 	private final ArrayList<AbstractAndroidPart>	headerContents		= new ArrayList<AbstractAndroidPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public JobListDataSource(final AppModelStore store) {
+	public JobListDataSource(final NeoComModelStore store) {
 		if (null != store) {
 			_store = store;
 		}

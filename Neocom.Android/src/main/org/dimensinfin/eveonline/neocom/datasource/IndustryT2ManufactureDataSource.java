@@ -30,7 +30,7 @@ import org.dimensinfin.eveonline.neocom.model.Skill;
 import org.dimensinfin.eveonline.neocom.part.ActionPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -55,10 +55,10 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 	private BlueprintPart			_bppart						= null;
 	//	private final PagerFragment	_fragment					= null;
 	private final AppContext	_context					= null;
-	private AppModelStore			_store						= null;
+	private NeoComModelStore			_store						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryT2ManufactureDataSource(final AppModelStore store) {
+	public IndustryT2ManufactureDataSource(final NeoComModelStore store) {
 		super();
 		if (null != store) {
 			_store = store;

@@ -32,7 +32,7 @@ import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderAnalyticalGroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderPart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -49,7 +49,7 @@ public class MarketOrdersFragment extends AbstractObsoletePagerFragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -75,7 +75,7 @@ public class MarketOrdersFragment extends AbstractObsoletePagerFragment {
 		Log.i("NEOCOM", ">> MarketOrdersFragment.onStart");
 		try {
 			if (!_alreadyInitialized) {
-				this.setDataSource(new MarketOrdersDataSource(AppModelStore.getSingleton()));
+				this.setDataSource(new MarketOrdersDataSource(NeoComModelStore.getSingleton()));
 			}
 		} catch (final RuntimeException rtex) {
 			Log.e("NEOCOM", "RTEX> MarketOrdersFragment.onStart - " + rtex.getMessage());
@@ -101,12 +101,12 @@ final class MarketOrdersDataSource extends AbstractDataSource {
 	private static final long											serialVersionUID	= -8071069909661621102L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore													_store						= null;
+	private NeoComModelStore													_store						= null;
 	private ArrayList<MarketOrderAnalyticalGroup>	analyticalGroups	= new ArrayList<MarketOrderAnalyticalGroup>();
 	private final ArrayList<AbstractGEFNode>			modelList					= new ArrayList<AbstractGEFNode>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MarketOrdersDataSource(final AppModelStore store) {
+	public MarketOrdersDataSource(final NeoComModelStore store) {
 		super();
 		if (null != store) {
 			_store = store;

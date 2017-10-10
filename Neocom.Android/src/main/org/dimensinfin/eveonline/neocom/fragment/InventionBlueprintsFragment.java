@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2InventionDataSource;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +28,7 @@ public class InventionBlueprintsFragment extends AbstractObsoletePagerFragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class InventionBlueprintsFragment extends AbstractObsoletePagerFragment {
 	public void onStart() {
 		Log.i("NEOCOM", ">> IndustryBlueprintsFragment.onStart");
 		try {
-			AppModelStore store = AppModelStore.getSingleton();
+			NeoComModelStore store = NeoComModelStore.getSingleton();
 			if (!_alreadyInitialized) {
 				this.setDataSource(new IndustryT2InventionDataSource(store));
 			}

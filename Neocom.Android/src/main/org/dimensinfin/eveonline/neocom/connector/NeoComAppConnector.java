@@ -12,8 +12,12 @@ package org.dimensinfin.eveonline.neocom.connector;
 import java.io.File;
 
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.eveonline.neocom.interfaces.INeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
+
+import android.annotation.TargetApi;
+import android.graphics.drawable.Drawable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -53,6 +57,27 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		return _connector.accessAppStorage(resourceString);
 	}
 
+	@TargetApi(12)
+	public void addDrawableToCache(final String key, final Drawable image) {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.addDrawableToCache]> Application connection not defined. Functionality 'addDrawableToCache' disabled.");
+		_connector.addDrawableToCache(key, image);
+	}
+
+	@Override
+	public boolean checkExpiration(final Instant timestamp, final long window) {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.checkExpiration]> Application connection not defined. Functionality 'checkExpiration' disabled.");
+		return _connector.checkExpiration(timestamp, window);
+	}
+
+	@Override
+	public boolean checkExpiration(final long timestamp, final long window) {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.checkExpiration]> Application connection not defined. Functionality 'checkExpiration' disabled.");
+		return _connector.checkExpiration(timestamp, window);
+	}
+
 	@Override
 	public String getAppFilePath(final int fileresourceid) {
 		if (null == _connector) throw new RuntimeException(
@@ -61,17 +86,66 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 	}
 
 	@Override
-	public AndroidDatabaseConnector getDBConnector() {
+	public String getAppFilePath(final String fileresourceName) {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.getAppFilePath]> Application connection not defined. Functionality 'getAppFilePath' disabled.");
+		return _connector.getAppFilePath(fileresourceName);
+	}
+
+	@Override
+	public ICacheConnector getCacheConnector() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.getCacheConnector]> Application connection not defined. Functionality 'getCacheConnector' disabled.");
+		return _connector.getCacheConnector();
+	}
+
+	@Override
+	public ICCPDatabaseConnector getCCPDBConnector() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.getCCPDBConnector]> Application connection not defined. Functionality 'getCCPDBConnector' disabled.");
+		return _connector.getCCPDBConnector();
+	}
+
+	@Override
+	public IDatabaseConnector getDBConnector() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.getDBConnector]> Application connection not defined. Functionality 'getDBConnector' disabled.");
 		return _connector.getDBConnector();
 	}
 
 	@Override
-	public NeoComModelStore getModelStore() {
+	public INeoComModelStore getModelStore() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.getModelStore]> Application connection not defined. Functionality 'getModelStore' disabled.");
 		return _connector.getModelStore();
+	}
+
+	@Override
+	public IStorageConnector getStorageConnector() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.getStorageConnector]> Application connection not defined. Functionality 'getStorageConnector' disabled.");
+		return _connector.getStorageConnector();
+	}
+
+	@Override
+	public void startChrono() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.startChrono]> Application connection not defined. Functionality 'startChrono' disabled.");
+		_connector.startChrono();
+	}
+
+	@Override
+	public void startTimer() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.startTimer]> Application connection not defined. Functionality 'startTimer' disabled.");
+		_connector.startTimer();
+	}
+
+	@Override
+	public Duration timeLapse() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.timeLapse]> Application connection not defined. Functionality 'timeLapse' disabled.");
+		return _connector.timeLapse();
 	}
 }
 

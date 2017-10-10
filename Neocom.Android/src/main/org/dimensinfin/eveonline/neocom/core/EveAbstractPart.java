@@ -16,7 +16,7 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.DefaultRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -167,7 +167,7 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 	}
 
 	protected NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getPilot();
+		return NeoComModelStore.getSingleton().getPilot();
 	}
 
 	@Override

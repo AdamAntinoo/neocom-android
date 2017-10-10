@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import org.dimensinfin.core.model.IModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 
@@ -34,14 +33,14 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	private static Logger			logger						= Logger.getLogger("UserModelPersistenceHandler");	//$NON-NLS-1$
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore			store;
+	private NeoComModelStore			store;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public UserModelPersistenceHandler() {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AppModelStore getStore() {
+	public NeoComModelStore getStore() {
 		return store;
 	}
 
@@ -117,7 +116,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 
 	public void setStore(final IModelStore newStore) {
 		if (null != newStore) {
-			store = (AppModelStore) newStore;
+			store = (NeoComModelStore) newStore;
 		}
 	}
 

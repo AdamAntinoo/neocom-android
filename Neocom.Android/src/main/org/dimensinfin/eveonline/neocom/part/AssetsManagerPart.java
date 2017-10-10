@@ -24,7 +24,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.AssetsManagerRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;
 import android.view.View;
@@ -111,7 +111,7 @@ public class AssetsManagerPart extends EveAbstractPart
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.ASSETS_MANAGER.name());
-			AppModelStore.getSingleton().getActivity().startActivity(intent);
+			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
 		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}

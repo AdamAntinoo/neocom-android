@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.factory.IndustryLOMResourcesDataSource;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -30,16 +30,16 @@ public class ManufactureLOMFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore	_store	= null;
+	private NeoComModelStore	_store	= null;
 	private Bundle				_extras	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ManufactureLOMFragment(final AppModelStore store) {
+	public ManufactureLOMFragment(final NeoComModelStore store) {
 		_store = store;
 	}
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override

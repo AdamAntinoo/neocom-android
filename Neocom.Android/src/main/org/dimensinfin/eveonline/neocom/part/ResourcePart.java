@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.render.OutputResourceRender;
 import org.dimensinfin.eveonline.neocom.render.Resource4MarketOrderRender;
 import org.dimensinfin.eveonline.neocom.render.ResourceRender;
 import org.dimensinfin.eveonline.neocom.render.SkillResourceRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.DateTime;
 
 import android.text.Html;
@@ -137,7 +137,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	public double getManufactureCost() {
 		int moduleid = this.getCastedModel().getTypeID();
 		int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
-		IJobProcess process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(),
+		IJobProcess process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(),
 				new NeoComBlueprint(blueprintid), EJobClasses.MANUFACTURE);
 		return process.getJobCost();
 	}
@@ -213,7 +213,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 		if (null == process) {
 			int moduleid = this.getCastedModel().getTypeID();
 			int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), new NeoComBlueprint(blueprintid),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), new NeoComBlueprint(blueprintid),
 					EJobClasses.MANUFACTURE);
 		}
 		return process;

@@ -170,7 +170,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	 */
 	public boolean onContextItemSelected(final MenuItem item) {
 		try {
-			NeoComAppConnector.getSingleton.getDBConnector().getJobDAO().delete(this.getCastedModel());
+			NeoComAppConnector.getSingleton().getDBConnector().getJobDAO().delete(this.getCastedModel());
 			// Clear the cache in memory
 			this.getPilot().cleanJobs();
 			this.fireStructureChange(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH, this, this);

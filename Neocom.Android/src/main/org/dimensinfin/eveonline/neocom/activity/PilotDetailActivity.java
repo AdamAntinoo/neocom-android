@@ -33,7 +33,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 
@@ -75,7 +75,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 		super.onCreate(savedInstanceState);
 		try {
 			// Register this Activity as the current active Activity.
-			AppModelStore.getSingleton().activateActivity(this);
+			NeoComModelStore.getSingleton().activateActivity(this);
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
 			if (null != savedInstanceState) {

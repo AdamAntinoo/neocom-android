@@ -25,7 +25,7 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -68,7 +68,7 @@ public class ShipsDataSource extends SpecialDataSource {
 		SpecialDataSource.logger.info(">> [ShipsDatasource.collaborate2Model]");
 		try {
 			// Get the complete list of ships. Compare it to the current list if it exists.
-			final AssetsManager manager = AppModelStore.getSingleton().getPilot().getAssetsManager();
+			final AssetsManager manager = NeoComModelStore.getSingleton().getPilot().getAssetsManager();
 			// Depending on the Setting group Locations into Regions
 			Collection<NeoComAsset> assetsShips = manager.accessShips();
 			// Process the list into the classifiers.
@@ -219,7 +219,7 @@ public class ShipsDataSource extends SpecialDataSource {
 
 	private boolean ifGroupLocations() {
 		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
+				.getDefaultSharedPreferences(NeoComModelStore.getSingleton().getActivity());
 		final String locLimitString = prefs.getString(AppWideConstants.preference.PREF_LOCATIONSLIMIT,
 				NeoComAppConnector.getSingleton().getResourceString(R.string.pref_numberOfLocations_default));
 		// Check for the special value of unlimited.

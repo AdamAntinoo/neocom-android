@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.TaskPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -94,7 +94,7 @@ public class BuildDialog extends DialogFragment {
 		int typeID = _taskPart.getItem().getTypeID();
 		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
 		_blueprint = new NeoComBlueprint(bpid);
-		IJobProcess buildProcess = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), _blueprint,
+		IJobProcess buildProcess = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), _blueprint,
 				EJobClasses.MANUFACTURE);
 		_runsBuild.setText(_taskPart.getQuantity());
 		_runs = _taskPart.getQuantity();

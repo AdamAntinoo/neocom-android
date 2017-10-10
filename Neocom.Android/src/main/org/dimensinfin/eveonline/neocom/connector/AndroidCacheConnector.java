@@ -34,7 +34,7 @@ import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -146,7 +146,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 				urlConn = new URL(reference[0]).openConnection();
 				is = urlConn.getInputStream();
 				source = Drawable.createFromStream(is, "src");
-				NeoComAppConnector.getSingleton().getCacheConnector().addDrawableToCache(reference[0], source);
+				NeoComAppConnector.getSingleton().addDrawableToCache(reference[0], source);
 				return source;
 			} catch (final Exception ex) {
 			} finally {
@@ -408,7 +408,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		if (NeoComApp.marketCounter < 0) {
 			NeoComApp.marketCounter = 0;
 		}
-		final Activity activity = AppModelStore.getSingleton().getActivity();
+		final Activity activity = NeoComModelStore.getSingleton().getActivity();
 		if (null != activity) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
@@ -425,7 +425,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		if (NeoComApp.topCounter < 0) {
 			NeoComApp.topCounter = 0;
 		}
-		final Activity activity = AppModelStore.getSingleton().getActivity();
+		final Activity activity = NeoComModelStore.getSingleton().getActivity();
 		if (null != activity) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
@@ -702,9 +702,10 @@ public class AndroidCacheConnector implements ICacheConnector {
 		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
 		// return entry;
 		// else {
-		if (NeoComAppConnector.getSingleton().checkExpiration(entry.getTS(), ModelWideConstants.HOURS2)) if (true) {
+		if (NeoComAppConnector.getSingleton().checkExpiration(entry.getTS().getMillis(), ModelWideConstants.HOURS2))
+			if (true) {
 			NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
-		}
+			}
 		return entry;
 		// }
 	}

@@ -24,7 +24,7 @@ import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 /**
  * This DataSource will need some inputs to create the list of actions to be performed to complete the number
@@ -168,7 +168,7 @@ public class FittingDataSource extends SpecialDataSource {
 	 * @return
 	 */
 	private void initDataSourceModel() {
-		AppModelStore store = AppModelStore.getSingleton();
+		NeoComModelStore store = NeoComModelStore.getSingleton();
 		long capsuleerId = this.getParameterLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		String fittingLabel = this.getParameterString(AppWideConstants.EExtras.EXTRA_FITTINGID.name());
 		final AssetsManager manager = store.getPilot().getAssetsManager();

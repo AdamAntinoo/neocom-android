@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryJobActionsDataSource;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -29,13 +29,13 @@ public class JobActionsFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore	_store	= null;
+	private NeoComModelStore	_store	= null;
 	private Bundle				_extras	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class JobActionsFragment extends AbstractObsoletePagerFragment {
 		return this;
 	}
 
-	public void setStore(final AppModelStore store) {
+	public void setStore(final NeoComModelStore store) {
 		_store = store;
 	}
 }

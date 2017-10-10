@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,13 +32,14 @@ import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
+import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
-import org.dimensinfin.eveonline.neocom.interfaces.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.interfaces.IWeigthedNode;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -49,14 +51,16 @@ import org.dimensinfin.eveonline.neocom.part.ResourcePart;
 import org.dimensinfin.eveonline.neocom.part.ShipPart;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -64,6 +68,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -581,6 +586,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	private Class<?>										_firstActivity		= null;
 
+	private Instant											chrono						= null;
 	private AndroidStorageConnector			storage						= null;
 	private AndroidCCPDatabaseConnector	dbCCPConnector		= null;
 	private AndroidDatabaseConnector		dbNeocomConnector	= null;
@@ -617,6 +623,41 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	public void addCharacterUpdateRequest(final long characterID) {
 		this.getCacheConnector().addCharacterUpdateRequest(characterID);
+	}
+
+	@TargetApi(12)
+	public void addDrawableToCache(final String key, final Drawable image) {
+		ICacheConnector cache = NeoComAppConnector.getSingleton().getCacheConnector();
+		if (cache instanceof AndroidCacheConnector) {
+			((AndroidCacheConnector) cache).addDrawableToCache(key, image);
+		} else
+			throw new RuntimeException(
+					"RTEX [GymAppConnector.addDrawableToCache]> Application connection not defined. Functionality 'addDrawableToCache' disabled.");
+	}
+
+	/**
+	 * Checks that the current parameter timestamp is still on the frame of the window.
+	 * 
+	 * @param timestamp
+	 *          the current and last timestamp of the object.
+	 * @param window
+	 *          time span window in milliseconds.
+	 */
+	@Override
+	public boolean checkExpiration(final Instant timestamp, final long window) {
+		if (null == timestamp) return true;
+		return this.checkExpiration(timestamp.getMillis(), window);
+	}
+
+	@Override
+	public boolean checkExpiration(final long timestamp, final long window) {
+		if (0 == timestamp) return true;
+		final long now = GregorianCalendar.getInstance().getTimeInMillis();
+		final long endWindow = timestamp + window;
+		if (now < endWindow)
+			return false;
+		else
+			return true;
 	}
 
 	@Deprecated
@@ -745,6 +786,11 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		this.getDBConnector().openAppDataBase();
 	}
 
+	@Override
+	public void startChrono() {
+		chrono = new Instant();
+	}
+
 	/**
 	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
 	 * checking elements that should be updated because they are obsolete. New updates will be launched as
@@ -757,6 +803,11 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		}
 	}
 
+	@Override
+	public Duration timeLapse() {
+		return new Duration(chrono, new Instant());
+	}
+
 	/**
 	 * Gets the menu context and updates the background progress indicator with the counters.
 	 * 
@@ -764,10 +815,10 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	private void startProgress(final double countIndicator) {
 		// Activate menu icon of progress.
-		final Menu menu = AppModelStore.getSingleton().getAppMenu();
+		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
 		if (null != menu) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
-			final LayoutInflater mInflater = (LayoutInflater) AppModelStore.getSingleton().getActivity()
+			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {
@@ -792,10 +843,10 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	private void stopProgress() {
 		// Clear the update progress.
-		final Menu menu = AppModelStore.getSingleton().getAppMenu();
+		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
 		if (null != menu) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
-			final LayoutInflater mInflater = (LayoutInflater) AppModelStore.getSingleton().getActivity()
+			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {

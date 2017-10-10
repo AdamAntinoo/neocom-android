@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -127,17 +127,17 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 
 	@Override
 	protected void setHeaderContents() {
-		IPart pilotPart = this.getFactory().createPart(AppModelStore.getSingleton().getPilot());
+		IPart pilotPart = this.getFactory().createPart(NeoComModelStore.getSingleton().getPilot());
 		((AbstractPropertyChanger) pilotPart).addPropertyChangeListener(this.getDataSource());
 		this.addtoHeader((AbstractAndroidPart) pilotPart);
 	}
 
 	private NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getCurrentPilot();
+		return NeoComModelStore.getSingleton().getCurrentPilot();
 	}
 
 	private String getPilotName() {
-		return AppModelStore.getSingleton().getCurrentPilot().getName();
+		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
 	}
 
 	/**

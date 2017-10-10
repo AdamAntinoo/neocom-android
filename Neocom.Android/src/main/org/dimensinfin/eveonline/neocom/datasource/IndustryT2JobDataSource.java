@@ -32,7 +32,7 @@ import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.JobTimePart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -56,14 +56,14 @@ public class IndustryT2JobDataSource extends AbstractDataSource {
 	private static final long	serialVersionUID	= -1904434849082581300L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore			_store						= null;
+	private NeoComModelStore			_store						= null;
 	private int								_flavor						= AppWideConstants.fragment.FRAGMENT_DEFAULTID_EMPTY;
 	private BlueprintPart			_bppart						= null;
 	//	private final PagerFragment	_fragment					= null;
 	private final AppContext	_context					= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryT2JobDataSource(final AppModelStore store, final int flavor) {
+	public IndustryT2JobDataSource(final NeoComModelStore store, final int flavor) {
 		if (null != store) {
 			_store = store;
 		}

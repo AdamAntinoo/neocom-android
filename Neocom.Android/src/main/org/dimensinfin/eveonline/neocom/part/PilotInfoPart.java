@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.render.PilotInfoHolder;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -111,7 +111,7 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-			AppModelStore.getSingleton().getActivity().startActivity(intent);
+			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
 		PilotInfoPart.logger.info("<< [PilotInfoPart.onClick]");
 	}

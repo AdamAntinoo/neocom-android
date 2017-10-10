@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT1BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT3BlueprintsDataSource;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +33,7 @@ public class IndustryBlueprintsFragment extends AbstractObsoletePagerFragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	public String getPilotName() {
-		return AppModelStore.getSingleton().getPilot().getName();
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class IndustryBlueprintsFragment extends AbstractObsoletePagerFragment {
 		if (!_alreadyInitialized) {
 			try {
 				// Create the right blueprint list depending on the parametrized tech.
-				AppModelStore store = AppModelStore.getSingleton();
+				NeoComModelStore store = NeoComModelStore.getSingleton();
 				if (_tech.equalsIgnoreCase(ModelWideConstants.eveglobal.TechIII)) {
 					this.setDataSource(new IndustryT3BlueprintsDataSource(store));
 				}

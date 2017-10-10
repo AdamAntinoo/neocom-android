@@ -17,18 +17,18 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractIndustryDataSource extends AbstractDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -774764072513063457L;
 	// - F I E L D - S E C T I O N ............................................................................
-	protected AppModelStore		_store						= null;
+	protected NeoComModelStore		_store						= null;
 	protected GroupPart				_output						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractIndustryDataSource(final AppModelStore store) {
+	public AbstractIndustryDataSource(final NeoComModelStore store) {
 		super();
 		if (null != store) {
 			_store = store;

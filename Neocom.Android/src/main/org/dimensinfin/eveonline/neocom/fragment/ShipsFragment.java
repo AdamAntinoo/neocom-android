@@ -19,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
 import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class ShipsFragment extends AbstractPagerFragment {
@@ -94,11 +94,11 @@ public class ShipsFragment extends AbstractPagerFragment {
 	}
 
 	private NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getCurrentPilot();
+		return NeoComModelStore.getSingleton().getCurrentPilot();
 	}
 
 	private String getPilotName() {
-		return AppModelStore.getSingleton().getCurrentPilot().getName();
+		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
 	}
 }
 

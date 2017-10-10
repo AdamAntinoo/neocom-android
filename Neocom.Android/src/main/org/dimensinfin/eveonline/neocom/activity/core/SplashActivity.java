@@ -177,11 +177,11 @@ public class SplashActivity extends Activity {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger		logger			= Logger.getLogger("SplashActivity");
+	private static Logger	logger			= Logger.getLogger("SplashActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** Shows the current initialization stage. */
-	private final TextView	stateLabel	= null;
+	private TextView			stateLabel	= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
@@ -198,7 +198,7 @@ public class SplashActivity extends Activity {
 		SplashActivity.logger.info(">> [SplashActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_splash);
-		//		stateLabel = (TextView) this.findViewById(R.id.stateLabel);
+		stateLabel = (TextView) this.findViewById(R.id.stateLabel);
 		//		stateLabel.setTypeface(NeoComApp.daysFace);
 		SplashActivity.logger.info("<< [SplashActivity.onCreate]");
 	}

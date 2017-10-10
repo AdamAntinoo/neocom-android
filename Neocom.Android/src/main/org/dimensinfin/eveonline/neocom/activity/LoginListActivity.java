@@ -27,12 +27,12 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 
@@ -71,7 +71,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			int page = 0;
 			// Register this Activity as the current active Activity.
-			AppModelStore.getSingleton().activateActivity(this);
+			NeoComModelStore.getSingleton().activateActivity(this);
 			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger.severe("[PilotListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());

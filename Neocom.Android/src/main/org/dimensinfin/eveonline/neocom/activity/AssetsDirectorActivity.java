@@ -38,7 +38,7 @@ import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 
@@ -89,7 +89,7 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 		super.onCreate(savedInstanceState);
 		try {
 			// Register this Activity as the current active Activity.
-			AppModelStore.getSingleton().activateActivity(this);
+			NeoComModelStore.getSingleton().activateActivity(this);
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
 			if (null != savedInstanceState) {
@@ -402,7 +402,7 @@ final class AssetsFragment extends AbstractPagerFragment {
 	}
 
 	private String getPilotName() {
-		return AppModelStore.getSingleton().getCurrentPilot().getName();
+		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
 	}
 }
 
