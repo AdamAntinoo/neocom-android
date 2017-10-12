@@ -11,9 +11,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
-import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
@@ -29,11 +27,12 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
+import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -43,42 +42,18 @@ import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import android.os.Bundle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class AssetsDirectorActivity extends AbstractPagerActivity {
-	public enum EAssetVariants {
-		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_MATERIALS
-	}
-
+public class AssetsDirectorActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	public static Logger	logger			= Logger.getLogger("AssetsDirectorActivity");
+	//	public static Logger	logger			= Logger.getLogger("AssetsDirectorActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String				loginid			= null;
-	private long					characterid	= -1;
-	private EManagerType	manager			= EManagerType.ASSETS_MANAGER;
+	private String	loginid			= null;
+	private long		characterid	= -1;
+	//	private EManagerType	manager			= EManagerType.ASSETS_MANAGER;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	//	/**
-	//	 * Checks if there are the conditions to activate this particular manager. Each one will have it different
-	//	 * rules to reach the activation point.<br>
-	//	 * The BPOManager need that there are at least one BPO on the list of assets of the pilot.
-	//	 */
-	//	public boolean checkActivation(final NeoComCharacter checkPilot) {
-	//		if (checkPilot.getAssetCount() > 0)
-	//			return true;
-	//		else
-	//			return false;
-	//	}
-	//
-	//	public int getIconReferenceActive() {
-	//		return R.drawable.assets;
-	//	}
-	//
-	//	public int getIconReferenceInactive() {
-	//		return R.drawable.assetsdimmed;
-	//	}
-
 	public String getName() {
 		return "Assets Manager";
 	}
@@ -87,6 +62,8 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		AssetsDirectorActivity.logger.info(">> [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
+		// Disable go home for this activity since this is home.
+		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);
@@ -96,17 +73,14 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 				extras = savedInstanceState;
 				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-				manager = EManagerType.valueOf(savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
 			} else {
 				extras = this.getIntent().getExtras();
 				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-				String managerName = extras.getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name());
-				manager = EManagerType.valueOf(managerName);
 			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			this.addPage(new AssetsFragment().setVariant(EAssetVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
 			//			this.addPage(new AssetsFragment().setVariant(EAssetVariants.ASSETS_MATERIALS.name()).setExtras(extras), page++);
 		} catch (Exception rtex) {
 			AssetsDirectorActivity.logger.warning("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage());
@@ -122,14 +96,13 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
 		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		manager = EManagerType.valueOf(savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	/**
 	 * Save the extra parameters information to be able to restore the page to their same state. There is no
 	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
-	 * recondtruct the AppModel state.
+	 * reconstruct the AppModel state.
 	 *
 	 */
 	@Override
@@ -138,7 +111,6 @@ public class AssetsDirectorActivity extends AbstractPagerActivity {
 		// Save the extra parameters information to be able to restore the page to their same state.
 		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
 		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
-		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), manager.name());
 	}
 }
 
@@ -310,6 +282,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		if (!assetsMan.isInitialized()) {
 			assetsMan.initialize();
 		}
+		// REFACTOR This is an special case for Android until I solver the possibility to load data on the fly.
 		assetsMan.accessAllAssets();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
@@ -318,7 +291,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		for (Long key : regs.keySet()) {
 			_dataModelRoot.addChild(regs.get(key));
 			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
-					+ regs.get(key).getContents() + "' to the _dataModelRoot");
+					+ regs.get(key).getLocations() + "' to the _dataModelRoot");
 		}
 		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 		return _dataModelRoot;
@@ -347,10 +320,10 @@ final class AssetsFragment extends AbstractPagerFragment {
 	@Override
 	public String getSubtitle() {
 		String st = "";
-		if (this.getVariant() == EAssetVariants.ASSETS_BYLOCATION.name()) {
+		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
 			st = "ASSETS - By Location";
 		}
-		if (this.getVariant() == EAssetVariants.ASSETS_MATERIALS.name()) {
+		if (this.getVariant() == ENeoComVariants.ASSETS_MATERIALS.name()) {
 			st = "ASSETS - Materials";
 		}
 		return st;
@@ -376,7 +349,7 @@ final class AssetsFragment extends AbstractPagerFragment {
 				.addIdentifier(characterid).addIdentifier(manager.name());
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;
-		if (this.getVariant() == EAssetVariants.ASSETS_BYLOCATION.name()) {
+		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
 			generator = ModelGeneratorStore
 					.registerGenerator(new AssetsByLocationGenerator(locator, this.getVariant(), loginid, characterid, manager));
 		}

@@ -61,6 +61,7 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 	@Override
 	public ArrayList<IPart> collaborate2View() {
 		ArrayList<IPart> result = new ArrayList<IPart>();
+		result.add(this);
 		return result;
 	}
 

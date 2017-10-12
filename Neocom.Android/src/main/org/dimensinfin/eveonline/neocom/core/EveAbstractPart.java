@@ -84,26 +84,6 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 		super(model);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public String generatePriceString(final double price, final boolean compress, final boolean addSuffix) {
-		// Generate different formats depending on the quantity and the compress flag.
-		// Get rid of negative numbers.
-		if (compress) {
-			if (Math.abs(price) > 1200000000.0) if (addSuffix)
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
-			else
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
-			if (Math.abs(price) > 12000000.0) if (addSuffix)
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
-			else
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
-		}
-		if (addSuffix)
-			return EveAbstractPart.priceFormatter.format(price) + " ISK";
-		else
-			return EveAbstractPart.priceFormatter.format(price);
-	}
-
 	protected Spanned colorFormatLocation(final EveLocation location) {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = location.getSecurityValue();
@@ -148,6 +128,26 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 			timeLeftCountdown.appendMinuteOfHour(2).appendLiteral("M ").appendSecondOfMinute(2).appendLiteral('S');
 		}
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	protected String generatePriceString(final double price, final boolean compress, final boolean addSuffix) {
+		// Generate different formats depending on the quantity and the compress flag.
+		// Get rid of negative numbers.
+		if (compress) {
+			if (Math.abs(price) > 1200000000.0) if (addSuffix)
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
+			else
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
+			if (Math.abs(price) > 12000000.0) if (addSuffix)
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
+			else
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
+		}
+		if (addSuffix)
+			return EveAbstractPart.priceFormatter.format(price) + " ISK";
+		else
+			return EveAbstractPart.priceFormatter.format(price);
 	}
 
 	protected String generateSecurityColor(double sec, final String data) {

@@ -15,7 +15,6 @@ import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
@@ -23,12 +22,14 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.RegionHolder;
+import org.dimensinfin.eveonline.neocom.model.Region;
+import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
 
 import android.view.View;
 import android.view.View.OnClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class RegionPart extends AbstractAndroidPart implements INamedPart, OnClickListener {
+public class RegionPart extends AExtendedPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID		= -7696249781992547826L;
 	//	private static Logger					logger							= Logger.getLogger("RegionPart");
@@ -50,8 +51,8 @@ public class RegionPart extends AbstractAndroidPart implements INamedPart, OnCli
 		return this.getCastedModel().getTitle();
 	}
 
-	public Separator getCastedModel() {
-		return (Separator) this.getModel();
+	public Region getCastedModel() {
+		return (Region) this.getModel();
 	}
 
 	@Override
