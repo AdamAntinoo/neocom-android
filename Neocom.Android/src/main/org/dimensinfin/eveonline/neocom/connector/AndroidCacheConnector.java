@@ -702,7 +702,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		// if (side.equalsIgnoreCase(ModelWideConstants.marketSide.CALCULATE))
 		// return entry;
 		// else {
-		if (NeoComAppConnector.getSingleton().checkExpiration(entry.getTS().getMillis(), ModelWideConstants.HOURS2))
+		if (NeoComAppConnector.getSingleton().checkExpiration(entry.getTS().getMillis(), ModelWideConstants.HOURS24))
 			if (true) {
 			NeoComAppConnector.getSingleton().getCacheConnector().addMarketDataRequest(itemID);
 			}

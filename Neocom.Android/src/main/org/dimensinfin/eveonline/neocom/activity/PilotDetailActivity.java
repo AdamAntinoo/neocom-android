@@ -73,6 +73,8 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [PilotDetailActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
+		// Disable go home for this activity since this is home.
+		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);
@@ -111,7 +113,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	/**
 	 * Save the extra parameters information to be able to restore the page to their same state. There is no
 	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
-	 * recondtruct the AppModel state.
+	 * reconstruct the AppModel state.
 	 *
 	 */
 	@Override

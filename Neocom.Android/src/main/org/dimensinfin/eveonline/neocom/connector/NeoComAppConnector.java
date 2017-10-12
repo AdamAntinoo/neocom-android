@@ -64,7 +64,6 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		_connector.addDrawableToCache(key, image);
 	}
 
-	@Override
 	public boolean checkExpiration(final Instant timestamp, final long window) {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.checkExpiration]> Application connection not defined. Functionality 'checkExpiration' disabled.");
@@ -127,7 +126,6 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		return _connector.getStorageConnector();
 	}
 
-	@Override
 	public void startChrono() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.startChrono]> Application connection not defined. Functionality 'startChrono' disabled.");
@@ -141,7 +139,6 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		_connector.startTimer();
 	}
 
-	@Override
 	public Duration timeLapse() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.timeLapse]> Application connection not defined. Functionality 'timeLapse' disabled.");

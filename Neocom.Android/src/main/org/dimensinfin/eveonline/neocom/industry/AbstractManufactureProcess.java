@@ -204,7 +204,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	protected ArrayList<NeoComAsset> getAsset4Type(final int typeID) {
 		ArrayList<NeoComAsset> hit = industryAssetsManager.assetCache.get(Long.valueOf(typeID));
 		if (null == hit) {
-			hit = NeoComAppConnector.getSingleton().getDBConnector().searchAsset4Type(pilot.getCharacterID(), typeID);
+			hit = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton().getDBConnector()
+					.searchAsset4Type(pilot.getCharacterID(), typeID);
 			industryAssetsManager.assetCache.put(Long.valueOf(typeID), hit);
 		}
 		return hit;
@@ -313,7 +314,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		final int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(itemID);
 		// Check if there is a blueprint of this type on the belongings for this character.
 		boolean blueprintExists = false;
-		final ArrayList<NeoComAsset> bpsofType = NeoComAppConnector.getSingleton().getDBConnector()
+		final ArrayList<NeoComAsset> bpsofType = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton().getDBConnector()
 				.searchAsset4Type(this.getPilot().getCharacterID(), bpid);
 		EveLocation loc = manufactureLocation;
 		if (bpsofType.size() > 0) {

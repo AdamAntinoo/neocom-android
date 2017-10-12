@@ -241,13 +241,13 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 				final NeoComAsset asset = tasks.get(0).getReferencedAsset();
 				// Check this is a T2 blueprint and then get its T1 version.
 				if (asset.getTech().equalsIgnoreCase(ModelWideConstants.eveglobal.TechII)) {
-					final ArrayList<Integer> ids = NeoComAppConnector.getSingleton().getDBConnector()
+					final ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
 							.searchInventionableBlueprints(Integer.valueOf(asset.getTypeID()).toString());
 					// The first element is the blueprint that invents the target.
 					// Now search for an asset of that type.
 					final Integer t1bpid = ids.get(0);
-					final ArrayList<NeoComAsset> targetbpassetid = NeoComAppConnector.getSingleton().getDBConnector()
-							.searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
+					final ArrayList<NeoComAsset> targetbpassetid = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton()
+							.getDBConnector().searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
 					if (targetbpassetid.size() > 0) {
 						final NeoComAsset targetAsset = targetbpassetid.get(0);
 						final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);

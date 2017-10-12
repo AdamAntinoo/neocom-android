@@ -84,7 +84,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	 */
 	public String get_inventionCost() {
 		// Locate T1 blueprints.
-		ArrayList<Integer> ids = NeoComAppConnector.getSingleton().getDBConnector()
+		ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
 				.searchInventionableBlueprints(Integer.valueOf(this.getCastedModel().getTypeID()).toString());
 		// Get access to the Invention process.
 		IJobProcess inventionProcess = JobManager.generateJobProcess(this.getPilot(), new NeoComBlueprint(ids.get(0)),
@@ -213,8 +213,8 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 		if (null == process) {
 			int moduleid = this.getCastedModel().getTypeID();
 			int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
-			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), new NeoComBlueprint(blueprintid),
-					EJobClasses.MANUFACTURE);
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(),
+					new NeoComBlueprint(blueprintid), EJobClasses.MANUFACTURE);
 		}
 		return process;
 	}
