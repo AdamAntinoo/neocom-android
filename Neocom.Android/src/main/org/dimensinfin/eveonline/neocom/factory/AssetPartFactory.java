@@ -52,8 +52,8 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart(final AbstractComplexNode node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (node instanceof Region) {
-			IPart part = new RegionPart((Separator) node).setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode())
-					.setFactory(this);
+			IPart part = new RegionPart((Region) node).setFactory(this)
+					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 			return part;
 		}
 		if (node instanceof EveLocation) {

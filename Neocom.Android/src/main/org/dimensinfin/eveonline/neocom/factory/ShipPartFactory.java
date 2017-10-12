@@ -53,7 +53,7 @@ public class ShipPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart(final AbstractComplexNode node) {
 		ShipPartFactory.logger.info("-- [ShipPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (node instanceof Region) {
-			IPart part = new RegionPart((Separator) node).setFactory(this)
+			IPart part = new RegionPart((Region) node).setFactory(this)
 					.setRenderMode(EShipsVariants.valueOf(this.getVariant()).hashCode());
 			return part;
 		}

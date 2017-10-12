@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Vector;
 
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -38,7 +37,7 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public RegionPart(final Separator region) {
+	public RegionPart(final Region region) {
 		super(region);
 	}
 
@@ -51,6 +50,7 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 		return this.getCastedModel().getTitle();
 	}
 
+	@Override
 	public Region getCastedModel() {
 		return (Region) this.getModel();
 	}
