@@ -2,15 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/neocompanelborderorange" >
-
-    <ImageView
-        android:id="@+id/rightArrow"
-        style="@style/RightArrow" />
+    android:background="@drawable/panelborderorange" >
 
     <ImageView
         android:id="@+id/itemIcon"
-        style="@style/ItemIconStyle" />
+        style="@style/ItemIcon.Style.Size32"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/region" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/imageview_defaultcontent"
+        android:padding="-4dp"
+        android:src="@drawable/arrowleft" />
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/locationRegion"
@@ -123,6 +132,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="90dp"
+                android:visibility="gone"
                 android:orientation="vertical" >
 
                 <org.dimensinfin.eveonline.neocom.core.Din1451TextView
@@ -147,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
+                android:visibility="gone"
                 android:layout_toLeftOf="@+id/valueLabelBlock"
                 android:orientation="vertical" >
 

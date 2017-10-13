@@ -57,24 +57,20 @@ import android.database.sqlite.SQLiteException;
 import android.os.Environment;
 import android.util.Log;
 import android.util.SparseArray;
-import net.nikr.eve.jeveasset.data.MyLocation;
-import net.nikr.eve.jeveasset.data.StaticData;
-import net.nikr.eve.jeveasset.gui.tabs.assets.MyAsset;
-import net.nikr.eve.jeveasset.io.online.CitadelGetter;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AndroidDatabaseConnector implements IDatabaseConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	public static Logger				logger										= Logger.getLogger("AndroidDatabaseConnector");
+	public static Logger											logger										= Logger.getLogger("AndroidDatabaseConnector");
 
 	//	protected static String												DATABASE_NAME							= "neocom-v.r.db";
 	//	protected static int													DATABASE_VERSION					= 010;
 
-	private static final String	SELECT_SCHEMATICS_INFO		= "SELECT pstms.typeID, pstms.quantity, pstms.isInput"
+	private static final String								SELECT_SCHEMATICS_INFO		= "SELECT pstms.typeID, pstms.quantity, pstms.isInput"
 			+ " FROM   planetSchematicsTypeMap pstmt, planetSchematicsTypeMap pstms" + " WHERE  pstmt.typeID = ?"
 			+ " AND    pstmt.isInput = 0" + " AND    pstms.schematicID = pstmt.schematicID";
-	private static final String	SELECT_ITEM_BYID					= "SELECT it.typeID AS typeID, it.typeName AS typeName"
+	private static final String								SELECT_ITEM_BYID					= "SELECT it.typeID AS typeID, it.typeName AS typeName"
 			+ " , ig.groupName AS groupName" + " , ic.categoryName AS categoryName" + " , it.basePrice AS basePrice"
 			+ " , it.volume AS volume" + " , IFNULL(img.metaGroupName, " + '"' + "NOTECH" + '"' + ") AS Tech"
 			+ " FROM invTypes it" + " LEFT OUTER JOIN invGroups ig ON ig.groupID = it.groupID"
@@ -82,39 +78,39 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			+ " LEFT OUTER JOIN invMetaTypes imt ON imt.typeID = it.typeID"
 			+ " LEFT OUTER JOIN invMetaGroups img ON img.metaGroupID = imt.metaGroupID" + " WHERE it.typeID = ?";
 
-	private static final String	SELECT_LOCATIONBYID				= "SELECT md.itemID AS locationID, md.typeID AS typeID, md.itemName AS locationName, md.security AS security"
+	private static final String								SELECT_LOCATIONBYID				= "SELECT md.itemID AS locationID, md.typeID AS typeID, md.itemName AS locationName, md.security AS security"
 			+ " , IFNULL(md.solarSystemID, -1) AS systemID, ms.solarSystemName AS system"
 			+ " , IFNULL(md.constellationID, -1) AS constellationID, mc.constellationName AS constellation"
 			+ " , IFNULL(md.regionID, -1) AS regionID, mr.regionName AS region" + " FROM mapDenormalize md"
 			+ " LEFT OUTER JOIN mapRegions mr ON mr.regionID = md.regionID"
 			+ " LEFT OUTER JOIN mapConstellations mc ON mc.constellationID = md.constellationID"
 			+ " LEFT OUTER JOIN mapSolarSystems ms ON ms.solarSystemID = md.solarSystemID" + " WHERE itemID = ?";
-	private static final String	SELECT_MATERIAL_USAGE			= "SELECT typeID, materialTypeID, quantity FROM industryActivityMaterials WHERE typeID = ? AND activityID = 1";
-	private static final String	LOM4BLUEPRINT							= "SELECT iam.typeID, itb.typeName, iam.materialTypeID, it.typeName, ig.groupName, ic.categoryName, iam.quantity, iam.consume"
+	private static final String								SELECT_MATERIAL_USAGE			= "SELECT typeID, materialTypeID, quantity FROM industryActivityMaterials WHERE typeID = ? AND activityID = 1";
+	private static final String								LOM4BLUEPRINT							= "SELECT iam.typeID, itb.typeName, iam.materialTypeID, it.typeName, ig.groupName, ic.categoryName, iam.quantity, iam.consume"
 			+ " FROM industryActivityMaterials iam, invTypes itb, invTypes it, invGroups ig, invCategories ic"
 			+ " WHERE iam.typeID = ?" + " AND iam.activityID = 1" + " AND itb.typeID = iam.typeID"
 			+ " AND it.typeID = iam.materialTypeID" + " AND ig.groupID = it.groupID" + " AND ic.categoryID = ig.categoryID";
 
-	private static final String	TECH4BLUEPRINT						= "SELECT iap.typeID, it.typeName, imt.metaGroupID, img.metaGroupName"
+	private static final String								TECH4BLUEPRINT						= "SELECT iap.typeID, it.typeName, imt.metaGroupID, img.metaGroupName"
 			+ " FROM industryActivityProducts iap, invTypes it, invMetaTypes imt, invMetaGroups img" + " WHERE it.typeID =?"
 			+ " AND iap.typeID = it.typeID" + " AND imt.typeID = productTypeID" + " AND img.metaGroupID = imt.metaGroupID"
 			+ " AND iap.activityID = 1";
 
-	private static final String	REFINING_ASTEROID					= "SELECT itm.materialTypeID AS materialTypeID, itm.quantity AS qty"
+	private static final String								REFINING_ASTEROID					= "SELECT itm.materialTypeID AS materialTypeID, itm.quantity AS qty"
 			+ " , it.typeName AS materialName" + " , ito.portionSize AS portionSize"
 			+ " FROM invTypeMaterials itm, invTypes it, invTypes ito" + " WHERE itm.typeID = ?"
 			+ " AND it.typeID = itm.materialTypeID" + " AND ito.typeID = itm.typeID" + " ORDER BY itm.materialTypeID";
 
-	private static final String	INDUSTRYACTIVITYMATERIALS	= "SELECT materialTypeID, quantity, consume FROM industryActivityMaterials WHERE typeID = ? AND activityID = 8";
-	private static final String	STATIONTYPE								= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
-	private static final String	JOB_COMPLETION_TIME				= "SELECT typeID, time FROM industryActivity WHERE typeID = ? AND activityID = ?";
-	private static final String	CHECK_INVENTION						= "SELECT count(*) AS counter"
+	private static final String								INDUSTRYACTIVITYMATERIALS	= "SELECT materialTypeID, quantity, consume FROM industryActivityMaterials WHERE typeID = ? AND activityID = 8";
+	private static final String								STATIONTYPE								= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
+	private static final String								JOB_COMPLETION_TIME				= "SELECT typeID, time FROM industryActivity WHERE typeID = ? AND activityID = ?";
+	private static final String								CHECK_INVENTION						= "SELECT count(*) AS counter"
 			+ " FROM industryActivityProducts iap" + " WHERE iap.typeID = ?" + " AND iap.activityID = 8";
-	private static final String	INVENTION_PRODUCT					= "SELECT productTypeID FROM industryActivityProducts WHERE typeID = ? AND activityID = 8";
-	private static final String	CHECK_MANUFACTURABLE			= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
-	private static final String	CHECK_REACTIONABLE				= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
-	private static final String	CHECK_PLANETARYPRODUCED		= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
-	private static final String	REACTION_COMPONENTS				= "SELECT" + "   invTypeReactions.reactionTypeID"
+	private static final String								INVENTION_PRODUCT					= "SELECT productTypeID FROM industryActivityProducts WHERE typeID = ? AND activityID = 8";
+	private static final String								CHECK_MANUFACTURABLE			= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
+	private static final String								CHECK_REACTIONABLE				= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
+	private static final String								CHECK_PLANETARYPRODUCED		= "SELECT count(*) AS counter FROM industryActivityProducts iap WHERE iap.productTypeID = ? AND iap.activityID = 1";
+	private static final String								REACTION_COMPONENTS				= "SELECT" + "   invTypeReactions.reactionTypeID"
 			+ " , invTypes.typeID, invTypes.typeName" + " , invTypeReactions.input"
 			+ " , COALESCE(dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat) * invTypeReactions.quantity AS quantity"
 			+ " FROM invTypeReactions, dgmTypeAttributes, invTypes" + " WHERE"
@@ -122,39 +118,39 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			+ "    SELECT reactionTypeID" + "    FROM invTypeReactions" + "    WHERE typeID = ? ) AND"
 			+ " dgmTypeAttributes.typeID = invTypeReactions.typeID";
 
-	public static MyLocation getLocation(final long locationID, final MyAsset parentAsset) {
-		// Offices
-		long fixedLocationID = locationID;
-		if (fixedLocationID >= 66000000) {
-			if (fixedLocationID < 66014933) {
-				fixedLocationID = fixedLocationID - 6000001;
-			} else {
-				fixedLocationID = fixedLocationID - 6000000;
-			}
-		}
-		MyLocation location = StaticData.get().getLocations().get(fixedLocationID);
-		if (location != null) return location;
-		if (parentAsset != null) {
-			location = parentAsset.getLocation();
-			if (location != null) return location;
-		}
-		location = CitadelGetter.get(locationID);
-		if (location != null) return location;
-		return new MyLocation(locationID);
-	}
+	//	public static MyLocation getLocation(final long locationID, final MyAsset parentAsset) {
+	//		// Offices
+	//		long fixedLocationID = locationID;
+	//		if (fixedLocationID >= 66000000) {
+	//			if (fixedLocationID < 66014933) {
+	//				fixedLocationID = fixedLocationID - 6000001;
+	//			} else {
+	//				fixedLocationID = fixedLocationID - 6000000;
+	//			}
+	//		}
+	//		MyLocation location = StaticData.get().getLocations().get(fixedLocationID);
+	//		if (location != null) return location;
+	//		if (parentAsset != null) {
+	//			location = parentAsset.getLocation();
+	//			if (location != null) return location;
+	//		}
+	//		location = CitadelGetter.get(locationID);
+	//		if (location != null) return location;
+	//		return new MyLocation(locationID);
+	//	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeocomAndroidDBHelper							neocomDBHelper			= null;
-	protected Context													_context						= null;
-	private SQLiteDatabase										staticDatabase			= null;
-	private SQLiteDatabase										ccpDatabase					= null;
+	private NeocomAndroidDBHelper							neocomDBHelper						= null;
+	protected Context													_context									= null;
+	private SQLiteDatabase										staticDatabase						= null;
+	private SQLiteDatabase										ccpDatabase								= null;
 
-	private final SparseArray<EveItem>				itemCache						= new SparseArray<EveItem>();
-	private final SparseArray<MarketDataSet>	buyMarketDataCache	= new SparseArray<MarketDataSet>();
-	private final SparseArray<MarketDataSet>	sellMarketDataCache	= new SparseArray<MarketDataSet>();
-	private final SparseArray<Outpost>				outpostsCache				= new SparseArray<Outpost>();;
+	private final SparseArray<EveItem>				itemCache									= new SparseArray<EveItem>();
+	private final SparseArray<MarketDataSet>	buyMarketDataCache				= new SparseArray<MarketDataSet>();
+	private final SparseArray<MarketDataSet>	sellMarketDataCache				= new SparseArray<MarketDataSet>();
+	private final SparseArray<Outpost>				outpostsCache							= new SparseArray<Outpost>();;
 
-	private final HashMap<Long, NeoComAsset>	containerCache			= new HashMap<Long, NeoComAsset>();
+	private final HashMap<Long, NeoComAsset>	containerCache						= new HashMap<Long, NeoComAsset>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidDatabaseConnector(final Context app) {
@@ -225,10 +221,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return this.getNeocomDBHelper().getApiKeysDao();
 	}
 
-	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
-	//		return this.getNeocomDBHelper().getApiKeysDao();
-	//	}
-
 	public List<ApiKey> getApiList4Login(final String login) {
 		AndroidDatabaseConnector.logger.info(">> [AndroidDatabaseConnector.getApiList4Login] login=" + login);
 		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
@@ -254,6 +246,10 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	public Dao<NeoComBlueprint, String> getBlueprintDAO() throws SQLException {
 		return this.getNeocomDBHelper().getBlueprintDAO();
 	}
+
+	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
+	//		return this.getNeocomDBHelper().getApiKeysDao();
+	//	}
 
 	public Dao<Job, String> getJobDAO() throws SQLException {
 		return this.getNeocomDBHelper().getJobDAO();
@@ -393,6 +389,30 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//	}
 
 	/**
+	 * Returns the list of distinct identifiers for parentAssetId that should represent the container where an
+	 * asset is located. That list can represent known Locations, Assets and unknown locations that should
+	 * represent other Corporation assets like the Customs or not listed Space Structures.
+	 */
+	public List<NeoComAsset> queryAllAssetContainers(final long identifier) {
+		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
+		List<NeoComAsset> uniqueContainers = new Vector<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder().distinct()
+					.selectColumns("parentAssetID");
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			where.eq("ownerID", identifier);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			uniqueContainers = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger
+					.warning("W [SpringDatabaseConnector.queryAllLogins]> Excpetion reading all Logins" + sqle.getMessage());
+		}
+		return uniqueContainers;
+	}
+
+	/**
 	 * Return the list of all the distinct Locations where a Character has assets. There is one location with a
 	 * minus value id that is the <code>undefined</code> that contains all the items inside another elements
 	 * (before assets processing) and the items on stations or space locations that do not belong to this
@@ -420,28 +440,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		}
 		return uniqueLocations;
 	}
-
-	//	public int queryBlueprintDependencies(final int bpitemID) {
-	//		try {
-	//			if (null == ccpDatabase) {
-	//				ccpDatabase = this.getCCPDatabase();
-	//			}
-	//			final Cursor cursor = ccpDatabase.rawQuery(
-	//					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
-	//					new String[] { Integer.valueOf(bpitemID).toString() });
-	//			if (null != cursor) {
-	//				int parentBlueprintTypeID = -1;
-	//				while (cursor.moveToNext()) {
-	//					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
-	//				}
-	//				cursor.close();
-	//				return parentBlueprintTypeID;
-	//			}
-	//		} catch (final Exception ex) {
-	//			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
-	//		}
-	//		return -1;
-	//	}
 
 	/**
 	 * Reads all the keys stored at the database and classified them into a set of Login names.
@@ -473,6 +471,47 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			}
 		}
 		return loginList;
+	}
+
+	//	public int queryBlueprintDependencies(final int bpitemID) {
+	//		try {
+	//			if (null == ccpDatabase) {
+	//				ccpDatabase = this.getCCPDatabase();
+	//			}
+	//			final Cursor cursor = ccpDatabase.rawQuery(
+	//					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
+	//					new String[] { Integer.valueOf(bpitemID).toString() });
+	//			if (null != cursor) {
+	//				int parentBlueprintTypeID = -1;
+	//				while (cursor.moveToNext()) {
+	//					parentBlueprintTypeID = cursor.getInt(cursor.getColumnIndex("parentBlueprintTypeID"));
+	//				}
+	//				cursor.close();
+	//				return parentBlueprintTypeID;
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
+	//		}
+	//		return -1;
+	//	}
+
+	public List<NeoComAsset> queryLocationContents(final long identifier) {
+		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
+		List<NeoComAsset> contents = new Vector<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			where.eq("ownerID", identifier);
+			where.and().eq("locationID", identifier);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			contents = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger.warning(
+					"W [SpringDatabaseConnector.queryLocationContents]> Exception reading Location contents" + sqle.getMessage());
+		}
+		return contents;
 	}
 
 	public ArrayList<Resource> refineOre(final int oreID) {
@@ -1583,7 +1622,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		}
 		return location;
 	}
-
 }
 
 // - UNUSED CODE ............................................................................................

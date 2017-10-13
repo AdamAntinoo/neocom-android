@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
@@ -25,6 +24,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
 import org.dimensinfin.eveonline.neocom.model.Login;
+import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -33,10 +33,9 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClickListener {
+public class LoginPart extends AExtendedPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID		= -7696249781992547826L;
-	//	private static Logger					logger							= Logger.getLogger("RegionPart");
 	private static DecimalFormat	itemCountFormatter	= new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -47,13 +46,10 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_contentCount() {
-		return LoginPart.itemCountFormatter.format(this.getCastedModel().getCharacters().size());
-	}
 
-	public String get_name() {
-		return this.getCastedModel().getName();
-	}
+	//	public String get_name() {
+	//		return this.getCastedModel().getName();
+	//	}
 
 	public Login getCastedModel() {
 		return (Login) this.getModel();
@@ -66,6 +62,10 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 
 	public String getName() {
 		return this.getCastedModel().getName();
+	}
+
+	public String getTransformedContentCount() {
+		return LoginPart.itemCountFormatter.format(this.getCastedModel().getCharacters().size());
 	}
 
 	public void onClick(final View view) {
@@ -94,6 +94,7 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 	}
 
 	@Override
+	@Deprecated
 	protected AbstractHolder selectHolder() {
 		// Get the proper holder from the render mode.
 		return new LoginRender(this, _activity);
@@ -101,15 +102,13 @@ public class LoginPart extends AbstractAndroidPart implements INamedPart, OnClic
 
 	@Override
 	protected AbstractRender selectRenderer() {
-		// TODO Auto-generated method stub
-		return null;
+		return new LoginRender(this, _activity);
 	}
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
 final class LoginRender extends EveAbstractHolder {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//private static Logger	logger			= Logger.getLogger("RegionHolder");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -142,13 +141,11 @@ final class LoginRender extends EveAbstractHolder {
 		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
 	}
 
-	//	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	//	@SuppressWarnings("deprecation")
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		name.setText(this.getPart().get_name());
-		childCount.setText(this.getPart().get_contentCount());
+		name.setText(this.getPart().getName());
+		childCount.setText(this.getPart().getTransformedContentCount());
 		_convertView.invalidate();
 	}
 

@@ -289,7 +289,7 @@ public class T2ManufactureProcess extends AbstractManufactureProcess implements 
 		double inventionCost = 0.0;
 		// Query the database the ID of the blueprints required for the
 		// invention of the parts.
-		ArrayList<Integer> ids = NeoComAppConnector.getSingleton().getDBConnector()
+		ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
 				.searchInventionableBlueprints(resourceIDs);
 		for (Integer id : ids) {
 			// Get access to the Invention process.

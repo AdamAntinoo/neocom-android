@@ -148,7 +148,7 @@ public class JobManager implements Serializable {
 			JobManager.industryAssetsManager = new AssetsManager(pilot);
 
 			// Get the user jobs and start processing their resources.
-			final ArrayList<Job> userjobs = NeoComAppConnector.getSingleton().getDBConnector()
+			final ArrayList<Job> userjobs = (ArrayList<Job>) NeoComAppConnector.getSingleton().getDBConnector()
 					.searchJob4Class(pilot.getCharacterID(), "UJOB");
 			Log.i("EVEI", "-- JobManager.initializeAssets.userjobs:" + userjobs);
 			for (final Job job : userjobs) {

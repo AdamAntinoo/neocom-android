@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -30,7 +30,7 @@ import android.text.Spanned;
 import android.widget.ImageView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class EveAbstractHolder extends AbstractHolder {
+public abstract class EveAbstractHolder extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static final long											ONEMINUTE									= 60 * 1000;
 	protected static final long											ONEHOUR										= 60 * EveAbstractHolder.ONEMINUTE;
