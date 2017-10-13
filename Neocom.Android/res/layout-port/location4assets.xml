@@ -132,6 +132,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="90dp"
+                android:visibility="gone"
                 android:orientation="vertical" >
 
                 <org.dimensinfin.eveonline.neocom.core.Din1451TextView
@@ -156,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
+                android:visibility="gone"
                 android:layout_toLeftOf="@+id/valueLabelBlock"
                 android:orientation="vertical" >
 

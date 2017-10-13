@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#80700000"
+    android:background="@drawable/panelbordergreen"
     android:cacheColorHint="#00000000" >
 
     <RelativeLayout
@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/assetIcon"
-            style="@style/ItemIconStyle.Size48" />
+            style="@style/ItemIcon.Style.Size40" />
 
         <TextView
             android:id="@+id/assetName"

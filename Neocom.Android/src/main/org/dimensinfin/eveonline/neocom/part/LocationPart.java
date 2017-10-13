@@ -103,8 +103,14 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 					// --- End of policies
 					for (IPart part : childParts) {
 						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
-						ArrayList<IPart> collaboration = part.collaborate2View();
-						result.addAll(collaboration);
+						if (part.isNewImplemented()) {
+							ArrayList<IPart> collaboration = part.collaborate2View();
+							result.addAll(collaboration);
+						} else {
+							result.add(part);
+							ArrayList<IPart> collaboration = part.collaborate2View();
+							result.addAll(collaboration);
+						}
 					}
 					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
 							.setRenderMode(this.getRenderMode()));
