@@ -30,6 +30,8 @@ public interface INeoComAppConnector extends IMVCAppConnector, IModelAppConnecto
 
 	public String getAppFilePath(final String fileresourceName);
 
+	public AndroidCacheConnector getCacheConnector();
+
 	public IStorageConnector getStorageConnector();
 
 	public void startChrono();

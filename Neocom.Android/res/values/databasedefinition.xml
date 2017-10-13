@@ -4,7 +4,9 @@
     <string name="ccpdatabasefilename">eve.db</string>
     <string name="appdatabasepath">jdbc:sqlite:</string>
     <string name="appdatabasefilename">neocom-091.db</string>
-    <string name="databaseversion">092</string>
+    <string name="databaseversion">094</string>
+    <string name="databasechangeversioncomment_v093">v093 - Changed the type field on the Locations to store the new type texts.</string>
+    <string name="databasechangeversioncomment_v092">v092 - Added a new filed to ApiKey to activate/deactivate keys.</string>
     <string name="databasechangeversioncomment_v091">v091 - Added the TimeStamp table to control assets download.</string>
     <string name="databasechangeversioncomment_v090">v090 - Added the new model tables for the Login, Keys and Resources.</string>
     <string name="databasechangeversioncomment_v081">v081 - Change in the name of the new Assets colum need to drop and recreate that Column.</string>

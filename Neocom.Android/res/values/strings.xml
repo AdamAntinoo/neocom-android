@@ -2,8 +2,8 @@
 <resources>
 
     <string name="appname">NeoCom</string>
-    <string name="appversion">v0.9.2</string>
-    <string name="appversionname">NeoCom 0.9.2</string>
+    <string name="appversion">v0.9.3</string>
+    <string name="appversionname">NeoCom 0.9.3</string>
     <string name="AppDescription">"Application to get access to CCP api information and help manage industrial activities for characters and corporations at Eve Online. The set is composed of some projects with implementation for Android and for an AngularJS web interface based on REST services on Sprint Boot Cloud."</string>
     <string name="app_versionsuffix">09</string>
     <string name="action_settingslabel">Settings</string>

@@ -7,12 +7,12 @@
 //								Database and model adaptations for storage model independency.
 package org.dimensinfin.eveonline.neocom.database;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
@@ -39,15 +39,11 @@ import android.database.sqlite.SQLiteDatabase;
 public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger										logger								= Logger.getLogger("NeocomAndroidDBHelper");
-	//	private static final String				DATABASE_NAME			= NeoComAppConnector.getSingleton().getStorageConnector()
-	//			.accessAppStorage(AppConnector.getResourceString(R.string.appdatabasefilename)).getAbsolutePath();
-	//	private static final int					DATABASE_VERSION	= new Integer(
-	//		 NeoComAppConnector.getSingleton.getResourceString(R.string.databaseversion)).intValue();
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final boolean										isOpen								= false;
-	private final Connection								neocomDatabase				= null;
-	private final Connection								neocomDatasource			= null;
+	//	private final boolean										isOpen								= false;
+	//	private final Connection								neocomDatabase				= null;
+	//	private final Connection								neocomDatasource			= null;
 	//	private Connection														ccpDatabase								= null;
 
 	private Dao<DatabaseVersion, String>		versionDao						= null;
@@ -82,11 +78,6 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 		assetDao = null;
 		blueprintDao = null;
 	}
-	//	private ConnectionSource getNeocomSource() {
-	//		if (null == neocomDatasource) if (openNeocomDB()) return neocomDatasource;
-	//		new RuntimeException("RT [NeocomDBHelper.neocomDatasource]> Neocom database not found and unable to be openned.");
-	//		return neocomDatasource;
-	//	}
 
 	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
 		if (null == apiKeysDao) {
@@ -194,17 +185,17 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			// If the table is empty then insert the seeded Api Keys
 			if (records < 1) {
 				ApiKey key = new ApiKey("Beth Ripley").setKeynumber(2889577)
-						.setValidationcode("Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw");
+						.setValidationcode("Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw").setActive(true);
 				key = new ApiKey("Perico").setKeynumber(3106761)
-						.setValidationcode("gltCmvVoZl5akrM8d6DbNKZn7Jm2SaukrmqjnSOyqKbvzz5CtNfknTEwdBe6IIFf");
+						.setValidationcode("gltCmvVoZl5akrM8d6DbNKZn7Jm2SaukrmqjnSOyqKbvzz5CtNfknTEwdBe6IIFf").setActive(false);
 				key = new ApiKey("CapitanHaddock09").setKeynumber(924767)
-						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P");
+						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P").setActive(false);
 				key = new ApiKey("CapitanHaddock29").setKeynumber(6472981)
-						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z");
+						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z").setActive(true);
 				key = new ApiKey("CapitanHaddock").setKeynumber(924767)
-						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P");
+						.setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P").setActive(false);
 				key = new ApiKey("CapitanHaddock").setKeynumber(6472981)
-						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z");
+						.setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z").setActive(false);
 			}
 		} catch (SQLException sqle) {
 			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
@@ -438,9 +429,23 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				sqle.printStackTrace();
 			}
 		}
-		if (oldVersion < 91) {
+		if (oldVersion < 94) {
 			try {
 				TableUtils.dropTable(databaseConnection, ApiKey.class, true);
+			} catch (RuntimeException rtex) {
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		if (oldVersion < 94) {
+			try {
+				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
+				// Post the events to reload the Locations data.
+				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
+				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();

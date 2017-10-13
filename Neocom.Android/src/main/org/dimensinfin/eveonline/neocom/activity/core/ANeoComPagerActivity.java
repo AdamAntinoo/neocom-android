@@ -11,6 +11,7 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -103,8 +104,8 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				return true;
 			case R.id.action_downloadlocations:
 				// Insert into the download queue the action to download the locations.
-				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
-				NeoComApp.getSingletonApp().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
+				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
+				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
 				break;
 			case R.id.action_updateaccounts:
 				// Refresh the store data

@@ -455,7 +455,7 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		} catch (java.sql.SQLException sqle) {
 			sqle.printStackTrace();
 			AndroidDatabaseConnector.logger
-					.warning("W [SpringDatabaseConnector.queryAllLogins]> Excpetion reading all Logins" + sqle.getMessage());
+					.warning("W [SpringDatabaseConnector.queryAllLogins]> Exception reading all Logins. " + sqle.getMessage());
 		}
 		// Classify the keys on they matching Logins.
 		Hashtable<String, Login> loginList = new Hashtable<String, Login>();

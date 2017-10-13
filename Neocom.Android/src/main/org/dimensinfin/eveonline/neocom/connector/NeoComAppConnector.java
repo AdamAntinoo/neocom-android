@@ -92,7 +92,7 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 	}
 
 	@Override
-	public ICacheConnector getCacheConnector() {
+	public AndroidCacheConnector getCacheConnector() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.getCacheConnector]> Application connection not defined. Functionality 'getCacheConnector' disabled.");
 		return _connector.getCacheConnector();
