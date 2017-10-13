@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.Property;
 import org.dimensinfin.eveonline.neocom.part.LocationAssetsPart;
 
@@ -78,7 +79,11 @@ public class Location4AssetsRender extends EveAbstractHolder {
 	public void updateContent() {
 		super.updateContent();
 		locationSystem.setText(this.getPart().get_locationSystem());
-		locationRegion.setText(this.getPart().get_locationRegion());
+		if (this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN) {
+			locationRegion.setText(this.getPart().get_locationRegion());
+		} else {
+			locationRegion.setText(this.getPart().get_locationRegionConstellation());
+		}
 		locationStation.setText(this.getPart().get_locationStation());
 		childCount.setText(this.getPart().get_locationContentCount());
 

@@ -79,20 +79,20 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 			// First we have to check if we have contents or if the part should be shown altogether.
 			int contentCount = this.getCastedModel().getContentCount();
 			// If the node is expanded then give the children the opportunity to also be added.
-			if (contentCount < 1) {
-				if (this.isRenderWhenEmpty()) {
-					// The region is surrounded with the Red Separator at the beginning and at the end.
-					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
-							.setRenderMode(this.getRenderMode()));
-					result.add(this);
-					// This region is empty of contents. Add the Empty Separator and complete.
-					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.EMPTY_SIGNAL))
-							.setRenderMode(this.getRenderMode()));
-					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
-							.setRenderMode(this.getRenderMode()));
-				}
-			} else {
-				if (this.isExpanded()) {
+			if (this.isExpanded()) {
+				if (contentCount < 1) {
+					if (this.isRenderWhenEmpty()) {
+						// The region is surrounded with the Red Separator at the beginning and at the end.
+						result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
+								.setRenderMode(this.getRenderMode()));
+						result.add(this);
+						// This region is empty of contents. Add the Empty Separator and complete.
+						result.add(new SeparatorPart(new Separator().setType(ESeparatorType.EMPTY_SIGNAL))
+								.setRenderMode(this.getRenderMode()));
+						result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
+								.setRenderMode(this.getRenderMode()));
+					}
+				} else {
 					// Generate the list of Parts that should be collaborated to the ListView.
 					// The region is surrounded with the Red Separator at the beginning and at the end.
 					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
@@ -103,20 +103,17 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 					// --- End of policies
 					for (IPart part : childParts) {
 						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
-						if (part.isNewImplemented()) {
-							ArrayList<IPart> collaboration = part.collaborate2View();
-							result.addAll(collaboration);
-						} else {
+						ArrayList<IPart> collaboration = part.collaborate2View();
+						if (!part.isNewImplemented()) {
 							result.add(part);
-							ArrayList<IPart> collaboration = part.collaborate2View();
-							result.addAll(collaboration);
 						}
+						result.addAll(collaboration);
 					}
 					result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_ORANGE))
 							.setRenderMode(this.getRenderMode()));
-				} else {
-					result.add(this);
 				}
+			} else {
+				result.add(this);
 			}
 		}
 		return result;
@@ -144,6 +141,12 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 	}
 
 	public Spanned get_locationRegion() {
+		double security = this.getCastedModel().getSecurityValue();
+		return Html.fromHtml(this.generateSecurityColor(security,
+				AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getConstellation()));
+	}
+
+	public Spanned get_locationRegionConstellation() {
 		double security = this.getCastedModel().getSecurityValue();
 		return Html.fromHtml(this.generateSecurityColor(security, this.getCastedModel().getRegion()
 				+ AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getConstellation()));

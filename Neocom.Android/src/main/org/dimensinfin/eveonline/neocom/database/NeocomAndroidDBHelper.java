@@ -429,7 +429,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				sqle.printStackTrace();
 			}
 		}
-		if (oldVersion < 94) {
+		if (oldVersion < 93) {
 			try {
 				TableUtils.dropTable(databaseConnection, ApiKey.class, true);
 			} catch (RuntimeException rtex) {
@@ -440,7 +440,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				sqle.printStackTrace();
 			}
 		}
-		if (oldVersion < 94) {
+		if (oldVersion < 95) {
 			try {
 				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
 				// Post the events to reload the Locations data.

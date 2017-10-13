@@ -82,14 +82,17 @@ public abstract class AExtendedPart extends EveAbstractPart {
 					for (IPart part : childParts) {
 						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
 						ArrayList<IPart> collaboration = part.collaborate2View();
+						if (!part.isNewImplemented()) {
+							result.add(part);
+						}
 						result.addAll(collaboration);
 					}
 					result.add(
 							new SeparatorPart(new Separator().setType(ESeparatorType.LINE_RED)).setRenderMode(this.getRenderMode()));
 				}
+			} else {
+				result.add(this);
 			}
-		} else {
-			result.add(this);
 		}
 		return result;
 	}

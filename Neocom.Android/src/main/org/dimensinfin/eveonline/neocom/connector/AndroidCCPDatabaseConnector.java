@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
@@ -260,7 +261,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 								hit.setRegionID(fragmentID);
 								hit.setRegion(cursor.getString(cursor.getColumnIndex("region")));
 							}
-							hit.setTypeID(cursor.getInt(cursor.getColumnIndex("typeID")));
+							hit.setTypeID(ELocationType.CCPLOCATION);
 							hit.setStation(cursor.getString(cursor.getColumnIndex("locationName")));
 							hit.setLocationID(cursor.getLong(cursor.getColumnIndex("locationID")));
 							hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
