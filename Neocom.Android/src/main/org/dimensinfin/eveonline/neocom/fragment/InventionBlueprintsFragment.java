@@ -6,10 +6,10 @@
 
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2InventionDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class InventionBlueprintsFragment extends AbstractPagerFragment {
+public class InventionBlueprintsFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -26,6 +26,10 @@ public class InventionBlueprintsFragment extends AbstractPagerFragment {
 	// - U I    F I E L D S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return NeoComModelStore.getSingleton().getPilot().getName();
+	}
 
 	@Override
 	public String getSubtitle() {
@@ -62,7 +66,7 @@ public class InventionBlueprintsFragment extends AbstractPagerFragment {
 	public void onStart() {
 		Log.i("NEOCOM", ">> IndustryBlueprintsFragment.onStart");
 		try {
-			AppModelStore store = AppModelStore.getSingleton();
+			NeoComModelStore store = NeoComModelStore.getSingleton();
 			if (!_alreadyInitialized) {
 				this.setDataSource(new IndustryT2InventionDataSource(store));
 			}

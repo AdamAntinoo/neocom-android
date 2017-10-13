@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="@style/RightArrow"
+        style="@style/Actionable.Arrow"
         android:layout_gravity="right"
         android:gravity="right"
         android:visibility="invisible" />
@@ -44,7 +44,7 @@
 
         <org.dimensinfin.eveonline.neocom.core.DaysTextView
             android:id="@+id/count"
-            style="@style/NumberStyle.Big"
+            style="@style/Number.Style.14"
             android:layout_gravity="center_vertical"
             android:text="7"
             android:textSize="12sp"

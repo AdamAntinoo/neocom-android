@@ -11,19 +11,21 @@ package org.dimensinfin.eveonline.neocom.datasource;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -61,11 +63,12 @@ public class ShipsDataSource extends SpecialDataSource {
 	 * 
 	 * @return
 	 */
+	@Override
 	public RootNode collaborate2Model() {
 		SpecialDataSource.logger.info(">> [ShipsDatasource.collaborate2Model]");
 		try {
 			// Get the complete list of ships. Compare it to the current list if it exists.
-			final AssetsManager manager = AppModelStore.getSingleton().getPilot().getAssetsManager();
+			final AssetsManager manager = NeoComModelStore.getSingleton().getPilot().getAssetsManager();
 			// Depending on the Setting group Locations into Regions
 			Collection<NeoComAsset> assetsShips = manager.accessShips();
 			// Process the list into the classifiers.
@@ -216,9 +219,9 @@ public class ShipsDataSource extends SpecialDataSource {
 
 	private boolean ifGroupLocations() {
 		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
+				.getDefaultSharedPreferences(NeoComModelStore.getSingleton().getActivity());
 		final String locLimitString = prefs.getString(AppWideConstants.preference.PREF_LOCATIONSLIMIT,
-				AppConnector.getResourceString(R.string.pref_numberOfLocations_default));
+				NeoComAppConnector.getSingleton().getResourceString(R.string.pref_numberOfLocations_default));
 		// Check for the special value of unlimited.
 		if (locLimitString.equalsIgnoreCase("Unlimited")) return false;
 		// Convert the stored preference value to a number.

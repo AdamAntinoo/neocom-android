@@ -23,7 +23,7 @@
         android:textSize="15sp" />
     <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
         android:id="@+id/bpcCount"
-        style="@style/NumberStyle.Big"
+        style="@style/Number.Style.14"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/itemName"
         android:gravity="right"

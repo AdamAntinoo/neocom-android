@@ -6,13 +6,13 @@
 
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT1BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2BlueprintsDataSource;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT3BlueprintsDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class IndustryBlueprintsFragment extends AbstractPagerFragment {
+public class IndustryBlueprintsFragment extends AbstractObsoletePagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -31,6 +31,10 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 	// - U I    F I E L D S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return NeoComModelStore.getSingleton().getPilot().getName();
+	}
 
 	@Override
 	public String getSubtitle() {
@@ -87,7 +91,7 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 		if (!_alreadyInitialized) {
 			try {
 				// Create the right blueprint list depending on the parametrized tech.
-				AppModelStore store = AppModelStore.getSingleton();
+				NeoComModelStore store = NeoComModelStore.getSingleton();
 				if (_tech.equalsIgnoreCase(ModelWideConstants.eveglobal.TechIII)) {
 					this.setDataSource(new IndustryT3BlueprintsDataSource(store));
 				}
@@ -107,7 +111,7 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< IndustryBlueprintsFragment.onStart");
 	}
 
-	public AbstractPagerFragment setTechLevel(final String tech) {
+	public AbstractObsoletePagerFragment setTechLevel(final String tech) {
 		_tech = tech;
 		return this;
 	}

@@ -10,14 +10,14 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.factory.IndustryLOMResourcesDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -26,16 +26,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ManufactureLOMFragment extends AbstractPagerFragment {
+public class ManufactureLOMFragment extends AbstractObsoletePagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore	_store	= null;
+	private NeoComModelStore	_store	= null;
 	private Bundle				_extras	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ManufactureLOMFragment(final AppModelStore store) {
+	public ManufactureLOMFragment(final NeoComModelStore store) {
 		_store = store;
+	}
+
+	public String getPilotName() {
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -77,14 +81,15 @@ public class ManufactureLOMFragment extends AbstractPagerFragment {
 				bppart.setActivity(activity);
 				// REFACTOR This piece of code may be optimized to return the item identifier for the matching activity of a blueprint.
 				final int productID = bppart.getProductID();
-				final EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+				final EveItem productItem = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(productID);
 				final IndustryLOMResourcesDataSource ds = new IndustryLOMResourcesDataSource(_store);
 				ds.setBlueprint(bppart);
 
 				// This fragment has a header. Populate it with the datasource header contents.
 				ArrayList<AbstractAndroidPart> headerData = ds.getHeaderPartHierarchy();
-				for (AbstractAndroidPart headerPart : headerData)
+				for (AbstractAndroidPart headerPart : headerData) {
 					this.addtoHeader(headerPart);
+				}
 
 				this.setDataSource(ds);
 			}
@@ -97,7 +102,7 @@ public class ManufactureLOMFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< ManufactureLOMFragment.onStart");
 	}
 
-	public AbstractPagerFragment setExtras(final Bundle extras) {
+	public AbstractObsoletePagerFragment setExtras(final Bundle extras) {
 		_extras = extras;
 		return this;
 	}

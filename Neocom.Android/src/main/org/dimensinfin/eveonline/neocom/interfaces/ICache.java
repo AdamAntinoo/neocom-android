@@ -31,6 +31,8 @@ public interface ICache {
 
 	public void addMarketDataRequest(long requestLocalizer);
 
+	public void clearPendingRequest(final long localizer);
+
 	public void clearPendingRequest(final String localizer);
 
 	public Drawable getCacheDrawable(String link, ImageView targetIcon);

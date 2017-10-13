@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.dimensinfin.eveonline.neocom"
-    android:versionCode="81"
-    android:versionName="NeoCom 0.8.1" >
+    android:versionCode="91"
+    android:versionName="NeoCom 0.9.1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,27 +17,41 @@
         android:allowBackup="true"
         android:description="@string/AppDescription"
         android:icon="@drawable/evei4"
-        android:label="@string/versionname"
+        android:label="@string/appversionname"
         android:largeHeap="true"
         android:logo="@drawable/evei4"
         android:theme="@style/AppTheme" >
+<!-- S T A R T U P    A C T I V I T Y -->
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SplashActivity"
             android:icon="@drawable/splash_icon"
-            android:label="@string/versionname"
+            android:label="@string/appversionname"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+               <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+<!--         Section where to add the new Activities to match the new model presentation. -->
+<!-- A C T I V I T I E S -->
+       <activity
+            android:name="org.dimensinfin.eveonline.neocom.activity.LoginListActivity"
+            android:label="LOGIN SELECTION" >
         </activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PilotListActivity"
             android:label="@string/title_activity_PilotList" >
         </activity>
+        <activity
+            android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
+            android:label="Pilot Details" >
+        </activity>
+       
+
+
+<!--         Section where to add the new Activities to match the new model presentation. -->
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
             android:label="Settings" >
@@ -111,6 +125,7 @@
             android:label="Fitting List" >
         </activity>
 
+ <!-- S E R V I C E S -->
         <service
             android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"
             android:enabled="true" >

@@ -13,15 +13,15 @@ import java.util.Date;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Job;
 import org.dimensinfin.eveonline.neocom.render.JobRender;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -63,10 +63,13 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 
 	public Spanned get_jobLocation() {
 		StringBuffer htmlLocation = new StringBuffer();
-		EveLocation loc = AppConnector.getDBConnector().searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
+		EveLocation loc = NeoComAppConnector.getSingleton().getCCPDBConnector()
+				.searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
 		String security = loc.getSecurity();
 		String secColor = EveAbstractPart.securityLevels.get(security);
-		if (null == secColor) secColor = "#2FEFEF";
+		if (null == secColor) {
+			secColor = "#2FEFEF";
+		}
 		// Append the Region -> system
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
 				.append(AppWideConstants.FLOW_ARROW_RIGHT);
@@ -121,7 +124,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	 * the job location is on some fields. The one that relates to us is the stationID. When the app creates
 	 * virtual jobs it should set the station to the station where the blueprint is located and not the
 	 * container for input or output that can be used on the new interface.
-	 * 
+	 *
 	 * @return
 	 */
 	public EveLocation getJobLocation() {
@@ -167,7 +170,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	 */
 	public boolean onContextItemSelected(final MenuItem item) {
 		try {
-			AppConnector.getDBConnector().getJobDAO().delete(this.getCastedModel());
+			NeoComAppConnector.getSingleton().getDBConnector().getJobDAO().delete(this.getCastedModel());
 			// Clear the cache in memory
 			this.getPilot().cleanJobs();
 			this.fireStructureChange(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH, this, this);
@@ -180,8 +183,9 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
 		Log.i("EVEI", ">> JobPart.onCreateContextMenu");
 		// Create the menu only for user generated jobs.
-		if (!this.getCastedModel().getJobType().equalsIgnoreCase("CCP"))
+		if (!this.getCastedModel().getJobType().equalsIgnoreCase("CCP")) {
 			this.getActivity().getMenuInflater().inflate(R.menu.jobactions_menu, menu);
+		}
 		Log.i("EVEI", "<< JobPart.onCreateContextMenu");
 	}
 

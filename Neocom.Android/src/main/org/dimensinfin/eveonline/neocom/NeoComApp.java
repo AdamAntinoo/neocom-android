@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -22,24 +22,26 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.dimensinfin.android.model.INamed;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.eveonline.neocom.adapter.AndroidCacheConnector;
-import org.dimensinfin.eveonline.neocom.adapter.AndroidDatabaseConnector;
-import org.dimensinfin.eveonline.neocom.adapter.AndroidStorageConnector;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.connector.IConnector;
-import org.dimensinfin.eveonline.neocom.connector.IDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
+import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.AndroidStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
+import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
+import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
+import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.INeoComModelStore;
+import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.interfaces.ICache;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
-import org.dimensinfin.eveonline.neocom.interfaces.INamed;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.interfaces.IWeigthedNode;
-import org.dimensinfin.eveonline.neocom.model.JobQueue;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
@@ -48,28 +50,27 @@ import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.ContainerPart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
 import org.dimensinfin.eveonline.neocom.part.ShipPart;
-import org.dimensinfin.eveonline.neocom.service.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,26 +78,18 @@ import android.view.View;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeoComApp extends Application implements IConnector {
+public class NeoComApp extends Application implements INeoComAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger							logger									= Logger.getLogger("EVEDroidApp");
-	public static Typeface						daysFace								= null;
-	private static DecimalFormat			pendingCounter					= new DecimalFormat("0.0##");
-	private static NeoComApp					singleton								= null;
-	private static boolean						firstTimeInitialization	= false;
-	private static BroadcastReceiver	timeTickReceiver				= null;
-	public static int									topCounter							= 0;
-	public static int									marketCounter						= 0;
+	private static Logger							logger						= Logger.getLogger("NeoComApp");
+	private static NeoComApp					singleton					= null;
+	private static BroadcastReceiver	timeTickReceiver	= null;
+	public static int									topCounter				= 0;
+	public static int									marketCounter			= 0;
 
-	//	private static AppModelStore			appModelStore						= null;
-
-	public static boolean checkNetworkAccess() {
-		final ConnectivityManager cm = (ConnectivityManager) NeoComApp.singleton
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
-		return false;
-	}
+	/** Global typeface to be used on nos standard activities or in places with no layout. */
+	public static Typeface						daysFace					= null;
+	private static DecimalFormat			pendingCounter		= new DecimalFormat("0.0##");
+	//	private static boolean						firstTimeInitialization	= false;
 
 	@Deprecated
 	public static Comparator<AbstractPropertyChanger> createComparator(final int code) {
@@ -406,6 +399,7 @@ public class NeoComApp extends Application implements IConnector {
 		return comparator;
 	}
 
+	@Deprecated
 	public static Comparator<IPart> createPartComparator(final int code) {
 		Comparator<IPart> comparator = new Comparator<IPart>() {
 			public int compare(final IPart left, final IPart right) {
@@ -534,46 +528,11 @@ public class NeoComApp extends Application implements IConnector {
 		return comparator;
 	}
 
-	/**
-	 * Return the file that points to the application folder on the external (SDCARD) storage.
-	 */
-	public static File getAppDirectory() {
-		return new File(Environment.getExternalStorageDirectory(), AppConnector.getResourceString(R.string.appfoldername));
-	}
-
-	//	/**
-	//	 * Gets a reference to the main app global data store. If the store is not defined it will start the
-	//	 * procedure to retrieve its contents, first from the persistence storage on the sdcard and if this fails
-	//	 * then it will start the procedure to create a new set of data from the available keys.
-	//	 * 
-	//	 * @return
-	//	 */
-	//	@Deprecated
-	//	public static AppModelStore getAppStore() {
-	//		return AppModelStore.getSingleton();
-	//	}
-
-	public static boolean getBooleanPreference(final String preferenceName, final boolean defaultValue) {
-		// Read the flag values from the preferences.
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(AppModelStore.getSingleton().getActivity());
-		boolean pref = sharedPrefs.getBoolean(preferenceName, defaultValue);
-		return pref;
-	}
-
 	public static NeoComApp getSingletonApp() {
 		if (null == NeoComApp.singleton) {
 			new NeoComApp();
 		}
 		return NeoComApp.singleton;
-	}
-
-	public static ICache getTheCacheConnector() {
-		return NeoComApp.getSingletonApp().getCacheConnector();
-	}
-
-	public static boolean isFirstTimeInit() {
-		return NeoComApp.firstTimeInitialization;
 	}
 
 	@Deprecated
@@ -597,16 +556,16 @@ public class NeoComApp extends Application implements IConnector {
 		return elementSingleton;
 	}
 
-	//[01]
+	@Deprecated
 	public static void runTimer() {
 		NeoComApp.timeTickReceiver.onReceive(NeoComApp.getSingletonApp().getApplicationContext(), null);
 	}
 
+	//	@Deprecated
+	//	public static void setFirstInitalization(final boolean state) {
+	//		NeoComApp.firstTimeInitialization = state;
+	//	}
 	@Deprecated
-	public static void setFirstInitalization(final boolean state) {
-		NeoComApp.firstTimeInitialization = state;
-	}
-
 	public static void updateProgressSpinner() {
 		if ((NeoComApp.marketCounter > 0) || (NeoComApp.topCounter > 0)) {
 			double divider = 10.0;
@@ -621,34 +580,62 @@ public class NeoComApp extends Application implements IConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AndroidStorageConnector		storage			= null;
-	private AndroidDatabaseConnector	dbconnector	= null;
-	private AndroidCacheConnector			cache				= null;
+	private NeoComAppConnector					_appConnector				= null;
+	private ModelAppConnector						_modelAppConnector	= null;
+	/**
+	 * Reference to the startup activity of the application. This Activity gets restarted when there is an
+	 * intercepted runtime exception.
+	 */
+	private Class<?>										_firstActivity			= null;
 
+	private Instant											chrono							= null;
+	private AndroidStorageConnector			storage							= null;
+	private AndroidCCPDatabaseConnector	dbCCPConnector			= null;
+	private AndroidDatabaseConnector		dbNeocomConnector		= null;
+	private AndroidCacheConnector				cache								= null;
+
+	//private INeocomDBHelper									neocomDBHelper		= null;
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComApp() {
-		NeoComApp.logger.info(">> [NeoComApp.<init>]");
+		NeoComApp.logger.info(">> [NeoComApp.<contructor>]");
 		// Setup the referencing structures that will serve as proxy and global references.
-		// If singleton already defined this is not a first time initialization.
 		if (null == NeoComApp.singleton) {
-			Log.i("EVEDroidApp", ".. First Time Initialization.");
+			// Just connect the singleton and the Connector chanin to get access to all the methods.
 			NeoComApp.singleton = this;
-			AppConnector.setConnector(NeoComApp.getSingletonApp());
-			NeoComApp.firstTimeInitialization = true;
-		} else {
-			Log.i("EVEDroidApp", ".. User reload requested.");
-			NeoComApp.firstTimeInitialization = false;
+			_appConnector = new NeoComAppConnector(this);
+			_modelAppConnector = new ModelAppConnector(this);
 		}
-		NeoComApp.logger.info("<< [NeoComApp.<init>]");
+		NeoComApp.logger.info("<< [NeoComApp.<consructor>]");
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public File accessAppStorage(final String resourceString) {
+		if (null != resourceString)
+			return new File(Environment.getExternalStorageDirectory(),
+					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
+		else
+			return new File(Environment.getExternalStorageDirectory(),
+					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
+	}
+
 	/**
 	 * Puts in the processing queue a new request for the character received in the parameter. This method is
 	 * required by the <code>AppConnector</code> implementation.
 	 */
 	public void addCharacterUpdateRequest(final long characterID) {
 		this.getCacheConnector().addCharacterUpdateRequest(characterID);
+	}
+
+	@TargetApi(12)
+	public void addDrawableToCache(final String key, final Drawable image) {
+		ICacheConnector cache = NeoComAppConnector.getSingleton().getCacheConnector();
+		if (cache instanceof AndroidCacheConnector) {
+			((AndroidCacheConnector) cache).addDrawableToCache(key, image);
+		} else
+			throw new RuntimeException(
+					"RTEX [GymAppConnector.addDrawableToCache]> Application connection not defined. Functionality 'addDrawableToCache' disabled.");
 	}
 
 	/**
@@ -659,8 +646,12 @@ public class NeoComApp extends Application implements IConnector {
 	 * @param window
 	 *          time span window in milliseconds.
 	 */
+	public boolean checkExpiration(final Instant timestamp, final long window) {
+		if (null == timestamp) return true;
+		return this.checkExpiration(timestamp.getMillis(), window);
+	}
+
 	public boolean checkExpiration(final long timestamp, final long window) {
-		// logger.info("-- Checking expiration for " + timestamp + ". Window " + window);
 		if (0 == timestamp) return true;
 		final long now = GregorianCalendar.getInstance().getTimeInMillis();
 		final long endWindow = timestamp + window;
@@ -684,45 +675,55 @@ public class NeoComApp extends Application implements IConnector {
 	 * @return
 	 */
 	public String getAppFilePath(final int fileresourceid) {
-		final String sdcarddir = this.getResourceString(R.string.appfoldername)
-				+ this.getResourceString(R.string.app_versionsuffix);
-		final String file = this.getResourceString(fileresourceid);
+		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+				+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix);
+		final String file = NeoComAppConnector.getSingleton().getResourceString(fileresourceid);
 		return sdcarddir + "/" + file;
 	}
 
 	public String getAppFilePath(final String fileresourceName) {
-		final String sdcarddir = this.getResourceString(R.string.appfoldername)
-				+ this.getResourceString(R.string.app_versionsuffix);
+		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
+				+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix);
 		final String file = fileresourceName;
 		return sdcarddir + "/" + file;
 	}
 
-	public ICache getCacheConnector() {
+	@Override
+	@Deprecated
+	public Context getApplicationContext() {
+		// TODO Auto-generated method stub
+		return super.getApplicationContext();
+	}
+
+	public AndroidCacheConnector getCacheConnector() {
 		if (null == cache) {
 			cache = new AndroidCacheConnector(this);
 		}
 		return cache;
 	}
 
-	public IDatabaseConnector getDBConnector() {
-		if (null == dbconnector) {
-			dbconnector = new AndroidDatabaseConnector(this);
+	public ICCPDatabaseConnector getCCPDBConnector() {
+		if (null == dbCCPConnector) {
+			dbCCPConnector = new AndroidCCPDatabaseConnector();
 		}
-		return dbconnector;
+		return dbCCPConnector;
 	}
 
-	@Deprecated
-	public INeoComModelStore getModelStore() {
-		return AppModelStore.getSingleton();
+	public AndroidDatabaseConnector getDBConnector() {
+		if (null == dbNeocomConnector) {
+			dbNeocomConnector = new AndroidDatabaseConnector(this);
+		}
+		return dbNeocomConnector;
 	}
 
-	public String getResourceString(final int reference) {
-		NeoComApp.logger.fine("R>" + "Accessing resource: " + reference);
-		return NeoComApp.getSingletonApp().getResources().getString(reference);
+	public Class<?> getFirstActivity() {
+		if (null == _firstActivity) throw new RuntimeException(
+				"RTEX [NeoComApp.getFirstActivity]> Target destionation First Activity of application is not defined.");
+		return _firstActivity;
 	}
 
-	public IConnector getSingleton() {
-		return NeoComApp.singleton;
+	public NeoComModelStore getModelStore() {
+		return NeoComModelStore.getSingleton();
 	}
 
 	public IStorageConnector getStorageConnector() {
@@ -735,75 +736,59 @@ public class NeoComApp extends Application implements IConnector {
 	@Deprecated
 	public File getUserDataStorage() {
 		return new File(Environment.getExternalStorageDirectory(),
-				AppConnector.getResourceString(R.string.userdatamodelfilename));
+				NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 	}
 
 	public void init() {
-		NeoComApp.logger.info(">> [EVEDroidApp.init]");
+		NeoComApp.logger.info(">> [NeoComApp.init]");
+		// Do again the initialization. This code is controlled by Android lifecycle and not Java.
+		// Just connect the singleton and the Connector chanin to get access to all the methods.
+		NeoComApp.singleton = this;
+		_appConnector = new NeoComAppConnector(this);
+		// Set the initial activity as a return point in case of exceptions.
+		_firstActivity = LoginListActivity.class;
 		// Close databases if they were left open.
 		this.getDBConnector().closeDatabases();
-		NeoComApp.singleton = this;
-		// Remove any reference to old adapters.
+		// Remove any reference to old adapters and helpers.
 		storage = null;
-		dbconnector = null;
+		dbCCPConnector = null;
+		dbNeocomConnector = null;
 		cache = null;
-		//		appModelStore = null;
-		// this.appContext = null;
-		// firstTimeInitialization = true;
-		NeoComApp.logger.info("<< [EVEDroidApp.init]");
-	}
-
-	@Override
-	public void onCreate() {
-		NeoComApp.logger.info(">> [EVEDroidApp.onCreate]");
-		super.onCreate();
-		NeoComApp.daysFace = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/Days.otf");
-		// Remove the secure XML access and configure the ApiConnector.
-		//		ApiConnector.setSecureXmlProcessing(false);
-		NeoComApp.logger.info("<< [EVEDroidApp.onCreate]");
-	}
-
-	@Override
-	public void onTerminate() {
-		NeoComApp.logger.info(">> [EVEDroidApp.onTerminate]");
-		this.unregisterReceiver(NeoComApp.timeTickReceiver);
-		super.onTerminate();
-		NeoComApp.logger.info("<< [EVEDroidApp.onTerminate]");
-	}
-
-	public void openDatabases() {
-		this.getDBConnector().openCCPDataBase();
-		this.getDBConnector().openAppDataBase();
+		NeoComApp.logger.info("<< [NeoComApp.init]");
 	}
 
 	/**
-	 * This method checks if the application has access to the external disk (SDCARD) and if that access
-	 * included the writing operations.<br>
-	 * This method should be called before any expected access to the filesystem by the minor number of classes
-	 * because it is a method strictly related to the Android OS. The execution may change the state of some
-	 * external variables but taking on account that this state may change dynamically I would prefer to call
-	 * repeatedly the method than storing the initial call results.
-	 * 
-	 * @return if the FS is writable. This also implies that the SDCARD is available.
+	 * Events called during the Application life cycle.
 	 */
-	public boolean sdcardAvailable() {
-		boolean mExternalStorageAvailable = false;
-		boolean mExternalStorageWriteable = false;
-		final String state = Environment.getExternalStorageState();
+	@Override
+	public void onCreate() {
+		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
+		super.onCreate();
+		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
+		// REFACTOR Remove the secure XML access and configure the ApiConnector.
+		//		ApiConnector.setSecureXmlProcessing(false);
+		NeoComApp.logger.info("<< [NeoComApp.onCreate]");
+	}
 
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			// We can read and write the media
-			mExternalStorageAvailable = mExternalStorageWriteable = true;
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			// We can only read the media
-			mExternalStorageAvailable = true;
-			mExternalStorageWriteable = false;
-		} else {
-			// Something else is wrong. It may be one of many other states, but all we need
-			// to know is we can neither read nor write
-			mExternalStorageAvailable = mExternalStorageWriteable = false;
-		}
-		return mExternalStorageWriteable;
+	/**
+	 * Events called during the Application life cycle.
+	 */
+	@Override
+	public void onTerminate() {
+		NeoComApp.logger.info(">> [NeoComApp.onTerminate]");
+		this.unregisterReceiver(NeoComApp.timeTickReceiver);
+		super.onTerminate();
+		NeoComApp.logger.info("<< [NeoComApp.onTerminate]");
+	}
+
+	@Deprecated
+	public void openDatabases() {
+		this.getCCPDBConnector().openCCPDataBase();
+		this.getDBConnector().openAppDataBase();
+	}
+
+	public void startChrono() {
+		chrono = new Instant();
 	}
 
 	/**
@@ -818,6 +803,10 @@ public class NeoComApp extends Application implements IConnector {
 		}
 	}
 
+	public Duration timeLapse() {
+		return new Duration(chrono, new Instant());
+	}
+
 	/**
 	 * Gets the menu context and updates the background progress indicator with the counters.
 	 * 
@@ -825,10 +814,10 @@ public class NeoComApp extends Application implements IConnector {
 	 */
 	private void startProgress(final double countIndicator) {
 		// Activate menu icon of progress.
-		final Menu menu = AppModelStore.getSingleton().getAppMenu();
+		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
 		if (null != menu) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
-			final LayoutInflater mInflater = (LayoutInflater) AppModelStore.getSingleton().getActivity()
+			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {
@@ -853,10 +842,10 @@ public class NeoComApp extends Application implements IConnector {
 	 */
 	private void stopProgress() {
 		// Clear the update progress.
-		final Menu menu = AppModelStore.getSingleton().getAppMenu();
+		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
 		if (null != menu) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
-			final LayoutInflater mInflater = (LayoutInflater) AppModelStore.getSingleton().getActivity()
+			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {
@@ -872,18 +861,3 @@ public class NeoComApp extends Application implements IConnector {
 	}
 }
 // - UNUSED CODE ............................................................................................
-//[01]
-
-// public static void setAppTheme(final int themeCode) {
-// switch (themeCode) {
-// case 1:
-// appTheme = new RubiconRedTheme();
-// break;
-// case 2:
-// appTheme = new CryosBlueTheme();
-// break;
-// default:
-// appTheme = new RubiconRedTheme();
-// }
-//
-// }

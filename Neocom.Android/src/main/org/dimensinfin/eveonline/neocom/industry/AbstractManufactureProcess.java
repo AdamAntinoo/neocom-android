@@ -14,13 +14,15 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.ETaskCompletion;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
+import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -28,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.model.EveTask;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.Property;
 
 import com.j256.ormlite.dao.Dao;
@@ -95,7 +96,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * Calculates the minimum number of blueprints that can be manufactured with the resources stored at the
 	 * blueprint location. It is supposed that the IndustryMananger has subtracted the pending jobs resources
 	 * from those at the blueprint location prior to the calculations.
-	 * 
+	 *
 	 * @param itemasset
 	 * @return
 	 */
@@ -106,7 +107,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		if (!totalcalculated) {
 			final EveLocation location = blueprint.getLocation();
 			int count = 999999;
-			final ArrayList<Resource> resourceList = AppConnector.getDBConnector().searchListOfMaterials(bpid);
+			final ArrayList<Resource> resourceList = NeoComAppConnector.getSingleton().getDBConnector()
+					.searchListOfMaterials(bpid);
 			for (final Resource resource : resourceList) {
 				// Remove blueprints from the list of assets.
 				if (resource.getCategory().equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint)) {
@@ -146,12 +148,13 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 
 	public boolean moveAllowed() {
 		// Read the flag values from the preferences.
-		boolean moveAllowed = NeoComApp.getBooleanPreference(AppWideConstants.preference.PREF_ALLOWMOVEREQUESTS, false);
+		boolean moveAllowed = NeoComAppConnector.getSingleton()
+				.getBooleanPreference(AppWideConstants.preference.PREF_ALLOWMOVEREQUESTS, false);
 		return moveAllowed;
 	}
 
-	public void setAssetsManager(final AssetsManager iam) {
-		industryAssetsManager = iam;
+	public void setAssetsManager(final AbstractManager iam) {
+		industryAssetsManager = (AssetsManager) iam;
 		totalcalculated = false;
 		if (null != industryAssetsManager) {
 			industryAssetsManager.setPilot(this.getPilot());
@@ -194,14 +197,15 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * of the assets because they are going to be modified during the task creation process. So we can implement
 	 * a cache of those assets so we only read them from the database the first time and later we only use the
 	 * local copy.
-	 * 
+	 *
 	 * @param typeID
 	 * @return
 	 */
 	protected ArrayList<NeoComAsset> getAsset4Type(final int typeID) {
 		ArrayList<NeoComAsset> hit = industryAssetsManager.assetCache.get(Long.valueOf(typeID));
 		if (null == hit) {
-			hit = AppConnector.getDBConnector().searchAsset4Type(pilot.getCharacterID(), typeID);
+			hit = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton().getDBConnector()
+					.searchAsset4Type(pilot.getCharacterID(), typeID);
 			industryAssetsManager.assetCache.put(Long.valueOf(typeID), hit);
 		}
 		return hit;
@@ -307,17 +311,17 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		Log.i("EVEI", "-- [AbstractManufactureProcess.processRequest]> Processing state - " + ETaskType.BUILD);
 		// Get the resources needed to manufacture this request.
 		final int itemID = newTask.getTypeID();
-		final int bpid = AppConnector.getDBConnector().searchBlueprint4Module(itemID);
+		final int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(itemID);
 		// Check if there is a blueprint of this type on the belongings for this character.
 		boolean blueprintExists = false;
-		final ArrayList<NeoComAsset> bpsofType = AppConnector.getDBConnector()
+		final ArrayList<NeoComAsset> bpsofType = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton().getDBConnector()
 				.searchAsset4Type(this.getPilot().getCharacterID(), bpid);
 		EveLocation loc = manufactureLocation;
 		if (bpsofType.size() > 0) {
 			blueprintExists = true;
 			loc = bpsofType.get(0).getLocation();
 		}
-		final ArrayList<Resource> lom = AppConnector.getDBConnector().searchListOfMaterials(bpid);
+		final ArrayList<Resource> lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfMaterials(bpid);
 		for (final Resource resource : lom) {
 			AbstractManufactureProcess.logger
 					.info("-- [AbstractManufactureProcess.processRequest]> Processing Resource of LOM: " + resource);
@@ -339,7 +343,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * the BUY is a real BUY request that should be differentiated from a BUY when the user has already
 	 * requested a buy to the market. This is a visual aid to the user to remember that the buy has already be
 	 * requested to the market.
-	 * 
+	 *
 	 * @param newTask
 	 */
 	protected void processBuy(final EveTask newTask) {
@@ -384,7 +388,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	//				sellTask.setQty(resource.getQuantity());
 	//				sellTask.setTaskType(ETaskType.SELL);
 	//				// For sell operations the price if the BUY price.
-	////				MarketDataSet data = AppConnector.getDBConnector().searchMarketData(resource.getTypeID(), EMarketSide.BUYER);
+	////				MarketDataSet data = NeoComAppConnector.getSingleton().getDBConnector().searchMarketData(resource.getTypeID(), EMarketSide.BUYER);
 	////				sellTask.setMarketData(data);
 	//				//				sellTask.updateMarketData();
 	////				MarketDataEntry best = sellTask.getMarketData().getBestMarket();
@@ -448,8 +452,9 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	protected void processReaction(final EveTask newTask) {
 		Log.i("NEOCOM", "-- AbstractManufactureProcess.processReaction Processing state - " + ETaskType.BUILD);
 		final int itemID = newTask.getTypeID();
-		final int outputMultiplier = AppConnector.getDBConnector().searchReactionOutputMultiplier(itemID);
-		final ArrayList<Resource> lom = AppConnector.getDBConnector().searchListOfReaction(itemID);
+		final int outputMultiplier = NeoComAppConnector.getSingleton().getDBConnector()
+				.searchReactionOutputMultiplier(itemID);
+		final ArrayList<Resource> lom = NeoComAppConnector.getSingleton().getDBConnector().searchListOfReaction(itemID);
 		for (final Resource resource : lom) {
 			AbstractManufactureProcess.logger.info("-- Processing Resource of LOM: " + resource);
 			final int runs = newTask.getQty();
@@ -474,7 +479,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * process.<br>
 	 * The decomposition considers a rentability of 50% on the refining and increments the assets with the
 	 * result before resetting the calculation process.<br>
-	 * 
+	 *
 	 * @param newTask
 	 *          the task with the resource to be obtained.
 	 */
@@ -486,7 +491,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		final NeoComAsset oreSelected = this.searchOREAsset(newTask);
 		if (null != oreSelected) {
 			// Get access to the refining parameters
-			final ArrayList<Resource> refineParameters = AppConnector.getDBConnector().refineOre(oreSelected.getTypeID());
+			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+					.refineOre(oreSelected.getTypeID());
 			// Refine the asteroid stack and generate the new minerals.
 			for (final Resource rc : refineParameters) {
 				final double mineral = Math.floor(Math.floor(oreSelected.getQuantity() / rc.getStackSize())
@@ -522,7 +528,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * the action can be performed with other tasks that are less costly and that have a lower priority. If
 	 * those changes generate a new set of resources then the progress structures anr cleared and the process
 	 * starts again.
-	 * 
+	 *
 	 * @param newTask
 	 */
 	protected void processRequest(final EveTask newTask) {
@@ -543,7 +549,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 				// Complete the action and add the minerals obtained as tasks.
 				currentAction.setCompleted(ETaskCompletion.COMPLETED, newTask.getQty());
 				// Add the refine of the mineral to the tasks.
-				final ArrayList<Resource> refineParameters = AppConnector.getDBConnector().refineOre(newTask.getTypeID());
+				final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+						.refineOre(newTask.getTypeID());
 				for (final Resource rc : refineParameters) {
 					final double mineral = Math.floor(Math.floor(newTask.getResource().getQuantity() / rc.getStackSize())
 							* (rc.getBaseQuantity() * AbstractManufactureProcess.REFINING_EFFICIENCY));
@@ -692,7 +699,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	/**
 	 * Cache the resulting data on the asset cache to allow also the modification and the lateral impact for
 	 * these operations.
-	 * 
+	 *
 	 * @param category
 	 * @return
 	 */
@@ -727,7 +734,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 
 	/**
 	 * changes the assets counts on the source places where the resources are used or moved
-	 * 
+	 *
 	 * @param task
 	 * @param targetAsset
 	 */
@@ -755,7 +762,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * new storage.<br>
 	 * I think that the first is more stable and will make the code simpler because we only change one of the
 	 * methods and do not use other data structures.
-	 * 
+	 *
 	 * @param qty
 	 * @param itemID
 	 * @param location
@@ -767,7 +774,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 			this.getAsset4Type(itemID);
 			this.registerAssetChange(qty, itemID, location);
 		} else {
-			final EveItem item = AppConnector.getDBConnector().searchItembyID(itemID);
+			final EveItem item = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(itemID);
 			final NeoComAsset newAsset = new NeoComAsset();
 			//		newAsset.setItem(AppConnector.getDBConnector().searchItembyID(itemID));
 			newAsset.setAssetID(AbstractManufactureProcess.GENERATED_ASSETCOUNTER++);
@@ -784,7 +791,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * Aggregates the new task to the list of tasks. Before adding the task to the list it checks if there is a
 	 * task of the same item and type to accumulate the quantities instead of generating different tasks.<br>
 	 * After it modifies the list it fires a change so any listeners will trigger update processes.
-	 * 
+	 *
 	 * @param pri
 	 * @param task
 	 */
@@ -820,7 +827,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	/**
 	 * Register the task on the <code>Action</code>. This method is the one responsible to modify the assets
 	 * used to complete the task.
-	 * 
+	 *
 	 * @param pri
 	 *          priority of the task being registered.
 	 * @param task
@@ -842,7 +849,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		//	Select assets for the owner and woth an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		try {
-			final Dao<NeoComAsset, String> assetDao = AppConnector.getDBConnector().getAssetDAO();
+			final Dao<NeoComAsset, String> assetDao = NeoComAppConnector.getSingleton().getDBConnector().getAssetDAO();
 			final QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			final Where<NeoComAsset, String> where = queryBuilder.where();
 			where.eq("ownerID", characterID);
@@ -865,7 +872,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 	 * Tag the stack to be processed with the processing location so that location information is added to the
 	 * UI data presented to the user.<br>
 	 * Added the alphabetical ordering to allow for a better search for the right ore.
-	 * 
+	 *
 	 * @param newTask
 	 *          the task that requests the service.
 	 * @return an <code>Asset</code> that complies to cover the requested mineral request or at least a part of
@@ -910,7 +917,8 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 				continue;
 			}
 			// Get the list of minerals resulting from this refining.
-			final ArrayList<Resource> refineParameters = AppConnector.getDBConnector().refineOre(asteroid.getTypeID());
+			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+					.refineOre(asteroid.getTypeID());
 			for (final Resource resource : refineParameters)
 				if (resource.getTypeID() == newTask.getTypeID()) return asteroid;
 		}

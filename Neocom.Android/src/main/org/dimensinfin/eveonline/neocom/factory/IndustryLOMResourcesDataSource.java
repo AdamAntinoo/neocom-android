@@ -10,25 +10,25 @@ package org.dimensinfin.eveonline.neocom.factory;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.model.IGEFNode;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.ItemHeader4IndustryPart;
 import org.dimensinfin.eveonline.neocom.part.JobTimePart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.util.Log;
 
@@ -40,21 +40,23 @@ import android.util.Log;
  * the right job process to get the List Of Materials that are the information required from this DataSource.
  * <br>
  * The hierarchy has groups by resource type as shown on the EVE UI client.
- * 
+ *
  * @author Adam Antinoo
  */
 public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= 5845417980378961177L;
+	private static final long		serialVersionUID	= 5845417980378961177L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore			_store						= null;
-	private BlueprintPart			_bppart						= null;
-	private double						balance						= 0.0;
+	private AbstractModelStore	_store						= null;
+	private BlueprintPart				_bppart						= null;
+	private double							balance						= 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryLOMResourcesDataSource(final AppModelStore store) {
-		if (null != store) _store = store;
+	public IndustryLOMResourcesDataSource(final AbstractModelStore store) {
+		if (null != store) {
+			_store = store;
+		}
 	}
 
 	public RootNode collaborate2Model() {
@@ -85,10 +87,12 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 		// To the Output group add the resource part that represents the output.
 		ResourcePart outputResource = new ResourcePart(new Resource(_bppart.getProductID(), 1));
 		// Set the render depending on the blueprint job activity.
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING)
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTJOB);
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION)
+		}
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTBLUEPRINT);
+		}
 		output.addChild(outputResource);
 
 		// From the blueprint list of resources needed to perform the job.
@@ -98,22 +102,26 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 		Vector<IGEFNode> lomParts = new Vector<IGEFNode>();
 		for (Resource resource : lom) {
 			String category = resource.item.getCategory();
-			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint))
+			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint)) {
 				balance += 0.0;
-			else if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Skill))
+			} else if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
 				balance += 0.0;
-			else {
+			} else {
 				double realcost = resource.getQuantity() * resource.getItem().getLowestSellerPrice().getPrice();
 				balance += realcost;
 			}
 			// Process the actions and set each one on the matching group.
 			ResourcePart respart = new ResourcePart(resource);
-			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Skill))
+			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Skill)) {
 				respart.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCESKILLJOB);
-			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint))
+			}
+			if (category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint)) {
 				respart.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEBLUEPRINTJOB);
+			}
 			// Now classify each resource in their Industry group.
-			if (respart instanceof IItemPart) this.add2Group(respart, respart.getIndustryGroup());
+			if (respart instanceof IItemPart) {
+				this.add2Group(respart, respart.getIndustryGroup());
+			}
 		}
 	}
 
@@ -123,11 +131,16 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 		//	Collections.sort(_root, EVEDroidApp.createComparator(AppWideConstants.comparators.COMPARATOR_RESOURCE_TYPE));
 		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 		for (AbstractAndroidPart node : _root) {
-			if (node instanceof GroupPart) if (node.getChildren().size() == 0) continue;
+			if (node instanceof GroupPart) if (node.getChildren().size() == 0) {
+				continue;
+			}
 			result.add(node);
 			// Check if the node is expanded. Then add its children.
-			if (node.isExpanded()) for (IPart part : node.collaborate2View())
-				result.add((AbstractAndroidPart) part);
+			if (node.isExpanded()) {
+				for (IPart part : node.collaborate2View()) {
+					result.add((AbstractAndroidPart) part);
+				}
+			}
 		}
 		_adapterData = result;
 		AbstractDataSource.logger.info("<< IndustryManufactureResourcesDataSource.getPartHierarchy");
@@ -136,7 +149,7 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {
 		int productID = _bppart.getProductID();
-		EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+		EveItem productItem = NeoComAppConnector.getSingleton().getCCPDBConnector().searchItembyID(productID);
 		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 		result.add(new ItemHeader4IndustryPart(productItem));
 		return result;
@@ -154,8 +167,9 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 	protected void add2Group(final IItemPart action, final EIndustryGroup igroup) {
 		for (AbstractAndroidPart group : _root)
 			if (group instanceof GroupPart)
-				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString()))
-					group.addChild((IPart) action);
+				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild((IPart) action);
+				}
 	}
 
 	private void doGroupInit() {

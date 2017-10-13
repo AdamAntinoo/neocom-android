@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.model.AbstractGEFNode;
@@ -21,14 +22,13 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EVARIANT;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.model.MarketOrderAnalyticalGroup;
-import org.dimensinfin.eveonline.neocom.model.NeoComMarketOrder;
-import org.dimensinfin.eveonline.neocom.model.Separator;
+import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
+import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderAnalyticalGroupPart;
 import org.dimensinfin.eveonline.neocom.part.MarketOrderPart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -50,7 +50,7 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 	private final ArrayList<AbstractGEFNode>			modelList					= new ArrayList<AbstractGEFNode>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MarketOrdersDataSource(final AppModelStore store) {
+	public MarketOrdersDataSource(final NeoComModelStore store) {
 		super(store);
 	}
 
@@ -100,8 +100,9 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 		Collections.sort(analyticalGroups, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_WEIGHT));
 		// Add all the collaborations to the output list
 		modelList.clear();
-		for (final MarketOrderAnalyticalGroup group : analyticalGroups)
+		for (final MarketOrderAnalyticalGroup group : analyticalGroups) {
 			modelList.addAll(group.collaborate2Model(EVARIANT.DEFAULT_VARIANT.name()));
+		}
 
 		// Create the hierarchy from the model list.
 		for (final IGEFNode node : modelList) {
@@ -115,13 +116,18 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 				hierarchy
 						.add((AbstractAndroidPart) mopart.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPMARKETANALYTICAL));
 			}
-			if (node instanceof NeoComMarketOrder)
+			if (node instanceof NeoComMarketOrder) {
 				hierarchy.add((AbstractAndroidPart) new MarketOrderPart((NeoComMarketOrder) node)
 						.setRenderMode(AppWideConstants.rendermodes.RENDER_MARKETORDER));
-			if (node instanceof Resource) hierarchy.add((AbstractAndroidPart) new ResourcePart((Resource) node)
-					.setRenderMode(AppWideConstants.rendermodes.RENDER_MARKETORDERSCHEDULEDSELL));
-			if (node instanceof Separator) hierarchy.add((AbstractAndroidPart) new GroupPart((Separator) node)
-					.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE));
+			}
+			if (node instanceof Resource) {
+				hierarchy.add((AbstractAndroidPart) new ResourcePart((Resource) node)
+						.setRenderMode(AppWideConstants.rendermodes.RENDER_MARKETORDERSCHEDULEDSELL));
+			}
+			if (node instanceof Separator) {
+				hierarchy.add((AbstractAndroidPart) new GroupPart((Separator) node)
+						.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE));
+			}
 		}
 		_adapterData = hierarchy;
 		return hierarchy;
@@ -139,12 +145,14 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH))
+		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
-		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_CHILD_REMOVEDPROP.name()))
+		}
+		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_CHILD_REMOVEDPROP.name())) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 	}
 
 }

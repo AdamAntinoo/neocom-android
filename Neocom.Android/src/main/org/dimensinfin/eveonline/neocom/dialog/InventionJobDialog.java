@@ -10,12 +10,12 @@ package org.dimensinfin.eveonline.neocom.dialog;
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -101,7 +101,7 @@ public class InventionJobDialog extends DialogFragment {
 		this.initializeViews();
 		this.setupContents();
 		// Calculate the initial values for calculated data.
-		final IJobProcess process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), _blueprint,
+		final IJobProcess process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), _blueprint,
 				EJobClasses.INVENTION);
 		final int jobDuration = process.getCycleDuration();
 		final int bpccount = 1;
@@ -185,7 +185,7 @@ public class InventionJobDialog extends DialogFragment {
 	// public void setTaskPart(final TaskPart part) {
 	// _taskPart = part;
 	// int typeID = _taskPart.getItem().getTypeID();
-	// int bpid = AppConnector.getDBConnector().searchBlueprint4Module(typeID);
+	// int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
 	// _blueprintPart = new BlueprintPart(new Blueprint(bpid));
 	// }
 

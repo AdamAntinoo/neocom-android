@@ -10,12 +10,12 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryJobActionsDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -24,15 +24,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobActionsFragment extends AbstractPagerFragment {
+public class JobActionsFragment extends AbstractObsoletePagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore	_store	= null;
+	private NeoComModelStore	_store	= null;
 	private Bundle				_extras	= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
+	public String getPilotName() {
+		return NeoComModelStore.getSingleton().getPilot().getName();
+	}
 
 	@Override
 	public String getSubtitle() {
@@ -79,8 +83,9 @@ public class JobActionsFragment extends AbstractPagerFragment {
 
 				// This fragment has a header. Populate it with the datasource header contents.
 				ArrayList<AbstractAndroidPart> headerData = ds.getHeaderPartHierarchy();
-				for (AbstractAndroidPart headerPart : headerData)
+				for (AbstractAndroidPart headerPart : headerData) {
 					this.addtoHeader(headerPart);
+				}
 			}
 		} catch (final RuntimeException rtex) {
 			Log.e("NEOCOM", "RTEX> JobActionsFragment.onStart - " + rtex.getMessage());
@@ -95,12 +100,12 @@ public class JobActionsFragment extends AbstractPagerFragment {
 	//		return _datasource;
 	//	}
 
-	public AbstractPagerFragment setExtras(final Bundle extras) {
+	public AbstractObsoletePagerFragment setExtras(final Bundle extras) {
 		_extras = extras;
 		return this;
 	}
 
-	public void setStore(final AppModelStore store) {
+	public void setStore(final NeoComModelStore store) {
 		_store = store;
 	}
 }

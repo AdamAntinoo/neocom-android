@@ -12,6 +12,9 @@ package org.dimensinfin.eveonline.neocom.datasource;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.IGEFNode;
@@ -21,8 +24,7 @@ import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 /**
  * This DataSource will need some inputs to create the list of actions to be performed to complete the number
@@ -53,6 +55,7 @@ public class FittingDataSource extends SpecialDataSource {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
 	public RootNode collaborate2Model() {
 		FittingDataSource.logger.info(">> [FittingDataSource.collaborate2Model]");
 		try {
@@ -87,8 +90,9 @@ public class FittingDataSource extends SpecialDataSource {
 
 	private void add2Group(final AbstractComplexNode action, final EIndustryGroup igroup) {
 		for (IGEFNode group : _dataModelRoot.getChildren())
-			if (group instanceof Separator)
-				if (((Separator) group).getTitle().equalsIgnoreCase(igroup.toString())) group.addChild(action);
+			if (group instanceof Separator) if (((Separator) group).getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild(action);
+			}
 	}
 
 	/**
@@ -164,15 +168,18 @@ public class FittingDataSource extends SpecialDataSource {
 	 * @return
 	 */
 	private void initDataSourceModel() {
-		AppModelStore store = AppModelStore.getSingleton();
+		NeoComModelStore store = NeoComModelStore.getSingleton();
 		long capsuleerId = this.getParameterLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		String fittingLabel = this.getParameterString(AppWideConstants.EExtras.EXTRA_FITTINGID.name());
 		final AssetsManager manager = store.getPilot().getAssetsManager();
-		if (capsuleerId == 0)
+		if (capsuleerId == 0) {
 			fit = this.createTestFitting(manager);
-		else
+		} else {
 			fit = store.searchFitting(fittingLabel);
-		if (null == fit) fit = this.createTestFitting(manager);
+		}
+		if (null == fit) {
+			fit = this.createTestFitting(manager);
+		}
 	}
 }
 // - UNUSED CODE ............................................................................................

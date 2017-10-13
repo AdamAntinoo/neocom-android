@@ -11,18 +11,20 @@ package org.dimensinfin.eveonline.neocom.fragment;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +41,7 @@ import android.util.Log;
  * 
  * @author Adam Antinoo
  */
-public class FittingFragment extends AbstractNewPagerFragment {
+public class FittingFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger	= Logger.getLogger("FittingFragment");
 
@@ -53,11 +55,30 @@ public class FittingFragment extends AbstractNewPagerFragment {
 		this.setFactory(new FittingPartFactory(this.getVariant()));
 	}
 
+	public NeoComCharacter getPilot() {
+		return NeoComModelStore.getSingleton().getPilot();
+	}
+
+	public String getPilotName() {
+		return this.getPilot().getName();
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public String getSubtitle() {
 		return "";
 	}
+
+	//	private IExtendedDataSource getDataSource() {
+	//		return _datasource;
+	//	}
+	//
+	//	private IPartFactory getFactory() {
+	//		if (null == factory) {
+	//			factory = new FittingPartFactory(this.getVariant());
+	//		}
+	//		return factory;
+	//	}
 
 	@Override
 	public String getTitle() {
@@ -75,24 +96,14 @@ public class FittingFragment extends AbstractNewPagerFragment {
 			// This fragment has a header. Populate it with the datasource header contents.
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			Log.e("EVEI", "RTEX> FittingFragment.onCreateView - " + rtex.getMessage());
+			FittingFragment.logger.severe("RTEX [FittingFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> FittingFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		Log.i("NEOCOM", "<< FittingFragment.onStart");
 	}
-
-	//	private IExtendedDataSource getDataSource() {
-	//		return _datasource;
-	//	}
-	//
-	//	private IPartFactory getFactory() {
-	//		if (null == factory) {
-	//			factory = new FittingPartFactory(this.getVariant());
-	//		}
-	//		return factory;
-	//	}
 
 	/**
 	 * This is the single piece f code specific for this fragment. It should create the right class DataSource
@@ -116,7 +127,7 @@ public class FittingFragment extends AbstractNewPagerFragment {
 		ds.setVariant(this.getVariant());
 		ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
 		ds.addParameter(AppWideConstants.EExtras.EXTRA_FITTINGID.name(), fittingLabel);
-		ds = (SpecialDataSource) AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds);
+		ds = (SpecialDataSource) DataSourceManager.registerDataSource(ds);
 		this.setDataSource(ds);
 	}
 

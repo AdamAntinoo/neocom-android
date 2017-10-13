@@ -10,19 +10,19 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
-
-import android.util.Log;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ShipsFragment extends AbstractNewPagerFragment {
+public class ShipsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("ShipsFragment");
 
@@ -60,9 +60,10 @@ public class ShipsFragment extends AbstractNewPagerFragment {
 			//		this.setIdentifier(_variant.hashCode());
 			this.registerDataSource();
 		} catch (final RuntimeException rtex) {
-			Log.e("NEOCOM", "RTEX> ShipsFragment.onStart - " + rtex.getMessage());
+			ShipsFragment.logger.severe("RTEX [ShipsFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> ShipsFragment.onStart - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		ShipsFragment.logger.info("<< [ShipsFragment.onStart]");
@@ -82,7 +83,7 @@ public class ShipsFragment extends AbstractNewPagerFragment {
 		SpecialDataSource ds = new ShipsDataSource(locator, this.getFactory());
 		ds.setVariant(this.getVariant());
 		ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
+		this.setDataSource(DataSourceManager.registerDataSource(ds));
 		ShipsFragment.logger.info("<< [ShipsFragment.registerDataSource]");
 	}
 
@@ -90,6 +91,14 @@ public class ShipsFragment extends AbstractNewPagerFragment {
 	protected void setHeaderContents() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private NeoComCharacter getPilot() {
+		return NeoComModelStore.getSingleton().getCurrentPilot();
+	}
+
+	private String getPilotName() {
+		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
 	}
 }
 

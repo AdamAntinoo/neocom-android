@@ -8,9 +8,9 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-//- IMPORT SECTION .........................................................................................
+import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +48,7 @@ public abstract class PilotPagerActivity extends AbstractPagerActivity {
 			final long characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			if (characterid > 0) {
 				// Initialize the access to the global structures.
-				AppModelStore store = AppModelStore.getSingleton();
+				NeoComModelStore store = NeoComModelStore.getSingleton();
 				store.activatePilot(characterid);
 				store.activateActivity(this);
 			}

@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.core.model.IModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -33,14 +33,14 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	private static Logger			logger						= Logger.getLogger("UserModelPersistenceHandler");	//$NON-NLS-1$
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore			store;
+	private NeoComModelStore			store;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public UserModelPersistenceHandler() {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AppModelStore getStore() {
+	public NeoComModelStore getStore() {
 		return store;
 	}
 
@@ -53,8 +53,8 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	 */
 	public synchronized boolean restore() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.restore");
-		File modelStoreFile = AppConnector.getStorageConnector()
-				.accessAppStorage(AppConnector.getResourceString(R.string.userdatamodelfilename));
+		File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector()
+				.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 		try {
 			// Read the contents of the character information.
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(modelStoreFile));
@@ -87,8 +87,8 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	public synchronized boolean save() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.save"); //$NON-NLS-1$
 		try {
-			File modelStoreFile = AppConnector.getStorageConnector()
-					.accessAppStorage(AppConnector.getResourceString(R.string.userdatamodelfilename));
+			File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector()
+					.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 			final BufferedOutputStream buffer = new BufferedOutputStream(new FileOutputStream(modelStoreFile));
 
 			final ObjectOutput output = new ObjectOutputStream(buffer);
@@ -116,7 +116,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 
 	public void setStore(final IModelStore newStore) {
 		if (null != newStore) {
-			store = (AppModelStore) newStore;
+			store = (NeoComModelStore) newStore;
 		}
 	}
 

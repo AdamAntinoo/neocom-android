@@ -16,7 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -56,7 +56,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	 * collapsed that will show the total number of assets that are found on the database and the other values
 	 * when the Location is expanded that will show the number of graphical items (these are the real children
 	 * on the location) that will hide the number of items inside other containers.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -66,7 +66,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 			locationAssets = this.getChildren().size();
 		} else {
 			try {
-				Dao<NeoComAsset, String> assetDao = AppConnector.getDBConnector().getAssetDAO();
+				Dao<NeoComAsset, String> assetDao = NeoComAppConnector.getSingleton().getDBConnector().getAssetDAO();
 				// DEBUG I have to get access to the pilot ID for some filters. Possible set the parent the root and from it to the Pilot
 				locationAssets = assetDao
 						.countOf(assetDao.queryBuilder().setCountOf(true).where().eq("ownerID", this.getPilot().getCharacterID())
@@ -193,7 +193,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	 * the case where a container is on the hols of a ship. That special case will not be implemented on this
 	 * first approach and all the container will be located at the Location's hangar floor.<br>
 	 * Containers also do not have its market value added to the location's aggregation.
-	 * 
+	 *
 	 * @param apart
 	 */
 	private void add2Container(final AssetPart apart) {

@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -30,7 +30,7 @@ import android.text.Spanned;
 import android.widget.ImageView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class EveAbstractHolder extends AbstractHolder {
+public abstract class EveAbstractHolder extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static final long											ONEMINUTE									= 60 * 1000;
 	protected static final long											ONEHOUR										= 60 * EveAbstractHolder.ONEMINUTE;
@@ -105,7 +105,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	 * The price of the manufacture cost on the output is not tinted with the right color. Use red for cero or
 	 * negative costs, orange for less than 10% and white for higher (or maybe green for higher). This code can
 	 * be refactored to use ever the same generation code.
-	 * 
+	 *
 	 * @param cost
 	 * @param price
 	 * @param suffix
@@ -241,7 +241,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	/**
 	 * Downloads and caches the item icon from the CCP server. The new implementation check for special cases
 	 * such as locations. Stations on locations have an image that can be downloaded from the same place.
-	 * 
+	 *
 	 * @param targetIcon
 	 * @param typeID
 	 */
@@ -249,11 +249,11 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 		// Check if the layout has the icon placeholder.
 		if (null != targetIcon) {
 			// If the flag signals an station change the code.
-			String link = NeoComApp.getTheCacheConnector().getURLForItem(typeID);
+			String link = NeoComApp.getSingletonApp().getCacheConnector().getURLForItem(typeID);
 			if (station) {
-				link = NeoComApp.getTheCacheConnector().getURLForStation(typeID);
+				link = NeoComApp.getSingletonApp().getCacheConnector().getURLForStation(typeID);
 			}
-			final Drawable draw = NeoComApp.getTheCacheConnector().getCacheDrawable(link, targetIcon);
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
 			targetIcon.setImageDrawable(draw);
 		}
 	}
@@ -261,7 +261,7 @@ public abstract class EveAbstractHolder extends AbstractHolder {
 	protected Spanned regionSystemLocation(final EveLocation loc) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		// EveLocation loc =
-		// AppConnector.getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
+		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
 		final String security = loc.getSecurity();
 		String secColor = EveAbstractHolder.securityLevels.get(security);
 		if (null == secColor) {

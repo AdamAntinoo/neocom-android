@@ -12,19 +12,21 @@ import java.util.HashMap;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity.EFittingVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 
@@ -40,7 +42,7 @@ import android.os.Bundle;
  * 
  * @author Adam Antinoo
  */
-public class FittingListFragment extends AbstractNewPagerFragment implements IPagerFragment {
+public class FittingListFragment extends AbstractPagerFragment implements IPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger	= Logger.getLogger("FittingListFragment");
 
@@ -77,9 +79,10 @@ public class FittingListFragment extends AbstractNewPagerFragment implements IPa
 			// This fragment has a header. Populate it with the datasource header contents.
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			FittingListFragment.logger.warning("RTEX> FittingListFragment.onCreateView - " + rtex.getMessage());
+			FittingListFragment.logger.severe("RTEX [FittingListFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> FittingListFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		super.onStart();
 		FittingListFragment.logger.info("<< [FittingListFragment.onStart]");
@@ -104,7 +107,7 @@ public class FittingListFragment extends AbstractNewPagerFragment implements IPa
 			SpecialDataSource ds = new FittingListDataSource(locator, this.getFactory());
 			ds.setVariant(this.getVariant());
 			ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-			this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
+			this.setDataSource(DataSourceManager.registerDataSource(ds));
 		}
 		FittingListFragment.logger.info("<< [FittingListFragment.registerDataSource]");
 	}
@@ -114,6 +117,10 @@ public class FittingListFragment extends AbstractNewPagerFragment implements IPa
 	 */
 	@Override
 	public void setHeaderContents() {
+	}
+
+	private NeoComCharacter getPilot() {
+		return NeoComModelStore.getSingleton().getCurrentPilot();
 	}
 }
 
@@ -137,10 +144,11 @@ final class FittingListDataSource extends SpecialDataSource {
 	/**
 	 * Get the list of available fittings from the store and classify them from the Group category.
 	 */
+	@Override
 	public RootNode collaborate2Model() {
 		FittingListDataSource.logger.info(">> [FittingListDataSource.collaborate2Model]");
 		try {
-			AppModelStore store = AppModelStore.getSingleton();
+			NeoComModelStore store = NeoComModelStore.getSingleton();
 			HashMap<String, Fitting> fitList = store.getFittings();
 			// If the fitting list is empty then show an special message and end the DS.
 			if (fitList.size() < 1) {

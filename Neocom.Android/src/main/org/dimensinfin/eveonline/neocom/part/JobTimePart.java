@@ -9,10 +9,10 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import java.util.GregorianCalendar;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.render.JobTimeRender;
 
 // - CLASS IMPLEMENTATION ...................................................................................

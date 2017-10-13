@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/blacktraslucent40" >
+    android:background="@drawable/panelborderblue" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/itemIcon"
-            style="@style/ItemIconStyle.Size48" />
+            style="@style/ItemIcon.Style.Size40" />
 
         <org.dimensinfin.eveonline.neocom.core.Din1451TextView
             android:id="@+id/shipType"

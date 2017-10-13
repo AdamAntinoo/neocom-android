@@ -11,9 +11,10 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -24,14 +25,13 @@ import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Skill;
 import org.dimensinfin.eveonline.neocom.part.ActionPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.JobTimePart;
 import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -47,7 +47,7 @@ import android.util.Log;
  * The locations to take on account are the location where is located the blueprint stack.<br>
  * The resources are the character available resources at that location less the resources used on scheduled
  * jobs. Scheduled jobs are only valid at the <code>MANUFACTURE</code> location
- * 
+ *
  * @author Adam Antinoo
  */
 public class IndustryJobActionsDataSource extends AbstractNewDataSource {
@@ -63,7 +63,7 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	//	private final AppContext		_context					= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryJobActionsDataSource(final AppModelStore store) {
+	public IndustryJobActionsDataSource(final NeoComModelStore store) {
 		super(store);
 	}
 
@@ -90,7 +90,9 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 			for (final Action action : actions) {
 				final ActionPart apart = new ActionPart(action);
 				apart.setBlueprintID(_bppart.getCastedModel().getAssetID());
-				if (action instanceof Skill) apart.setRenderMode(AppWideConstants.rendermodes.RENDER_SKILLACTION);
+				if (action instanceof Skill) {
+					apart.setRenderMode(AppWideConstants.rendermodes.RENDER_SKILLACTION);
+				}
 				apart.createHierarchy();
 				_bppart.addChild(apart);
 			}
@@ -117,10 +119,12 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 		final int productID = _bppart.getProductID();
 		final ResourcePart outputResource = new ResourcePart(new Resource(productID, _bppart.getPossibleRuns()));
 		// Set the render depending on the blueprint job activity.
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING)
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.MANUFACTURING) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTJOB);
-		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION)
+		}
+		if (_bppart.getJobActivity() == ModelWideConstants.activities.INVENTION) {
 			outputResource.setRenderMode(AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTBLUEPRINT);
+		}
 		output.addChild(outputResource);
 		// Now classify each resource in their Industry group.
 		this.classifyResources(_bppart.getChildren());
@@ -135,11 +139,16 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 		try {
 			//		Collections.sort(_root, EVEDroidApp.createComparator(AppWideConstants.comparators.COMPARATOR_PRIORITY));
 			for (final AbstractAndroidPart node : _root) {
-				if (node instanceof GroupPart) if (node.getChildren().size() == 0) continue;
+				if (node instanceof GroupPart) if (node.getChildren().size() == 0) {
+					continue;
+				}
 				result.add(node);
 				// Check if the node is expanded. Then add its children.
-				if (node.isExpanded()) for (IPart part : node.collaborate2View())
-					result.add((AbstractAndroidPart) part);
+				if (node.isExpanded()) {
+					for (IPart part : node.collaborate2View()) {
+						result.add((AbstractAndroidPart) part);
+					}
+				}
 			}
 		} catch (final RuntimeException rtex) {
 		}
@@ -151,7 +160,7 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	//	@Override
 	//	public ArrayList<AbstractAndroidPart> getHeaderPartsHierarchy(final int panelMarketordersbody) {
 	//		int productID = _bppart.getProductID();
-	//		EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+	//		EveItem productItem = NeoComAppConnector.getSingleton().getDBConnector().searchItembyID(productID);
 	//		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		result.add(new ItemHeader4IndustryPart(productItem));
 	//		return result;
@@ -170,13 +179,13 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	//		//		createHeaderContents();
 	//		//		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		int productID = _bppart.getProductID();
-	//		EveItem productItem = AppConnector.getDBConnector().searchItembyID(productID);
+	//		EveItem productItem = NeoComAppConnector.getSingleton().getDBConnector().searchItembyID(productID);
 	//		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
 	//		result.add(new ItemHeader4IndustryPart(productItem));
 	//		return result;
 	//		//		return result;
 	//
-	//	
+	//
 	//	}
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {
 		final ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
@@ -198,12 +207,14 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE))
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
-		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH))
+		}
+		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_RECALCULATE)) {
 			// Clean all asset managers before restarting the action list.
 			_bppart.clean();
@@ -223,8 +234,9 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 	protected void add2Group(final IItemPart action, final EIndustryGroup igroup) {
 		for (final AbstractAndroidPart group : _root)
 			if (group instanceof GroupPart)
-				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString()))
-					group.addChild((IPart) action);
+				if (((GroupPart) group).getCastedModel().getTitle().equalsIgnoreCase(igroup.toString())) {
+				group.addChild((IPart) action);
+				}
 	}
 
 	@Override

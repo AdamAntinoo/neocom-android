@@ -1,41 +1,43 @@
-//	PROJECT:        EveIndustrialAssistant (EIA)
+//	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Minery and mainly on Manufacture.
-
+//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API16.
+//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
+//									for characters and corporations at Eve Online. The set is composed of some projects
+//									with implementation for Android and for an AngularJS web interface based on REST
+//									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.RegionHolder;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
-import org.dimensinfin.eveonline.neocom.model.Separator;
+import org.dimensinfin.eveonline.neocom.model.Region;
+import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
 
 import android.view.View;
 import android.view.View.OnClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class RegionPart extends AbstractAndroidPart implements INamedPart, OnClickListener {
+public class RegionPart extends AExtendedPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID		= -7696249781992547826L;
-	private static Logger					logger							= Logger.getLogger("RegionPart");
+	//	private static Logger					logger							= Logger.getLogger("RegionPart");
 	private static DecimalFormat	itemCountFormatter	= new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public RegionPart(final Separator region) {
+	public RegionPart(final Region region) {
 		super(region);
 	}
 
@@ -48,8 +50,9 @@ public class RegionPart extends AbstractAndroidPart implements INamedPart, OnCli
 		return this.getCastedModel().getTitle();
 	}
 
-	public Separator getCastedModel() {
-		return (Separator) this.getModel();
+	@Override
+	public Region getCastedModel() {
+		return (Region) this.getModel();
 	}
 
 	@Override
@@ -132,6 +135,12 @@ public class RegionPart extends AbstractAndroidPart implements INamedPart, OnCli
 	protected AbstractHolder selectHolder() {
 		// Get the proper holder from the render mode.
 		return new RegionHolder(this, _activity);
+	}
+
+	@Override
+	protected AbstractRender selectRenderer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

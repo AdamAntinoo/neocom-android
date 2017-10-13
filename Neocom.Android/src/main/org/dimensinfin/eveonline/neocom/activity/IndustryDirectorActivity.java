@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.fragment.InventionBlueprintsFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirector;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -101,7 +101,7 @@ public class IndustryDirectorActivity extends PilotPagerActivity implements INeo
 		try {
 			// Get the number of blueprints of T3 and then T2 and T1 to activate
 			// the corresponding pages.
-			this.checkActivation(AppModelStore.getSingleton().getPilot());
+			this.checkActivation(NeoComModelStore.getSingleton().getPilot());
 			// Reset the page position.
 			int page = 0;
 			if (_T3Count > 0) {

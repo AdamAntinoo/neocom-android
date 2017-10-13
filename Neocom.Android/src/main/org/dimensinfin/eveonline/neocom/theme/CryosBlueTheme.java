@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EThemeTransparency;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -83,7 +83,7 @@ public class CryosBlueTheme implements ITheme {
 	}
 
 	private Activity getActivity() {
-		final Activity act = AppModelStore.getSingleton().getActivity();
+		final Activity act = NeoComModelStore.getSingleton().getActivity();
 		if (null == act)
 			throw new RuntimeException("Bad initialization and theme usage. App activity lost or not defined.");
 		return act;

@@ -22,7 +22,7 @@ import org.dimensinfin.eveonline.neocom.holder.Ship4PilotInfoHolder;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Ship;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;
 import android.view.ContextMenu;
@@ -114,8 +114,8 @@ public class ShipPart extends AssetPart implements OnClickListener, IMenuActionT
 					label = this.getCastedModel().getItemName();
 				}
 				fit.setName(label);
-				AppModelStore.getSingleton().addFitting(fit, label);
-				AppModelStore.getSingleton().save();
+				NeoComModelStore.getSingleton().addFitting(fit, label);
+				NeoComModelStore.getSingleton().save();
 
 				// Open the Fitting Activity
 				final Intent intent = new Intent(this.getActivity(), FittingActivity.class);

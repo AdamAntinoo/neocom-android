@@ -11,17 +11,18 @@ package org.dimensinfin.eveonline.neocom.factory;
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.Container;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.Ship;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.ContainerPart;
@@ -51,13 +52,13 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart(final AbstractComplexNode node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (node instanceof Region) {
-			IPart part = new RegionPart((Separator) node).setRenderMode(EAssetVariants.valueOf(this.getVariant()).hashCode())
-					.setFactory(this);
+			IPart part = new RegionPart((Region) node).setFactory(this)
+					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 			return part;
 		}
 		if (node instanceof EveLocation) {
 			IPart part = new LocationAssetsPart((EveLocation) node)
-					.setRenderMode(EAssetVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
+					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 			return part;
 		}
 		if (node instanceof Separator) {
@@ -99,11 +100,11 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 			// There are two renders for Ship. Fitted that are ShipParts and packaged that are AssetParts.
 			if (((Ship) node).isPackaged()) {
 				IPart part = new ShipPart((NeoComAsset) node)
-						.setRenderMode(EAssetVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
+						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 				return part;
 			} else {
 				IPart part = new AssetPart((NeoComAsset) node)
-						.setRenderMode(EAssetVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
+						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 				return part;
 			}
 		}
@@ -114,8 +115,8 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 			return part;
 		}
 		if (node instanceof NeoComAsset) {
-			IPart part = new AssetPart((NeoComAsset) node).setRenderMode(EAssetVariants.valueOf(this.getVariant()).hashCode())
-					.setFactory(this);
+			IPart part = new AssetPart((NeoComAsset) node)
+					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 			return part;
 		}
 		// If no part is trapped then call the parent chain until one is found.

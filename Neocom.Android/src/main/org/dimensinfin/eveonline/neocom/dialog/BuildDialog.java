@@ -9,15 +9,15 @@ package org.dimensinfin.eveonline.neocom.dialog;
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.TaskPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -92,9 +92,9 @@ public class BuildDialog extends DialogFragment {
 
 		// Get the martching blueprint and obtain some key information from it.
 		int typeID = _taskPart.getItem().getTypeID();
-		int bpid = AppConnector.getDBConnector().searchBlueprint4Module(typeID);
+		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
 		_blueprint = new NeoComBlueprint(bpid);
-		IJobProcess buildProcess = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), _blueprint,
+		IJobProcess buildProcess = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), _blueprint,
 				EJobClasses.MANUFACTURE);
 		_runsBuild.setText(_taskPart.getQuantity());
 		_runs = _taskPart.getQuantity();
@@ -133,13 +133,13 @@ public class BuildDialog extends DialogFragment {
 	/**
 	 * We receive a TaskPart and from it we create the required BlueprintPart that the dialog used to calculate
 	 * and display the data
-	 * 
+	 *
 	 * @param part
 	 */
 	public void setTaskPart(final TaskPart part) {
 		_taskPart = part;
 		int typeID = _taskPart.getItem().getTypeID();
-		int bpid = AppConnector.getDBConnector().searchBlueprint4Module(typeID);
+		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
 		_blueprintPart = new BlueprintPart(new NeoComBlueprint(bpid));
 		// TODO We have to set the location that should be set to create the job
 		// TODO Set the runs that the user has selected or that are set to the build job

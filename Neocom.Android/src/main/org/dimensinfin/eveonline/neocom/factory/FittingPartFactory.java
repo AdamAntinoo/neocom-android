@@ -11,6 +11,8 @@ package org.dimensinfin.eveonline.neocom.factory;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -20,8 +22,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.part.ActionPart;
 import org.dimensinfin.eveonline.neocom.part.FittingListPart;
 import org.dimensinfin.eveonline.neocom.part.FittingPart;
@@ -86,8 +86,7 @@ public class FittingPartFactory extends PartFactory implements IPartFactory {
 								.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING);
 						break;
 					case EMPTY_FITTINGLIST:
-						part = new GroupPart((Separator) node).setFactory(this)
-								.setRenderMode(ESeparatorType.EMPTY_FITTINGLIST.name());
+						part = new GroupPart((Separator) node).setFactory(this).setRenderMode(999);
 						break;
 					default:
 						part = new GroupPart((Separator) node).setFactory(this)

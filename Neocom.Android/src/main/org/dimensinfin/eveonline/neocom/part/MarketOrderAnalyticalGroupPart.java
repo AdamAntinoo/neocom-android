@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.model.MarketOrderAnalyticalGroup;
+import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
 import org.dimensinfin.eveonline.neocom.render.AnalyticalGroupRender;
 import org.dimensinfin.eveonline.neocom.render.MarketSideRender;
 
@@ -28,28 +28,28 @@ public class MarketOrderAnalyticalGroupPart extends EveAbstractPart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MarketOrderAnalyticalGroupPart(final MarketOrderAnalyticalGroup node) {
 		super(node);
-		getCastedModel().setExpanded(true);
+		this.getCastedModel().setExpanded(true);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public MarketOrderAnalyticalGroup getCastedModel() {
-		return (MarketOrderAnalyticalGroup) getModel();
+		return (MarketOrderAnalyticalGroup) this.getModel();
 	}
 
 	public double getGroupBudget() {
-		return getCastedModel().getBudget();
+		return this.getCastedModel().getBudget();
 	}
 
 	public int getGroupCount() {
-		return getCastedModel().getChildren().size();
+		return this.getCastedModel().getChildren().size();
 	}
 
 	public int getGroupQuantity() {
-		return getCastedModel().getQuantity();
+		return this.getCastedModel().getQuantity();
 	}
 
 	public String getGroupTitle() {
-		return getCastedModel().getTitle();
+		return this.getCastedModel().getTitle();
 	}
 
 	@Override
@@ -60,18 +60,18 @@ public class MarketOrderAnalyticalGroupPart extends EveAbstractPart {
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer("MarketOrderAnalyticalGroupPart [");
-		buffer.append(getGroupTitle()).append(" ");
-		buffer.append("weight:").append(getCastedModel().getWeight()).append(" ");
+		buffer.append(this.getGroupTitle()).append(" ");
+		buffer.append("weight:").append(this.getCastedModel().getWeight()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
 	@Override
 	protected AbstractHolder selectHolder() {
-		if (getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETANALYTICAL)
-			return new AnalyticalGroupRender(this, this._activity);
+		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETANALYTICAL)
+			return new AnalyticalGroupRender(this, _activity);
 		// TODO Create a default render to be returned when there is no default.
-		return new MarketSideRender(this, this._activity);
+		return new MarketSideRender(this, _activity);
 	}
 }
 

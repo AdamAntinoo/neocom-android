@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/selectedgreentraslucent" >
+    android:background="@drawable/panelbordergreen" >
 
     <ImageView
         android:id="@+id/pilotAvatar"

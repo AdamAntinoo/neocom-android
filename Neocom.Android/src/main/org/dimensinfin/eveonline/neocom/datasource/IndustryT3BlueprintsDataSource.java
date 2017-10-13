@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractDataSource;
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -22,11 +23,10 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.model.Separator;
 import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
 import org.dimensinfin.eveonline.neocom.part.LocationIndustryPart;
 import org.dimensinfin.eveonline.neocom.part.TerminatorPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.util.Log;
 
@@ -49,12 +49,14 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 	private static final long													serialVersionUID	= -1904434849082581300L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AppModelStore															_store						= null;
+	private NeoComModelStore															_store						= null;
 	private final HashMap<Long, LocationIndustryPart>	locations					= new HashMap<Long, LocationIndustryPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IndustryT3BlueprintsDataSource(final AppModelStore store) {
-		if (null != store) _store = store;
+	public IndustryT3BlueprintsDataSource(final NeoComModelStore store) {
+		if (null != store) {
+			_store = store;
+		}
 	}
 
 	public RootNode collaborate2Model() {
@@ -97,10 +99,11 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 			BlueprintPart bppart = new BlueprintPart(currentbpc);
 			bppart.setActivity(ModelWideConstants.activities.MANUFACTURING);
 			bppart.setRenderMode(AppWideConstants.rendermodes.RENDER_BLUEPRINTINDUSTRY);
-			if (null == parent)
+			if (null == parent) {
 				this.add2Location(locid, bppart);
-			else
+			} else {
 				this.add2Container(parent, bppart);
+			}
 		}
 		Log.i("IndustryT2Blueprints", "<< IndustryT2Blueprints.createContentHierarchy [" + _root.size() + "]");
 	}
@@ -117,8 +120,9 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 				ArrayList<IPart> grand = node.collaborate2View();
 				// Order the list of blueprints by their profit
 				Collections.sort(grand, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_CARD_RATIO));
-				for (IPart part : grand)
+				for (IPart part : grand) {
 					result.add((AbstractAndroidPart) part);
+				}
 				result.add(new TerminatorPart(new Separator("")));
 			}
 		}
@@ -134,9 +138,10 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE))
+		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
 					event.getNewValue());
+		}
 	}
 
 	/**
@@ -156,10 +161,11 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 					.setRenderMode(AppWideConstants.rendermodes.RENDER_BLUEPRINTINDUSTRY);
 			lochit.setContainerLocation(true);
 			String containername = container.getUserLabel();
-			if (null == containername)
+			if (null == containername) {
 				lochit.setContainerName("#" + container.getAssetID());
-			else
+			} else {
 				lochit.setContainerName(containername);
+			}
 			locations.put(cid, lochit);
 			_root.add(lochit);
 		}

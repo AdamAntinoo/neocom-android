@@ -20,7 +20,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.IndustryT2Activity;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -156,7 +156,7 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 
 	/**
 	 * Check if all the actions inside are completed (AVAILABLE).
-	 * 
+	 *
 	 * @return
 	 */
 	public ETaskCompletion isCompleted() {
@@ -241,13 +241,13 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 				final NeoComAsset asset = tasks.get(0).getReferencedAsset();
 				// Check this is a T2 blueprint and then get its T1 version.
 				if (asset.getTech().equalsIgnoreCase(ModelWideConstants.eveglobal.TechII)) {
-					final ArrayList<Integer> ids = AppConnector.getDBConnector()
+					final ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
 							.searchInventionableBlueprints(Integer.valueOf(asset.getTypeID()).toString());
 					// The first element is the blueprint that invents the target.
 					// Now search for an asset of that type.
 					final Integer t1bpid = ids.get(0);
-					final ArrayList<NeoComAsset> targetbpassetid = AppConnector.getDBConnector()
-							.searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
+					final ArrayList<NeoComAsset> targetbpassetid = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton()
+							.getDBConnector().searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
 					if (targetbpassetid.size() > 0) {
 						final NeoComAsset targetAsset = targetbpassetid.get(0);
 						final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);

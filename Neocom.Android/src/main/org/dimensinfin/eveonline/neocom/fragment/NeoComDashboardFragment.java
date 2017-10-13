@@ -11,26 +11,27 @@ package org.dimensinfin.eveonline.neocom.fragment;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity;
 import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
-import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
 import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeoComDashboardFragment extends AbstractNewPagerFragment {
+public class NeoComDashboardFragment extends AbstractPagerFragment {
 	static enum EDirectorCode {
 		ASSETDIRECTOR, SHIPDIRECTOR, INDUSTRYDIRECTOR, MARKETDIRECTOR, JOBDIRECTOR, MININGDIRECTOR, FITDIRECTOR
 	}
@@ -93,9 +94,10 @@ public class NeoComDashboardFragment extends AbstractNewPagerFragment {
 			this.setHeaderContents();
 			this.setNeoComMenu(theView);
 		} catch (final RuntimeException rtex) {
-			Log.e("EVEI", "RTEX> NeoComDashboardFragment.onCreateView - " + rtex.getMessage());
+			NeoComDashboardFragment.logger.severe("RTEX [NeoComDashboardFragment.onCreateView]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> NeoComDashboardFragment.onCreateView - " + rtex.getMessage()));
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
 		}
 		NeoComDashboardFragment.logger.info("<< [NeoComDashboardFragment.onCreateView]");
 		return theView;
@@ -118,16 +120,24 @@ public class NeoComDashboardFragment extends AbstractNewPagerFragment {
 		SpecialDataSource ds = new PilotDashboardDataSource(locator, this.getFactory());
 		ds.setVariant(this.getVariant());
 		ds.addParameter(EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		ds = (SpecialDataSource) AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds);
+		ds = (SpecialDataSource) DataSourceManager.registerDataSource(ds);
 		this.setDataSource(ds);
 		NeoComDashboardFragment.logger.info("<< [NeoComDashboardFragment.registerDataSource]");
 	}
 
 	@Override
 	protected void setHeaderContents() {
-		IPart pilotPart = this.getFactory().createPart(AppModelStore.getSingleton().getPilot());
+		IPart pilotPart = this.getFactory().createPart(NeoComModelStore.getSingleton().getPilot());
 		((AbstractPropertyChanger) pilotPart).addPropertyChangeListener(this.getDataSource());
 		this.addtoHeader((AbstractAndroidPart) pilotPart);
+	}
+
+	private NeoComCharacter getPilot() {
+		return NeoComModelStore.getSingleton().getCurrentPilot();
+	}
+
+	private String getPilotName() {
+		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
 	}
 
 	/**
@@ -143,10 +153,10 @@ public class NeoComDashboardFragment extends AbstractNewPagerFragment {
 			for (final EDirectorCode directorCode : NeoComDashboardFragment.activeDirectors) {
 				AbstractAndroidPart dirPart = null;
 				switch (directorCode) {
-					case ASSETDIRECTOR:
-						// Create the part, configure it and add to the layout.
-						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new AssetsDirectorActivity()));
-						break;
+					//					case ASSETDIRECTOR:
+					//						// Create the part, configure it and add to the layout.
+					//						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new AssetsDirectorActivity()));
+					//						break;
 					case SHIPDIRECTOR:
 						// Create the part, configure it and add to the layout.
 						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new ShipDirectorActivity()));
@@ -198,6 +208,7 @@ final class PilotDashboardDataSource extends SpecialDataSource {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
 	public RootNode collaborate2Model() {
 		this.setDataModel(new RootNode());
 		return _dataModelRoot;

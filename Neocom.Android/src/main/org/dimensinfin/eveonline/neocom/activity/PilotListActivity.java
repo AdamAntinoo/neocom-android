@@ -12,6 +12,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.activity.core.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.PilotListFragment;
 import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
@@ -19,10 +20,6 @@ import android.os.Bundle;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PilotListActivity extends AbstractPagerActivity {
-	public enum EAccountsVariants {
-		CAPSULEER_LIST
-	}
-
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("PilotListActivity");
 
@@ -57,7 +54,7 @@ public class PilotListActivity extends AbstractPagerActivity {
 			int page = 0;
 			// Register this Activity as the current active Activity.
 			AppModelStore.getSingleton().activateActivity(this);
-			this.addPage(new PilotListFragment().setVariant(EAccountsVariants.CAPSULEER_LIST.name()), page++);
+			this.addPage(new PilotListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
 			PilotListActivity.logger.severe("[PilotListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();

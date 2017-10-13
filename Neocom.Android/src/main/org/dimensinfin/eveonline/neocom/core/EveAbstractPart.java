@@ -9,13 +9,14 @@ package org.dimensinfin.eveonline.neocom.core;
 // - IMPORT SECTION .........................................................................................
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.DefaultRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -27,6 +28,7 @@ import android.text.Spanned;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class EveAbstractPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	protected static Logger										logger										= Logger.getLogger("EveAbstractPart");
 	private static final long									serialVersionUID					= -2988276062110424930L;
 	private static final long									ONEMINUTE									= 60 * 1000;
 	private static final long									ONEHOUR										= 60 * EveAbstractPart.ONEMINUTE;
@@ -82,26 +84,6 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 		super(model);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public String generatePriceString(final double price, final boolean compress, final boolean addSuffix) {
-		// Generate different formats depending on the quantity and the compress flag.
-		// Get rid of negative numbers.
-		if (compress) {
-			if (Math.abs(price) > 1200000000.0) if (addSuffix)
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
-			else
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
-			if (Math.abs(price) > 12000000.0) if (addSuffix)
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
-			else
-				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
-		}
-		if (addSuffix)
-			return EveAbstractPart.priceFormatter.format(price) + " ISK";
-		else
-			return EveAbstractPart.priceFormatter.format(price);
-	}
-
 	protected Spanned colorFormatLocation(final EveLocation location) {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = location.getSecurityValue();
@@ -148,6 +130,26 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
+	protected String generatePriceString(final double price, final boolean compress, final boolean addSuffix) {
+		// Generate different formats depending on the quantity and the compress flag.
+		// Get rid of negative numbers.
+		if (compress) {
+			if (Math.abs(price) > 1200000000.0) if (addSuffix)
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
+			else
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
+			if (Math.abs(price) > 12000000.0) if (addSuffix)
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
+			else
+				return EveAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
+		}
+		if (addSuffix)
+			return EveAbstractPart.priceFormatter.format(price) + " ISK";
+		else
+			return EveAbstractPart.priceFormatter.format(price);
+	}
+
 	protected String generateSecurityColor(double sec, final String data) {
 		StringBuffer htmlFragmentWithColor = new StringBuffer();
 		String secColor = "#F00000";
@@ -165,7 +167,7 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 	}
 
 	protected NeoComCharacter getPilot() {
-		return AppModelStore.getSingleton().getPilot();
+		return NeoComModelStore.getSingleton().getPilot();
 	}
 
 	@Override

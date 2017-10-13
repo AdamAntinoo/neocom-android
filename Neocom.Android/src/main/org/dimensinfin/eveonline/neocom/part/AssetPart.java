@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
 import org.dimensinfin.eveonline.neocom.holder.AssetHolder;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.AssetLineRender;
 
@@ -70,7 +70,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
 	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
 	 * the background manager.
-	 * 
+	 *
 	 * @return
 	 */
 	public String get_itemPrice() {
@@ -156,7 +156,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 
 	//	private MarketDataSet searchMarketData(final int itemid) {
 	//		if (null == mdata)
-	//			mdata = AppConnector.getDBConnector().searchMarketData(getCastedModel().getItem().getItemID(),
+	//			mdata = NeoComAppConnector.getSingleton().getDBConnector().searchMarketData(getCastedModel().getItem().getItemID(),
 	//					ModelWideConstants.marketSide.BUYER);
 	//		return mdata;
 	//	}

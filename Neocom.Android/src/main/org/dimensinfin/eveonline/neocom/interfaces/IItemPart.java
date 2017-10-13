@@ -6,6 +6,7 @@
 
 package org.dimensinfin.eveonline.neocom.interfaces;
 
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 
 //- IMPORT SECTION .........................................................................................

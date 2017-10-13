@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.fragment.JobsFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirector;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +42,7 @@ public class JobDirectorActivity extends PilotPagerActivity implements INeoComDi
 		else {
 			// Fire a forced download of the job list.
 			checkPilot.cleanJobs();
-			NeoComApp.getTheCacheConnector().addCharacterUpdateRequest(checkPilot.getCharacterID());
+			NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(checkPilot.getCharacterID());
 			return false;
 		}
 	}
@@ -68,8 +68,8 @@ public class JobDirectorActivity extends PilotPagerActivity implements INeoComDi
 		Log.i("NEOCOM", ">> JobDirectorActivity.onCreate"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Cache the list of jobs to be used on this Director session
-		AppModelStore.getSingleton().getPilot().cleanJobs();
-		AppModelStore.getSingleton().getPilot().getIndustryJobs();
+		NeoComModelStore.getSingleton().getPilot().cleanJobs();
+		NeoComModelStore.getSingleton().getPilot().getIndustryJobs();
 		try {// Reset the page position.
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented

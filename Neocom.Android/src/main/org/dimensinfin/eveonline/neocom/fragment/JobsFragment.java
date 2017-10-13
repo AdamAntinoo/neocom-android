@@ -10,11 +10,11 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.JobListDataSource;
-import org.dimensinfin.eveonline.neocom.fragment.core.AbstractPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobsFragment extends AbstractPagerFragment {
+public class JobsFragment extends AbstractObsoletePagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -35,6 +35,10 @@ public class JobsFragment extends AbstractPagerFragment {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public int getJobActivity() {
 		return _activity;
+	}
+
+	public String getPilotName() {
+		return NeoComModelStore.getSingleton().getPilot().getName();
 	}
 
 	@Override
@@ -80,7 +84,7 @@ public class JobsFragment extends AbstractPagerFragment {
 		try {
 			if (!_alreadyInitialized) {
 				// Create the datasource and pass it the activity type.
-				JobListDataSource ds = new JobListDataSource(AppModelStore.getSingleton());
+				JobListDataSource ds = new JobListDataSource(NeoComModelStore.getSingleton());
 				ds.setActivityFilter(this.getJobActivity());
 				this.setDataSource(ds);
 				// This fragment has a header. Populate it with the datasource header contents.
@@ -98,7 +102,7 @@ public class JobsFragment extends AbstractPagerFragment {
 		Log.i("NEOCOM", "<< ManufactureJobsFragment.onStart");
 	}
 
-	public AbstractPagerFragment setActivity(final int activityType) {
+	public AbstractObsoletePagerFragment setActivity(final int activityType) {
 		_activity = activityType;
 		return this;
 	}

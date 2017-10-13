@@ -9,14 +9,14 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.render.ItemHeaderRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class ItemHeader4IndustryPart extends MarketDataPart {
@@ -33,12 +33,12 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 	 * Check on creation the type of item. Manufacturable items may get their Manufacture Processor from the
 	 * Blueprint. Manufacturable is a Part property.<br>
 	 * Then manufacturable parts may use a Processor that get created at this point.
-	 * 
+	 *
 	 * @param item
 	 */
 	public ItemHeader4IndustryPart(final AbstractComplexNode node) {
 		super(node);
-		bpid = AppConnector.getDBConnector().searchBlueprint4Module(this.getCastedModel().getTypeID());
+		bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(this.getCastedModel().getTypeID());
 		// TODO Check this validation. There are more items that are manufacturable and also item made with reactions.
 		if (-1 != bpid) {
 			manufacturable = true;
@@ -51,7 +51,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 	 * less that the best sell price then the price is shown in green and the sell multiplier is added to the
 	 * price. If the manufacture cost is greater than the sell price it is shown in red. If the cost is less
 	 * than the sell price but not greater than the 110% of that price then the price is shown in white.
-	 * 
+	 *
 	 * @return
 	 */
 	public String get_manufactureCost() {
@@ -136,7 +136,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 
 	private IJobProcess getJobProcess() {
 		if (null == process) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), new NeoComBlueprint(bpid),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), new NeoComBlueprint(bpid),
 					EJobClasses.MANUFACTURE);
 		}
 		return process;

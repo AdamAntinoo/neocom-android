@@ -1,0 +1,402 @@
+08-27 14:01:49.509: I/EVEI(3656): >> AbstractPagerActivity.onStop
+08-27 14:28:44.480: I/bstractNewPagerFragment(3656): >> [AbstractPagerFragment.onStart]
+08-27 14:28:44.480: I/bstractNewPagerFragment(3656): -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+08-27 14:28:44.485: I/NEOCOM(3656): >> AbstractPagerFragment.addViewtoHeader
+08-27 14:28:44.489: I/bstractNewPagerFragment(3656): >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:28:44.489: I/SpecialDataSource(3656): >< [SpecialDataSource.collaborate2Model]
+08-27 14:28:44.489: I/AbstractGenerator(3656): >> [PilotDirectorsGenerator.collaborate2Model]
+08-27 14:28:44.489: I/model(3656): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_EXPANDCOLLAPSENODE on object: org.dimensinfin.core.model.RootNode
+08-27 14:28:44.573: I/AssetsManager(3656): ~~ Time lapse for [SELECT * FROM ASSETS OWNER = 92223647] - PT0.084S
+08-27 14:28:44.573: I/AssetsManager(3656): -- Assets processed: 0
+08-27 14:28:44.574: I/AssetsManager(3656): -- [AssetsManager.accessAllAssets]> No more assets to process
+08-27 14:28:44.574: I/AssetsManager(3656): -- [AssetsManager.accessAllAssets]> Assets processed: 0
+08-27 14:28:44.574: I/model(3656): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_CHILD_ADDEDPROP on object: org.dimensinfin.core.model.RootNode
+08-27 14:28:44.574: I/AbstractGenerator(3656): << [PilotDirectorsGenerator.collaborate2Model]
+08-27 14:28:44.574: I/SpecialDataSource(3656): >> [SpecialDataSource.createContentHierarchy]
+08-27 14:28:44.574: I/SpecialDataSource(3656): -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+08-27 14:28:44.574: I/AbstractPart(3656): >> [AbstractPart.refreshChildren]
+08-27 14:28:44.580: I/AbstractPart(3656): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:28:44.580: I/AbstractPart(3656): -- [AbstractEditPart.refreshChildren]> partModel: RootNode [count: 1	,[[AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]
+08-27 14:28:44.581: I/AbstractPart(3656): -- [AbstractEditPart.refreshChildren]> modelObjects: [AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ]]
+08-27 14:28:44.581: I/PilotPartFactory(3656): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.manager.AssetsManager
+08-27 14:28:44.581: I/AbstractPart(3656): -- [AbstractEditPart.refreshChildren]> New Part: AssetsManagerPart( AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ] )
+08-27 14:28:44.581: I/model(3656): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.android.mvc.core.RootPart
+08-27 14:28:44.581: I/model(3656): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:28:44.581: I/AbstractPart(3656): >> [AbstractPart.refreshChildren]
+08-27 14:28:44.581: I/AbstractPart(3656): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:28:44.581: I/AbstractPart(3656): -- [AbstractEditPart.refreshChildren]> partModel: AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ]
+08-27 14:28:44.581: I/AbstractPart(3656): -- [AbstractEditPart.refreshChildren]> modelObjects: []
+08-27 14:28:44.587: I/SpecialDataSource(3656): -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 1
+08-27 14:28:44.587: I/SpecialDataSource(3656): << [SpecialDataSource.createContentHierarchy]
+08-27 14:28:44.587: I/bstractNewPagerFragment(3656): << [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:28:44.610: I/NEOCOM(3656): << AbstractPagerFragment.addViewtoHeader
+08-27 14:28:44.610: I/bstractNewPagerFragment(3656): << [AbstractPagerFragment.onStart]
+08-27 14:28:44.671: I/NEOCOM(3656): >> CreatePartsTask.onPostExecute
+08-27 14:28:44.671: I/SpecialDataSource(3656): >> [SpecialDataSource.getBodyParts]
+08-27 14:28:44.671: I/SpecialDataSource(3656): << [SpecialDataSource.getBodyParts]> result.size: 1
+08-27 14:28:44.671: I/NEOCOM(3656): << CreatePartsTask.onPostExecute
+08-27 14:28:44.677: I/DataSourceAdapter(3656): -- Getting view [0]
+08-27 14:28:44.700: I/Timeline(3656): Timeline: Activity_idle id: android.os.BinderProxy@192c8fab time:95739127
+08-27 14:29:03.074: I/NeoComApp(3824): >> [NeoComApp.<init>]
+08-27 14:29:03.074: I/NeoComApp(3824): .. First Time Initialization.
+08-27 14:29:03.075: I/NeoComApp(3824): << [NeoComApp.<init>]
+08-27 14:29:03.076: I/NeoComApp(3824): >> [NeoComApp.onCreate]
+08-27 14:29:03.081: I/NeoComApp(3824): << [NeoComApp.onCreate]
+08-27 14:29:03.093: I/SplashActivity(3824): >> [SplashActivity.onCreate]
+08-27 14:29:03.496: I/SplashActivity(3824): << [SplashActivity.onCreate]
+08-27 14:29:03.497: I/SplashActivity(3824): >> [SplashActivity.onStart]
+08-27 14:29:03.500: I/SplashActivity(3824): << [SplashActivity.onStart]
+08-27 14:29:03.502: I/SplashActivity(3824): >> [NeoComInitialization.doInBackground]
+08-27 14:29:03.503: I/SplashActivity(3824): >> [NeoComInitialization.doStep01]
+08-27 14:29:03.509: D/OpenGLRenderer(3824): Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+08-27 14:29:03.519: I/SplashActivity(3824): -- [NeoComInitialization.doStep01]> STEP 01. App Directories created
+08-27 14:29:03.520: I/SplashActivity(3824): -- [NeoComInitialization.doStep01]> STEP 02. Required files on place
+08-27 14:29:03.525: D/Atlas(3824): Validating map...
+08-27 14:29:03.539: I/AbstractModelStore(3824): >> [AppModelStore.initialize]
+08-27 14:29:03.578: I/Adreno-EGL(3824): <qeglDrvAPI_eglInitialize:410>: EGL 1.4 QUALCOMM build: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020_msm8960_LA.AF.1.1_RB1__release_AU ()
+08-27 14:29:03.578: I/Adreno-EGL(3824): OpenGL ES Shader Compiler Version: E031.25.03.06
+08-27 14:29:03.578: I/Adreno-EGL(3824): Build Date: 05/22/15 Fri
+08-27 14:29:03.578: I/Adreno-EGL(3824): Local Branch: mybranch10237523
+08-27 14:29:03.578: I/Adreno-EGL(3824): Remote Branch: quic/LA.AF.1.1_rb1.18
+08-27 14:29:03.578: I/Adreno-EGL(3824): Local Patches: NONE
+08-27 14:29:03.578: I/Adreno-EGL(3824): Reconstruct Branch: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020 + 9b2699f + 2215637 + 60aa592 + f2362e6 + 5c64f59 + 82411a1 + 89a0db6 + 6151be1 +  NOTHING
+08-27 14:29:03.594: I/OpenGLRenderer(3824): Initialized EGL, version 1.4
+08-27 14:29:03.630: D/OpenGLRenderer(3824): Enabling debug mode 0
+08-27 14:29:03.875: I/Timeline(3824): Timeline: Activity_idle id: android.os.BinderProxy@310e3910 time:95758303
+08-27 14:29:04.559: I/ModelPersistenceHandler(3824): >> UserModelPersistenceHandler.restore
+08-27 14:29:04.562: W/ModelPersistenceHandler(3824): W> /storage/emulated/0/NeoCom09/datamodel.store not found during restore.
+08-27 14:29:04.562: I/ModelPersistenceHandler(3824): << UserModelPersistencehandler.restore [FileNotFoundException]
+08-27 14:29:04.564: I/AbstractModelStore(3824): ~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - PT0.004S
+08-27 14:29:04.564: I/AbstractModelStore(3824): << [AppModelStore.initialize]
+08-27 14:29:04.564: I/AbstractModelStore(3824): >> [AppModelStore.readApiKeys]
+08-27 14:29:04.566: I/ndroidDatabaseConnector(3824): >> [AndroidDatabaseConnector.getApiList4Login] login=Beth
+08-27 14:29:04.566: W/ndroidDatabaseConnector(3824): W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.
+08-27 14:29:04.644: W/FileUtils(3824): Failed to chmod(/storage/emulated/0/NeoCom09/neocom-090.db): android.system.ErrnoException: chmod failed: EPERM (Operation not permitted)
+08-27 14:29:04.652: I/ndroidDatabaseConnector(3824): << [AndroidDatabaseConnector.getApiList4Login]
+08-27 14:29:04.653: I/NeoComApiKey(3824): -- [NeoComApiKey.build]> Creating key: 2889577/Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw
+08-27 14:29:04.775: I/art(3824): Background partial concurrent mark sweep GC freed 18363(709KB) AllocSpace objects, 3(261KB) LOS objects, 40% free, 16MB/27MB, paused 915us total 116.912ms
+08-27 14:29:09.271: I/AbstractModelStore(3824): -- [AppModelStore.readApiKeys]> Adding Beth Ripley to the _neocomCharacters
+08-27 14:29:09.271: I/AbstractModelStore(3824): << [AppModelStore.readApiKeys]
+08-27 14:29:09.271: I/SplashActivity(3824): << [NeoComInitialization.doStep01]
+08-27 14:29:09.280: I/SplashActivity(3824): << [NeoComInitialization.doInBackground]
+08-27 14:29:09.283: I/Timeline(3824): Timeline: Activity_launch_request id:org.dimensinfin.eveonline.neocom time:95763711
+08-27 14:29:09.306: I/PilotListActivity(3824): >> [PilotListActivity.onCreate]
+08-27 14:29:09.306: I/EVEI(3824): >> AbstractPagerActivity.onCreate
+08-27 14:29:09.401: I/EVEI(3824): << AbstractPagerActivity.onCreate
+08-27 14:29:09.413: I/NEOCOM(3824): >> AbstractPagerActivity.addPage
+08-27 14:29:09.413: I/NEOCOM(3824): << AbstractPagerActivity.addPage
+08-27 14:29:09.429: I/PilotListActivity(3824): << [PilotListActivity.onCreate]
+08-27 14:29:09.445: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onCreateView]
+08-27 14:29:09.445: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:29:09.454: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:29:09.454: I/PilotListFragment(3824): >> [PilotListFragment.registerDataSource]
+08-27 14:29:09.462: I/ModelGeneratorManager(3824): -- [ModelGeneratorManager.registerGenerator]> Registering new Generator: CAPSULEER_LIST/Beth/
+08-27 14:29:09.468: I/DataSourceManager(3824): -- [DataSourceManager.registerDataSource]> Registering new DataSource: CAPSULEER_LIST/Beth/
+08-27 14:29:09.468: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onCreateView]
+08-27 14:29:09.468: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onStart]
+08-27 14:29:09.469: I/bstractNewPagerFragment(3824): -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+08-27 14:29:09.469: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onStart]
+08-27 14:29:09.471: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:29:09.472: I/SpecialDataSource(3824): >< [PilotListDataSource.collaborate2Model]
+08-27 14:29:09.473: I/AbstractGenerator(3824): >> [PilotRoasterModelAdapter.collaborate2Model]
+08-27 14:29:09.475: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_EXPANDCOLLAPSENODE on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:09.475: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_CHILD_ADDEDPROP on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:09.475: I/AbstractGenerator(3824): -- [PilotRoasterModelAdapter.collaborate2Model]> Adding 'Beth Ripley' to the _dataModelRoot
+08-27 14:29:09.475: I/AbstractGenerator(3824): << [PilotListDataSource.collaborate2Model]
+08-27 14:29:09.482: I/SpecialDataSource(3824): >> [SpecialDataSource.createContentHierarchy]
+08-27 14:29:09.484: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+08-27 14:29:09.484: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:09.484: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:09.494: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: RootNode [count: 1	,[[NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]
+08-27 14:29:09.494: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: [NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]
+08-27 14:29:09.498: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:29:09.629: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> New Part: PilotInfoPart( NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]] )
+08-27 14:29:09.629: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.android.mvc.core.RootPart
+08-27 14:29:09.629: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:09.629: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:09.629: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:09.629: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]
+08-27 14:29:09.629: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: []
+08-27 14:29:09.630: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 1
+08-27 14:29:09.630: I/SpecialDataSource(3824): << [SpecialDataSource.createContentHierarchy]
+08-27 14:29:09.630: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:29:09.759: I/NEOCOM(3824): >> CreatePartsTask.onPostExecute
+08-27 14:29:09.760: I/SpecialDataSource(3824): >> [SpecialDataSource.getBodyParts]
+08-27 14:29:09.760: I/SpecialDataSource(3824): << [SpecialDataSource.getBodyParts]> result.size: 1
+08-27 14:29:09.761: I/NEOCOM(3824): << CreatePartsTask.onPostExecute
+08-27 14:29:09.781: I/DataSourceAdapter(3824): -- Getting view [0]
+08-27 14:29:09.934: I/AssetsManager(3824): ~~ Time lapse for [SELECT * FROM ASSETS OWNER = 92223647] - PT0.008S
+08-27 14:29:09.934: I/AssetsManager(3824): -- Assets processed: 0
+08-27 14:29:09.950: I/AssetsManager(3824): -- [AssetsManager.accessAllAssets]> No more assets to process
+08-27 14:29:09.951: I/AssetsManager(3824): -- [AssetsManager.accessAllAssets]> Assets processed: 0
+08-27 14:29:10.087: I/Timeline(3824): Timeline: Activity_idle id: android.os.BinderProxy@6db03a8 time:95764515
+08-27 14:29:14.959: I/PilotInfoPart(3824): >> [PilotInfoPart.onClick]
+08-27 14:29:14.960: I/AbstractModelStore(3824): >> [AppModelStore.activatePilot] id=92223647
+08-27 14:29:14.960: I/AbstractModelStore(3824): << [AppModelStore.activatePilot]
+08-27 14:29:14.962: I/Timeline(3824): Timeline: Activity_launch_request id:org.dimensinfin.eveonline.neocom time:95769390
+08-27 14:29:14.975: I/PilotInfoPart(3824): << [PilotInfoPart.onClick]
+08-27 14:29:14.985: I/AbstractPagerActivity(3824): >> [PilotDetailActivity.onCreate]
+08-27 14:29:14.985: I/EVEI(3824): >> AbstractPagerActivity.onCreate
+08-27 14:29:14.999: I/EVEI(3824): << AbstractPagerActivity.onCreate
+08-27 14:29:15.000: I/NEOCOM(3824): >> AbstractPagerActivity.addPage
+08-27 14:29:15.000: I/NEOCOM(3824): << AbstractPagerActivity.addPage
+08-27 14:29:15.001: I/AbstractPagerActivity(3824): << [PilotDetailActivity.onCreate]
+08-27 14:29:15.028: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onCreateView]
+08-27 14:29:15.028: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:29:15.033: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:29:15.033: I/bstractNewPagerFragment(3824): >> [PilotDetailedFragment.registerDataSource]
+08-27 14:29:15.033: I/ModelGeneratorManager(3824): -- [ModelGeneratorManager.registerGenerator]> Registering new Generator: PILOT_DETAILS/Beth/
+08-27 14:29:15.034: I/DataSourceManager(3824): -- [DataSourceManager.registerDataSource]> Registering new DataSource: PILOT_DETAILS/Beth/
+08-27 14:29:15.034: I/bstractNewPagerFragment(3824): << [PilotDetailedFragment.registerDataSource]
+08-27 14:29:15.034: I/bstractNewPagerFragment(3824): >> [PilotDetailedFragment.setHeaderContents]
+08-27 14:29:15.034: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:29:15.034: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.addtoHeader]
+08-27 14:29:15.035: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.addtoHeader]
+08-27 14:29:15.035: I/bstractNewPagerFragment(3824): << [PilotDetailedFragment.setHeaderContents]
+08-27 14:29:15.035: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onCreateView]
+08-27 14:29:15.035: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onStart]
+08-27 14:29:15.035: I/bstractNewPagerFragment(3824): -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+08-27 14:29:15.042: I/NEOCOM(3824): >> AbstractPagerFragment.addViewtoHeader
+08-27 14:29:15.042: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:29:15.043: I/SpecialDataSource(3824): >< [SpecialDataSource.collaborate2Model]
+08-27 14:29:15.043: I/AbstractGenerator(3824): >> [PilotDirectorsGenerator.collaborate2Model]
+08-27 14:29:15.043: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_EXPANDCOLLAPSENODE on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:15.043: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_CHILD_ADDEDPROP on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:15.043: I/AbstractGenerator(3824): << [PilotDirectorsGenerator.collaborate2Model]
+08-27 14:29:15.043: I/SpecialDataSource(3824): >> [SpecialDataSource.createContentHierarchy]
+08-27 14:29:15.043: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+08-27 14:29:15.043: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:15.043: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:15.043: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: RootNode [count: 1	,[[NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]
+08-27 14:29:15.044: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: [NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]
+08-27 14:29:15.044: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:29:15.044: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> New Part: PilotInfoPart( NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]] )
+08-27 14:29:15.044: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.android.mvc.core.RootPart
+08-27 14:29:15.044: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:15.044: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:15.044: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:15.044: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]
+08-27 14:29:15.054: I/AssetsManager(3824): ~~ Time lapse for [SELECT * FROM ASSETS OWNER = 92223647] - PT0.009S
+08-27 14:29:15.054: I/AssetsManager(3824): -- Assets processed: 0
+08-27 14:29:15.054: I/AssetsManager(3824): -- [AssetsManager.accessAllAssets]> No more assets to process
+08-27 14:29:15.054: I/AssetsManager(3824): -- [AssetsManager.accessAllAssets]> Assets processed: 0
+08-27 14:29:15.058: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: [AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ], AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]
+08-27 14:29:15.059: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.manager.AssetsManager
+08-27 14:29:15.059: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> New Part: AssetsManagerPart( AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ] )
+08-27 14:29:15.059: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.eveonline.neocom.part.PilotInfoPart
+08-27 14:29:15.059: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:29:15.059: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:15.060: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:15.060: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:15.060: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: AssetsManager [owner:Beth Ripley locationsList: {} regionNames: {} ]
+08-27 14:29:15.060: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: []
+08-27 14:29:15.060: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.manager.PlanetaryManager
+08-27 14:29:15.060: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> New Part: PlanetaryManagerPart( AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]] )
+08-27 14:29:15.060: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.eveonline.neocom.part.PilotInfoPart
+08-27 14:29:15.060: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:29:15.060: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:29:15.060: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:29:15.061: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:29:15.061: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]
+08-27 14:29:15.061: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: null
+08-27 14:29:15.062: W/System.err(3824): java.lang.NullPointerException: Attempt to invoke virtual method 'int java.util.ArrayList.size()' on a null object reference
+08-27 14:29:15.081: I/NEOCOM(3824): << AbstractPagerFragment.addViewtoHeader
+08-27 14:29:15.081: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onStart]
+08-27 14:29:15.087: W/System.err(3824): 	at org.dimensinfin.android.mvc.core.AbstractPart.refreshChildren(AbstractPart.java:260)
+08-27 14:29:15.087: W/System.err(3824): 	at org.dimensinfin.android.mvc.core.AbstractPart.refreshChildren(AbstractPart.java:287)
+08-27 14:29:15.087: W/System.err(3824): 	at org.dimensinfin.android.mvc.core.AbstractPart.refreshChildren(AbstractPart.java:287)
+08-27 14:29:15.088: W/System.err(3824): 	at org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource.createContentHierarchy(SpecialDataSource.java:126)
+08-27 14:29:15.088: W/System.err(3824): 	at org.dimensinfin.eveonline.neocom.activity.PilotManagersDataSource.createContentHierarchy(PilotDetailActivity.java:185)
+08-27 14:29:15.088: W/System.err(3824): 	at org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment$CreatePartsTask.doInBackground(AbstractNewPagerFragment.java:80)
+08-27 14:29:15.088: W/System.err(3824): 	at org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment$CreatePartsTask.doInBackground(AbstractNewPagerFragment.java:1)
+08-27 14:29:15.088: W/System.err(3824): 	at android.os.AsyncTask$2.call(AsyncTask.java:292)
+08-27 14:29:15.088: W/System.err(3824): 	at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+08-27 14:29:15.088: W/System.err(3824): 	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:231)
+08-27 14:29:15.088: W/System.err(3824): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)
+08-27 14:29:15.088: W/System.err(3824): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)
+08-27 14:29:15.088: W/System.err(3824): 	at java.lang.Thread.run(Thread.java:818)
+08-27 14:29:15.097: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 1
+08-27 14:29:15.098: I/SpecialDataSource(3824): << [SpecialDataSource.createContentHierarchy]
+08-27 14:29:15.098: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:29:15.194: I/NEOCOM(3824): >> CreatePartsTask.onPostExecute
+08-27 14:29:15.194: I/SpecialDataSource(3824): >> [SpecialDataSource.getBodyParts]
+08-27 14:29:15.194: I/SpecialDataSource(3824): << [SpecialDataSource.getBodyParts]> result.size: 1
+08-27 14:29:15.194: I/NEOCOM(3824): << CreatePartsTask.onPostExecute
+08-27 14:29:15.213: I/DataSourceAdapter(3824): -- Getting view [0]
+08-27 14:29:15.293: I/Timeline(3824): Timeline: Activity_idle id: android.os.BinderProxy@35c5e1a1 time:95769721
+08-27 14:29:15.606: I/EVEI(3824): >> AbstractPagerActivity.onStop
+08-27 14:29:21.434: I/PilotInfoPart(3824): >> [PilotInfoPart.onClick]
+08-27 14:29:21.435: I/PilotInfoPart(3824): << [PilotInfoPart.onClick]
+08-27 14:30:00.056: I/TimeTickReceiver(3824): >> TimeTickReceiver.onReceive
+08-27 14:30:00.064: I/TimeTickReceiver(3824): .. TimeTickReceiver.onReceive.EDataBlock to update: Beth Ripley - MARKETORDERS
+08-27 14:30:00.064: I/AndroidCacheConnector(3824): >> AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:30:00.069: I/AndroidCacheConnector(3824): << AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:30:00.076: I/TimeTickReceiver(3824): << TimeTickReceiver.onReceive [0 - 0/0]
+08-27 14:30:33.354: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.onStart]
+08-27 14:30:33.354: I/bstractNewPagerFragment(3824): -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+08-27 14:30:33.355: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.onStart]
+08-27 14:30:33.389: I/bstractNewPagerFragment(3824): >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:30:33.389: I/SpecialDataSource(3824): >< [PilotListDataSource.collaborate2Model]
+08-27 14:30:33.389: I/AbstractGenerator(3824): >> [PilotRoasterModelAdapter.collaborate2Model]
+08-27 14:30:33.389: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_EXPANDCOLLAPSENODE on object: org.dimensinfin.core.model.RootNode
+08-27 14:30:33.389: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_CHILD_ADDEDPROP on object: org.dimensinfin.core.model.RootNode
+08-27 14:30:33.389: I/AbstractGenerator(3824): -- [PilotRoasterModelAdapter.collaborate2Model]> Adding 'Beth Ripley' to the _dataModelRoot
+08-27 14:30:33.390: I/AbstractGenerator(3824): << [PilotListDataSource.collaborate2Model]
+08-27 14:30:33.390: I/SpecialDataSource(3824): >> [SpecialDataSource.createContentHierarchy]
+08-27 14:30:33.390: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+08-27 14:30:33.390: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:30:33.390: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:30:33.391: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: RootNode [count: 1	,[[NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]
+08-27 14:30:33.391: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: [NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]
+08-27 14:30:33.391: I/PilotPartFactory(3824): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:30:33.392: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> New Part: PilotInfoPart( NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]] )
+08-27 14:30:33.392: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.android.mvc.core.RootPart
+08-27 14:30:33.392: I/model(3824): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:30:33.392: I/AbstractPart(3824): >> [AbstractPart.refreshChildren]
+08-27 14:30:33.392: I/AbstractPart(3824): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:30:33.392: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> partModel: NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]
+08-27 14:30:33.392: I/AbstractPart(3824): -- [AbstractEditPart.refreshChildren]> modelObjects: []
+08-27 14:30:33.393: I/SpecialDataSource(3824): -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 1
+08-27 14:30:33.394: I/SpecialDataSource(3824): << [SpecialDataSource.createContentHierarchy]
+08-27 14:30:33.394: I/bstractNewPagerFragment(3824): << [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:30:33.455: I/NEOCOM(3824): >> CreatePartsTask.onPostExecute
+08-27 14:30:33.456: I/SpecialDataSource(3824): >> [SpecialDataSource.getBodyParts]
+08-27 14:30:33.456: I/SpecialDataSource(3824): << [SpecialDataSource.getBodyParts]> result.size: 1
+08-27 14:30:33.456: I/NEOCOM(3824): << CreatePartsTask.onPostExecute
+08-27 14:30:33.459: I/DataSourceAdapter(3824): -- Getting view [0]
+08-27 14:30:33.517: I/Timeline(3824): Timeline: Activity_idle id: android.os.BinderProxy@6db03a8 time:95847945
+08-27 14:30:33.753: I/EVEI(3824): >> AbstractPagerActivity.onStop
+08-27 14:31:00.079: I/TimeTickReceiver(3824): >> TimeTickReceiver.onReceive
+08-27 14:31:00.080: I/TimeTickReceiver(3824): -- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [CHARACTERUPDATE]
+08-27 14:31:00.084: I/TimeTickReceiver(3824): .. TimeTickReceiver.onReceive.EDataBlock to update: Beth Ripley - MARKETORDERS
+08-27 14:31:00.084: I/AndroidCacheConnector(3824): >> AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:31:00.132: I/TimeTickReceiver(3824): << TimeTickReceiver.onReceive [1 - 0/1]
+08-27 14:31:00.140: I/CharacterUpdaterService(3824): >> CharacterUpdaterService.onHandleIntent
+08-27 14:31:00.141: I/CharacterUpdaterService(3824): .. CharacterUpdaterService.onHandleIntent - EDataBlock to process: Beth Ripley - MARKETORDERS
+08-27 14:31:00.141: I/Pilot(3824): >> EveChar.updateMarketOrders
+08-27 14:31:00.956: I/Pilot(3824): << EveChar.updateMarketOrders
+08-27 14:31:00.960: I/TimeTickReceiver(3824): >> TimeTickReceiver.onReceive
+08-27 14:31:00.962: I/TimeTickReceiver(3824): .. TimeTickReceiver.onReceive.EDataBlock to update: Beth Ripley - INDUSTRYJOBS
+08-27 14:31:00.962: I/AndroidCacheConnector(3824): >> AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:31:00.962: I/AndroidCacheConnector(3824): << AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:31:00.962: I/TimeTickReceiver(3824): << TimeTickReceiver.onReceive [0 - 0/0]
+08-27 14:31:00.962: I/CharacterUpdaterService(3824): << CharacterUpdaterService.onHandleIntent
+08-27 14:32:00.059: I/TimeTickReceiver(3824): >> TimeTickReceiver.onReceive
+08-27 14:32:00.060: I/TimeTickReceiver(3824): -- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [CHARACTERUPDATE]
+08-27 14:32:00.070: I/TimeTickReceiver(3824): .. TimeTickReceiver.onReceive.EDataBlock to update: Beth Ripley - INDUSTRYJOBS
+08-27 14:32:00.070: I/AndroidCacheConnector(3824): >> AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:32:00.075: I/TimeTickReceiver(3824): << TimeTickReceiver.onReceive [1 - 0/1]
+08-27 14:32:00.078: I/CharacterUpdaterService(3824): >> CharacterUpdaterService.onHandleIntent
+08-27 14:32:00.079: I/CharacterUpdaterService(3824): .. CharacterUpdaterService.onHandleIntent - EDataBlock to process: Beth Ripley - INDUSTRYJOBS
+08-27 14:32:00.079: I/Pilot(3824): >> EveChar.updateIndustryJobs
+08-27 14:32:01.185: I/Pilot(3824): << EveChar.updateIndustryJobs
+08-27 14:32:01.188: I/TimeTickReceiver(3824): >> TimeTickReceiver.onReceive
+08-27 14:32:01.189: I/TimeTickReceiver(3824): .. TimeTickReceiver.onReceive.EDataBlock to update: Beth Ripley - ASSETDATA
+08-27 14:32:01.189: I/AndroidCacheConnector(3824): >> AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:32:01.189: I/AndroidCacheConnector(3824): << AndroidCacheConnector.addCharacterUpdateRequest
+08-27 14:32:01.189: I/TimeTickReceiver(3824): << TimeTickReceiver.onReceive [0 - 0/0]
+08-27 14:32:01.189: I/CharacterUpdaterService(3824): << CharacterUpdaterService.onHandleIntent
+08-27 14:32:19.208: W/ActivityThread(7833): Application org.dimensinfin.eveonline.neocom is waiting for the debugger on port 8100...
+08-27 14:32:19.210: I/System.out(7833): Sending WAIT chunk
+08-27 14:32:19.234: I/art(7833): Debugger is active
+08-27 14:32:19.411: I/System.out(7833): Debugger has connected
+08-27 14:32:19.411: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:19.611: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:19.811: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:20.011: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:20.212: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:20.412: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:20.612: I/System.out(7833): waiting for debugger to settle...
+08-27 14:32:20.813: I/System.out(7833): debugger has settled (1365)
+08-27 14:32:20.847: I/NeoComApp(7833): >> [NeoComApp.<init>]
+08-27 14:32:20.847: I/NeoComApp(7833): .. First Time Initialization.
+08-27 14:32:20.848: I/NeoComApp(7833): << [NeoComApp.<init>]
+08-27 14:32:20.849: I/NeoComApp(7833): >> [NeoComApp.onCreate]
+08-27 14:32:20.862: I/NeoComApp(7833): << [NeoComApp.onCreate]
+08-27 14:32:20.877: I/SplashActivity(7833): >> [SplashActivity.onCreate]
+08-27 14:32:20.983: I/SplashActivity(7833): << [SplashActivity.onCreate]
+08-27 14:32:20.984: I/SplashActivity(7833): >> [SplashActivity.onStart]
+08-27 14:32:20.987: I/SplashActivity(7833): << [SplashActivity.onStart]
+08-27 14:32:20.988: I/SplashActivity(7833): >> [NeoComInitialization.doInBackground]
+08-27 14:32:20.988: I/SplashActivity(7833): >> [NeoComInitialization.doStep01]
+08-27 14:32:20.995: D/OpenGLRenderer(7833): Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+08-27 14:32:20.996: I/SplashActivity(7833): -- [NeoComInitialization.doStep01]> STEP 01. App Directories created
+08-27 14:32:20.997: I/SplashActivity(7833): -- [NeoComInitialization.doStep01]> STEP 02. Required files on place
+08-27 14:32:21.005: D/Atlas(7833): Validating map...
+08-27 14:32:21.047: I/Adreno-EGL(7833): <qeglDrvAPI_eglInitialize:410>: EGL 1.4 QUALCOMM build: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020_msm8960_LA.AF.1.1_RB1__release_AU ()
+08-27 14:32:21.047: I/Adreno-EGL(7833): OpenGL ES Shader Compiler Version: E031.25.03.06
+08-27 14:32:21.047: I/Adreno-EGL(7833): Build Date: 05/22/15 Fri
+08-27 14:32:21.047: I/Adreno-EGL(7833): Local Branch: mybranch10237523
+08-27 14:32:21.047: I/Adreno-EGL(7833): Remote Branch: quic/LA.AF.1.1_rb1.18
+08-27 14:32:21.047: I/Adreno-EGL(7833): Local Patches: NONE
+08-27 14:32:21.047: I/Adreno-EGL(7833): Reconstruct Branch: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020 + 9b2699f + 2215637 + 60aa592 + f2362e6 + 5c64f59 + 82411a1 + 89a0db6 + 6151be1 +  NOTHING
+08-27 14:32:21.048: I/OpenGLRenderer(7833): Initialized EGL, version 1.4
+08-27 14:32:21.080: I/AbstractModelStore(7833): >> [AppModelStore.initialize]
+08-27 14:32:21.086: D/OpenGLRenderer(7833): Enabling debug mode 0
+08-27 14:32:21.192: I/Timeline(7833): Timeline: Activity_idle id: android.os.BinderProxy@1189466c time:95955620
+08-27 14:32:21.645: I/ModelPersistenceHandler(7833): >> UserModelPersistenceHandler.restore
+08-27 14:32:21.647: W/ModelPersistenceHandler(7833): W> /storage/emulated/0/NeoCom09/datamodel.store not found during restore.
+08-27 14:32:21.647: I/ModelPersistenceHandler(7833): << UserModelPersistencehandler.restore [FileNotFoundException]
+08-27 14:32:21.649: I/AbstractModelStore(7833): ~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - PT0.003S
+08-27 14:32:21.649: I/AbstractModelStore(7833): << [AppModelStore.initialize]
+08-27 14:32:21.649: I/AbstractModelStore(7833): >> [AppModelStore.readApiKeys]
+08-27 14:32:21.728: I/ndroidDatabaseConnector(7833): >> [AndroidDatabaseConnector.getApiList4Login] login=Beth
+08-27 14:32:21.728: W/ndroidDatabaseConnector(7833): W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.
+08-27 14:32:21.850: W/FileUtils(7833): Failed to chmod(/storage/emulated/0/NeoCom09/neocom-090.db): android.system.ErrnoException: chmod failed: EPERM (Operation not permitted)
+08-27 14:32:21.857: I/ndroidDatabaseConnector(7833): << [AndroidDatabaseConnector.getApiList4Login]
+08-27 14:32:21.858: I/NeoComApiKey(7833): -- [NeoComApiKey.build]> Creating key: 2889577/Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw
+08-27 14:32:26.365: I/AbstractModelStore(7833): -- [AppModelStore.readApiKeys]> Adding Beth Ripley to the _neocomCharacters
+08-27 14:32:26.365: I/AbstractModelStore(7833): << [AppModelStore.readApiKeys]
+08-27 14:32:26.365: I/SplashActivity(7833): << [NeoComInitialization.doStep01]
+08-27 14:32:26.370: I/SplashActivity(7833): << [NeoComInitialization.doInBackground]
+08-27 14:32:26.374: I/Timeline(7833): Timeline: Activity_launch_request id:org.dimensinfin.eveonline.neocom time:95960802
+08-27 14:32:26.405: I/PilotListActivity(7833): >> [PilotListActivity.onCreate]
+08-27 14:32:26.405: I/EVEI(7833): >> AbstractPagerActivity.onCreate
+08-27 14:32:26.449: I/EVEI(7833): << AbstractPagerActivity.onCreate
+08-27 14:32:26.452: I/NEOCOM(7833): >> AbstractPagerActivity.addPage
+08-27 14:32:26.452: I/NEOCOM(7833): << AbstractPagerActivity.addPage
+08-27 14:32:26.454: I/PilotListActivity(7833): << [PilotListActivity.onCreate]
+08-27 14:32:26.465: I/bstractNewPagerFragment(7833): >> [AbstractPagerFragment.onCreateView]
+08-27 14:32:26.465: I/bstractNewPagerFragment(7833): >> [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:32:26.473: I/bstractNewPagerFragment(7833): << [AbstractPagerFragment.onCreateViewSuper]
+08-27 14:32:26.503: I/PilotListFragment(7833): >> [PilotListFragment.registerDataSource]
+08-27 14:32:26.504: I/ModelGeneratorManager(7833): -- [ModelGeneratorManager.registerGenerator]> Registering new Generator: CAPSULEER_LIST/Beth/
+08-27 14:32:26.548: I/DataSourceManager(7833): -- [DataSourceManager.registerDataSource]> Registering new DataSource: CAPSULEER_LIST/Beth/
+08-27 14:32:26.548: I/bstractNewPagerFragment(7833): << [AbstractPagerFragment.onCreateView]
+08-27 14:32:26.549: I/bstractNewPagerFragment(7833): >> [AbstractPagerFragment.onStart]
+08-27 14:32:26.549: I/bstractNewPagerFragment(7833): -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+08-27 14:32:26.550: I/bstractNewPagerFragment(7833): << [AbstractPagerFragment.onStart]
+08-27 14:32:26.552: I/bstractNewPagerFragment(7833): >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:32:26.553: I/SpecialDataSource(7833): >< [PilotListDataSource.collaborate2Model]
+08-27 14:32:26.553: I/AbstractGenerator(7833): >> [PilotRoasterModelAdapter.collaborate2Model]
+08-27 14:32:26.555: I/model(7833): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_EXPANDCOLLAPSENODE on object: org.dimensinfin.core.model.RootNode
+08-27 14:32:26.558: I/model(7833): -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENT_CHILD_ADDEDPROP on object: org.dimensinfin.core.model.RootNode
+08-27 14:32:26.558: I/AbstractGenerator(7833): -- [PilotRoasterModelAdapter.collaborate2Model]> Adding 'Beth Ripley' to the _dataModelRoot
+08-27 14:32:26.558: I/AbstractGenerator(7833): << [PilotListDataSource.collaborate2Model]
+08-27 14:32:26.711: I/Timeline(7833): Timeline: Activity_idle id: android.os.BinderProxy@3da66c8f time:95961139
+08-27 14:32:30.055: I/SpecialDataSource(7833): >> [SpecialDataSource.createContentHierarchy]
+08-27 14:32:30.055: I/SpecialDataSource(7833): -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+08-27 14:32:30.055: I/AbstractPart(7833): >> [AbstractPart.refreshChildren]
+08-27 14:32:30.055: I/AbstractPart(7833): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:32:30.056: I/AbstractPart(7833): -- [AbstractEditPart.refreshChildren]> partModel: RootNode [count: 1	,[[NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]
+08-27 14:32:30.057: I/AbstractPart(7833): -- [AbstractEditPart.refreshChildren]> modelObjects: [NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]]
+08-27 14:32:31.102: I/PilotPartFactory(7833): -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.Pilot
+08-27 14:32:31.111: I/AbstractPart(7833): -- [AbstractEditPart.refreshChildren]> New Part: PilotInfoPart( NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]] )
+08-27 14:32:31.111: I/model(7833): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.android.mvc.core.RootPart
+08-27 14:32:31.111: I/model(7833): -- [AbstractPropertyChanger.firePropertyChange]-> Property: ADD_CHILD on object: org.dimensinfin.core.model.RootNode
+08-27 14:32:31.111: I/AbstractPart(7833): >> [AbstractPart.refreshChildren]
+08-27 14:32:31.111: I/AbstractPart(7833): -- [AbstractPart.refreshChildren]> Current children size: 0
+08-27 14:32:31.111: I/AbstractPart(7833): -- [AbstractEditPart.refreshChildren]> partModel: NeoComCharacter [name:Beth Ripley ]->AbstractComplexNode [ex/dow/eren/vis: [false/true/true/true]]
+08-27 14:32:32.259: I/AbstractPart(7833): -- [AbstractEditPart.refreshChildren]> modelObjects: []
+08-27 14:32:32.265: I/SpecialDataSource(7833): -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 1
+08-27 14:32:32.265: I/SpecialDataSource(7833): << [SpecialDataSource.createContentHierarchy]
+08-27 14:32:32.265: I/bstractNewPagerFragment(7833): << [AbstractPagerFragment.CreatePartsTask.doInBackground]
+08-27 14:32:32.268: I/NEOCOM(7833): >> CreatePartsTask.onPostExecute
+08-27 14:32:32.270: I/SpecialDataSource(7833): >> [SpecialDataSource.getBodyParts]
+08-27 14:32:32.270: I/SpecialDataSource(7833): << [SpecialDataSource.getBodyParts]> result.size: 1
+08-27 14:32:32.276: I/NEOCOM(7833): << CreatePartsTask.onPostExecute
+08-27 14:32:32.292: I/DataSourceAdapter(7833): -- Getting view [0]
+08-27 14:32:32.355: I/AssetsManager(7833): ~~ Time lapse for [SELECT * FROM ASSETS OWNER = 92223647] - PT0.002S
+08-27 14:32:32.355: I/AssetsManager(7833): -- Assets processed: 0
+08-27 14:32:32.356: I/AssetsManager(7833): -- [AssetsManager.accessAllAssets]> No more assets to process
+08-27 14:32:32.356: I/AssetsManager(7833): -- [AssetsManager.accessAllAssets]> Assets processed: 0

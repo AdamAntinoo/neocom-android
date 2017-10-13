@@ -12,13 +12,13 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity.EAssetVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.DataSourceLocator;
 import org.dimensinfin.eveonline.neocom.datasource.AssetsByLocationDataSource;
-import org.dimensinfin.eveonline.neocom.datasource.DataSourceLocator;
+import org.dimensinfin.eveonline.neocom.datasource.DataSourceManager;
 import org.dimensinfin.eveonline.neocom.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AbstractNewPagerFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IPagerFragment;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.os.Bundle;
 
@@ -72,7 +72,7 @@ public class AssetsFragment extends AbstractNewPagerFragment implements IPagerFr
 			SpecialDataSource ds = new AssetsByLocationDataSource(locator, this.getFactory());
 			ds.setVariant(this.getVariant());
 			ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-			this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
+			this.setDataSource(DataSourceManager.registerDataSource(ds));
 		}
 		//		if (this.getVariant() == EAssetVariants.ASSETS_MATERIALS.name()) {
 		//			// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.

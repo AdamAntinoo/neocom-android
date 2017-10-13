@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
+import org.dimensinfin.android.model.Separator;
+import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.render.EmptySeparatorBoardRender;
 import org.dimensinfin.eveonline.neocom.render.IndustryGroupRender;
 import org.dimensinfin.eveonline.neocom.render.JobStateRender;
@@ -36,7 +36,7 @@ public class GroupPart extends EveAbstractPart {
 	// - F I E L D - S E C T I O N ............................................................................
 	private int								priority					= 10;
 	private int								iconReference			= R.drawable.defaultitemicon;
-	private String						renderModeName		= "-DEFAULT-RENDER-MODE-";
+	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public GroupPart(final Separator node) {
@@ -92,13 +92,13 @@ public class GroupPart extends EveAbstractPart {
 		return this;
 	}
 
-	@Override
-	public IPart setRenderMode(final String renderMode) {
-		if (null != renderMode) {
-			renderModeName = renderMode;
-		}
-		return this;
-	}
+	//	@Override
+	//	public IPart setRenderMode(int renderMode) {
+	//		if (null != renderMode) {
+	//			renderModeName = renderMode;
+	//		}
+	//		return this;
+	//	}
 
 	@Override
 	public String toString() {

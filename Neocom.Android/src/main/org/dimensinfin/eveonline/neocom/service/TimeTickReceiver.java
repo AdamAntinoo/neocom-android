@@ -1,6 +1,6 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2015 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
 //									for characters and corporations at Eve Online. The set is composed of some projects
@@ -16,9 +16,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -31,15 +30,16 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.AppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.ERequestClass;
-import org.dimensinfin.eveonline.neocom.core.ERequestState;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
+import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +68,7 @@ import net.nikr.eve.jeveasset.data.Citadel;
  * There are two sets of services, one for character data and the other for market data that have quite
  * different mechanics. All data updates the background counters that inform the user that some background
  * services are active and the number of elements on their queues.
- * 
+ *
  * @author Adam Antinoo
  */
 public class TimeTickReceiver extends BroadcastReceiver {
@@ -242,19 +242,16 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		TimeTickReceiver.logger.info(">> TimeTickReceiver.onReceive");
+		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]");
 		// Run only if the network is active.
-		if (!NeoComApp.checkNetworkAccess()) return;
+		if (!NeoComAppConnector.getSingleton().checkNetworkAccess()) return;
 		// Or if the service is disables by configuration.
 		if (this.blockedDownload()) return;
 
-		// STEP 01. Pending Market Data Requests
+		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
-		Vector<PendingRequestEntry> requests = NeoComApp.getTheCacheConnector().getPendingRequests();
+		Vector<PendingRequestEntry> requests = NeoComApp.getSingletonApp().getCacheConnector().getAndroidPendingRequests();
 		synchronized (requests) {
-			// Get the pending requests and order them by the priority.
-			Collections.sort(requests, NeoComApp.createComparator(AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY));
-
 			// Process request by priority. Additions to queue are limited.
 			limit = 0;
 			for (PendingRequestEntry entry : requests)
@@ -273,27 +270,27 @@ public class TimeTickReceiver extends BroadcastReceiver {
 					if (entry.reqClass == ERequestClass.CITADELUPDATE) {
 						// Launch the update and remove the event from the queue.
 						new UpdateCitadelsTask().execute();
-						NeoComApp.getTheCacheConnector().clearPendingRequest(entry.getIdentifier());
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
 					}
 					if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
 						// Launch the update and remove the event from the queue.
 						new UpdateOutpostsTask().execute();
-						NeoComApp.getTheCacheConnector().clearPendingRequest(entry.getIdentifier());
+						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
 					}
 				}
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		ArrayList<NeoComCharacter> characters = AppModelStore.getSingleton().getActiveCharacters();
+		Set<NeoComCharacter> characters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
 		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
 			if (updateCode != EDataBlock.READY) {
 				TimeTickReceiver.logger
-						.info(".. TimeTickReceiver.onReceive.EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
-				NeoComApp.getTheCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
+						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
+				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
-		Activity activity = AppModelStore.getSingleton().getActivity();
+		Activity activity = NeoComModelStore.getSingleton().getActivity();
 		if (null != activity) {
 			activity.runOnUiThread(new Runnable() {
 				public void run() {
@@ -394,13 +391,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
 		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
 		Number content = entry.getContent();
-		serialService.putExtra(AppWideConstants.extras.EXTRA_CHARACTER_LOCALIZER, content.longValue());
+		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
 		if (null != _context) {
 			_context.startService(serialService);
 		}
 		entry.state = ERequestState.ON_PROGRESS;
-		// Increment the counter.
-		NeoComApp.topCounter++;
+		//		// Increment the counter.
+		//		NeoComApp.topCounter++;
 	}
 
 	private void launchMarketUpdate(final PendingRequestEntry entry) {
@@ -475,7 +472,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		StringBuffer data = new StringBuffer();
 		try {
 			String str = "";
-			InputStream is = AppConnector.getStorageConnector().accessInternalStorage("outposts.json");
+			InputStream is = NeoComAppConnector.getSingleton().getStorageConnector().accessInternalStorage("outposts.json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			if (is != null) {
 				while ((str = reader.readLine()) != null) {

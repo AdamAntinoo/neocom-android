@@ -1,16 +1,20 @@
-//	PROJECT:        EveIndustrialAssistant (EIA)
+//	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Minery and mainly on Manufacture.
-
+//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
+//									for characters and corporations at Eve Online. The set is composed of some projects
+//									with implementation for Android and for an AngularJS web interface based on REST
+//									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.service;
 
+import java.util.Set;
+
 import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -37,40 +41,58 @@ public class CharacterUpdaterService extends IntentService {
 	 */
 	@Override
 	protected void onHandleIntent(final Intent intent) {
-		Log.i("CharacterUpdaterService", ">> CharacterUpdaterService.onHandleIntent");
-		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.extras.EXTRA_CHARACTER_LOCALIZER);
+		Log.i("CharacterUpdaterService", ">> [CharacterUpdaterService.onHandleIntent]");
+		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name());
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
-		if (NeoComApp.checkNetworkAccess()) {
-			NeoComCharacter pilot = AppModelStore.getSingleton().searchCharacter(localizer);
+		if (NeoComAppConnector.getSingleton().checkNetworkAccess()) {
+			Set<NeoComCharacter> activeCharacters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
+			NeoComCharacter pilot = null;
+			for (NeoComCharacter neocomchar : activeCharacters) {
+				if (neocomchar.getCharacterID() == localizer) {
+					pilot = neocomchar;
+					break;
+				}
+			}
 			if (null != pilot) {
 				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
 				EDataBlock datacode = pilot.needsUpdate();
 				try {
-					Log.i("CharacterUpdaterService", ".. CharacterUpdaterService.onHandleIntent - EDataBlock to process: "
+					Log.i("CharacterUpdaterService", "-- [CharacterUpdaterService.onHandleIntent] EDataBlock to process: "
 							+ pilot.getName() + " - " + datacode);
 					switch (datacode) {
 						case CHARACTERDATA:
 							pilot.updateCharacterInfo();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-							NeoComApp.topCounter--;
+							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							break;
 						case ASSETDATA:
-							//						case BLUEPRINTDATA:
-							pilot.downloadAssets();
-							pilot.downloadBlueprints();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-							NeoComApp.topCounter--;
+							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
+							if (pilot.isCorporation()) {
+								pilot.getAssetsManager().downloadCorporationAssets();
+							} else {
+								pilot.getAssetsManager().downloadPilotAssets();
+							}
+							//							pilot.downloadAssets();
+							//							pilot.downloadBlueprints();
+							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							break;
-						case INDUSTRYJOBS:
-							pilot.downloadIndustryJobs();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-							NeoComApp.topCounter--;
-							break;
-						case MARKETORDERS:
-							pilot.downloadMarketOrders();
-							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-							NeoComApp.topCounter--;
-							break;
+						//													case BLUEPRINTDATA:
+						////							pilot.downloadAssets();
+						//							pilot.downloadBlueprints();
+						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
+						//							NeoComApp.topCounter--;
+						//							break;
+						//						case INDUSTRYJOBS:
+						//							pilot.downloadIndustryJobs();
+						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
+						//							NeoComApp.topCounter--;
+						//							break;
+						//						case MARKETORDERS:
+						//							pilot.downloadMarketOrders();
+						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
+						//							NeoComApp.topCounter--;
+						//							break;
 
 						default:
 							break;

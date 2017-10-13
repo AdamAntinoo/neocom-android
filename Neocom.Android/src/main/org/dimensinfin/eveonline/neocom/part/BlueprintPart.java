@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractGEFNode;
@@ -20,18 +21,17 @@ import org.dimensinfin.eveonline.neocom.activity.IndustryT2Activity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
-import org.dimensinfin.eveonline.neocom.industry.EJobClasses;
-import org.dimensinfin.eveonline.neocom.industry.IJobProcess;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.interfaces.INamedPart;
+import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryHeaderRender;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryRender;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4T2InventionRender;
-import org.dimensinfin.eveonline.neocom.storage.AppModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;
 import android.text.Html;
@@ -268,7 +268,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	// }
 
 	public double getInventionCost() {
-		process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+		process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 				EJobClasses.INVENTION);
 		return process.getJobCost();
 	}
@@ -459,11 +459,11 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 		activity = newActivity;
 		// Set the processor.
 		if (activity == ModelWideConstants.activities.MANUFACTURING) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 					EJobClasses.MANUFACTURE);
 		}
 		if (activity == ModelWideConstants.activities.INVENTION) {
-			process = JobManager.generateJobProcess(AppModelStore.getSingleton().getPilot(), this.getCastedModel(),
+			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), this.getCastedModel(),
 					EJobClasses.INVENTION);
 			// calculateRuns();
 		}
