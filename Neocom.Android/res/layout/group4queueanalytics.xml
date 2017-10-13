@@ -19,7 +19,7 @@
         android:layout_marginRight="4dp"
         android:src="@drawable/jobdirector" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/title"
         style="@style/NameStyle.White"
         android:layout_centerVertical="true"
@@ -45,9 +45,9 @@
             android:layout_marginRight="2dp"
             android:src="@drawable/manufacturing" />
 
-        <org.dimensinfin.evedroid.core.DaysTextView
+        <org.dimensinfin.eveonline.neocom.core.DaysTextView
             android:id="@+id/manufactureQueues"
-            style="@style/NumberStyle.Big"
+            style="@style/Number.Style.14"
             android:layout_gravity="center_vertical"
             android:text="1/2"
             android:visibility="visible" />
@@ -71,9 +71,9 @@
             android:layout_marginRight="2dp"
             android:src="@drawable/invention" />
 
-        <org.dimensinfin.evedroid.core.DaysTextView
+        <org.dimensinfin.eveonline.neocom.core.DaysTextView
             android:id="@+id/inventionQueues"
-            style="@style/NumberStyle.Big"
+            style="@style/Number.Style.14"
             android:layout_gravity="center_vertical"
             android:text="0/1"
             android:visibility="visible" />

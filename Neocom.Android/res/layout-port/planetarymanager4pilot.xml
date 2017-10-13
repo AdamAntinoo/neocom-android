@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/neocompanelborderblue" >
+
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/ItemIcon.Style.Size32"
+        android:contentDescription="@string/default_nodeicon"
+        android:src="@drawable/nopilot" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/Actionable.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/default_actionablearrow" />
+
+    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+        android:id="@+id/name"
+        style="@style/Name.Selectable.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="@string/default_managername" />
+
+    <LinearLayout
+        android:id="@+id/leftBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/assetCountBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/countLabel"
+                style="@style/Label.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="NO. ASSETS:" />
+
+            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+                android:id="@+id/managerAssetsCount"
+                style="@style/StockCounter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/regionCountBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/regionCountLabel"
+                style="@style/Label.Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="NO. REGIONS:" />
+
+            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+                android:id="@+id/managerRegionCount"
+                style="@style/StockCounter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

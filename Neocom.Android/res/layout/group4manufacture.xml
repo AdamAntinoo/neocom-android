@@ -22,7 +22,7 @@
         android:layout_marginTop="1dp"
         android:src="@drawable/grouprefinedmaterials" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/title"
         style="@style/NameStyle.White"
         android:layout_centerVertical="true"
@@ -31,9 +31,9 @@
         android:text="Titulo"
         android:visibility="visible" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/count"
-        style="@style/NumberStyle.XL"
+        style="@style/Number.Style.16"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/rightArrow"
         android:text="7"

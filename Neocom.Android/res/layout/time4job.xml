@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="@style/RightArrow"
+        style="@style/Actionable.Arrow"
         android:layout_gravity="right"
         android:gravity="right"
         android:visibility="gone" />
@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:src="@drawable/manufacturing" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/runTime"
         style="@style/NameStyle.White"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:text="0D 13:45:32"
         android:visibility="visible" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/totalTime"
         style="@style/NameStyle.White"
         android:layout_height="wrap_content"
@@ -37,9 +37,9 @@
         android:text="5D 13:45:32"
         android:visibility="visible" />
 
-    <org.dimensinfin.evedroid.core.DaysTextView
+    <org.dimensinfin.eveonline.neocom.core.DaysTextView
         android:id="@+id/count"
-        style="@style/NumberStyle.XL"
+        style="@style/Number.Style.16"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_gravity="right"

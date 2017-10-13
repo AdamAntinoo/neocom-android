@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/panelborderorange" >
+
+    <ImageView
+        android:id="@+id/pilotAvatar"
+        style="@style/ItemIconStyle.Size32"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="2dp"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/whiteborderbox"
+        android:contentDescription="Item Icon"
+        android:src="@drawable/nopilot" />
+
+    <LinearLayout
+        android:id="@+id/pilotInformationBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/pilotAvatar"
+        android:orientation="vertical" >
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            android:id="@+id/pilotName"
+            style="@style/NameStyle.Green"
+            android:text="Adam Antinoo" />
+
+        <RelativeLayout
+            android:id="@+id/secondaryDataBlock"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+                android:id="@+id/accountBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="123,345,556.98 ISK"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+                android:id="@+id/assetsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="125 items"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/secondaryLabelBlock"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/accountBalanceLabel"
+                style="@style/Label.Style.TopLine"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:text="BALANCE" />
+
+            <TextView
+                android:id="@+id/assetsCountLabel"
+                style="@style/Label.Style"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="ASSET COUNT" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
