@@ -14,7 +14,7 @@ import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
@@ -111,7 +111,7 @@ public class GroupPart extends EveAbstractPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE)
 			return new MarketSideRender(this, _activity);
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPJOBSTATE)

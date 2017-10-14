@@ -7,7 +7,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
@@ -129,7 +129,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder from the render mode.
 		return new ItemHeaderRender(this, _activity);
 	}

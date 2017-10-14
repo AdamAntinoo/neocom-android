@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -491,7 +491,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTINDUSTRYHEADER)
 			return new Blueprint4IndustryHeaderRender(this, _activity);
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTINVENTIONHEADER)

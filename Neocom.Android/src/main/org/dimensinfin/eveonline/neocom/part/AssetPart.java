@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
@@ -143,7 +143,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder from the render mode.
 		if (this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION)
 			return new AssetHolder(this, _activity);

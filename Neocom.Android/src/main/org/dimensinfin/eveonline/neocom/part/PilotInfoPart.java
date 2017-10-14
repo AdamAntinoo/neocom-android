@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -118,7 +118,7 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder set for the render mode.
 		if (this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.hashCode())
 			return new Pilot4ListHolder(this, _activity);

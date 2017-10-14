@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -346,7 +346,7 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectRenderer() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_SKILLACTION)
 			return new SkillRender(this, _activity);
 		return new ActionRender(this, _activity);

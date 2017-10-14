@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import java.sql.SQLException;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
@@ -145,7 +145,7 @@ public class MarketOrderPart extends EveAbstractPart
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new MarketOrderRender(this, _activity);
 	}
 }

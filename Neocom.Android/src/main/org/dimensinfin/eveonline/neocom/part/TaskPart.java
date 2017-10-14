@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
@@ -271,7 +271,7 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder from the render mode.
 		return new TaskRender(this, _activity);
 	}

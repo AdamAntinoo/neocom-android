@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
@@ -190,7 +190,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_RESOURCESKILLJOB)
 			return new SkillResourceRender(this, _activity);
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTJOB)

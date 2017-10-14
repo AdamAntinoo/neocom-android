@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 
@@ -54,13 +54,13 @@ public class Asset4CategoryPart extends AssetPart {
 	}
 
 	@Override
-	public AbstractHolder getHolder(final Activity activity) {
+	public AbstractRender getHolder(final Activity activity) {
 		_activity = activity;
 		return new Asset4CategoryHolder(this, _activity);
 	}
 
 	@Override
-	public AbstractHolder getHolder(final Fragment fragment) {
+	public AbstractRender getHolder(final Fragment fragment) {
 		_fragment = fragment;
 		_activity = fragment.getActivity();
 		return new Asset4CategoryHolder(this, _activity);

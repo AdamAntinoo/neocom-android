@@ -6,7 +6,7 @@
 
 package org.dimensinfin.eveonline.neocom.part;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.render.Location4MarketRender;
@@ -39,7 +39,7 @@ public class LocationMarketPart extends LocationPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (getRenderMode() == AppWideConstants.rendermodes.RENDER_LOCATIONMAKETHUB)
 			return new Location4MarketRender(this, _activity);
 		return new Location4MarketRender(this, _activity);

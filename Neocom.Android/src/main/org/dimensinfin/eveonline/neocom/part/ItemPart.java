@@ -7,7 +7,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -59,7 +59,7 @@ public abstract class ItemPart extends MarketDataPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		throw new RuntimeException("E> ItemPart. Call to unimplemented call on abstract class.");
 	}
 }

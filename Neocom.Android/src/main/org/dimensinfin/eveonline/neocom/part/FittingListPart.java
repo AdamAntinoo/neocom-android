@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.activity.FittingActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -76,7 +76,7 @@ public class FittingListPart extends EveAbstractPart implements INamedPart, OnCl
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new FittingListRender(this, _activity);
 	}
 

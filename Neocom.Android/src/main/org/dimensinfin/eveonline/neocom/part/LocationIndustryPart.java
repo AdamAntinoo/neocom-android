@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -120,7 +120,7 @@ public class LocationIndustryPart extends LocationPart implements INamedPart, On
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new Location4IndustryRender(this, _activity);
 	}
 }

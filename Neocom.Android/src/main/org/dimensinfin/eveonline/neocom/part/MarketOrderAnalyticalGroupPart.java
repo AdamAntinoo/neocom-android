@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.part;
 // - IMPORT SECTION .........................................................................................
 import java.util.GregorianCalendar;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
@@ -67,7 +67,7 @@ public class MarketOrderAnalyticalGroupPart extends EveAbstractPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETANALYTICAL)
 			return new AnalyticalGroupRender(this, _activity);
 		// TODO Create a default render to be returned when there is no default.

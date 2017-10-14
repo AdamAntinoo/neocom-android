@@ -10,6 +10,7 @@ package org.dimensinfin.eveonline.neocom.factory;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
@@ -145,6 +146,12 @@ public class IndustryLOMResourcesDataSource extends AbstractDataSource {
 		_adapterData = result;
 		AbstractDataSource.logger.info("<< IndustryManufactureResourcesDataSource.getPartHierarchy");
 		return result;
+	}
+
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {

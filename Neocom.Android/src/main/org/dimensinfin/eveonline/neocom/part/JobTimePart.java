@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.GregorianCalendar;
 
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.JobTimeRender;
@@ -82,7 +82,7 @@ public class JobTimePart extends EveAbstractPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new JobTimeRender(this, _activity);
 	}
 }

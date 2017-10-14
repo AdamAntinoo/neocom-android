@@ -8,7 +8,7 @@ package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -100,7 +100,7 @@ public class AssetGroupPart extends EveAbstractPart implements INamedPart, OnCli
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder from the render mode.
 		return new AssetGroupRender(this, _activity);
 	}

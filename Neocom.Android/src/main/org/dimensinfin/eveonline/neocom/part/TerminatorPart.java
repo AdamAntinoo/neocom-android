@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.holder.TerminatorHolder;
@@ -41,7 +41,7 @@ public class TerminatorPart extends NeoComAbstractPart {
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		// Get the proper holder from the render mode.
 		return new TerminatorHolder(this, _activity);
 	}

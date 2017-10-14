@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -198,7 +198,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_JOB4LIST) return new JobRender(this, _activity);
 		return new JobRender(this, _activity);
 	}

@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.render;
 
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
 import org.dimensinfin.eveonline.neocom.part.DirectorPart;
@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DirectorRender extends AbstractHolder {
+public class DirectorRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger		= Logger.getLogger("org.dimensinfin.evedroid.render");
 

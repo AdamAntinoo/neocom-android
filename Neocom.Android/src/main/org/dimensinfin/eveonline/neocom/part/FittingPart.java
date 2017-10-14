@@ -11,7 +11,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -115,7 +115,7 @@ public class FittingPart extends EveAbstractPart implements INamedPart, IMenuAct
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new FittingHeaderRender(this, _activity);
 	}
 

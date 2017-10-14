@@ -13,15 +13,14 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
-import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("NeoComAbstractPart");
+	private static final long	serialVersionUID	= 6897215090394264254L;
+	private static Logger			logger						= Logger.getLogger("NeoComAbstractPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -31,28 +30,28 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public long getModelID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	//	@Override
+	//	public long getModelID() {
+	//		// TODO Auto-generated method stub
+	//		return 0;
+	//	}
 
 	@Override
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		return targets;
 	}
 
-	@Override
-	protected AbstractHolder selectHolder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//	@Override
+	//	protected AbstractHolder selectHolder() {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 
-	@Override
-	protected AbstractRender selectRenderer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//	@Override
+	//	protected AbstractRender selectRenderer() {
+	//		// TODO Auto-generated method stub
+	//		return null;
+	//	}
 
 }
 

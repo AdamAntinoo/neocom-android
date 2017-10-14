@@ -9,14 +9,14 @@
 package org.dimensinfin.eveonline.neocom.render;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DefaultRender extends AbstractHolder {
+public class DefaultRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = Logger.getLogger("DefaultRender");
 

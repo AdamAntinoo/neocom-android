@@ -244,7 +244,8 @@ final class PilotManagersDataSource extends SpecialDataSource {
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		// The expand/collapse state has changed.
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
 			// REFACTOR Trying to fire a new model generation to solve the problem of renderization.
 			//	_dataModelRoot = modelGenerator.collaborate2Model();
 			this.createContentHierarchy();
@@ -256,7 +257,8 @@ final class PilotManagersDataSource extends SpecialDataSource {
 			return;
 		}
 		// TODO Check if we should get this event and fire it again.
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES)) {
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			return;

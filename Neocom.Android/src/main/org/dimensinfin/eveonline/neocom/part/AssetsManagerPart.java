@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import java.util.ArrayList;
 
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -124,7 +124,7 @@ public class AssetsManagerPart extends EveAbstractPart
 	}
 
 	@Override
-	protected AbstractHolder selectHolder() {
+	protected AbstractRender selectHolder() {
 		return new AssetsManagerRender(this, _activity);
 	}
 }
