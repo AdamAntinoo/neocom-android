@@ -146,7 +146,7 @@ public class ShipPart extends AssetPart implements OnClickListener, IMenuActionT
 			// Clean the view to force an update.
 			this.invalidate();
 			this.toggleExpanded();
-			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 			clickOverride = false;
 		}
 	}

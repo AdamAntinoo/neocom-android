@@ -59,7 +59,7 @@ public class LocationShipsPart extends LocationPart implements INamedPart, OnCli
 
 	@Override
 	public EveLocation getCastedModel() {
-		return (EveLocation) super.getCastedModel();
+		return super.getCastedModel();
 	}
 
 	public String getContainerName() {
@@ -101,7 +101,7 @@ public class LocationShipsPart extends LocationPart implements INamedPart, OnCli
 		this.toggleExpanded();
 		Log.i("EVEI", "-- " + this.getCastedModel().isExpanded() + " expansion to Location " + this.getName() + " ["
 				+ this.get_locationID() + "]");
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

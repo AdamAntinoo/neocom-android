@@ -38,7 +38,9 @@ public class AssetGroupPart extends EveAbstractPart implements INamedPart, OnCli
 	public String get_itemCount() {
 		int qty = 0;
 		for (IPart node : this.getChildren())
-			if (node instanceof AssetPart) qty += ((AssetPart) node).getCastedModel().getQuantity();
+			if (node instanceof AssetPart) {
+				qty += ((AssetPart) node).getCastedModel().getQuantity();
+			}
 		return EveAbstractPart.itemCountFormatter.format(qty);
 	}
 
@@ -86,7 +88,7 @@ public class AssetGroupPart extends EveAbstractPart implements INamedPart, OnCli
 	public void onClick(final View view) {
 		// Toggle location to show its contents.
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	@Override

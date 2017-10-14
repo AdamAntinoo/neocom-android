@@ -160,7 +160,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 		Log.i("EVEI", ">> JobPart.onClick");
 		// Toggle location to show its contents.
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 		Log.i("EVEI", "<< JobPart.onClick");
 	}
 

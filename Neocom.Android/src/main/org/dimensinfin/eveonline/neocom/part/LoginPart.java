@@ -51,6 +51,7 @@ public class LoginPart extends AExtendedPart implements INamedPart, OnClickListe
 	//		return this.getCastedModel().getName();
 	//	}
 
+	@Override
 	public Login getCastedModel() {
 		return (Login) this.getModel();
 	}
@@ -72,7 +73,7 @@ public class LoginPart extends AExtendedPart implements INamedPart, OnClickListe
 		// Toggle location to show its contents.
 		this.invalidate();
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	/**

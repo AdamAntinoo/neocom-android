@@ -67,7 +67,7 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 	public void onClick(final View view) {
 		// Toggle location to show its contents.
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	//	/**

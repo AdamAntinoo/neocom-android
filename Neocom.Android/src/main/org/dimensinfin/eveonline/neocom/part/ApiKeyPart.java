@@ -72,7 +72,7 @@ public class ApiKeyPart extends EveAbstractPart implements INamedPart, OnClickLi
 	public void onClick(final View view) {
 		// Toggle location to show its contents.
 		this.getCastedModel().toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	/**

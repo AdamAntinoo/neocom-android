@@ -76,7 +76,7 @@ public class LocationIndustryPart extends LocationPart implements INamedPart, On
 		this.toggleExpanded();
 		Log.i("EVEI", "-- " + this.getCastedModel().isExpanded() + " expansion to Location " + this.getName() + " ["
 				+ this.get_locationID() + "]");
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	//	@Override

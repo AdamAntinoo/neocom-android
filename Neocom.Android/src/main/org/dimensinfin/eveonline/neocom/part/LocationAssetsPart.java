@@ -150,7 +150,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		// Toggle location to show its contents.
 		this.invalidate();
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 	}
 
 	public boolean onContextItemSelected(final MenuItem item) {
@@ -165,7 +165,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 			this.getPilot().addLocationRole(theSelectedLocation, menuItemName);
 		}
 		this.invalidate();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, this, this);
+		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 		Log.i("NEOCOM", "<< LocationAssetsPart.onContextItemSelected"); //$NON-NLS-1$
 		return true;
 	}
