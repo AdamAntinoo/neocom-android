@@ -84,6 +84,12 @@ public class AssetsManagerPart extends EveAbstractPart
 		return R.drawable.assetsdimmed;
 	}
 
+	@Override
+	public long getModelID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public String getName() {
 		return "Assets";
 	}

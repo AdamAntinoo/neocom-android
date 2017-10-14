@@ -111,7 +111,7 @@ public class ContainerPart extends AssetPart implements OnClickListener {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		if (this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION)
 			return new ContainerHolder(this, _activity);

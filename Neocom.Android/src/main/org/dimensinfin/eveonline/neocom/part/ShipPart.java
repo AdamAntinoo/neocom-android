@@ -227,7 +227,7 @@ public class ShipPart extends AssetPart implements OnClickListener, IMenuActionT
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		if (this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_PILOTINFO_SHIPS)
 			return new Ship4PilotInfoHolder(this, _activity);

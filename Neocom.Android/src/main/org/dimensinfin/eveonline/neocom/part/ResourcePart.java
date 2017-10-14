@@ -190,7 +190,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_RESOURCESKILLJOB)
 			return new SkillResourceRender(this, _activity);
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_RESOURCEOUTPUTJOB)

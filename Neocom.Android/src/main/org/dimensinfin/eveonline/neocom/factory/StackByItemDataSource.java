@@ -9,6 +9,7 @@ package org.dimensinfin.eveonline.neocom.factory;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.core.model.RootNode;
@@ -65,6 +66,12 @@ public class StackByItemDataSource extends AbstractIndustryDataSource {
 					.severe("E> There is a problem with the access to the Assets database when getting the Manager.");
 		}
 		AbstractDataSource.logger.info("<< StackByItemDataSource.createHierarchy [" + _root.size() + "]");
+	}
+
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public ArrayList<AbstractAndroidPart> getHeaderParts() {
