@@ -12,13 +12,13 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
@@ -251,13 +251,13 @@ final class PilotManagersDataSource extends SpecialDataSource {
 
 			_bodyParts = new ArrayList<IPart>();
 			_bodyParts.addAll(_partModelRoot.collaborate2View());
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			return;
 		}
 		// TODO Check if we should get this event and fire it again.
 		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			return;
 		}

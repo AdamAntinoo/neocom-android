@@ -10,11 +10,11 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.util.HashMap;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.core.model.RootNode;
@@ -98,8 +98,6 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 	@Override
 	public void setHeaderContents() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private String getPilotName() {

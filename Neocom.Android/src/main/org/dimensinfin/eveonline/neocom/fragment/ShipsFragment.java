@@ -10,8 +10,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.util.logging.Logger;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;

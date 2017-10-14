@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -55,7 +56,7 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 	private BlueprintPart			_bppart						= null;
 	//	private final PagerFragment	_fragment					= null;
 	private final AppContext	_context					= null;
-	private NeoComModelStore			_store						= null;
+	private NeoComModelStore	_store						= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public IndustryT2ManufactureDataSource(final NeoComModelStore store) {
@@ -199,6 +200,12 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 		return result;
 	}
 
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public ArrayList<AbstractAndroidPart> getHeaderParts() {
 		// TODO Auto-generated method stub
 		return null;
@@ -206,8 +213,9 @@ public class IndustryT2ManufactureDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 	}

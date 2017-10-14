@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -133,6 +134,12 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 		return hierarchy;
 	}
 
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public ArrayList<AbstractAndroidPart> getHeaderParts() {
 		// TODO Auto-generated method stub
 		return null;
@@ -146,11 +153,11 @@ public class MarketOrdersDataSource extends AbstractNewDataSource {
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_CHILD_REMOVEDPROP.name())) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 	}

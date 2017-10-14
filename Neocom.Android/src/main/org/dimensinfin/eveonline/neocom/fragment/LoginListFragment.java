@@ -8,11 +8,11 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.core.model.RootNode;

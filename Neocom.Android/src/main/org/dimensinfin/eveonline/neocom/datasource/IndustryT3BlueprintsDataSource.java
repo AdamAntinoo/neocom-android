@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -49,7 +50,7 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 	private static final long													serialVersionUID	= -1904434849082581300L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeoComModelStore															_store						= null;
+	private NeoComModelStore													_store						= null;
 	private final HashMap<Long, LocationIndustryPart>	locations					= new HashMap<Long, LocationIndustryPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -131,6 +132,12 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 		return result;
 	}
 
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public ArrayList<AbstractAndroidPart> getHeaderParts() {
 		// TODO Auto-generated method stub
 		return null;
@@ -138,8 +145,9 @@ public class IndustryT3BlueprintsDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 	}

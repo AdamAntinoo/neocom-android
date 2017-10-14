@@ -61,26 +61,26 @@
 
 
 <!--         Section where to add the new Activities to match the new model presentation. -->
-        <activity
-            android:name="org.dimensinfin.android.mvc.activity.SafeStopActivity"
-            android:label="Exception Detected"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.core.NewVersionWarningActivity"
-            android:label="On Construction"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.core.StopNOSDActivity"
-            android:label="On Construction"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.core.AddNewAPIActivity"
-            android:label="On Construction"
-            android:screenOrientation="portrait" >
-        </activity>
+<!--         <activity -->
+<!--             android:name="org.dimensinfin.android.mvc.activity.SafeStopActivity" -->
+<!--             android:label="Exception Detected" -->
+<!--             android:screenOrientation="portrait" > -->
+<!--         </activity> -->
+<!--         <activity -->
+<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.NewVersionWarningActivity" -->
+<!--             android:label="On Construction" -->
+<!--             android:screenOrientation="portrait" > -->
+<!--         </activity> -->
+<!--         <activity -->
+<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.StopNOSDActivity" -->
+<!--             android:label="On Construction" -->
+<!--             android:screenOrientation="portrait" > -->
+<!--         </activity> -->
+<!--         <activity -->
+<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.AddNewAPIActivity" -->
+<!--             android:label="On Construction" -->
+<!--             android:screenOrientation="portrait" > -->
+<!--         </activity> -->
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity"
             android:label="@string/title_activity_DirectorsBoard"

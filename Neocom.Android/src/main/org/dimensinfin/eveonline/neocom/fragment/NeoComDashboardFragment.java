@@ -11,10 +11,10 @@ package org.dimensinfin.eveonline.neocom.fragment;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -178,7 +178,7 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 					dirPart.addPropertyChangeListener(this.getDataSource());
 					((DirectorPart) dirPart).setPilot(this.getPilot());
 					try {
-						final AbstractHolder holder = dirPart.getHolder(this);
+						final AbstractHolder holder = dirPart.getRenderer(this);
 						holder.initializeViews();
 						holder.updateContent();
 						final View hv = holder.getView();

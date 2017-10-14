@@ -6,7 +6,7 @@
 
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.IndustryT2InventionDataSource;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class InventionBlueprintsFragment extends AbstractObsoletePagerFragment {
+public class InventionBlueprintsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

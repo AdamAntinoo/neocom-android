@@ -13,10 +13,10 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractGEFNode;
@@ -41,7 +41,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MarketOrdersFragment extends AbstractObsoletePagerFragment {
+public class MarketOrdersFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -101,7 +101,7 @@ final class MarketOrdersDataSource extends AbstractDataSource {
 	private static final long											serialVersionUID	= -8071069909661621102L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeoComModelStore													_store						= null;
+	private NeoComModelStore											_store						= null;
 	private ArrayList<MarketOrderAnalyticalGroup>	analyticalGroups	= new ArrayList<MarketOrderAnalyticalGroup>();
 	private final ArrayList<AbstractGEFNode>			modelList					= new ArrayList<AbstractGEFNode>();
 
@@ -229,11 +229,11 @@ final class MarketOrdersDataSource extends AbstractDataSource {
 	public void propertyChange(final PropertyChangeEvent event) {
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_RECALCULATE)) {
 			this.createContentHierarchy();
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			//		if (event.getPropertyName().equalsIgnoreCase(AbstractGEFNode.CHILD_REMOVED_PROP))
 			//			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),

@@ -9,8 +9,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 // - IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.JobListDataSource;
@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobsFragment extends AbstractObsoletePagerFragment {
+public class JobsFragment extends AbstractPagerFragment {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -102,7 +102,7 @@ public class JobsFragment extends AbstractObsoletePagerFragment {
 		Log.i("NEOCOM", "<< ManufactureJobsFragment.onStart");
 	}
 
-	public AbstractObsoletePagerFragment setActivity(final int activityType) {
+	public AbstractPagerFragment setActivity(final int activityType) {
 		_activity = activityType;
 		return this;
 	}

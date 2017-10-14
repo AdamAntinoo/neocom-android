@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -51,7 +52,7 @@ public class JobListDataSource extends AbstractDataSource {
 	private static final long											serialVersionUID	= -199422577570222082L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeoComModelStore													_store						= null;
+	private NeoComModelStore											_store						= null;
 	private int																		_activityFilter		= ModelWideConstants.activities.MANUFACTURING;
 	private DateTime															earliestEndTime		= new DateTime(DateTimeZone.UTC);
 	private final ArrayList<AbstractAndroidPart>	headerContents		= new ArrayList<AbstractAndroidPart>();
@@ -177,6 +178,12 @@ public class JobListDataSource extends AbstractDataSource {
 		return result;
 	}
 
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public ArrayList<AbstractAndroidPart> getHeaderPartHierarchy() {
 		this.createHeaderContents();
 		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
@@ -199,12 +206,13 @@ public class JobListDataSource extends AbstractDataSource {
 
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 		if (event.getPropertyName().equalsIgnoreCase(AppWideConstants.events.EVENTSTRUCTURE_NEEDSREFRESH)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 		}
 	}

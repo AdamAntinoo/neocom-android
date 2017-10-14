@@ -12,10 +12,10 @@ import java.util.HashMap;
 //- IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
+import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
