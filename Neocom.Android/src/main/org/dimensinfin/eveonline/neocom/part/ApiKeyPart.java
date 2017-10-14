@@ -95,7 +95,7 @@ public class ApiKeyPart extends EveAbstractPart implements INamedPart, OnClickLi
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new ApiKeyRender(this, _activity);
 	}
 }

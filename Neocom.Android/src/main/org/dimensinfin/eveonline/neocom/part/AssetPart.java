@@ -143,7 +143,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		if (this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION)
 			return new AssetHolder(this, _activity);

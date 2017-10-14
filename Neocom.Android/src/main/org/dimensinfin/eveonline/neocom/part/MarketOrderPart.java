@@ -145,7 +145,7 @@ public class MarketOrderPart extends EveAbstractPart
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new MarketOrderRender(this, _activity);
 	}
 }

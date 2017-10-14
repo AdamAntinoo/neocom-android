@@ -100,7 +100,7 @@ public class AssetGroupPart extends EveAbstractPart implements INamedPart, OnCli
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		return new AssetGroupRender(this, _activity);
 	}

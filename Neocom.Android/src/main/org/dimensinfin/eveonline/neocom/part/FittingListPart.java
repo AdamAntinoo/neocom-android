@@ -76,7 +76,7 @@ public class FittingListPart extends EveAbstractPart implements INamedPart, OnCl
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new FittingListRender(this, _activity);
 	}
 

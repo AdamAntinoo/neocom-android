@@ -79,7 +79,7 @@ public class QueuePart extends EveAbstractPart {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new QueueRender(this, _activity);
 	}
 }

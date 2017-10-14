@@ -99,7 +99,7 @@ public class PlanetaryManagerPart extends EveAbstractPart
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new PlanetaryManagerRender(this, _activity);
 	}
 }

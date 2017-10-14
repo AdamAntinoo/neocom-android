@@ -31,7 +31,7 @@ public class JobTimePart extends EveAbstractPart {
 	}
 
 	public Separator getCastedModel() {
-		return (Separator) getModel();
+		return (Separator) this.getModel();
 	}
 
 	public int getJobActivity() {
@@ -76,13 +76,13 @@ public class JobTimePart extends EveAbstractPart {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("ManufactureTimePart [");
 		buffer.append("Runs: ").append(runs).append(" ");
-		buffer.append(getRunTime()).append(" ");
+		buffer.append(this.getRunTime()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new JobTimeRender(this, _activity);
 	}
 }

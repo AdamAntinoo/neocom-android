@@ -15,7 +15,6 @@ import java.util.Vector;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -132,15 +131,9 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		return new RegionHolder(this, _activity);
-	}
-
-	@Override
-	protected AbstractRender selectRenderer() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
 

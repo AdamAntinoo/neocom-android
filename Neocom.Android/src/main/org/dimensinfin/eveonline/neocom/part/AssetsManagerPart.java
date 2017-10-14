@@ -124,7 +124,7 @@ public class AssetsManagerPart extends EveAbstractPart
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new AssetsManagerRender(this, _activity);
 	}
 }

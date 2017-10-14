@@ -59,7 +59,7 @@ public abstract class ItemPart extends MarketDataPart {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		throw new RuntimeException("E> ItemPart. Call to unimplemented call on abstract class.");
 	}
 }

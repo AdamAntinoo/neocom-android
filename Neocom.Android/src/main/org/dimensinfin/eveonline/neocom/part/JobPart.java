@@ -198,7 +198,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_JOB4LIST) return new JobRender(this, _activity);
 		return new JobRender(this, _activity);
 	}

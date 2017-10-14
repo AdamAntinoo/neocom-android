@@ -182,7 +182,7 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		return new Location4AssetsRender(this, _activity);
 	}

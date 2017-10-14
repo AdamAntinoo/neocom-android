@@ -41,7 +41,7 @@ public class TerminatorPart extends NeoComAbstractPart {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		return new TerminatorHolder(this, _activity);
 	}

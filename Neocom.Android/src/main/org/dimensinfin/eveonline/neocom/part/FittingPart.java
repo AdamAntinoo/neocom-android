@@ -115,7 +115,7 @@ public class FittingPart extends EveAbstractPart implements INamedPart, IMenuAct
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new FittingHeaderRender(this, _activity);
 	}
 

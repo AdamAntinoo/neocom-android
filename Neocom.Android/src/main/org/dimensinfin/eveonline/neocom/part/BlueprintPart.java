@@ -491,7 +491,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTINDUSTRYHEADER)
 			return new Blueprint4IndustryHeaderRender(this, _activity);
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTINVENTIONHEADER)

@@ -120,7 +120,7 @@ public class LocationIndustryPart extends LocationPart implements INamedPart, On
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new Location4IndustryRender(this, _activity);
 	}
 }

@@ -54,21 +54,19 @@ public class Asset4CategoryPart extends AssetPart {
 	}
 
 	@Override
-	public AbstractRender getHolder(final Activity activity) {
+	public long getModelID() {
+		return this.getCastedModel().getAssetID();
+	}
+
+	public AbstractRender getRender(final Activity activity) {
 		_activity = activity;
 		return new Asset4CategoryHolder(this, _activity);
 	}
 
-	@Override
-	public AbstractRender getHolder(final Fragment fragment) {
+	public AbstractRender getRender(final Fragment fragment) {
 		_fragment = fragment;
 		_activity = fragment.getActivity();
 		return new Asset4CategoryHolder(this, _activity);
-	}
-
-	@Override
-	public long getModelID() {
-		return this.getCastedModel().getAssetID();
 	}
 }
 

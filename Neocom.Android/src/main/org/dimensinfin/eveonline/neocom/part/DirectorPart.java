@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.model.Director;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
@@ -75,14 +74,8 @@ public class DirectorPart extends AbstractAndroidPart implements OnClickListener
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
-		return new DirectorRender(this, _activity);
-	}
-
-	@Override
 	protected AbstractRender selectRenderer() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DirectorRender(this, _activity);
 	}
 
 	private Director getCastedModel() {

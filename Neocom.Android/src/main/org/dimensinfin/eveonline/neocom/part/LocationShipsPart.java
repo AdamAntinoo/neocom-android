@@ -141,7 +141,7 @@ public class LocationShipsPart extends LocationPart implements INamedPart, OnCli
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		return new Location4ShipsRender(this, _activity);
 	}
 }

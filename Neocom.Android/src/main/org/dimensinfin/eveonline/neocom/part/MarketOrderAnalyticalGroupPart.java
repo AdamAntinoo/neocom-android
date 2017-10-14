@@ -67,7 +67,7 @@ public class MarketOrderAnalyticalGroupPart extends EveAbstractPart {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETANALYTICAL)
 			return new AnalyticalGroupRender(this, _activity);
 		// TODO Create a default render to be returned when there is no default.

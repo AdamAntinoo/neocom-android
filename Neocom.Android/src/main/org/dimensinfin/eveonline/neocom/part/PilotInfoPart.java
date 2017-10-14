@@ -118,7 +118,7 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder set for the render mode.
 		if (this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.hashCode())
 			return new Pilot4ListHolder(this, _activity);

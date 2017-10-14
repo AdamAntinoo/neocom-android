@@ -129,7 +129,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 	}
 
 	@Override
-	protected AbstractRender selectHolder() {
+	protected AbstractRender selectRenderer() {
 		// Get the proper holder from the render mode.
 		return new ItemHeaderRender(this, _activity);
 	}
