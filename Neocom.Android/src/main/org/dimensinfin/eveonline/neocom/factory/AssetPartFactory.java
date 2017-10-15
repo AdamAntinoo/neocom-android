@@ -19,7 +19,7 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.model.Container;
+import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -108,7 +108,7 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				return part;
 			}
 		}
-		if (node instanceof Container) {
+		if (node instanceof SpaceContainer) {
 			IPart part = new ContainerPart((NeoComAsset) node)
 					.setRenderMode(AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION);
 			part.setFactory(this);

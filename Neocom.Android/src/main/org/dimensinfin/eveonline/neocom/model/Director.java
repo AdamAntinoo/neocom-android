@@ -51,7 +51,6 @@ public class Director extends AbstractViewableNode {
 		return targetActivity.getIconReferenceActive();
 	}
 
-	@Override
 	public int getContentCount() {
 		return this.getChildren().size();
 	}

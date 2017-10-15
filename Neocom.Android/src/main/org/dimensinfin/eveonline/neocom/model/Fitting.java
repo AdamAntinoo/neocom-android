@@ -184,6 +184,11 @@ public class Fitting extends AbstractManufactureProcess implements IViewableNode
 		return name;
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
 	public void setName(final String newName) {
 		name = newName;
 	}

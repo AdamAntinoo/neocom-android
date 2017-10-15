@@ -55,10 +55,10 @@ public abstract class AExtendedPart extends EveAbstractPart {
 		// Check if the Part is visible and collaborates to the LiastView.
 		if (this.isVisible()) {
 			// First we have to check if we have contents or if the part should be shown altogether.
-			int contentCount = this.getCastedModel().getContentCount();
+			//			int contentCount = this.getCastedModel().getContentCount();
 			// If the node is expanded then give the children the opportunity to also be added.
 			if (this.isExpanded()) {
-				if (contentCount < 1) {
+				if (this.getCastedModel().isEmpty()) {
 					if (this.isRenderWhenEmpty()) {
 						// The region is surrounded with the Red Separator at the beginning and at the end.
 						result.add(new SeparatorPart(new Separator().setType(ESeparatorType.LINE_RED))
