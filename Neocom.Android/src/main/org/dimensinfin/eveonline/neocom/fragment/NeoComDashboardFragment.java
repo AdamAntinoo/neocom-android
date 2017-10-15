@@ -23,7 +23,6 @@ import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.FittingListActivity;
-import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
@@ -161,10 +160,10 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 						// Create the part, configure it and add to the layout.
 						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new ShipDirectorActivity()));
 						break;
-					case INDUSTRYDIRECTOR:
-						// Create the part, configure it and add to the layout.
-						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new IndustryDirectorActivity()));
-						break;
+					//					case INDUSTRYDIRECTOR:
+					//						// Create the part, configure it and add to the layout.
+					//						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new IndustryDirectorActivity()));
+					//						break;
 					//							case JOBDIRECTOR:
 					//								final IDirector jdirector = new FittingActivity();
 					//							case MARKETDIRECTOR:

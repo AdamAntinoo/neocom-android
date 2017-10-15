@@ -17,7 +17,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractGEFNode;
 import org.dimensinfin.core.model.IGEFNode;
-import org.dimensinfin.eveonline.neocom.activity.IndustryT2Activity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
@@ -33,7 +32,6 @@ import org.dimensinfin.eveonline.neocom.render.Blueprint4IndustryRender;
 import org.dimensinfin.eveonline.neocom.render.Blueprint4T2InventionRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
-import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -382,15 +380,15 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	 */
 	public void onClick(final View target) {
 		Log.i("EVEI", ">> BlueprintPart.onClick");
-		final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);
-		intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTID.name(), this.getCastedModel().getAssetID());
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTT2INVENTION) {
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(), 8);
-		} else {
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(), 1);
-		}
-		this.getActivity().startActivity(intent);
+		//		final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);
+		//		intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
+		//		intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTID.name(), this.getCastedModel().getAssetID());
+		//		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_BLUEPRINTT2INVENTION) {
+		//			intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(), 8);
+		//		} else {
+		//			intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(), 1);
+		//		}
+		//		this.getActivity().startActivity(intent);
 		Log.i("BlueprintPart", "<< BlueprintPart.onClick");
 	}
 

@@ -10,7 +10,6 @@ package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
@@ -19,21 +18,16 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.IndustryT2Activity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.ETaskCompletion;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
 import org.dimensinfin.eveonline.neocom.model.Action;
 import org.dimensinfin.eveonline.neocom.model.EveTask;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.ActionRender;
 import org.dimensinfin.eveonline.neocom.render.SkillRender;
 
-import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -234,67 +228,67 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 			case PLANETARYMATERIALS:
 				this.getActivity().getMenuInflater().inflate(R.menu.actionplanetarymaterial_menu, menu);
 				break;
-			case BLUEPRINT:
-				// Identify a blueprint of the correct type and open the Invention
-				// activity.
-				final ArrayList<EveTask> tasks = this.getCastedModel().getTasks();
-				final NeoComAsset asset = tasks.get(0).getReferencedAsset();
-				// Check this is a T2 blueprint and then get its T1 version.
-				if (asset.getTech().equalsIgnoreCase(ModelWideConstants.eveglobal.TechII)) {
-					final ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
-							.searchInventionableBlueprints(Integer.valueOf(asset.getTypeID()).toString());
-					// The first element is the blueprint that invents the target.
-					// Now search for an asset of that type.
-					final Integer t1bpid = ids.get(0);
-					final ArrayList<NeoComAsset> targetbpassetid = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton()
-							.getDBConnector().searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
-					if (targetbpassetid.size() > 0) {
-						final NeoComAsset targetAsset = targetbpassetid.get(0);
-						final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);
-						intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-						intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTID.name(),
-								Long.valueOf(targetAsset.getAssetID()).longValue());
-						intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(),
-								ModelWideConstants.activities.INVENTION);
-						this.getActivity().startActivity(intent);
-
-						// Event consumed. Override the click.
-						clickOverride = true;
-					}
-				}
-				// final InventionJobDialog dialog = new InventionJobDialog();
-				// // REFACTOR I have to search for a real blueprint with this type
-				// at the current location to fill this hole.
-				// dialog.setBlueprint(getCastedModel().getResource());
-				// // final BlueprintPart self = this;
-				// // PagerFragment frag = (PagerFragment) getFragment();
-				// // dialog.setFragment(frag);
-				// dialog.setDialogCallback(new ADialogCallback() {
-				//
-				// @Override
-				// public void onDialogNegativeClick(final DialogFragment dialog) {
-				// }
-				//
-				// @Override
-				// public void onDialogPositiveClick(final DialogFragment dialog) {
-				// // Get the number of runs selected by the user.
-				// final int runs = ((JobRunsDialog) dialog).getRuns();
-				// // Verify with the number of runs the number of blueprints used.
-				// Toast.makeText(getActivity(), "Selected Runs: " + runs,
-				// Toast.LENGTH_LONG).show();
-				// // JobManager.launchJob(getPilot(), self, runs,
-				// getJobActivity());
-				// // final Intent intent = new Intent(getActivity(),
-				// JobDirectorActivity.class);
-				// // intent.putExtra(AppWideConstants.extras.EXTRA_EVECHARACTERID,
-				// getPilot().getCharacterID());
-				// // getActivity().startActivity(intent);
-				// }
-				// });
-				// //
-				// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-				// dialog.show(getActivity().getFragmentManager(), "JobRunsDialog");
-				break;
+			//			case BLUEPRINT:
+			//				// Identify a blueprint of the correct type and open the Invention
+			//				// activity.
+			//				final ArrayList<EveTask> tasks = this.getCastedModel().getTasks();
+			//				final NeoComAsset asset = tasks.get(0).getReferencedAsset();
+			//				// Check this is a T2 blueprint and then get its T1 version.
+			//				if (asset.getTech().equalsIgnoreCase(ModelWideConstants.eveglobal.TechII)) {
+			//					final ArrayList<Integer> ids = (ArrayList<Integer>) NeoComAppConnector.getSingleton().getDBConnector()
+			//							.searchInventionableBlueprints(Integer.valueOf(asset.getTypeID()).toString());
+			//					// The first element is the blueprint that invents the target.
+			//					// Now search for an asset of that type.
+			//					final Integer t1bpid = ids.get(0);
+			//					final ArrayList<NeoComAsset> targetbpassetid = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton()
+			//							.getDBConnector().searchAsset4Type(this.getPilot().getCharacterID(), t1bpid);
+			//					if (targetbpassetid.size() > 0) {
+			//						final NeoComAsset targetAsset = targetbpassetid.get(0);
+			//						final Intent intent = new Intent(this.getActivity(), IndustryT2Activity.class);
+			//						intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
+			//						intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTID.name(),
+			//								Long.valueOf(targetAsset.getAssetID()).longValue());
+			//						intent.putExtra(AppWideConstants.EExtras.EXTRA_BLUEPRINTACTIVITY.name(),
+			//								ModelWideConstants.activities.INVENTION);
+			//						this.getActivity().startActivity(intent);
+			//
+			//						// Event consumed. Override the click.
+			//						clickOverride = true;
+			//					}
+			//				}
+			//				// final InventionJobDialog dialog = new InventionJobDialog();
+			//				// // REFACTOR I have to search for a real blueprint with this type
+			//				// at the current location to fill this hole.
+			//				// dialog.setBlueprint(getCastedModel().getResource());
+			//				// // final BlueprintPart self = this;
+			//				// // PagerFragment frag = (PagerFragment) getFragment();
+			//				// // dialog.setFragment(frag);
+			//				// dialog.setDialogCallback(new ADialogCallback() {
+			//				//
+			//				// @Override
+			//				// public void onDialogNegativeClick(final DialogFragment dialog) {
+			//				// }
+			//				//
+			//				// @Override
+			//				// public void onDialogPositiveClick(final DialogFragment dialog) {
+			//				// // Get the number of runs selected by the user.
+			//				// final int runs = ((JobRunsDialog) dialog).getRuns();
+			//				// // Verify with the number of runs the number of blueprints used.
+			//				// Toast.makeText(getActivity(), "Selected Runs: " + runs,
+			//				// Toast.LENGTH_LONG).show();
+			//				// // JobManager.launchJob(getPilot(), self, runs,
+			//				// getJobActivity());
+			//				// // final Intent intent = new Intent(getActivity(),
+			//				// JobDirectorActivity.class);
+			//				// // intent.putExtra(AppWideConstants.extras.EXTRA_EVECHARACTERID,
+			//				// getPilot().getCharacterID());
+			//				// // getActivity().startActivity(intent);
+			//				// }
+			//				// });
+			//				// //
+			//				// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			//				// dialog.show(getActivity().getFragmentManager(), "JobRunsDialog");
+			//				break;
 
 			default:
 				break;
