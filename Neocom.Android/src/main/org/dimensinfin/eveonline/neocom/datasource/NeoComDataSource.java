@@ -63,8 +63,11 @@ public class NeoComDataSource extends SpecialDataSource {
 	 */
 	@Override
 	public void createContentHierarchy() {
-		_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
-				.setSorting(NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		// Do it only if the RootPart is not already set.
+		if (null == _partModelRoot) {
+			_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
+					.setSorting(NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		}
 		super.createContentHierarchy();
 	}
 
