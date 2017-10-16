@@ -11,7 +11,9 @@ package org.dimensinfin.eveonline.neocom.activity;
 import java.util.logging.Logger;
 
 import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -34,7 +36,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	 * @return
 	 */
 	public String getName() {
-		return "Capsuleer List";
+		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_LoginListActivity);
 	}
 
 	/**

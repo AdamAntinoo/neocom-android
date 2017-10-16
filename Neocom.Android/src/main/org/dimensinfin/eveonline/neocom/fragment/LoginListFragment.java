@@ -16,6 +16,7 @@ import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.datasource.NeoComDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
@@ -40,7 +41,7 @@ public class LoginListFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle() {
-		return "Capsuleer Selection";
+		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_LoginListActivity);
 	}
 
 	/**
