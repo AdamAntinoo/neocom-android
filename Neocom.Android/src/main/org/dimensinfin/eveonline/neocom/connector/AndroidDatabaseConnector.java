@@ -495,6 +495,26 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		return -1;
 	//	}
 
+	public List<NeoComAsset> queryContainerContents(final long identifier) {
+		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
+		List<NeoComAsset> contents = new Vector<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			//			where.eq("ownerID", identifier);
+			where.eq("parentAssetID", identifier);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			contents = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger
+					.warning("W [SpringDatabaseConnector.queryContainerContents]> Exception reading Location contents"
+							+ sqle.getMessage());
+		}
+		return contents;
+	}
+
 	public List<NeoComAsset> queryLocationContents(final long identifier) {
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> contents = new Vector<NeoComAsset>();
@@ -502,8 +522,8 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
-			where.eq("ownerID", identifier);
-			where.and().eq("locationID", identifier);
+			//			where.eq("ownerID", identifier);
+			where.eq("locationID", identifier);
 			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
 			contents = assetDao.query(preparedQuery);
 		} catch (java.sql.SQLException sqle) {
@@ -629,16 +649,19 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	}
 
 	/**
-	 * gets the list of assets of a select Category
+	 * Gets the list of assets of a select Category for the identified owner.
 	 *
 	 * @param characterID
-	 * @param typeID
+	 *          - owner of the assets.
+	 * @param categoryName
+	 *          - the category name to search for.
 	 * @return
 	 */
 	public ArrayList<NeoComAsset> searchAsset4Category(final long characterID, final String categoryName) {
 		// Select assets for the owner and with an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		try {
+			ModelAppConnector.getSingleton().startChrono();
 			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
@@ -647,6 +670,9 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 			where.eq("category", categoryName);
 			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
 			assetList = assetDao.query(preparedQuery);
+			AndroidDatabaseConnector.logger
+					.info("~~ [AndroidDatabaseConnector.searchAsset4Category]> Time lapse for [SELECT CATEGORY=" + categoryName
+							+ " OWNERID = " + characterID + "] - " + ModelAppConnector.getSingleton().timeLapse());
 		} catch (java.sql.SQLException sqle) {
 			sqle.printStackTrace();
 		}
