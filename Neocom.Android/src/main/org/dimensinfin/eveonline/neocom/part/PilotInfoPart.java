@@ -10,23 +10,21 @@ package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
+import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
 import org.dimensinfin.eveonline.neocom.render.PilotInfoHolder;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
@@ -41,7 +39,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClickListener {
+public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -1731066477259354660L;
 	private static Logger			logger						= Logger.getLogger("PilotInfoPart");
@@ -54,17 +52,18 @@ public class PilotInfoPart extends EveAbstractPart implements INamedPart, OnClic
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	/**
-	 * The result of this method depends on the variant use but this is not already supported. For the initial
-	 * usage of this part at the Pilot List Activity we just expand to itself.
-	 */
-	@Override
-	public ArrayList<IPart> collaborate2View() {
-		ArrayList<IPart> result = new ArrayList<IPart>();
-		result.add(this);
-		return result;
-	}
+	//	/**
+	//	 * The result of this method depends on the variant use but this is not already supported. For the initial
+	//	 * usage of this part at the Pilot List Activity we just expand to itself.
+	//	 */
+	//	@Override
+	//	public ArrayList<IPart> collaborate2View() {
+	//		ArrayList<IPart> result = new ArrayList<IPart>();
+	//		result.add(this);
+	//		return result;
+	//	}
 
+	@Override
 	public Pilot getCastedModel() {
 		return (Pilot) this.getModel();
 	}

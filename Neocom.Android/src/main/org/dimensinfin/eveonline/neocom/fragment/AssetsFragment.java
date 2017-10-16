@@ -8,7 +8,7 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 
 import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.AbstractGenerator;
@@ -141,11 +141,11 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 			assetsMan.initialize();
 		}
 		// REFACTOR This is an special case for Android until I solver the possibility to load data on the fly.
-		assetsMan.accessAllAssets();
+		//		assetsMan.accessAllAssets();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add the first level that are the Regions.
-		HashMap<Long, Region> regs = assetsMan.getRegions();
+		Hashtable<Long, Region> regs = assetsMan.getRegions();
 		for (Long key : regs.keySet()) {
 			_dataModelRoot.addChild(regs.get(key));
 			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
