@@ -16,7 +16,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
@@ -29,11 +28,10 @@ import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerPart extends EveAbstractPart
-		implements INeoComDirectorPart, INamedPart, OnClickListener, OnLongClickListener {
+		implements INeoComDirectorPart, INamedPart, OnClickListener /* , OnLongClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8992564305513190092L;
 
@@ -53,23 +51,12 @@ public class AssetsManagerPart extends EveAbstractPart
 		return true;
 	}
 
+	/**
+	 * The Managers do not expand so their collaboration is only themselves.
+	 */
 	@Override
 	public ArrayList<IPart> collaborate2View() {
-		return super.collaborate2View();
-	}
-
-	/**
-	 * Returns the number of assets that belong to this Character related to the number of records on the local
-	 * copy at the database.
-	 *
-	 * @return
-	 */
-	public String get_assetsCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
-	}
-
-	public String get_regionCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
+		return new ArrayList<IPart>();
 	}
 
 	public int getActiveIcon() {
@@ -86,12 +73,25 @@ public class AssetsManagerPart extends EveAbstractPart
 
 	@Override
 	public long getModelID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return AssetsManagerPart.serialVersionUID;
 	}
 
 	public String getName() {
 		return "Assets";
+	}
+
+	/**
+	 * Returns the number of assets that belong to this Character related to the number of records on the local
+	 * copy at the database.
+	 *
+	 * @return
+	 */
+	public String getTAssetsCount() {
+		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
+	}
+
+	public String getTRegionCount() {
+		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
 	}
 
 	/**
@@ -102,18 +102,12 @@ public class AssetsManagerPart extends EveAbstractPart
 	 */
 	public void onClick(final View view) {
 		EveAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
-		// Set the pilot selected on the context and then go to the Pilot Dashboard.
-		final Object pilotPart = view.getTag();
-		if (pilotPart instanceof AssetsManagerPart) {
-			// TODO This is to keep compatibility with the old data management.
-			// Pilot are expected to be at the global context
-			final NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter();
-			// TODO This should be done at the destination Activity
-			// NeoComAppConnector.getSingleton.getModelStore().activatePilot(pilot.getCharacterID());
-			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
+		final Object managerPart = view.getTag();
+		if (managerPart instanceof AssetsManagerPart) {
+			// Managers have a reference to the Character linked when created.
+			final NeoComCharacter pilot = ((AssetsManagerPart) managerPart).getCastedModel().getPilot();
 			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
-			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
-			//	intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.ASSETS_MANAGER.name());
@@ -122,12 +116,12 @@ public class AssetsManagerPart extends EveAbstractPart
 		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}
 
-	/**
-	 * A long click should activate the Manager associated activity.
-	 */
-	public boolean onLongClick(final View v) {
-		return false;
-	}
+	//	/**
+	//	 * A long click should activate the Manager associated activity.
+	//	 */
+	//	public boolean onLongClick(final View v) {
+	//		return false;
+	//	}
 
 	@Override
 	protected AbstractRender selectRenderer() {

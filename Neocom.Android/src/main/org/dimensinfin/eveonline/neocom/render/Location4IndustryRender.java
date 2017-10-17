@@ -74,7 +74,7 @@ public class Location4IndustryRender extends EveAbstractHolder {
 		locationSystem.setText(this.getPart().get_locationSystem());
 		locationRegion.setText(this.getPart().get_locationRegion());
 		locationStation.setText(this.getPart().get_locationStation());
-		childCount.setText(this.getPart().get_locationContentCount());
+		childCount.setText(this.getPart().getTLocationContentCount());
 
 		// Control the ROLE block
 		ArrayList<Property> roleList = this.getPart().accessLocationFunction();

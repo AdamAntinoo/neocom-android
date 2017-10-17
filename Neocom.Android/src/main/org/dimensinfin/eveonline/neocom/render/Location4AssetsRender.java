@@ -85,7 +85,7 @@ public class Location4AssetsRender extends EveAbstractHolder {
 			locationRegion.setText(this.getPart().get_locationRegionConstellation());
 		}
 		locationStation.setText(this.getPart().get_locationStation());
-		childCount.setText(this.getPart().get_locationContentCount());
+		childCount.setText(this.getPart().getTLocationContentCount());
 
 		// The value and volume depends on a setting.
 		double itemsValueISK = this.getPart().getItemsValoration();

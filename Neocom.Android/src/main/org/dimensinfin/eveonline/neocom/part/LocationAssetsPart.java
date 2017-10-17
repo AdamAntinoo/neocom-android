@@ -16,13 +16,10 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.Location4AssetsRender;
-
-import com.j256.ormlite.dao.Dao;
 
 import android.util.Log;
 import android.view.ContextMenu;
@@ -50,6 +47,14 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 				.getStringArray(R.array.locationFunctions);
 	}
 
+	public double getItemsValoration() {
+		return itemsValueISK;
+	}
+
+	public double getItemsVolume() {
+		return itemsVolume;
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Returns the number of assets located in this Eve Location. There are two values, one for the Location
@@ -60,36 +65,30 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	 * @return
 	 */
 	@Override
-	public String get_locationContentCount() {
-		long locationAssets = 0;
-		if (this.getCastedModel().isExpanded()) {
-			locationAssets = this.getChildren().size();
-		} else {
-			try {
-				Dao<NeoComAsset, String> assetDao = NeoComAppConnector.getSingleton().getDBConnector().getAssetDAO();
-				// DEBUG I have to get access to the pilot ID for some filters. Possible set the parent the root and from it to the Pilot
-				locationAssets = assetDao
-						.countOf(assetDao.queryBuilder().setCountOf(true).where().eq("ownerID", this.getPilot().getCharacterID())
-								.and().eq("locationID", this.getCastedModel().getID()).prepare());
-			} catch (java.sql.SQLException sqle) {
-				sqle.printStackTrace();
-			}
-		}
+	public String getTLocationContentCount() {
+		int locationAssets = this.getCastedModel().getContentCount();
+		//		if (this.getCastedModel().isExpanded()) {
+		//			locationAssets = this.getChildren().size();
+		//		} else {
+		//			NeoComAppConnector.getSingleton().getDBConnector().getLocationContentCount(this.getCastedModel().getID());
+		//			
+		//				// DEBUG I have to get access to the pilot ID for some filters. Possible set the parent the root and from it to the Pilot
+		//				locationAssets = assetDao
+		//						.countOf(assetDao.queryBuilder().setCountOf(true).where().eq("ownerID", this.getPilot().getCharacterID())
+		//								.and().eq("locationID", this.getCastedModel().getID()).prepare());
+		//			} catch (java.sql.SQLException sqle) {
+		//				sqle.printStackTrace();
+		//			}
+		//	}
+
 		String countString = null;
+
 		if (locationAssets > 1) {
 			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " items";
 		} else {
 			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " item";
 		}
 		return countString;
-	}
-
-	public double getItemsValoration() {
-		return itemsValueISK;
-	}
-
-	public double getItemsVolume() {
-		return itemsVolume;
 	}
 
 	/**
@@ -102,51 +101,6 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	 * number (expand/collapse).
 	 */
 	public void onClick(final View view) {
-		//		if (!this.isDownloaded()) {
-		//			// Generate the children of this Location and its Containers.
-		//			this.clean();
-		//			// Get the state of the configuration setting for the asset calculations.
-		//			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		//			boolean calculateValue = sharedPrefs.getBoolean(AppWideConstants.preference.PREF_CALCULATEASSETVALUE, true);
-		//			try {
-		//				AssetsManager manager = this.getPilot().getAssetsManager();
-		//				ArrayList<NeoComAsset> assetList = manager.searchAsset4Location(this.getCastedModel());
-		//				for (NeoComAsset asset : assetList) {
-		//					// Detect the type: Asset / Ship / Container
-		//					AssetPart apart = null;
-		//					if (asset.isShip()) {
-		//						// Check if the ship is packaged.
-		//						if (asset.isPackaged())
-		//							apart = (AssetPart) new AssetPart(asset).setRenderMode(this.getRenderMode());
-		//						else
-		//							apart = (AssetPart) new ShipPart(asset).setRenderMode(this.getRenderMode());
-		//					} else if (asset.isContainer())
-		//						// Check if the ship is packaged.
-		//						if (asset.isPackaged())
-		//						apart = (AssetPart) new AssetPart(asset).setRenderMode(this.getRenderMode());
-		//						else
-		//						apart = (AssetPart) new ContainerPart(asset).setRenderMode(this.getRenderMode());
-		//					else
-		//						apart = (AssetPart) new AssetPart(asset).setRenderMode(this.getRenderMode());
-		//					if (calculateValue) this.calculateValue(asset, apart);
-		//
-		//					// Assets may not contain a parent (so they are on the Hangar floor) or are inside a Container/Ship
-		//					NeoComAsset container = asset.getParentContainer();
-		//					if (null == container)
-		//						this.add2Location(apart);
-		//					else
-		//						this.add2Container(apart);
-		//				}
-		//				// Marks data as downloaded.
-		//				this.getCastedModel().setDownloaded(true);
-		//				// Clear current hierarchy before reloading the new.
-		//				containerList = new HashMap<Long, AbstractAndroidPart>();
-		//			} catch (RuntimeException rte) {
-		//				// TODO Auto-generated catch block
-		//				rte.printStackTrace();
-		//				Log.i("LocationPart.onClick", "SQL Error while rading location assets.");
-		//			}
-		//		}
 		// Toggle location to show its contents.
 		this.invalidate();
 		this.toggleExpanded();

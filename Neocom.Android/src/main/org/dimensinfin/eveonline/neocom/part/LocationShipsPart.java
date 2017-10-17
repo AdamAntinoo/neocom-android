@@ -46,7 +46,7 @@ public class LocationShipsPart extends LocationPart implements INamedPart, OnCli
 	 * @return
 	 */
 	@Override
-	public String get_locationContentCount() {
+	public String getTLocationContentCount() {
 		int locationAssets = this.getChildren().size();
 		String countString = null;
 		if (locationAssets > 1) {

@@ -534,6 +534,26 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return contents;
 	}
 
+	public List<NeoComAsset> queryLocationPlanetaryContents(final long identifier) {
+		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
+		List<NeoComAsset> contents = new Vector<NeoComAsset>();
+		try {
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+			Where<NeoComAsset, String> where = queryBuilder.where();
+			where.eq("category", "Planetary Commodities");
+			where.or().eq("category", "Planetary Resources");
+			where.and().eq("locationID", identifier);
+			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+			contents = assetDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger.warning(
+					"W [SpringDatabaseConnector.queryLocationContents]> Exception reading Location contents" + sqle.getMessage());
+		}
+		return contents;
+	}
+
 	public ArrayList<Resource> refineOre(final int oreID) {
 		ArrayList<Resource> results = new ArrayList<Resource>();
 		try {
@@ -739,20 +759,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return (ArrayList<NeoComAsset>) assetList;
 	}
 
-	//	/**
-	//	 * Like the other initialization methods this return a true if there was any problem during the process.
-	//	 *
-	//	 * @return
-	//	 */
-	//	@Override
-	//	public boolean openDAO() {
-	//		if (null == appDatabaseHelper) {
-	//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
-	//			return true;
-	//		}
-	//		return false;
-	//	}
-
 	/**
 	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
 	 */
@@ -777,6 +783,20 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		}
 		return -1;
 	}
+
+	//	/**
+	//	 * Like the other initialization methods this return a true if there was any problem during the process.
+	//	 *
+	//	 * @return
+	//	 */
+	//	@Override
+	//	public boolean openDAO() {
+	//		if (null == appDatabaseHelper) {
+	//			appDatabaseHelper = OpenHelperManager.getHelper(_context, EveDroidDBHelper.class);
+	//			return true;
+	//		}
+	//		return false;
+	//	}
 
 	/**
 	 * Gets the list of type ids for the required resources to get an output batch of the former planetary
@@ -861,6 +881,25 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return product;
 	}
 
+	public ArrayList<Job> searchJob4Class(final long characterID, final String classname) {
+		// Select assets for the owner and woth an specific type id.
+		List<Job> joblist = new ArrayList<Job>();
+		try {
+			Dao<Job, String> jobDao = NeoComAppConnector.getSingleton().getDBConnector().getJobDAO();
+			QueryBuilder<Job, String> queryBuilder = jobDao.queryBuilder();
+			Where<Job, String> where = queryBuilder.where();
+			where.eq("ownerID", characterID);
+			where.and();
+			where.eq("jobType", classname);
+			PreparedQuery<Job> preparedQuery = queryBuilder.prepare();
+			joblist = jobDao.query(preparedQuery);
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		return (ArrayList<Job>) joblist;
+
+	}
+
 	//	/**
 	//	 * Search on the eve.db database for the attributes that describe an Item. Items are the lowest data
 	//	 * structure for EVE resources or modules. Everything on Eve is an Item. We detect blueprints that require a
@@ -911,25 +950,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		}
 	//		return hit;
 	//	}
-
-	public ArrayList<Job> searchJob4Class(final long characterID, final String classname) {
-		// Select assets for the owner and woth an specific type id.
-		List<Job> joblist = new ArrayList<Job>();
-		try {
-			Dao<Job, String> jobDao = NeoComAppConnector.getSingleton().getDBConnector().getJobDAO();
-			QueryBuilder<Job, String> queryBuilder = jobDao.queryBuilder();
-			Where<Job, String> where = queryBuilder.where();
-			where.eq("ownerID", characterID);
-			where.and();
-			where.eq("jobType", classname);
-			PreparedQuery<Job> preparedQuery = queryBuilder.prepare();
-			joblist = jobDao.query(preparedQuery);
-		} catch (java.sql.SQLException sqle) {
-			sqle.printStackTrace();
-		}
-		return (ArrayList<Job>) joblist;
-
-	}
 
 	public int searchJobExecutionTime(final int typeID, final int activityID) {
 		Log.i("EVEI", ">> AndroidDatabaseConnector.searchJobExecutionTime");
@@ -1107,6 +1127,39 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		// Log.i("AndroidDatabaseConnector", "<<
 		// AndroidDatabaseConnector.searchListOfMaterials " + buildJob.size());
 		return buildJob;
+	}
+
+	public int searchRawPlanetaryOutput(final int typeID) {
+		int outputResourceId = typeID;
+		//		PreparedStatement prepStmt = null;
+		//		ResultSet cursor = null;
+		//		try {
+		//			prepStmt = this.getCCPDatabase().prepareStatement(SELECT_RAW_PRODUCTRESULT);
+		//			prepStmt.setString(1, Integer.valueOf(typeID).toString());
+		//			cursor = prepStmt.executeQuery();
+		//			while (cursor.next()) {
+		//				outputResourceId = cursor.getInt(1);
+		//			}
+		//		} catch (Exception ex) {
+		//			AndroidDatabaseConnector.logger
+		//					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		//		} finally {
+		//			try {
+		//				if (cursor != null) {
+		//					cursor.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//			try {
+		//				if (prepStmt != null) {
+		//					prepStmt.close();
+		//				}
+		//			} catch (SQLException ex) {
+		//				ex.printStackTrace();
+		//			}
+		//		}
+		return outputResourceId;
 	}
 
 	//	/**
@@ -1334,39 +1387,6 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		// }
 	//	}
 
-	public int searchRawPlanetaryOutput(final int typeID) {
-		int outputResourceId = typeID;
-		//		PreparedStatement prepStmt = null;
-		//		ResultSet cursor = null;
-		//		try {
-		//			prepStmt = this.getCCPDatabase().prepareStatement(SELECT_RAW_PRODUCTRESULT);
-		//			prepStmt.setString(1, Integer.valueOf(typeID).toString());
-		//			cursor = prepStmt.executeQuery();
-		//			while (cursor.next()) {
-		//				outputResourceId = cursor.getInt(1);
-		//			}
-		//		} catch (Exception ex) {
-		//			AndroidDatabaseConnector.logger
-		//					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
-		//		} finally {
-		//			try {
-		//				if (cursor != null) {
-		//					cursor.close();
-		//				}
-		//			} catch (SQLException ex) {
-		//				ex.printStackTrace();
-		//			}
-		//			try {
-		//				if (prepStmt != null) {
-		//					prepStmt.close();
-		//				}
-		//			} catch (SQLException ex) {
-		//				ex.printStackTrace();
-		//			}
-		//		}
-		return outputResourceId;
-	}
-
 	public int searchReactionOutputMultiplier(final int itemID) {
 		int multiplier = 200;
 		NeoComAppConnector.getSingleton().startChrono();
@@ -1477,6 +1497,27 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 		return scheList;
 	}
 
+	public String searchTech4Blueprint(final int blueprintID) {
+		try {
+			if (null == ccpDatabase) {
+				ccpDatabase = this.getCCPDatabase();
+			}
+			final Cursor cursor = ccpDatabase.rawQuery(AndroidDatabaseConnector.TECH4BLUEPRINT,
+					new String[] { Integer.valueOf(blueprintID).toString() });
+			if (null != cursor) {
+				String productTypeID = ModelWideConstants.eveglobal.TechI;
+				while (cursor.moveToNext()) {
+					productTypeID = cursor.getString(3);
+				}
+				cursor.close();
+				return productTypeID;
+			}
+		} catch (final Exception ex) {
+			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + blueprintID + ">.");
+		}
+		return ModelWideConstants.eveglobal.TechI;
+	}
+
 	//	/**
 	//	 * Returns the resource identifier of the station class to locate icons or other type related resources.
 	//	 *
@@ -1506,25 +1547,20 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		return stationTypeID;
 	//	}
 
-	public String searchTech4Blueprint(final int blueprintID) {
+	public int totalLocationContentCount(final long identifier) {
 		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(AndroidDatabaseConnector.TECH4BLUEPRINT,
-					new String[] { Integer.valueOf(blueprintID).toString() });
-			if (null != cursor) {
-				String productTypeID = ModelWideConstants.eveglobal.TechI;
-				while (cursor.moveToNext()) {
-					productTypeID = cursor.getString(3);
-				}
-				cursor.close();
-				return productTypeID;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + blueprintID + ">.");
+			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+			queryBuilder.setCountOf(true).where().eq("locationID", identifier);
+			long totalAssets = assetDao.countOf(queryBuilder.prepare());
+			return Long.valueOf(totalAssets).intValue();
+		} catch (java.sql.SQLException sqle) {
+			sqle.printStackTrace();
+			AndroidDatabaseConnector.logger
+					.warning("W [SpringDatabaseConnector.getLocationContentCount]> Exception reading Location contents count."
+							+ sqle.getMessage());
+			return 0;
 		}
-		return ModelWideConstants.eveglobal.TechI;
 	}
 
 	protected SQLiteDatabase getCCPDatabase() {

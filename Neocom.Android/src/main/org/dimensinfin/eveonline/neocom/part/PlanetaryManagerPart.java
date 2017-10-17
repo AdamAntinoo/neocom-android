@@ -10,24 +10,28 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import java.util.ArrayList;
 
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.PlanetaryManagerRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryManagerPart extends EveAbstractPart
-		implements INeoComDirectorPart, INamedPart, OnClickListener, OnLongClickListener {
+		implements INeoComDirectorPart, INamedPart, OnClickListener/* , OnLongClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7725920841939916584L;
 
@@ -47,9 +51,33 @@ public class PlanetaryManagerPart extends EveAbstractPart
 		return true;
 	}
 
+	/**
+	 * The Managers do not expand so their collaboration is only themselves.
+	 */
 	@Override
 	public ArrayList<IPart> collaborate2View() {
-		return super.collaborate2View();
+		return new ArrayList<IPart>();
+	}
+
+	public int getActiveIcon() {
+		return R.drawable.planets;
+	}
+
+	public PlanetaryManager getCastedModel() {
+		return (PlanetaryManager) this.getModel();
+	}
+
+	public int getDimmedIcon() {
+		return R.drawable.planets;
+	}
+
+	@Override
+	public long getModelID() {
+		return PlanetaryManagerPart.serialVersionUID;
+	}
+
+	public String getName() {
+		return "Planetary Assets";
 	}
 
 	/**
@@ -58,51 +86,39 @@ public class PlanetaryManagerPart extends EveAbstractPart
 	 * 
 	 * @return
 	 */
-	public String get_assetsCount() {
+	public String getTAssetsCount() {
 		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
 	}
 
-	public String get_regionCount() {
+	public String getTRegionCount() {
 		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
-	}
-
-	public int getActiveIcon() {
-		return R.drawable.assets;
-	}
-
-	public PlanetaryManager getCastedModel() {
-		return (PlanetaryManager) this.getModel();
-	}
-
-	public int getDimmedIcon() {
-		return R.drawable.assetsdimmed;
-	}
-
-	@Override
-	public long getModelID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public String getName() {
-		return "Planetary Assets";
 	}
 
 	/**
 	 * A click on the Manager should trigger the expand/collapse pattern.
 	 */
 	public void onClick(final View view) {
-		// Toggle node to show its contents.
-		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		EveAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
+		final Object managerPart = view.getTag();
+		if (managerPart instanceof PlanetaryManagerPart) {
+			// Managers have a reference to the Character linked when created.
+			final NeoComCharacter pilot = ((PlanetaryManagerPart) managerPart).getCastedModel().getPilot();
+			final Intent intent = new Intent(this.getActivity(), PlanetaryManagerActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.PLANETARY_MANAGER.name());
+			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+		}
+		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}
 
-	/**
-	 * A long click should activate the Manager associated activity.
-	 */
-	public boolean onLongClick(final View v) {
-		return false;
-	}
+	//	/**
+	//	 * A long click should activate the Manager associated activity.
+	//	 */
+	//	public boolean onLongClick(final View v) {
+	//		return false;
+	//	}
 
 	@Override
 	protected AbstractRender selectRenderer() {
@@ -111,25 +127,3 @@ public class PlanetaryManagerPart extends EveAbstractPart
 }
 
 // - UNUSED CODE ............................................................................................
-//	/**
-//	 * The policies for locations are two sorts. The first one by name the second by item type.
-//	 */
-//	@Override
-//	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
-//		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
-//		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_ITEM_TYPE));
-//		return targets;
-//	}
-
-//	public void setContainerLocation(final boolean flag) {
-//		isContainer = flag;
-//	}
-//
-//	public void setContainerName(final String name) {
-//		containerName = name;
-//	}
-
-//public void startActivity(final Intent intent) {
-//// TODO Auto-generated method stub
-//
-//}

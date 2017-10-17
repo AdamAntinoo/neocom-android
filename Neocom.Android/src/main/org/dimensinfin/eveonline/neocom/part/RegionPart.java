@@ -40,11 +40,6 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 		super(region);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_contentCount() {
-		return RegionPart.itemCountFormatter.format(this.getChildren().size());
-	}
-
 	public String get_region() {
 		return this.getCastedModel().getTitle();
 	}
@@ -61,6 +56,11 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 
 	public String getName() {
 		return this.getCastedModel().getTitle();
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	public String getTContentCount() {
+		return RegionPart.itemCountFormatter.format(this.getCastedModel().getContentCount());
 	}
 
 	public void onClick(final View view) {

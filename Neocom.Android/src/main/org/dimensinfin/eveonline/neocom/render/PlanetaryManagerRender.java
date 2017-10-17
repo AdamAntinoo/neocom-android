@@ -56,8 +56,8 @@ public class PlanetaryManagerRender extends EveAbstractHolder {
 	public void updateContent() {
 		super.updateContent();
 		name.setText(this.getPart().getName());
-		assetsCount.setText(this.getPart().get_assetsCount());
-		regionCount.setText(this.getPart().get_regionCount());
+		assetsCount.setText(this.getPart().getTAssetsCount());
+		regionCount.setText(this.getPart().getTRegionCount());
 		// Needs the check to test of the manager is active to select the right icon.
 		if (this.getPart().checkActivation()) {
 			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));

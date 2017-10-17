@@ -60,7 +60,7 @@ public class RegionHolder extends EveAbstractHolder {
 	public void updateContent() {
 		super.updateContent();
 		region.setText(getPart().get_region());
-		childCount.setText(getPart().get_contentCount());
+		childCount.setText(getPart().getTContentCount());
 
 		// Set the background form the Theme.
 		//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
