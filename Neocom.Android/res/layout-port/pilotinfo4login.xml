@@ -35,7 +35,7 @@
         android:layout_gravity="right"
         android:gravity="right"
         android:padding="-4dp"
-        android:src="@drawable/arrowleft"
+        android:src="@drawable/arrowdown"
         android:visibility="gone" />
 
     <LinearLayout
@@ -43,7 +43,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/separator"
+        android:layout_toLeftOf="@+id/pilotRaceBlock"
         android:layout_toRightOf="@+id/pilotAvatar"
         android:orientation="vertical" >
 
@@ -98,8 +98,58 @@
                 style="@style/Label.Style"
                 android:layout_alignParentRight="true"
                 android:gravity="right"
-                android:text="ASSET COUNT" />
+                android:text="ASSETS" />
         </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pilotRaceBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/separator"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+            android:id="@+id/characterClass"
+            style="@style/Name.Style.11"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="PILOT"
+            android:textColor="#FF0000FF" />
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+            android:id="@+id/race"
+            style="@style/Name.Style.10"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:text="Minmatar"
+            android:textColor="#FF337AB7" />
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+            android:id="@+id/cloneType"
+            style="@style/Name.Style.10"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Clone Grade Alpha"
+            android:textColor="@color/apporangemedium" />
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+            android:id="@+id/expirationTime"
+            style="@style/Name.Style.10"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Expired"
+            android:textColor="@color/appred"
+            android:visibility="visible" />
     </LinearLayout>
 
 </RelativeLayout>

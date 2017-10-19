@@ -78,7 +78,7 @@ public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickL
 	}
 
 	public String getTransformedAssetsCount() {
-		final DecimalFormat formatter = new DecimalFormat("###,### Items");
+		final DecimalFormat formatter = new DecimalFormat("###,###");
 		final long assetCount = this.getCastedModel().getAssetCount();
 		final String countString = formatter.format(assetCount);
 		return countString;

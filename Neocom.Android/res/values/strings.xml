@@ -10,8 +10,8 @@
     <string name="title_activity_PilotList">Pilot Roaster</string>
     <string name="title_activity_DirectorsBoard">Activity Selection</string>
     <string name="title_activity_AssetsDirector">Assets Inventory</string>
-    <string name="activity_title_LoginListActivity">Capsuleer List</string>
-    <string name="activity_subtitle_PlanetaryManagerActivity">Planetary Manager</string>
+    <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
+    <string name="activity_subtitle_PlanetaryManagerActivity">PLANTARY MANAGER</string>
     
     <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
     <string name="default_description">ImageView Content Description</string>

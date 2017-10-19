@@ -6,97 +6,135 @@
 
     <ImageView
         android:id="@+id/assetIcon"
-        style="@style/ItemIcon.Style.Size32" />
-
-    <TextView
-        android:id="@+id/assetName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ItemIconStyle.Size32"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/qtyBlock"
-        android:layout_toRightOf="@+id/assetIcon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="@string/default_bponame"
-        android:textColor="@color/orangeText"
-        android:textSize="12sp" />
+        android:layout_margin="2dp"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/whiteborderbox"
+        android:contentDescription="Item Icon"
+        android:src="@drawable/nopilot" />
 
-    <TextView
-        android:id="@+id/assetCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/assetName"
-        android:layout_toRightOf="@+id/assetIcon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Mineral - Asteroid"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/itemPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/assetCategory"
-        android:layout_toLeftOf="@+id/stackValue"
-        android:layout_toRightOf="@+id/assetIcon"
-        android:ellipsize="marquee"
-        android:gravity="left"
-        android:text="123,456.65 ISK"
-        android:textColor="@android:color/white"
-        android:textSize="10sp"
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:src="@color/panelbackgroundblack"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/stackValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/rightArrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/assetCategory"
-        android:ellipsize="marquee"
+        android:layout_centerVertical="true"
+        android:layout_gravity="right"
         android:gravity="right"
-        android:singleLine="true"
-        android:text="123,456.65 ISK"
-        android:textColor="@android:color/white"
-        android:textSize="10sp" />
+        android:padding="-4dp"
+        android:src="@drawable/arrowleft"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/valueLabel"
-        style="@style/AppTheme.LabelUpLineStyle"
+    <RelativeLayout
+        android:id="@+id/pilotInformationBlock"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/stackValue"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/separator"
         android:layout_toRightOf="@+id/assetIcon"
-        android:gravity="right"
-        android:text="STACK VALUE" />
-
-    <LinearLayout
-        android:id="@+id/qtyBlock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/count"
-            android:layout_width="fill_parent"
+            android:id="@+id/assetName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="@string/default_smallnumber"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="@string/default_bponame"
+            android:textColor="@color/orangeText"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/assetCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/assetName"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="Mineral - Asteroid"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/countLabel"
-            android:layout_width="fill_parent"
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/topwhiteline"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/assetCategory"
+            android:layout_toLeftOf="@+id/stackValue"
+            android:ellipsize="marquee"
+            android:gravity="left"
+            android:text="123,456.65 ISK"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/stackValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/assetCategory"
             android:ellipsize="marquee"
             android:gravity="right"
             android:singleLine="true"
-            android:text="NO. ITEMS"
+            android:text="123,456.65 ISK"
             android:textColor="@android:color/white"
-            android:textSize="7sp" />
-    </LinearLayout>
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/valueLabel"
+            style="@style/AppTheme.LabelUpLineStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/stackValue"
+            android:gravity="right"
+            android:text="STACK VALUE" />
+
+        <LinearLayout
+            android:id="@+id/qtyBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/default_smallnumber"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/countLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/topwhiteline"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="NO. ITEMS"
+                android:textColor="@android:color/white"
+                android:textSize="7sp" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -20,7 +20,7 @@
 
     <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
         android:id="@+id/name"
-        style="@style/Name.Selectable.14"
+        style="@style/Name.Selectable.16"
         android:layout_toRightOf="@+id/nodeIcon"
         android:text="@string/default_loginname" />
 
