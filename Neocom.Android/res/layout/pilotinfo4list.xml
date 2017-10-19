@@ -31,6 +31,7 @@
         <TextView
             android:id="@+id/lastKnownLocation"
             style="@style/Theme.EveDroidRubicon.LocationStyle"
+            android:singleLine="false"
             android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;" />
 
         <TextView

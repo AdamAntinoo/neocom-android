@@ -51,7 +51,7 @@ public class Ship4PilotInfoHolder extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		shipType.setText(getPart().get_assetName());
+		shipType.setText(getPart().getTAssetName());
 		String name = getPart().getCastedModel().getUserLabel();
 		if (null == name)
 			shipName.setVisibility(View.GONE);

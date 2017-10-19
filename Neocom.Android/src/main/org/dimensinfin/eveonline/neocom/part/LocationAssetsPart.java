@@ -18,6 +18,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.Location4AssetsRender;
 
@@ -66,20 +67,24 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	 */
 	@Override
 	public String getTLocationContentCount() {
-		int locationAssets = this.getCastedModel().getContentCount();
-		//		if (this.getCastedModel().isExpanded()) {
-		//			locationAssets = this.getChildren().size();
-		//		} else {
-		//			NeoComAppConnector.getSingleton().getDBConnector().getLocationContentCount(this.getCastedModel().getID());
-		//			
-		//				// DEBUG I have to get access to the pilot ID for some filters. Possible set the parent the root and from it to the Pilot
-		//				locationAssets = assetDao
-		//						.countOf(assetDao.queryBuilder().setCountOf(true).where().eq("ownerID", this.getPilot().getCharacterID())
-		//								.and().eq("locationID", this.getCastedModel().getID()).prepare());
-		//			} catch (java.sql.SQLException sqle) {
-		//				sqle.printStackTrace();
-		//			}
-		//	}
+		int locationAssets = 0;
+		if (this.getCastedModel() instanceof ExtendedLocation) {
+			locationAssets = ((ExtendedLocation) this.getCastedModel()).getContentSize();
+			//		else  locationAssets = this.getCastedModel().getContent();
+			//		if (this.getCastedModel().isExpanded()) {
+			//			locationAssets = this.getChildren().size();
+			//		} else {
+			//			NeoComAppConnector.getSingleton().getDBConnector().getLocationContentCount(this.getCastedModel().getID());
+			//			
+			//				// DEBUG I have to get access to the pilot ID for some filters. Possible set the parent the root and from it to the Pilot
+			//				locationAssets = assetDao
+			//						.countOf(assetDao.queryBuilder().setCountOf(true).where().eq("ownerID", this.getPilot().getCharacterID())
+			//								.and().eq("locationID", this.getCastedModel().getID()).prepare());
+			//			} catch (java.sql.SQLException sqle) {
+			//				sqle.printStackTrace();
+			//			}
+			//	}
+		}
 
 		String countString = null;
 

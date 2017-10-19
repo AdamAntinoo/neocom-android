@@ -221,7 +221,7 @@ public class ShipPart extends AssetPart implements OnClickListener, IMenuActionT
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("ShipPart [");
-		buffer.append(this.get_assetName());
+		buffer.append(this.getTAssetName());
 		buffer.append(" ]");
 		return buffer.toString();
 	}

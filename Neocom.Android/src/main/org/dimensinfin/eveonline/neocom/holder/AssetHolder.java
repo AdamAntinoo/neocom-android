@@ -67,7 +67,7 @@ public class AssetHolder extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.assetName.setText(getPart().get_assetName());
+		this.assetName.setText(getPart().getTAssetName());
 		this.count.setText(getPart().get_count());
 		this.assetCategory.setText(getPart().get_assetCategory());
 		this.itemPrice.setText(getPart().get_itemPrice());

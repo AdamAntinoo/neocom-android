@@ -21,9 +21,13 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
@@ -177,13 +181,38 @@ public class SplashActivity extends Activity {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger	logger			= Logger.getLogger("SplashActivity");
+	private static Logger			logger																= Logger.getLogger("SplashActivity");
+
+	private static final int	MY_PERMISSIONS_REQUEST_READ_CONTACTS	= 1234;
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** Shows the current initialization stage. */
-	private TextView			stateLabel	= null;
+	private TextView					stateLabel														= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public void onRequestPermissionsResult(final int requestCode, final String permissions[], final int[] grantResults) {
+		switch (requestCode) {
+			case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+				// If request is cancelled, the result arrays are empty.
+				if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+					// permission was granted, yay! Do the
+					// contacts-related task you need to do.
+					new NeoComInitialization(this).execute();
+
+				} else {
+
+					// permission denied, boo! Disable the
+					// functionality that depends on this permission.
+				}
+				return;
+			}
+
+			// other 'case' lines to check for other
+			// permissions this app might request
+		}
+	}
+
 	/**
 	 * This is almost the first android code to be executed. We will only check that core initialization was
 	 * performed. We will prepare the splash screen and do any other thing that has to be done only a single
@@ -210,12 +239,13 @@ public class SplashActivity extends Activity {
 	 * background activities.<br>
 	 * The content is to open the display, start the waiting animation while the background tasks perform the
 	 * download of the data and then finish. There is a wait link connected to the EVENT detection for the
-	 * property changer so when the background task ends it will send an event that would allow interception or
+	 * property changer so when the background task ends it will send an event that would allow to intercept or
 	 * even the launch from the last task.<br>
 	 * The splash activity will have a set of image buttons to enter the different functions of the application,
 	 * mainly the addition of new keys that is a must to be on working state and the selection of a pilot to
 	 * work with.
 	 */
+	@TargetApi(23)
 	@Override
 	protected void onStart() {
 		SplashActivity.logger.info(">> [SplashActivity.onStart]");
@@ -223,7 +253,24 @@ public class SplashActivity extends Activity {
 		//	stateLabel.setText("Instantiating user selected theme...");
 		stateLabel.setText("Checking application database...");
 		stateLabel.invalidate();
-		new NeoComInitialization(this).execute();
+		//		String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+		//    requestPermissions(permissions,WRITE_EXTERNAL_STORAGE);
+		if (Build.VERSION.SDK_INT < 23) {
+			new NeoComInitialization(this).execute();
+		}
+		if (Build.VERSION.SDK_INT >= 23) {
+			String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+			if (this.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+				// Should we show an explanation?
+				boolean ask = this.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+				if (!ask) {
+					this.requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+							SplashActivity.MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+				}
+			} else {
+				new NeoComInitialization(this).execute();
+			}
+		}
 		SplashActivity.logger.info("<< [SplashActivity.onStart]");
 	}
 }

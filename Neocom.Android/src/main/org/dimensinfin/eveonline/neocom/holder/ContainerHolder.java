@@ -63,8 +63,8 @@ public class ContainerHolder extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		name.setText(getPart().get_assetName());
-		count.setText(getPart().get_contentCount());
+		name.setText(getPart().getTAssetName());
+		count.setText(getPart().getTContentCount());
 		containerCategory.setText(getPart().get_containerCategory());
 		loadEveIcon((ImageView) _convertView.findViewById(R.id.assetIcon), getPart().getTypeID());
 		setBackgroundTransparency(R.drawable.bluetraslucent40);

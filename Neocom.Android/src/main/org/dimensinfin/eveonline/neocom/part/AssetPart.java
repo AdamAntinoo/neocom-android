@@ -51,7 +51,7 @@ public class AssetPart extends MarketDataPart implements INamedPart, OnClickList
 		return this.colorFormatLocation(this.getCastedModel().getLocation());
 	}
 
-	public String get_assetName() {
+	public String getTAssetName() {
 		return this.getCastedModel().getName();
 	}
 
