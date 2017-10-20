@@ -91,7 +91,10 @@ public abstract class AExtendedPart extends EveAbstractPart {
 							new SeparatorPart(new Separator().setType(ESeparatorType.LINE_RED)).setRenderMode(this.getRenderMode()));
 				}
 			} else {
-				result.add(this);
+				// Check for items that will not shown when empty.
+				if (this.isRenderWhenEmpty()) {
+					result.add(this);
+				}
 			}
 		}
 		return result;

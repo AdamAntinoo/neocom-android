@@ -33,7 +33,7 @@ import android.text.Spanned;
 public abstract class LocationPart extends AExtendedPart implements INamedPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long																	serialVersionUID	= 6823835480477273409L;
-	private static Logger																			logger						= Logger.getLogger("LocationPart");
+	protected static Logger																		logger						= Logger.getLogger("LocationPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	@SuppressWarnings("rawtypes")
@@ -116,23 +116,6 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 	//		return result;
 	//	}
 
-	/**
-	 * Returns the number of model part children that are the blueprints at that location. If the case on a same
-	 * station there are more than one container they will be represented as different locations.
-	 *
-	 * @return
-	 */
-	public String getTLocationContentCount() {
-		int locationAssets = this.getChildren().size();
-		String countString = null;
-		if (locationAssets > 1) {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
-		} else {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
-		}
-		return countString;
-	}
-
 	public long get_locationID() {
 		return this.getCastedModel().getID();
 	}
@@ -173,6 +156,23 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 
 	public String getName() {
 		return this.getCastedModel().getName();
+	}
+
+	/**
+	 * Returns the number of model part children that are the blueprints at that location. If the case on a same
+	 * station there are more than one container they will be represented as different locations.
+	 *
+	 * @return
+	 */
+	public String getTLocationContentCount() {
+		int locationAssets = this.getChildren().size();
+		String countString = null;
+		if (locationAssets > 1) {
+			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
+		} else {
+			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
+		}
+		return countString;
 	}
 
 	//	@Override

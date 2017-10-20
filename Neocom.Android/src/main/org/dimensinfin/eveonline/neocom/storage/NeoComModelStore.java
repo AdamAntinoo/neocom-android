@@ -54,8 +54,8 @@ import android.view.Menu;
 public class NeoComModelStore extends AbstractModelStore implements INeoComModelStore {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long			serialVersionUID	= 8777607802616543118L;
-	private static Logger					logger						= Logger.getLogger("AppModelStore");
+	private static final long				serialVersionUID	= 8777607802616543118L;
+	private static Logger						logger						= Logger.getLogger("AppModelStore");
 	private static NeoComModelStore	singleton					= null;
 
 	/**
@@ -299,6 +299,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * that the model store has been initialized and that we should go back to the pilot roaster page to select
 	 * a new one.
 	 */
+	@Deprecated
 	public NeoComCharacter getCurrentPilot() {
 		if (null == _pilot)
 			throw new NeocomRuntimeException("UNEX. Selected character is not selected. Go back to home to select one.");
@@ -370,8 +371,8 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		NeoComAppConnector.getSingleton().startChrono();
 		recovered = super.restore();
 		if (recovered) {
-			NeoComModelStore.logger
-					.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - " + NeoComAppConnector.getSingleton().timeLapse());
+			NeoComModelStore.logger.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - "
+					+ NeoComAppConnector.getSingleton().timeLapse());
 			return recovered;
 		} else {
 			// The handler was not able to retrieve the file. Possibly because there was no file.
@@ -392,7 +393,8 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 			recovered = true;
 			NeoComAppConnector.getSingleton().startChrono();
 			final boolean state = super.save();
-			NeoComModelStore.logger.info("~~ Time lapse for APPSTORE[SAVE] - " + NeoComAppConnector.getSingleton().timeLapse());
+			NeoComModelStore.logger
+					.info("~~ Time lapse for APPSTORE[SAVE] - " + NeoComAppConnector.getSingleton().timeLapse());
 			return state;
 		} else
 			return false;

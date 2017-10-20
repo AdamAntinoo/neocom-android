@@ -16,6 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
@@ -25,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.render.Location4AssetsRender;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -113,31 +114,35 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 	}
 
 	public boolean onContextItemSelected(final MenuItem item) {
-		Log.i("NEOCOM", ">> LocationAssetsPart.onContextItemSelected"); //$NON-NLS-1$
-		final int menuItemIndex = item.getItemId();
-		final String menuItemName = LocationAssetsPart._contextMenu[menuItemIndex];
-		final EveLocation theSelectedLocation = this.getCastedModel();
-		// Check for the role clearing.
-		if (menuItemName.equalsIgnoreCase("-CLEAR-")) {
-			this.getPilot().clearLocationRoles(theSelectedLocation);
-		} else {
-			this.getPilot().addLocationRole(theSelectedLocation, menuItemName);
-		}
-		this.invalidate();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-		Log.i("NEOCOM", "<< LocationAssetsPart.onContextItemSelected"); //$NON-NLS-1$
+		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
+		//		final int menuItemIndex = item.getItemId();
+		//		final String menuItemName = LocationAssetsPart._contextMenu[menuItemIndex];
+		//		final EveLocation theSelectedLocation = this.getCastedModel();
+		//		// Check for the role clearing.
+		//		if (menuItemName.equalsIgnoreCase("-CLEAR-")) {
+		//			this.getPilot().clearLocationRoles(theSelectedLocation);
+		//		} else {
+		//			this.getPilot().addLocationRole(theSelectedLocation, menuItemName);
+		//		}
+		//		this.invalidate();
+		//		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		LocationPart.logger.info("<< [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
 		return true;
 	}
 
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
-		Log.i("NEOCOM", ">> LocationAssetsPart.onCreateContextMenu"); //$NON-NLS-1$
-		//		String _contextMenuTitle = "Select Location Role";
-		//		String[] _contextMenu = EVEDroidApp.getSingletonApp().getResources().getStringArray(R.array.locationFunctions);
-		menu.setHeaderTitle(LocationAssetsPart._contextMenuTitle);
-		for (int i = 0; i < LocationAssetsPart._contextMenu.length; i++) {
-			menu.add(Menu.NONE, i, i, LocationAssetsPart._contextMenu[i]);
-		}
-		Log.i("NEOCOM", "<< LocationAssetsPart.onCreateContextMenu"); //$NON-NLS-1$
+		LocationPart.logger.info(">> [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
+		// Initialize the contextual menu each time.
+		MenuInflater inflater = new MenuInflater(NeoComAppConnector.getSingleton().getApplicationContext());
+		inflater.inflate(R.menu.context_location4assets, menu);
+		//    
+		//    
+		//    
+		//		menu.setHeaderTitle(LocationAssetsPart._contextMenuTitle);
+		//		for (int i = 0; i < LocationAssetsPart._contextMenu.length; i++) {
+		//			menu.add(Menu.NONE, i, i, LocationAssetsPart._contextMenu[i]);
+		//		}
+		LocationPart.logger.info("<< [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
 	@Override

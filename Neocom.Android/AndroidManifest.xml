@@ -56,6 +56,10 @@
             android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"
             android:label="@string/activity_subtitle_PlanetaryManagerActivity" >
         </activity>
+        <activity
+            android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"
+            android:label="@string/activity_subtitle_PlanetaryOptimizationActivity" >
+        </activity>
         
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
