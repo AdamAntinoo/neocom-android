@@ -19,17 +19,19 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.model.Ship;
+import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.ContainerPart;
 import org.dimensinfin.eveonline.neocom.part.GroupPart;
 import org.dimensinfin.eveonline.neocom.part.LocationAssetsPart;
+import org.dimensinfin.eveonline.neocom.part.PlanetaryProcessingActionPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
 import org.dimensinfin.eveonline.neocom.part.ShipPart;
+import org.dimensinfin.eveonline.neocom.planetary.ProcessingAction;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPartFactory extends PartFactory implements IPartFactory {
@@ -119,6 +121,12 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 			return part;
 		}
+		if (node instanceof ProcessingAction) {
+			IPart part = new PlanetaryProcessingActionPart(node)
+					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
+			return part;
+		}
+
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);
 	}

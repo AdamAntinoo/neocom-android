@@ -1,49 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- <item -->
-    <!-- android:id="@+id/context_locationFunction" -->
-    <!-- android:icon="@drawable/region" -->
-    <!-- android:title="Location Functions"> -->
-    <!-- <menu> -->
-    <group android:id="@+id/grp1" >
-        <item
-            android:id="@+id/context_locationFunction_home"
-            android:title="HOME"/>
-        <item
-            android:id="@+id/context_locationFunction_copy"
-            android:title="COPY"/>
-        <item android:title="GARAGE"/>
-        <item android:title="FITTING"/>
-        <item android:title="INVENTION"/>
-        <item android:title="MANUFACTURE"/>
-        <item android:title="MINING"/>
-        <item android:title="MISSION"/>
-        <item android:title="PLANETARY"/>
-        <item android:title="REFINE"/>
-        <item android:title="RESEARCH"/>
-        <item android:title="STORAGE"/>
-        <item android:title="-CLEAR-"/>
-    </group>
-    <!-- </menu> -->
-    <!-- <item> -->
-    <!-- </item> -->
-    <!-- <item -->
-    <!-- android:id="@+id/context_locationActions" -->
-    <!-- android:icon="@drawable/planets" -->
-    <!-- android:title="Location Actions"> -->
-    <!-- <menu> -->
-    <group android:id="@+id/grp2" >
-        <item
-            android:id="@+id/context_location_optimize"
-            android:icon="@drawable/planets"
-            android:title="Optimize Planetary"/>
-    </group>
+    <item
+        android:id="@+id/context_location_optimize"
+        android:icon="@drawable/planets"
+        android:title="Optimize Planetary"/>
 
-    <!-- </menu> -->
-<!--     <group> -->
-<!--     </group> -->
- <!-- </item> -->
-
-<!--     <menu> -->
-    </menu>
+</menu>

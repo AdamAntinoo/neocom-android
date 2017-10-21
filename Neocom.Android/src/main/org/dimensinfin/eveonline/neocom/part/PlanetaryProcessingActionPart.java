@@ -121,10 +121,10 @@ final class PlanetaryActionResourceRender extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		resourceName.setText(1234);
-		resourceQuantity.setText(4321);
-		resourcePrice.setText(4321);
-		resourceTotalValue.setText(4321);
+		resourceName.setText("Plasmoids");
+		resourceQuantity.setText("4321");
+		resourcePrice.setText("43 iSK");
+		resourceTotalValue.setText("34,678.00 ISK");
 	}
 
 	@Override
@@ -187,19 +187,26 @@ final class PlanetaryProcessingActionRender extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		inputsValueTotal.setText(1234);
-		outputsValueTotal.setText(4321);
+		inputsValueTotal.setText("1234");
+		outputsValueTotal.setText("4321");
 
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		//		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+		//				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
 		// Add the resources to the resources layout. Inputs
+		// Create and initilize aView with code. Follow the same creation mechanics as the ListView Datasource pattern. 
 		PlanetaryActionResourceRender resource = new PlanetaryActionResourceRender(new ResourcePart(new Resource(20)),
 				this.getContext());
+		resource.createView();
+		resource.initializeViews();
+		resource.updateContent();
 		inputsResourcesList.addView(resource.getView());
 
 		// Add the resources to the resources layout. Outputs
 		resource = new PlanetaryActionResourceRender(new ResourcePart(new Resource(20)), this.getContext());
+		resource.createView();
+		resource.initializeViews();
+		resource.updateContent();
 		inputsResourcesList.addView(resource.getView());
 	}
 
