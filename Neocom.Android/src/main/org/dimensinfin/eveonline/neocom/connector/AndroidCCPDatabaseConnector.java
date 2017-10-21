@@ -10,6 +10,7 @@ package org.dimensinfin.eveonline.neocom.connector;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
@@ -19,6 +20,7 @@ import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.planetary.Schematics;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -70,6 +72,12 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			+ " AND it.typeID = itm.materialTypeID" + " AND ito.typeID = itm.typeID" + " ORDER BY itm.materialTypeID";
 	private static final String									SELECT_BLUEPRINT4MODULE		= "SELECT typeID FROM industryActivityProducts BT"
 			+ " WHERE productTypeID = ? AND activityID = 1";
+	private static final String									SELECT_RAW_PRODUCTRESULT	= "SELECT pstmo.typeID, pstmo.quantity, pstmo.schematicID"
+			+ " FROM   planetSchematicsTypeMap pstmi, planetSchematicsTypeMap pstmo" + " WHERE  pstmi.typeID = ?"
+			+ " AND    pstmo.schematicID = pstmi.schematicID" + " AND    pstmo.isInput = 0";
+	private static final String									SELECT_SCHEMATICS4OUTPUT	= "SELECT pstms.typeID, pstms.quantity, pstms.isInput"
+			+ " FROM   planetSchematicsTypeMap pstmt, planetSchematicsTypeMap pstms" + " WHERE  pstmt.typeID = ?"
+			+ " AND    pstmt.isInput = 0" + " AND    pstms.schematicID = pstmt.schematicID";
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private SQLiteDatabase											ccpDatabase								= null;
@@ -99,10 +107,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 
 	public int queryBlueprintDependencies(final int bpitemID) {
 		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(
+			final Cursor cursor = this.getCCPDatabase().rawQuery(
 					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
 					new String[] { Integer.valueOf(bpitemID).toString() });
 			if (null != cursor) {
@@ -357,10 +362,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 
 	public int searchModule4Blueprint(final int bpitemID) {
 		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(AndroidCCPDatabaseConnector.SELECT_MODULE4BLUEPRINT,
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_MODULE4BLUEPRINT,
 					new String[] { Integer.valueOf(bpitemID).toString() });
 			if (null != cursor) {
 				int productTypeID = -1;
@@ -374,6 +376,42 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			AndroidDatabaseConnector.logger.severe("E> Error locating module for BPO <" + bpitemID + ">.");
 		}
 		return -1;
+	}
+
+	public int searchRawPlanetaryOutput(final int typeID) {
+		int outputResourceId = typeID;
+		try {
+			Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_RAW_PRODUCTRESULT,
+					new String[] { Integer.valueOf(typeID).toString() });
+			while (cursor.moveToNext()) {
+				outputResourceId = cursor.getInt(cursor.getColumnIndex("typeID"));
+			}
+			cursor.close();
+		} catch (Exception ex) {
+			AndroidCCPDatabaseConnector.logger
+					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		}
+		return outputResourceId;
+	}
+
+	public Vector<Schematics> searchSchematics4Output(final int targetId) {
+		Vector<Schematics> scheList = new Vector<Schematics>();
+		try {
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_SCHEMATICS4OUTPUT,
+					new String[] { Integer.valueOf(targetId).toString() });
+			if (null != cursor) {
+				while (cursor.moveToNext()) {
+					scheList.add(new Schematics().addData(cursor.getInt(cursor.getColumnIndex("typeID")),
+							cursor.getInt(cursor.getColumnIndex("quantity")),
+							(cursor.getInt(cursor.getColumnIndex("isInput")) == 1) ? true : false));
+				}
+				cursor.close();
+			}
+		} catch (Exception ex) {
+			AndroidCCPDatabaseConnector.logger
+					.warning("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		}
+		return scheList;
 	}
 
 	/**
