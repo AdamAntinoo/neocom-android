@@ -102,6 +102,10 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		return countString;
 	}
 
+	public CharSequence getTLocationID() {
+		return EveAbstractPart.keyFormatter.format(this.getCastedModel().getID());
+	}
+
 	/**
 	 * This is a lazy evaluation implementation that will access their database contents on the fist call. If
 	 * those contents are already on place it will return the signal to update the UI.<br>

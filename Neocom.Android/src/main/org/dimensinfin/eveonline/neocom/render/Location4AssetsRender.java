@@ -36,6 +36,7 @@ public class Location4AssetsRender extends EveAbstractHolder {
 	public TextView	function									= null;
 	public TextView	locationItemsValue				= null;
 	public TextView	locationItemsVolume				= null;
+	public TextView	locationIdentifier				= null;
 
 	// - L A Y O U T   L A B E L S
 	public TextView	locationItemsValueLabel		= null;
@@ -69,6 +70,7 @@ public class Location4AssetsRender extends EveAbstractHolder {
 		function = (TextView) _convertView.findViewById(R.id.role);
 		locationItemsValue = (TextView) _convertView.findViewById(R.id.locationItemsValue);
 		locationItemsVolume = (TextView) _convertView.findViewById(R.id.locationItemsVolume);
+		locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
 
 		locationItemsValueLabel = (TextView) _convertView.findViewById(R.id.locationItemsValueLabel);
 		locationItemsVolumeLabel = (TextView) _convertView.findViewById(R.id.locationItemsVolumeLabel);
@@ -79,6 +81,7 @@ public class Location4AssetsRender extends EveAbstractHolder {
 	public void updateContent() {
 		super.updateContent();
 		locationSystem.setText(this.getPart().get_locationSystem());
+		locationIdentifier.setText(this.getPart().getTLocationID());
 		if (this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN) {
 			locationRegion.setText(this.getPart().get_locationRegion());
 		} else {

@@ -27,8 +27,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="right"
-        android:textSize="12sp"
-        android:text="@string/default_region" />
+        android:text="@string/default_region"
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/dataBlock"
@@ -44,6 +44,14 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="Tash-Murkon - Moon 22" />
+
+        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            android:id="@+id/locationIdentifier"
+            style="@style/Name.Style.11"
+            android:layout_alignBaseline="@+id/locationSystem"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/locationSystem"
+            android:text="[60014089]" />
 
         <RelativeLayout
             android:id="@+id/stationBlock"
@@ -132,8 +140,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="90dp"
-                android:visibility="gone"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <org.dimensinfin.eveonline.neocom.core.Din1451TextView
                     android:id="@+id/locationItemsValueLabel"
@@ -157,9 +165,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:visibility="gone"
                 android:layout_toLeftOf="@+id/valueLabelBlock"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <org.dimensinfin.eveonline.neocom.core.Din1451TextView
                     android:id="@+id/locationItemsValue"
