@@ -7,6 +7,7 @@
 //								Item Market Data.
 package org.dimensinfin.eveonline.neocom.connector;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.AccessStatistics;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
@@ -58,6 +60,16 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	private static final String									SELECT_STATIONTYPE				= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
 	private static final String									SELECT_MODULE4BLUEPRINT		= "SELECT productTypeID FROM industryActivityProducts BT"
 			+ " WHERE typeID = ? AND activityID = 1";
+	private static final String									SELECT_TECH4BLUEPRINT			= "SELECT iap.typeID, it.typeName, imt.metaGroupID, img.metaGroupName"
+			+ " FROM industryActivityProducts iap, invTypes it, invMetaTypes imt, invMetaGroups img" + " WHERE it.typeID =?"
+			+ " AND iap.typeID = it.typeID" + " AND imt.typeID = productTypeID" + " AND img.metaGroupID = imt.metaGroupID"
+			+ " AND iap.activityID = 1";
+	private static final String									SELECT_REFININGASTEROID		= "SELECT itm.materialTypeID AS materialTypeID, itm.quantity AS qty"
+			+ " , it.typeName AS materialName" + " , ito.portionSize AS portionSize"
+			+ " FROM invTypeMaterials itm, invTypes it, invTypes ito" + " WHERE itm.typeID = ?"
+			+ " AND it.typeID = itm.materialTypeID" + " AND ito.typeID = itm.typeID" + " ORDER BY itm.materialTypeID";
+	private static final String									SELECT_BLUEPRINT4MODULE		= "SELECT typeID FROM industryActivityProducts BT"
+			+ " WHERE productTypeID = ? AND activityID = 1";
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private SQLiteDatabase											ccpDatabase								= null;
@@ -103,6 +115,50 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			}
 		} catch (final Exception ex) {
 			AndroidDatabaseConnector.logger.severe("E> Error getting T2 BPO for BP <" + bpitemID + ">.");
+		}
+		return -1;
+	}
+
+	public ArrayList<Resource> refineOre(final int oreID) {
+		ArrayList<Resource> results = new ArrayList<Resource>();
+		try {
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_REFININGASTEROID,
+					new String[] { Integer.valueOf(oreID).toString() });
+			if (null != cursor) {
+				while (cursor.moveToNext()) {
+					int resourceID = cursor.getInt(cursor.getColumnIndex("materialTypeID"));
+					int qty = cursor.getInt(cursor.getColumnIndex("qty"));
+					int portionSize = cursor.getInt(cursor.getColumnIndex("portionSize"));
+					Resource resource = new Resource(resourceID, qty);
+					resource.setStackSize(portionSize);
+					results.add(resource);
+				}
+				cursor.close();
+				return results;
+			}
+		} catch (final Exception ex) {
+			AndroidDatabaseConnector.logger.severe("E> Error refining <" + oreID + "> not found.");
+		}
+		return results;
+	}
+
+	/**
+	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
+	 */
+	public int searchBlueprint4Module(final int moduleID) {
+		try {
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_BLUEPRINT4MODULE,
+					new String[] { Integer.valueOf(moduleID).toString() });
+			if (null != cursor) {
+				int productTypeID = -1;
+				while (cursor.moveToNext()) {
+					productTypeID = cursor.getInt(cursor.getColumnIndex("typeID"));
+				}
+				cursor.close();
+				return productTypeID;
+			}
+		} catch (final Exception ex) {
+			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + moduleID + ">.");
 		}
 		return -1;
 	}
@@ -349,6 +405,27 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 				.info("~~ [AndroidCCPDatabaseConnector.searchStationType]> Time lapse for [SELECT STATIONTYPEID " + stationID
 						+ "] " + NeoComAppConnector.getSingleton().timeLapse());
 		return stationTypeID;
+	}
+
+	public String searchTech4Blueprint(final int blueprintID) {
+		try {
+			if (null == ccpDatabase) {
+				ccpDatabase = this.getCCPDatabase();
+			}
+			final Cursor cursor = ccpDatabase.rawQuery(AndroidCCPDatabaseConnector.SELECT_TECH4BLUEPRINT,
+					new String[] { Integer.valueOf(blueprintID).toString() });
+			if (null != cursor) {
+				String productTypeID = ModelWideConstants.eveglobal.TechI;
+				while (cursor.moveToNext()) {
+					productTypeID = cursor.getString(3);
+				}
+				cursor.close();
+				return productTypeID;
+			}
+		} catch (final Exception ex) {
+			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + blueprintID + ">.");
+		}
+		return ModelWideConstants.eveglobal.TechI;
 	}
 
 	private SQLiteDatabase getCCPDatabase() {

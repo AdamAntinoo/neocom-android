@@ -92,7 +92,7 @@ public class BuildDialog extends DialogFragment {
 
 		// Get the martching blueprint and obtain some key information from it.
 		int typeID = _taskPart.getItem().getTypeID();
-		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
+		int bpid = NeoComAppConnector.getSingleton().getCCPDBConnector().searchBlueprint4Module(typeID);
 		_blueprint = new NeoComBlueprint(bpid);
 		IJobProcess buildProcess = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(), _blueprint,
 				EJobClasses.MANUFACTURE);
@@ -139,7 +139,7 @@ public class BuildDialog extends DialogFragment {
 	public void setTaskPart(final TaskPart part) {
 		_taskPart = part;
 		int typeID = _taskPart.getItem().getTypeID();
-		int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(typeID);
+		int bpid = NeoComAppConnector.getSingleton().getCCPDBConnector().searchBlueprint4Module(typeID);
 		_blueprintPart = new BlueprintPart(new NeoComBlueprint(bpid));
 		// TODO We have to set the location that should be set to create the job
 		// TODO Set the runs that the user has selected or that are set to the build job

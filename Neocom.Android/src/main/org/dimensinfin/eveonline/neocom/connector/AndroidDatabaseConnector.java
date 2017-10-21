@@ -14,13 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.database.NeoComBaseDatabase;
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
@@ -30,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.model.ApiKey;
 import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
@@ -59,7 +58,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
+public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeoComDatabase {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger											logger										= Logger.getLogger("AndroidDatabaseConnector");
@@ -90,16 +89,6 @@ public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 			+ " FROM industryActivityMaterials iam, invTypes itb, invTypes it, invGroups ig, invCategories ic"
 			+ " WHERE iam.typeID = ?" + " AND iam.activityID = 1" + " AND itb.typeID = iam.typeID"
 			+ " AND it.typeID = iam.materialTypeID" + " AND ig.groupID = it.groupID" + " AND ic.categoryID = ig.categoryID";
-
-	private static final String								TECH4BLUEPRINT						= "SELECT iap.typeID, it.typeName, imt.metaGroupID, img.metaGroupName"
-			+ " FROM industryActivityProducts iap, invTypes it, invMetaTypes imt, invMetaGroups img" + " WHERE it.typeID =?"
-			+ " AND iap.typeID = it.typeID" + " AND imt.typeID = productTypeID" + " AND img.metaGroupID = imt.metaGroupID"
-			+ " AND iap.activityID = 1";
-
-	private static final String								REFINING_ASTEROID					= "SELECT itm.materialTypeID AS materialTypeID, itm.quantity AS qty"
-			+ " , it.typeName AS materialName" + " , ito.portionSize AS portionSize"
-			+ " FROM invTypeMaterials itm, invTypes it, invTypes ito" + " WHERE itm.typeID = ?"
-			+ " AND it.typeID = itm.materialTypeID" + " AND ito.typeID = itm.typeID" + " ORDER BY itm.materialTypeID";
 
 	private static final String								INDUSTRYACTIVITYMATERIALS	= "SELECT materialTypeID, quantity, consume FROM industryActivityMaterials WHERE typeID = ? AND activityID = 8";
 	private static final String								STATIONTYPE								= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
@@ -441,37 +430,37 @@ public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 		return uniqueLocations;
 	}
 
-	/**
-	 * Reads all the keys stored at the database and classified them into a set of Login names.
-	 */
-	public Hashtable<String, Login> queryAllLogins() {
-		// Get access to all ApiKey registers
-		List<ApiKey> keyList = new Vector<ApiKey>();
-		try {
-			Dao<ApiKey, String> keysDao = this.getApiKeysDao();
-			QueryBuilder<ApiKey, String> queryBuilder = keysDao.queryBuilder();
-			PreparedQuery<ApiKey> preparedQuery = queryBuilder.prepare();
-			keyList = keysDao.query(preparedQuery);
-		} catch (java.sql.SQLException sqle) {
-			sqle.printStackTrace();
-			AndroidDatabaseConnector.logger
-					.warning("W [SpringDatabaseConnector.queryAllLogins]> Exception reading all Logins. " + sqle.getMessage());
-		}
-		// Classify the keys on they matching Logins.
-		Hashtable<String, Login> loginList = new Hashtable<String, Login>();
-		for (ApiKey apiKey : keyList) {
-			String name = apiKey.getLogin();
-			// Search for this on the list before creating a new Login.
-			Login hit = loginList.get(name);
-			if (null == hit) {
-				Login login = new Login(name).addKey(apiKey);
-				loginList.put(name, login);
-			} else {
-				hit.addKey(apiKey);
-			}
-		}
-		return loginList;
-	}
+	//	/**
+	//	 * Reads all the keys stored at the database and classified them into a set of Login names.
+	//	 */
+	//	public Hashtable<String, Login> queryAllLogins() {
+	//		// Get access to all ApiKey registers
+	//		List<ApiKey> keyList = new Vector<ApiKey>();
+	//		try {
+	//			Dao<ApiKey, String> keysDao = this.getApiKeysDao();
+	//			QueryBuilder<ApiKey, String> queryBuilder = keysDao.queryBuilder();
+	//			PreparedQuery<ApiKey> preparedQuery = queryBuilder.prepare();
+	//			keyList = keysDao.query(preparedQuery);
+	//		} catch (java.sql.SQLException sqle) {
+	//			sqle.printStackTrace();
+	//			AndroidDatabaseConnector.logger
+	//					.warning("W [SpringDatabaseConnector.queryAllLogins]> Exception reading all Logins. " + sqle.getMessage());
+	//		}
+	//		// Classify the keys on they matching Logins.
+	//		Hashtable<String, Login> loginList = new Hashtable<String, Login>();
+	//		for (ApiKey apiKey : keyList) {
+	//			String name = apiKey.getLogin();
+	//			// Search for this on the list before creating a new Login.
+	//			Login hit = loginList.get(name);
+	//			if (null == hit) {
+	//				Login login = new Login(name).addKey(apiKey);
+	//				loginList.put(name, login);
+	//			} else {
+	//				hit.addKey(apiKey);
+	//			}
+	//		}
+	//		return loginList;
+	//	}
 
 	//	public int queryBlueprintDependencies(final int bpitemID) {
 	//		try {
@@ -552,29 +541,6 @@ public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 					"W [SpringDatabaseConnector.queryLocationContents]> Exception reading Location contents" + sqle.getMessage());
 		}
 		return contents;
-	}
-
-	public ArrayList<Resource> refineOre(final int oreID) {
-		ArrayList<Resource> results = new ArrayList<Resource>();
-		try {
-			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidDatabaseConnector.REFINING_ASTEROID,
-					new String[] { Integer.valueOf(oreID).toString() });
-			if (null != cursor) {
-				while (cursor.moveToNext()) {
-					int resourceID = cursor.getInt(cursor.getColumnIndex("materialTypeID"));
-					int qty = cursor.getInt(cursor.getColumnIndex("qty"));
-					int portionSize = cursor.getInt(cursor.getColumnIndex("portionSize"));
-					Resource resource = new Resource(resourceID, qty);
-					resource.setStackSize(portionSize);
-					results.add(resource);
-				}
-				cursor.close();
-				return results;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error refining <" + oreID + "> not found.");
-		}
-		return results;
 	}
 
 	/**
@@ -759,30 +725,30 @@ public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 		return (ArrayList<NeoComAsset>) assetList;
 	}
 
-	/**
-	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
-	 */
-	public int searchBlueprint4Module(final int moduleID) {
-		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(
-					"SELECT typeID FROM industryActivityProducts BT WHERE productTypeID = ? AND activityID = 1",
-					new String[] { Integer.valueOf(moduleID).toString() });
-			if (null != cursor) {
-				int productTypeID = -1;
-				while (cursor.moveToNext()) {
-					productTypeID = cursor.getInt(cursor.getColumnIndex("typeID"));
-				}
-				cursor.close();
-				return productTypeID;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + moduleID + ">.");
-		}
-		return -1;
-	}
+	//	/**
+	//	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
+	//	 */
+	//	public int searchBlueprint4Module(final int moduleID) {
+	//		try {
+	//			if (null == ccpDatabase) {
+	//				ccpDatabase = this.getCCPDatabase();
+	//			}
+	//			final Cursor cursor = ccpDatabase.rawQuery(
+	//					"SELECT typeID FROM industryActivityProducts BT WHERE productTypeID = ? AND activityID = 1",
+	//					new String[] { Integer.valueOf(moduleID).toString() });
+	//			if (null != cursor) {
+	//				int productTypeID = -1;
+	//				while (cursor.moveToNext()) {
+	//					productTypeID = cursor.getInt(cursor.getColumnIndex("typeID"));
+	//				}
+	//				cursor.close();
+	//				return productTypeID;
+	//			}
+	//		} catch (final Exception ex) {
+	//			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + moduleID + ">.");
+	//		}
+	//		return -1;
+	//	}
 
 	//	/**
 	//	 * Like the other initialization methods this return a true if there was any problem during the process.
@@ -1495,27 +1461,6 @@ public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 			////			}
 		}
 		return scheList;
-	}
-
-	public String searchTech4Blueprint(final int blueprintID) {
-		try {
-			if (null == ccpDatabase) {
-				ccpDatabase = this.getCCPDatabase();
-			}
-			final Cursor cursor = ccpDatabase.rawQuery(AndroidDatabaseConnector.TECH4BLUEPRINT,
-					new String[] { Integer.valueOf(blueprintID).toString() });
-			if (null != cursor) {
-				String productTypeID = ModelWideConstants.eveglobal.TechI;
-				while (cursor.moveToNext()) {
-					productTypeID = cursor.getString(3);
-				}
-				cursor.close();
-				return productTypeID;
-			}
-		} catch (final Exception ex) {
-			AndroidDatabaseConnector.logger.severe("E> Error locating BPO for module <" + blueprintID + ">.");
-		}
-		return ModelWideConstants.eveglobal.TechI;
 	}
 
 	//	/**

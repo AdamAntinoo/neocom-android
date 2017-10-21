@@ -109,7 +109,7 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 	public INeoComDatabase getDBConnector() {
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.getDBConnector]> Application connection not defined. Functionality 'getDBConnector' disabled.");
-		return _connector.getDBConnector();
+		return (INeoComDatabase) _connector.getDBConnector();
 	}
 
 	@Override

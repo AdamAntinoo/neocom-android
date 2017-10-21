@@ -38,7 +38,8 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 	 */
 	public ItemHeader4IndustryPart(final AbstractComplexNode node) {
 		super(node);
-		bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(this.getCastedModel().getTypeID());
+		bpid = NeoComAppConnector.getSingleton().getCCPDBConnector()
+				.searchBlueprint4Module(this.getCastedModel().getTypeID());
 		// TODO Check this validation. There are more items that are manufacturable and also item made with reactions.
 		if (-1 != bpid) {
 			manufacturable = true;

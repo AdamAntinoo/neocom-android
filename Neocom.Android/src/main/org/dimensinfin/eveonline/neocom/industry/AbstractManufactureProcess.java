@@ -311,7 +311,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		Log.i("EVEI", "-- [AbstractManufactureProcess.processRequest]> Processing state - " + ETaskType.BUILD);
 		// Get the resources needed to manufacture this request.
 		final int itemID = newTask.getTypeID();
-		final int bpid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(itemID);
+		final int bpid = NeoComAppConnector.getSingleton().getCCPDBConnector().searchBlueprint4Module(itemID);
 		// Check if there is a blueprint of this type on the belongings for this character.
 		boolean blueprintExists = false;
 		final ArrayList<NeoComAsset> bpsofType = (ArrayList<NeoComAsset>) NeoComAppConnector.getSingleton().getDBConnector()
@@ -491,7 +491,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 		final NeoComAsset oreSelected = this.searchOREAsset(newTask);
 		if (null != oreSelected) {
 			// Get access to the refining parameters
-			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getCCPDBConnector()
 					.refineOre(oreSelected.getTypeID());
 			// Refine the asteroid stack and generate the new minerals.
 			for (final Resource rc : refineParameters) {
@@ -549,7 +549,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 				// Complete the action and add the minerals obtained as tasks.
 				currentAction.setCompleted(ETaskCompletion.COMPLETED, newTask.getQty());
 				// Add the refine of the mineral to the tasks.
-				final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+				final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getCCPDBConnector()
 						.refineOre(newTask.getTypeID());
 				for (final Resource rc : refineParameters) {
 					final double mineral = Math.floor(Math.floor(newTask.getResource().getQuantity() / rc.getStackSize())
@@ -917,7 +917,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 				continue;
 			}
 			// Get the list of minerals resulting from this refining.
-			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getDBConnector()
+			final ArrayList<Resource> refineParameters = NeoComAppConnector.getSingleton().getCCPDBConnector()
 					.refineOre(asteroid.getTypeID());
 			for (final Resource resource : refineParameters)
 				if (resource.getTypeID() == newTask.getTypeID()) return asteroid;

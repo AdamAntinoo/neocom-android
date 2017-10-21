@@ -136,7 +136,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	 */
 	public double getManufactureCost() {
 		int moduleid = this.getCastedModel().getTypeID();
-		int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
+		int blueprintid = NeoComAppConnector.getSingleton().getCCPDBConnector().searchBlueprint4Module(moduleid);
 		IJobProcess process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(),
 				new NeoComBlueprint(blueprintid), EJobClasses.MANUFACTURE);
 		return process.getJobCost();
@@ -212,7 +212,7 @@ public class ResourcePart extends ItemPart implements IItemPart, OnClickListener
 	private IJobProcess getJobProcess() {
 		if (null == process) {
 			int moduleid = this.getCastedModel().getTypeID();
-			int blueprintid = NeoComAppConnector.getSingleton().getDBConnector().searchBlueprint4Module(moduleid);
+			int blueprintid = NeoComAppConnector.getSingleton().getCCPDBConnector().searchBlueprint4Module(moduleid);
 			process = JobManager.generateJobProcess(NeoComModelStore.getSingleton().getPilot(),
 					new NeoComBlueprint(blueprintid), EJobClasses.MANUFACTURE);
 		}
