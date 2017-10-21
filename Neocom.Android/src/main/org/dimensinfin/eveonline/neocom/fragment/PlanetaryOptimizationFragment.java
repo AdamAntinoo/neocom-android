@@ -120,9 +120,7 @@ final class PlanetaryOptimization4LocationGenerator extends AbstractGenerator im
 		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter();
 		PlanetaryManager planetaryMan = pilot.getPlanetaryManager();
 		// Check it is initialized.
-		if (!planetaryMan.isInitialized()) {
-			planetaryMan.initialize();
-		}
+		planetaryMan.initialize();
 		try {
 			// Get the location and then process all its contents to extract the Planetary Resources.
 			Vector<Resource> resources = planetaryMan.getLocationContents(Long.valueOf(_locationid).toString());

@@ -135,9 +135,7 @@ final class PlanetaryByLocationGenerator extends AbstractGenerator implements IM
 		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 		PlanetaryManager planetaryMan = pilot.getPlanetaryManager();
 		// Check it is initialized.
-		if (!planetaryMan.isInitialized()) {
-			planetaryMan.initialize();
-		}
+		planetaryMan.initialize();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add the first level that are the Regions.

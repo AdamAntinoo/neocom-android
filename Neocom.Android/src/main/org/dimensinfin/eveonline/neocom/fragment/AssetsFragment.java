@@ -137,11 +137,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 		AssetsManager assetsMan = pilot.getAssetsManager();
 		// Check it is initialized.
-		if (!assetsMan.isInitialized()) {
-			assetsMan.initialize();
-		}
-		// REFACTOR This is an special case for Android until I solver the possibility to load data on the fly.
-		//		assetsMan.accessAllAssets();
+		assetsMan.initialize();
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add the first level that are the Regions.
