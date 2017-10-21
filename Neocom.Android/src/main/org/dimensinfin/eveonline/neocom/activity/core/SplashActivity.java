@@ -64,7 +64,7 @@ public class SplashActivity extends Activity {
 
 			// Just check that the files exist and if not load the Api list and their characters.
 			SplashActivity.logger.info(">> [NeoComInitialization.doStep01]");
-			this.updateStateLabel("Checking application database...");
+			this.updateStateLabel("Checking application databases...");
 			// STEP 01. Check required files availability on app directory.
 			this.createAppDir();
 			this.createCacheDirectories();
@@ -74,14 +74,10 @@ public class SplashActivity extends Activity {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
 				this.copyFromAssets(R.string.ccpdatabasefilename);
 			}
-			//			if (AppWideConstants.DEVELOPMENT)
-			//				if (!this.checkAppFile(AppConnector.getResourceString(R.string.apikeysfilename))) {
-			//				this.copyFromAssets(R.string.apikeysfilename);
-			//				}
 			SplashActivity.logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
 
 			// Create the login information that later will be requested to the user at the login page.
-			this.updateStateLabel("Loading user data...");
+			this.updateStateLabel("Processing Character Information...");
 			NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
 			SplashActivity.logger.info("<< [NeoComInitialization.doStep01]");
 
@@ -190,6 +186,7 @@ public class SplashActivity extends Activity {
 	private TextView					stateLabel														= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
 	public void onRequestPermissionsResult(final int requestCode, final String permissions[], final int[] grantResults) {
 		switch (requestCode) {
 			case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
