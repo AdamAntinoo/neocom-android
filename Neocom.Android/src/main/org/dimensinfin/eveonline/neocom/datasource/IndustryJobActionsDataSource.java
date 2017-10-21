@@ -273,5 +273,6 @@ public class IndustryJobActionsDataSource extends AbstractNewDataSource {
 		_root.add(new GroupPart(new Separator(EIndustryGroup.OREMATERIALS.toString())).setPriority(400));
 		_root.add(new GroupPart(new Separator(EIndustryGroup.UNDEFINED.toString())).setPriority(999));
 	}
+
 }
 // - UNUSED CODE ............................................................................................

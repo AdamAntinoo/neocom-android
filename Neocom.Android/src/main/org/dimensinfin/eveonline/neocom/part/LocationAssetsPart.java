@@ -115,7 +115,12 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		// Toggle location to show its contents.
 		this.invalidate();
 		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		// For lazy evaluted parts check if the toggle requires a download.
+		if ((this.getCastedModel().isExpanded()) && (!this.getCastedModel().isDownloaded())) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+		} else {
+			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		}
 	}
 
 	public boolean onContextItemSelected(final MenuItem item) {

@@ -27,5 +27,10 @@ public abstract class AbstractNewDataSource extends AbstractIndustryDataSource {
 	public abstract ArrayList<AbstractAndroidPart> getBodyPartsHierarchy(final int panelMarketordersbody);
 
 	public abstract ArrayList<AbstractAndroidPart> getHeaderPartsHierarchy(final int panelMarketordersbody);
+
+	@Override
+	public void updateContentHierarchy() {
+		this.createContentHierarchy();
+	}
 }
 // - UNUSED CODE ............................................................................................

@@ -39,25 +39,6 @@ public class NeoComDataSource extends SpecialDataSource {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	//	/**
-	//	 * This method is called to initialize the model structures. Those structures are copies or transformations
-	//	 * from the main model stored in the <code>store</code> reference. <br>
-	//	 * This is the method to initialize the copy of the model structures on the DataSource. Every time this
-	//	 * method is called, the complete model is recreated. There are two ways to recreate it, comparing with the
-	//	 * old copy and inserting/deleting different nodes or recreating completely the new model copy. Once this
-	//	 * method is called we can create the depending part hierarchy. In the current implementation we always
-	//	 * recreate the model from scratch.<br>
-	//	 * The resulting model always has a RootNode and the contents are stored as children of that node. The model
-	//	 * only deals with the first level so each on the childs will create their own set of the model on call when
-	//	 * required by the model transformation.
-	//	 */
-	//	@Override
-	//	public RootNode collaborate2Model() {
-	//		SpecialDataSource.logger.info(">< [LoginListDataSource.collaborate2Model]");
-	//		_dataModelRoot = modelGenerator.collaborate2Model();
-	//		return _dataModelRoot;
-	//	}
-
 	/**
 	 * Set the RootPart and the sort element for it.
 	 */
@@ -88,6 +69,16 @@ public class NeoComDataSource extends SpecialDataSource {
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
 			// REFACTOR Trying to fire a new model generation to solve the problem of renderization.
 			//	_dataModelRoot = modelGenerator.collaborate2Model();
+			//			this.createContentHierarchy();
+
+			_bodyParts = new ArrayList<IPart>();
+			_bodyParts.addAll(_partModelRoot.collaborate2View());
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
+					event.getNewValue());
+			return;
+		}
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA) {
 			this.createContentHierarchy();
 
 			_bodyParts = new ArrayList<IPart>();
