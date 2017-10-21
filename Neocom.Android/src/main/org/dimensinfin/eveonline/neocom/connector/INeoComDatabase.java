@@ -9,9 +9,8 @@
 package org.dimensinfin.eveonline.neocom.connector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface INeoComDatabase extends INeoComModelDatabase {
+public interface INeoComDatabase extends INeoComModelDatabase, IDeprecatedDatabaseConnector {
 
-	public int totalLocationContentCount(final long identifier);
 }
 
 // - UNUSED CODE ............................................................................................
