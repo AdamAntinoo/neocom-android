@@ -123,22 +123,26 @@ final class PlanetaryOptimization4LocationGenerator extends AbstractGenerator im
 		if (!planetaryMan.isInitialized()) {
 			planetaryMan.initialize();
 		}
-		// Get the location and then process all its contents to extract the Planetary Resources.
-		Vector<Resource> resources = planetaryMan.getLocationContents(Long.valueOf(_locationid).toString());
-		// The Planetary Advisor requires a list of Planetary Resources to be stocked to start the profit calculations.
-		PlanetaryScenery scenery = new PlanetaryScenery();
-		scenery.stock(resources);
-		// Create the initial processing point and start the optimization recursively.
-		PlanetaryProcessor proc = new PlanetaryProcessor(scenery);
-		// Start running the best profit search.
-		Vector<ProcessingAction> bestScenario = proc.startProfitSearch(null);
+		try {
+			// Get the location and then process all its contents to extract the Planetary Resources.
+			Vector<Resource> resources = planetaryMan.getLocationContents(Long.valueOf(_locationid).toString());
+			// The Planetary Advisor requires a list of Planetary Resources to be stocked to start the profit calculations.
+			PlanetaryScenery scenery = new PlanetaryScenery();
+			scenery.stock(resources);
+			// Create the initial processing point and start the optimization recursively.
+			PlanetaryProcessor proc = new PlanetaryProcessor(scenery);
+			// Start running the best profit search.
+			Vector<ProcessingAction> bestScenario = proc.startProfitSearch(null);
 
-		// Initialize the Adapter data structures.
-		this.setDataModel(new RootNode());
-		for (ProcessingAction action : bestScenario) {
-			_dataModelRoot.addChild(action);
-			AbstractGenerator.logger.info("-- [PlanetaryOptimization4LocationGenerator.collaborate2Model]> Adding '"
-					+ action.toString() + "' to the _dataModelRoot");
+			// Initialize the Adapter data structures.
+			this.setDataModel(new RootNode());
+			for (ProcessingAction action : bestScenario) {
+				_dataModelRoot.addChild(action);
+				AbstractGenerator.logger.info("-- [PlanetaryOptimization4LocationGenerator.collaborate2Model]> Adding '"
+						+ action.toString() + "' to the _dataModelRoot");
+			}
+		} catch (RuntimeException rtex) {
+			rtex.printStackTrace();
 		}
 		AbstractGenerator.logger.info("<< [PlanetaryOptimization4LocationGenerator.collaborate2Model]");
 		return _dataModelRoot;

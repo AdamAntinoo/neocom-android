@@ -59,7 +59,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AndroidDatabaseConnector implements IDatabaseConnector {
+public class AndroidDatabaseConnector implements IDeprecatedDatabaseConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger											logger										= Logger.getLogger("AndroidDatabaseConnector");
@@ -1547,21 +1547,21 @@ public class AndroidDatabaseConnector implements IDatabaseConnector {
 	//		return stationTypeID;
 	//	}
 
-	public int totalLocationContentCount(final long identifier) {
-		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
-			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
-			queryBuilder.setCountOf(true).where().eq("locationID", identifier);
-			long totalAssets = assetDao.countOf(queryBuilder.prepare());
-			return Long.valueOf(totalAssets).intValue();
-		} catch (java.sql.SQLException sqle) {
-			sqle.printStackTrace();
-			AndroidDatabaseConnector.logger
-					.warning("W [SpringDatabaseConnector.getLocationContentCount]> Exception reading Location contents count."
-							+ sqle.getMessage());
-			return 0;
-		}
-	}
+	//	public int totalLocationContentCount(final long identifier) {
+	//		try {
+	//			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+	//			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+	//			queryBuilder.setCountOf(true).where().eq("locationID", identifier);
+	//			long totalAssets = assetDao.countOf(queryBuilder.prepare());
+	//			return Long.valueOf(totalAssets).intValue();
+	//		} catch (java.sql.SQLException sqle) {
+	//			sqle.printStackTrace();
+	//			AndroidDatabaseConnector.logger
+	//					.warning("W [SpringDatabaseConnector.getLocationContentCount]> Exception reading Location contents count."
+	//							+ sqle.getMessage());
+	//			return 0;
+	//		}
+	//	}
 
 	protected SQLiteDatabase getCCPDatabase() {
 		if (null == ccpDatabase) {

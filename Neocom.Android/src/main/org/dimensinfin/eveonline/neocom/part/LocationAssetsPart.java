@@ -16,13 +16,18 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.Location4AssetsRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -115,17 +120,21 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 
 	public boolean onContextItemSelected(final MenuItem item) {
 		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
-		//		final int menuItemIndex = item.getItemId();
-		//		final String menuItemName = LocationAssetsPart._contextMenu[menuItemIndex];
-		//		final EveLocation theSelectedLocation = this.getCastedModel();
-		//		// Check for the role clearing.
-		//		if (menuItemName.equalsIgnoreCase("-CLEAR-")) {
-		//			this.getPilot().clearLocationRoles(theSelectedLocation);
-		//		} else {
-		//			this.getPilot().addLocationRole(theSelectedLocation, menuItemName);
-		//		}
-		//		this.invalidate();
-		//		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		switch (item.getItemId()) {
+			case R.id.context_location_optimize:
+				// Managers have a reference to the Character linked when created.
+				final NeoComCharacter pilot = NeoComModelStore.getSingleton().getActiveCharacter();
+				final Intent intent = new Intent(this.getActivity(), PlanetaryOptimizationActivity.class);
+				// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
+				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+				intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), this.getCastedModel().getID());
+				NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+				return true;
+			default:
+				// Pass the event to parent, for options menu, use below
+				//		    return super.onOptionsItemSelected(item);
+		}
 		LocationPart.logger.info("<< [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
 		return true;
 	}
@@ -135,13 +144,6 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		// Initialize the contextual menu each time.
 		MenuInflater inflater = new MenuInflater(NeoComAppConnector.getSingleton().getApplicationContext());
 		inflater.inflate(R.menu.context_location4assets, menu);
-		//    
-		//    
-		//    
-		//		menu.setHeaderTitle(LocationAssetsPart._contextMenuTitle);
-		//		for (int i = 0; i < LocationAssetsPart._contextMenu.length; i++) {
-		//			menu.add(Menu.NONE, i, i, LocationAssetsPart._contextMenu[i]);
-		//		}
 		LocationPart.logger.info("<< [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
