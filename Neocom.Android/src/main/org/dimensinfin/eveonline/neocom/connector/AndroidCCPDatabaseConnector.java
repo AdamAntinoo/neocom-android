@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.core.AccessStatistics;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -32,7 +33,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger												logger										= Logger
 			.getLogger("AndroidCCPDatabaseConnector");
-	private static Statistics										locationsCacheStatistics	= new Statistics();
+	private static AccessStatistics							locationsCacheStatistics	= new AccessStatistics();
 
 	// - F I E L D   I N D E X   D E F I N I T I O N S
 	private static int													STATIONTYPEID_COLINDEX		= 1;
@@ -52,8 +53,11 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			+ " LEFT OUTER JOIN mapRegions mr ON mr.regionID = md.regionID"
 			+ " LEFT OUTER JOIN mapConstellations mc ON mc.constellationID = md.constellationID"
 			+ " LEFT OUTER JOIN mapSolarSystems ms ON ms.solarSystemID = md.solarSystemID" + " WHERE itemID = ?";
-	private static final String									SELECT_LOCATIONBYSYSTEM		= "SELECT solarSystemID from mapSolarSystems WHERE solarSystemName = ?";
-	private static final String									STATIONTYPE								= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
+	private static final String									SELECT_LOCATIONBYSYSTEM		= "SELECT solarSystemID FROM mapSolarSystems"
+			+ " WHERE solarSystemName = ?";
+	private static final String									SELECT_STATIONTYPE				= "SELECT stationTypeID FROM staStations WHERE stationID = ?";
+	private static final String									SELECT_MODULE4BLUEPRINT		= "SELECT productTypeID FROM industryActivityProducts BT"
+			+ " WHERE typeID = ? AND activityID = 1";
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private SQLiteDatabase											ccpDatabase								= null;
@@ -300,8 +304,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			if (null == ccpDatabase) {
 				ccpDatabase = this.getCCPDatabase();
 			}
-			final Cursor cursor = ccpDatabase.rawQuery(
-					"SELECT productTypeID FROM industryActivityProducts BT WHERE typeID = ? AND activityID = 1",
+			final Cursor cursor = ccpDatabase.rawQuery(AndroidCCPDatabaseConnector.SELECT_MODULE4BLUEPRINT,
 					new String[] { Integer.valueOf(bpitemID).toString() });
 			if (null != cursor) {
 				int productTypeID = -1;
@@ -328,7 +331,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		int stationTypeID = 1529;
 		NeoComAppConnector.getSingleton().startChrono();
 		try {
-			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.STATIONTYPE,
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_STATIONTYPE,
 					new String[] { Long.valueOf(stationID).toString() });
 			if (null != cursor) {
 				while (cursor.moveToNext()) {
