@@ -146,7 +146,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <style name="Name.Selectable.12">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
     <style name="Number">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -179,7 +184,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/appwhite</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -245,10 +250,10 @@
         <item name="android:src">@drawable/arrowleft</item>
     </style>
 
-    <style name="StockCounter" parent="Name.Style.16">
+    <style name="StockCounter" parent="Number.Style.16">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/appwhite</item>
         <item name="android:gravity">right</item>
         <item name="android:text">@string/default_stocknumber</item>
     </style>
