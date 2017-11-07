@@ -1,5 +1,7 @@
 package org.dimensinfin.eveonline.neocom;
 
+import android.content.Intent;
+import android.graphics.Region;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,10 +10,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import org.dimensinfin.eveonline.mvclibrary.DataSourceLocator;
-import org.dimensinfin.eveonline.mvclibrary.IPartFactory;
+import org.dimensinfin.android.datasource.AbstractGenerator;
+import org.dimensinfin.android.datasource.DataSourceLocator;
+import org.dimensinfin.android.datasource.ModelGeneratorStore;
+import org.dimensinfin.android.interfaces.IModelGenerator;
+import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.eveonline.neocom.constants.EManagerType;
+import org.dimensinfin.eveonline.neocom.constants.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
+
+import java.util.Hashtable;
+import java.util.logging.Logger;
 
 
 public class AssetsActivity extends AppCompatActivity {
@@ -69,12 +84,15 @@ public class AssetsActivity extends AppCompatActivity {
 		}
 	}
 
+	// - S T A T I C - S E C T I O N ..........................................................................
+	protected static Logger logger						= Logger.getLogger("AssetsActivity");
+
 	// - F I E L D - S E C T I O N ............................................................................
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
 	private IPartFactory _factory					= null;
-	protected IDataSource												_datasource				= null;
-	protected DataSourceAdapter									_adapter					= null;
+	protected IDataSource _datasource				= null;
+	protected DataSourceAdapter _adapter					= null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
@@ -116,14 +134,14 @@ public class AssetsActivity extends AppCompatActivity {
 	public void registerDataSource() {
 		logger.info(">> [AssetsActivity.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-	//	String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		String loginid = "Adam Antinoo";
 		long characterid = 92223647;
-//		EManagerType manager = EManagerType.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
+		EManagerType manager = EManagerType.ASSETS_MANAGER;
 //		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
 //		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(loginid)
-				.addIdentifier(characterid).addIdentifier(manager.name());
+		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
+		                                                   .addIdentifier(characterid);
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;
 		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
@@ -151,6 +169,13 @@ public class AssetsActivity extends AppCompatActivity {
 		getMenuInflater().inflate(R.menu.menu_assets, menu);
 		return true;
 	}
+	protected String getVariant() {
+		return ENeoComVariants.ASSETS_BYLOCATION.name();
+	}
+	public void goFirstActivity(final RuntimeException rtex) {
+		Toast.makeText(this.getActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
+	//	this.startActivity(new Intent(this.getActivity(), MVCAppConnector.getSingleton().getFirstActivity()));
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,5 +189,72 @@ public class AssetsActivity extends AppCompatActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+//		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	/**
+	 * Save the extra parameters information to be able to restore the page to their same state. There is no
+	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
+	 * reconstruct the AppModel state.
+	 *
+	 */
+	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// Save the extra parameters information to be able to restore the page to their same state.
+//		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
+//		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
+	}
+	//- CLASS IMPLEMENTATION ...................................................................................
+	final class AssetsByLocationGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+		private String				_login				= null;
+		private long					_characterid	= -1;
+		private EManagerType _manager			= EManagerType.ASSETS_MANAGER;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public AssetsByLocationGenerator(final DataSourceLocator locator, final String variant, final String login,
+		                                 final long characterid, final EManagerType manager) {
+			super(locator, variant);
+			_login = login;
+			_characterid = characterid;
+			_manager = manager;
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		/**
+		 * This adapter should generate the model for all the assets aggregated by Location. The Locations are lazy
+		 * evaluated so no need to get all the assets by the list of locations and then construct the first two
+		 * levels, Regions then Locations. Once the Location is expanded then the model will extend itself to the
+		 * new list of assets.<br>
+		 * REFACTOR: For testing purposes we are going to download all the assets.
+		 */
+		public RootNode collaborate2Model() {
+			AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
+			// Get the Assets Manager active at the character.
+			NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+			AssetsManager assetsMan = pilot.getAssetsManager();
+			// Check it is initialized.
+			assetsMan.initialize();
+			// Initialize the Adapter data structures.
+			this.setDataModel(new RootNode());
+			// Add the first level that are the Regions.
+			Hashtable<Long, Region> regs = assetsMan.getRegions();
+			for (Long key : regs.keySet()) {
+				_dataModelRoot.addChild(regs.get(key));
+				AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
+						+ regs.get(key).getLocations() + "' to the _dataModelRoot");
+			}
+			AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
+			return _dataModelRoot;
+		}
+
 	}
 }

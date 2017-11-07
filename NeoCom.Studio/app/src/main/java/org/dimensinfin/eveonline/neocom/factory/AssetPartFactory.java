@@ -9,6 +9,9 @@
 package org.dimensinfin.eveonline.neocom.factory;
 
 // - IMPORT SECTION .........................................................................................
+import org.dimensinfin.eveonline.mvclibrary.IPart;
+import org.dimensinfin.eveonline.mvclibrary.IPartFactory;
+
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -20,7 +23,7 @@ public class AssetPartFactory /*extends PartFactory*/ implements IPartFactory {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetPartFactory(final String variantSelected) {
-		super(variantSelected);
+	//	super(variantSelected);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

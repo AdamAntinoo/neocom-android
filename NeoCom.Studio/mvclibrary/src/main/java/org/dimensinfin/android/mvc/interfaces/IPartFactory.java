@@ -5,13 +5,15 @@
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
 //									on Android projects. Defines the Part factory and the Part core methods to manage
 //									the extended GEF model into the Android View to be used on ListViews.
-package org.dimensinfin.eveonline.mvclibrary;
+package org.dimensinfin.android.mvc.interfaces;
 
+//- IMPORT SECTION .........................................................................................
+import org.dimensinfin.core.model.AbstractComplexNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPartFactory {
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public IPart createPart(IPart model);
+	public IPart createPart(AbstractComplexNode model);
 
 	public String getVariant();
 }
