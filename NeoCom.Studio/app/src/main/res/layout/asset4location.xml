@@ -46,7 +46,7 @@
         android:layout_toRightOf="@+id/assetIcon"
         android:orientation="vertical" >
 
-        <TextView
+        <org.dimensinfin.eveonline.neocom.fonts.MonsOlympiaBold
             android:id="@+id/assetName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:textSize="10sp"
             android:visibility="visible" />
 
-        <TextView
+        <org.dimensinfin.eveonline.neocom.fonts.MonsOlympiaBold
             android:id="@+id/stackValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

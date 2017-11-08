@@ -1,18 +1,24 @@
 package org.dimensinfin.eveonline.neocom;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
@@ -33,6 +39,12 @@ import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.models.NeoComAsset;
 
 import java.util.logging.Logger;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class AssetsActivity extends AppCompatActivity {
@@ -83,9 +95,9 @@ public class AssetsActivity extends AppCompatActivity {
 			_adapter = new DataSourceAdapter(_activity, _datasource);
 			_modelContainer.setAdapter(_adapter);
 
-			//		_progressLayout.setVisibility(android.view.View.GONE);
+			_progressLayout.setVisibility(android.view.View.GONE);
 			_modelContainer.setVisibility(android.view.View.VISIBLE);
-	//		_container.invalidate();
+			//		_container.invalidate();
 
 			//		// Add the header parts once the display is initialized.
 			//		ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
@@ -105,6 +117,7 @@ public class AssetsActivity extends AppCompatActivity {
 	protected static Logger logger = Logger.getLogger("AssetsActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private OAuth oauth;
 	private String _title = "<TITLE>";
 	private String _subtitle = "";
 	private IPartFactory _factory = null;
@@ -114,10 +127,10 @@ public class AssetsActivity extends AppCompatActivity {
 	// - U I    F I E L D S
 	protected ViewGroup _container = null;
 	/** The view that handles the non scrolling header. */
-	//protected ViewGroup													_headerContainer	= null;
+	protected ViewGroup _headerContainer = null;
 	/** The view that represent the list view and the space managed though the adapter. */
 	protected ListView _modelContainer = null;
-//	protected ViewGroup _progressLayout = null;
+	protected ViewGroup _progressLayout = null;
 	//protected IMenuActionTarget _listCallback			= null;
 	//private Bundle															_extras						= new Bundle();
 
@@ -127,19 +140,11 @@ public class AssetsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		// Set the layout the standard way and add the ToolBar.
 		setContentView(R.layout.content_basic_asset_list);
-//		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//		setSupportActionBar(toolbar);
+		//		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//		setSupportActionBar(toolbar);
 
-		// Connect the button to the download of the sset list for the Character selected.
-//		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//		fab.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick (View view) {
-//
-//				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//				        .setAction("Action", null).show();
-//			}
-//		});
+		ButterKnife.bind(this);
+		this.oauth = new OAuth(this, "EveSSO Sample");
 
 		// Initialize the DataSourceAdapter and connect it to the Data source.
 		this.onCreateViewSuper(R.layout.activity_assets, getLayoutInflater(), null,
@@ -155,6 +160,53 @@ public class AssetsActivity extends AppCompatActivity {
 			this.goFirstActivity(rtex);
 		}
 
+	}
+
+	protected void onNewIntent (final Intent intent) {
+		super.onNewIntent(intent);
+		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
+			Observable<OAuthVerified> observable =
+					Observable.defer(() -> {
+						if ( oauth.authorize(intent.getData()) ) {
+							return Observable.just(oauth.verify());
+						}
+						return null;
+					}).
+							          subscribeOn(Schedulers.io()).
+							          observeOn(AndroidSchedulers.mainThread());
+			observable.subscribe(v -> setVerified(v));
+		}
+	}
+
+	public boolean onOptionsItemSelected (final MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_launchUpdate:
+				onStartClicked();
+				return false;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void onStartClicked () {
+		this.oauth.clear();
+		final String uri = this.oauth.start();
+		if ( null == uri ) {
+			return;
+		}
+		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+		startActivity(intent);
+	}
+
+
+	private void setVerified (final OAuthVerified v) {
+		if ( null == v ) {
+			return;
+		}
+
+		//		Glide.with(this).
+		//				load("https://image.eveonline.com/Character/" + v.getCharacterID() + "_128.jpg").
+		//				     into(characterImageView);
+		//		this.characterTextView.setText(v.getCharacterName() + " (" + v.getCharacterID() + ")");
 	}
 
 	public void createFactory () {
@@ -174,9 +226,9 @@ public class AssetsActivity extends AppCompatActivity {
 		//	super.onCreateView(inflater, container, savedInstanceState);
 		try {
 			//		_container = (ViewGroup) inflater.inflate(layout, container, false);
-			//		_headerContainer = (ViewGroup) findViewById(R.id.headerContainer);
+			_headerContainer = (ViewGroup) findViewById(R.id.headerContainer);
 			_modelContainer = (ListView) findViewById(R.id.listContainer);
-	//		_progressLayout = (ViewGroup) findViewById(R.id.progressLayout);
+			_progressLayout = (ViewGroup) findViewById(R.id.progressLayout);
 			// Prepare the structures for the context menu.
 			//		this.registerForContextMenu(_headerContainer);
 			this.registerForContextMenu(_modelContainer);
@@ -301,20 +353,6 @@ public class AssetsActivity extends AppCompatActivity {
 
 	private Activity getActivity () {
 		return this;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if ( id == R.id.action_settings ) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
