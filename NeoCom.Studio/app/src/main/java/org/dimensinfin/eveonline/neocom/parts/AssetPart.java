@@ -4,6 +4,7 @@ import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.models.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.render.AssetLineRender;
 
 import java.util.Vector;
 
@@ -23,7 +24,7 @@ public class AssetPart extends AbstractAndroidPart {
 
 	@Override
 	protected AbstractRender selectRenderer () {
-		return null;
+		return new AssetLineRender(this, _activity);
 	}
 
 	public NeoComAsset getCastedModel () {
@@ -33,5 +34,12 @@ public class AssetPart extends AbstractAndroidPart {
 	@Override
 	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
 		return targets;
+	}
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("AssetPart [");
+		buffer.append(this.getCastedModel());
+		buffer.append(" ]");
+		return buffer.toString();
 	}
 }

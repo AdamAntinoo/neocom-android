@@ -314,8 +314,12 @@ public class AssetsActivity extends AppCompatActivity {
 			//			}
 
 			// Add seed data to show in interface.
-			_dataModelRoot.addChild (new NeoComAsset ());
-			_dataModelRoot.addChild (new NeoComAsset ());
+			NeoComAsset asset = new NeoComAsset ();
+			asset.setName("asset 1");
+			_dataModelRoot.addChild (asset);
+			 asset = new NeoComAsset ();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild (asset);
 			AbstractGenerator.logger.info ("<< [AssetsByLocationGenerator.collaborate2Model]");
 			return _dataModelRoot;
 		}

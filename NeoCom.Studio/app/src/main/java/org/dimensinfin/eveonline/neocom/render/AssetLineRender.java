@@ -7,6 +7,7 @@
 package org.dimensinfin.eveonline.neocom.render;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.parts.AssetPart;
 
 import android.app.Activity;
@@ -24,17 +25,17 @@ public class AssetLineRender extends AbstractRender {
 
 	// - L A Y O U T   F I E L D S
 	@Bind(R.id.assetIcon)
-	private ImageView assetIcon = null;
+	protected ImageView assetIcon = null;
 	@Bind(R.id.assetName)
-	private TextView assetName = null;
+	protected TextView assetName = null;
 	@Bind(R.id.assetCategory)
-	private TextView assetCategory = null;
+	protected TextView assetCategory = null;
 	@Bind(R.id.itemPrice)
-	private TextView itemPrice = null;
+	protected TextView itemPrice = null;
 	@Bind(R.id.stackValue)
-	private TextView stackValue = null;
+	protected TextView stackValue = null;
 	@Bind(R.id.count)
-	public TextView count = null;
+	protected TextView count = null;
 
 	// - L A Y O U T   L A B E L S
 	@Bind(R.id.valueLabel)
@@ -68,11 +69,12 @@ public class AssetLineRender extends AbstractRender {
 
 	public void updateContent () {
 		super.updateContent();
-		assetName.setText(getPart().getName());
+		assetName.setText(getPart().getCastedModel().getName());
 		assetCategory.setText("-CATEGORY-");
 		itemPrice.setText("123 ISK");
 		stackValue.setText("0.00 ISK");
 		count.setText(getPart().getCastedModel().getQuantity());
+	//	loadEveIcon((ImageView) this._convertView.findViewById(R.id.assetIcon), getPart().get_assetTypeID());
 	}
 
 	@Override
