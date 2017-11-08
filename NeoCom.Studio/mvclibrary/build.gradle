@@ -23,6 +23,7 @@ android {
     }
 
     sourceSets {
+        main.java.srcDirs += 'src/main/java-core'
         main.res.srcDirs += 'src/main/res-panels'
         main.res.srcDirs += 'src/main/res-separator'
         main {
@@ -34,14 +35,18 @@ android {
 }
 
 dependencies {
-    // A P P L I C A T I O N   M O D U L E S
-    //    implementation project(path: ':CoreBase.core-1.5.1')
-    implementation 'joda-time:joda-time:2.9.9'
-    //    implementation files('libs/CoreBase.core-1.5.1.jar')
-    // L I B R A R I E S   D E P E N D E N C I E S
+    // A N D R O I D   S U P P O R T
     implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    // A P P L I C A T I O N   M O D U L E S
+
+    // L I B R A R I E S   D E P E N D E N C I E S
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.6.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+
+    // T E S T I N G
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('libs/CoreBase.core-1.5.1.jar')
 }
