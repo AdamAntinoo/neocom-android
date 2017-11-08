@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetLineRender extends AbstractRender {
@@ -25,23 +26,23 @@ public class AssetLineRender extends AbstractRender {
 
 	// - L A Y O U T   F I E L D S
 	@Bind(R.id.assetIcon)
-	protected ImageView assetIcon = null;
+	protected ImageView assetIcon;
 	@Bind(R.id.assetName)
-	protected TextView assetName = null;
+	protected TextView assetName;
 	@Bind(R.id.assetCategory)
-	protected TextView assetCategory = null;
+	protected TextView assetCategory;
 	@Bind(R.id.itemPrice)
-	protected TextView itemPrice = null;
+	protected TextView itemPrice;
 	@Bind(R.id.stackValue)
-	protected TextView stackValue = null;
+	protected TextView stackValue;
 	@Bind(R.id.count)
-	protected TextView count = null;
+	protected TextView count;
 
 	// - L A Y O U T   L A B E L S
 	@Bind(R.id.valueLabel)
-	public TextView valueLabel = null;
+	public TextView valueLabel;
 	@Bind(R.id.countLabel)
-	public TextView countLabel = null;
+	public TextView countLabel;
 
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -57,6 +58,7 @@ public class AssetLineRender extends AbstractRender {
 
 	@Override
 	public void initializeViews () {
+//		ButterKnife.bind(this);
 		//	super.initializeViews();
 		// Get the view of the rightArrow if found.
 		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
@@ -65,6 +67,7 @@ public class AssetLineRender extends AbstractRender {
 		assetCategory = (TextView) _convertView.findViewById(R.id.assetCategory);
 		itemPrice = (TextView) _convertView.findViewById(R.id.itemPrice);
 		stackValue = (TextView) _convertView.findViewById(R.id.stackValue);
+		count = (TextView) _convertView.findViewById(R.id.count);
 	}
 
 	public void updateContent () {
@@ -73,7 +76,7 @@ public class AssetLineRender extends AbstractRender {
 		assetCategory.setText("-CATEGORY-");
 		itemPrice.setText("123 ISK");
 		stackValue.setText("0.00 ISK");
-		count.setText(getPart().getCastedModel().getQuantity());
+		count.setText("0");
 	//	loadEveIcon((ImageView) this._convertView.findViewById(R.id.assetIcon), getPart().get_assetTypeID());
 	}
 

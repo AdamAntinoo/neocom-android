@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
@@ -61,29 +63,29 @@ public class AssetsActivity extends AppCompatActivity {
 		@Override
 		protected Void doInBackground (final android.app.Activity... arg0) {
 
-			logger.info (">> [CreatePartsTask.doInBackground]");
+			logger.info(">> [CreatePartsTask.doInBackground]");
 			try {
 				// Create the hierarchy structure to be used on the Adapter.
-				_datasource.collaborate2Model ();
-				_datasource.createContentHierarchy ();
+				_datasource.collaborate2Model();
+				_datasource.createContentHierarchy();
 			} catch (final RuntimeException rtex) {
-				rtex.printStackTrace ();
+				rtex.printStackTrace();
 			}
-			logger.info ("<< [CreatePartsTask.doInBackground]");
+			logger.info("<< [CreatePartsTask.doInBackground]");
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute (final Void result) {
 
-			logger.info (">> CreatePartsTask.onPostExecute");
+			logger.info(">> CreatePartsTask.onPostExecute");
 			// Activate the display of the list to force a redraw. Stop user UI waiting.
-			_adapter = new DataSourceAdapter (_activity, _datasource);
-			_modelContainer.setAdapter (_adapter);
+			_adapter = new DataSourceAdapter(_activity, _datasource);
+			_modelContainer.setAdapter(_adapter);
 
-			//		_progressLayout.setVisibility(android.view.View.GONE);
-			_modelContainer.setVisibility (android.view.View.VISIBLE);
-			_container.invalidate ();
+					_progressLayout.setVisibility(android.view.View.GONE);
+			_modelContainer.setVisibility(android.view.View.VISIBLE);
+	//		_container.invalidate();
 
 			//		// Add the header parts once the display is initialized.
 			//		ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
@@ -94,13 +96,13 @@ public class AssetsActivity extends AppCompatActivity {
 			//				_activity.addViewtoHeader(part);
 			//			}
 			//		}
-			super.onPostExecute (result);
-			logger.info ("<< CreatePartsTask.onPostExecute");
+			super.onPostExecute(result);
+			logger.info("<< CreatePartsTask.onPostExecute");
 		}
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger ("AssetsActivity");
+	protected static Logger logger = Logger.getLogger("AssetsActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String _title = "<TITLE>";
@@ -115,53 +117,122 @@ public class AssetsActivity extends AppCompatActivity {
 	//protected ViewGroup													_headerContainer	= null;
 	/** The view that represent the list view and the space managed though the adapter. */
 	protected ListView _modelContainer = null;
-	//protected ViewGroup													_progressLayout		= null;
+	protected ViewGroup _progressLayout = null;
 	//protected IMenuActionTarget _listCallback			= null;
 	//private Bundle															_extras						= new Bundle();
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate (savedInstanceState);
+		super.onCreate(savedInstanceState);
 		// Set the layout the standard way and add the ToolBar.
-		setContentView (R.layout.activity_assets);
-		Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar);
-		setSupportActionBar (toolbar);
+		setContentView(R.layout.activity_assets);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
 		// Connect the button to the download of the sset list for the Character selected.
-		FloatingActionButton fab = (FloatingActionButton) findViewById (R.id.fab);
-		fab.setOnClickListener (new View.OnClickListener () {
+		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick (View view) {
 
-				Snackbar.make (view, "Replace with your own action", Snackbar.LENGTH_LONG)
-				        .setAction ("Action", null).show ();
+				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+				        .setAction("Action", null).show();
 			}
 		});
 
 		// Initialize the DataSourceAdapter and connect it to the Data source.
+		this.onCreateViewSuper(R.layout.activity_assets, getLayoutInflater(), null,
+				savedInstanceState);
 		try {
-			this.createFactory ();
-			this.registerDataSource ();
+			this.createFactory();
+			this.registerDataSource();
 			//		this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			logger.severe ("RTEX [AssetsActivity.onCreate]> " + rtex.getMessage ());
-			rtex.printStackTrace ();
+			logger.severe("RTEX [AssetsActivity.onCreate]> " + rtex.getMessage());
+			rtex.printStackTrace();
 			// Instead blocking the application drop a toast and move to the First Activity.
-			this.goFirstActivity (rtex);
+			this.goFirstActivity(rtex);
 		}
 
 	}
 
 	public void createFactory () {
-		logger.info (">> [AssetsActivity.createFactory]");
-		this.setFactory (new AssetPartFactory (this.getVariant ()));
-		logger.info ("<< [AssetsActivity.createFactory]");
+		logger.info(">> [AssetsActivity.createFactory]");
+		this.setFactory(new AssetPartFactory(this.getVariant()));
+		logger.info("<< [AssetsActivity.createFactory]");
+	}
+
+	/**
+	 * Creates the structures when the fragment is about to be shown. We have to check that the parent Activity
+	 * is compatible with this kind of fragment. So the fragment has to check of it has access to a valid pilot
+	 * before returning any UI element.
+	 */
+	public View onCreateViewSuper (final int layout, final LayoutInflater inflater, final ViewGroup container,
+	                               final Bundle savedInstanceState) {
+		logger.info(">> [AbstractPagerFragment.onCreateViewSuper]");
+		//	super.onCreateView(inflater, container, savedInstanceState);
+		try {
+			//		_container = (ViewGroup) inflater.inflate(layout, container, false);
+			//		_headerContainer = (ViewGroup) findViewById(R.id.headerContainer);
+			_modelContainer = (ListView) findViewById(R.id.listContainer);
+			_progressLayout = (ViewGroup) findViewById(R.id.progressLayout);
+			// Prepare the structures for the context menu.
+			//		this.registerForContextMenu(_headerContainer);
+			this.registerForContextMenu(_modelContainer);
+		} catch (final RuntimeException rtex) {
+			logger.severe("RTEX [AbstractPagerFragment.onCreateViewSuper]> " + rtex.getMessage());
+			rtex.printStackTrace();
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
+		}
+		logger.info("<< [AbstractPagerFragment.onCreateViewSuper]");
+		return _container;
+	}
+
+	/**
+	 * When the execution reaches this point to activate the fragment we have to check that all the elements
+	 * required are defined, mainly the Data Source. If the DS is ready and valid then we launch the DS data
+	 * loading code. If that was performed on a previous start and the DS is already loaded we can skip this
+	 * step. This last approach will reduce CPU usage and give a better user feeling when activating and
+	 * deactivating activities and fragments.
+	 */
+	@Override
+	public void onStart () {
+		logger.info(">> [AbstractPagerFragment.onStart]");
+		super.onStart();
+		try {
+			// Create the adapter to the view and connect it to the DS
+			if ( null == this.getDataSource() )
+				throw new RuntimeException("Datasource not initialized. Fragment: " + this.getTitle());
+			// REFACTOR This methods should change the name to a more suitable because the models are initialized
+			logger.info("-- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask");
+			new CreatePartsTask(this).execute();
+			// Update the spinner counter on the actionbar.
+			this.getActivity().invalidateOptionsMenu();
+			// Add the header parts once the display is initialized.
+			//			if (_headerContents.size() > 0) {
+			//				_headerContainer.removeAllViews();
+			//				for (final AbstractAndroidPart part : _headerContents) {
+			//					this.addViewtoHeader(part);
+			//				}
+			//			}
+		} catch (final RuntimeException rtex) {
+			logger.severe("RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage());
+			rtex.printStackTrace();
+			// Instead blocking the application drop a toast and move to the First Activity.
+			this.goFirstActivity(rtex);
+		}
+		logger.info("<< [AbstractPagerFragment.onStart]");
+	}
+
+	public IDataSource getDataSource () {
+		return _datasource;
 	}
 
 	public void registerDataSource () {
 
-		logger.info (">> [AssetsActivity.registerDataSource]");
+		logger.info(">> [AssetsActivity.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = "Adam Antinoo";
 		long characterid = 92223647;
@@ -169,19 +240,19 @@ public class AssetsActivity extends AppCompatActivity {
 		//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
 		//		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-		DataSourceLocator locator = new DataSourceLocator ().addIdentifier (this.getVariant ())
-		                                                    .addIdentifier (characterid);
+		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
+		                                                   .addIdentifier(characterid);
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;
-		if ( this.getVariant () == ENeoComVariants.ASSETS_BYLOCATION.name () ) {
+		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
 			generator = ModelGeneratorStore
-					.registerGenerator (new AssetsByLocationGenerator (locator, this.getVariant (), loginid, characterid, manager));
+					.registerGenerator(new AssetsByLocationGenerator(locator, this.getVariant(), loginid, characterid, manager));
 		}
 		// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.
-		SpecialDataSource ds = new NeoComDataSource (locator, this.getFactory (), generator);
-		ds.setVariant (this.getVariant ());
+		SpecialDataSource ds = new NeoComDataSource(locator, this.getFactory(), generator);
+		ds.setVariant(this.getVariant());
 		//	ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		this.setDataSource (DataSourceManager.registerDataSource (ds));
+		this.setDataSource(DataSourceManager.registerDataSource(ds));
 		//		if (this.getVariant() == EAssetVariants.ASSETS_MATERIALS.name()) {
 		//			// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.
 		//			SpecialDataSource ds = new AssetsMaterialsDataSource(locator, getFactory());
@@ -189,13 +260,13 @@ public class AssetsActivity extends AppCompatActivity {
 		//			ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
 		//			this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
 		//		}
-		logger.info ("<< [AssetsActivity.registerDataSource]");
+		logger.info("<< [AssetsActivity.registerDataSource]");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater ().inflate (R.menu.menu_assets, menu);
+		getMenuInflater().inflate(R.menu.menu_assets, menu);
 		return true;
 	}
 
@@ -208,7 +279,7 @@ public class AssetsActivity extends AppCompatActivity {
 	public IPartFactory getFactory () {
 		// Check if we have already a factory.
 		if ( null == _factory ) {
-			this.createFactory ();
+			this.createFactory();
 		}
 		return _factory;
 	}
@@ -219,12 +290,12 @@ public class AssetsActivity extends AppCompatActivity {
 
 	protected String getVariant () {
 
-		return ENeoComVariants.ASSETS_BYLOCATION.name ();
+		return ENeoComVariants.ASSETS_BYLOCATION.name();
 	}
 
 	public void goFirstActivity (final RuntimeException rtex) {
 
-		Toast.makeText (this.getActivity (), rtex.getMessage (), Toast.LENGTH_LONG).show ();
+		Toast.makeText(this.getActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
 		//	this.startActivity(new Intent(this.getActivity(), MVCAppConnector.getSingleton().getFirstActivity()));
 	}
 
@@ -237,20 +308,20 @@ public class AssetsActivity extends AppCompatActivity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId ();
+		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
 		if ( id == R.id.action_settings ) {
 			return true;
 		}
-		return super.onOptionsItemSelected (item);
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
 		//		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		//		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		super.onRestoreInstanceState (savedInstanceState);
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	/**
@@ -261,7 +332,7 @@ public class AssetsActivity extends AppCompatActivity {
 	@Override
 	protected void onSaveInstanceState (final Bundle outState) {
 
-		super.onSaveInstanceState (outState);
+		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
 		//		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
 		//		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
@@ -280,7 +351,7 @@ public class AssetsActivity extends AppCompatActivity {
 		public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final String login,
 		                                  final long characterid, final EManagerType manager) {
 
-			super (locator, variant);
+			super(locator, variant);
 			_login = login;
 			_characterid = characterid;
 			_manager = manager;
@@ -297,14 +368,14 @@ public class AssetsActivity extends AppCompatActivity {
 		 */
 		public RootNode collaborate2Model () {
 
-			AbstractGenerator.logger.info (">> [AssetsByLocationGenerator.collaborate2Model]");
+			AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
 			// Get the Assets Manager active at the character.
 			//NeoComCharacter pilot = NeoComAppConnector.getSingleton ().getModelStore ().activatePilot (_characterid);
 			//AssetsManager assetsMan = pilot.getAssetsManager ();
 			// Check it is initialized.
 			//	assetsMan.initialize ();
 			// Initialize the Adapter data structures.
-			this.setDataModel (new RootNode ());
+			this.setDataModel(new RootNode());
 			// Add the first level that are the Regions.
 			//	Hashtable<Long, Region> regs = assetsMan.getRegions ();
 			//			for (Long key : regs.keySet ()) {
@@ -314,13 +385,13 @@ public class AssetsActivity extends AppCompatActivity {
 			//			}
 
 			// Add seed data to show in interface.
-			NeoComAsset asset = new NeoComAsset ();
+			NeoComAsset asset = new NeoComAsset();
 			asset.setName("asset 1");
-			_dataModelRoot.addChild (asset);
-			 asset = new NeoComAsset ();
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
 			asset.setName("asset 2");
-			_dataModelRoot.addChild (asset);
-			AbstractGenerator.logger.info ("<< [AssetsByLocationGenerator.collaborate2Model]");
+			_dataModelRoot.addChild(asset);
+			AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 			return _dataModelRoot;
 		}
 

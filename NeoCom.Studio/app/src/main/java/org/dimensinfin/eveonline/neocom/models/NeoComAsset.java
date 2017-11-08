@@ -1,8 +1,11 @@
 package org.dimensinfin.eveonline.neocom.models;
 
+import org.dimensinfin.core.interfaces.IViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
 
-public class NeoComAsset extends AbstractComplexNode {
+import java.util.ArrayList;
+
+public class NeoComAsset extends AbstractComplexNode implements IViewableNode{
 	private String name = "-NAME-";
 	private int quantity = 0;
 
@@ -25,5 +28,15 @@ public class NeoComAsset extends AbstractComplexNode {
 
 	public long getAssetId () {
 		return 0;
+	}
+
+	@Override
+	public ArrayList<AbstractComplexNode> collaborate2Model (final String variant) {
+		return new ArrayList<AbstractComplexNode>();
+	}
+
+	@Override
+	public boolean isEmpty () {
+		return true;
 	}
 }

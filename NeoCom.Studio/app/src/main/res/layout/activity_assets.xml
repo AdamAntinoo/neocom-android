@@ -33,6 +33,15 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <include
+        android:id="@+id/progressLayout"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        layout="@layout/actionbar_indeterminateprogress"
+        android:padding="2dp"
+        android:visibility="visible" />
     <include layout="@layout/content_assets" />
 
     <android.support.design.widget.FloatingActionButton
