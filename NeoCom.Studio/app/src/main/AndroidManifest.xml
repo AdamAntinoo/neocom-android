@@ -14,21 +14,33 @@
         <activity
             android:name=".AssetsActivity"
             android:label="@string/activity_title_AssetsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="localhost"
                     android:path="/neocom"
                     android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BasicAssetList"
+            android:label="@string/title_activity_basic_asset_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

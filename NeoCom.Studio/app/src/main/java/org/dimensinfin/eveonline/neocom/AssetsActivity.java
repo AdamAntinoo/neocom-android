@@ -83,7 +83,7 @@ public class AssetsActivity extends AppCompatActivity {
 			_adapter = new DataSourceAdapter(_activity, _datasource);
 			_modelContainer.setAdapter(_adapter);
 
-					_progressLayout.setVisibility(android.view.View.GONE);
+			//		_progressLayout.setVisibility(android.view.View.GONE);
 			_modelContainer.setVisibility(android.view.View.VISIBLE);
 	//		_container.invalidate();
 
@@ -117,7 +117,7 @@ public class AssetsActivity extends AppCompatActivity {
 	//protected ViewGroup													_headerContainer	= null;
 	/** The view that represent the list view and the space managed though the adapter. */
 	protected ListView _modelContainer = null;
-	protected ViewGroup _progressLayout = null;
+//	protected ViewGroup _progressLayout = null;
 	//protected IMenuActionTarget _listCallback			= null;
 	//private Bundle															_extras						= new Bundle();
 
@@ -126,20 +126,20 @@ public class AssetsActivity extends AppCompatActivity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Set the layout the standard way and add the ToolBar.
-		setContentView(R.layout.activity_assets);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		setContentView(R.layout.content_basic_asset_list);
+//		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//		setSupportActionBar(toolbar);
 
 		// Connect the button to the download of the sset list for the Character selected.
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick (View view) {
-
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-				        .setAction("Action", null).show();
-			}
-		});
+//		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//		fab.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick (View view) {
+//
+//				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//				        .setAction("Action", null).show();
+//			}
+//		});
 
 		// Initialize the DataSourceAdapter and connect it to the Data source.
 		this.onCreateViewSuper(R.layout.activity_assets, getLayoutInflater(), null,
@@ -176,7 +176,7 @@ public class AssetsActivity extends AppCompatActivity {
 			//		_container = (ViewGroup) inflater.inflate(layout, container, false);
 			//		_headerContainer = (ViewGroup) findViewById(R.id.headerContainer);
 			_modelContainer = (ListView) findViewById(R.id.listContainer);
-			_progressLayout = (ViewGroup) findViewById(R.id.progressLayout);
+	//		_progressLayout = (ViewGroup) findViewById(R.id.progressLayout);
 			// Prepare the structures for the context menu.
 			//		this.registerForContextMenu(_headerContainer);
 			this.registerForContextMenu(_modelContainer);
@@ -387,6 +387,36 @@ public class AssetsActivity extends AppCompatActivity {
 			// Add seed data to show in interface.
 			NeoComAsset asset = new NeoComAsset();
 			asset.setName("asset 1");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
+			_dataModelRoot.addChild(asset);
+			asset = new NeoComAsset();
+			asset.setName("asset 2");
 			_dataModelRoot.addChild(asset);
 			asset = new NeoComAsset();
 			asset.setName("asset 2");
