@@ -13,11 +13,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.eveonline.mvclibrary.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -175,7 +175,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			// UNder an exception we can replace the View item by this special layout with the Exception message.
+			// Under an exception we can replace the View item by this special layout with the Exception message.
 			convertView = mInflater.inflate(R.layout.exception_4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
 			exceptionMessage.setText("X> EveBaseAdapter.getView] " + message);

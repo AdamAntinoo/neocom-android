@@ -8,10 +8,10 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.android.mvc.render;
 
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
+import org.dimensinfin.eveonline.mvclibrary.R;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

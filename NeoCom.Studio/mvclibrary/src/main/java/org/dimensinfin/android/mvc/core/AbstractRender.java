@@ -8,11 +8,11 @@ package org.dimensinfin.android.mvc.core;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.dimensinfin.android.mvc.R;
-
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
+
+import org.dimensinfin.eveonline.mvclibrary.R;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractRender {
@@ -57,10 +57,7 @@ public abstract class AbstractRender {
 		return _convertView;
 	}
 
-	public void initializeViews() {
-		// Get the view of the rightArrow if found.
-		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
-	}
+	public abstract void initializeViews();
 
 	public void setContext(final Activity context) {
 		_context = context;

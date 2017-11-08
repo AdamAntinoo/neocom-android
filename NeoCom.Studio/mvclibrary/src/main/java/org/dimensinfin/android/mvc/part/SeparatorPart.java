@@ -15,12 +15,12 @@ import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
+import org.dimensinfin.eveonline.mvclibrary.R;
 
 import android.util.Log;
 

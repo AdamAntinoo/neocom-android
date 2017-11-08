@@ -23,6 +23,8 @@ android {
     }
 
     sourceSets {
+        main.res.srcDirs += 'src/main/res-panels'
+        main.res.srcDirs += 'src/main/res-separator'
         main {
             java {
                 exclude 'org.dimensinfin.android.mvc.core.PartFactory.java'
@@ -32,12 +34,11 @@ android {
 }
 
 dependencies {
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-
+    compileOnly 'joda-time:joda-time:2.9.9'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('libs/CoreBase.core-1.5.1.jar')
+    compileOnly files('libs/CoreBase.core-1.5.1.jar')
 }

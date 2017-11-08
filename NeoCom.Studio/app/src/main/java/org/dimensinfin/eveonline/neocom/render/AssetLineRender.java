@@ -6,15 +6,15 @@
 
 package org.dimensinfin.eveonline.neocom.render;
 
-// - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.parts.AssetPart;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import butterknife.Bind;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetLineRender extends AbstractRender {
@@ -24,45 +24,59 @@ public class AssetLineRender extends AbstractRender {
 
 	// - L A Y O U T   F I E L D S
 	@Bind(R.id.assetIcon)
-private	ImageView assetIcon=null;
-
-	public TextView	assetLocation	= null;
-	public TextView	itemCount			= null;
-	public TextView	itemPrice			= null;
-	public TextView	stackValue		= null;
+	private ImageView assetIcon = null;
+	@Bind(R.id.assetName)
+	private TextView assetName = null;
+	@Bind(R.id.assetCategory)
+	private TextView assetCategory = null;
+	@Bind(R.id.itemPrice)
+	private TextView itemPrice = null;
+	@Bind(R.id.stackValue)
+	private TextView stackValue = null;
+	@Bind(R.id.count)
+	public TextView count = null;
 
 	// - L A Y O U T   L A B E L S
+	@Bind(R.id.valueLabel)
+	public TextView valueLabel = null;
+	@Bind(R.id.countLabel)
+	public TextView countLabel = null;
+
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetLineRender(final AssetPart target, final Activity context) {
+	public AssetLineRender (final AssetPart target, final Activity context) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public AssetPart getPart() {
+	public AssetPart getPart () {
 		return (AssetPart) super.getPart();
 	}
 
 	@Override
-	public void initializeViews() {
-		super.initializeViews();
-		assetLocation = (TextView) _convertView.findViewById(R.id.assetLocation);
-		itemCount = (TextView) _convertView.findViewById(R.id.itemCount);
+	public void initializeViews () {
+		//	super.initializeViews();
+		// Get the view of the rightArrow if found.
+		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+
+		assetName = (TextView) _convertView.findViewById(R.id.assetName);
+		assetCategory = (TextView) _convertView.findViewById(R.id.assetCategory);
 		itemPrice = (TextView) _convertView.findViewById(R.id.itemPrice);
 		stackValue = (TextView) _convertView.findViewById(R.id.stackValue);
 	}
 
-	public void updateContent() {
+	public void updateContent () {
 		super.updateContent();
-		assetLocation.setText(getPart().get_assetLocation());
-		itemCount.setText(getPart().get_count());
-		itemPrice.setText(getPart().get_itemPrice());
-		stackValue.setText(getPart().get_stackValue());
+		assetName.setText(getPart().getName());
+		assetCategory.setText("-CATEGORY-");
+		itemPrice.setText("123 ISK");
+		stackValue.setText("0.00 ISK");
+		count.setText(getPart().getCastedModel().getQuantity());
 	}
 
 	@Override
-	protected void createView() {
+	protected void createView () {
 		final LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		// The view is a new view. We have to fill all the items
 		_convertView = mInflater.inflate(R.layout.asset4location, null);
