@@ -1,5 +1,52 @@
 <resources>
-    <string name="app_name">NeoCom</string>
+    <!-- A P P L I C A T I O N   D E F I N I T I O N -->
+    <string name="appName">NeoCom</string>
+    <string name="appVersion">v0.10.1</string>
+    <string name="appVersionName">NeoCom 0.10.1</string>
+    <string name="appDescription">"Application to get access to CCP api information and help manage industrial activities for characters and corporations at Eve Online. The set is composed of some projects with implementation for Android and for an AngularJS web interface based on REST services on Sprint Boot Cloud."</string>
+    <string name="app_versionsuffix">09</string>
+
+    <string name="activity_title_AssetsActivity">Assets List ESI</string>
+    <string name="activity_subtitle_AssetsActivity">Adam Antinoo</string>
+
+    <string name="title_activity_PilotList">Pilot Roaster</string>
+    <string name="title_activity_DirectorsBoard">Activity Selection</string>
+    <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
+    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY MANAGER</string>
+    <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
+
+    <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
+    <string name="imageview_defaultcontent">ImageView Content Description</string>
+    <string name="default_description">ImageView Content Description</string>
+    <string name="default_number">50.32</string>
+    <string name="default_smallnumber">1</string>
+    <string name="default_stocknumber">84</string>
+    <string name="default_bignumber">345,897.--</string>
+    <string name="default_paiddate">2017.01.12 20:30</string>
+    <string name="default_apikeynumber">1084582</string>
+    <string name="default_multiplier">x2.-</string>
+    <string name="default_index">01-</string>
+    <string name="default_runs">03-</string>
+    <string name="default_jobs">05</string>
+    <string name="default_isk">345,897.-- ISK</string>
+    <string name="default_location">-0.1 Paye IX - Moon 1 - TransStellar Shipping Storage</string>
+    <string name="default_system">Dodixie</string>
+    <string name="default_region">The Forge</string>
+    <string name="default_market">The Forge - Jita</string>
+    <string name="default_security">0.9</string>
+    <string name="default_itemname">Nanofiber Internal Structure II</string>
+    <string name="default_bponame">Nanofiber Internal Structure I Blueprint</string>
+    <string name="default_loginname">CatptainHaddock</string>
+    <string name="default_managername">Assets Manager</string>
+    <string name="default_shipname">Epithal - Industrial</string>
+    <string name="default_grouptitle">SCHEDULED SELL</string>
+    <string name="default_regionname">Tash-Murkon - Moon 22</string>
+    <string name="default_fittingname">HCBC Impact 1.0</string>
+    <string name="default_fittingclass">Combat Battlecruiser >> Harbinger</string>
+    <string name="default_label">-LABEL-</string>
+    <string name="default_actionablearrow">Arrow button to expand/collapse a group item.</string>
+    <string name="default_nodeicon">EveOnline icon for the representing item.</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
