@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/valueLabel"
-            style="@style/Label.Style.TopLine"
+            style="@style/Label.Style"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -125,9 +125,9 @@
 
             <TextView
                 android:id="@+id/countLabel"
+                style="@style/Label.Style"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topwhiteline"
                 android:ellipsize="marquee"
                 android:gravity="right"
                 android:singleLine="true"

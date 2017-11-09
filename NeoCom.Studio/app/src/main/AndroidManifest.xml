@@ -10,7 +10,7 @@
         android:label="@string/appName"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".AssetsActivity"
             android:label="@string/activity_title_AssetsActivity"
@@ -28,9 +28,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="localhost"
-                    android:path="/neocom"
-                    android:scheme="http" />
+                    android:host="esiauthentication"
+                    android:scheme="eveauth-neocom" />
             </intent-filter>
         </activity>
         <activity

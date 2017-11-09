@@ -12,7 +12,7 @@ final class OAuthPreferences {
     private static final String AUTH_URL = "https://login.eveonline.com/oauth/authorize";
     private static final String AUTH_URL_KEY = "Eve.OAuthPreferences.AuthUrl.key";
 
-    private static final String REDIRECT_URL = "http://localhost/neocom";
+    private static final String REDIRECT_URL = "eveauth-neocom://esiauthentication/";
     private static final String REDIRECT_URL_KEY = "Eve.OAuthPreferences.RedirectUrl.key";
 
     private static final String VERIFY_URL = "https://login.eveonline.com/oauth/verify";

@@ -140,8 +140,8 @@ public class AssetsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		// Set the layout the standard way and add the ToolBar.
 		setContentView(R.layout.content_basic_asset_list);
-		//		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		//		setSupportActionBar(toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.neocomToolbar);
+		setSupportActionBar(toolbar);
 
 		ButterKnife.bind(this);
 		this.oauth = new OAuth(this, "EveSSO Sample");
@@ -165,6 +165,9 @@ public class AssetsActivity extends AppCompatActivity {
 	protected void onNewIntent (final Intent intent) {
 		super.onNewIntent(intent);
 		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
+			Uri uri = intent.getData();
+			String valueOne = uri.getQueryParameter("state");
+		//	String valueTwo = uri.getQueryParameter("keyTwo");
 			Observable<OAuthVerified> observable =
 					Observable.defer(() -> {
 						if ( oauth.authorize(intent.getData()) ) {
@@ -197,7 +200,11 @@ public class AssetsActivity extends AppCompatActivity {
 		startActivity(intent);
 	}
 
-
+	/**
+	 * This is the code called when the assets request completed. Porcess the first 20 assets into the DataSource.
+	 *
+	 * @param v
+	 */
 	private void setVerified (final OAuthVerified v) {
 		if ( null == v ) {
 			return;
