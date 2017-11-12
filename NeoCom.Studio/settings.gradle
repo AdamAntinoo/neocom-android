@@ -1,1 +1,1 @@
-include ':app', ':mvclibrary'
+include ':app', ':mvclibrary', ':eveesiandroid'

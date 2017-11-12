@@ -20,9 +20,9 @@ android {
 
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
-        minSdkVersion 26
+        minSdkVersion 22
         targetSdkVersion 26
-        multiDexEnabled true
+//        multiDexEnabled true
         versionCode 101
         versionName "0.10.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -62,10 +62,12 @@ dependencies {
 
     // A P P L I C A T I O N   M O D U L E S
     implementation project(path: ':mvclibrary')
-    implementation ('net.troja.eve:eve-esi:1.0.0') {
-//        exclude group: 'javax.inject', module: 'javax.inject'
-        exclude group: 'org.glassfish.hk2.external', module: 'javax.inject'
-    }
+    implementation project(path: ':eveesiandroid')
+//    implementation ('net.troja.eve:eve-esi:1.0.0') {
+//        exclude group: 'org.glassfish.hk2.external', module: 'javax.inject'
+//        exclude group: 'java.time', module: 'java.time'
+//        exclude group: 'com.fasterxml.jackson.datatype', module: 'jackson-datatype-jsr310'
+//    }
 
     // L I B R A R I E S   E V E
 //    implementation 'joda-time:joda-time:2.9.9'
