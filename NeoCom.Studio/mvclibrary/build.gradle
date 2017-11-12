@@ -1,23 +1,23 @@
 apply plugin: 'com.android.library'
+apply plugin: 'project-report'
 
 android {
     compileSdkVersion 26
-
-
 
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,11 +26,17 @@ android {
         main.java.srcDirs += 'src/main/java-core'
         main.res.srcDirs += 'src/main/res-panels'
         main.res.srcDirs += 'src/main/res-separator'
-        main {
-            java {
-                exclude 'org.dimensinfin.android.mvc.core.PartFactory.java'
-            }
-        }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
     }
 }
 
@@ -42,18 +48,5 @@ dependencies {
 
     // L I B R A R I E S   D E P E N D E N C I E S
     implementation 'joda-time:joda-time:2.9.9'
-//    implementation 'com.fasterxml.jackson.core:jackson-core:2.8.6'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
-//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
-//    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6'
-        implementation ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6'){
-//        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
-        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
-//        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
-    }
-
-    // T E S T I N G
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
 }
