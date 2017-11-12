@@ -9,8 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/eveesiandroid" />
-            <option value="$PROJECT_DIR$/mvclibrary" />
+            <option value="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/Android-MVC/androidmvc" />
+            <option value="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoComModel" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
