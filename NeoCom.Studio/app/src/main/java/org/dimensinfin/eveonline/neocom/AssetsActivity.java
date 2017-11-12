@@ -1,16 +1,17 @@
 package org.dimensinfin.eveonline.neocom;
 
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,18 +19,14 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.datasource.ModelGeneratorStore;
 import org.dimensinfin.android.interfaces.IModelGenerator;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constants.EManagerType;
@@ -38,16 +35,36 @@ import org.dimensinfin.eveonline.neocom.datasource.NeoComDataSource;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.models.NeoComAsset;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class AssetsActivity extends AppCompatActivity {
+public class AssetsActivity extends NeoComBaseActivity {
+	private class OnTokenAcquired implements AccountManagerCallback<Bundle> {
+		@Override
+		public void run(AccountManagerFuture<Bundle> result) {
+			// Get the result of the operation from the AccountManagerFuture.
+			Bundle bundle = null;
+			try {
+				bundle = result.getResult();
+			} catch (OperationCanceledException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (AuthenticatorException e) {
+				e.printStackTrace();
+			}
+
+			// The token is a named value in the bundle. The name of the value
+			// is stored in the constant AccountManager.KEY_AUTHTOKEN.
+			final String token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+		}
+	}
 	//- CLASS IMPLEMENTATION ...................................................................................
 	final class CreatePartsTask extends android.os.AsyncTask<android.app.Activity, Void, Void> {
 		// - S T A T I C - S E C T I O N ..........................................................................
@@ -165,6 +182,7 @@ public class AssetsActivity extends AppCompatActivity {
 	protected void onNewIntent (final Intent intent) {
 		super.onNewIntent(intent);
 		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
+//			startESIAuthentication();
 			Uri uri = intent.getData();
 			String valueOne = uri.getQueryParameter("state");
 		//	String valueTwo = uri.getQueryParameter("keyTwo");
@@ -191,13 +209,34 @@ public class AssetsActivity extends AppCompatActivity {
 	}
 
 	public void onStartClicked () {
-		this.oauth.clear();
-		final String uri = this.oauth.start();
-		if ( null == uri ) {
-			return;
-		}
+		// Initialize the OAuth flow with the new eve-esi package data.
+		final String uri =	startESIAuthentication();
 		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 		startActivity(intent);
+
+//		this.oauth.clear();
+//		final String uri = this.oauth.start();
+//		if ( null == uri ) {
+//			return;
+//		}
+//		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//		startActivity(intent);
+//		androidOauth();
+	}
+	private void androidOauth(){
+
+		// Get the other authentication item with Android code.
+		AccountManager am = AccountManager.get(this);
+		Bundle options = new Bundle();
+
+//			am.getAuthToken(
+//				myAccount_,                     // Account retrieved using getAccountsByType()
+//				"Manage your tasks",            // Auth scope
+//				options,                        // Authenticator-specific options
+//				this,                           // Your activity
+//				new OnTokenAcquired(),          // Callback called when a token is successfully acquired
+//				new Handler(new OnError()));    // Callback called if an error occurs
+
 	}
 
 	/**

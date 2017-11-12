@@ -25,3 +25,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+tasks.whenTaskAdded { theTask ->
+    if("assembleDebugTest".toString().equals(theTask.name.toString())) {
+        def processTask = "preDexDebugTest"
+        project.(processTask.toString()).enabled = false
+    }
+}
