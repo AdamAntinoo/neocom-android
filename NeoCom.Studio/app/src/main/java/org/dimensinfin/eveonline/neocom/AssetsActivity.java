@@ -133,7 +133,7 @@ public class AssetsActivity extends NeoComBaseActivity {
 	protected static Logger logger = Logger.getLogger("AssetsActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private OAuth oauth;
+//	private OAuth oauth;
 	private String _title = "<TITLE>";
 	private String _subtitle = "";
 	private IPartFactory _factory = null;
@@ -160,7 +160,7 @@ public class AssetsActivity extends NeoComBaseActivity {
 		setSupportActionBar(toolbar);
 
 		ButterKnife.bind(this);
-		this.oauth = new OAuth(this, "EveSSO Sample");
+	//	this.oauth = new OAuth(this, "EveSSO Sample");
 
 		// Initialize the DataSourceAdapter and connect it to the Data source.
 		this.onCreateViewSuper(R.layout.activity_assets, getLayoutInflater(), null,
@@ -185,16 +185,16 @@ public class AssetsActivity extends NeoComBaseActivity {
 			Uri uri = intent.getData();
 			String valueOne = uri.getQueryParameter("state");
 		//	String valueTwo = uri.getQueryParameter("keyTwo");
-			Observable<OAuthVerified> observable =
-					Observable.defer(() -> {
-						if ( oauth.authorize(intent.getData()) ) {
-							return Observable.just(oauth.verify());
-						}
-						return null;
-					}).
-							          subscribeOn(Schedulers.io()).
-							          observeOn(AndroidSchedulers.mainThread());
-			observable.subscribe(v -> setVerified(v));
+//			Observable<OAuthVerified> observable =
+//					Observable.defer(() -> {
+//						if ( oauth.authorize(intent.getData()) ) {
+//							return Observable.just(oauth.verify());
+//						}
+//						return null;
+//					}).
+//							          subscribeOn(Schedulers.io()).
+//							          observeOn(AndroidSchedulers.mainThread());
+//			observable.subscribe(v -> setVerified(v));
 		}
 	}
 
