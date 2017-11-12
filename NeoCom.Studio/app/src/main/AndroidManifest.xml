@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="esiauthentication"
-                    android:scheme="eveauth-neocom" />
+                    android:host="authentication"
+                    android:scheme="eveauth-neotest" />
             </intent-filter>
         </activity>
         <activity

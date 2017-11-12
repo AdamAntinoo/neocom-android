@@ -23,18 +23,18 @@ public class NeoComBaseActivity extends AppCompatActivity {
 	//	private static final Instant i1= new Instant();
 
 	private static final String state = "neocom-eveesi-state";
-	private static final String clientId = "dbc9c2b1d18d49d8adacd23436c5281d";
-	private static final String clientSecret = "QqnTLCqLQxZYHgHUuobkNA9g950vXVYDMg8ETTXM";
-	private static final String redirectUri = "eveauth-neocom://esiauthentication";
+	private static final String clientId = "396e0b6cbed2488284ed4ae426133c90";
+	private static final String clientSecret = "gf8X16xbdaO6soJWCdYHPFfftczZyvfo63z6WUjO";
+	private static final String redirectUri = "eveauth-neotest://authentication";
 	private static final HashSet scopes = new HashSet();
 
 	static {
-		scopes.add("characterFittingsRead");
 		scopes.add("characterAssetsRead");
+		scopes.add("characterIndustryJobsRead");
 		scopes.add("characterAccountRead");
 	}
 
-	private static final String scopesstring = "characterFittingsRead characterAssetsRead characterAccountRead";
+	private static final String scopesstring = "characterAssetsRead characterIndustryJobsRead characterAccountRead";
 
 	/** This is the new eve authentication flow to be used. */
 	private OAuth auth = null;

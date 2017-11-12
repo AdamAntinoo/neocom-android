@@ -183,8 +183,12 @@ public class AssetsActivity extends NeoComBaseActivity {
 		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
 //			startESIAuthentication();
 			Uri uri = intent.getData();
-			String valueOne = uri.getQueryParameter("state");
-		//	String valueTwo = uri.getQueryParameter("keyTwo");
+			String code = uri.getQueryParameter("code");
+			String checkingState = uri.getQueryParameter("state");
+			auth.finishFlow(code, state);
+			System.out.println("Refresh Token: " + auth.getRefreshToken());
+
+			//	String valueTwo = uri.getQueryParameter("keyTwo");
 //			Observable<OAuthVerified> observable =
 //					Observable.defer(() -> {
 //						if ( oauth.authorize(intent.getData()) ) {
