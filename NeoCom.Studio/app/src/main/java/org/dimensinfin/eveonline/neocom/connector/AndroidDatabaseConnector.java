@@ -504,6 +504,11 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return contents;
 	}
 
+	@Override
+	public List<NeoComAsset> searchAssetsAtLocation (final long id) {
+		return null;
+	}
+
 	public List<NeoComAsset> queryLocationContents(final long identifier) {
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> contents = new Vector<NeoComAsset>();

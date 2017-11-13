@@ -60,7 +60,7 @@ public class RegionPart extends AExtendedPart implements INamedPart, OnClickList
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String getTContentCount() {
-		return RegionPart.itemCountFormatter.format(this.getCastedModel().getContentCount());
+		return RegionPart.itemCountFormatter.format(this.getCastedModel().getLocationCount());
 	}
 
 	public void onClick(final View view) {

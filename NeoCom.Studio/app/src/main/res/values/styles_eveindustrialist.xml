@@ -137,10 +137,10 @@
         <item name="android:layout_height">@dimen/itemIcon24</item>
     </style>
 
-    <style name="PriceStyle" parent="NumberStyle">
-        <item name="android:drawablePadding">5dp</item>
-        <item name="android:paddingRight">5dp</item>
-    </style>
+    <!--<style name="PriceStyle" parent="NumberStyle">-->
+        <!--<item name="android:drawablePadding">5dp</item>-->
+        <!--<item name="android:paddingRight">5dp</item>-->
+    <!--</style>-->
 
     <style name="PriceStyle.Seller">
         <item name="android:textColor">@color/redPrice</item>

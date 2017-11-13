@@ -87,7 +87,7 @@ public class AssetsManagerPart extends EveAbstractPart
 	 * @return
 	 */
 	public String getTAssetsCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
+		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssets());
 	}
 
 	public String getTRegionCount() {

@@ -271,6 +271,16 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 			return _loginIdentifier.getCharacters();
 	}
 
+	@Override
+	public Login getActiveLogin () {
+		return _loginIdentifier;
+	}
+
+	@Override
+	public String getActiveLoginName () {
+		return _loginIdentifier.getName();
+	}
+
 	public Activity getActivity() {
 		if (null == _activity) return new LoginListActivity();
 		return _activity;

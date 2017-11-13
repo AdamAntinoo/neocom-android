@@ -13,6 +13,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.logging.Logger;
 
@@ -46,27 +51,27 @@ public class NeoComSplashActivity extends AbstractPagerActivity {
 			NeoComModelStore.getSingleton().activateActivity(this);
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
-			if (null != savedInstanceState) {
-				extras = savedInstanceState;
-				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			} else {
-				extras = this.getIntent().getExtras();
-				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			}
+//			if (null != savedInstanceState) {
+//				extras = savedInstanceState;
+//				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//			} else {
+//				extras = this.getIntent().getExtras();
+//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
 			//			this.addPage(new AssetsFragment().setVariant(EAssetVariants.ASSETS_MATERIALS.name()).setExtras(extras), page++);
 		} catch (Exception rtex) {
-			AssetsDirectorActivity.logger.warning("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage());
+			logger.warning("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage());
 			rtex.printStackTrace();
 			this.stopActivity(new RuntimeException("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage()));
 		}
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
-		AssetsDirectorActivity.logger.info("<< [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
+		logger.info("<< [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
 
 
 		logger.info("<< [NeoComSplashActivity.onCreate]"); //$NON-NLS-1$
