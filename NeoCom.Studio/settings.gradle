@@ -1,5 +1,5 @@
 include ':app'
-include ':AndroidMVC'
-project(':AndroidMVC').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC 2.0.x\\Android-MVC\\androidmvc')
-include ':NeoCom-Model'
-project(':NeoCom-Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-Model 2.0.x\\NeoCom-Model\\NeoComModel')
+include ':AndroidMVCLibrary'
+project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC 2.0.x\\AndroidMVC\\androidmvc')
+include ':NeoCom.Model'
+project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-Model 2.0.x\\NeoCom-Model\\NeoCom.Model')
