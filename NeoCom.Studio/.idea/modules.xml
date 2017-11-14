@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVC/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVC/AndroidMVCLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model/NeoCom.Model.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model/NeoCom.Model.iml" />
       <module fileurl="file://$PROJECT_DIR$/NeoCom.Studio.iml" filepath="$PROJECT_DIR$/NeoCom.Studio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
