@@ -23,9 +23,10 @@ android:versionName="NeoCom 0.10.0" >
     android:supportsRtl="true"
     android:logo="@drawable/evei4"
     android:theme="@style/AppTheme" >
+
     <!-- S T A R T U P    A C T I V I T Y -->
     <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.core.SplashActivity"
+        android:name="org.dimensinfin.eveonline.neocom.activity.core.NeoComSplashActivity"
         android:icon="@drawable/splash_icon"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:label="@string/appversionname"

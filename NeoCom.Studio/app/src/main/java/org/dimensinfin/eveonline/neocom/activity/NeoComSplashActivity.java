@@ -7,16 +7,14 @@
 //                  libraries and code with other application designed for alternate platforms.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom;
+package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import org.dimensinfin.activity.AbstractPagerActivity;
-import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.activity.core.NewPagerActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.fragment.SplashTasksFragment;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.logging.Logger;
@@ -33,7 +31,7 @@ import java.util.logging.Logger;
  *
  * @author Adam Antinoo
  */
-public class NeoComSplashActivity extends AbstractPagerActivity {
+public class NeoComSplashActivity extends NewPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger logger = Logger.getLogger("NeoComSplashActivity");
 
@@ -49,31 +47,27 @@ public class NeoComSplashActivity extends AbstractPagerActivity {
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);
-			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			Bundle extras = null;
-//			if (null != savedInstanceState) {
-//				extras = savedInstanceState;
-//				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-//				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//			} else {
-//				extras = this.getIntent().getExtras();
-//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-//				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//			}
+			//		// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			//			Bundle extras = null;
+			//			if (null != savedInstanceState) {
+			//				extras = savedInstanceState;
+			//				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+			//				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			//			} else {
+			//				extras = this.getIntent().getExtras();
+			//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+			//				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			//			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-			//			this.addPage(new AssetsFragment().setVariant(EAssetVariants.ASSETS_MATERIALS.name()).setExtras(extras), page++);
+			this.addPage(new SplashTasksFragment().setVariant(ENeoComVariants.SPLASH_SCREEN.name()), page++);
 		} catch (Exception rtex) {
-			logger.warning("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage());
+			logger.warning("RTEX [NeoComSplashActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> AssetsDirectorActivity.onCreate - " + rtex.getMessage()));
+			this.stopActivity(new RuntimeException("RTEX [NeoComSplashActivity.onCreate]> " + rtex.getMessage()));
 		}
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
-		logger.info("<< [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
-
-
 		logger.info("<< [NeoComSplashActivity.onCreate]"); //$NON-NLS-1$
 	}
 }
