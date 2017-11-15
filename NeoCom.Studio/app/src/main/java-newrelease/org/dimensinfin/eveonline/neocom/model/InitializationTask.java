@@ -11,11 +11,14 @@
 //                  removed on 2018.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.android.model.AbstractViewableNode;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.AbstractComplexNode;
+
+import java.util.ArrayList;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class InitializationTask {
+public class InitializationTask extends AbstractViewableNode implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -25,4 +28,9 @@ public class InitializationTask {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public ArrayList<AbstractComplexNode> collaborate2Model (final String variant) {
+		return new ArrayList<AbstractComplexNode>();
+	}
+
 }
