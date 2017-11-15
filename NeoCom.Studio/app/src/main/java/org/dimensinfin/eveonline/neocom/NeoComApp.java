@@ -9,18 +9,21 @@
 package org.dimensinfin.eveonline.neocom;
 
 // - IMPORT SECTION .........................................................................................
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.text.DecimalFormat;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.dimensinfin.android.interfaces.INamed;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
@@ -61,21 +64,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Application;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.text.DecimalFormat;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApp extends Application implements INeoComAppConnector {
@@ -718,7 +718,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 
 	public Class<?> getFirstActivity() {
 		if (null == _firstActivity) throw new RuntimeException(
-				"RTEX [NeoComApp.getFirstActivity]> Target destionation First Activity of application is not defined.");
+				"RTEX [NeoComApp.getFirstActivity]> Target destination First Activity of application is not defined.");
 		return _firstActivity;
 	}
 
@@ -764,6 +764,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	public void onCreate() {
 		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
 		super.onCreate();
+		init();
 		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// REFACTOR Remove the secure XML access and configure the ApiConnector.
 		//		ApiConnector.setSecureXmlProcessing(false);

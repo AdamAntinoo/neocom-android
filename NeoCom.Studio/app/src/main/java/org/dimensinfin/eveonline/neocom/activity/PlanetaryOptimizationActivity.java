@@ -8,13 +8,13 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import android.os.Bundle;
+
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.PlanetaryOptimizationFragment;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
-
-import android.os.Bundle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
@@ -37,7 +37,7 @@ public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
 		PlanetaryOptimizationActivity.logger.info(">> [PlanetaryOptimizationActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
-		_actionBar.setDisplayHomeAsUpEnabled(false);
+	//	_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);

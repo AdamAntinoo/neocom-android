@@ -8,7 +8,7 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import java.util.logging.Logger;
+import android.os.Bundle;
 
 import org.dimensinfin.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.R;
@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
-import android.os.Bundle;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LoginListActivity extends ANeoComPagerActivity {
@@ -49,7 +49,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 		LoginListActivity.logger.info(">> [PilotListActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
-		_actionBar.setDisplayHomeAsUpEnabled(false);
+	//	_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Process the parameters into the context. This initial Activity is the only one with no parameters.
 			// Create the pages that form this Activity. Each page implemented by a Fragment.

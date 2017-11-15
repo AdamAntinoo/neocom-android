@@ -26,12 +26,12 @@ android:versionName="NeoCom 0.10.0" >
 
     <!-- S T A R T U P    A C T I V I T Y -->
     <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.core.SplashActivity"
+        android:name="org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity"
         android:icon="@drawable/splash_icon"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:label="@string/appversionname"
         android:noHistory="true"
-        android:theme="@style/FullscreenTheme"
+        android:theme="@style/AppTheme.NoActionBar"
         android:screenOrientation="portrait"
         android:stateNotNeeded="true" >
         <intent-filter>

@@ -8,15 +8,19 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.core;
 
-import java.util.Vector;
-// - IMPORT SECTION .........................................................................................
-import java.util.logging.Logger;
-
+import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
+
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+
+/**
+ * This class is only used to adapt the creation parameter to the new hierarchy interfaces. When code is completed some classes
+ * will be empty of contents for the new MVC
+ */
 public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 6897215090394264254L;
@@ -25,17 +29,11 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComAbstractPart(final AbstractComplexNode model) {
-		super(model);
+	public NeoComAbstractPart(final AbstractViewableNode model) {
+		super( model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	//	@Override
-	//	public long getModelID() {
-	//		// TODO Auto-generated method stub
-	//		return 0;
-	//	}
-
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. For actions there
 	 * is not sorting required so do nothing with the input.
@@ -44,19 +42,6 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		return targets;
 	}
-
-	//	@Override
-	//	protected AbstractHolder selectHolder() {
-	//		// TODO Auto-generated method stub
-	//		return null;
-	//	}
-
-	//	@Override
-	//	protected AbstractRender selectRenderer() {
-	//		// TODO Auto-generated method stub
-	//		return null;
-	//	}
-
 }
 
 // - UNUSED CODE ............................................................................................

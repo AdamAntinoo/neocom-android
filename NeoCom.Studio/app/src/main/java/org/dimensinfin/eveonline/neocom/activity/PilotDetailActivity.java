@@ -74,7 +74,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 		AbstractPagerActivity.logger.info(">> [PilotDetailActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
-		_actionBar.setDisplayHomeAsUpEnabled(false);
+//		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);

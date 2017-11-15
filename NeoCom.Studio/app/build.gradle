@@ -44,7 +44,7 @@ dependencies {
 
     // L O C A L   L I B R A R I E S
     implementation files('libs/jeveassets.3.1.2.jar')
-    implementation files('libs/viewpagerindicator-release.aar')
+    compileOnly files('libs/viewpagerindicator-release.aar')
     implementation project(path: ':AndroidMVCLibrary')
     implementation project(path: ':NeoCom.Model')
     implementation project(path: ':CoreBaseLibrary')

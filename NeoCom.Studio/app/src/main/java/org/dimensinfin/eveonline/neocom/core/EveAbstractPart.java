@@ -7,10 +7,10 @@
 package org.dimensinfin.eveonline.neocom.core;
 
 // - IMPORT SECTION .........................................................................................
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.logging.Logger;
+import android.text.Html;
+import android.text.Spanned;
 
+import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -22,8 +22,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import android.text.Html;
-import android.text.Spanned;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class EveAbstractPart extends NeoComAbstractPart {
@@ -81,7 +82,7 @@ public abstract class EveAbstractPart extends NeoComAbstractPart {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public EveAbstractPart(final AbstractComplexNode model) {
-		super(model);
+		super((AbstractViewableNode) model);
 	}
 
 	protected Spanned colorFormatLocation(final EveLocation location) {

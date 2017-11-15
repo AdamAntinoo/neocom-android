@@ -7,16 +7,17 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
-import java.util.HashMap;
-import java.util.logging.Logger;
+
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.text.Spanned;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class Asset4CategoryPart extends AssetPart {
