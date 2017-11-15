@@ -36,6 +36,10 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	//		return 0;
 	//	}
 
+	/**
+	 * The default actions inside this method usually are the sorting of the children nodes. For actions there
+	 * is not sorting required so do nothing with the input.
+	 */
 	@Override
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		return targets;

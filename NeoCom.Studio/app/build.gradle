@@ -1,13 +1,16 @@
 apply plugin: 'com.android.application'
 
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 100
+        versionName "0.10.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,9 +45,9 @@ dependencies {
     // L O C A L   L I B R A R I E S
     implementation files('libs/jeveassets.3.1.2.jar')
     implementation files('libs/viewpagerindicator-release.aar')
-//    implementation project(path: ':AndroidMVCLibrary')
-//    implementation project(path: ':NeoCom.Model')
-//    implementation project(path: ':CoreBaseLibrary')
+    implementation project(path: ':AndroidMVCLibrary')
+    implementation project(path: ':NeoCom.Model')
+    implementation project(path: ':CoreBaseLibrary')
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'

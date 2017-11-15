@@ -9,6 +9,8 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.graphics.Region;
+
 import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -52,7 +54,7 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 	}
 }
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SplashPartFactory extends PartFactory implements IPartFactory {
+final class SplashPartFactory extends PartFactory implements IPartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
 //	private static Logger logger = Logger.getLogger("AssetPartFactory");
 

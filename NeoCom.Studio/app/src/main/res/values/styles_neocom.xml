@@ -31,6 +31,18 @@
         <item name="android:shadowRadius">10</item>
     </style>
 
+    <style name="Widget"></style>
+
+    <style name="Widget.ProgressBar">
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDuration">3500</item>
+        <item name="android:minWidth">48dip</item>
+        <item name="android:maxWidth">48dip</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:maxHeight">48dip</item>
+    </style>
+
     <style name="ItemIcon">
         <item name="android:layout_width">@dimen/itemIcon48</item>
         <item name="android:layout_height">@dimen/itemIcon48</item>
