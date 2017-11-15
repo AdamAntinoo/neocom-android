@@ -57,4 +57,12 @@ public class AppVersion extends AbstractViewableNode implements ICollaboration{
 	public int getAppVersionNumber () {
 		return appVersionNumber;
 	}
+
+	@Override
+	public String toString () {
+		StringBuffer buffer = new StringBuffer("AppVersion [");
+		buffer.append(getAppName()).append(" ").append(getAppVersion());
+		buffer.append(" ]");
+		return buffer.toString();
+	}
 }

@@ -13,8 +13,6 @@ import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
@@ -22,8 +20,6 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.InitializationTask;
 import org.dimensinfin.eveonline.neocom.parts.AppVersionPart;
-
-import java.util.ArrayList;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 
@@ -65,28 +61,29 @@ public class SplashTasksFragment extends NewPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
+		return;
 		// Get the model from a generator or from a List.
-		try {
-			ArrayList<AbstractComplexNode> headerModelContents = new ArrayList<AbstractComplexNode>();
-			headerModelContents.add(new AppVersion());
-			RootNode headerModel = new RootNode();
-			headerModel.addChildren(headerModelContents);
-
-			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
-			// recursively generate the Part list.
-			final RootPart partModelRoot = new RootPart(headerModel, getFactory());
-			partModelRoot.refreshChildren();
-			final ArrayList<IPart> bodyParts = new ArrayList<IPart>();
-			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
-			bodyParts.addAll(partModelRoot.collaborate2View());
-
-			// Now do the old functionality by copying each of the resulting parts to the Header container.
-			for (IPart part : bodyParts) {
-				addtoHeader((IAndroidPart) part);
-			}
-		} catch (RuntimeException rtex) {
-			rtex.printStackTrace();
-		}
+//		try {
+//			ArrayList<AbstractComplexNode> headerModelContents = new ArrayList<AbstractComplexNode>();
+//			headerModelContents.add(new AppVersion());
+//			RootNode headerModel = new RootNode();
+//			headerModel.addChildren(headerModelContents);
+//
+//			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
+//			// recursively generate the Part list.
+//			final RootPart partModelRoot = new RootPart(headerModel, getFactory());
+//			partModelRoot.refreshChildren();
+//			final ArrayList<IPart> bodyParts = new ArrayList<IPart>();
+//			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+//			bodyParts.addAll(partModelRoot.collaborate2View());
+//
+//			// Now do the old functionality by copying each of the resulting parts to the Header container.
+//			for (IPart part : bodyParts) {
+//				addtoHeader((IAndroidPart) part);
+//			}
+//		} catch (RuntimeException rtex) {
+//			rtex.printStackTrace();
+//		}
 	}
 }
 
@@ -110,7 +107,7 @@ final class SplashPartFactory extends PartFactory implements IPartFactory {
 	 */
 	@Override
 	public IPart createPart (final AbstractComplexNode node) {
-		logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
+		logger.info(">< [SplashPartFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if ( node instanceof AppVersion ) {
 			IPart part = new AppVersionPart((AppVersion) node).setFactory(this)
 			                                                  .setRenderMode(this.getVariant());
@@ -155,7 +152,7 @@ final class InitializationGenerator extends AbstractGenerator implements IModelG
 		// Add the steps to the list of works to do.
 		_dataModelRoot.addChild(new InitializationTask());
 
-		logger.info("<< [InitializationGenerator.collaborate2Model]");
+		logger.info("<< [InitializationGenerator.collaborate2Model]> nodes: "+_dataModelRoot.getChildren().size());
 		return _dataModelRoot;
 	}
 }

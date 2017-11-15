@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.NewPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
@@ -95,7 +94,8 @@ public class NeoComSplashActivity extends NewPagerActivity {
 			logger.info("<< [NeoComInitialization.doStep01]");
 
 			// Start the timers for background processing.
-			NeoComApp.getSingletonApp().startTimer();
+			// TODO Point where to start the background services.
+//			NeoComApp.getSingletonApp().startTimer();
 			logger.info("<< [NeoComInitialization.doInBackground]");
 			return true;
 		}

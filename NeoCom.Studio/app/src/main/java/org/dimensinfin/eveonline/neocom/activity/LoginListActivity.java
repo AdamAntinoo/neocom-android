@@ -46,7 +46,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	 */
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-		LoginListActivity.logger.info(">> [PilotListActivity.onCreate]"); //$NON-NLS-1$
+		LoginListActivity.logger.info(">> [LoginListActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
 	//	_actionBar.setDisplayHomeAsUpEnabled(false);
@@ -58,13 +58,13 @@ public class LoginListActivity extends ANeoComPagerActivity {
 			NeoComModelStore.getSingleton().activateActivity(this);
 			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
-			AbstractPagerActivity.logger.severe("[PilotListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
+			AbstractPagerActivity.logger.severe("[LoginListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();
 			this.stopActivity(rtex);
 		}
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
-		AbstractPagerActivity.logger.info("<< [PilotListActivity.onCreate]"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info("<< [LoginListActivity.onCreate]"); //$NON-NLS-1$
 	}
 }
 //- UNUSED CODE ............................................................................................
