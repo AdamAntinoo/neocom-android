@@ -2,61 +2,72 @@
 <resources>
 
     <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="android:Theme.Holo">-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/appblack</item>
+        <item name="colorPrimaryDark">@color/appblack</item>
+        <item name="colorAccent">@color/apporangemedium</item>
+        <item name="android:textColorPrimary">@color/appwhite</item>
+        <item name="android:textColorHighlight">@color/apporangemedium</item>
+        <item name="android:windowBackground">@color/appblack</item>
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/NeoComActionBar</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="NeoComActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <style name="NeoComActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@android:color/black</item>
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
     </style>
 
-    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.StatusBar.Title">
-        <item name="android:textColor">@color/orangeName</item>
-        <item name="android:shadowColor">@color/orangeName</item>
+    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/apporangemedium</item>
+        <item name="android:shadowColor">@color/apporangemedium</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+    <style name="AppTheme.ActionBar.SubTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:shadowColor">@color/appwhite</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
     </style>
 
-    <style name="Widget"></style>
+    <!--<style name="AppTheme.NoActionBar">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
 
-    <style name="Widget.ProgressBar">
-        <item name="android:indeterminateOnly">true</item>
-        <item name="android:indeterminateBehavior">repeat</item>
-        <item name="android:indeterminateDuration">3500</item>
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
-    </style>
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+    <!--<style name="FullscreenTheme" parent="AppTheme">-->
+        <!--<item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>-->
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+        <!--<item name="android:windowBackground">@null</item>-->
+        <!--<item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>-->
+        <!--<item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>-->
+    <!--</style>-->
+
+    <!--<style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">-->
+        <!--<item name="android:background">@color/black_overlay</item>-->
+    <!--</style>-->
+
+
+    <!--<style name="Widget"></style>-->
+
+    <!--<style name="Widget.ProgressBar">-->
+        <!--<item name="android:indeterminateOnly">true</item>-->
+        <!--<item name="android:indeterminateBehavior">repeat</item>-->
+        <!--<item name="android:indeterminateDuration">3500</item>-->
+        <!--<item name="android:minWidth">48dip</item>-->
+        <!--<item name="android:maxWidth">48dip</item>-->
+        <!--<item name="android:minHeight">48dip</item>-->
+        <!--<item name="android:maxHeight">48dip</item>-->
+    <!--</style>-->
 
     <style name="ItemIcon">
         <item name="android:layout_width">@dimen/itemIcon48</item>

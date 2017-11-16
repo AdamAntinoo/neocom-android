@@ -31,7 +31,6 @@ android:versionName="NeoCom 0.10.0" >
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:label="@string/appversionname"
         android:noHistory="true"
-        android:theme="@style/AppTheme.NoActionBar"
         android:screenOrientation="portrait"
         android:stateNotNeeded="true" >
         <intent-filter>

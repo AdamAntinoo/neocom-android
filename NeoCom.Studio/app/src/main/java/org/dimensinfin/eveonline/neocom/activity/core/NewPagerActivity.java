@@ -12,7 +12,6 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -41,7 +40,7 @@ public abstract class NewPagerActivity extends AbstractPagerActivity {
 		try {
 			// Hide the Action Bar because this page does not need to show it.
 	//		_actionBar.hide();
-			_actionBar.setVisibility(View.GONE);
+	//		_actionBar.setVisibility(View.GONE);
 
 			// Locate the elements of the page and store in global data.
 			_pageContainer = (ViewPager) this.findViewById(R.id.fragmentContainer);

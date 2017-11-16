@@ -202,7 +202,7 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 	//	_actionBar.setDisplayHomeAsUpEnabled(false);
 		// Hide the Actionbar because this activity should not show it.
 		//		_actionBar.hide();
-		hideBar();
+	//	hideBar();
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);
