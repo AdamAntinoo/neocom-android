@@ -7,3 +7,4 @@ SBPlanetaryService/src/main/resources/static/
 POC-IntegratorServer/
 *.odt#
 traces/OutboxSources/
+NeoCom.Studio.Beta/

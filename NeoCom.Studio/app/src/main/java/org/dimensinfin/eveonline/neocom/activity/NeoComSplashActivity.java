@@ -20,7 +20,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.core.NewPagerActivity;
+import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.SplashTasksFragment;
@@ -45,7 +45,7 @@ import java.util.logging.Logger;
  *
  * @author Adam Antinoo
  */
-public class NeoComSplashActivity extends NewPagerActivity {
+public class NeoComSplashActivity extends ANeoComPagerActivity {
 	/**
 	 * Class to perform the update of the user information as a background task. If the data is not present or
 	 * if the information is obsolete we launch a task to update and download the pilot information.
@@ -202,7 +202,7 @@ public class NeoComSplashActivity extends NewPagerActivity {
 	//	_actionBar.setDisplayHomeAsUpEnabled(false);
 		// Hide the Actionbar because this activity should not show it.
 		//		_actionBar.hide();
-	//	_actionBar.setVisibility(View.GONE);
+		hideBar();
 		try {
 			// Register this Activity as the current active Activity.
 			NeoComModelStore.getSingleton().activateActivity(this);

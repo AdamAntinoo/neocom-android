@@ -12,14 +12,14 @@
 package org.dimensinfin.eveonline.neocom.parts;
 
 // - IMPORT SECTION .........................................................................................
+import android.app.Activity;
+import android.widget.TextView;
+
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
-
-import android.app.Activity;
-import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AppVersionPart extends EveAbstractPart {
@@ -117,7 +117,7 @@ final class AppVersionRender extends AbstractRender {
 
 	@Override
 	protected void createView () {
-		_convertView = inflateView(R.layout.action4industry);
+		_convertView = inflateView(R.layout.appversion4splash);
 		_convertView.setTag(this);
 	}
 }
