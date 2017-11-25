@@ -5,8 +5,8 @@
     <!--<style name="AppTheme" parent="android:Theme.Holo">-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/appblack</item>
-        <item name="colorPrimaryDark">@color/appblack</item>
+        <item name="colorPrimary">@color/appwhite</item>
+        <item name="colorPrimaryDark">@color/appgreydark</item>
         <item name="colorAccent">@color/apporangemedium</item>
         <item name="android:textColorPrimary">@color/appwhite</item>
         <item name="android:textColorHighlight">@color/apporangemedium</item>
@@ -21,8 +21,8 @@
     </style>
 
     <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/apporangemedium</item>
-        <item name="android:shadowColor">@color/apporangemedium</item>
+        <item name="android:textColor">@color/apporange</item>
+        <item name="android:shadowColor">@color/apporange</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
@@ -33,6 +33,11 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
+    </style>
+
+    <style name="AppTheme.PrefCatStyle" parent="AppTheme">
+        <item name="android:textColor">@color/appgreydark</item>
+        <item name="android:background">@color/appblack</item>
     </style>
 
     <!--<style name="AppTheme.NoActionBar">-->

@@ -12,16 +12,20 @@ package org.dimensinfin.eveonline.neocom.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.SplashTasksFragment;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -95,7 +99,10 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 
 			// Start the timers for background processing.
 			// TODO Point where to start the background services.
-//			NeoComApp.getSingletonApp().startTimer();
+			// Do the start controlled by a settings toggle.
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(_activity);
+			boolean blockBackgroundTimer = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockBackgorundTimer.name(), false);
+			if(!blockBackgroundTimer)NeoComApp.getSingletonApp().startTimer();
 			logger.info("<< [NeoComInitialization.doInBackground]");
 			return true;
 		}
@@ -159,7 +166,7 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 			// Create file application directory if it doesn't exist
 			final File sdcarddir = new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/);
 			final boolean existence = sdcarddir.exists();
 			if (!sdcarddir.exists()) {
 				sdcarddir.mkdir();

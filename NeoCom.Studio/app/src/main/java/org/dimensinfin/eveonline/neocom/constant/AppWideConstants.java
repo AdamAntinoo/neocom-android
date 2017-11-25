@@ -1,17 +1,35 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2015 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.constant;
 
-// - IMPORT SECTION .........................................................................................
-
 // - CLASS IMPLEMENTATION ...................................................................................
+
+/**
+ * This class defines all the public constants that are being used by the Application. When possible instead using public classes empty of code
+ * use enumerators that give a better interface allowing it to be used as strings or numbers.
+ */
 public class AppWideConstants {
+	// - P R E F E R E N C E S
+	public enum preferenceKeys{
+		category_Development,prefkey_BlockBackgorundTimer,prefkey_BlockMarket,prefkey_BlockDownloads,category_Industry,prefkey_AllowMoveRequests,category_Assets,prefkey_locationsLimit,prefkey_RegionCollapsed
+	}
+	public static final class preference {
+		public static final String	PREF_APPTHEMES						= "prefkey_appthemes";
+		public static final String	PREF_LOCATIONSLIMIT				= "prefkey_locationsLimit";
+		public static final String	PREF_ALLOWMOVEREQUESTS		= "prefkey_AllowMoveRequests";
+		public static final String	PREF_CALCULATEASSETVALUE	= "prefkey_AssetValueCalculation";
+		public static final String	PREF_BLOCKDOWNLOAD				= "prefkey_BlockDownloads";
+		public static final String	PREF_BLOCKMARKET					= "prefkey_BlockMarket";
+	}
+
+
 	// - C O M P A R A T O R S
 	public static final class comparators {
 		public static final int	COMPARATOR_NAME							= 100;
@@ -170,15 +188,6 @@ public class AppWideConstants {
 		public static final int	PANEL_INDUSTRYJOBSBODY		= panel.PANEL_EMPTY + 21;
 	}
 
-	// - P R E F E R E N C E S
-	public static final class preference {
-		public static final String	PREF_APPTHEMES						= "prefkey_appthemes";
-		public static final String	PREF_LOCATIONSLIMIT				= "prefkey_locationsLimit";
-		public static final String	PREF_ALLOWMOVEREQUESTS		= "prefkey_AllowMoveRequests";
-		public static final String	PREF_CALCULATEASSETVALUE	= "prefkey_AssetValueCalculation";
-		public static final String	PREF_BLOCKDOWNLOAD				= "prefkey_BlockDownloads";
-		public static final String	PREF_BLOCKMARKET					= "prefkey_BlockMarket";
-	}
 
 	public static final class rendermodes {
 		public static final int	NORMALRENDER										= 1000;

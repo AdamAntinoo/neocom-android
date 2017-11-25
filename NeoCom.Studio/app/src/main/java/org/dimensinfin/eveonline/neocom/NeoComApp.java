@@ -613,11 +613,11 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		if (null != resourceString)
 			return new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/ + "/" + resourceString);
 		else
 			return new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/);
 	}
 
 	/**
@@ -676,14 +676,14 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	public String getAppFilePath(final int fileresourceid) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-				+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix);
+				/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/;
 		final String file = NeoComAppConnector.getSingleton().getResourceString(fileresourceid);
 		return sdcarddir + "/" + file;
 	}
 
 	public String getAppFilePath(final String fileresourceName) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-				+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix);
+				/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/;
 		final String file = fileresourceName;
 		return sdcarddir + "/" + file;
 	}

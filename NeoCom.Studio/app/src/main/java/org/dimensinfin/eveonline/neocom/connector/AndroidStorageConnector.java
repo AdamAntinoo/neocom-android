@@ -63,11 +63,11 @@ public class AndroidStorageConnector implements IStorageConnector {
 		if (null != resourceString)
 			return new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) + "/" + resourceString);
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/ + "/" + resourceString);
 		else
 			return new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/);
 	}
 
 	/**

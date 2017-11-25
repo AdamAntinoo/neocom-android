@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Application Theme colors -->
+    <!--<color name="colorPrimary">#FFFFFFFF</color>-->
+    <!--<color name="colorPrimaryDark">#FF000000</color>-->
+    <!--<color name="colorAccent">#FFFFA500</color>-->
+    <color name="black_overlay">#66000000</color>
+
     <!-- NeoCom UI colors. Palette -->
-    <color name="apporangelight">#FFFFA500</color>
-    <color name="apporangemedium">#FFF2540C</color>
-    <color name="appgreen">#FF6CC417</color>
-    <color name="appred">#FFF62217</color>
-    <color name="appblue">#FF676096</color>
-    <color name="appgreylight">#FFA0A0A0</color>
-    <color name="appwhite">#FFFFFFFF</color>
-    <color name="appblack">#FF000000</color>
+    <!--<color name="apporange">#FFF2540C</color>-->
+    <!--<color name="apporangelight">#FFFFA500</color>-->
+    <!--<color name="apporangemedium">#FFF2540C</color>-->
+    <!--<color name="appgreen">#FF6CC417</color>-->
+    <!--<color name="appred">#FFF62217</color>-->
+    <!--<color name="appblue">#FF676096</color>-->
+    <!--<color name="appgreylight">#FFA0A0A0</color>-->
+    <!--<color name="appwhite">#FFFFFFFF</color>-->
+    <!--<color name="appblack">#FF000000</color>-->
 
    <!-- NeoCom colors to REMOVE -->
     <color name="orangeText">#FFFFA500</color>

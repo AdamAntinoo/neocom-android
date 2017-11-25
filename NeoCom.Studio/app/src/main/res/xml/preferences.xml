@@ -2,21 +2,30 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory
         android:key="category_Development"
-        android:title="@string/pref_category_Development" >
+        android:title="@string/pref_category_Development"
+        android:widgetLayout="@style/AppTheme.PrefCatStyle">
+        <CheckBoxPreference
+            android:background="@color/appgreydark"
+            android:defaultValue="false"
+            android:key="prefkey_BlockBackgorundTimer"
+            android:summary="Block the activation of the background timer service."
+            android:textColor="@color/appwhite"
+            android:title="Block Timer" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="prefkey_BlockMarket"
-            android:summary="Block the download of market data. Use to remove debug clutter"
+            android:summary="Block the download of market data. Use to remove debug clutter."
             android:title="Block Market" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="prefkey_BlockDownloads"
-            android:summary="Block the download of character data updates and market data. Use to remove debug clutter"
+            android:summary="Block the download of character data updates and market data. Use to remove debug clutter."
             android:title="Block Downloads" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_Industry"
         android:title="@string/pref_category_Industry" >
+        android:widgetLayout="@style/AppTheme.ActionBar.TitleTextStyle">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="prefkey_AllowMoveRequests"
@@ -26,6 +35,7 @@
     <PreferenceCategory
         android:key="category_Assets"
         android:title="@string/pref_category_Assets" >
+        android:widgetLayout="@style/AppTheme.ActionBar.TitleTextStyle">
         <ListPreference
             android:defaultValue="10"
             android:dialogTitle="Number Of Locations"

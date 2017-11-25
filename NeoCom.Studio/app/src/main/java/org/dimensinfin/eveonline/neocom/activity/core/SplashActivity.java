@@ -9,18 +9,6 @@
 package org.dimensinfin.eveonline.neocom.activity.core;
 
 //- IMPORT SECTION .........................................................................................
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.logging.Logger;
-
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -31,6 +19,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
+
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SplashActivity extends Activity {
@@ -146,7 +146,7 @@ public class SplashActivity extends Activity {
 			// Create file application directory if it doesn't exist
 			final File sdcarddir = new File(Environment.getExternalStorageDirectory(),
 					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix));
+							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/);
 			final boolean existence = sdcarddir.exists();
 			if (!sdcarddir.exists()) {
 				sdcarddir.mkdir();

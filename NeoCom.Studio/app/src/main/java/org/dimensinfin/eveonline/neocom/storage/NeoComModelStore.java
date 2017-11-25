@@ -8,13 +8,8 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.storage;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
-import java.util.logging.Logger;
+import android.app.Activity;
+import android.view.Menu;
 
 import org.dimensinfin.core.model.AbstractModelStore;
 import org.dimensinfin.core.parser.IPersistentHandler;
@@ -26,8 +21,13 @@ import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 
-import android.app.Activity;
-import android.view.Menu;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -135,6 +135,21 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		}
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
+
+	/**
+	 * This methods should do a complete cleanup of the data structures to force a new reload of the data from its sources. Also check that
+	 * the delegated instances are on place.
+	 * In the future it will also need to close databases to reset its status.
+	 */
+	@Override
+	public void cleanModel () {
+		_loginList=null;
+		_loginIdentifier=null;
+		_pilot=null;
+		singleton=null;
+	}
+
 	/**
 	 * Gets a unique list of all the different characters available to the system from the different Logins.
 	 * This action is done without disturbing the login selected or any other AppModel structure. The list is
@@ -163,7 +178,6 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		return _loginList;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Stores a reference to the current activity if this is required for some actions inside the DataSources.
 	 *
@@ -178,7 +192,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * we should get them from the backend database and then search for the indicated login. If finally that
 	 * login is not found we can fire an Exception.
 	 *
-	 * @param login
+	 * @param loginTarget
 	 */
 	public Login activateLoginIdentifier(final String loginTarget) {
 		NeoComModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
