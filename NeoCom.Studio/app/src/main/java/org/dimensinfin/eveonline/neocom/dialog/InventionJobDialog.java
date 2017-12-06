@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.dialog;
 // - IMPORT SECTION .........................................................................................
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
@@ -115,7 +115,7 @@ public class InventionJobDialog extends DialogFragment {
 		// Update the interface.
 		_runsCount.setText(Integer.valueOf(_runs).toString());
 		_jobCount.setText(Integer.valueOf(_jobs).toString());
-		_jobDuration.setText(EveAbstractPart.generateTimeString(jobDuration * _runs));
+		_jobDuration.setText(NeoComAbstractPart.generateTimeString(jobDuration * _runs));
 
 		// Add event hoot to the editable text field to check validity.
 		_runsCount.addTextChangedListener(new TextWatcher() {
@@ -137,7 +137,7 @@ public class InventionJobDialog extends DialogFragment {
 					_runs = currentruns;
 					// InventionJobDialog.this._jobCount.setText(InventionJobDialog.this._blueprint
 					// .get_jobsParameter(InventionJobDialog.this._jobs));
-					_jobDuration.setText(EveAbstractPart.generateTimeString(jobDuration * Math.min(currentruns, runs)));
+					_jobDuration.setText(NeoComAbstractPart.generateTimeString(jobDuration * Math.min(currentruns, runs)));
 				}
 			}
 

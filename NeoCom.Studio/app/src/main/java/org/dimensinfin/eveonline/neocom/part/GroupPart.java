@@ -19,7 +19,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.EmptySeparatorBoardRender;
 import org.dimensinfin.eveonline.neocom.render.IndustryGroupRender;
 import org.dimensinfin.eveonline.neocom.render.JobStateRender;
@@ -29,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.render.ShipSlotRender;
 import android.util.Log;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GroupPart extends EveAbstractPart {
+public class GroupPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -7108273035430243825L;
 
@@ -46,7 +45,7 @@ public class GroupPart extends EveAbstractPart {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String get_counter() {
-		return EveAbstractPart.qtyFormatter.format(this.getChildren().size());
+		return NeoComAbstractPart.qtyFormatter.format(this.getChildren().size());
 	}
 
 	public Separator getCastedModel() {
@@ -87,7 +86,7 @@ public class GroupPart extends EveAbstractPart {
 		return this;
 	}
 
-	public EveAbstractPart setPriority(final int pri) {
+	public NeoComAbstractPart setPriority(final int pri) {
 		priority = pri;
 		return this;
 	}

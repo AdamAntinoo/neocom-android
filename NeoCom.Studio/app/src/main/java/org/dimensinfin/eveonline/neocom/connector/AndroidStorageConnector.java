@@ -7,6 +7,23 @@
 package org.dimensinfin.eveonline.neocom.connector;
 
 // - IMPORT SECTION .........................................................................................
+import android.content.Context;
+import android.os.Environment;
+
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.config.DevelopmentStorageConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
+import org.dimensinfin.eveonline.neocom.market.EVEMarketDataParser;
+import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.market.TrackEntry;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -28,23 +45,6 @@ import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.config.DevelopmentStorageConnector;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
-import org.dimensinfin.eveonline.neocom.market.EVEMarketDataParser;
-import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
-import org.dimensinfin.eveonline.neocom.market.TrackEntry;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import android.content.Context;
-import android.os.Environment;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AndroidStorageConnector implements IStorageConnector {
@@ -78,8 +78,7 @@ public class AndroidStorageConnector implements IStorageConnector {
 	 * the data inside the cache with the corresponding <code>Interpreter</code>. <br>
 	 * This particular call returns the root of the XML DOM document without processing.
 	 *
-	 * @param link
-	 * @param force
+	 * @param url
 	 */
 	public Element accessDOMDocument(final String url) {
 		AndroidStorageConnector.logger.info(">> AndroidStorageConnector.accessDOMDocument");

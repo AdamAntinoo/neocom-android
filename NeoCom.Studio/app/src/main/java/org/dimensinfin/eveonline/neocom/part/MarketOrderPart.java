@@ -16,7 +16,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -32,7 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MarketOrderPart extends EveAbstractPart
+public class MarketOrderPart extends NeoComAbstractPart
 		implements IMenuActionTarget, OnClickListener, IDateTimeComparator {
 	private static final long serialVersionUID = 5816353740185144480L;
 

@@ -11,13 +11,12 @@ import java.util.GregorianCalendar;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.market.MarketOrderAnalyticalGroup;
 import org.dimensinfin.eveonline.neocom.render.AnalyticalGroupRender;
 import org.dimensinfin.eveonline.neocom.render.MarketSideRender;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MarketOrderAnalyticalGroupPart extends EveAbstractPart {
+public class MarketOrderAnalyticalGroupPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 5929631623003721637L;
 

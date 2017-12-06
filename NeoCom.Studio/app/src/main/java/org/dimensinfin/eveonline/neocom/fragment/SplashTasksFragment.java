@@ -9,15 +9,15 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import org.dimensinfin.android.datasource.AbstractGenerator;
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.model.AbstractComplexNode;
+import org.dimensinfin.core.datasource.AbstractGenerator;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.InitializationTask;
@@ -42,9 +42,9 @@ public class SplashTasksFragment extends NewPagerFragment {
 	//- M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public void createFactory () {
-		AssetsFragment.logger.info(">> [SplashTasksFragment.createFactory]");
+		logger.info(">> [SplashTasksFragment.createFactory]");
 		this.setFactory(new SplashPartFactory(this.getVariant()));
-		AssetsFragment.logger.info("<< [SplashTasksFragment.createFactory]");
+		logger.info("<< [SplashTasksFragment.createFactory]");
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class SplashTasksFragment extends NewPagerFragment {
 //		return;
 		// Get the model from a generator or from a List.
 		try {
-			ArrayList<AbstractComplexNode> headerModelContents = new ArrayList<AbstractComplexNode>();
+			ArrayList<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
 			headerModelContents.add(new AppVersion());
 			RootNode headerModel = new RootNode();
 			headerModel.addChildren(headerModelContents);
@@ -110,7 +110,7 @@ final class SplashPartFactory extends PartFactory implements IPartFactory {
 	 * should create the next levels of the hierarchy. So we will create the part transformations here.
 	 */
 	@Override
-	public IPart createPart (final AbstractComplexNode node) {
+	public IPart createPart (final ICollaboration node) {
 		logger.info(">< [SplashPartFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if ( node instanceof AppVersion ) {
 			IPart part = new AppVersionPart((AppVersion) node).setFactory(this)

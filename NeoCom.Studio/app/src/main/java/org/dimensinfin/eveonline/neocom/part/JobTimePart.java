@@ -12,11 +12,10 @@ import java.util.GregorianCalendar;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.JobTimeRender;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobTimePart extends EveAbstractPart {
+public class JobTimePart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 3353359035798147679L;
 

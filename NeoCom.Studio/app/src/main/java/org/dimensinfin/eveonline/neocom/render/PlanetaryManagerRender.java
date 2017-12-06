@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.render;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
 
 import android.app.Activity;
@@ -33,7 +33,7 @@ public class PlanetaryManagerRender extends EveAbstractHolder {
 	// - L A Y O U T   L A B E L S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PlanetaryManagerRender(final EveAbstractPart target, final Activity context) {
+	public PlanetaryManagerRender(final NeoComAbstractPart target, final Activity context) {
 		super(target, context);
 	}
 

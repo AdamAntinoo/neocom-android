@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.Property;
 import org.dimensinfin.eveonline.neocom.part.LocationAssetsPart;
@@ -44,7 +44,7 @@ public class Location4AssetsRender extends EveAbstractHolder {
 	public TextView	functionLabel							= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Location4AssetsRender(final EveAbstractPart target, final Activity context) {
+	public Location4AssetsRender(final NeoComAbstractPart target, final Activity context) {
 		super(target, context);
 	}
 

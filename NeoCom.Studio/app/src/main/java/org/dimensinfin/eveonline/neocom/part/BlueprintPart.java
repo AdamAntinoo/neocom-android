@@ -19,7 +19,6 @@ import org.dimensinfin.core.model.AbstractGEFNode;
 import org.dimensinfin.core.model.IGEFNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
@@ -92,14 +91,14 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	public String get_blueprintCount() {
 		final int count = this.getCastedModel().getQuantity();
 		if (count > 1)
-			return EveAbstractPart.qtyFormatter.format(count) + " blueprints";
+			return NeoComAbstractPart.qtyFormatter.format(count) + " blueprints";
 		else
-			return EveAbstractPart.qtyFormatter.format(count) + " blueprint";
+			return NeoComAbstractPart.qtyFormatter.format(count) + " blueprint";
 	}
 
 	public String get_blueprintMETE() {
-		return EveAbstractPart.qtyFormatter.format(this.getCastedModel().getMaterialEfficiency()) + " / "
-				+ EveAbstractPart.qtyFormatter.format(this.getCastedModel().getTimeEfficiency());
+		return NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getMaterialEfficiency()) + " / "
+				+ NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getTimeEfficiency());
 	}
 
 	// public String get_blueprintName() {
@@ -147,7 +146,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	}
 
 	public String get_jobsParameter(final int jobsnumber) {
-		return EveAbstractPart.qtyFormatter.format(jobsnumber) + " jobs";
+		return NeoComAbstractPart.qtyFormatter.format(jobsnumber) + " jobs";
 	}
 
 	// public String get_jobs() {
@@ -155,7 +154,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	// }
 
 	public String get_manufactureIndex() {
-		return EveAbstractPart.moduleIndexFormatter.format(this.getProfitIndex());
+		return NeoComAbstractPart.moduleIndexFormatter.format(this.getProfitIndex());
 	}
 
 	/**
@@ -175,9 +174,9 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 				EJobClasses.MANUFACTURE);
 		final int maxRuns = process.getManufacturableCount();
 		if (this.getCastedModel().getTech().equalsIgnoreCase(ModelWideConstants.eveglobal.TechI))
-			return EveAbstractPart.qtyFormatter.format(this.getCastedModel().getRuns()) + " / "
-					+ EveAbstractPart.qtyFormatter.format(maxRuns);
-		return EveAbstractPart.qtyFormatter.format(runCount) + " / " + EveAbstractPart.qtyFormatter.format(maxRuns);
+			return NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getRuns()) + " / "
+					+ NeoComAbstractPart.qtyFormatter.format(maxRuns);
+		return NeoComAbstractPart.qtyFormatter.format(runCount) + " / " + NeoComAbstractPart.qtyFormatter.format(maxRuns);
 	}
 
 	// public Spanned get_profit() {
@@ -193,7 +192,7 @@ public class BlueprintPart extends MarketDataPart implements INamedPart, OnClick
 	// }
 
 	public String get_totalJobDuration(final int runs) {
-		return EveAbstractPart.generateTimeString(this.getCycleTime() * runs * 1000);
+		return NeoComAbstractPart.generateTimeString(this.getCycleTime() * runs * 1000);
 	}
 
 	public int getBlueprintCount() {

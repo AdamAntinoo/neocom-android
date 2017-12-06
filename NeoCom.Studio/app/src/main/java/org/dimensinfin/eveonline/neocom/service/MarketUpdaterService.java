@@ -7,10 +7,9 @@
 package org.dimensinfin.eveonline.neocom.service;
 
 // - IMPORT SECTION .........................................................................................
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.logging.Logger;
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
@@ -22,9 +21,10 @@ import org.dimensinfin.eveonline.neocom.market.TrackEntry;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
-import android.app.IntentService;
-import android.content.Intent;
-import android.util.Log;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class MarketUpdaterService extends IntentService {
@@ -134,9 +134,7 @@ public class MarketUpdaterService extends IntentService {
 	 * data information. It will also remove the current limit on the selected market hubs and will aggregate
 	 * all the systems found into the highsec and other sec categories.
 	 *
-	 * @param item
 	 * @param entries
-	 * @return
 	 * @return
 	 */
 	private Vector<MarketDataEntry> extractMarketData(final Vector<TrackEntry> entries) {

@@ -19,7 +19,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.render.ApiKeyRender;
 import org.joda.time.Instant;
@@ -28,7 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ApiKeyPart extends EveAbstractPart implements INamedPart, OnClickListener {
+public class ApiKeyPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -7718648590261849585L;
 	private static Logger			logger						= Logger.getLogger("APIKeyPart");
@@ -59,11 +58,11 @@ public class ApiKeyPart extends EveAbstractPart implements INamedPart, OnClickLi
 	}
 
 	public String getTransformedKey() {
-		return EveAbstractPart.keyFormatter.format(this.getCastedModel().getKey());
+		return NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getKey());
 	}
 
 	public String getTransformedPaidUntil() {
-		return EveAbstractPart.timePointFormatter.print(new Instant(this.getCastedModel().getPaidUntil()));
+		return NeoComAbstractPart.timePointFormatter.print(new Instant(this.getCastedModel().getPaidUntil()));
 	}
 
 	/**

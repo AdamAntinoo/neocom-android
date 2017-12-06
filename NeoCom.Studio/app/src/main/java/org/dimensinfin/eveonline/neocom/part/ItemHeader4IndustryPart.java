@@ -119,7 +119,7 @@ public class ItemHeader4IndustryPart extends MarketDataPart {
 		return buffer.toString();
 	}
 
-	//	public EveAbstractPart setStore(final AppModelStore store) {
+	//	public NeoComAbstractPart setStore(final AppModelStore store) {
 	//		_store = store;
 	//		return this;
 	//	}

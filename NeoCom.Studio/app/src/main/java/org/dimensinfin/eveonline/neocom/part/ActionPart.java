@@ -19,7 +19,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EIndustryGroup;
 import org.dimensinfin.eveonline.neocom.enums.ETaskCompletion;
 import org.dimensinfin.eveonline.neocom.interfaces.IItemPart;
@@ -36,7 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ActionPart extends EveAbstractPart implements IItemPart, OnClickListener, IMenuActionTarget {
+public class ActionPart extends NeoComAbstractPart implements IItemPart, OnClickListener, IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 6148259479329269362L;
 
@@ -96,8 +95,8 @@ public class ActionPart extends EveAbstractPart implements IItemPart, OnClickLis
 	}
 
 	public String get_qtyRequired() {
-		return EveAbstractPart.qtyFormatter.format(this.getCastedModel().getCompletedQty()) + "/"
-				+ EveAbstractPart.qtyFormatter.format(this.getCastedModel().getRequestQty());
+		return NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getCompletedQty()) + "/"
+				+ NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getRequestQty());
 	}
 
 	public long getBlueprintID() {

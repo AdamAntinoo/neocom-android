@@ -19,7 +19,6 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -135,7 +134,7 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 	public Spanned get_locationStation() {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = this.getCastedModel().getSecurityValue();
-		htmlLocation.append(this.generateSecurityColor(security, EveAbstractPart.securityFormatter.format(security)));
+		htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
 		htmlLocation.append(" ").append(this.getCastedModel().getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
@@ -168,9 +167,9 @@ public abstract class LocationPart extends AExtendedPart implements INamedPart {
 		int locationAssets = this.getChildren().size();
 		String countString = null;
 		if (locationAssets > 1) {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
 		} else {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
 		}
 		return countString;
 	}

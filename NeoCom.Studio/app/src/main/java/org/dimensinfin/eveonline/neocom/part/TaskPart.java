@@ -16,7 +16,6 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.dialog.BuyQtyDialog;
 import org.dimensinfin.eveonline.neocom.enums.ETaskType;
 import org.dimensinfin.eveonline.neocom.market.NeoComMarketOrder;
@@ -93,7 +92,7 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 	public Spanned get_assetLocation() {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final String security = this.getCastedModel().getLocation().getSecurity();
-		String secColor = EveAbstractPart.securityLevels.get(security);
+		String secColor = NeoComAbstractPart.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
@@ -143,23 +142,23 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		// Compose the FROM
 		EveLocation loc = this.getCastedModel().getLocation();
 		String security = loc.getSecurity();
-		String secColor = EveAbstractPart.securityLevels.get(security);
+		String secColor = NeoComAbstractPart.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-				.append(EveAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+		            .append(NeoComAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getSystem());
 		htmlLocation.append(AppWideConstants.FLOW_ARROW_RIGHT);
 		// Compose the TO
 		loc = this.getCastedModel().getDestination();
 		security = loc.getSecurity();
-		secColor = EveAbstractPart.securityLevels.get(security);
+		secColor = NeoComAbstractPart.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-				.append(EveAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+		            .append(NeoComAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getSystem());
 		return Html.fromHtml(htmlLocation.toString());
 	}
@@ -173,7 +172,7 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 		// Compose the FROM
 		final EveLocation loc = this.getCastedModel().getLocation();
 		final String security = loc.getSecurity();
-		String secColor = EveAbstractPart.securityLevels.get(security);
+		String secColor = NeoComAbstractPart.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
@@ -194,7 +193,7 @@ public class TaskPart extends MarketDataPart implements IMenuActionTarget {
 	}
 
 	public String get_volume() {
-		return EveAbstractPart.volumeFormatter
+		return NeoComAbstractPart.volumeFormatter
 				.format(this.getCastedModel().getItem().getVolume() * this.getCastedModel().getQty()) + " m3";
 	}
 

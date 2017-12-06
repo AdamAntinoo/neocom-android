@@ -19,7 +19,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -95,15 +94,15 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		String countString = null;
 
 		if (locationAssets > 1) {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " items";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " items";
 		} else {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " item";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " item";
 		}
 		return countString;
 	}
 
 	public CharSequence getTLocationID() {
-		return EveAbstractPart.keyFormatter.format(this.getCastedModel().getID());
+		return NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getID());
 	}
 
 	/**

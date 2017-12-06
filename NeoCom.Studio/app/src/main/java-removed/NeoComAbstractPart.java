@@ -8,9 +8,9 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.core;
 
-import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -29,7 +29,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComAbstractPart(final AbstractViewableNode model) {
+	public NeoComAbstractPart(final ICollaboration model) {
 		super( model);
 	}
 

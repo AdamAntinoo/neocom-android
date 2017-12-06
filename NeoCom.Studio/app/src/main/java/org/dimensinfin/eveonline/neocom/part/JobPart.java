@@ -18,7 +18,6 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.industry.Job;
 import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -35,7 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionTarget, IDateTimeComparator {
+public class JobPart extends NeoComAbstractPart implements INamedPart, IMenuActionTarget, IDateTimeComparator {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -216430970914075462L;
 
@@ -54,7 +53,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String get_jobDuration() {
-		return EveAbstractPart.generateTimeString(this.getCastedModel().getTimeInSeconds() * 1000);
+		return NeoComAbstractPart.generateTimeString(this.getCastedModel().getTimeInSeconds() * 1000);
 	}
 
 	public String get_jobEnd() {
@@ -66,7 +65,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 		EveLocation loc = NeoComAppConnector.getSingleton().getCCPDBConnector()
 				.searchLocationbyID(this.getCastedModel().getBlueprintLocationID());
 		String security = loc.getSecurity();
-		String secColor = EveAbstractPart.securityLevels.get(security);
+		String secColor = NeoComAbstractPart.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
@@ -74,7 +73,7 @@ public class JobPart extends EveAbstractPart implements INamedPart, IMenuActionT
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
 				.append(AppWideConstants.FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-				.append(EveAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+		            .append(NeoComAbstractPart.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}

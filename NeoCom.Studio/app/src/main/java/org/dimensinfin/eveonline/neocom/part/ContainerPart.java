@@ -18,7 +18,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.holder.ContainerHolder;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
@@ -115,7 +114,7 @@ public class ContainerPart extends AssetPart implements OnClickListener {
 	}
 
 	public String getTContentCount() {
-		return EveAbstractPart.qtyFormatter.format(this.getCastedModel().getContents().size());
+		return NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getContents().size());
 	}
 
 	public int getTypeID() {

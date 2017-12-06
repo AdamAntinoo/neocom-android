@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.dialog;
 import org.dimensinfin.android.mvc.activity.ADialogCallback;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EJobClasses;
 import org.dimensinfin.eveonline.neocom.industry.JobManager;
 import org.dimensinfin.eveonline.neocom.interfaces.IJobProcess;
@@ -100,7 +100,7 @@ public class BuildDialog extends DialogFragment {
 		_runs = _taskPart.getQuantity();
 		_jobCount.setText("1");
 		_jobDuration
-				.setText(EveAbstractPart.generateTimeString(buildProcess.getCycleDuration() * _taskPart.getQuantity() * 1000));
+				.setText(NeoComAbstractPart.generateTimeString(buildProcess.getCycleDuration() * _taskPart.getQuantity() * 1000));
 		final BuildDialog self = this;
 		// Add action buttons
 		if (null != _dialogCallback) {

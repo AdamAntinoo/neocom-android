@@ -4,4 +4,4 @@ project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries 
 include ':NeoCom.Model'
 project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-Model 2.0.x\\NeoCom-Model\\NeoCom.Model')
 include ':CoreBaseLibrary'
-project(':CoreBaseLibrary').projectDir = new File('D:\\Development\\Libraries Base\\Corebase 2.0.x\\CoreBase\\CoreBaseLibrary')
+project(':CoreBaseLibrary').projectDir = new File('D:\\Development\\Libraries Base\\Corebase 2.0.x\\org.dimensinfin.core')

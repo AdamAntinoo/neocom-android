@@ -17,7 +17,6 @@ import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.render.Location4ShipsRender;
 
@@ -50,9 +49,9 @@ public class LocationShipsPart extends LocationPart implements INamedPart, OnCli
 		int locationAssets = this.getChildren().size();
 		String countString = null;
 		if (locationAssets > 1) {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " Stacks";
 		} else {
-			countString = EveAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
+			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " Stack";
 		}
 		return countString;
 	}

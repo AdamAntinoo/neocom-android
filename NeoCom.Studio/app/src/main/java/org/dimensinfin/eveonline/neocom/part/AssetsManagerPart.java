@@ -17,7 +17,6 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
@@ -30,7 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AssetsManagerPart extends EveAbstractPart
+public class AssetsManagerPart extends NeoComAbstractPart
 		implements INeoComDirectorPart, INamedPart, OnClickListener /* , OnLongClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8992564305513190092L;
@@ -87,11 +86,11 @@ public class AssetsManagerPart extends EveAbstractPart
 	 * @return
 	 */
 	public String getTAssetsCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssets());
+		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssets());
 	}
 
 	public String getTRegionCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
+		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
 	}
 
 	/**
@@ -101,7 +100,7 @@ public class AssetsManagerPart extends EveAbstractPart
 	 * not active for others.
 	 */
 	public void onClick(final View view) {
-		EveAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
+		NeoComAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
 		final Object managerPart = view.getTag();
 		if (managerPart instanceof AssetsManagerPart) {
 			// Managers have a reference to the Character linked when created.
@@ -113,7 +112,7 @@ public class AssetsManagerPart extends EveAbstractPart
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.ASSETS_MANAGER.name());
 			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
-		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
+		NeoComAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}
 
 	//	/**

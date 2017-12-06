@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVCLibrary" />
-            <option value="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary" />
+            <option value="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core" />
             <option value="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model" />
           </set>
         </option>

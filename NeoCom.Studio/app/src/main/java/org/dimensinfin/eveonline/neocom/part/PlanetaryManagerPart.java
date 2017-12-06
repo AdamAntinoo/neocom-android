@@ -17,7 +17,6 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
@@ -30,7 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PlanetaryManagerPart extends EveAbstractPart
+public class PlanetaryManagerPart extends NeoComAbstractPart
 		implements INeoComDirectorPart, INamedPart, OnClickListener/* , OnLongClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7725920841939916584L;
@@ -87,18 +86,18 @@ public class PlanetaryManagerPart extends EveAbstractPart
 	 * @return
 	 */
 	public String getTAssetsCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
+		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
 	}
 
 	public String getTRegionCount() {
-		return EveAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
+		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
 	}
 
 	/**
 	 * A click on the Manager should trigger the expand/collapse pattern.
 	 */
 	public void onClick(final View view) {
-		EveAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
+		NeoComAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
 		final Object managerPart = view.getTag();
 		if (managerPart instanceof PlanetaryManagerPart) {
 			// Managers have a reference to the Character linked when created.
@@ -110,7 +109,7 @@ public class PlanetaryManagerPart extends EveAbstractPart
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.PLANETARY_MANAGER.name());
 			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
-		EveAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
+		NeoComAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
 	}
 
 	//	/**

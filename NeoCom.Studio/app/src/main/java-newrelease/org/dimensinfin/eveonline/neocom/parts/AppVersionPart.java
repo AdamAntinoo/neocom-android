@@ -17,12 +17,12 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AppVersionPart extends EveAbstractPart {
+public class AppVersionPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 6148259479329269362L;
 

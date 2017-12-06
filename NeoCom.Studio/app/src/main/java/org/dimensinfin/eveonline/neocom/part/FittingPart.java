@@ -15,7 +15,6 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.dialog.FittingRunsDialog;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.render.FittingHeaderRender;
@@ -28,7 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class FittingPart extends EveAbstractPart implements INamedPart, IMenuActionTarget {
+public class FittingPart extends NeoComAbstractPart implements INamedPart, IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 1956908168853667475L;
 	private static Logger			logger						= Logger.getLogger("FittingPart");

@@ -9,23 +9,20 @@
 package org.dimensinfin.eveonline.neocom.factory;
 
 // - IMPORT SECTION .........................................................................................
-import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.Corporation;
-import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
-import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.LoginPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
+
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PilotPartFactory extends PartFactory {
@@ -45,7 +42,7 @@ public class PilotPartFactory extends PartFactory {
 	 * should create the next levels of the hierarchy. So we will create the part transformations here.
 	 */
 	@Override
-	public IPart createPart(final AbstractComplexNode node) {
+	public IPart createPart(final ICollaboration node) {
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name()) {
 			if (node instanceof Login) {
@@ -80,11 +77,11 @@ public class PilotPartFactory extends PartFactory {
 				IPart part = new PilotInfoPart(node).setFactory(this).setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
-			if (node instanceof AssetsManager) {
+			if (node instanceof AssetsManager ) {
 				IPart part = new AssetsManagerPart(node).setFactory(this);
 				return part;
 			}
-			if (node instanceof PlanetaryManager) {
+			if (node instanceof PlanetaryManager ) {
 				IPart part = new PlanetaryManagerPart(node).setFactory(this);
 				return part;
 			}

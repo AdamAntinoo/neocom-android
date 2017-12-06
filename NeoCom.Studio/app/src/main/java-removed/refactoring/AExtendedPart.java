@@ -16,6 +16,7 @@ import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 
@@ -26,7 +27,7 @@ public abstract class AExtendedPart extends EveAbstractPart {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AExtendedPart(final AbstractComplexNode node) {
+	public AExtendedPart(final ICollaboration node) {
 		super(node);
 		newImplementation = true;
 	}

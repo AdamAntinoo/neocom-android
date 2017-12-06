@@ -3,14 +3,23 @@
 
     <!-- Base application theme. -->
     <!--<style name="AppTheme" parent="android:Theme.Holo">-->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@android:style/Theme.Material">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/appgreydark</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">@color/appblack</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <!--<item name="android:colorAccent">@color/accent</item>-->
+
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/appwhite</item>
-        <item name="colorPrimaryDark">@color/appgreydark</item>
-        <item name="colorAccent">@color/apporangemedium</item>
-        <item name="android:textColorPrimary">@color/appwhite</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <item name="android:textColorPrimary">@color/apporange</item>
         <item name="android:textColorHighlight">@color/apporangemedium</item>
         <item name="android:windowBackground">@color/appblack</item>
+        <item name="android:navigationBarColor">@color/appgreydark</item>
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/NeoComActionBar</item>
@@ -35,9 +44,9 @@
         <item name="android:shadowRadius">10</item>
     </style>
 
-    <style name="AppTheme.PrefCatStyle" parent="AppTheme">
-        <item name="android:textColor">@color/appgreydark</item>
-        <item name="android:background">@color/appblack</item>
+    <style name="AppTheme.PrefCatStyle" parent="@android:style/Theme.Holo">
+        <item name="android:textColor">@color/apporange</item>
+        <item name="android:background">@color/appgreydark</item>
     </style>
 
     <!--<style name="AppTheme.NoActionBar">-->

@@ -10,7 +10,6 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.util.Date;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.industry.JobQueue;
 import org.dimensinfin.eveonline.neocom.render.QueueRender;
 import org.joda.time.DateTime;
@@ -18,7 +17,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class QueuePart extends EveAbstractPart {
+public class QueuePart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 2802585321127135905L;
 

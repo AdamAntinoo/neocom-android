@@ -10,12 +10,11 @@ package org.dimensinfin.eveonline.neocom.part;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.QueueaAnalyticsRender;
 import org.joda.time.DateTime;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class QueueAnalyticsPart extends EveAbstractPart {
+public class QueueAnalyticsPart extends NeoComAbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -2509960203875961703L;
 

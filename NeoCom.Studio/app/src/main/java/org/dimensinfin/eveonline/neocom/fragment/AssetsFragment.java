@@ -8,19 +8,17 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import java.util.Hashtable;
-
-import org.dimensinfin.activity.AbstractPagerFragment;
-import org.dimensinfin.android.datasource.AbstractGenerator;
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.datasource.ModelGeneratorStore;
-import org.dimensinfin.android.interfaces.IModelGenerator;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
+import org.dimensinfin.core.datasource.AbstractGenerator;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.core.datasource.ModelGeneratorStore;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datasource.NeoComDataSource;
 import org.dimensinfin.eveonline.neocom.enums.EManagerType;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
@@ -28,6 +26,8 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+
+import java.util.Hashtable;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AssetsFragment extends AbstractPagerFragment {
@@ -74,7 +74,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant()).addIdentifier(loginid)
-				.addIdentifier(characterid).addIdentifier(manager.name());
+		                                                   .addIdentifier(characterid).addIdentifier(manager.name());
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;
 		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
@@ -82,7 +82,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					.registerGenerator(new AssetsByLocationGenerator(locator, this.getVariant(), loginid, characterid, manager));
 		}
 		// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.
-		SpecialDataSource ds = new NeoComDataSource(locator, this.getFactory(), generator);
+		SpecialDataSource ds = new MVCDataSource(locator, this.getFactory(), generator);
 		ds.setVariant(this.getVariant());
 		//	ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
 		this.setDataSource(DataSourceManager.registerDataSource(ds));

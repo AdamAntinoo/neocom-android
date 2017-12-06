@@ -9,10 +9,10 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import org.dimensinfin.activity.AbstractPagerFragment;
-import org.dimensinfin.android.datasource.ModelGeneratorStore;
-import org.dimensinfin.android.interfaces.IModelGenerator;
-import org.dimensinfin.eveonline.neocom.datasource.NeoComDataSource;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.core.datasource.ModelGeneratorStore;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 
@@ -33,7 +33,7 @@ public abstract class NewPagerFragment extends AbstractPagerFragment {
 		_generator = ModelGeneratorStore.registerGenerator(fragmentModelGenerator);
 
 		// Generate the DataSource from the Generator and set it up on the Frgment.
-		NeoComDataSource ds = new NeoComDataSource(fragmentModelGenerator.getDataSourceLocator(), getFactory(), fragmentModelGenerator);
+		MVCDataSource ds = new MVCDataSource(fragmentModelGenerator.getDataSourceLocator(), getFactory(), fragmentModelGenerator);
 		ds.setVariant(this.getVariant());
 		setDataSource(ds);
 	}
