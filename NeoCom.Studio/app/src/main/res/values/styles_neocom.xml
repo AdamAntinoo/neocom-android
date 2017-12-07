@@ -37,6 +37,7 @@
         <item name="android:textColor">@color/apporange</item>
         <item name="android:background">@color/appgreydark</item>
     </style>
+
     <style name="AppTheme.PilotAvatar">
         <item name="android:layout_width">@dimen/pilotavatarsize</item>
         <item name="android:layout_height">@dimen/pilotavatarsize</item>

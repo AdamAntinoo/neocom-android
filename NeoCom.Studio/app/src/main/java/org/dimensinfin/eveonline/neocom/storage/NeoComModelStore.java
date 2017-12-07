@@ -1,11 +1,12 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.storage;
 
 import android.app.Activity;
@@ -28,6 +29,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+
 /**
  * This class has as main responsibility the access to the data input by the user and the store of all Eve
  * data downloaded from the CCP servers. The data to be manipulated has some levels, starting on the list of
@@ -52,32 +54,36 @@ import java.util.logging.Logger;
 public class NeoComModelStore extends AbstractModelStore implements INeoComModelStore {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long				serialVersionUID	= 8777607802616543118L;
-	private static Logger						logger						= Logger.getLogger("AppModelStore");
-	private static NeoComModelStore	singleton					= null;
+	private static final long serialVersionUID = 8777607802616543118L;
+	private static Logger logger = Logger.getLogger("AppModelStore");
+	private static NeoComModelStore singleton = null;
 
 	/**
 	 * Returns the single global instance of the Store to be used as an instance. In case the instance does not
 	 * exists then we initiate the initialization process trying to create the most recent instance we have
-	 * recorded or recreate it from scratch from the api_list file.
+	 * recorded or recreate it from scratch from the stored credentials.
 	 *
-	 * @return the single global instance
+	 * @return the single global sinleton.
 	 */
-	public static NeoComModelStore getSingleton() {
-		if (null == NeoComModelStore.singleton) {
+	public static NeoComModelStore getSingleton () {
+		NeoComModelStore.logger.info(">> [AppModelStore.getSingleton]");
+		if ( null == NeoComModelStore.singleton ) {
 			// Initiate the recovery.
 			NeoComModelStore.initialize();
 		}
+		NeoComModelStore.logger.info("<< [AppModelStore.getSingleton]");
 		return NeoComModelStore.singleton;
 	}
 
 	/**
-	 * Forces the initialization of the Model store from the api list file. Instead reading the data from the
-	 * store file it will process the api list and reload all the character information from scratch.
+	 * <p>Forces the initialization of the Model store from the api list file. Instead reading the data from the store
+	 * file it will process the api list and reload all the character information from scratch.</p> <p>With the latest
+	 * implementation the persistence of the Model is not required since we can replicate its stae from scratch with the
+	 * parameters recovered at the Activities. We still connect the persistence Handler but should not be used.</p>
 	 */
-	public static void initialize() {
+	public static void initialize () {
 		NeoComModelStore.logger.info(">> [AppModelStore.initialize]");
-		// Create a new from scratch. Read the api key list.
+		// Create a new from scratch. Tag it with the persistence handler so we can read/write its state.
 		NeoComModelStore.singleton = new NeoComModelStore(new UserModelPersistenceHandler());
 		// Load any data from storage and then update the information from CCP.
 		//		AppModelStore.getSingleton().restore();
@@ -86,42 +92,29 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		// Make sure we get the characters on a thread out of the main one.
 		//	AppModelStore.getSingleton().getCharacters();
 		// Set back the current pilot whose id is stored on the _pilotIdentifier
-		if (NeoComModelStore.getSingleton()._pilotIdentifier > 0) {
-			NeoComModelStore.getSingleton().activatePilot(NeoComModelStore.getSingleton()._pilotIdentifier);
-		}
+//		if ( NeoComModelStore.getSingleton()._pilotIdentifier > 0 ) {
+//			NeoComModelStore.getSingleton().activatePilot(NeoComModelStore.getSingleton()._pilotIdentifier);
+//		}
 		NeoComModelStore.logger.info("<< [AppModelStore.initialize]");
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** Reference to the application menu to make it accessible to any level. */
-	private transient Menu											_appMenu					= null;
-
+	private transient Menu _appMenu = null;
 	/** Reference to the current active Activity. Sometimes this is needed to access application resources. */
-	private transient Activity									_activity					= null;
-	/** This is the unique list for all registered distinct Logins at the database. */
-	private Hashtable<String, Login>						_loginList				= null;
-	/**
-	 * This is the string identifier assigned to this session and that relates to an specific set of api keys.
-	 */
-	private Login																_loginIdentifier	= null;
-	/** Reference to the current active Character, be it a Pilot or a Corporation */
-	private transient NeoComCharacter						_pilot						= null;
+	private transient Activity _activity = null;
+	/** This is the unique list for all registered distinct credentials at the database. */
+	private Hashtable<String, Login> _loginList = null;
+	/** This is the credential identifier assigned to this session and that relates to an specific credential. */
+	private Login _loginIdentifier = null;
+	/** Reference to the current active Character, be it a Pilot or a Corporation. */
+	private transient NeoComCharacter _pilot = null;
 
-	/** The list of keys related to a login identifier */
-	//	private List<NeoComApiKey>									_neocomApiKeys		= null;
-	//	private List<NeoComCharacter>								_neocomCharacters	= null;
-	protected long															_pilotIdentifier	= -1L;
-	/** Check to verify if the recovery process is successful. */
-	private boolean															recovered					= false;
-	/** List of registered DataSources. This data is not stored on switch or termination. */
-	//	private transient DataSourceManager			dsManager					= null;
-	/** List of fittings by name. This is the source for the Fittings DataSource. */
-//	private transient HashMap<String, Fitting>	fittings					= new HashMap<String, Fitting>();
-	//	private transient HashMap<Long, EveChar>	charCache					= null;
-	//	private final long											lastCCPAccessTime	= 0;
+	/** Check to verify if the recovery process is successful. Persistence is now not being used. */
+	private boolean recovered = false;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	private NeoComModelStore(final IPersistentHandler storageHandler) {
+	private NeoComModelStore (final IPersistentHandler storageHandler) {
 		super();
 		// On creation we can set the proper model persistence handler.
 		try {
@@ -136,16 +129,16 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
-	 * This methods should do a complete cleanup of the data structures to force a new reload of the data from its sources. Also check that
-	 * the delegated instances are on place.
-	 * In the future it will also need to close databases to reset its status.
+	 * This methods should do a complete cleanup of the data structures to force a new reload of the data from its
+	 * sources. Also check that the delegated instances are on place. In the future it will also need to close databases
+	 * to reset its status.
 	 */
 	@Override
 	public void cleanModel () {
-		_loginList=null;
-		_loginIdentifier=null;
-		_pilot=null;
-		singleton=null;
+		_loginList = null;
+		_loginIdentifier = null;
+		_pilot = null;
+		singleton = null;
 	}
 
 	/**
@@ -153,7 +146,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * This action is done without disturbing the login selected or any other AppModel structure. The list is
 	 * not kept and is calculated each time the call is received.
 	 */
-	public Set<NeoComCharacter> accessCharacterList() {
+	public Set<NeoComCharacter> accessCharacterList () {
 		Hashtable<String, Login> loginList = NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
 		Set<NeoComCharacter> charList = new HashSet<NeoComCharacter>();
 		for (String key : loginList.keySet()) {
@@ -169,8 +162,8 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * Gets access to the complete list of Logins. If this list is empty we go back to the database to populate
 	 * it.
 	 */
-	public Hashtable<String, Login> accessLoginList() {
-		if (null == _loginList) {
+	public Hashtable<String, Login> accessLoginList () {
+		if ( null == _loginList ) {
 			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
 		return _loginList;
@@ -178,10 +171,8 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Stores a reference to the current activity if this is required for some actions inside the DataSources.
-	 *
-	 * @param currentActivity
 	 */
-	public void activateActivity(final Activity currentActivity) {
+	public void activateActivity (final Activity currentActivity) {
 		_activity = currentActivity;
 	}
 
@@ -189,18 +180,17 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * This is the main activation entry point for the Login. If there are no logins already on the ModelStore
 	 * we should get them from the backend database and then search for the indicated login. If finally that
 	 * login is not found we can fire an Exception.
-	 *
-	 * @param loginTarget
 	 */
-	public Login activateLoginIdentifier(final String loginTarget) {
+	public Login activateLoginIdentifier (final String loginTarget) {
 		NeoComModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
-		if (null == _loginList) {
+		if ( null == _loginList ) {
 			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
 		// OPTIMIZATION: If the character is already the selected one do nothing.
-		if (null != _loginIdentifier) if (_loginIdentifier.getName().equalsIgnoreCase(loginTarget)) return _loginIdentifier;
+		if ( null != _loginIdentifier )
+			if ( _loginIdentifier.getName().equalsIgnoreCase(loginTarget) ) return _loginIdentifier;
 		for (String key : _loginList.keySet()) {
-			if (_loginList.get(key).getName().equalsIgnoreCase(loginTarget)) {
+			if ( _loginList.get(key).getName().equalsIgnoreCase(loginTarget) ) {
 				_loginIdentifier = _loginList.get(key);
 				//				// Update the list of api keys and the characters related to the login.
 				//				this.readApiKeys();
@@ -219,40 +209,39 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * of characters are on the Login class and there should be an active Login. Otherwise we raise and
 	 * exception because there is no Login or the Character is not found.
 	 *
-	 * @param characterid
-	 *          id of the character to activate and select for work with.
+	 * @param characterid id of the character to activate and select for work with.
 	 */
-	public NeoComCharacter activatePilot(final long characterid) {
+	public NeoComCharacter activatePilot (final long characterid) {
 		NeoComModelStore.logger.info(">< [AppModelStore.activatePilot]Id: " + characterid);
 		// If the current pilot is the one searched simplify the search.
-		if ((null != _pilot) && ((_pilot.getCharacterID()) == characterid)) return _pilot;
+		if ( (null != _pilot) && ((_pilot.getCharacterID()) == characterid) ) return _pilot;
 		// If the active Login is empty then we do not know where to search.
-		if (null == _loginIdentifier) throw new NeocomRuntimeException(
+		if ( null == _loginIdentifier ) throw new NeocomRuntimeException(
 				"RT [AppModelStore.activatePilot]> There is no active Login. Cannot search for character.");
 
 		// Search for character at the active Login.
 		NeoComCharacter hit = _loginIdentifier.searchCharacter(characterid);
-		if (null == hit) throw new RuntimeException(
+		if ( null == hit ) throw new RuntimeException(
 				"RT [AppModelStore.activatePilot]>Pilot with id: " + characterid + " not located at active Login.");
 		_pilot = hit;
 		return hit;
 	}
 
-	public NeoComCharacter activatePilot(final String characterstring) {
+	public NeoComCharacter activatePilot (final String characterstring) {
 		return this.activatePilot(Long.valueOf(characterstring).longValue());
 	}
 
-//	/**
-//	 * Adds a new fitting to the list of stored ones and persists the data structures.
-//	 *
-//	 * @param fit
-//	 * @param label
-//	 */
-//	public void addFitting(final Fitting fit, final String label) {
-//		fittings.put(label, fit);
-//		this.setDirty(true);
-//		this.save();
-//	}
+	//	/**
+	//	 * Adds a new fitting to the list of stored ones and persists the data structures.
+	//	 *
+	//	 * @param fit
+	//	 * @param label
+	//	 */
+	//	public void addFitting(final Fitting fit, final String label) {
+	//		fittings.put(label, fit);
+	//		this.setDirty(true);
+	//		this.save();
+	//	}
 
 	//	@Override
 	//	@Deprecated
@@ -264,7 +253,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	/**
 	 * Returns any previously activated character
 	 */
-	public NeoComCharacter getActiveCharacter() {
+	public NeoComCharacter getActiveCharacter () {
 		return _pilot;
 	}
 
@@ -272,12 +261,10 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * Return the list of pilots that are currently active as selected by the user. The user may deactivate some
 	 * pilots to reduce the view of data or pilots that are no longer active.<br>
 	 * The start list is the list of characters associated to the llist of kays assocated to the current login.
-	 *
-	 * @return
 	 */
 	@Deprecated
-	public List<NeoComCharacter> getActiveCharacters() {
-		if (null == _loginIdentifier)
+	public List<NeoComCharacter> getActiveCharacters () {
+		if ( null == _loginIdentifier )
 			return new Vector<NeoComCharacter>();
 		else
 			return _loginIdentifier.getCharacters();
@@ -293,13 +280,13 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		return _loginIdentifier.getName();
 	}
 
-	public Activity getActivity() {
-		if (null == _activity) return new LoginListActivity();
+	public Activity getActivity () {
+		if ( null == _activity ) return new LoginListActivity();
 		return _activity;
 	}
 
 	@Deprecated
-	public Menu getAppMenu() {
+	public Menu getAppMenu () {
 		return _appMenu;
 	}
 
@@ -316,36 +303,37 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//		}
 	//		return dsManager;
 	//	}
+
 	/**
 	 * Returns the current active pilot or corporation if exists. If the value is not defined then this means
 	 * that the model store has been initialized and that we should go back to the pilot roaster page to select
 	 * a new one.
 	 */
 	@Deprecated
-	public NeoComCharacter getCurrentPilot() {
-		if (null == _pilot)
+	public NeoComCharacter getCurrentPilot () {
+		if ( null == _pilot )
 			throw new NeocomRuntimeException("UNEX. Selected character is not selected. Go back to home to select one.");
 		else
 			return _pilot;
 	}
 
-	public Class<?> getFirstActivity() {
+	public Class<?> getFirstActivity () {
 		return LoginListActivity.class;
 	}
 
-//	public HashMap<String, Fitting> getFittings() {
-//		return fittings;
-//	}
+	//	public HashMap<String, Fitting> getFittings() {
+	//		return fittings;
+	//	}
 
 	@Deprecated
-	public String getLoginIdentifier() {
-		if (null != _loginIdentifier) return _loginIdentifier.getName();
+	public String getLoginIdentifier () {
+		if ( null != _loginIdentifier ) return _loginIdentifier.getName();
 		throw new NeocomRuntimeException(
 				"RT [AppModelStore.getLoginIdentifier]>Login Identifier not defined. Setting to default if possible.");
 	}
 
 	@Deprecated
-	public NeoComCharacter getPilot() {
+	public NeoComCharacter getPilot () {
 		return this.getCurrentPilot();
 	}
 
@@ -378,7 +366,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 *
 	 * @return true is we have to read the data because the containers are empty.
 	 */
-	public boolean needsRestore() {
+	public boolean needsRestore () {
 		//	if (_neocomApiKeys.size() < 1) return true;
 		return false;
 	}
@@ -389,10 +377,10 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * @return <code>true</code> if there is a problem and the restore was not executed.
 	 */
 	@Override
-	public boolean restore() {
+	public boolean restore () {
 		NeoComAppConnector.getSingleton().startChrono();
 		recovered = super.restore();
-		if (recovered) {
+		if ( recovered ) {
 			NeoComModelStore.logger.info("~~ [AppModelStore.restore] Time lapse for APPSTORE[RESTORE] - "
 					+ NeoComAppConnector.getSingleton().timeLapse());
 			return recovered;
@@ -405,11 +393,10 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	/**
 	 * Save data to disk only when we have detected it has changed.
-	 *
 	 */
 	@Override
-	public boolean save() {
-		if (this.isDirty()) {
+	public boolean save () {
+		if ( this.isDirty() ) {
 			// Clean the dirty flag.
 			this.setDirty(false);
 			recovered = true;
@@ -436,9 +423,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//		throw new NeocomRuntimeException("Character with id=" + characterID + " not found on list");
 	//	}
 
-//	public Fitting searchFitting(final String fittingLabel) {
-//		return fittings.get(fittingLabel);
-//	}
+	//	public Fitting searchFitting(final String fittingLabel) {
+	//		return fittings.get(fittingLabel);
+	//	}
 
 	//	/**
 	//	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
@@ -457,13 +444,13 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//		//		}
 	//	}
 
-	public void setAppMenu(final Menu appMenu) {
+	public void setAppMenu (final Menu appMenu) {
 		_appMenu = appMenu;
 	}
 
-//	public void setFittings(final HashMap<String, Fitting> readObject) {
-//		fittings = readObject;
-//	}
+	//	public void setFittings(final HashMap<String, Fitting> readObject) {
+	//		fittings = readObject;
+	//	}
 
 	//	public void setLoginIdentifier(final String login) {
 	//		_loginIdentifier = login;
@@ -472,10 +459,10 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//	}
 
 	@Override
-	public String toString() {
+	public String toString () {
 		final StringBuffer buffer = new StringBuffer("AppModelStore [");
 		//		buffer.append(" _neocomApiKeys(").append(_neocomApiKeys.size()).append("): ").append(_neocomApiKeys);
-	//	buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
+		//	buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
 		buffer.append(" ]");
 		return buffer.toString();
 	}
@@ -499,7 +486,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//		return charCache;
 	//	}
 
-	private boolean isRestored() {
+	private boolean isRestored () {
 		return recovered;
 	}
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderred" >
+    android:background="@drawable/panelborderred">
 
     <ImageView
         android:id="@+id/nodeIcon"
@@ -21,9 +21,11 @@
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/name"
         style="@style/AppTheme.TextView"
-        android:textSize="16sp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/nodeIcon"
-        android:text="@string/default_loginname" />
+        android:text="@string/default_loginname"
+        android:textColor="@color/appgreen"
+        android:textSize="16sp" />
 
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/titleLabel"

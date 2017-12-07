@@ -38,10 +38,14 @@ android:versionName="NeoCom 0.10.0" >
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    <!--         Section where to add the new Activities to match the new model presentation. -->
+
     <!-- A C T I V I T I E S -->
     <activity
+        android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
+        android:label="@string/activity_title_Settings"></activity>
+    <activity
         android:name="org.dimensinfin.eveonline.neocom.activity.LoginListActivity"
+        android:icon="@drawable/nopilot"
         android:label="@string/activity_title_LoginListActivity" >
     </activity>
     <!--<activity-->
@@ -67,10 +71,6 @@ android:versionName="NeoCom 0.10.0" >
         <!--android:label="@string/activity_subtitle_PlanetaryOptimizationActivity" >-->
     <!--</activity>-->
 
-    <!--<activity-->
-        <!--android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"-->
-        <!--android:label="Settings" >-->
-    <!--</activity>-->
 
 
 

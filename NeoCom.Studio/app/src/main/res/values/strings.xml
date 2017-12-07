@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- A P P L I C A T I O N   C H A R A C T E R I S T I C S -->
     <string name="appname">NeoCom</string>
     <string name="appversion">v0.10.0</string>
     <string name="appversionname">NeoCom 0.10.0</string>
     <string name="appversionnumber">100</string>
     <string name="AppDescription">"Application to get access to CCP api information and help manage industrial activities for characters and corporations at Eve Online. The set is composed of some projects with implementation for Android and for an AngularJS web interface based on REST services on Sprint Boot Cloud."</string>
     <string name="action_settingslabel">Settings</string>
+
+    <!-- A C T I V I T I E S    T I T L E S -->
+    <string name="activity_title_Settings">Settings</string>
+    <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
+    <string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
+    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY MANAGER</string>
+    <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
+
     <string name="title_activity_PilotList">Pilot Roaster</string>
     <string name="title_activity_DirectorsBoard">Activity Selection</string>
     <string name="title_activity_AssetsDirector">Assets Inventory</string>
-    <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
-    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY MANAGER</string>
-    <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
 
     <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
     <string name="imageview_defaultcontent">ImageView Content Description</string>

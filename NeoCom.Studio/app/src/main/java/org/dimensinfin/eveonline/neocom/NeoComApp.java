@@ -1,11 +1,12 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom;
 
 import android.annotation.TargetApi;
@@ -55,15 +56,17 @@ import javax.xml.parsers.ParserConfigurationException;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApp extends Application implements INeoComAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger							logger						= Logger.getLogger("NeoComApp");
-	private static NeoComApp					singleton					= null;
-	private static BroadcastReceiver timeTickReceiver	= null;
-	public static int									topCounter				= 0;
-	public static int									marketCounter			= 0;
+	private static Logger logger = Logger.getLogger("NeoComApp");
+	private static NeoComApp singleton = null;
+	/** Background receiver to process pending data downloads. */
+	private static BroadcastReceiver timeTickReceiver = null;
+	/** Background pending tasks counters. */
+	public static int topCounter = 0;
+	public static int marketCounter = 0;
 
 	/** Global typeface to be used on nos standard activities or in places with no layout. */
-	public static Typeface daysFace					= null;
-	private static DecimalFormat			pendingCounter		= new DecimalFormat("0.0##");
+	private static Typeface daysFace = null;
+	private static DecimalFormat pendingCounter = new DecimalFormat("0.0##");
 
 	//	private static boolean						firstTimeInitialization	= false;
 
@@ -375,19 +378,19 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	//		return comparator;
 	//	}
 
-	public static NeoComApp getSingletonApp() {
-		if (null == NeoComApp.singleton) {
+	public static NeoComApp getSingletonApp () {
+		if ( null == NeoComApp.singleton ) {
 			new NeoComApp();
 		}
 		return NeoComApp.singleton;
 	}
 
 	@Deprecated
-	public static Element parseDOMDocument(final InputStream stream) throws IOException, ParserConfigurationException {
+	public static Element parseDOMDocument (final InputStream stream) throws IOException, ParserConfigurationException {
 		NeoComApp.logger.info(">> EVEDroidApp.downloadDOMDocument");
 		Element elementSingleton = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
-				.getDocumentElement();
-		if (null == stream) return elementSingleton;
+		                                                 .getDocumentElement();
+		if ( null == stream ) return elementSingleton;
 		try {
 			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -404,7 +407,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	}
 
 	@Deprecated
-	public static void runTimer() {
+	public static void runTimer () {
 		NeoComApp.timeTickReceiver.onReceive(NeoComApp.getSingletonApp().getApplicationContext(), null);
 	}
 
@@ -413,10 +416,10 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	//		NeoComApp.firstTimeInitialization = state;
 	//	}
 	@Deprecated
-	public static void updateProgressSpinner() {
-		if ((NeoComApp.marketCounter > 0) || (NeoComApp.topCounter > 0)) {
+	public static void updateProgressSpinner () {
+		if ( (NeoComApp.marketCounter > 0) || (NeoComApp.topCounter > 0) ) {
 			double divider = 10.0;
-			if (NeoComApp.topCounter > 10) {
+			if ( NeoComApp.topCounter > 10 ) {
 				divider = 100.0;
 			}
 			NeoComApp.getSingletonApp().startProgress(
@@ -427,40 +430,44 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private NeoComAppConnector					_appConnector				= null;
-	private ModelAppConnector						_modelAppConnector	= null;
+	/**
+	 * Connectors are stores just for reference. Theis instances are not required after creation because the link if from
+	 * the code to their internal connector that it is initialized while it's construction.
+	 */
+	private NeoComAppConnector _appConnector = null;
+	private ModelAppConnector _modelAppConnector = null;
 	/**
 	 * Reference to the startup activity of the application. This Activity gets restarted when there is an
 	 * intercepted runtime exception.
 	 */
-	private Class<?>										_firstActivity			= null;
+	private Class<?> _firstActivity = null;
 
-	private Instant chrono							= null;
-	private AndroidStorageConnector			storage							= null;
-	private AndroidCCPDatabaseConnector	dbCCPConnector			= null;
-	private AndroidDatabaseConnector		dbNeocomConnector		= null;
-	private AndroidCacheConnector				cache								= null;
+	private Instant chrono = null;
+	private AndroidStorageConnector storage = null;
+	private AndroidCCPDatabaseConnector dbCCPConnector = null;
+	private AndroidDatabaseConnector dbNeocomConnector = null;
+	private AndroidCacheConnector cache = null;
 
 	//private INeocomDBHelper									neocomDBHelper		= null;
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComApp() {
-		NeoComApp.logger.info(">> [NeoComApp.<contructor>]");
-		// Setup the referencing structures that will serve as proxy and global references.
-		if (null == NeoComApp.singleton) {
-			// Just connect the singleton and the Connector chanin to get access to all the methods.
-			NeoComApp.singleton = this;
-			_appConnector = new NeoComAppConnector(this);
-			_modelAppConnector = new ModelAppConnector(this);
-		}
-		NeoComApp.logger.info("<< [NeoComApp.<consructor>]");
-	}
+//	public NeoComApp () {
+//		NeoComApp.logger.info(">> [NeoComApp.<contructor>]");
+//		// Setup the referencing structures that will serve as proxy and global references.
+//		if ( null == NeoComApp.singleton ) {
+//			// Just connect the singleton and the Connector chain to get access to all the methods.
+//			NeoComApp.singleton = this;
+//			_appConnector = new NeoComAppConnector(this);
+//			_modelAppConnector = new ModelAppConnector(this);
+//		}
+//		NeoComApp.logger.info("<< [NeoComApp.<consructor>]");
+//	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public File accessAppStorage(final String resourceString) {
-		if (null != resourceString)
+	public File accessAppStorage (final String resourceString) {
+		if ( null != resourceString )
 			return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
 					R.string.appfoldername)
-					/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */+ "/" + resourceString);
+					/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */ + "/" + resourceString);
 		else
 			return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
 					R.string.appfoldername)
@@ -471,14 +478,14 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 * Puts in the processing queue a new request for the character received in the parameter. This method is
 	 * required by the <code>AppConnector</code> implementation.
 	 */
-	public void addCharacterUpdateRequest(final long characterID) {
+	public void addCharacterUpdateRequest (final long characterID) {
 		this.getCacheConnector().addCharacterUpdateRequest(characterID);
 	}
 
 	@TargetApi(12)
-	public void addDrawableToCache(final String key, final Drawable image) {
+	public void addDrawableToCache (final String key, final Drawable image) {
 		ICacheConnector cache = NeoComAppConnector.getSingleton().getCacheConnector();
-		if (cache instanceof AndroidCacheConnector) {
+		if ( cache instanceof AndroidCacheConnector ) {
 			((AndroidCacheConnector) cache).addDrawableToCache(key, image);
 		} else
 			throw new RuntimeException(
@@ -487,29 +494,27 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 
 	/**
 	 * Checks that the current parameter timestamp is still on the frame of the window.
-	 * 
-	 * @param timestamp
-	 *          the current and last timestamp of the object.
-	 * @param window
-	 *          time span window in milliseconds.
+	 *
+	 * @param timestamp the current and last timestamp of the object.
+	 * @param window    time span window in milliseconds.
 	 */
-	public boolean checkExpiration(final Instant timestamp, final long window) {
-		if (null == timestamp) return true;
+	public boolean checkExpiration (final Instant timestamp, final long window) {
+		if ( null == timestamp ) return true;
 		return this.checkExpiration(timestamp.getMillis(), window);
 	}
 
-	public boolean checkExpiration(final long timestamp, final long window) {
-		if (0 == timestamp) return true;
+	public boolean checkExpiration (final long timestamp, final long window) {
+		if ( 0 == timestamp ) return true;
 		final long now = GregorianCalendar.getInstance().getTimeInMillis();
 		final long endWindow = timestamp + window;
-		if (now < endWindow)
+		if ( now < endWindow )
 			return false;
 		else
 			return true;
 	}
 
 	@Deprecated
-	public void closeDB() {
+	public void closeDB () {
 		this.getDBConnector().closeDatabases();
 	}
 
@@ -517,18 +522,18 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 * Return the path to a file resource from the stand point of the application. We have to add the folder
 	 * path where the user wishes to store the user application data. This directory is initially hardcoded but
 	 * later may be changed on the configuration settings.
-	 * 
+	 *
 	 * @param fileresourceid
 	 * @return
 	 */
-	public String getAppFilePath(final int fileresourceid) {
+	public String getAppFilePath (final int fileresourceid) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
 		/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */;
 		final String file = NeoComAppConnector.getSingleton().getResourceString(fileresourceid);
 		return sdcarddir + "/" + file;
 	}
 
-	public String getAppFilePath(final String fileresourceName) {
+	public String getAppFilePath (final String fileresourceName) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
 		/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */;
 		final String file = fileresourceName;
@@ -537,64 +542,94 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 
 	@Override
 	@Deprecated
-	public Context getApplicationContext() {
+	public Context getApplicationContext () {
 		// TODO Auto-generated method stub
 		return super.getApplicationContext();
 	}
 
-	public AndroidCacheConnector getCacheConnector() {
-		if (null == cache) {
+	public AndroidCacheConnector getCacheConnector () {
+		if ( null == cache ) {
 			cache = new AndroidCacheConnector(this);
 		}
 		return cache;
 	}
 
-	public ICCPDatabaseConnector getCCPDBConnector() {
-		if (null == dbCCPConnector) {
+	public ICCPDatabaseConnector getCCPDBConnector () {
+		if ( null == dbCCPConnector ) {
 			dbCCPConnector = new AndroidCCPDatabaseConnector();
 		}
 		return dbCCPConnector;
 	}
 
-	public AndroidDatabaseConnector getDBConnector() {
-		if (null == dbNeocomConnector) {
+	public AndroidDatabaseConnector getDBConnector () {
+		if ( null == dbNeocomConnector ) {
 			dbNeocomConnector = new AndroidDatabaseConnector(this);
 		}
 		return dbNeocomConnector;
 	}
 
-	public Class<?> getFirstActivity() {
-		if (null == _firstActivity)
+	public Class<?> getFirstActivity () {
+		if ( null == _firstActivity )
 			throw new RuntimeException(
 					"RTEX [NeoComApp.getFirstActivity]> Target destination First Activity of application is not defined.");
 		return _firstActivity;
 	}
 
-	public NeoComModelStore getModelStore() {
+	public NeoComModelStore getModelStore () {
 		return NeoComModelStore.getSingleton();
 	}
 
-	public IStorageConnector getStorageConnector() {
-		if (null == storage) {
+	public IStorageConnector getStorageConnector () {
+		if ( null == storage ) {
 			storage = new AndroidStorageConnector(this);
 		}
 		return storage;
 	}
 
 	@Deprecated
-	public File getUserDataStorage() {
+	public File getUserDataStorage () {
 		return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
 				R.string.userdatamodelfilename));
 	}
 
-	public void init() {
-		NeoComApp.logger.info(">> [NeoComApp.init]");
-		// Do again the initialization. This code is controlled by Android lifecycle and not Java.
-		// Just connect the singleton and the Connector chanin to get access to all the methods.
-		NeoComApp.singleton = this;
-		_appConnector = new NeoComAppConnector(this);
+//	public void init () {
+//		NeoComApp.logger.info(">> [NeoComApp.init]");
+//		// Do again the initialization. This code is controlled by Android lifecycle and not Java.
+//		// Just connect the singleton and the Connector chanin to get access to all the methods.
+//		NeoComApp.singleton = this;
+//		//		_appConnector = new NeoComAppConnector(this);
+//		// Set the initial activity as a return point in case of exceptions.
+//		_firstActivity = LoginListActivity.class;
+//		// Close databases if they were left open.
+//		this.getDBConnector().closeDatabases();
+//		// Remove any reference to old adapters and helpers.
+//		storage = null;
+//		dbCCPConnector = null;
+//		dbNeocomConnector = null;
+//		cache = null;
+//		NeoComApp.logger.info("<< [NeoComApp.init]");
+//	}
+
+	/**
+	 * This Application lifecycle event is only called when the application is started or completely removed from memory. The important and
+	 * key point of this code is to initialize the Connector chain because if the app is not propagated to the Connectors the core calls
+	 * may fail.
+	 */
+	@Override
+	public void onCreate () {
+		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
+		super.onCreate();
+
+		// Initialize global objects that are going to be used on main code.
+		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// Set the initial activity as a return point in case of exceptions.
 		_firstActivity = LoginListActivity.class;
+
+		// Setup the referencing structures that will serve as proxy and global references.
+			NeoComApp.singleton = this;
+			_appConnector = new NeoComAppConnector(this);
+			_modelAppConnector = new ModelAppConnector(this);
+
 		// Close databases if they were left open.
 		this.getDBConnector().closeDatabases();
 		// Remove any reference to old adapters and helpers.
@@ -602,20 +637,6 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		dbCCPConnector = null;
 		dbNeocomConnector = null;
 		cache = null;
-		NeoComApp.logger.info("<< [NeoComApp.init]");
-	}
-
-	/**
-	 * Events called during the Application life cycle.
-	 */
-	@Override
-	public void onCreate() {
-		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
-		super.onCreate();
-		this.init();
-		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
-		// REFACTOR Remove the secure XML access and configure the ApiConnector.
-		//		ApiConnector.setSecureXmlProcessing(false);
 		NeoComApp.logger.info("<< [NeoComApp.onCreate]");
 	}
 
@@ -623,7 +644,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 * Events called during the Application life cycle.
 	 */
 	@Override
-	public void onTerminate() {
+	public void onTerminate () {
 		NeoComApp.logger.info(">> [NeoComApp.onTerminate]");
 		this.unregisterReceiver(NeoComApp.timeTickReceiver);
 		super.onTerminate();
@@ -631,12 +652,12 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	}
 
 	@Deprecated
-	public void openDatabases() {
+	public void openDatabases () {
 		this.getCCPDBConnector().openCCPDataBase();
 		this.getDBConnector().openAppDataBase();
 	}
 
-	public void startChrono() {
+	public void startChrono () {
 		chrono = new Instant();
 	}
 
@@ -645,36 +666,36 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 * checking elements that should be updated because they are obsolete. New updates will be launched as
 	 * separate async tasks.
 	 */
-	public void startTimer() {
-		if (null == NeoComApp.timeTickReceiver) {
+	public void startTimer () {
+		if ( null == NeoComApp.timeTickReceiver ) {
 			//			NeoComApp.timeTickReceiver = new TimeTickReceiver(this);
 			//			this.registerReceiver(NeoComApp.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 
-	public Duration timeLapse() {
+	public Duration timeLapse () {
 		return new Duration(chrono, new Instant());
 	}
 
 	/**
 	 * Gets the menu context and updates the background progress indicator with the counters.
-	 * 
+	 *
 	 * @param countIndicator
 	 */
-	private void startProgress(final double countIndicator) {
+	private void startProgress (final double countIndicator) {
 		// Activate menu icon of progress.
 		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
-		if (null != menu) {
+		if ( null != menu ) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
 			                                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
-			if (null != updatingItem) {
+			if ( null != updatingItem ) {
 				updatingItem.setVisible(true);
 				updatingItem.setActionView(actionView);
 			}
 			final TextView counter = (TextView) actionView.findViewById(R.id.progressCounter);
-			if (null != counter) {
+			if ( null != counter ) {
 				counter.setVisibility(View.VISIBLE);
 				// REFACTOR This should be configured on the XML and not on the
 				// code. If the progress is set on a library
@@ -689,20 +710,20 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	/**
 	 * Hides the background progress indicator.
 	 */
-	private void stopProgress() {
+	private void stopProgress () {
 		// Clear the update progress.
 		final Menu menu = NeoComModelStore.getSingleton().getAppMenu();
-		if (null != menu) {
+		if ( null != menu ) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+			                                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
-			if (null != updatingItem) {
+			if ( null != updatingItem ) {
 				updatingItem.setActionView(null);
 				updatingItem.setVisible(false);
 			}
 			final TextView counter = (TextView) actionView.findViewById(R.id.progressCounter);
-			if (null != counter) {
+			if ( null != counter ) {
 				counter.setVisibility(View.GONE);
 			}
 			actionView.invalidate();
