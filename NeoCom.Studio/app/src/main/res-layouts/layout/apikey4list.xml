@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/actiongreentraslucent" >
+    android:background="@drawable/panelborderblue" >
 
     <ImageView
         android:id="@+id/rightArrow"
@@ -21,7 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/rightArrow" >
 
-        <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/key"
             style="@style/Name.Style.14"
             android:layout_alignBaseline="@+id/timeLeft"
@@ -30,7 +30,7 @@
             android:singleLine="true"
             android:text="@string/default_apikeynumber" />
 
-        <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/timeLeft"
             style="@style/Name.Style.12"
             android:layout_alignParentRight="true"
@@ -40,14 +40,14 @@
 
         <TextView
             android:id="@+id/paidUntilLabel"
-            style="@style/AppTheme.LabelUpLineStyle"
+            style="@style/AppTheme.Label.TopLine"
             android:layout_width="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/timeLeft"
             android:gravity="right"
             android:text="PAID UNTIL" />
 
-        <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/type"
             style="@style/Name.Style.12"
             android:layout_alignParentLeft="true"

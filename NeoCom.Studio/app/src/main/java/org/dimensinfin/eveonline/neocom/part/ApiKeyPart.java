@@ -11,8 +11,8 @@ package org.dimensinfin.eveonline.neocom.part;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.render.ApiKeyRender;
 import org.joda.time.Instant;
@@ -76,7 +76,7 @@ public class ApiKeyPart extends NeoComAbstractPart implements INamedPart/*, OnCl
 	@Override
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		// Order the characters by alphabetical name.
-		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		Collections.sort(targets, PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		return targets;
 	}
 

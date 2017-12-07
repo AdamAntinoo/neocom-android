@@ -23,25 +23,25 @@
         android:layout_toRightOf="@+id/pilotAvatar"
         android:orientation="vertical" >
 
-        <org.dimensinfin.eveonline.neocom.core.DaysTextView
+        <org.dimensinfin.android.mvc.fonts.DaysTextView
             android:id="@+id/pilotName"
-            style="@style/NameStyle.Orange"
+            style="@style/NeoComText.Orange"
             android:text="Adam Antinoo" />
 
         <TextView
             android:id="@+id/lastKnownLocation"
-            style="@style/Theme.EveDroidRubicon.LocationStyle"
+            style="@style/NeoComText"
             android:singleLine="false"
             android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;" />
 
         <TextView
             android:id="@+id/lastKnownLocationLabel"
-            style="@style/AppTheme.LabelUpLineStyle"
+            style="@style/AppTheme.Label"
             android:layout_width="fill_parent"
             android:background="@drawable/topwhiteline"
             android:text="LAST KNOWN LOCATION" />
 
-        <org.dimensinfin.eveonline.neocom.core.DaysTextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/accountBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,11 +53,11 @@
 
         <TextView
             android:id="@+id/accountBalanceLabel"
-            style="@style/AppTheme.LabelUpLineStyle"
+            style="@style/AppTheme.Label.TopLine"
             android:gravity="left"
             android:text="BALANCE" />
 
-        <org.dimensinfin.eveonline.neocom.core.DaysTextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/assetsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/assetsCountLabel"
-            style="@style/AppTheme.LabelUpLineStyle"
+            style="@style/AppTheme.Label.TopLine"
             android:text="ASSET COUNT" />
     </LinearLayout>
 

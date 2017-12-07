@@ -8,18 +8,17 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.render;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AssetsManagerRender extends EveAbstractHolder {
+public class PlanetaryManagerRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -33,14 +32,14 @@ public class AssetsManagerRender extends EveAbstractHolder {
 	// - L A Y O U T   L A B E L S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetsManagerRender(final NeoComAbstractPart target, final Activity context) {
+	public PlanetaryManagerRender(final NeoComAbstractPart target, final Activity context) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public AssetsManagerPart getPart() {
-		return (AssetsManagerPart) super.getPart();
+	public PlanetaryManagerPart getPart() {
+		return (PlanetaryManagerPart) super.getPart();
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class AssetsManagerRender extends EveAbstractHolder {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		// The view is a new view. We have to fill all the items
-		_convertView = mInflater.inflate(R.layout.assetsmanager4pilot, null);
+		_convertView = mInflater.inflate(R.layout.planetarymanager4pilot, null);
 		_convertView.setTag(this);
 	}
 }

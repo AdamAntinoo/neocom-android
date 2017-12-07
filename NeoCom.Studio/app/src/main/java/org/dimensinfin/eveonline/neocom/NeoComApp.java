@@ -8,14 +8,11 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom;
 
-// - IMPORT SECTION .........................................................................................
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
@@ -25,10 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.interfaces.INamed;
-import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
@@ -40,24 +33,7 @@ import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.industry.JobQueue;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.interfaces.IDateTimeComparator;
-import org.dimensinfin.eveonline.neocom.interfaces.IWeigthedNode;
-import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
-import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.BlueprintPart;
-import org.dimensinfin.eveonline.neocom.part.ContainerPart;
-import org.dimensinfin.eveonline.neocom.part.ResourcePart;
-import org.dimensinfin.eveonline.neocom.part.ShipPart;
-import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
-import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.w3c.dom.Document;
@@ -69,7 +45,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
-import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
@@ -82,451 +57,323 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger							logger						= Logger.getLogger("NeoComApp");
 	private static NeoComApp					singleton					= null;
-	private static BroadcastReceiver	timeTickReceiver	= null;
+	private static BroadcastReceiver timeTickReceiver	= null;
 	public static int									topCounter				= 0;
 	public static int									marketCounter			= 0;
 
 	/** Global typeface to be used on nos standard activities or in places with no layout. */
-	public static Typeface						daysFace					= null;
+	public static Typeface daysFace					= null;
 	private static DecimalFormat			pendingCounter		= new DecimalFormat("0.0##");
+
 	//	private static boolean						firstTimeInitialization	= false;
 
-	@Deprecated
-	public static Comparator<AbstractPropertyChanger> createComparator(final int code) {
-		Comparator<AbstractPropertyChanger> comparator = new Comparator<AbstractPropertyChanger>() {
-			public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-				return 0;
-			}
-		};
-		switch (code) {
-			case AppWideConstants.comparators.COMPARATOR_NAME:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						String leftField = null;
-						String rightField = null;
-						if (left instanceof INamedPart) {
-							leftField = ((INamedPart) left).getName();
-						}
-						if (right instanceof INamedPart) {
-							rightField = ((INamedPart) right).getName();
-						}
-						if (left instanceof INamed) {
-							leftField = ((INamed) left).getOrderingName();
-						}
-						if (right instanceof INamed) {
-							rightField = ((INamed) right).getOrderingName();
-						}
-
-						if (null == leftField) return 1;
-						if (null == rightField) return -1;
-						if ("" == leftField) return 1;
-						if ("" == rightField) return -1;
-						return leftField.compareTo(rightField);
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_ASSET_COUNT:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						long leftField = -1;
-						long rightField = -1;
-						if (left instanceof NeoComAsset) {
-							final NeoComAsset intermediate = (NeoComAsset) left;
-							leftField = intermediate.getQuantity();
-						}
-
-						if (right instanceof NeoComAsset) {
-							final NeoComAsset intermediate = (NeoComAsset) right;
-							rightField = intermediate.getQuantity();
-						}
-						if (leftField < rightField) return 1;
-						if (leftField > rightField) return -1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_ITEM_TYPE:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						int leftField = -1;
-						int rightField = -1;
-						// if (left instanceof BlueprintPart) leftField = 100;
-						if (left instanceof AssetPart) {
-							leftField = 0;
-						}
-						if (left instanceof ShipPart) {
-							leftField = 200;
-						}
-						if (left instanceof ContainerPart) {
-							leftField = -300;
-						}
-
-						// if (right instanceof BlueprintPart) rightField = 100;
-						if (right instanceof AssetPart) {
-							rightField = 0;
-						}
-						if (right instanceof ShipPart) {
-							rightField = 200;
-						}
-						if (right instanceof ContainerPart) {
-							rightField = -300;
-						}
-
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_RESOURCE_TYPE:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						int leftField = -1;
-						int rightField = -1;
-						if (left instanceof ResourcePart) {
-							final Resource resource = ((ResourcePart) left).getCastedModel();
-							leftField = 0;
-							if (resource.getCategory().equalsIgnoreCase("Material")) {
-								leftField = -300;
-							}
-							if (resource.getCategory().equalsIgnoreCase("Module")) {
-								leftField = -200;
-							}
-							if (resource.getCategory().equalsIgnoreCase("Blueprint")) {
-								leftField = -100;
-							}
-							if (resource.getName().contains("Datacore")) {
-								leftField = 100;
-							}
-						}
-
-						if (right instanceof ResourcePart) {
-							final Resource resource = ((ResourcePart) left).getCastedModel();
-							rightField = 0;
-							if (resource.getCategory().equalsIgnoreCase("Material")) {
-								rightField = -300;
-							}
-							if (resource.getCategory().equalsIgnoreCase("Module")) {
-								rightField = -200;
-							}
-							if (resource.getCategory().equalsIgnoreCase("Blueprint")) {
-								rightField = -100;
-							}
-							if (resource.getName().contains("Datacore")) {
-								rightField = 100;
-							}
-						}
-
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_APIID_ASC:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						long leftField = -1;
-						long rightField = -1;
-						if (left instanceof ApiKeyPart) {
-							final NeoComApiKey intermediate = ((ApiKeyPart) left).getCastedModel();
-							leftField = intermediate.getKey();
-						}
-
-						if (right instanceof ApiKeyPart) {
-							final NeoComApiKey intermediate = ((ApiKeyPart) right).getCastedModel();
-							rightField = intermediate.getKey();
-						}
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_APIID_DESC:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						long leftField = -1;
-						long rightField = -1;
-						if (left instanceof ApiKeyPart) {
-							final NeoComApiKey intermediate = ((ApiKeyPart) left).getCastedModel();
-							leftField = intermediate.getKey();
-						}
-
-						if (right instanceof ApiKeyPart) {
-							final NeoComApiKey intermediate = ((ApiKeyPart) right).getCastedModel();
-							rightField = intermediate.getKey();
-						}
-						if (leftField > rightField) return -1;
-						if (leftField < rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						long leftField = -1;
-						long rightField = -1;
-						if (left instanceof PendingRequestEntry) {
-							final PendingRequestEntry intermediate = (PendingRequestEntry) left;
-							leftField = intermediate.getPriority();
-						}
-
-						if (right instanceof PendingRequestEntry) {
-							final PendingRequestEntry intermediate = (PendingRequestEntry) right;
-							rightField = intermediate.getPriority();
-						}
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_PRIORITY:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						int leftField = -1;
-						int rightField = -1;
-						if (left instanceof PendingRequestEntry) {
-							final PendingRequestEntry intermediate = (PendingRequestEntry) left;
-							leftField = intermediate.getPriority();
-						}
-
-						if (right instanceof PendingRequestEntry) {
-							final PendingRequestEntry intermediate = (PendingRequestEntry) right;
-							rightField = intermediate.getPriority();
-						}
-						if (leftField < rightField) return 1;
-						if (leftField > rightField) return -1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_WEIGHT:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						int leftField = -1;
-						int rightField = -1;
-						if (left instanceof IWeigthedNode) {
-							leftField = ((IWeigthedNode) left).getWeight();
-						}
-						if (right instanceof IWeigthedNode) {
-							rightField = ((IWeigthedNode) right).getWeight();
-						}
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_TIMEPENDING:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						int leftField = -1;
-						int rightField = -1;
-						if (left instanceof JobQueue) {
-							leftField = ((JobQueue) left).getTimeUsed();
-						}
-						if (right instanceof JobQueue) {
-							rightField = ((JobQueue) right).getTimeUsed();
-						}
-
-						if (leftField > rightField) return 1;
-						if (leftField < rightField) return -1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_CARD_RATIO:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						double leftField = 0.0;
-						double rightField = 0.0;
-						if (left instanceof BlueprintPart) {
-							leftField = ((BlueprintPart) left).getProfitIndex();
-						}
-						if (right instanceof BlueprintPart) {
-							rightField = ((BlueprintPart) right).getProfitIndex();
-						}
-
-						if (leftField > rightField)
-							return -1;
-						else if (leftField == rightField) return 0;
-						return 1;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_NEWESTDATESORT:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						DateTime leftField = new DateTime(DateTimeZone.UTC);
-						DateTime rightField = new DateTime(DateTimeZone.UTC);
-						if (left instanceof IDateTimeComparator) {
-							leftField = ((IDateTimeComparator) left).getComparableDate();
-						}
-						if (right instanceof IDateTimeComparator) {
-							rightField = ((IDateTimeComparator) right).getComparableDate();
-						}
-
-						if (leftField.isAfter(rightField))
-							return -1;
-						else
-							return 1;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_OLDESTDATESORT:
-				comparator = new Comparator<AbstractPropertyChanger>() {
-					public int compare(final AbstractPropertyChanger left, final AbstractPropertyChanger right) {
-						DateTime leftField = new DateTime(DateTimeZone.UTC);
-						DateTime rightField = new DateTime(DateTimeZone.UTC);
-						if (left instanceof IDateTimeComparator) {
-							leftField = ((IDateTimeComparator) left).getComparableDate();
-						}
-						if (right instanceof IDateTimeComparator) {
-							rightField = ((IDateTimeComparator) right).getComparableDate();
-						}
-
-						if (leftField.isAfter(rightField))
-							return 1;
-						else
-							return -1;
-					}
-				};
-				break;
-		}
-		return comparator;
-	}
-
-	@Deprecated
-	public static Comparator<IPart> createPartComparator(final int code) {
-		Comparator<IPart> comparator = new Comparator<IPart>() {
-			public int compare(final IPart left, final IPart right) {
-				return 0;
-			}
-		};
-		switch (code) {
-			case AppWideConstants.comparators.COMPARATOR_NAME:
-				comparator = new Comparator<IPart>() {
-					public int compare(final IPart left, final IPart right) {
-						String leftField = null;
-						String rightField = null;
-						if (left instanceof INamedPart) {
-							leftField = ((INamedPart) left).getName();
-						}
-						if (right instanceof INamedPart) {
-							rightField = ((INamedPart) right).getName();
-						}
-						if (left instanceof INamed) {
-							leftField = ((INamed) left).getOrderingName();
-						}
-						if (right instanceof INamed) {
-							rightField = ((INamed) right).getOrderingName();
-						}
-
-						if (null == leftField) return 1;
-						if (null == rightField) return -1;
-						if ("" == leftField) return 1;
-						if ("" == rightField) return -1;
-						return leftField.compareTo(rightField);
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_GROUPNAME:
-				comparator = new Comparator<IPart>() {
-					public int compare(final IPart left, final IPart right) {
-						String leftField = null;
-						String rightField = null;
-						if (left instanceof AssetPart) {
-							leftField = ((AssetPart) left).getCastedModel().getGroupName();
-						}
-						if (right instanceof AssetPart) {
-							rightField = ((AssetPart) right).getCastedModel().getGroupName();
-						}
-
-						if (null == leftField) return 1;
-						if (null == rightField) return -1;
-						if ("" == leftField) return 1;
-						if ("" == rightField) return -1;
-						return leftField.compareTo(rightField);
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_ITEM_TYPE:
-				comparator = new Comparator<IPart>() {
-					public int compare(final IPart left, final IPart right) {
-						int leftField = -1;
-						int rightField = -1;
-						// if (left instanceof BlueprintPart) leftField = 100;
-						if (left instanceof AssetPart) {
-							leftField = 0;
-						}
-						if (left instanceof ShipPart) {
-							leftField = 200;
-						}
-						if (left instanceof ContainerPart) {
-							leftField = -300;
-						}
-
-						// if (right instanceof BlueprintPart) rightField = 100;
-						if (right instanceof AssetPart) {
-							rightField = 0;
-						}
-						if (right instanceof ShipPart) {
-							rightField = 200;
-						}
-						if (right instanceof ContainerPart) {
-							rightField = -300;
-						}
-
-						if (leftField < rightField) return -1;
-						if (leftField > rightField) return 1;
-						return 0;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_CARD_RATIO:
-				comparator = new Comparator<IPart>() {
-					public int compare(final IPart left, final IPart right) {
-						double leftField = 0.0;
-						double rightField = 0.0;
-						if (left instanceof BlueprintPart) {
-							leftField = ((BlueprintPart) left).getProfitIndex();
-						}
-						if (right instanceof BlueprintPart) {
-							rightField = ((BlueprintPart) right).getProfitIndex();
-						}
-
-						if (leftField > rightField)
-							return -1;
-						else if (leftField == rightField) return 0;
-						return 1;
-					}
-				};
-				break;
-			case AppWideConstants.comparators.COMPARATOR_NEWESTDATESORT:
-				comparator = new Comparator<IPart>() {
-					public int compare(final IPart left, final IPart right) {
-						DateTime leftField = new DateTime(DateTimeZone.UTC);
-						DateTime rightField = new DateTime(DateTimeZone.UTC);
-						if (left instanceof IDateTimeComparator) {
-							leftField = ((IDateTimeComparator) left).getComparableDate();
-						}
-						if (right instanceof IDateTimeComparator) {
-							rightField = ((IDateTimeComparator) right).getComparableDate();
-						}
-
-						if (leftField.isAfter(rightField))
-							return -1;
-						else
-							return 1;
-					}
-				};
-				break;
-		}
-		return comparator;
-	}
+	//	@Deprecated
+	//	public static Comparator<ICollaboration> createComparator(final int code) {
+	//		Comparator<ICollaboration> comparator = new Comparator<ICollaboration>() {
+	//			public int compare(final ICollaboration left, final ICollaboration right) {
+	//				return 0;
+	//			}
+	//		};
+	//		switch (code) {
+	//			case AppWideConstants.comparators.COMPARATOR_NAME:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						String leftField = null;
+	//						String rightField = null;
+	//						if (left instanceof INamedPart ) {
+	//							leftField = ((INamedPart) left).getName();
+	//						}
+	//						if (right instanceof INamedPart) {
+	//							rightField = ((INamedPart) right).getName();
+	//						}
+	//						//						if (left instanceof INamed) {
+	//						//							leftField = ((INamed) left).getOrderingName();
+	//						//						}
+	//						//						if (right instanceof INamed) {
+	//						//							rightField = ((INamed) right).getOrderingName();
+	//						//						}
+	//
+	//						if (null == leftField) return 1;
+	//						if (null == rightField) return -1;
+	//						if ("" == leftField) return 1;
+	//						if ("" == rightField) return -1;
+	//						return leftField.compareTo(rightField);
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_ASSET_COUNT:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						long leftField = -1;
+	//						long rightField = -1;
+	//						if (left instanceof NeoComAsset) {
+	//							final NeoComAsset intermediate = (NeoComAsset) left;
+	//							leftField = intermediate.getQuantity();
+	//						}
+	//
+	//						if (right instanceof NeoComAsset) {
+	//							final NeoComAsset intermediate = (NeoComAsset) right;
+	//							rightField = intermediate.getQuantity();
+	//						}
+	//						if (leftField < rightField) return 1;
+	//						if (leftField > rightField) return -1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_ITEM_TYPE:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						int leftField = -1;
+	//						int rightField = -1;
+	//						// if (left instanceof BlueprintPart) leftField = 100;
+	//						if (left instanceof AssetPart) {
+	//							leftField = 0;
+	//						}
+	//						if (left instanceof ShipPart) {
+	//							leftField = 200;
+	//						}
+	//						if (left instanceof ContainerPart) {
+	//							leftField = -300;
+	//						}
+	//
+	//						// if (right instanceof BlueprintPart) rightField = 100;
+	//						if (right instanceof AssetPart) {
+	//							rightField = 0;
+	//						}
+	//						if (right instanceof ShipPart) {
+	//							rightField = 200;
+	//						}
+	//						if (right instanceof ContainerPart) {
+	//							rightField = -300;
+	//						}
+	//
+	//						if (leftField < rightField) return -1;
+	//						if (leftField > rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_RESOURCE_TYPE:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						int leftField = -1;
+	//						int rightField = -1;
+	//						if (left instanceof ResourcePart) {
+	//							final Resource resource = ((ResourcePart) left).getCastedModel();
+	//							leftField = 0;
+	//							if (resource.getCategory().equalsIgnoreCase("Material")) {
+	//								leftField = -300;
+	//							}
+	//							if (resource.getCategory().equalsIgnoreCase("Module")) {
+	//								leftField = -200;
+	//							}
+	//							if (resource.getCategory().equalsIgnoreCase("Blueprint")) {
+	//								leftField = -100;
+	//							}
+	//							if (resource.getName().contains("Datacore")) {
+	//								leftField = 100;
+	//							}
+	//						}
+	//
+	//						if (right instanceof ResourcePart) {
+	//							final Resource resource = ((ResourcePart) left).getCastedModel();
+	//							rightField = 0;
+	//							if (resource.getCategory().equalsIgnoreCase("Material")) {
+	//								rightField = -300;
+	//							}
+	//							if (resource.getCategory().equalsIgnoreCase("Module")) {
+	//								rightField = -200;
+	//							}
+	//							if (resource.getCategory().equalsIgnoreCase("Blueprint")) {
+	//								rightField = -100;
+	//							}
+	//							if (resource.getName().contains("Datacore")) {
+	//								rightField = 100;
+	//							}
+	//						}
+	//
+	//						if (leftField < rightField) return -1;
+	//						if (leftField > rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_APIID_ASC:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						long leftField = -1;
+	//						long rightField = -1;
+	//						if (left instanceof ApiKeyPart) {
+	//							final NeoComApiKey intermediate = ((ApiKeyPart) left).getCastedModel();
+	//							leftField = intermediate.getKey();
+	//						}
+	//
+	//						if (right instanceof ApiKeyPart) {
+	//							final NeoComApiKey intermediate = ((ApiKeyPart) right).getCastedModel();
+	//							rightField = intermediate.getKey();
+	//						}
+	//						if (leftField < rightField) return -1;
+	//						if (leftField > rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_APIID_DESC:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						long leftField = -1;
+	//						long rightField = -1;
+	//						if (left instanceof ApiKeyPart) {
+	//							final NeoComApiKey intermediate = ((ApiKeyPart) left).getCastedModel();
+	//							leftField = intermediate.getKey();
+	//						}
+	//
+	//						if (right instanceof ApiKeyPart) {
+	//							final NeoComApiKey intermediate = ((ApiKeyPart) right).getCastedModel();
+	//							rightField = intermediate.getKey();
+	//						}
+	//						if (leftField > rightField) return -1;
+	//						if (leftField < rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_REQUEST_PRIORITY:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						long leftField = -1;
+	//						long rightField = -1;
+	//						if (left instanceof PendingRequestEntry) {
+	//							final PendingRequestEntry intermediate = (PendingRequestEntry) left;
+	//							leftField = intermediate.getPriority();
+	//						}
+	//
+	//						if (right instanceof PendingRequestEntry) {
+	//							final PendingRequestEntry intermediate = (PendingRequestEntry) right;
+	//							rightField = intermediate.getPriority();
+	//						}
+	//						if (leftField < rightField) return -1;
+	//						if (leftField > rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_PRIORITY:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						int leftField = -1;
+	//						int rightField = -1;
+	//						if (left instanceof PendingRequestEntry) {
+	//							final PendingRequestEntry intermediate = (PendingRequestEntry) left;
+	//							leftField = intermediate.getPriority();
+	//						}
+	//
+	//						if (right instanceof PendingRequestEntry) {
+	//							final PendingRequestEntry intermediate = (PendingRequestEntry) right;
+	//							rightField = intermediate.getPriority();
+	//						}
+	//						if (leftField < rightField) return 1;
+	//						if (leftField > rightField) return -1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_WEIGHT:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						int leftField = -1;
+	//						int rightField = -1;
+	//						if (left instanceof IWeigthedNode) {
+	//							leftField = ((IWeigthedNode) left).getWeight();
+	//						}
+	//						if (right instanceof IWeigthedNode) {
+	//							rightField = ((IWeigthedNode) right).getWeight();
+	//						}
+	//						if (leftField < rightField) return -1;
+	//						if (leftField > rightField) return 1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_TIMEPENDING:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						int leftField = -1;
+	//						int rightField = -1;
+	//						if (left instanceof JobQueue) {
+	//							leftField = ((JobQueue) left).getTimeUsed();
+	//						}
+	//						if (right instanceof JobQueue) {
+	//							rightField = ((JobQueue) right).getTimeUsed();
+	//						}
+	//
+	//						if (leftField > rightField) return 1;
+	//						if (leftField < rightField) return -1;
+	//						return 0;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_CARD_RATIO:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						double leftField = 0.0;
+	//						double rightField = 0.0;
+	//						if (left instanceof BlueprintPart) {
+	//							leftField = ((BlueprintPart) left).getProfitIndex();
+	//						}
+	//						if (right instanceof BlueprintPart) {
+	//							rightField = ((BlueprintPart) right).getProfitIndex();
+	//						}
+	//
+	//						if (leftField > rightField)
+	//							return -1;
+	//						else if (leftField == rightField) return 0;
+	//						return 1;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_NEWESTDATESORT:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						DateTime leftField = new DateTime(DateTimeZone.UTC);
+	//						DateTime rightField = new DateTime(DateTimeZone.UTC);
+	//						if (left instanceof IDateTimeComparator) {
+	//							leftField = ((IDateTimeComparator) left).getComparableDate();
+	//						}
+	//						if (right instanceof IDateTimeComparator) {
+	//							rightField = ((IDateTimeComparator) right).getComparableDate();
+	//						}
+	//
+	//						if (leftField.isAfter(rightField))
+	//							return -1;
+	//						else
+	//							return 1;
+	//					}
+	//				};
+	//				break;
+	//			case AppWideConstants.comparators.COMPARATOR_OLDESTDATESORT:
+	//				comparator = new Comparator<ICollaboration>() {
+	//					public int compare(final ICollaboration left, final ICollaboration right) {
+	//						DateTime leftField = new DateTime(DateTimeZone.UTC);
+	//						DateTime rightField = new DateTime(DateTimeZone.UTC);
+	//						if (left instanceof IDateTimeComparator) {
+	//							leftField = ((IDateTimeComparator) left).getComparableDate();
+	//						}
+	//						if (right instanceof IDateTimeComparator) {
+	//							rightField = ((IDateTimeComparator) right).getComparableDate();
+	//						}
+	//
+	//						if (leftField.isAfter(rightField))
+	//							return 1;
+	//						else
+	//							return -1;
+	//					}
+	//				};
+	//				break;
+	//		}
+	//		return comparator;
+	//	}
 
 	public static NeoComApp getSingletonApp() {
 		if (null == NeoComApp.singleton) {
@@ -572,8 +419,8 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 			if (NeoComApp.topCounter > 10) {
 				divider = 100.0;
 			}
-			NeoComApp.getSingletonApp()
-					.startProgress(new Double(NeoComApp.marketCounter + new Double(NeoComApp.topCounter / divider)));
+			NeoComApp.getSingletonApp().startProgress(
+					new Double(NeoComApp.marketCounter + new Double(NeoComApp.topCounter / divider)));
 		} else {
 			NeoComApp.getSingletonApp().stopProgress();
 		}
@@ -588,7 +435,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	private Class<?>										_firstActivity			= null;
 
-	private Instant											chrono							= null;
+	private Instant chrono							= null;
 	private AndroidStorageConnector			storage							= null;
 	private AndroidCCPDatabaseConnector	dbCCPConnector			= null;
 	private AndroidDatabaseConnector		dbNeocomConnector		= null;
@@ -611,13 +458,13 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public File accessAppStorage(final String resourceString) {
 		if (null != resourceString)
-			return new File(Environment.getExternalStorageDirectory(),
-					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/ + "/" + resourceString);
+			return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
+					R.string.appfoldername)
+					/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */+ "/" + resourceString);
 		else
-			return new File(Environment.getExternalStorageDirectory(),
-					NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-							/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/);
+			return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
+					R.string.appfoldername)
+			/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */);
 	}
 
 	/**
@@ -676,14 +523,14 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	public String getAppFilePath(final int fileresourceid) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-				/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/;
+		/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */;
 		final String file = NeoComAppConnector.getSingleton().getResourceString(fileresourceid);
 		return sdcarddir + "/" + file;
 	}
 
 	public String getAppFilePath(final String fileresourceName) {
 		final String sdcarddir = NeoComAppConnector.getSingleton().getResourceString(R.string.appfoldername)
-				/*+ NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix)*/;
+		/* + NeoComAppConnector.getSingleton().getResourceString(R.string.app_versionsuffix) */;
 		final String file = fileresourceName;
 		return sdcarddir + "/" + file;
 	}
@@ -717,8 +564,9 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	}
 
 	public Class<?> getFirstActivity() {
-		if (null == _firstActivity) throw new RuntimeException(
-				"RTEX [NeoComApp.getFirstActivity]> Target destination First Activity of application is not defined.");
+		if (null == _firstActivity)
+			throw new RuntimeException(
+					"RTEX [NeoComApp.getFirstActivity]> Target destination First Activity of application is not defined.");
 		return _firstActivity;
 	}
 
@@ -735,8 +583,8 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 
 	@Deprecated
 	public File getUserDataStorage() {
-		return new File(Environment.getExternalStorageDirectory(),
-				NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
+		return new File(Environment.getExternalStorageDirectory(), NeoComAppConnector.getSingleton().getResourceString(
+				R.string.userdatamodelfilename));
 	}
 
 	public void init() {
@@ -764,7 +612,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	public void onCreate() {
 		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
 		super.onCreate();
-		init();
+		this.init();
 		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// REFACTOR Remove the secure XML access and configure the ApiConnector.
 		//		ApiConnector.setSecureXmlProcessing(false);
@@ -799,8 +647,8 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	public void startTimer() {
 		if (null == NeoComApp.timeTickReceiver) {
-			NeoComApp.timeTickReceiver = new TimeTickReceiver(this);
-			this.registerReceiver(NeoComApp.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+			//			NeoComApp.timeTickReceiver = new TimeTickReceiver(this);
+			//			this.registerReceiver(NeoComApp.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 
@@ -819,7 +667,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		if (null != menu) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) NeoComModelStore.getSingleton().getActivity()
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+			                                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {
 				updatingItem.setVisible(true);

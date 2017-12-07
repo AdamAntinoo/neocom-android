@@ -8,3 +8,4 @@ POC-IntegratorServer/
 *.odt#
 traces/OutboxSources/
 NeoCom.Studio.Beta/
+NeoCom.Studio/bin/

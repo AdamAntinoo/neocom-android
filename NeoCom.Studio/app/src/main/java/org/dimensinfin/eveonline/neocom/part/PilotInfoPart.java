@@ -9,24 +9,6 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
-import java.text.DecimalFormat;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.render.NeoComRender;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.Pilot;
-import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
-import org.dimensinfin.eveonline.neocom.render.PilotInfoHolder;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,8 +20,24 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+import org.dimensinfin.eveonline.neocom.render.PilotInfoHolder;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+
+import java.text.DecimalFormat;
+import java.util.logging.Logger;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickListener {
+public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -1731066477259354660L;
 	private static Logger			logger						= Logger.getLogger("PilotInfoPart");
@@ -47,7 +45,7 @@ public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickL
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PilotInfoPart(final AbstractComplexNode pilot) {
+	public PilotInfoPart(final NeoComCharacter pilot) {
 		super(pilot);
 	}
 
@@ -63,9 +61,8 @@ public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickL
 	//		return result;
 	//	}
 
-	@Override
-	public Pilot getCastedModel() {
-		return (Pilot) this.getModel();
+	public NeoComCharacter getCastedModel() {
+		return (NeoComCharacter) this.getModel();
 	}
 
 	@Override
@@ -177,7 +174,7 @@ final class Pilot4ListHolder extends NeoComRender {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		Pilot pilot = this.getPart().getCastedModel();
+		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(pilot.getName());
 		//		lastKnownLocation.setText(">> " + pilot.getLastKnownLocation());
 		accountBalance.setText(this.getPart().getTransformedBalance());

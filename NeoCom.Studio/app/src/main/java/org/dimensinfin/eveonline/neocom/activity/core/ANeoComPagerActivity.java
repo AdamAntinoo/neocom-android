@@ -15,6 +15,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import org.dimensinfin.eveonline.neocom.R;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
@@ -76,7 +77,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		final MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.eiabasemenu, menu);
+		inflater.inflate(R.menu.neocom_menu, menu);
 		NeoComModelStore.getSingleton().setAppMenu(menu);
 		return super.onCreateOptionsMenu(menu);
 	}

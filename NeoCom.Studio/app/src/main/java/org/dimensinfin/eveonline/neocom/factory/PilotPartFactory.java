@@ -17,6 +17,7 @@ import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
@@ -48,19 +49,19 @@ public class PilotPartFactory extends PartFactory {
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name()) {
 			if (node instanceof Login ) {
-				IPart part = new LoginPart(node).setFactory(this);
+				IPart part = new LoginPart((Login) node).setFactory(this);
 				return part;
 			}
 			if (node instanceof NeoComApiKey ) {
-				IPart part = new ApiKeyPart(node).setFactory(this);
+				IPart part = new ApiKeyPart((NeoComApiKey) node).setFactory(this);
 				return part;
 			}
 			if (node instanceof Pilot ) {
-				IPart part = new PilotInfoPart(node).setFactory(this).setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				IPart part = new PilotInfoPart((Pilot) node).setFactory(this).setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
 			if (node instanceof Corporation ) {
-				IPart part = new PilotInfoPart(node).setFactory(this);
+				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this);
 				return part;
 			}
 		}
@@ -76,15 +77,15 @@ public class PilotPartFactory extends PartFactory {
 		//		}
 		if (this.getVariant() == ENeoComVariants.PILOT_DETAILS.name()) {
 			if (node instanceof Pilot) {
-				IPart part = new PilotInfoPart(node).setFactory(this).setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this).setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
 			if (node instanceof AssetsManager ) {
-				IPart part = new AssetsManagerPart(node).setFactory(this);
+				IPart part = new AssetsManagerPart((AssetsManager) node).setFactory(this);
 				return part;
 			}
 			if (node instanceof PlanetaryManager ) {
-				IPart part = new PlanetaryManagerPart(node).setFactory(this);
+				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this);
 				return part;
 			}
 		}

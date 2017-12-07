@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderorange" >
+    android:background="@drawable/panelborderblue" >
 
     <ImageView
         android:id="@+id/nodeIcon"
-        style="@style/ItemIcon.Style.Size32"
+        style="@style/AppTheme.ItemIcon"
         android:contentDescription="@string/default_nodeicon"
         android:src="@drawable/nopilot" />
 
@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:contentDescription="@string/default_actionablearrow" />
 
-    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/name"
         style="@style/Name.Selectable.14"
         android:layout_width="wrap_content"
@@ -43,13 +43,13 @@
 
             <TextView
                 android:id="@+id/countLabel"
-                style="@style/Label.Style"
+                style="@style/AppTheme.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="NO. ASSETS:" />
 
-            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
                 android:id="@+id/managerAssetsCount"
                 style="@style/StockCounter"
                 android:layout_width="fill_parent"
@@ -66,13 +66,13 @@
 
             <TextView
                 android:id="@+id/regionCountLabel"
-                style="@style/Label.Style"
+                style="@style/AppTheme.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="NO. REGIONS:" />
 
-            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
                 android:id="@+id/managerRegionCount"
                 style="@style/StockCounter"
                 android:layout_width="fill_parent"

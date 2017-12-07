@@ -21,10 +21,10 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
+import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AbstractManager;
@@ -140,7 +140,7 @@ final class PilotManagersDataSource extends SpecialDataSource {
 	@Override
 	public void createContentHierarchy() {
 		_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
-				.setSorting(NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+				.setSorting(PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		super.createContentHierarchy();
 	}
 

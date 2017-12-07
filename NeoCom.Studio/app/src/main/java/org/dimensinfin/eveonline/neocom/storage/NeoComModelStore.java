@@ -17,11 +17,9 @@ import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
-import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -118,7 +116,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	/** List of registered DataSources. This data is not stored on switch or termination. */
 	//	private transient DataSourceManager			dsManager					= null;
 	/** List of fittings by name. This is the source for the Fittings DataSource. */
-	private transient HashMap<String, Fitting>	fittings					= new HashMap<String, Fitting>();
+//	private transient HashMap<String, Fitting>	fittings					= new HashMap<String, Fitting>();
 	//	private transient HashMap<Long, EveChar>	charCache					= null;
 	//	private final long											lastCCPAccessTime	= 0;
 
@@ -244,17 +242,17 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		return this.activatePilot(Long.valueOf(characterstring).longValue());
 	}
 
-	/**
-	 * Adds a new fitting to the list of stored ones and persists the data structures.
-	 *
-	 * @param fit
-	 * @param label
-	 */
-	public void addFitting(final Fitting fit, final String label) {
-		fittings.put(label, fit);
-		this.setDirty(true);
-		this.save();
-	}
+//	/**
+//	 * Adds a new fitting to the list of stored ones and persists the data structures.
+//	 *
+//	 * @param fit
+//	 * @param label
+//	 */
+//	public void addFitting(final Fitting fit, final String label) {
+//		fittings.put(label, fit);
+//		this.setDirty(true);
+//		this.save();
+//	}
 
 	//	@Override
 	//	@Deprecated
@@ -335,9 +333,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		return LoginListActivity.class;
 	}
 
-	public HashMap<String, Fitting> getFittings() {
-		return fittings;
-	}
+//	public HashMap<String, Fitting> getFittings() {
+//		return fittings;
+//	}
 
 	@Deprecated
 	public String getLoginIdentifier() {
@@ -438,9 +436,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	//		throw new NeocomRuntimeException("Character with id=" + characterID + " not found on list");
 	//	}
 
-	public Fitting searchFitting(final String fittingLabel) {
-		return fittings.get(fittingLabel);
-	}
+//	public Fitting searchFitting(final String fittingLabel) {
+//		return fittings.get(fittingLabel);
+//	}
 
 	//	/**
 	//	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
@@ -463,9 +461,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		_appMenu = appMenu;
 	}
 
-	public void setFittings(final HashMap<String, Fitting> readObject) {
-		fittings = readObject;
-	}
+//	public void setFittings(final HashMap<String, Fitting> readObject) {
+//		fittings = readObject;
+//	}
 
 	//	public void setLoginIdentifier(final String login) {
 	//		_loginIdentifier = login;
@@ -477,7 +475,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer("AppModelStore [");
 		//		buffer.append(" _neocomApiKeys(").append(_neocomApiKeys.size()).append("): ").append(_neocomApiKeys);
-		buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
+	//	buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
 		buffer.append(" ]");
 		return buffer.toString();
 	}

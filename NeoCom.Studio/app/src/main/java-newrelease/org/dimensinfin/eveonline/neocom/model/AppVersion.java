@@ -11,16 +11,15 @@
 //                  removed on 2018.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class AppVersion extends AbstractViewableNode implements ICollaboration{
+public class AppVersion extends NeoComNode implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -34,8 +33,8 @@ public class AppVersion extends AbstractViewableNode implements ICollaboration{
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public ArrayList<AbstractComplexNode> collaborate2Model (final String variant) {
-		return new ArrayList<AbstractComplexNode>();
+	public List<ICollaboration> collaborate2Model (final String variant) {
+		return new ArrayList<ICollaboration>();
 	}
 
 	public String getAppName () {

@@ -8,22 +8,20 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.render;
 
-//- IMPORT SECTION .........................................................................................
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.model.Pilot;
-import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
-
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotInfoHolder extends EveAbstractHolder {
+public class PilotInfoHolder extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger	logger									= Logger.getLogger("PilotInfoHolder");
 
@@ -71,7 +69,7 @@ public class PilotInfoHolder extends EveAbstractHolder {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		Pilot pilot = this.getPart().getCastedModel();
+		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(pilot.getName());
 		lastKnownLocation.setText(">> " + pilot.getLastKnownLocation());
 		accountBalance.setText(this.getPart().getTransformedBalance());

@@ -8,34 +8,6 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.connector;
 
-// - IMPORT SECTION .........................................................................................
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Vector;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.logging.Logger;
-
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.core.ComparatorFactory;
-import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
-import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache.BitmapEntry;
-import org.dimensinfin.eveonline.neocom.enums.EComparatorField;
-import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
-import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
-import org.dimensinfin.eveonline.neocom.enums.ERequestState;
-import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -48,11 +20,37 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.ImageView;
 
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.core.ComparatorFactory;
+import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
+import org.dimensinfin.eveonline.neocom.enums.EComparatorField;
+import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
+import org.dimensinfin.eveonline.neocom.enums.ERequestState;
+import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Logger;
+
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AndroidCacheConnector implements ICacheConnector {
 	private class DrawableCache extends Statisticscache {
 		// - F I E L D - S E C T I O N ............................................................................
-		private SimpleDiskCache				cacheDrawables		= null;
+		private SimpleDiskCache cacheDrawables		= null;
 		private volatile int					loads							= 0;
 		private final CompressFormat	mCompressFormat		= CompressFormat.PNG;
 		private final int							mCompressQuality	= 90;
@@ -77,7 +75,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		public synchronized Drawable getByURL(final String url) {
 			final String hash = new Integer(Math.abs(new Integer(url.hashCode()))).toString();
 			try {
-				final BitmapEntry bit = cacheDrawables.getBitmap(hash);
+				final SimpleDiskCache.BitmapEntry bit = cacheDrawables.getBitmap(hash);
 				if (null == bit) return null;
 				final Drawable draw = new BitmapDrawable(
 						NeoComAppConnector.getSingleton().getApplicationContext().getResources(), bit.getBitmap());
@@ -491,7 +489,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 		this.getCache().access();
 		if (null == hit) {
 			hit = NeoComAppConnector.getSingleton().getApplicationContext().getResources()
-					.getDrawable(R.drawable.defaultitemicon);
+					.getDrawable(R.drawable.defaulticonplaceholder);
 		}
 		return hit;
 	}

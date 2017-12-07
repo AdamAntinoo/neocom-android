@@ -9,6 +9,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,9 @@ import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
@@ -77,7 +78,7 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 	@Override
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		// Order the characters by alphabetical name.
-		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		Collections.sort(targets, PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		return targets;
 	}
 

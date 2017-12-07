@@ -7,6 +7,12 @@
 package org.dimensinfin.eveonline.neocom.storage;
 
 // - IMPORT SECTION .........................................................................................
+
+import org.dimensinfin.core.interfaces.IModelStore;
+import org.dimensinfin.core.parser.IPersistentHandler;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,14 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 import java.util.logging.Logger;
-
-import org.dimensinfin.core.model.IModelStore;
-import org.dimensinfin.core.parser.IPersistentHandler;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.model.Fitting;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class UserModelPersistenceHandler implements IPersistentHandler {
@@ -54,22 +53,22 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 	public synchronized boolean restore() {
 		UserModelPersistenceHandler.logger.info(">> UserModelPersistenceHandler.restore");
 		File modelStoreFile = NeoComAppConnector.getSingleton().getStorageConnector()
-				.accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
+		                                        .accessAppStorage(NeoComAppConnector.getSingleton().getResourceString(R.string.userdatamodelfilename));
 		try {
 			// Read the contents of the character information.
 			final BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(modelStoreFile));
 			final ObjectInputStream input = new ObjectInputStream(buffer);
 			try {
 				//				this.getStore().setApiKeys((HashMap<Integer, NeoComApiKey>) input.readObject());
-				this.getStore().setFittings((HashMap<String, Fitting>) input.readObject());
+//				this.getStore().setFittings((HashMap<String, Fitting>) input.readObject());
 				UserModelPersistenceHandler.logger.info("<< UserModelPersistencehandler.restore [true]"); //$NON-NLS-1$
 				return true;
 			} finally {
 				input.close();
 				buffer.close();
 			}
-		} catch (final ClassNotFoundException ex) {
-			ex.printStackTrace();
+//		} catch (final ClassNotFoundException ex) {
+//			ex.printStackTrace();
 		} catch (final FileNotFoundException fnfe) {
 			UserModelPersistenceHandler.logger
 					.warning("W> " + modelStoreFile.getAbsolutePath() + " not found during restore."); //$NON-NLS-1$ //$NON-NLS-2$
@@ -95,7 +94,7 @@ public class UserModelPersistenceHandler implements IPersistentHandler {
 			try {
 				//				output.writeObject(this.getStore().getApiKeys());
 				//				output.writeObject(getStore().getCharacters());
-				output.writeObject(this.getStore().getFittings());
+//				output.writeObject(this.getStore().getFittings());
 				//				output.writeObject(getStore());
 				output.flush();
 				UserModelPersistenceHandler.logger.info("<< UserModelPersistenceHandler.save [true]"); //$NON-NLS-1$

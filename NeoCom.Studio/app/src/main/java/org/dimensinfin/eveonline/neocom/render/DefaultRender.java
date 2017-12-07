@@ -8,12 +8,12 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.render;
 
+import android.app.Activity;
+import android.view.LayoutInflater;
+
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-
-import android.app.Activity;
-import android.view.LayoutInflater;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class DefaultRender extends AbstractRender {
