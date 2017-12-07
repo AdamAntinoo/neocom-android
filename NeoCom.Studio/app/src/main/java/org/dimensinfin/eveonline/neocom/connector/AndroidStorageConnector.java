@@ -7,6 +7,7 @@
 package org.dimensinfin.eveonline.neocom.connector;
 
 // - IMPORT SECTION .........................................................................................
+
 import android.content.Context;
 import android.os.Environment;
 
