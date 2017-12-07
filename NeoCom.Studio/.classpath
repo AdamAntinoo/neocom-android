@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="app/src/main/java-newrelease"/>
+	<classpathentry kind="src" path="app/src/main/res-removed"/>
+	<classpathentry kind="src" path="app/src/main/java-removed"/>
+	<classpathentry kind="src" path="app/src/main/res"/>
+	<classpathentry kind="src" path="app/src/main/java"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Neocom.Models"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.dimensinfin.core"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

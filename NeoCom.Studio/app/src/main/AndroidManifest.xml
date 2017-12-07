@@ -16,12 +16,12 @@ android:versionName="NeoCom 0.10.0" >
     android:name="org.dimensinfin.eveonline.neocom.NeoComApp"
     android:allowBackup="true"
     android:description="@string/AppDescription"
-    android:icon="@drawable/evei4"
+    android:icon="@drawable/neocom_icon"
     android:label="@string/appversionname"
     android:largeHeap="true"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:logo="@drawable/evei4"
+    android:logo="@drawable/neocom_icon"
     android:theme="@style/AppTheme" >
 
     <!-- S T A R T U P    A C T I V I T Y -->
@@ -52,23 +52,25 @@ android:versionName="NeoCom 0.10.0" >
         android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
         android:label="Pilot Details" >
     </activity>
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity"
-        android:label="@string/title_activity_AssetsDirector" >
-    </activity>
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"
-        android:label="@string/activity_subtitle_PlanetaryManagerActivity" >
-    </activity>
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"
-        android:label="@string/activity_subtitle_PlanetaryOptimizationActivity" >
-    </activity>
 
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
-        android:label="Settings" >
-    </activity>
+
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity"-->
+        <!--android:label="@string/title_activity_AssetsDirector" >-->
+    <!--</activity>-->
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"-->
+        <!--android:label="@string/activity_subtitle_PlanetaryManagerActivity" >-->
+    <!--</activity>-->
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"-->
+        <!--android:label="@string/activity_subtitle_PlanetaryOptimizationActivity" >-->
+    <!--</activity>-->
+
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"-->
+        <!--android:label="Settings" >-->
+    <!--</activity>-->
 
 
 
@@ -93,15 +95,15 @@ android:versionName="NeoCom 0.10.0" >
     <!--             android:label="On Construction" -->
     <!--             android:screenOrientation="portrait" > -->
     <!--         </activity> -->
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity"
-        android:label="@string/title_activity_DirectorsBoard"
-        android:screenOrientation="portrait" >
-    </activity>
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity"
-        android:label="Ships" >
-    </activity>
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity"-->
+        <!--android:label="@string/title_activity_DirectorsBoard"-->
+        <!--android:screenOrientation="portrait" >-->
+    <!--</activity>-->
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity"-->
+        <!--android:label="Ships" >-->
+    <!--</activity>-->
     <!--<activity-->
         <!--android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"-->
         <!--android:label="Industry Director" >-->
@@ -129,24 +131,24 @@ android:versionName="NeoCom 0.10.0" >
         <!--android:name="org.dimensinfin.eveonline.neocom.activity.JobDirectorActivity"-->
         <!--android:label="JOB Planned" >-->
     <!--</activity>-->
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.FittingActivity"
-        android:label="JOB Planned" >
-    </activity>
-    <activity
-        android:name="org.dimensinfin.eveonline.neocom.activity.FittingListActivity"
-        android:label="Fitting List" >
-    </activity>
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.FittingActivity"-->
+        <!--android:label="JOB Planned" >-->
+    <!--</activity>-->
+    <!--<activity-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.activity.FittingListActivity"-->
+        <!--android:label="Fitting List" >-->
+    <!--</activity>-->
 
     <!-- S E R V I C E S -->
-    <service
-        android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"
-        android:enabled="true" >
-    </service>
-    <service
-        android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"
-        android:enabled="true" >
-    </service>
+    <!--<service-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"-->
+        <!--android:enabled="true" >-->
+    <!--</service>-->
+    <!--<service-->
+        <!--android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"-->
+        <!--android:enabled="true" >-->
+    <!--</service>-->
 </application>
 
 </manifest>
