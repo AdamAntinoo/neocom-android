@@ -8,17 +8,17 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import org.dimensinfin.activity.AbstractPagerFragment;
-import org.dimensinfin.android.datasource.AbstractGenerator;
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.datasource.ModelGeneratorStore;
-import org.dimensinfin.android.interfaces.IModelGenerator;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
+import org.dimensinfin.core.datasource.AbstractGenerator;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.core.datasource.ModelGeneratorStore;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.datasource.NeoComDataSource;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.Login;
 
@@ -63,7 +63,7 @@ public class LoginListFragment extends AbstractPagerFragment {
 		// Register the datasource. If this same datasource is already at the manager we get it
 		// instead creating a new one.
 		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
-				.registerDataSource(new NeoComDataSource(locator, this.getFactory(), generator));
+				.registerDataSource(new MVCDataSource(locator, this.getFactory(), generator));
 		ds.setVariant(this.getVariant());
 		ds.setCacheable(true);
 		this.setDataSource(ds);

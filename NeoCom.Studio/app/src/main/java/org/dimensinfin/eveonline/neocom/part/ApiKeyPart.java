@@ -8,26 +8,21 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.Collections;
-import java.util.Vector;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.render.ApiKeyRender;
 import org.joda.time.Instant;
 
-import android.view.View;
-import android.view.View.OnClickListener;
+import java.util.Collections;
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ApiKeyPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
+public class ApiKeyPart extends NeoComAbstractPart implements INamedPart/*, OnClickListener */{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -7718648590261849585L;
 	private static Logger			logger						= Logger.getLogger("APIKeyPart");
@@ -35,9 +30,9 @@ public class ApiKeyPart extends NeoComAbstractPart implements INamedPart, OnClic
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ApiKeyPart(final AbstractComplexNode node) {
+	public ApiKeyPart(final NeoComApiKey node) {
 		super(node);
-		this.getCastedModel().setExpanded(true);
+//		this.getCastedModel().setExpanded(true);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -65,14 +60,14 @@ public class ApiKeyPart extends NeoComAbstractPart implements INamedPart, OnClic
 		return NeoComAbstractPart.timePointFormatter.print(new Instant(this.getCastedModel().getPaidUntil()));
 	}
 
-	/**
-	 * Manage a click on the key visible element. A click will toggle the expand/collapse state.
-	 */
-	public void onClick(final View view) {
-		// Toggle location to show its contents.
-		this.getCastedModel().toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-	}
+//	/**
+//	 * Manage a click on the key visible element. A click will toggle the expand/collapse state.
+//	 */
+//	public void onClick(final View view) {
+//		// Toggle location to show its contents.
+//		this.getCastedModel().toggleExpanded();
+//		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+//	}
 
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. Sort the Api Keys

@@ -4,11 +4,17 @@
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Industry and Manufacture.
 
-package org.dimensinfin.eveonline.neocom.core;
+package org.dimensinfin.eveonline.neocom.render;
 
 // - IMPORT SECTION .........................................................................................
-import java.text.DecimalFormat;
-import java.util.HashMap;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
+import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -20,21 +26,15 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
-import android.widget.ImageView;
+import java.text.DecimalFormat;
+import java.util.HashMap;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class EveAbstractHolder extends AbstractRender {
+public abstract class NeoComRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static final long											ONEMINUTE									= 60 * 1000;
-	protected static final long											ONEHOUR										= 60 * EveAbstractHolder.ONEMINUTE;
-	protected static final long											ONEDAY										= 24 * EveAbstractHolder.ONEHOUR;
+	protected static final long											ONEHOUR										= 60 * NeoComRender.ONEMINUTE;
+	protected static final long											ONEDAY										= 24 * NeoComRender.ONEHOUR;
 	protected static final DecimalFormat						keyFormatter							= new DecimalFormat("0000000");
 	protected static final DateTimeFormatter				durationFormatter					= DateTimeFormat.forPattern("d HH:mm");
 	protected static final DateTimeFormatter				timePointFormatter				= DateTimeFormat
@@ -50,17 +50,17 @@ public abstract class EveAbstractHolder extends AbstractRender {
 	protected static final DecimalFormat						securityFormatter					= new DecimalFormat("0.0");
 	protected static final HashMap<Integer, String>	securityLevels						= new HashMap<Integer, String>();
 	static {
-		EveAbstractHolder.securityLevels.put(10, "#2FEFEF");
-		EveAbstractHolder.securityLevels.put(9, "#48F0C0");
-		EveAbstractHolder.securityLevels.put(8, "#00EF47");
-		EveAbstractHolder.securityLevels.put(7, "#00F000");
-		EveAbstractHolder.securityLevels.put(6, "#8FEF2F");
-		EveAbstractHolder.securityLevels.put(5, "#EFEF00");
-		EveAbstractHolder.securityLevels.put(4, "#D77700");
-		EveAbstractHolder.securityLevels.put(3, "#F06000");
-		EveAbstractHolder.securityLevels.put(2, "#F04800");
-		EveAbstractHolder.securityLevels.put(1, "#D73000");
-		EveAbstractHolder.securityLevels.put(0, "#F00000");
+		NeoComRender.securityLevels.put(10, "#2FEFEF");
+		NeoComRender.securityLevels.put(9, "#48F0C0");
+		NeoComRender.securityLevels.put(8, "#00EF47");
+		NeoComRender.securityLevels.put(7, "#00F000");
+		NeoComRender.securityLevels.put(6, "#8FEF2F");
+		NeoComRender.securityLevels.put(5, "#EFEF00");
+		NeoComRender.securityLevels.put(4, "#D77700");
+		NeoComRender.securityLevels.put(3, "#F06000");
+		NeoComRender.securityLevels.put(2, "#F04800");
+		NeoComRender.securityLevels.put(1, "#D73000");
+		NeoComRender.securityLevels.put(0, "#F00000");
 	}
 	public static Typeface daysFace = Typeface
 			.createFromAsset(NeoComAppConnector.getSingleton().getApplicationContext().getAssets(), "fonts/Days.otf");
@@ -69,14 +69,14 @@ public abstract class EveAbstractHolder extends AbstractRender {
 	// protected ITheme _theme = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public EveAbstractHolder(final AbstractAndroidPart target, final Activity context) {
+	public NeoComRender (final AbstractAndroidPart target, final Activity context) {
 		super(target, context);
 		// _theme = EVEDroidApp.getAppContext().getTheme();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public Typeface getThemeTextFont() {
-		return EveAbstractHolder.daysFace;
+		return NeoComRender.daysFace;
 	}
 
 	protected Spanned colorFormat(final String data, final String color, final String suffix) {
@@ -93,7 +93,7 @@ public abstract class EveAbstractHolder extends AbstractRender {
 	protected Spanned colorFormatLocation(final EveLocation location) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final double security = location.getSecurityValue();
-		htmlLocation.append(this.generateSecurityColor(security, EveAbstractHolder.securityFormatter.format(security)));
+		htmlLocation.append(this.generateSecurityColor(security, NeoComRender.securityFormatter.format(security)));
 		htmlLocation.append(" ").append(location.getRegion()).append("-").append(location.getName());
 		return Html.fromHtml(htmlLocation.toString());
 	}
@@ -144,20 +144,20 @@ public abstract class EveAbstractHolder extends AbstractRender {
 	protected String generateDurationString(final long millis, final boolean withSeconds) {
 		long timeToConvert = millis;
 		final StringBuffer buffer = new StringBuffer();
-		if (timeToConvert > EveAbstractHolder.ONEDAY) {
-			final double day = Math.floor(timeToConvert / EveAbstractHolder.ONEDAY);
+		if (timeToConvert > NeoComRender.ONEDAY) {
+			final double day = Math.floor(timeToConvert / NeoComRender.ONEDAY);
 			buffer.append(Double.valueOf(day).intValue()).append("D ");
-			timeToConvert -= day * EveAbstractHolder.ONEDAY;
+			timeToConvert -= day * NeoComRender.ONEDAY;
 		}
-		if (timeToConvert > EveAbstractHolder.ONEHOUR) {
-			final double hour = Math.floor(timeToConvert / EveAbstractHolder.ONEHOUR);
+		if (timeToConvert > NeoComRender.ONEHOUR) {
+			final double hour = Math.floor(timeToConvert / NeoComRender.ONEHOUR);
 			buffer.append(Double.valueOf(hour).intValue()).append("H ");
-			timeToConvert -= hour * EveAbstractHolder.ONEHOUR;
+			timeToConvert -= hour * NeoComRender.ONEHOUR;
 		}
-		if (timeToConvert > EveAbstractHolder.ONEMINUTE) {
-			final double minute = Math.floor(timeToConvert / EveAbstractHolder.ONEMINUTE);
+		if (timeToConvert > NeoComRender.ONEMINUTE) {
+			final double minute = Math.floor(timeToConvert / NeoComRender.ONEMINUTE);
 			buffer.append(Double.valueOf(minute).intValue()).append("M");
-			timeToConvert -= minute * EveAbstractHolder.ONEMINUTE;
+			timeToConvert -= minute * NeoComRender.ONEMINUTE;
 		}
 		if (withSeconds) {
 			final double second = Math.floor(timeToConvert / 1000.0);
@@ -168,13 +168,13 @@ public abstract class EveAbstractHolder extends AbstractRender {
 
 	protected String generateDurationString2(final long millis) {
 		final DateTimeFormatterBuilder timeLeftCountdown = new DateTimeFormatterBuilder();
-		if (millis > EveAbstractHolder.ONEDAY) {
+		if (millis > NeoComRender.ONEDAY) {
 			timeLeftCountdown.appendDayOfYear(1).appendLiteral("D ");
 		}
-		if (millis > EveAbstractHolder.ONEHOUR) {
+		if (millis > NeoComRender.ONEHOUR) {
 			timeLeftCountdown.appendHourOfDay(2).appendLiteral("H ");
 		}
-		if (millis > EveAbstractHolder.ONEMINUTE) {
+		if (millis > NeoComRender.ONEMINUTE) {
 			timeLeftCountdown.appendMinuteOfHour(2).appendLiteral("M ").appendSecondOfMinute(2).appendLiteral('S');
 		}
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
@@ -186,18 +186,18 @@ public abstract class EveAbstractHolder extends AbstractRender {
 		// Get rid of negative numbers.
 		if (compress) {
 			if (Math.abs(price) > 1200000000.0) if (addSuffix)
-				return EveAbstractHolder.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
+				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
 			else
-				return EveAbstractHolder.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
+				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
 			if (Math.abs(price) > 12000000.0) if (addSuffix)
-				return EveAbstractHolder.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
+				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
 			else
-				return EveAbstractHolder.priceFormatter.format(price / 1000.0 / 1000.0);
+				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0);
 		}
 		if (addSuffix)
-			return EveAbstractHolder.priceFormatter.format(price) + " ISK";
+			return NeoComRender.priceFormatter.format(price) + " ISK";
 		else
-			return EveAbstractHolder.priceFormatter.format(price);
+			return NeoComRender.priceFormatter.format(price);
 	}
 
 	protected String generateSecurityColor(double sec, final String data) {
@@ -211,7 +211,7 @@ public abstract class EveAbstractHolder extends AbstractRender {
 			sec = 1.0;
 		}
 		final long secAdjust = Long.valueOf(Math.round(sec * 10.0)).intValue();
-		secColor = EveAbstractHolder.securityLevels.get(Long.valueOf(secAdjust).intValue());
+		secColor = NeoComRender.securityLevels.get(Long.valueOf(secAdjust).intValue());
 		htmlFragmentWithColor.append("<font color='").append(secColor).append("'>").append(data).append("</font>");
 		return htmlFragmentWithColor.toString();
 	}
@@ -219,13 +219,13 @@ public abstract class EveAbstractHolder extends AbstractRender {
 	protected String generateTimeString(final long millis) {
 		try {
 			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if (millis > EveAbstractHolder.ONEDAY) {
+			if (millis > NeoComRender.ONEDAY) {
 				timeFormatter.appendDayOfYear(1).appendLiteral("D ");
 			}
-			if (millis > EveAbstractHolder.ONEHOUR) {
+			if (millis > NeoComRender.ONEHOUR) {
 				timeFormatter.appendHourOfDay(2).appendLiteral(":");
 			}
-			if (millis > EveAbstractHolder.ONEMINUTE) {
+			if (millis > NeoComRender.ONEMINUTE) {
 				timeFormatter.appendMinuteOfHour(2).appendLiteral(":").appendSecondOfMinute(2);
 			}
 			return timeFormatter.toFormatter().print(new Instant(millis));
@@ -263,7 +263,7 @@ public abstract class EveAbstractHolder extends AbstractRender {
 		// EveLocation loc =
 		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
 		final String security = loc.getSecurity();
-		String secColor = EveAbstractHolder.securityLevels.get(security);
+		String secColor = NeoComRender.securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
@@ -271,7 +271,7 @@ public abstract class EveAbstractHolder extends AbstractRender {
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
 				.append(AppWideConstants.FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-				.append(EveAbstractHolder.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+		            .append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}

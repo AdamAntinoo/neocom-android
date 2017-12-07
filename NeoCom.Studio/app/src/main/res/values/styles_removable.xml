@@ -181,17 +181,6 @@
         <item name="android:textSize">7sp</item>
     </style>
 
-    <style name="Label.Style.BottomLine">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/bottomwhiteline</item>
-    </style>
-
-    <style name="Label.Style.TopLine">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/topwhiteline</item>
-    </style>
 
     <style name="Actionable">
         <item name="android:layout_width">28dp</item>
@@ -201,7 +190,7 @@
         <item name="android:gravity">right</item>
         <item name="android:layout_gravity">right</item>
         <item name="android:visibility">visible</item>
-        <item name="android:src">@drawable/defaultitemicon</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
     </style>
 
     <style name="RightArrow">

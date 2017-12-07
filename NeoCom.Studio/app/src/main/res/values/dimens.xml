@@ -4,12 +4,12 @@
     <dimen name="activity_horizontal_margin">16dip</dimen>
     <dimen name="activity_vertical_margin">16dip</dimen>
     <dimen name="pilotavatarsize">96dip</dimen>
-    <dimen name="itemIcon128">128dip</dimen>
-    <dimen name="itemIcon96">96dip</dimen>
-    <dimen name="itemIcon64">64dip</dimen>
-    <dimen name="itemIcon48">48dip</dimen>
+    <!--<dimen name="itemIcon128">128dip</dimen>-->
+    <!--<dimen name="itemIcon96">96dip</dimen>-->
+    <!--<dimen name="itemIcon64">64dip</dimen>-->
+    <!--<dimen name="itemIcon48">48dip</dimen>-->
     <dimen name="itemIcon32">32dip</dimen>
-    <dimen name="itemIcon24">24dip</dimen>
+    <!--<dimen name="itemIcon24">24dip</dimen>-->
     <dimen name="menuIconWidth">34dip</dimen>
     <dimen name="menuIconHeight">32dip</dimen>
     

@@ -160,7 +160,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	//	}
 		return result;
 	}
-	public NeoComNode getCastedModel() {
+	private NeoComNode getCastedModel() {
 		return (NeoComNode) this.getModel();
 	}
 

@@ -13,20 +13,21 @@
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="Actionable.Arrow"
+        style="@style/AppTheme.Arrow"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_alignParentRight="true" />
 
-    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/name"
-        style="@style/Name.Selectable.16"
+        style="@style/AppTheme.TextView"
+        android:textSize="16sp"
         android:layout_toRightOf="@+id/nodeIcon"
         android:text="@string/default_loginname" />
 
-    <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/titleLabel"
-        style="@style/LabelStyle"
+        style="@style/AppTheme.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -35,7 +36,7 @@
         android:text="LOGIN"
         android:textSize="9sp" />
 
-    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/childCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

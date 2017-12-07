@@ -9,16 +9,15 @@
 package org.dimensinfin.eveonline.neocom.render;
 
 // - IMPORT SECTION .........................................................................................
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.part.ApiKeyPart;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ApiKeyRender extends EveAbstractHolder {
+public class ApiKeyRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -61,7 +60,7 @@ public class ApiKeyRender extends EveAbstractHolder {
 		//		final Instant paid = new Instant();
 		//		final Instant now = new Instant();
 		//		if (expires.isBefore(now)) {
-		//			paidUntil.setText("Expired! - " + EveAbstractHolder.timePointFormatter.print(expires));
+		//			paidUntil.setText("Expired! - " + NeoComRender.timePointFormatter.print(expires));
 		//			// Change the background to a red one
 		//			timeLeftLabel.setText("EXPIRATION DATE");
 		//			_convertView.setBackgroundDrawable(this.getContext().getResources().getDrawable(R.drawable.redtraslucent60));
@@ -70,7 +69,7 @@ public class ApiKeyRender extends EveAbstractHolder {
 		//			CountDownTimer timer = new CountDownTimer(millis, AppWideConstants.SECONDS5) {
 		//				@Override
 		//				public void onFinish() {
-		//					paidUntil.setText("Expired! - " + EveAbstractHolder.timePointFormatter.print(expires));
+		//					paidUntil.setText("Expired! - " + NeoComRender.timePointFormatter.print(expires));
 		//					timeLeftLabel.setText("EXPIRATION DATE");
 		//					_convertView.invalidate();
 		//				}

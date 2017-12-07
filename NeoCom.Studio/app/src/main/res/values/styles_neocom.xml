@@ -37,4 +37,18 @@
         <item name="android:textColor">@color/apporange</item>
         <item name="android:background">@color/appgreydark</item>
     </style>
+    <style name="AppTheme.PilotAvatar">
+        <item name="android:layout_width">@dimen/pilotavatarsize</item>
+        <item name="android:layout_height">@dimen/pilotavatarsize</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@drawable/whiteborderbox</item>
+    </style>
+
 </resources>

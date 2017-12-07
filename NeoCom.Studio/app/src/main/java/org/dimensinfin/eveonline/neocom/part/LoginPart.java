@@ -9,30 +9,28 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
-import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.Vector;
-
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
+import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.model.Login;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Vector;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginPart extends AExtendedPart implements INamedPart, OnClickListener {
+public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long			serialVersionUID		= -7696249781992547826L;
 	private static DecimalFormat	itemCountFormatter	= new DecimalFormat("###,##0");
@@ -40,7 +38,7 @@ public class LoginPart extends AExtendedPart implements INamedPart, OnClickListe
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LoginPart(final AbstractComplexNode node) {
+	public LoginPart(final Login node) {
 		super(node);
 	}
 
@@ -50,12 +48,10 @@ public class LoginPart extends AExtendedPart implements INamedPart, OnClickListe
 	//		return this.getCastedModel().getName();
 	//	}
 
-	@Override
 	public Login getCastedModel() {
 		return (Login) this.getModel();
 	}
 
-	@Override
 	public long getModelID() {
 		return this.getCastedModel().getName().hashCode();
 	}
@@ -100,7 +96,7 @@ public class LoginPart extends AExtendedPart implements INamedPart, OnClickListe
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class LoginRender extends EveAbstractHolder {
+final class LoginRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

@@ -10,7 +10,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.activity.AbstractPagerActivity;
+import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;

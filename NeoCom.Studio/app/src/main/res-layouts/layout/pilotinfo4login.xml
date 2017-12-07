@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderorange" >
+    android:background="@drawable/panelborderorange">
 
     <ImageView
         android:id="@+id/pilotAvatar"
-        style="@style/ItemIconStyle.Size32"
+        style="@style/AppTheme.PilotAvatar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="2dp"
@@ -45,19 +44,19 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/pilotRaceBlock"
         android:layout_toRightOf="@+id/pilotAvatar"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/pilotName"
-            style="@style/NameStyle.Green"
+            style="@style/NeoComText.Green"
             android:text="Adam Antinoo" />
 
         <RelativeLayout
             android:id="@+id/secondaryDataBlock"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
-            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            <oorg.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
                 android:id="@+id/accountBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +67,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
-            <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
                 android:id="@+id/assetsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,18 +83,18 @@
         <RelativeLayout
             android:id="@+id/secondaryLabelBlock"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/accountBalanceLabel"
-                style="@style/Label.Style.TopLine"
+                style="@style/AppTheme.Label.TopLine"
                 android:layout_alignParentLeft="true"
                 android:gravity="left"
                 android:text="BALANCE" />
 
             <TextView
                 android:id="@+id/assetsCountLabel"
-                style="@style/Label.Style"
+                style="@style/AppTheme.Label"
                 android:layout_alignParentRight="true"
                 android:gravity="right"
                 android:text="ASSETS" />
@@ -111,44 +110,48 @@
         android:layout_toLeftOf="@+id/separator"
         android:gravity="right"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="visible">
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/characterClass"
-            style="@style/Name.Style.11"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentRight="true"
             android:gravity="right"
             android:text="PILOT"
-            android:textColor="#FF0000FF" />
+            android:textColor="#FF0000FF"
+            android:textSize="11sp" />
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/race"
-            style="@style/Name.Style.10"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentRight="true"
             android:layout_marginTop="-4dp"
             android:gravity="right"
             android:text="Minmatar"
-            android:textColor="#FF337AB7" />
+            android:textColor="#FF337AB7"
+            android:textSize="10sp" />
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/cloneType"
-            style="@style/Name.Style.10"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentRight="true"
             android:layout_marginTop="-4dp"
             android:gravity="right"
             android:singleLine="false"
             android:text="Clone Grade Alpha"
-            android:textColor="@color/apporangemedium" />
+            android:textColor="@color/apporangemedium"
+            android:textSize="10sp" />
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympia
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/expirationTime"
-            style="@style/Name.Style.10"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentRight="true"
             android:layout_marginTop="-4dp"
             android:gravity="right"
             android:singleLine="false"
             android:text="Expired"
             android:textColor="@color/appred"
+            android:textSize="10sp"
             android:visibility="visible" />
     </LinearLayout>
 

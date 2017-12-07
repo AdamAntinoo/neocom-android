@@ -20,7 +20,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
@@ -129,7 +129,7 @@ public class PilotInfoPart extends AExtendedPart implements INamedPart, OnClickL
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class Pilot4ListHolder extends EveAbstractHolder {
+final class Pilot4ListHolder extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger	logger									= Logger.getLogger("PilotInfoHolder");
 
