@@ -46,6 +46,7 @@ android:versionName="NeoCom 0.10.0" >
     <activity
         android:name="org.dimensinfin.eveonline.neocom.activity.LoginListActivity"
         android:icon="@drawable/nopilot"
+        android:parentActivityName=".activity.core.SettingsActivity"
         android:label="@string/activity_title_LoginListActivity" >
     </activity>
     <!--<activity-->
@@ -54,6 +55,8 @@ android:versionName="NeoCom 0.10.0" >
     <!--</activity>-->
     <activity
         android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
+        android:icon="@drawable/nopilot"
+        android:parentActivityName=".activity.LoginListActivity"
         android:label="Pilot Details" >
     </activity>
 

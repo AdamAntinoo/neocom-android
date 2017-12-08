@@ -7,28 +7,38 @@
 //                  libraries and code with other application designed for alternate platforms.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
-//                  Latest version adds support for ESI authentication since CREST and other sources will be
-//                  removed on 2018.
 package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class InitializationTask extends NeoComNode implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private String description = "-DESCRIPTION-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public InitializationTask () {
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public ArrayList<ICollaboration> collaborate2Model (final String variant) {
-		return new ArrayList<ICollaboration>();
+	public InitializationTask (String newDescription) {
+		description = newDescription;
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
+	public List<ICollaboration> collaborate2Model (final String variant) {
+		return new Vector<ICollaboration>();
+	}
+
+	public String getDescription () {
+		return description;
+	}
+
+	public void setDescription (final String description) {
+		this.description = description;
+	}
 }

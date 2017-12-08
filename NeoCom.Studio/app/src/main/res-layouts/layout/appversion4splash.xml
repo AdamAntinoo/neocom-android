@@ -5,20 +5,20 @@
     android:layout_height="wrap_content"
     android:background="@drawable/panelborderwhite">
 
-    <org.dimensinfin.eveonline.neocom.core.ElementalEnd
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/applicationName"
         style="@style/NeoComText.Glow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="NEOCOM"
         android:textSize="30sp" />
 
-    <org.dimensinfin.eveonline.neocom.core.ElementalEnd
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/applicationVersion"
         style="@style/NeoComText.Glow.Orange"
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:text="@string/appversion"
         android:textSize="20sp" />
 
-    <org.dimensinfin.eveonline.neocom.core.ElementalEnd
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

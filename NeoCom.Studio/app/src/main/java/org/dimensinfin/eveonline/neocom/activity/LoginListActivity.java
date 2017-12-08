@@ -49,7 +49,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 		LoginListActivity.logger.info(">> [LoginListActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
-	//	_actionBar.setDisplayHomeAsUpEnabled(false);
+		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
 			// Process the parameters into the context. This initial Activity is the only one with no parameters.
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
