@@ -1,17 +1,15 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.datasource.DataSourceManager;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
@@ -21,6 +19,8 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.Login;
+import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class LoginListFragment extends AbstractPagerFragment {
@@ -60,13 +60,14 @@ public class LoginListFragment extends AbstractPagerFragment {
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant());
 		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new LoginListGenerator(locator, this.getVariant()));
-		// Register the datasource. If this same datasource is already at the manager we get it
-		// instead creating a new one.
-		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
-				.registerDataSource(new MVCDataSource(locator, this.getFactory(), generator));
-		ds.setVariant(this.getVariant());
-		ds.setCacheable(true);
-		this.setDataSource(ds);
+		setGenerator(generator);
+//		// Register the datasource. If this same datasource is already at the manager we get it
+//		// instead creating a new one.
+//		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
+//				.registerDataSource(new MVCDataSource(locator, this.getFactory(), generator));
+//		ds.setVariant(this.getVariant());
+//		ds.setCacheable(true);
+//		this.setDataSource(ds);
 		AbstractPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
 	}
 
@@ -102,11 +103,13 @@ final class LoginListGenerator extends AbstractGenerator implements IModelGenera
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 		// Add each Login to the list. They will expand to show the Character selection.
-		for (Login login : NeoComAppConnector.getSingleton().getModelStore().accessLoginList().values()) {
+		for (Login login : NeoComModelStore.getSingleton().accessLoginList().values()) {
 			_dataModelRoot.addChild(login);
 			AbstractGenerator.logger
 					.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getName() + "' to the _dataModelRoot");
 		}
+		// Add the node to display the new New Login Button.
+		_dataModelRoot.addChild(new NewLoginAction());
 		AbstractGenerator.logger.info("<< [LoginListGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}

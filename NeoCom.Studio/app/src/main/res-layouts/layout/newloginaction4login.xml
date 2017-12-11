@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#20FFFFFF">
+
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/AppTheme.NodeIcon"
+        android:src="@drawable/account_plus" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/AppTheme.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
+    <org.dimensinfin.eveonline.neocom.fonts.MonsOlympiaBoldTextView
+        android:id="@+id/instructionsLabel"
+        style="@style/AppTheme.TextView"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="Click this button to add a new Login (ESI/API)"
+        android:textSize="14sp" />
+
+</RelativeLayout>

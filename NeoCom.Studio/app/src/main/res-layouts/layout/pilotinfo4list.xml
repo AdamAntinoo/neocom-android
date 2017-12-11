@@ -25,12 +25,12 @@
 
         <org.dimensinfin.android.mvc.fonts.DaysTextView
             android:id="@+id/pilotName"
-            style="@style/NeoComText.Orange"
+            style="@style/AppTheme.NeoComText.Orange"
             android:text="Adam Antinoo" />
 
         <TextView
             android:id="@+id/lastKnownLocation"
-            style="@style/NeoComText"
+            style="@style/AppTheme.TextView"
             android:singleLine="false"
             android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;" />
 

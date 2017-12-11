@@ -7,7 +7,7 @@
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/applicationName"
-        style="@style/NeoComText.Glow.White"
+        style="@style/AppTheme.TextView.Glow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -20,7 +20,7 @@
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/applicationVersion"
-        style="@style/NeoComText.Glow.Orange"
+        style="@style/AppTheme.TextView.Glow.Orange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/applicationName"

@@ -6,9 +6,11 @@
 
     <ImageView
         android:id="@+id/nodeIcon"
-        style="@style/AppTheme.ItemIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        style="@style/AppTheme.NodeIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:src="@drawable/nopilot" />
 
     <ImageView
@@ -16,46 +18,65 @@
         style="@style/AppTheme.Arrow"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:visibility="visible" />
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
-        android:id="@+id/name"
-        style="@style/AppTheme.TextView"
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/nodeIcon"
-        android:text="@string/default_loginname"
-        android:textColor="@color/appgreen"
-        android:textSize="16sp" />
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:src="@color/panelbackgroundblack"
+        android:visibility="gone" />
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
-        android:id="@+id/titleLabel"
-        style="@style/AppTheme.Label"
+    <RelativeLayout
+        android:id="@+id/nodeInformationBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:singleLine="true"
-        android:text="LOGIN"
-        android:textSize="9sp" />
+        android:layout_toLeftOf="@+id/separator"
+        android:layout_toRightOf="@+id/nodeIcon">
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
-        android:id="@+id/childCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleLabel"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:gravity="right"
-        android:text="320"
-        android:textColor="@android:color/white"
-        android:textSize="14dp" />
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+            android:id="@+id/name"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/default_loginname"
+            android:textColor="@color/appgreen"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/locationLabel"
-        style="@style/AppTheme.Label"
-        android:layout_width="wrap_content"
-        android:layout_below="@+id/childCount"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:gravity="right"
-        android:text="CHARACTERS" />
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+            android:id="@+id/titleLabel"
+            style="@style/AppTheme.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:singleLine="true"
+            android:text="LOGIN"
+            android:textSize="9sp" />
 
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+            android:id="@+id/childCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/titleLabel"
+            android:gravity="right"
+            android:text="320"
+            android:textColor="@color/appwhite"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/locationLabel"
+            style="@style/AppTheme.Label"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/childCount"
+            android:gravity="right"
+            android:text="CHARACTERS" />
+
+    </RelativeLayout>
 </RelativeLayout>

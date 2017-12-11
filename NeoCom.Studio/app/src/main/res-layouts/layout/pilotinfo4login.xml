@@ -48,7 +48,7 @@
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/pilotName"
-            style="@style/NeoComText.Green"
+            style="@style/AppTheme.NeoComText.Green"
             android:text="Adam Antinoo" />
 
         <RelativeLayout

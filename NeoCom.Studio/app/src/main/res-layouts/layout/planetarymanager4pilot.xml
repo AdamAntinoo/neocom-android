@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/nodeIcon"
-        style="@style/AppTheme.ItemIcon"
+        style="@style/AppTheme.NodeIcon"
         android:contentDescription="@string/default_nodeicon"
         android:src="@drawable/nopilot" />
 
     <ImageView
         android:id="@+id/rightArrow"
-        style="@style/Actionable.Arrow"
+        style="@style/AppTheme.Arrow"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_alignParentRight="true"
@@ -20,8 +20,9 @@
 
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/name"
-        style="@style/Name.Selectable.14"
+        style="@style/AppTheme.NeoComText.Orange"
         android:layout_width="wrap_content"
+        android:textSize="14sp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/nodeIcon"
         android:text="@string/default_managername" />
@@ -51,7 +52,7 @@
 
             <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
                 android:id="@+id/managerAssetsCount"
-                style="@style/StockCounter"
+                style="@style/AppTheme.StockCounter"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp" />
@@ -74,7 +75,7 @@
 
             <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
                 android:id="@+id/managerRegionCount"
-                style="@style/StockCounter"
+                style="@style/AppTheme.StockCounter"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp" />
