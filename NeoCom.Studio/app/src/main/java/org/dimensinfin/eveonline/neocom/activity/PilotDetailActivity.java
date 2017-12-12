@@ -1,11 +1,12 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.PilotDetailFragment;
+import org.dimensinfin.eveonline.neocom.fragment.PilotDetailsFragment;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -67,7 +68,7 @@ public class PilotDetailActivity extends ANeoComPagerActivity {
 				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			}
 			int page = 0;
-			this.addPage(new PilotDetailFragment().setVariant(ENeoComVariants.PILOT_DETAILS.name()).setExtras(extras),
+			this.addPage(new PilotDetailsFragment().setVariant(ENeoComVariants.PILOT_DETAILS.name()).setExtras(extras),
 					page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger

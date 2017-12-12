@@ -91,20 +91,23 @@ public class PilotPartFactory extends PartFactory {
 		//		}
 		if (this.getVariant() == ENeoComVariants.PILOT_DETAILS.name()) {
 			if (node instanceof Pilot) {
-				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this).setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+				                                                      .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
 			if (node instanceof AssetsManager ) {
-				IPart part = new AssetsManagerPart((AssetsManager) node).setFactory(this);
+				IPart part = new AssetsManagerPart((AssetsManager) node).setFactory(this)
+				                                                        .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
 			if (node instanceof PlanetaryManager ) {
-				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this);
+				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this)
+				                                                              .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
 		}
 		// If no part is trapped then call the parent chain until one is found.
-		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> calling suoer imaplementation to get a part");
+		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> calling super implementation to get a part");
 		return super.createPart(node);
 	}
 }

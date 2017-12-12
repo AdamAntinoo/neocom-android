@@ -61,7 +61,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'org.htmlparser:htmlparser:2.1'
-    implementation 'org.slf4j:slf4j-android:1.7.25'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+//    implementation 'org.slf4j:slf4j-android:1.7.25'
+    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
 
     // A P P L I C A T I O N    D E P E N D E N C I E S
     implementation 'com.jakewharton:butterknife:7.0.1'

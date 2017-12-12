@@ -32,6 +32,7 @@
             android:id="@+id/lastKnownLocation"
             style="@style/AppTheme.TextView"
             android:singleLine="false"
+            android:textStyle="bold"
             android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;" />
 
         <TextView

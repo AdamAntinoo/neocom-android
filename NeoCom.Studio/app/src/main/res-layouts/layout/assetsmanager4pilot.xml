@@ -20,10 +20,11 @@
 
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/name"
-        style="@style/AppTheme.TextView"
+        style="@style/AppTheme.NeoComText.Orange"
         android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_toRightOf="@+id/nodeIcon"
         android:text="@string/default_managername" />
 

@@ -1,22 +1,25 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
+
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.render.AssetsManagerRender;
-
-import java.util.ArrayList;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerPart extends NeoComAbstractPart
@@ -27,83 +30,60 @@ public class AssetsManagerPart extends NeoComAbstractPart
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetsManagerPart(final AssetsManager model) {
+	public AssetsManagerPart (final AssetsManager model) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * Returns if this Manager is active for the current character. By default all managers are active for all
 	 * Characters.
 	 */
-	public boolean checkActivation() {
+	public boolean checkActivation () {
 		return true;
 	}
 
-	/**
-	 * The Managers do not expand so their collaboration is only themselves.
-	 */
-	@Override
-	public ArrayList<IPart> collaborate2View() {
-		return new ArrayList<IPart>();
-	}
+	//	/**
+	//	 * The Managers do not expand so their collaboration is only themselves.
+	//	 */
+	//	@Override
+	//	public List<IPart> collaborate2View() {
+	//		return new ArrayList<IPart>();
+	//	}
 
-	public int getActiveIcon() {
+	public int getActiveIcon () {
 		return R.drawable.assets;
 	}
 
-	public AssetsManager getCastedModel() {
+	public AssetsManager getCastedModel () {
 		return (AssetsManager) this.getModel();
 	}
 
-	public int getDimmedIcon() {
+	public int getDimmedIcon () {
 		return R.drawable.assetsdimmed;
 	}
 
 	@Override
-	public long getModelID() {
+	public long getModelID () {
 		return AssetsManagerPart.serialVersionUID;
 	}
 
-	public String getName() {
+	public String getName () {
 		return "Assets";
 	}
 
 	/**
 	 * Returns the number of assets that belong to this Character related to the number of records on the local
 	 * copy at the database.
-	 *
-	 * @return
 	 */
-	public String getTAssetsCount() {
+	public String getTAssetsCount () {
 		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssets());
 	}
 
-	public String getTRegionCount() {
+	public String getTRegionCount () {
 		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
 	}
-
-//	/**
-//	 * If the Pilot is active the click has to show the Pilot Dashboard Activity. If the Pilot is not active the
-//	 * event should be discarded.<br>
-//	 * If this part is used on more places we should control the variant so the click can be active for ones and
-//	 * not active for others.
-//	 */
-//	public void onClick(final View view) {
-//		NeoComAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
-//		final Object managerPart = view.getTag();
-//		if (managerPart instanceof AssetsManagerPart) {
-//			// Managers have a reference to the Character linked when created.
-//			final NeoComCharacter pilot = ((AssetsManagerPart) managerPart).getCastedModel().getPilot();
-//			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
-//			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
-//			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-//			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.ASSETS_MANAGER.name());
-//			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
-//		}
-//		NeoComAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
-//	}
 
 	//	/**
 	//	 * A long click should activate the Manager associated activity.
@@ -113,31 +93,67 @@ public class AssetsManagerPart extends NeoComAbstractPart
 	//	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	protected AbstractRender selectRenderer () {
 		return new AssetsManagerRender(this, _activity);
 	}
 }
 
+// - CLASS IMPLEMENTATION ...................................................................................
+final class AssetsManagerRender extends NeoComRender {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+
+	// - L A Y O U T   F I E L D S
+	private ImageView nodeIcon = null;
+	private TextView name = null;
+	private TextView assetsCount = null;
+	private TextView regionCount = null;
+
+	// - L A Y O U T   L A B E L S
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public AssetsManagerRender (final NeoComAbstractPart target, final Activity context) {
+		super(target, context);
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public AssetsManagerPart getPart () {
+		return (AssetsManagerPart) super.getPart();
+	}
+
+	@Override
+	public void initializeViews () {
+		super.initializeViews();
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+		name = (TextView) _convertView.findViewById(R.id.name);
+		assetsCount = (TextView) _convertView.findViewById(R.id.managerAssetsCount);
+		regionCount = (TextView) _convertView.findViewById(R.id.managerRegionCount);
+	}
+
+	@Override
+	public void updateContent () {
+		super.updateContent();
+		name.setText(this.getPart().getName());
+		assetsCount.setText(this.getPart().getTAssetsCount());
+		regionCount.setText(this.getPart().getTRegionCount());
+		// Needs the check to test of the manager is active to select the right icon.
+		if ( this.getPart().checkActivation() ) {
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));
+		} else {
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
+		}
+	}
+
+	@Override
+	protected void createView () {
+		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		// The view is a new view. We have to fill all the items
+		_convertView = mInflater.inflate(R.layout.assetsmanager4pilot, null);
+		_convertView.setTag(this);
+	}
+}
+
 // - UNUSED CODE ............................................................................................
-//	/**
-//	 * The policies for locations are two sorts. The first one by name the second by item type.
-//	 */
-//	@Override
-//	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
-//		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
-//		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_ITEM_TYPE));
-//		return targets;
-//	}
-
-//	public void setContainerLocation(final boolean flag) {
-//		isContainer = flag;
-//	}
-//
-//	public void setContainerName(final String name) {
-//		containerName = name;
-//	}
-
-//public void startActivity(final Intent intent) {
-//// TODO Auto-generated method stub
-//
-//}

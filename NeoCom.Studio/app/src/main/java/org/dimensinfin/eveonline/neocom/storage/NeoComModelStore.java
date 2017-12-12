@@ -20,13 +20,14 @@ import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -55,7 +56,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8777607802616543118L;
-	private static Logger logger = Logger.getLogger("AppModelStore");
+	private static Logger logger = LoggerFactory.getLogger(NeoComModelStore.class);
 	private static NeoComModelStore singleton = null;
 
 	/**
@@ -66,12 +67,12 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * @return the single global sinleton.
 	 */
 	public static NeoComModelStore getSingleton () {
-		NeoComModelStore.logger.info(">> [AppModelStore.getSingleton]");
+		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
 		if ( null == NeoComModelStore.singleton ) {
 			// Initiate the recovery.
 			NeoComModelStore.initialize();
 		}
-		NeoComModelStore.logger.info("<< [AppModelStore.getSingleton]");
+		NeoComModelStore.logger.info("<< [NeoComModelStore.getSingleton]");
 		return NeoComModelStore.singleton;
 	}
 
@@ -92,9 +93,9 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		// Make sure we get the characters on a thread out of the main one.
 		//	AppModelStore.getSingleton().getCharacters();
 		// Set back the current pilot whose id is stored on the _pilotIdentifier
-//		if ( NeoComModelStore.getSingleton()._pilotIdentifier > 0 ) {
-//			NeoComModelStore.getSingleton().activatePilot(NeoComModelStore.getSingleton()._pilotIdentifier);
-//		}
+		//		if ( NeoComModelStore.getSingleton()._pilotIdentifier > 0 ) {
+		//			NeoComModelStore.getSingleton().activatePilot(NeoComModelStore.getSingleton()._pilotIdentifier);
+		//		}
 		NeoComModelStore.logger.info("<< [AppModelStore.initialize]");
 	}
 
@@ -182,7 +183,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * login is not found we can fire an Exception.
 	 */
 	public Login activateLoginIdentifier (final String loginTarget) {
-		NeoComModelStore.logger.info(">< [AppModelStore.activateLoginIdentifier]loginTarget: " + loginTarget);
+		NeoComModelStore.logger.info(">< [NeoComModelStore.activateLoginIdentifier]> loginTarget: {}", loginTarget);
 		if ( null == _loginList ) {
 			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
 		}
@@ -199,7 +200,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		}
 		// We run through all the login list and did not found the login. Or a problem of an error. Fire exception.
 		throw new NeocomRuntimeException(
-				"RT [AppModelStore.activateLoginIdentifier]>Login " + loginTarget + " not found on current login list.");
+				"RT [NeoComModelStore.activateLoginIdentifier]> Login " + loginTarget + " not found on current login list.");
 	}
 
 	/**
@@ -212,17 +213,17 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * @param characterid id of the character to activate and select for work with.
 	 */
 	public NeoComCharacter activatePilot (final long characterid) {
-		NeoComModelStore.logger.info(">< [AppModelStore.activatePilot]Id: " + characterid);
+		NeoComModelStore.logger.info(">< [NeoComModelStore.activatePilot]> Id: {}", characterid);
 		// If the current pilot is the one searched simplify the search.
 		if ( (null != _pilot) && ((_pilot.getCharacterID()) == characterid) ) return _pilot;
 		// If the active Login is empty then we do not know where to search.
 		if ( null == _loginIdentifier ) throw new NeocomRuntimeException(
-				"RT [AppModelStore.activatePilot]> There is no active Login. Cannot search for character.");
+				"RT [NeoComModelStore.activatePilot]> There is no active Login. Cannot search for character.");
 
 		// Search for character at the active Login.
 		NeoComCharacter hit = _loginIdentifier.searchCharacter(characterid);
 		if ( null == hit ) throw new RuntimeException(
-				"RT [AppModelStore.activatePilot]>Pilot with id: " + characterid + " not located at active Login.");
+				"RT [NeoComModelStore.activatePilot]> Pilot with id: " + characterid + " not located at active Login.");
 		_pilot = hit;
 		return hit;
 	}

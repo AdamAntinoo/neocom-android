@@ -112,7 +112,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	 * </ul>
 	 */
 	@Override
-	public ArrayList<IPart> collaborate2View () {
+	public List<IPart> collaborate2View () {
 		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if ( this.isExpanded() ) {
