@@ -13,6 +13,9 @@
     <string name="activity_title_Settings">Settings</string>
     <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
     <string name="activity_title_PilotDetailsActivity">PILOT DETAILS</string>
+    <string name="activity_title_AssetsActivity">ASSETS MANAGER</string>
+    <string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
+    <string name="activity_subtitle_AssetsByCategory">ASSETS - By Category</string>
     <string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
     <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY MANAGER</string>
     <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
