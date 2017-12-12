@@ -9,10 +9,9 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-// - IMPORT SECTION .........................................................................................
-
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
@@ -36,8 +35,6 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 	/**
 	 * This is the method to convert the generic model node to this Part specific model class. Conversion failure can
 	 * exist so the methods that use this call should be aware if it and have an alternativo to intercept the exception.
-	 *
-	 * @return
 	 */
 	public NewLoginAction getCastedModel () {
 		try {
@@ -78,21 +75,21 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 	public void onClick (final View view) {
 		logger.info(">> [NewLoginActionPart.onClick]");
 
-//		// Open a Navigator and capture the Api Key ftom the CCP support web.
-//		public static void startImportEve(final Activity activity, final String loginUri) {
-//			final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(loginUri));
-//			browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID, activity.getPackageName());
-//			activity.startActivity(browserIntent, new Bundle());
-//		}
-//
-//
-//
-//
-//
-//
-//		// Activate the new Activity to follow the authorization flow.
-//		Intent intent = new Intent(this.getActivity(), NewLoginActivity.class);
-//		this.getActivity().startActivity(intent);
+		//		// Open a Navigator and capture the Api Key ftom the CCP support web.
+		//		public static void startImportEve(final Activity activity, final String loginUri) {
+		//			final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(loginUri));
+		//			browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID, activity.getPackageName());
+		//			activity.startActivity(browserIntent, new Bundle());
+		//		}
+		//
+		//
+		//
+		//
+		//
+		//
+		//		// Activate the new Activity to follow the authorization flow.
+		//		Intent intent = new Intent(this.getActivity(), NewLoginActivity.class);
+		//		this.getActivity().startActivity(intent);
 
 
 		//		// Open the Dialog to show the authentication progress.
@@ -133,7 +130,7 @@ final class NewLoginActionRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	//	private TextView applicationName = null;
+	private ImageView nodeIcon = null;
 	//	private TextView applicationVersion = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -149,7 +146,7 @@ final class NewLoginActionRender extends AbstractRender {
 	@Override
 	public void initializeViews () {
 		super.initializeViews();
-		//		applicationName = (TextView) _convertView.findViewById(R.id.applicationName);
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		//		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
 	}
 
@@ -159,7 +156,8 @@ final class NewLoginActionRender extends AbstractRender {
 		//		applicationName.setText(getPart().getCastedModel().getAppName());
 		//		applicationVersion.setText(getPart().getCastedModel().getAppVersion());
 		//		// During initialization set the background borders to red until completion of the core tasks.
-		//		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred,getContext().getTheme()));
+		nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.account_plus, getContext().getTheme()));
+		_convertView.invalidate();
 	}
 
 	public String toString () {

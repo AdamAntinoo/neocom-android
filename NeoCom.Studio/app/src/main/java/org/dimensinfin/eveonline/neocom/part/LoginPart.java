@@ -1,14 +1,13 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+///	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
-
-// - IMPORT SECTION .........................................................................................
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -28,7 +27,7 @@ import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
@@ -76,7 +75,7 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 	 * Sort the Regions by their names.
 	 */
 	@Override
-	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
+	public List<IPart> runPolicies(final List<IPart> targets) {
 		// Order the characters by alphabetical name.
 		Collections.sort(targets, PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		return targets;
@@ -142,7 +141,7 @@ final class LoginRender extends NeoComRender {
 	@Override
 	protected void createView() {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		// The view is a new view. We have to fill all the items
 		_convertView = mInflater.inflate(R.layout.login4list, null);
 		_convertView.setTag(this);

@@ -4,38 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/panelborderorange">
 
-    <ImageView
-        android:id="@+id/pilotAvatar"
-        style="@style/AppTheme.PilotAvatar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="2dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/whiteborderbox"
-        android:contentDescription="Item Icon"
-        android:src="@drawable/nopilot" />
-
-    <ImageView
-        android:id="@+id/separator"
-        android:layout_width="10dp"
-        android:layout_height="1dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:src="@color/panelbackgroundblack"
-        android:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/rightArrow"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="right"
-        android:gravity="right"
-        android:padding="-4dp"
-        android:src="@drawable/arrowdown"
-        android:visibility="gone" />
+    <include layout="@layout/nodebase4list" />
 
     <LinearLayout
         android:id="@+id/pilotInformationBlock"
@@ -43,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/pilotRaceBlock"
-        android:layout_toRightOf="@+id/pilotAvatar"
+        android:layout_toRightOf="@+id/nodeIcon"
         android:orientation="vertical">
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
@@ -56,7 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <oorg.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
                 android:id="@+id/accountBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

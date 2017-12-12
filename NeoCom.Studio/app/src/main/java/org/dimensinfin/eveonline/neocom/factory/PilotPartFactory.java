@@ -17,9 +17,11 @@ import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.LoginPart;
+import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
 
@@ -55,11 +57,25 @@ public class PilotPartFactory extends PartFactory {
 //				return part;
 //			}
 			if (node instanceof Pilot ) {
-				IPart part = new PilotInfoPart((Pilot) node).setFactory(this).setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				IPart part = new PilotInfoPart((Pilot) node).setFactory(this)
+				                                            .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
 			if (node instanceof Corporation ) {
-				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this);
+				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+				                                                      .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				return part;
+			}
+			if (node instanceof NewLoginAction ) {
+				IPart part = new NewLoginActionPart((NewLoginAction) node).setFactory(this)
+				                                                          .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				return part;
+			}
+		}
+		if (this.getVariant() == ENeoComVariants.PILOT_HEADER.name()) {
+			if ( node instanceof Pilot ) {
+				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+				                                                      .setRenderMode(ENeoComVariants.PILOT_HEADER.name());
 				return part;
 			}
 		}

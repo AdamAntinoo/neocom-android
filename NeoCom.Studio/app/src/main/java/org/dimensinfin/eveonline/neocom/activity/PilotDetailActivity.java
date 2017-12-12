@@ -11,10 +11,10 @@ package org.dimensinfin.eveonline.neocom.activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.PilotDetailFragment;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -24,7 +24,7 @@ import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
  *
  * @author Adam Antinoo
  */
-public class PilotDetailActivity extends AbstractPagerActivity {
+public class PilotDetailActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -52,11 +52,9 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [PilotDetailActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
-		// Disable go home for this activity since this is home.
-//		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
-			// Register this Activity as the current active Activity.
-			NeoComModelStore.getSingleton().activateActivity(this);
+//			// Register this Activity as the current active Activity.
+//			NeoComModelStore.getSingleton().activateActivity(this);
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
 			if (null != savedInstanceState) {
@@ -73,7 +71,7 @@ public class PilotDetailActivity extends AbstractPagerActivity {
 					page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger
-					.severe("[PilotDetailActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
+					.severe("RTEX [PilotDetailActivity.onCreate]> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();
 			this.stopActivity(rtex);
 		}

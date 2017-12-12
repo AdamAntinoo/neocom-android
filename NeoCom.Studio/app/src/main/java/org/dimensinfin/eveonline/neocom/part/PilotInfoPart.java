@@ -1,14 +1,13 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
-
-// - IMPORT SECTION .........................................................................................
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,7 +29,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
-import org.dimensinfin.eveonline.neocom.render.PilotInfoHolder;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.text.DecimalFormat;
@@ -50,17 +48,6 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	//	/**
-	//	 * The result of this method depends on the variant use but this is not already supported. For the initial
-	//	 * usage of this part at the Pilot List Activity we just expand to itself.
-	//	 */
-	//	@Override
-	//	public ArrayList<IPart> collaborate2View() {
-	//		ArrayList<IPart> result = new ArrayList<IPart>();
-	//		result.add(this);
-	//		return result;
-	//	}
-
 	public NeoComCharacter getCastedModel() {
 		return (NeoComCharacter) this.getModel();
 	}
@@ -116,23 +103,23 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	@Override
 	protected AbstractRender selectRenderer() {
 		// Get the proper holder set for the render mode.
-		if (this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.hashCode())
-			return new Pilot4ListHolder(this, _activity);
+		if (this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.name())
+			return new Pilot4ListRender(this, _activity);
+		if (this.getRenderMode() == ENeoComVariants.PILOT_HEADER.name())
+			return new Pilot4HeaderRender(this, _activity);
 		else
-			return new PilotInfoHolder(this, _activity);
-		// If holder not located return a default view for a sample and modeless Part.
-		//		return super.selectHolder();
+			return new Pilot4ListRender(this, _activity);
 	}
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class Pilot4ListHolder extends NeoComRender {
+final class Pilot4ListRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger	logger									= Logger.getLogger("PilotInfoHolder");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	// - L A Y O U T   F I E L D S
-	private ImageView	pilotAvatar					= null;
+	private ImageView nodeIcon = null;
 	private TextView	pilotName						= null;
 	//	private TextView	lastKnownLocation				= null;
 	private TextView	accountBalance			= null;
@@ -147,7 +134,7 @@ final class Pilot4ListHolder extends NeoComRender {
 	private TextView	assetsCountLabel		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Pilot4ListHolder(final AbstractAndroidPart newPart, final Activity context) {
+	public Pilot4ListRender(final AbstractAndroidPart newPart, final Activity context) {
 		super(newPart, context);
 	}
 
@@ -160,7 +147,7 @@ final class Pilot4ListHolder extends NeoComRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		pilotAvatar = (ImageView) _convertView.findViewById(R.id.pilotAvatar);
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
 		//		lastKnownLocation = (TextView) _convertView.findViewById(R.id.lastKnownLocation);
 		accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
@@ -180,10 +167,10 @@ final class Pilot4ListHolder extends NeoComRender {
 		accountBalance.setText(this.getPart().getTransformedBalance());
 		assetsCount.setText(this.getPart().getTransformedAssetsCount());
 
-		if (null != pilotAvatar) {
+		if (null != nodeIcon ) {
 			String link = pilot.getURLForAvatar();
-			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
-			pilotAvatar.setImageDrawable(draw);
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, nodeIcon);
+			nodeIcon.setImageDrawable(draw);
 		}
 	}
 
@@ -193,6 +180,76 @@ final class Pilot4ListHolder extends NeoComRender {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		_convertView = mInflater.inflate(R.layout.pilotinfo4login, null);
+		_convertView.setTag(this);
+	}
+}
+// - CLASS IMPLEMENTATION ...................................................................................
+final class Pilot4HeaderRender extends NeoComRender {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+	// - L A Y O U T   F I E L D S
+	private ImageView	pilotAvatar							= null;
+	private TextView	pilotName								= null;
+	private TextView	lastKnownLocation				= null;
+	private TextView	accountBalance					= null;
+	private TextView	assetsCount							= null;
+
+	// - L A Y O U T   L A B E L S
+	@SuppressWarnings("unused")
+	private TextView	lastKnownLocationLabel	= null;
+	@SuppressWarnings("unused")
+	private TextView	accountBalanceLabel			= null;
+	@SuppressWarnings("unused")
+	private TextView	assetsCountLabel				= null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public Pilot4HeaderRender(final AbstractAndroidPart newPart, final Activity context) {
+		super(newPart, context);
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public PilotInfoPart getPart() {
+		return (PilotInfoPart) super.getPart();
+	}
+
+	@Override
+	public void initializeViews() {
+		super.initializeViews();
+		pilotAvatar = (ImageView) _convertView.findViewById(R.id.pilotAvatar);
+		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
+		lastKnownLocation = (TextView) _convertView.findViewById(R.id.lastKnownLocation);
+		accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
+		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
+
+		lastKnownLocationLabel = (TextView) _convertView.findViewById(R.id.lastKnownLocationLabel);
+		accountBalanceLabel = (TextView) _convertView.findViewById(R.id.accountBalanceLabel);
+		assetsCountLabel = (TextView) _convertView.findViewById(R.id.assetsCountLabel);
+	}
+
+	@Override
+	public void updateContent() {
+		super.updateContent();
+		NeoComCharacter pilot = this.getPart().getCastedModel();
+		pilotName.setText(pilot.getName());
+		lastKnownLocation.setText(">> " + pilot.getLastKnownLocation());
+		accountBalance.setText(this.getPart().getTransformedBalance());
+		assetsCount.setText(this.getPart().getTransformedAssetsCount());
+
+		if (null != pilotAvatar) {
+			String link = pilot.getURLForAvatar();
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
+			pilotAvatar.setImageDrawable(draw);
+		}
+		//		_convertView.invalidate();
+	}
+
+	@Override
+	protected void createView() {
+		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		_convertView = mInflater.inflate(R.layout.pilotinfo4header, null);
 		_convertView.setTag(this);
 	}
 }

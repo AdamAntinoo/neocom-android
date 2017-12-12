@@ -2,22 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#20FFFFFF">
+    android:background="@drawable/panelborderwhite">
 
-    <ImageView
-        android:id="@+id/nodeIcon"
-        style="@style/AppTheme.NodeIcon"
-        android:src="@drawable/account_plus" />
+    <include layout="@layout/nodebase4list" />
 
-    <ImageView
-        android:id="@+id/rightArrow"
-        style="@style/AppTheme.Arrow"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
-
-    <org.dimensinfin.eveonline.neocom.fonts.MonsOlympiaBoldTextView
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/instructionsLabel"
         style="@style/AppTheme.TextView"
         android:layout_centerVertical="true"
