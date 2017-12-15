@@ -10,6 +10,7 @@
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
+import android.util.SparseArray;
 
 import com.beimin.eveapi.exception.ApiException;
 import com.beimin.eveapi.model.shared.Asset;
@@ -26,17 +27,18 @@ import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.CategoryGroup;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
 import java.util.List;
@@ -46,6 +48,7 @@ import java.util.Vector;
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AssetsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static Logger logger = LoggerFactory.getLogger(AssetsFragment.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -176,12 +179,15 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 //- CLASS IMPLEMENTATION ...................................................................................
 final class AssetsByCategoryGenerator extends AbstractGenerator implements IModelGenerator {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static Logger logger = LoggerFactory.getLogger(AssetsByCategoryGenerator.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String _loginid = null;
 	private long _characterid = -1;
-	private final Vector<NeoComAsset> unlocatedAssets = new Vector<NeoComAsset>();
+	//	private final Vector<NeoComAsset> unlocatedAssets = new Vector<NeoComAsset>();
 	private NeoComCharacter _pilot = null;
+
+	private SparseArray<CategoryGroup> _categories = new SparseArray();
 
 	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
 
@@ -204,94 +210,76 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	 * to classify them into their categories.
 	 */
 	public RootNode collaborate2Model () {
-		AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
-		// Get the Assets Manager active at the character.
-		//		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
-		AssetsManager assetsMan = getPilot().getAssetsManager();
-		// Check it is initialized.
-		assetsMan.initialize();
-		// Initialize the Adapter data structures.
+		AbstractGenerator.logger.info(">> [AssetsByCategoryGenerator.collaborate2Model]");
 		this.setDataModel(new RootNode());
-		// Add the first level that are the Regions.
-		Hashtable<Long, Region> regs = assetsMan.getRegions();
-		for (Long key : regs.keySet()) {
-			_dataModelRoot.addChild(regs.get(key));
-			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
-					+ regs.get(key).getLocations() + "' to the _dataModelRoot");
+
+		// Download and process all the user assets into the list of Categories.
+		downloadPilotAssets();
+		for (int i = 0; i < _categories.size(); i++) {
+			_dataModelRoot.addChild(_categories.valueAt(i));
 		}
-		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
+		logger.info("-- [AssetsByCategoryGenerator.collaborate2Model]> Adding {} to the _dataModelRoot", _categories.size());
+		AbstractGenerator.logger.info("<< [AssetsByCategoryGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}
 
 	public void downloadPilotAssets () {
-		logger.info(">> [AssetsByLocationGenerator.downloadPilotAssets]");
+		logger.info(">> [AssetsByCategoryGenerator.downloadPilotAssets]");
 		try {
-			//			// Clear any previous record with owner -1 from database.
-			//			INeoComModelDatabase dbConn = ModelAppConnector.getSingleton().getDBConnector();
-			//			synchronized (dbConn) {
-			//				dbConn.clearInvalidRecords(this.getPilot().getCharacterID());
-			//			}
-			// Parse the CCP data to a list of assets
-			//			NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 			PilotAssetListParser parser = new PilotAssetListParser();
 			AssetListResponse response = parser.getResponse(getPilot().getAuthorization());
 			if ( null != response ) {
-				unlocatedAssets.clear();
 				List<Asset> assets = response.getAll();
 				// Get the Group and Category to store the assets into its right hierarchy level.
 				for (final Asset eveAsset : assets) {
-					//					try {
-					this.classifyAssets(eveAsset);
-					//					} catch (final RuntimeException ex) {
-					//						ex.printStackTrace();
-					//					}
+					this.classifyAsset(eveAsset);
 				}
-				//				// Second pass. All the assets in unknown locations should be readjusted for hierarchy changes.
-				//				for (NeoComAsset asset : unlocatedAssets) {
-				//					this.validateLocation(asset);
-				//				}
-				//				// Assign the assets to the pilot.
-				//				synchronized (dbConn) {
-				//					dbConn.replaceAssets(this.getPilot().getCharacterID());
-				//				}
-				//				// Update the caching time to the time set by the eveapi.
-				//				String reference = this.getPilot().getCharacterID() + ".ASSETS";
-				//				if ( null == assetsCacheTime ) {
-				//					assetsCacheTime = new TimeStamp(reference, new Instant(response.getCachedUntil()));
-				//				} else {
-				//					assetsCacheTime.updateTimeStamp(new Instant(response.getCachedUntil()));
-				//				}
 			}
 		} catch (final ApiException apie) {
 			apie.printStackTrace();
 		} catch (final RuntimeException rtex) {
 			rtex.printStackTrace();
 		}
-		logger.info("<< [AssetsByLocationGenerator.downloadPilotAssets]");
+		logger.info("<< [AssetsByCategoryGenerator.downloadPilotAssets]");
 	}
 
-	private void classifyAssets (final Asset eveAsset) {
+	private void classifyAsset (final Asset eveAsset) {
+		// Convert the eveapi aplin asset to my new simple NeoComSimpleAsset.
+		NeoComSimpleAsset newasset = NeoComSimpleAsset.createFrom(eveAsset);
 		// Get the Group and the Category.
-		final int typeID = eveAsset.getTypeID();
-		final EveItem item = ModelAppConnector.getSingleton().getCCPDBConnector().searchItembyID(typeID);
-		final String group = item.getGroupName();
-		final String category = item.getCategory();
+		final int typeID = newasset.getTypeID();
+		final int categoryid = newasset.getCategoryId();
 
-		// Search for the Group.
-		Hashtable<String, Vector<Asset>> targetGroup = assetGroups.get(group);
-		if ( null == targetGroup ) {
-			targetGroup = new Hashtable<String, Vector<Asset>>();
-			assetGroups.put(group, targetGroup);
-		}
-
-		// Search for the Category
-		Vector<Asset> targetCategory = targetGroup.get(category);
-		if ( null == targetCategory ) {
-			targetCategory = new Vector<Asset>();
-			targetGroup.put(category, targetCategory);
-		}
-
-		targetCategory.add(eveAsset);
+		// Check if the category is already on the list.
+		final CategoryGroup hit = _categories.get(categoryid);
+		if ( null == hit ) {
+			final CategoryGroup newcategory = new CategoryGroup(categoryid);
+			newcategory.addAsset(newasset);
+			_categories.put(categoryid, newcategory);
+		} else hit.addAsset(newasset);
+		//
+		//
+		//
+		//
+		////		final EveItem item = ModelAppConnector.getSingleton().getCCPDBConnector().searchItembyID(typeID);
+		////		final String group = item.getGroupName();
+		////		final String category = item.getCategory();
+		//
+		//		// Search for the Group.
+		//		Hashtable<String, Vector<Asset>> targetGroup = assetGroups.get(group);
+		//		if ( null == targetGroup ) {
+		//			targetGroup = new Hashtable<String, Vector<Asset>>();
+		//			assetGroups.put(group, targetGroup);
+		//		}
+		//
+		//		// Search for the Category
+		//		Vector<Asset> targetCategory = targetGroup.get(category);
+		//		if ( null == targetCategory ) {
+		//			targetCategory = new Vector<Asset>();
+		//			targetGroup.put(category, targetCategory);
+		//		}
+		//
+		//		targetCategory.add(eveAsset);
 	}
 
 	protected String downloadAssetEveName (final long assetID) {
