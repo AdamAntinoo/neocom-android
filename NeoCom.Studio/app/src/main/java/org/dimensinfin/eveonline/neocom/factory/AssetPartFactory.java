@@ -1,21 +1,23 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.factory;
-
-import com.beimin.eveapi.model.shared.Asset;
 
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.model.AssetGroup;
+import org.dimensinfin.eveonline.neocom.model.AssetCategory;
+import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
+import org.dimensinfin.eveonline.neocom.part.AssetCategoryPart;
+import org.dimensinfin.eveonline.neocom.part.NeoComSimpleAssetPart;
 
 import java.util.logging.Logger;
 
@@ -40,19 +42,19 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart(final ICollaboration node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if (this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name()) {
-			if (node instanceof AssetGroup ) {
-				IPart part = new AssetGroupPart((AssetGroup) node).setFactory(this)
-				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-				return part;
-			}
 			if (node instanceof AssetCategory ) {
 				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
-				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
-			if (node instanceof Asset ) {
-				IPart part = new AssetSimplePart((Asset) node).setFactory(this)
-				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+//			if (node instanceof AssetCategory ) {
+//				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
+//				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+//				return part;
+//			}
+			if (node instanceof NeoComSimpleAsset ) {
+				IPart part = new NeoComSimpleAssetPart((NeoComSimpleAsset) node).setFactory(this)
+				                                                                .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
 		}

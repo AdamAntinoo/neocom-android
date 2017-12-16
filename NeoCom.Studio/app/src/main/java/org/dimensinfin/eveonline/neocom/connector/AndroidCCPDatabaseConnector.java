@@ -153,10 +153,10 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	private static final String SELECT_STATIONTYPE = "SELECT stationTypeID FROM staStations WHERE stationID = ?";
 
 	// - I T E M G R O U P 4 I D
-	private static int ITEMGROUP_GROUPID_COLINDEX = 1;
-	private static int ITEMGROUP_CATEGORYID_COLINDEX = 2;
-	private static int ITEMGROUP_GROUPNAME_COLINDEX = 3;
-	private static int ITEMGROUP_ICONLINKNAME_COLINDEX = 4;
+	private static int ITEMGROUP_GROUPID_COLINDEX = 0;
+	private static int ITEMGROUP_CATEGORYID_COLINDEX = 1;
+	private static int ITEMGROUP_GROUPNAME_COLINDEX = 2;
+	private static int ITEMGROUP_ICONLINKNAME_COLINDEX = 3;
 	private static final String SELECT_ITEMGROUP = "SELECT ig.groupID AS groupID"
 			+ " , ig.categoryID AS categoryID"
 			+ " , ig.groupName AS groupName"
@@ -166,9 +166,9 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			+ " WHERE ig.groupID = ?";
 
 	// - I T E M C A T E G O R Y 4 I D
-	private static int ITEMCATEGORY_CATEGORYID_COLINDEX = 1;
-	private static int ITEMCATEGORY_CATEGORYNAME_COLINDEX = 2;
-	private static int ITEMCATEGORY_ICONLINKNAME_COLINDEX = 3;
+	private static int ITEMCATEGORY_CATEGORYID_COLINDEX = 0;
+	private static int ITEMCATEGORY_CATEGORYNAME_COLINDEX = 1;
+	private static int ITEMCATEGORY_ICONLINKNAME_COLINDEX = 2;
 	private static final String SELECT_ITEMCATEGORY = "SELECT ic.categoryID AS categoryID"
 			+ " , ic.categoryName AS categoryName"
 			+ " , ei.iconFile AS iconLinkName"

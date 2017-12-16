@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#60000000">
+
+    <include layout="@layout/nodebase4list" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/assetName"
+        style="@style/AppTheme.NeoComText.Green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/qtyBlock"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/default_bponame" />
+
+    <TextView
+        android:id="@+id/assetLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/qtyBlock"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:visibility="invisible"
+        android:text="0.4 Hek - Boundless Station"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451EngTextView
+        android:id="@+id/assetCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/assetName"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="@string/default_category"
+        android:visibility="visible" />
+
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+        android:id="@+id/itemPrice"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_below="@+id/assetLocation"
+        android:layout_toLeftOf="@+id/stackValue"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:ellipsize="marquee"
+        android:gravity="left"
+         android:text="@string/default_isk"
+        android:visibility="visible" />
+
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+        android:id="@+id/stackValue"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/assetLocation"
+        android:ellipsize="marquee"
+        android:gravity="right"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:text="@string/default_isk" />
+
+    <TextView
+        android:id="@+id/valueLabel"
+        style="@style/AppTheme.Label.TopLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stackValue"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:gravity="right"
+        android:text="STACK VALUE" />
+
+    <LinearLayout
+        android:id="@+id/qtyBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+            android:id="@+id/count"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.StockCounter"
+            android:gravity="right"
+            android:text="@string/default_smallnumber" />
+
+        <TextView
+            android:id="@+id/noItemsLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/topwhiteline"
+            android:ellipsize="marquee"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="NO. ITEMS" />
+    </LinearLayout>
+
+</RelativeLayout>

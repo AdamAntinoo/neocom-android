@@ -10,20 +10,27 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerPart extends NeoComAbstractPart
-		implements INeoComDirectorPart, INamedPart/*, OnClickListener*/ /* , OnLongClickListener */ {
+		implements INeoComDirectorPart, INamedPart, OnClickListener /* , OnLongClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8992564305513190092L;
 
@@ -42,6 +49,25 @@ public class AssetsManagerPart extends NeoComAbstractPart
 	 */
 	public boolean checkActivation () {
 		return true;
+	}
+
+	/**
+	 * A click on the Manager should trigger the call to the corresponding Activity.
+	 */
+	public void onClick (final View view) {
+		NeoComAbstractPart.logger.info(">> [AssetsManagerPart.onClick]");
+		final Object managerPart = view.getTag();
+		if ( managerPart instanceof AssetsManagerPart ) {
+			// Managers have a reference to the Character linked when created.
+			final NeoComCharacter pilot = ((AssetsManagerPart) managerPart).getCastedModel().getPilot();
+			final Intent intent = new Intent(this.getActivity(), AssetsDirectorActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+			//				intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.PLANETARY_MANAGER.name());
+			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+		}
+		NeoComAbstractPart.logger.info("<< [AssetsManagerPart.onClick]");
 	}
 
 	//	/**

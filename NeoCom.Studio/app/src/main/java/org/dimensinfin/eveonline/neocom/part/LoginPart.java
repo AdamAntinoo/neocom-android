@@ -10,7 +10,6 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -140,10 +139,7 @@ final class LoginRender extends NeoComRender {
 
 	@Override
 	protected void createView() {
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		// The view is a new view. We have to fill all the items
-		_convertView = mInflater.inflate(R.layout.login4list, null);
+		_convertView = inflateView(R.layout.login4list);
 		_convertView.setTag(this);
 	}
 }

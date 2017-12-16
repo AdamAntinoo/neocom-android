@@ -247,9 +247,7 @@ final class Pilot4HeaderRender extends NeoComRender {
 
 	@Override
 	protected void createView() {
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		_convertView = mInflater.inflate(R.layout.pilotinfo4header, null);
+		_convertView = inflateView(R.layout.pilotinfo4header);
 		_convertView.setTag(this);
 	}
 }

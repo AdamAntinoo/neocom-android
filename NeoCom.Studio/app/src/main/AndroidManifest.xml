@@ -61,10 +61,10 @@ android:versionName="NeoCom 0.10.0" >
     </activity>
 
 
-    <!--<activity-->
-        <!--android:name="org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity"-->
-        <!--android:label="@string/title_activity_AssetsDirector" >-->
-    <!--</activity>-->
+    <activity
+        android:name="org.dimensinfin.eveonline.neocom.activity.AssetsDirectorActivity"
+        android:label="@string/title_activity_AssetsDirector" >
+    </activity>
     <!--<activity-->
         <!--android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"-->
         <!--android:label="@string/activity_subtitle_PlanetaryManagerActivity" >-->

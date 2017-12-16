@@ -32,7 +32,7 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.model.CategoryGroup;
+import org.dimensinfin.eveonline.neocom.model.AssetCategory;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -187,9 +187,9 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	//	private final Vector<NeoComAsset> unlocatedAssets = new Vector<NeoComAsset>();
 	private NeoComCharacter _pilot = null;
 
-	private SparseArray<CategoryGroup> _categories = new SparseArray();
+	private SparseArray<AssetCategory> _categories = new SparseArray();
 
-	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
+//	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByCategoryGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
@@ -214,6 +214,7 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 		this.setDataModel(new RootNode());
 
 		// Download and process all the user assets into the list of Categories.
+		_categories.clear();
 		downloadPilotAssets();
 		for (int i = 0; i < _categories.size(); i++) {
 			_dataModelRoot.addChild(_categories.valueAt(i));
@@ -251,9 +252,9 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 		final int categoryid = newasset.getCategoryId();
 
 		// Check if the category is already on the list.
-		final CategoryGroup hit = _categories.get(categoryid);
+		final AssetCategory hit = _categories.get(categoryid);
 		if ( null == hit ) {
-			final CategoryGroup newcategory = new CategoryGroup(categoryid);
+			final AssetCategory newcategory = new AssetCategory(categoryid);
 			newcategory.addAsset(newasset);
 			_categories.put(categoryid, newcategory);
 		} else hit.addAsset(newasset);
