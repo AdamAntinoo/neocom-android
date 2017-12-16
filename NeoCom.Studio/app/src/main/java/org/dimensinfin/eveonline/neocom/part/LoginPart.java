@@ -10,14 +10,18 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.constant.CoreConstants;
+import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
@@ -31,57 +35,68 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long			serialVersionUID		= -7696249781992547826L;
-	private static DecimalFormat	itemCountFormatter	= new DecimalFormat("###,##0");
+	private static final long serialVersionUID = -7696249781992547826L;
+	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LoginPart(final Login node) {
+	public LoginPart (final Login node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-
-	//	public String get_name() {
-	//		return this.getCastedModel().getName();
-	//	}
-
-	public Login getCastedModel() {
+	public Login getCastedModel () {
 		return (Login) this.getModel();
 	}
 
-	public long getModelID() {
+	public long getModelID () {
 		return this.getCastedModel().getName().hashCode();
 	}
 
-	public String getName() {
+	public String getName () {
 		return this.getCastedModel().getName();
 	}
 
-	public String getTransformedContentCount() {
+	public String getTransformedContentCount () {
 		return LoginPart.itemCountFormatter.format(this.getCastedModel().getCharacters().size());
 	}
 
-	public void onClick(final View view) {
-		// Toggle location to show its contents.
-		this.invalidate();
-		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+	public void onClick (final View view) {
+		logger.info(">> [LoginPart.onClick]");
+		// Signal the action may take some time and launch it on the background.
+		_clickRunning = true;
+		// Force the update of the listview.
+		invalidate();
+		notifyDataSetChanged();
+		// launch the actions on a new thread.
+		Handler handler = new Handler();
+		handler.postDelayed(new OneShotTask<LoginPart>(this) {
+			public void run () {
+				logger.info(">> [LoginPart.onClick.OneShotTask.run]");
+				Chrono chrono = new Chrono();
+				getTargetPart().toggleExpanded();
+				getTargetPart().invalidate();
+				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+				_clickRunning = false;
+				logger.info("<< [LoginPart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+			}
+		}, CoreConstants.HUNDRETH);
+		logger.info("<< [LoginPart.onClick]");
 	}
 
 	/**
 	 * Sort the Regions by their names.
 	 */
 	@Override
-	public List<IPart> runPolicies(final List<IPart> targets) {
+	public List<IPart> runPolicies (final List<IPart> targets) {
 		// Order the characters by alphabetical name.
 		Collections.sort(targets, PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 		return targets;
 	}
 
 	@Override
-	public String toString() {
+	public String toString () {
 		StringBuffer buffer = new StringBuffer("LoginPart [");
 		buffer.append(this.getCastedModel().getName());
 		buffer.append(" ]");
@@ -89,7 +104,7 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	protected AbstractRender selectRenderer () {
 		return new LoginRender(this, _activity);
 	}
 }
@@ -101,26 +116,26 @@ final class LoginRender extends NeoComRender {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
-	public TextView	name					= null;
-	public TextView	childCount		= null;
+	public TextView name = null;
+	public TextView childCount = null;
 
 	// - L A Y O U T   L A B E L S
-	public TextView	titleLabel		= null;
-	public TextView	locationLabel	= null;
+	public TextView titleLabel = null;
+	public TextView locationLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LoginRender(final LoginPart target, final Activity context) {
+	public LoginRender (final LoginPart target, final Activity context) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public LoginPart getPart() {
+	public LoginPart getPart () {
 		return (LoginPart) super.getPart();
 	}
 
 	@Override
-	public void initializeViews() {
+	public void initializeViews () {
 		super.initializeViews();
 		name = (TextView) _convertView.findViewById(R.id.name);
 		childCount = (TextView) _convertView.findViewById(R.id.childCount);
@@ -130,15 +145,17 @@ final class LoginRender extends NeoComRender {
 	}
 
 	@Override
-	public void updateContent() {
+	public void updateContent () {
+		logger.info(">> [LoginRender.updateContent]");
 		super.updateContent();
 		name.setText(this.getPart().getName());
 		childCount.setText(this.getPart().getTransformedContentCount());
-		_convertView.invalidate();
+		//		_convertView.invalidate();
+		logger.info("<< [LoginRender.updateContent]");
 	}
 
 	@Override
-	protected void createView() {
+	protected void createView () {
 		_convertView = inflateView(R.layout.login4list);
 		_convertView.setTag(this);
 	}

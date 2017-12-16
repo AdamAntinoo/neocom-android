@@ -68,7 +68,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
 			st = NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_AssetsByLocation);
 		}
-		if ( this.getVariant() == ENeoComVariants.ASSETS_MATERIALS.name() ) {
+		if ( this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name() ) {
 			st = NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_AssetsByCategory);
 		}
 		return st;
@@ -218,6 +218,7 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 
 		// Download and process all the user assets into the list of Categories.
 		_categories.clear();
+		NeoComAppConnector.getSingleton().startChrono();
 		downloadPilotAssets();
 		for (int i = 0; i < _categories.size(); i++) {
 			_dataModelRoot.addChild(_categories.valueAt(i));
@@ -232,6 +233,7 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 		try {
 			PilotAssetListParser parser = new PilotAssetListParser();
 			AssetListResponse response = parser.getResponse(getPilot().getAuthorization());
+			logger.info(">> [AssetsByCategoryGenerator.downloadPilotAssets]");
 			if ( null != response ) {
 				List<Asset> assets = response.getAll();
 				// Get the Group and Category to store the assets into its right hierarchy level.

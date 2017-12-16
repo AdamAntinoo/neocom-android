@@ -23,24 +23,24 @@ public class AssetsDirectorActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String	loginid			= null;
-	private long		characterid	= -1;
+	private String loginid = null;
+	private long characterid = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName() {
+	public String getName () {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsActivity);
 	}
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate (final Bundle savedInstanceState) {
 		AssetsDirectorActivity.logger.info(">> [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
-			if (null != savedInstanceState) {
+			if ( null != savedInstanceState ) {
 				extras = savedInstanceState;
 				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
@@ -51,8 +51,8 @@ public class AssetsDirectorActivity extends ANeoComPagerActivity {
 			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
-//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-						this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras), page++);
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras), page++);
 		} catch (RuntimeException rtex) {
 			AssetsDirectorActivity.logger.warning("RTEX [AssetsDirectorActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
@@ -64,7 +64,7 @@ public class AssetsDirectorActivity extends ANeoComPagerActivity {
 	}
 
 	@Override
-	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
 		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		super.onRestoreInstanceState(savedInstanceState);
@@ -74,10 +74,9 @@ public class AssetsDirectorActivity extends ANeoComPagerActivity {
 	 * Save the extra parameters information to be able to restore the page to their same state. There is no
 	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
 	 * reconstruct the AppModel state.
-	 *
 	 */
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState (final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
 		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);

@@ -12,6 +12,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import android.text.Html;
 import android.text.Spanned;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -181,6 +182,12 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		} catch (RuntimeException rtex) {
 			return "2014 01/01 00:00:00";
 		}
+	}
+
+	protected void notifyDataSetChanged () {
+		// Locate the DataSourceAdapter and fire to it the message.
+		final AbstractPagerFragment fragment = getFragment();
+		fragment.notifyDataSetChanged();
 	}
 
 	/**

@@ -10,6 +10,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -17,8 +18,11 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.constant.CoreConstants;
+import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
@@ -59,10 +63,25 @@ public class AssetCategoryPart extends NeoComAbstractPart implements INamedPart,
 	}
 
 	public void onClick (final View view) {
-		// Toggle location to show its contents.
-		this.invalidate();
-		this.toggleExpanded();
-		this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		logger.info(">> [AssetCategoryPart.onClick]");
+		// Signal the action may take some time and launch it on the background.
+		activateClick();
+		// Force the update of the listview.
+		invalidate();
+		notifyDataSetChanged();
+		// launch the actions on a new thread.
+		new Handler().postDelayed(new OneShotTask<AssetCategoryPart>(this) {
+			public void run () {
+				logger.info(">> [AssetCategoryPart.onClick.OneShotTask.run]");
+				Chrono chrono = new Chrono();
+				getTargetPart().toggleExpanded();
+				getTargetPart().invalidate();
+				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+				completeClick();
+				logger.info("<< [AssetCategoryPart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+			}
+		}, CoreConstants.HUNDRETH);
+		logger.info("<< [AssetCategoryPart.onClick]");
 	}
 
 	/**

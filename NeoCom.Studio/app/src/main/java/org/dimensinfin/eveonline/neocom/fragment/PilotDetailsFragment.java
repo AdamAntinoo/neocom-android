@@ -69,7 +69,8 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		final NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(loginid);
+		                                                   .addIdentifier(loginid)
+		                                                   .addIdentifier(characterid);
 		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), pilot));
 		setGenerator(generator);

@@ -7,6 +7,7 @@
 package org.dimensinfin.eveonline.neocom.render;
 
 // - IMPORT SECTION .........................................................................................
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -14,10 +15,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -66,15 +70,30 @@ public abstract class NeoComRender extends AbstractRender {
 			.createFromAsset(NeoComAppConnector.getSingleton().getApplicationContext().getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	// protected ITheme _theme = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComRender (final AbstractAndroidPart target, final Activity context) {
 		super(target, context);
-		// _theme = EVEDroidApp.getAppContext().getTheme();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
+	@Override
+	public void updateContent () {
+		super.updateContent();
+		// Check if the click is running and then replace the right arrow by an spinner.
+		if ( getPart().clickRunning() ) {
+			if ( null != _rightArrow ) {
+				logger.info("-- [LoginRender.updateContent]> Activating spinner animation.");
+				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.redprogress70, getContext().getTheme()));
+				Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
+				rotation.setRepeatCount(Animation.INFINITE);
+				_rightArrow.startAnimation(rotation);
+				_convertView.invalidate();
+			}
+		}
+	}
+
 	public Typeface getThemeTextFont() {
 		return NeoComRender.daysFace;
 	}
@@ -275,7 +294,7 @@ public abstract class NeoComRender extends AbstractRender {
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
-
+@Deprecated
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@SuppressWarnings("deprecation")
 	protected void setBackgroundTransparency(final int resource) {

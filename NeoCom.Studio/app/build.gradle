@@ -50,7 +50,7 @@ dependencies {
 //    implementation 'com.android.support:support-v4:27.0.1'
 //    implementation 'com.android.support:appcompat-v7:27.0.1'
 //    implementation 'com.android.support:support-v13:27.0.1'
-    implementation 'com.android.support:support-core-utils:27.0.1'
+    implementation 'com.android.support:support-core-utils:27.0.2'
 
     // A P P L I C A T I O N    D E P E N D E N C I E S
     // N E O C O M
@@ -63,7 +63,7 @@ dependencies {
     implementation 'org.htmlparser:htmlparser:2.1'
     implementation 'org.slf4j:slf4j-api:1.7.25'
 //    implementation 'org.slf4j:slf4j-android:1.7.25'
-    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
+    implementation 'com.github.tony19:logback-android-classic:1.1.1-6'
 
     // A P P L I C A T I O N    D E P E N D E N C I E S
     implementation 'com.jakewharton:butterknife:7.0.1'
