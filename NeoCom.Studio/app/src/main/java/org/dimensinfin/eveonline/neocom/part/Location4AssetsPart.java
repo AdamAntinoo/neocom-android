@@ -1,19 +1,16 @@
-//	PROJECT:        EVEIndustrialist (EVEI)
+//	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Industry and Manufacture.
-
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,46 +18,41 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.android.mvc.core.OneShotTask;
+import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 import java.util.Hashtable;
-import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class Location4AssetsPart extends LocationPart /*implements IMenuActionTarget, OnClickListener*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long													serialVersionUID	= -1226559463320336724L;
-	private static String															_contextMenuTitle	= "Select Location Role";
-	private static String[]														_contextMenu			= null;
+	private static final long serialVersionUID = -1226559463320336724L;
+	private static String _contextMenuTitle = "Select Location Role";
+	private static String[] _contextMenu = null;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final Hashtable<Long, AbstractAndroidPart> containerList			= new Hashtable<Long, AbstractAndroidPart>();
-//	private final Hashtable<Long, AssetPart>						containers				= new Hashtable();;
+	private final Hashtable<Long, AbstractAndroidPart> containerList = new Hashtable<Long, AbstractAndroidPart>();
+	//	private final Hashtable<Long, AssetPart>						containers				= new Hashtable();;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Location4AssetsPart(final EveLocation location) {
+	public Location4AssetsPart (final EveLocation location) {
 		super(location);
-//		_contextMenu = NeoComApp.getSingletonApp().getResources()
-//				.getStringArray(R.array.locationFunctions);
+		//		_contextMenu = NeoComApp.getSingletonApp().getResources()
+		//				.getStringArray(R.array.locationFunctions);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public double getItemsValoration() {
+	public double getItemsValoration () {
 		return itemsValueISK;
 	}
 
-	public double getItemsVolume() {
+	public double getItemsVolume () {
 		return itemsVolume;
 	}
 
@@ -69,13 +61,11 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 	 * collapsed that will show the total number of assets that are found on the database and the other values
 	 * when the Location is expanded that will show the number of graphical items (these are the real children
 	 * on the location) that will hide the number of items inside other containers.
-	 *
-	 * @return
 	 */
 	@Override
-	public String getTLocationContentCount() {
+	public String getTLocationContentCount () {
 		int locationAssets = 0;
-		if (this.getCastedModel() instanceof ExtendedLocation) {
+		if ( this.getCastedModel() instanceof ExtendedLocation ) {
 			locationAssets = ((ExtendedLocation) this.getCastedModel()).getContentSize();
 			//		else  locationAssets = this.getCastedModel().getContent();
 			//		if (this.getCastedModel().isExpanded()) {
@@ -95,7 +85,7 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 
 		String countString = null;
 
-		if (locationAssets > 1) {
+		if ( locationAssets > 1 ) {
 			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " items";
 		} else {
 			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " item";
@@ -103,7 +93,7 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 		return countString;
 	}
 
-	public CharSequence getTLocationID() {
+	public CharSequence getTLocationID () {
 		return NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getID());
 	}
 
@@ -116,108 +106,117 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 	 * During the processing the number of contents should be changed to a spinning later replaced by the right
 	 * number (expand/collapse).
 	 */
-	public void onClick(final View view) {
-		// Toggle location to show its contents.
-		this.invalidate();
-		this.toggleExpanded();
+	public void onClick (final View view) {
+		// Do the standard expand/collapse and the fire another message for the update of the model.
+		super.onClick(view);
+		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
+			public void run () {
+				logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
+//				if ( (getTargetPart().isExpanded()) && (!getTargetPart().is) ) {
+					getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+//				} else {
+//					getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+//				}
+				logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
+			}
+		}, CoreConstants.HUNDRETH);
+
+
+//		// Toggle location to show its contents.
+//		this.invalidate();
+//		this.toggleExpanded();
 		// For lazy evaluted parts check if the toggle requires a download.
-		if ((this.getCastedModel().isExpanded()) && (!this.getCastedModel().isDownloaded())) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-		} else {
-			this.fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-		}
 	}
 
-	public boolean onContextItemSelected(final MenuItem item) {
-		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
-		switch (item.getItemId()) {
-			case R.id.context_location_optimize:
-				// Managers have a reference to the Character linked when created.
-				final NeoComCharacter pilot = NeoComModelStore.getSingleton().getActiveCharacter();
-				final Intent intent = new Intent(this.getActivity(), PlanetaryOptimizationActivity.class);
-				// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
-				intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), this.getCastedModel().getID());
-				NeoComModelStore.getSingleton().getActivity().startActivity(intent);
-				return true;
-			default:
-				// Pass the event to parent, for options menu, use below
-				//		    return super.onOptionsItemSelected(item);
-		}
-		LocationPart.logger.info("<< [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
-		return true;
-	}
-
-	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
-		LocationPart.logger.info(">> [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
-		// Initialize the contextual menu each time.
-		MenuInflater inflater = new MenuInflater(NeoComAppConnector.getSingleton().getApplicationContext());
-		inflater.inflate(R.menu.context_location4assets, menu);
-		LocationPart.logger.info("<< [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
-	}
+//	public boolean onContextItemSelected (final MenuItem item) {
+//		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
+//		switch (item.getItemId()) {
+//			case R.id.context_location_optimize:
+//				// Managers have a reference to the Character linked when created.
+//				final NeoComCharacter pilot = NeoComModelStore.getSingleton().getActiveCharacter();
+//				final Intent intent = new Intent(this.getActivity(), PlanetaryOptimizationActivity.class);
+//				// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
+//				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+//				intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+//				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), this.getCastedModel().getID());
+//				NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+//				return true;
+//			default:
+//				// Pass the event to parent, for options menu, use below
+//				//		    return super.onOptionsItemSelected(item);
+//		}
+//		LocationPart.logger.info("<< [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
+//		return true;
+//	}
+//
+//	public void onCreateContextMenu (final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
+//		LocationPart.logger.info(">> [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
+//		// Initialize the contextual menu each time.
+//		MenuInflater inflater = new MenuInflater(NeoComAppConnector.getSingleton().getApplicationContext());
+//		inflater.inflate(R.menu.context_location4assets, menu);
+//		LocationPart.logger.info("<< [LocationAssetsPart.onCreateContextMenu]"); //$NON-NLS-1$
+//	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	protected AbstractRender selectRenderer () {
 		// Get the proper holder from the render mode.
 		return new Location4AssetsRender(this, _activity);
 	}
 
-	/**
-	 * Search for this container reference on this Location's children until found. Then aggregates the asset to
-	 * that container calculating stacking if this is possible. There can be containers inside container like
-	 * the case where a container is on the hols of a ship. That special case will not be implemented on this
-	 * first approach and all the container will be located at the Location's hangar floor.<br>
-	 * Containers also do not have its market value added to the location's aggregation.
-	 *
-	 * @param apart
-	 */
-	private void add2Container(final AssetPart apart) {
-		Log.i("LocationAssetsPart", ">> LocationAssetsPart.add2Container");
-		// Locate the container if already added to the location.
-		long pcid = apart.getCastedModel().getParentContainer().getDAOID();
-		Vector<IPart> childs = this.getChildren();
-		for (IPart child : childs)
-			if (child instanceof AssetPart) {
-				AssetPart check = (AssetPart) child;
-				long ccid = check.getCastedModel().getDAOID();
-				if (ccid == pcid) {
-					if (apart.getCastedModel().isBlueprint()) {
-						check.checkAssetStacking(apart);
-					} else {
-						check.addChild(apart);
-					}
-					Log.i("LocationAssetsPart", ".. LocationAssetsPart.add2Container added to container: " + ccid);
-					return;
-				}
-			}
-		// Add the container to the location and the the item to the container.
-		NeoComAsset container = apart.getCastedModel().getParentContainer();
-		AssetPart newpart = null;
-		if (container.isShip()) {
-			newpart = (AssetPart) new ShipPart(container).setRenderMode(this.getRenderMode());
-		} else if (container.isContainer()) {
-			newpart = (AssetPart) new ContainerPart(container).setRenderMode(this.getRenderMode());
-		} else {
-			newpart = (AssetPart) new AssetPart(container).setRenderMode(this.getRenderMode());
-		}
-		this.addChild(newpart);
-		newpart.addChild(apart);
-		Log.i("LocationAssetsPart", ".. LocationAssetsPart.add2Container created new container: " + container.getDAOID());
-	}
-
-	private void add2Location(final AssetPart apart) {
-		//	if (apart instanceof AssetPart) {
-		// Stacking is only for BPC
-		//	if (apart instanceof AssetPart)
-		if (apart.getCastedModel().isBlueprint()) {
-			this.checkAssetStacking(apart);
-		} else {
-			this.addChild(apart);
-			//	}
-		}
-	}
+//	/**
+//	 * Search for this container reference on this Location's children until found. Then aggregates the asset to
+//	 * that container calculating stacking if this is possible. There can be containers inside container like
+//	 * the case where a container is on the hols of a ship. That special case will not be implemented on this
+//	 * first approach and all the container will be located at the Location's hangar floor.<br>
+//	 * Containers also do not have its market value added to the location's aggregation.
+//	 */
+//	private void add2Container (final AssetPart apart) {
+//		Log.i("LocationAssetsPart", ">> LocationAssetsPart.add2Container");
+//		// Locate the container if already added to the location.
+//		long pcid = apart.getCastedModel().getParentContainer().getDAOID();
+//		Vector<IPart> childs = this.getChildren();
+//		for (IPart child : childs)
+//			if ( child instanceof AssetPart ) {
+//				AssetPart check = (AssetPart) child;
+//				long ccid = check.getCastedModel().getDAOID();
+//				if ( ccid == pcid ) {
+//					if ( apart.getCastedModel().isBlueprint() ) {
+//						check.checkAssetStacking(apart);
+//					} else {
+//						check.addChild(apart);
+//					}
+//					Log.i("LocationAssetsPart", ".. LocationAssetsPart.add2Container added to container: " + ccid);
+//					return;
+//				}
+//			}
+//		// Add the container to the location and the the item to the container.
+//		NeoComAsset container = apart.getCastedModel().getParentContainer();
+//		AssetPart newpart = null;
+//		if ( container.isShip() ) {
+//			newpart = (AssetPart) new ShipPart(container).setRenderMode(this.getRenderMode());
+//		} else if ( container.isContainer() ) {
+//			newpart = (AssetPart) new ContainerPart(container).setRenderMode(this.getRenderMode());
+//		} else {
+//			newpart = (AssetPart) new AssetPart(container).setRenderMode(this.getRenderMode());
+//		}
+//		this.addChild(newpart);
+//		newpart.addChild(apart);
+//		Log.i("LocationAssetsPart", ".. LocationAssetsPart.add2Container created new container: " + container.getDAOID());
+//	}
+//
+//	private void add2Location (final AssetPart apart) {
+//		//	if (apart instanceof AssetPart) {
+//		// Stacking is only for BPC
+//		//	if (apart instanceof AssetPart)
+//		if ( apart.getCastedModel().isBlueprint() ) {
+//			this.checkAssetStacking(apart);
+//		} else {
+//			this.addChild(apart);
+//			//	}
+//		}
+//	}
 }
+
 // - CLASS IMPLEMENTATION ...................................................................................
 final class Location4AssetsRender extends BaseExpandableRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
@@ -225,48 +224,49 @@ final class Location4AssetsRender extends BaseExpandableRender {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
-	public TextView	locationSystem						= null;
-	public TextView	locationRegion						= null;
-	public TextView	locationStation						= null;
-	public TextView	childCount								= null;
-	public TextView	function									= null;
-	public TextView	locationItemsValue				= null;
-	public TextView	locationItemsVolume				= null;
-	public TextView	locationIdentifier				= null;
+	//	protected ImageView nodeIcon = null;
+	protected TextView locationRegion = null;
+	protected TextView locationSystem = null;
+	protected TextView locationIdentifier = null;
+	protected TextView locationStation = null;
+	protected TextView childCount = null;
+	protected TextView function = null;
+	protected TextView locationItemsValue = null;
+	protected TextView locationItemsVolume = null;
 
 	// - L A Y O U T   L A B E L S
-	public TextView	locationItemsValueLabel		= null;
-	public TextView	locationItemsVolumeLabel	= null;
-	public TextView	functionLabel							= null;
+	protected TextView locationItemsValueLabel = null;
+	protected TextView locationItemsVolumeLabel = null;
+	protected TextView functionLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Location4AssetsRender(final NeoComAbstractPart target, final Activity context) {
+	public Location4AssetsRender (final NeoComAbstractPart target, final Activity context) {
 		super(target, context);
 	}
 
-	public String generatePriceSuffix(final double price) {
-		if (Math.abs(price) > 1200000000.0) return "B ISK";
-		if (Math.abs(price) > 12000000.0) return "M ISK";
+	public String generatePriceSuffix (final double price) {
+		if ( Math.abs(price) > 1200000000.0 ) return "B ISK";
+		if ( Math.abs(price) > 12000000.0 ) return "M ISK";
 		return "ISK";
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public LocationAssetsPart getPart() {
-		return (LocationAssetsPart) super.getPart();
+	public Location4AssetsPart getPart () {
+		return (Location4AssetsPart) super.getPart();
 	}
 
 	@Override
-	public void initializeViews() {
+	public void initializeViews () {
 		super.initializeViews();
-		locationSystem = (TextView) _convertView.findViewById(R.id.locationSystem);
 		locationRegion = (TextView) _convertView.findViewById(R.id.locationRegion);
+		locationSystem = (TextView) _convertView.findViewById(R.id.locationSystem);
+		locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
 		locationStation = (TextView) _convertView.findViewById(R.id.locationStation);
 		childCount = (TextView) _convertView.findViewById(R.id.childCount);
 		function = (TextView) _convertView.findViewById(R.id.role);
 		locationItemsValue = (TextView) _convertView.findViewById(R.id.locationItemsValue);
 		locationItemsVolume = (TextView) _convertView.findViewById(R.id.locationItemsVolume);
-		locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
 
 		locationItemsValueLabel = (TextView) _convertView.findViewById(R.id.locationItemsValueLabel);
 		locationItemsVolumeLabel = (TextView) _convertView.findViewById(R.id.locationItemsVolumeLabel);
@@ -274,52 +274,51 @@ final class Location4AssetsRender extends BaseExpandableRender {
 	}
 
 	@Override
-	public void updateContent() {
+	public void updateContent () {
 		super.updateContent();
-		locationSystem.setText(this.getPart().get_locationSystem());
-		locationIdentifier.setText(this.getPart().getTLocationID());
-		if (this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN) {
-			locationRegion.setText(this.getPart().get_locationRegion());
+		if ( this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN ) {
+			locationRegion.setText(this.getPart().getTLocationRegion());
 		} else {
-			locationRegion.setText(this.getPart().get_locationRegionConstellation());
+			locationRegion.setText(this.getPart().getTLocationRegionConstellation());
 		}
-		locationStation.setText(this.getPart().get_locationStation());
+		locationSystem.setText(this.getPart().getTLocationSystem());
+		locationIdentifier.setText(this.getPart().getTLocationID());
+		locationStation.setText(this.getPart().getTLocationStation());
 		childCount.setText(this.getPart().getTLocationContentCount());
 
 		// The value and volume depends on a setting.
 		double itemsValueISK = this.getPart().getItemsValoration();
-		if (itemsValueISK > 0.0) {
+		if ( itemsValueISK > 0.0 ) {
 			locationItemsValue.setText(this.generatePriceString(itemsValueISK, true, false));
 			locationItemsValueLabel.setText(this.generatePriceSuffix(itemsValueISK));
 		} else {
 			locationItemsValue.setText("-");
 		}
 		double itemsVolume = this.getPart().getItemsVolume();
-		if (itemsVolume > 0.0) {
-			locationItemsVolume.setText(EveAbstractHolder.qtyFormatter.format(itemsVolume));
+		if ( itemsVolume > 0.0 ) {
+			locationItemsVolume.setText(NeoComRender.qtyFormatter.format(itemsVolume));
 		} else {
 			locationItemsVolume.setText("-");
 		}
 
-		// Control the ROLE block
-		ArrayList<Property> roles = this.getPart().accessLocationFunction();
-		function.setVisibility(View.GONE);
-		functionLabel.setVisibility(View.GONE);
-		if ((null != roles) && (roles.size() > 0)) {
-			String functionName = "";
-			for (Property role : roles) {
-				functionName = functionName + " " + role.getStringValue();
-			}
-			function.setVisibility(View.VISIBLE);
-			functionLabel.setVisibility(View.VISIBLE);
-			function.setText(functionName);
-		}
-		this.loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), this.getPart().searchStationType(), true);
-		//	_convertView.setBackgroundResource(R.drawable.topwhiteline);
+//		// Control the ROLE block
+//		ArrayList<Property> roles = this.getPart().accessLocationFunction();
+//		function.setVisibility(View.GONE);
+//		functionLabel.setVisibility(View.GONE);
+//		if ( (null != roles) && (roles.size() > 0) ) {
+//			String functionName = "";
+//			for (Property role : roles) {
+//				functionName = functionName + " " + role.getStringValue();
+//			}
+//			function.setVisibility(View.VISIBLE);
+//			functionLabel.setVisibility(View.VISIBLE);
+//			function.setText(functionName);
+//		}
+		this.loadEveIcon((ImageView) _convertView.findViewById(R.id.nodeIcon), this.getPart().searchStationType(), true);
 	}
 
 	@Override
-	protected void createView() {
+	protected void createView () {
 		_convertView = inflateView(R.layout.location4assets);
 		_convertView.setTag(this);
 	}

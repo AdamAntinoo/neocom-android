@@ -34,20 +34,19 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	public void onClick (final View view) {
 		logger.info(">> [NeoComExpandablePart.onClick]");
 		// Signal the action may take some time and launch it on the background.
-		_clickRunning = true;
+		activateClick();
 		// Force the update of the listview.
 		invalidate();
 		notifyDataSetChanged();
-		// launch the actions on a new thread.
-		Handler handler = new Handler();
-		handler.postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
+		// Launch the actions on a new thread.
+		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
 			public void run () {
-				logger.info(">> [LoginPart.onClick.OneShotTask.run]");
+				logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
 				Chrono chrono = new Chrono();
 				getTargetPart().toggleExpanded();
 				getTargetPart().invalidate();
 				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-				_clickRunning = false;
+				completeClick();
 				logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
 			}
 		}, CoreConstants.HUNDRETH);

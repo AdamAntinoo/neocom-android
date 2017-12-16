@@ -156,7 +156,7 @@ final class NewLoginActionRender extends AbstractRender {
 		//		applicationName.setText(getPart().getCastedModel().getAppName());
 		//		applicationVersion.setText(getPart().getCastedModel().getAppVersion());
 		//		// During initialization set the background borders to red until completion of the core tasks.
-		nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.account_plus, getContext().getTheme()));
+		nodeIcon.setImageDrawable(getDrawable(R.drawable.account_plus));
 		_convertView.invalidate();
 	}
 

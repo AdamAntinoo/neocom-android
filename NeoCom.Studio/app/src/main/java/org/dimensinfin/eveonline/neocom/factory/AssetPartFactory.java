@@ -15,9 +15,13 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.AssetCategory;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
+import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetCategoryPart;
+import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.NeoComSimpleAssetPart;
+import org.dimensinfin.eveonline.neocom.part.RegionPart;
 
 import java.util.logging.Logger;
 
@@ -29,46 +33,30 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetPartFactory(final String variantSelected) {
+	public AssetPartFactory (final String variantSelected) {
 		super(variantSelected);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * The method should create the matching part for the model received but there is no other place where we
 	 * should create the next levels of the hierarchy. So we will create the part transformations here.
 	 */
 	@Override
-	public IPart createPart(final ICollaboration node) {
+	public IPart createPart (final ICollaboration node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
-		if (this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name()) {
-			if (node instanceof AssetCategory ) {
-				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
+		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
+			if ( node instanceof Region ) {
+				IPart part = new RegionPart((Region) node).setFactory(this)
+				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof EveLocation ) {
+				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
 				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
-//			if (node instanceof AssetCategory ) {
-//				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
-//				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
-			if (node instanceof NeoComSimpleAsset ) {
-				IPart part = new NeoComSimpleAssetPart((NeoComSimpleAsset) node).setFactory(this)
-				                                                                .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-				return part;
-			}
-		}
-		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
-			//		if (node instanceof Region) {
-			//			IPart part = new RegionPart((Region) node).setFactory(this)
-			//					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-			//			return part;
-			//		}
-			//		if (node instanceof EveLocation) {
-			//			IPart part = new LocationAssetsPart((EveLocation) node)
-			//					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
-			//			return part;
-			//		}
 			//		if (node instanceof Separator ) {
 			//			// These special separators can configure an specific icon.
 			//			IPart part = null;
@@ -132,6 +120,18 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 			//					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 			//			return part;
 			//		}
+		}
+		if ( this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name() ) {
+			if ( node instanceof AssetCategory ) {
+				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
+				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof NeoComSimpleAsset ) {
+				IPart part = new NeoComSimpleAssetPart((NeoComSimpleAsset) node).setFactory(this)
+				                                                                .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
 		}
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);

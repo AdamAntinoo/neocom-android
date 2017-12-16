@@ -14,20 +14,13 @@ import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -38,8 +31,8 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	protected static Logger logger = Logger.getLogger("LocationPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	@SuppressWarnings("rawtypes")
-	private final Hashtable<Long, HashMap<Integer, AssetPart>> stackList = new Hashtable();
+//	@SuppressWarnings("rawtypes")
+//	private final Hashtable<Long, HashMap<Integer, AssetPart>> stackList = new Hashtable();
 	protected double itemsValueISK = 0.0;
 	protected double itemsVolume = 0.0;
 
@@ -62,39 +55,29 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 		return this.getCastedModel().getName();
 	}
 
-	public ArrayList accessLocationFunction () {
-		return this.getPilot().getLocationRoles(this.getCastedModel().getID(), "-NO-FUNCTION-");
-	}
-
-	public long get_locationID () {
-		return this.getCastedModel().getID();
-	}
-
-	public Spanned get_locationRegion () {
+	public Spanned getTLocationRegion () {
 		double security = this.getCastedModel().getSecurityValue();
 		return Html.fromHtml(this.generateSecurityColor(security,
 				AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getConstellation()));
 	}
 
-	public Spanned get_locationRegionConstellation () {
+	public Spanned getTLocationRegionConstellation () {
 		double security = this.getCastedModel().getSecurityValue();
 		return Html.fromHtml(this.generateSecurityColor(security, this.getCastedModel().getRegion()
 				+ AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getConstellation()));
 	}
 
-	public Spanned get_locationStation () {
+	public String getTLocationSystem () {
+		return this.getCastedModel().getSystem();
+	}
+
+	public Spanned getTLocationStation () {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = this.getCastedModel().getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
 		htmlLocation.append(" ").append(this.getCastedModel().getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
-
-	public String get_locationSystem () {
-		return this.getCastedModel().getSystem();
-	}
-
-
 	/**
 	 * Returns the number of model part children that are the blueprints at that location. If the case on a same
 	 * station there are more than one container they will be represented as different locations.
@@ -109,6 +92,31 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 		}
 		return countString;
 	}
+	public int searchStationType () {
+		return NeoComAppConnector.getSingleton().getCCPDBConnector()
+		                         .searchStationType(this.getCastedModel().getStationID());
+	}
+	/**
+	 * The policies for locations are two sorts. The first one by name the second by item type.
+	 */
+	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
+		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_ITEM_TYPE));
+		return targets;
+	}
+
+
+
+
+//	public ArrayList accessLocationFunction () {
+//		return this.getPilot().getLocationRoles(this.getCastedModel().getID(), "-NO-FUNCTION-");
+//	}
+//
+//	public long get_locationID () {
+//		return this.getCastedModel().getID();
+//	}
+
+
 
 	//	@Override
 	//	public ArrayList<AbstractAndroidPart> getPartChildren() {
@@ -132,19 +140,7 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	//		return result;
 	//	}
 
-	/**
-	 * The policies for locations are two sorts. The first one by name the second by item type.
-	 */
-	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
-		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
-		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_ITEM_TYPE));
-		return targets;
-	}
 
-	public int searchStationType () {
-		return NeoComAppConnector.getSingleton().getCCPDBConnector()
-		                         .searchStationType(this.getCastedModel().getStationID());
-	}
 
 	@Override
 	public String toString () {
@@ -154,54 +150,54 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 		return buffer.toString();
 	}
 
-	protected void calculateValue (final NeoComAsset asset, final AssetPart apart) {
-		// Skip blueprints from the value calculations
-		if ( null != asset ) {
-			EveItem item = asset.getItem();
-			if ( null != item ) {
-				String category = item.getCategory();
-				String group = item.getGroupName();
-				if ( null != category ) if ( !category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint) ) {
-					// Add the value and volume of the stack to the global result.
-					long quantity = apart.getCastedModel().getQuantity();
-					double price = apart.getCastedModel().getItem().getHighestBuyerPrice().getPrice();
-					itemsValueISK += price * quantity;
-					// Add volume but if it is an assembled ship or assembled container
-					if ( (group.equalsIgnoreCase("Secure Cargo Container")) || (category.equalsIgnoreCase("Ship")) ) {
-						itemsVolume += 0;
-					} else {
-						itemsVolume += quantity * apart.getCastedModel().getItem().getVolume();
-					}
-				}
-			}
-		}
-	}
-
-	protected void checkAssetStacking (/* final LocationPart target, */final AssetPart apart) {
-		// Locate the stack if exists.
-		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getID());
-		int type = apart.getCastedModel().getTypeID();
-		if ( null != container ) {
-			AssetPart stack = container.get(type);
-			if ( null != stack ) {
-				//	if (stack instanceof AssetPart) {
-				int count = stack.getCastedModel().getQuantity();
-				stack.getCastedModel().setQuantity(count + 1);
-				return;
-				//	}
-				// Do nothing because we do not know how to add to Assets.
-			} else {
-				// Add a new stack for this type to the current container.
-				container.put(type, apart);
-				this.addChild(apart);
-			}
-		} else {
-			// There is no container also with this stack.
-			container = new HashMap<Integer, AssetPart>();
-			container.put(type, apart);
-			this.addChild(apart);
-			stackList.put(this.getCastedModel().getID(), container);
-		}
-	}
+//	protected void calculateValue (final NeoComAsset asset, final AssetPart apart) {
+//		// Skip blueprints from the value calculations
+//		if ( null != asset ) {
+//			EveItem item = asset.getItem();
+//			if ( null != item ) {
+//				String category = item.getCategory();
+//				String group = item.getGroupName();
+//				if ( null != category ) if ( !category.equalsIgnoreCase(ModelWideConstants.eveglobal.Blueprint) ) {
+//					// Add the value and volume of the stack to the global result.
+//					long quantity = apart.getCastedModel().getQuantity();
+//					double price = apart.getCastedModel().getItem().getHighestBuyerPrice().getPrice();
+//					itemsValueISK += price * quantity;
+//					// Add volume but if it is an assembled ship or assembled container
+//					if ( (group.equalsIgnoreCase("Secure Cargo Container")) || (category.equalsIgnoreCase("Ship")) ) {
+//						itemsVolume += 0;
+//					} else {
+//						itemsVolume += quantity * apart.getCastedModel().getItem().getVolume();
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	protected void checkAssetStacking (/* final LocationPart target, */final AssetPart apart) {
+//		// Locate the stack if exists.
+//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getID());
+//		int type = apart.getCastedModel().getTypeID();
+//		if ( null != container ) {
+//			AssetPart stack = container.get(type);
+//			if ( null != stack ) {
+//				//	if (stack instanceof AssetPart) {
+//				int count = stack.getCastedModel().getQuantity();
+//				stack.getCastedModel().setQuantity(count + 1);
+//				return;
+//				//	}
+//				// Do nothing because we do not know how to add to Assets.
+//			} else {
+//				// Add a new stack for this type to the current container.
+//				container.put(type, apart);
+//				this.addChild(apart);
+//			}
+//		} else {
+//			// There is no container also with this stack.
+//			container = new HashMap<Integer, AssetPart>();
+//			container.put(type, apart);
+//			this.addChild(apart);
+//			stackList.put(this.getCastedModel().getID(), container);
+//		}
+//	}
 }
 // - UNUSED CODE ............................................................................................

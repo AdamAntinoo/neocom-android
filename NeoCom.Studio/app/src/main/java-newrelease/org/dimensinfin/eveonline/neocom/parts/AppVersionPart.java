@@ -12,14 +12,15 @@
 package org.dimensinfin.eveonline.neocom.parts;
 
 // - IMPORT SECTION .........................................................................................
+
 import android.app.Activity;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
+import org.dimensinfin.eveonline.neocom.part.NeoComAbstractPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AppVersionPart extends NeoComAbstractPart {
@@ -38,8 +39,6 @@ public class AppVersionPart extends NeoComAbstractPart {
 	/**
 	 * This is the method to convert the generic model node to this Part specific model class. Conversion failure can
 	 * exist so the methods that use this call should be aware if it and have an alternativo to intercept the exception.
-	 *
-	 * @return
 	 */
 	public AppVersion getCastedModel () {
 		try {
@@ -47,7 +46,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 		} catch (final RuntimeException rtex) {
 			throw new NeocomRuntimeException("RTEX [AppVersionPart.getCastedModel]> Stored model class does not match the expected 'AppVersion' part class.");
 		}
-//		return (AppVersion) this.getModel();
+		//		return (AppVersion) this.getModel();
 	}
 
 	@Override
@@ -105,7 +104,7 @@ final class AppVersionRender extends AbstractRender {
 		applicationName.setText(getPart().getCastedModel().getAppName());
 		applicationVersion.setText(getPart().getCastedModel().getAppVersion());
 		// During initialization set the background borders to red until completion of the core tasks.
-		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred,getContext().getTheme()));
+		_convertView.setBackground(getDrawable(R.drawable.panelborderred));
 	}
 
 	public String toString () {

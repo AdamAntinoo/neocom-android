@@ -327,9 +327,10 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	}
 
 	public int queryBlueprintDependencies (final int bpitemID) {
+		final String SQLSTATEMENT = "SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?";
 		try {
 			final Cursor cursor = this.getCCPDatabase().rawQuery(
-					"SELECT parentBlueprintTypeID FROM invBlueprintTypes BT WHERE blueprintTypeID = ?",
+					SQLSTATEMENT,
 					new String[]{Integer.valueOf(bpitemID).toString()});
 			if ( null != cursor ) {
 				int parentBlueprintTypeID = -1;

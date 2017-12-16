@@ -105,18 +105,6 @@ public class AssetsFragment extends AbstractPagerFragment {
 					.registerGenerator(new AssetsByCategoryGenerator(locator, this.getVariant(), getExtras()));
 		}
 		setGenerator(generator);
-		//		// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.
-		//		SpecialDataSource ds = new MVCDataSource(locator, this.getFactory(), generator);
-		//		ds.setVariant(this.getVariant());
-		//		//	ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		//		this.setDataSource(DataSourceManager.registerDataSource(ds));
-		//		if (this.getVariant() == EAssetVariants.ASSETS_MATERIALS.name()) {
-		//			// Register the datasource. If this same datasource is already at the manager we get it instead creating a new one.
-		//			SpecialDataSource ds = new AssetsMaterialsDataSource(locator, getFactory());
-		//			ds.setVariant(this.getVariant());
-		//			ds.addParameter(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), this.getPilot().getCharacterID());
-		//			this.setDataSource(AppModelStore.getSingleton().getDataSourceConector().registerDataSource(ds));
-		//		}
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
 	}
 
@@ -136,16 +124,20 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	// - F I E L D - S E C T I O N ............................................................................
 	private String _loginid = null;
 	private long _characterid = -1;
-	//	private EManagerType	_manager			= EManagerType.ASSETS_MANAGER;
+	private NeoComCharacter _pilot = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
 		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public NeoComCharacter getPilot () {
+		return _pilot;
+	}
 
 	/**
 	 * This adapter should generate the model for all the assets aggregated by Location. The Locations are lazy
@@ -156,19 +148,22 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	 */
 	public RootNode collaborate2Model () {
 		AbstractGenerator.logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
-		// Get the Assets Manager active at the character.
-		NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
-		AssetsManager assetsMan = pilot.getAssetsManager();
-		// Check it is initialized.
-		assetsMan.initialize();
-		// Initialize the Adapter data structures.
-		this.setDataModel(new RootNode());
-		// Add the first level that are the Regions.
-		Hashtable<Long, Region> regs = assetsMan.getRegions();
-		for (Long key : regs.keySet()) {
-			_dataModelRoot.addChild(regs.get(key));
-			AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
-					+ regs.get(key).getLocations() + "' to the _dataModelRoot");
+		// On cached generators we should check if the model is initialized.
+		if ( null == _dataModelRoot ) {
+			this.setDataModel(new RootNode());
+			// Get the Assets Manager active at the character.
+			AssetsManager assetsMan = getPilot().getAssetsManager();
+			// Check it is initialized.
+			assetsMan.initialize();
+			// Initialize the Adapter data structures.
+			this.setDataModel(new RootNode());
+			// Add the first level that are the Regions.
+			Hashtable<Long, Region> regs = assetsMan.getRegions();
+			for (Long key : regs.keySet()) {
+				_dataModelRoot.addChild(regs.get(key));
+				AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
+						+ regs.get(key).getLocations() + "' to the _dataModelRoot");
+			}
 		}
 		AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
 		return _dataModelRoot;
@@ -184,7 +179,6 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	// - F I E L D - S E C T I O N ............................................................................
 	private String _loginid = null;
 	private long _characterid = -1;
-	//	private final Vector<NeoComAsset> unlocatedAssets = new Vector<NeoComAsset>();
 	private NeoComCharacter _pilot = null;
 
 	private SparseArray<AssetCategory> _categories = new SparseArray();

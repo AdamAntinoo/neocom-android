@@ -14,6 +14,9 @@
     <color name="security01">#D73000</color>
     <color name="security00">#F00000</color>
 
+    <!-- Locations additional colors -->
+    <color name="locationFunctionBlueBkgnd">#AA3333CC</color>
+    <color name="blueStrokeBox">#FF8080FF</color>
 
     <!-- Application Theme colors -->
     <!--<color name="colorPrimary">#FFFFFFFF</color>-->
@@ -107,8 +110,6 @@
     <!--<color name="greenBkgndLight">#47A086</color>-->
     <!--<color name="transparency10">#1A000000</color>-->
     <!--<color name="lightWhite">#FFDDDDDD</color>-->
-    <!--<color name="locationFunctionBlueBkgnd">#AA3333CC</color>-->
-    <!--<color name="blueStrokeBox">#FF8080FF</color>-->
 
     <!--&lt;!&ndash; Blue Theme colors for boxes and backgrounds &ndash;&gt;-->
     <!--<color name="blueBkgndLight">#FF99D9EA</color>-->
