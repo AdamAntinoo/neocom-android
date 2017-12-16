@@ -189,7 +189,7 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 
 	private SparseArray<AssetCategory> _categories = new SparseArray();
 
-//	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
+	//	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByCategoryGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
@@ -211,7 +211,10 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	 */
 	public RootNode collaborate2Model () {
 		AbstractGenerator.logger.info(">> [AssetsByCategoryGenerator.collaborate2Model]");
-		this.setDataModel(new RootNode());
+		// On cached generators we should check if the model is initialized.
+		if ( null == _dataModelRoot )
+			this.setDataModel(new RootNode());
+		else return _dataModelRoot;
 
 		// Download and process all the user assets into the list of Categories.
 		_categories.clear();
