@@ -104,7 +104,7 @@ public class AssetsManagerPart extends NeoComAbstractPart
 	 * copy at the database.
 	 */
 	public String getTAssetsCount () {
-		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssets());
+		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getTotalAssetsNumber());
 	}
 
 	public String getTRegionCount () {

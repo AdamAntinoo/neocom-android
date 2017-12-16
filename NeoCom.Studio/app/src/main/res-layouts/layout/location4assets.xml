@@ -4,26 +4,11 @@
     android:layout_height="wrap_content"
     android:background="@drawable/panelborderorange" >
 
-    <ImageView
-        android:id="@+id/itemIcon"
-        style="@style/ItemIcon.Style.Size32"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/region" />
+    <include layout="@layout/nodebase4expand" />
 
-    <ImageView
-        android:id="@+id/rightArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/imageview_defaultcontent"
-        android:padding="-4dp"
-        android:src="@drawable/arrowleft" />
-
-    <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/locationRegion"
-        style="@style/Name.Style"
+        style="@style/AppTheme.NeoComText.Orange"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="right"
@@ -36,18 +21,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/rightArrow"
-        android:layout_toRightOf="@+id/itemIcon" >
+        android:layout_toRightOf="@+id/nodeIcon" >
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/locationSystem"
-            style="@style/Name.Selectable.14"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:textSize="14sp"
             android:text="Tash-Murkon - Moon 22" />
 
-        <org.dimensinfin.eveonline.neocom.core.MonsOlympiaBold
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/locationIdentifier"
-            style="@style/Name.Style.11"
+            style="@style/AppTheme.TextView"
+            android:textSize="11sp"
             android:layout_alignBaseline="@+id/locationSystem"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/locationSystem"
@@ -61,17 +48,18 @@
             android:layout_below="@+id/locationSystem"
             android:background="@drawable/bottomwhiteline" >
 
-            <org.dimensinfin.eveonline.neocom.core.Din1451EngTextView
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/locationStation"
-                style="@style/LocationStyle"
+                style="@style/AppTheme.Location"
                 android:layout_alignBaseline="@+id/childCount"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/childCount"
                 android:text="@string/default_location" />
 
-            <org.dimensinfin.eveonline.neocom.core.Din1451BoldTextView
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/childCount"
-                style="@style/Number.Style.16"
+                style="@style/AppTheme.TextView"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -89,13 +77,13 @@
 
             <TextView
                 android:id="@+id/locationLabel"
-                style="@style/LabelStyle.Small"
+                style="@style/AppTheme.Label"
                 android:layout_alignParentLeft="true"
                 android:text="STATION" />
 
             <TextView
                 android:id="@+id/childCountLabel"
-                style="@style/LabelStyle.Small"
+                style="@style/AppTheme.Label"
                 android:layout_alignParentRight="true"
                 android:gravity="right"
                 android:text="ITEMS" />
@@ -109,7 +97,7 @@
 
             <TextView
                 android:id="@+id/role"
-                style="@style/LocationStyle.Role"
+                style="@style/AppTheme.Location.Role"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@+id/functionLabel"
                 android:gravity="right"
@@ -118,7 +106,7 @@
 
             <TextView
                 android:id="@+id/functionLabel"
-                style="@style/LabelStyle.Small"
+                style="@style/AppTheme.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -169,20 +157,22 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
 
-                <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/locationItemsValue"
-                    style="@style/NumberStyle.LocationData"
+                    style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"
+                    android:textSize="12sp"
                     android:layout_marginRight="3dp"
                     android:gravity="right"
                     android:text="-"
                     android:visibility="visible" />
 
-                <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/locationItemsVolume"
-                    style="@style/NumberStyle.LocationData"
+                    style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:layout_marginRight="3dp"
                     android:gravity="right"
                     android:text="-"

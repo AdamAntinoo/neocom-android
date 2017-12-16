@@ -6,53 +6,56 @@
 
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.HashMap;
-import java.util.Vector;
-
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.render.Location4AssetsRender;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.ELocationType;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
+import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+
+import java.util.Hashtable;
+import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LocationAssetsPart extends LocationPart implements IMenuActionTarget, OnClickListener {
+public class Location4AssetsPart extends LocationPart /*implements IMenuActionTarget, OnClickListener*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long													serialVersionUID	= -1226559463320336724L;
 	private static String															_contextMenuTitle	= "Select Location Role";
 	private static String[]														_contextMenu			= null;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final HashMap<Long, AbstractAndroidPart>	containerList			= new HashMap<Long, AbstractAndroidPart>();
-	private final HashMap<Long, AssetPart>						containers				= new HashMap();;
+	private final Hashtable<Long, AbstractAndroidPart> containerList			= new Hashtable<Long, AbstractAndroidPart>();
+//	private final Hashtable<Long, AssetPart>						containers				= new Hashtable();;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LocationAssetsPart(final EveLocation location) {
+	public Location4AssetsPart(final EveLocation location) {
 		super(location);
-		LocationAssetsPart._contextMenu = NeoComApp.getSingletonApp().getResources()
-				.getStringArray(R.array.locationFunctions);
+//		_contextMenu = NeoComApp.getSingletonApp().getResources()
+//				.getStringArray(R.array.locationFunctions);
 	}
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	public double getItemsValoration() {
 		return itemsValueISK;
 	}
@@ -61,7 +64,6 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 		return itemsVolume;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	/**
 	 * Returns the number of assets located in this Eve Location. There are two values, one for the Location
 	 * collapsed that will show the total number of assets that are found on the database and the other values
@@ -214,6 +216,112 @@ public class LocationAssetsPart extends LocationPart implements IMenuActionTarge
 			this.addChild(apart);
 			//	}
 		}
+	}
+}
+// - CLASS IMPLEMENTATION ...................................................................................
+final class Location4AssetsRender extends BaseExpandableRender {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+
+	// - L A Y O U T   F I E L D S
+	public TextView	locationSystem						= null;
+	public TextView	locationRegion						= null;
+	public TextView	locationStation						= null;
+	public TextView	childCount								= null;
+	public TextView	function									= null;
+	public TextView	locationItemsValue				= null;
+	public TextView	locationItemsVolume				= null;
+	public TextView	locationIdentifier				= null;
+
+	// - L A Y O U T   L A B E L S
+	public TextView	locationItemsValueLabel		= null;
+	public TextView	locationItemsVolumeLabel	= null;
+	public TextView	functionLabel							= null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public Location4AssetsRender(final NeoComAbstractPart target, final Activity context) {
+		super(target, context);
+	}
+
+	public String generatePriceSuffix(final double price) {
+		if (Math.abs(price) > 1200000000.0) return "B ISK";
+		if (Math.abs(price) > 12000000.0) return "M ISK";
+		return "ISK";
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public LocationAssetsPart getPart() {
+		return (LocationAssetsPart) super.getPart();
+	}
+
+	@Override
+	public void initializeViews() {
+		super.initializeViews();
+		locationSystem = (TextView) _convertView.findViewById(R.id.locationSystem);
+		locationRegion = (TextView) _convertView.findViewById(R.id.locationRegion);
+		locationStation = (TextView) _convertView.findViewById(R.id.locationStation);
+		childCount = (TextView) _convertView.findViewById(R.id.childCount);
+		function = (TextView) _convertView.findViewById(R.id.role);
+		locationItemsValue = (TextView) _convertView.findViewById(R.id.locationItemsValue);
+		locationItemsVolume = (TextView) _convertView.findViewById(R.id.locationItemsVolume);
+		locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
+
+		locationItemsValueLabel = (TextView) _convertView.findViewById(R.id.locationItemsValueLabel);
+		locationItemsVolumeLabel = (TextView) _convertView.findViewById(R.id.locationItemsVolumeLabel);
+		functionLabel = (TextView) _convertView.findViewById(R.id.functionLabel);
+	}
+
+	@Override
+	public void updateContent() {
+		super.updateContent();
+		locationSystem.setText(this.getPart().get_locationSystem());
+		locationIdentifier.setText(this.getPart().getTLocationID());
+		if (this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN) {
+			locationRegion.setText(this.getPart().get_locationRegion());
+		} else {
+			locationRegion.setText(this.getPart().get_locationRegionConstellation());
+		}
+		locationStation.setText(this.getPart().get_locationStation());
+		childCount.setText(this.getPart().getTLocationContentCount());
+
+		// The value and volume depends on a setting.
+		double itemsValueISK = this.getPart().getItemsValoration();
+		if (itemsValueISK > 0.0) {
+			locationItemsValue.setText(this.generatePriceString(itemsValueISK, true, false));
+			locationItemsValueLabel.setText(this.generatePriceSuffix(itemsValueISK));
+		} else {
+			locationItemsValue.setText("-");
+		}
+		double itemsVolume = this.getPart().getItemsVolume();
+		if (itemsVolume > 0.0) {
+			locationItemsVolume.setText(EveAbstractHolder.qtyFormatter.format(itemsVolume));
+		} else {
+			locationItemsVolume.setText("-");
+		}
+
+		// Control the ROLE block
+		ArrayList<Property> roles = this.getPart().accessLocationFunction();
+		function.setVisibility(View.GONE);
+		functionLabel.setVisibility(View.GONE);
+		if ((null != roles) && (roles.size() > 0)) {
+			String functionName = "";
+			for (Property role : roles) {
+				functionName = functionName + " " + role.getStringValue();
+			}
+			function.setVisibility(View.VISIBLE);
+			functionLabel.setVisibility(View.VISIBLE);
+			function.setText(functionName);
+		}
+		this.loadEveIcon((ImageView) _convertView.findViewById(R.id.itemIcon), this.getPart().searchStationType(), true);
+		//	_convertView.setBackgroundResource(R.drawable.topwhiteline);
+	}
+
+	@Override
+	protected void createView() {
+		_convertView = inflateView(R.layout.location4assets);
+		_convertView.setTag(this);
 	}
 }
 

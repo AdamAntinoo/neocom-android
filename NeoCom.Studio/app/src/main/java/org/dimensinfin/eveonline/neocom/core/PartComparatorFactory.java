@@ -1,35 +1,37 @@
-//	PROJECT:        NeoCom.model (NEOC.M)
+//	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Isolated model structures to access and manage Eve Online character data and their
-//									available databases.
-//									This version includes the access to the latest 6.x version of eveapi libraries to
-//									download ad parse the CCP XML API data.
-//									Code integration that is not dependent on any specific platform.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.core;
 
 
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 
 import java.util.Comparator;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PartComparatorFactory {
+	public enum ComparatorType{
+		COMPARATOR_NAME,COMPARATOR_ITEM_TYPE
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger	= Logger.getLogger("PartComparatorFactory");
 
-	public static Comparator<IPart> createPartComparator(final int code) {
+	public static Comparator<IPart> createPartComparator(final ComparatorType code) {
 		Comparator<IPart> comparator = new Comparator<IPart>() {
 			public int compare(final IPart left, final IPart right) {
 				return 0;
 			}
 		};
 		switch (code) {
-			case AppWideConstants.comparators.COMPARATOR_NAME:
+			case COMPARATOR_NAME:
 				comparator = new Comparator<IPart>() {
 					public int compare(final IPart left, final IPart right) {
 						String leftField = null;
@@ -75,12 +77,12 @@ public class PartComparatorFactory {
 //					}
 //				};
 //				break;
-//			case AppWideConstants.comparators.COMPARATOR_ITEM_TYPE:
-//				comparator = new Comparator<IPart>() {
-//					public int compare(final IPart left, final IPart right) {
-//						int leftField = -1;
-//						int rightField = -1;
-//						// if (left instanceof BlueprintPart) leftField = 100;
+			case COMPARATOR_ITEM_TYPE:
+				comparator = new Comparator<IPart>() {
+					public int compare(final IPart left, final IPart right) {
+						int leftField = -1;
+						int rightField = -1;
+						// if (left instanceof BlueprintPart) leftField = 100;
 //						if (left instanceof AssetPart) {
 //							leftField = 0;
 //						}
@@ -101,13 +103,13 @@ public class PartComparatorFactory {
 //						if (right instanceof ContainerPart) {
 //							rightField = -300;
 //						}
-//
-//						if (leftField < rightField) return -1;
-//						if (leftField > rightField) return 1;
-//						return 0;
-//					}
-//				};
-//				break;
+
+						if (leftField < rightField) return -1;
+						if (leftField > rightField) return 1;
+						return 0;
+					}
+				};
+				break;
 //			case AppWideConstants.comparators.COMPARATOR_CARD_RATIO:
 //				comparator = new Comparator<IPart>() {
 //					public int compare(final IPart left, final IPart right) {

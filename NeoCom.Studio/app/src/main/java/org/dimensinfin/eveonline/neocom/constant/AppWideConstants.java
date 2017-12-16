@@ -31,24 +31,24 @@ public class AppWideConstants {
 
 
 	// - C O M P A R A T O R S
-	public static final class comparators {
-		public static final int	COMPARATOR_NAME							= 100;
-		public static final int	COMPARATOR_ASSET_COUNT			= comparators.COMPARATOR_NAME + 1;
-		public static final int	COMPARATOR_ITEM_TYPE				= comparators.COMPARATOR_NAME + 2;
-		public static final int	COMPARATOR_RESOURCE_TYPE		= comparators.COMPARATOR_NAME + 3;
-		public static final int	COMPARATOR_APIID_ASC				= comparators.COMPARATOR_NAME + 4;
-		public static final int	COMPARATOR_APIID_DESC				= comparators.COMPARATOR_NAME + 5;
-		public static final int	COMPARATOR_PRIORITY					= comparators.COMPARATOR_NAME + 6;
-		public static final int	COMPARATOR_WEIGHT						= comparators.COMPARATOR_NAME + 16;
-		public static final int	COMPARATOR_NEWESTDATESORT		= comparators.COMPARATOR_NAME + 7;
-		public static final int	COMPARATOR_OLDESTDATESORT		= comparators.COMPARATOR_NAME + 8;
-		public static final int	COMPARATOR_REQUEST_PRIORITY	= comparators.COMPARATOR_NAME + 17;
-		public static final int	COMPARATOR_CARD_RATIO				= comparators.COMPARATOR_NAME + 18;
-		// public static final int COMPARATOR_CREATIONDATE = COMPARATOR_NAME +
-		// 9;
-		public static final int	COMPARATOR_TIMEPENDING			= comparators.COMPARATOR_NAME + 10;
-		public static final int	COMPARATOR_GROUPNAME				= comparators.COMPARATOR_NAME + 20;
-	}
+//	public static final class comparators {
+//		public static final int	COMPARATOR_NAME							= 100;
+//		public static final int	COMPARATOR_ASSET_COUNT			= comparators.COMPARATOR_NAME + 1;
+//		public static final int	COMPARATOR_ITEM_TYPE				= comparators.COMPARATOR_NAME + 2;
+//		public static final int	COMPARATOR_RESOURCE_TYPE		= comparators.COMPARATOR_NAME + 3;
+//		public static final int	COMPARATOR_APIID_ASC				= comparators.COMPARATOR_NAME + 4;
+//		public static final int	COMPARATOR_APIID_DESC				= comparators.COMPARATOR_NAME + 5;
+//		public static final int	COMPARATOR_PRIORITY					= comparators.COMPARATOR_NAME + 6;
+//		public static final int	COMPARATOR_WEIGHT						= comparators.COMPARATOR_NAME + 16;
+//		public static final int	COMPARATOR_NEWESTDATESORT		= comparators.COMPARATOR_NAME + 7;
+//		public static final int	COMPARATOR_OLDESTDATESORT		= comparators.COMPARATOR_NAME + 8;
+//		public static final int	COMPARATOR_REQUEST_PRIORITY	= comparators.COMPARATOR_NAME + 17;
+//		public static final int	COMPARATOR_CARD_RATIO				= comparators.COMPARATOR_NAME + 18;
+//		// public static final int COMPARATOR_CREATIONDATE = COMPARATOR_NAME +
+//		// 9;
+//		public static final int	COMPARATOR_TIMEPENDING			= comparators.COMPARATOR_NAME + 10;
+//		public static final int	COMPARATOR_GROUPNAME				= comparators.COMPARATOR_NAME + 20;
+//	}
 
 	// - E X T R A S   M E S S A G E S
 	public enum EExtras {

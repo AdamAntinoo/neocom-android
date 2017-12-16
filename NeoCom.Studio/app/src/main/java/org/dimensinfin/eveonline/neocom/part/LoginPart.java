@@ -10,30 +10,22 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.constant.CoreConstants;
-import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
+import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
 import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
+public class LoginPart extends NeoComExpandablePart implements INamedPart/*, OnClickListener*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7696249781992547826L;
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
@@ -58,32 +50,32 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 		return this.getCastedModel().getName();
 	}
 
-	public String getTransformedContentCount () {
+	public String getTContentCount () {
 		return LoginPart.itemCountFormatter.format(this.getCastedModel().getCharacters().size());
 	}
 
-	public void onClick (final View view) {
-		logger.info(">> [LoginPart.onClick]");
-		// Signal the action may take some time and launch it on the background.
-		_clickRunning = true;
-		// Force the update of the listview.
-		invalidate();
-		notifyDataSetChanged();
-		// launch the actions on a new thread.
-		Handler handler = new Handler();
-		handler.postDelayed(new OneShotTask<LoginPart>(this) {
-			public void run () {
-				logger.info(">> [LoginPart.onClick.OneShotTask.run]");
-				Chrono chrono = new Chrono();
-				getTargetPart().toggleExpanded();
-				getTargetPart().invalidate();
-				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-				_clickRunning = false;
-				logger.info("<< [LoginPart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-			}
-		}, CoreConstants.HUNDRETH);
-		logger.info("<< [LoginPart.onClick]");
-	}
+//	public void onClick (final View view) {
+//		logger.info(">> [LoginPart.onClick]");
+//		// Signal the action may take some time and launch it on the background.
+//		_clickRunning = true;
+//		// Force the update of the listview.
+//		invalidate();
+//		notifyDataSetChanged();
+//		// launch the actions on a new thread.
+//		Handler handler = new Handler();
+//		handler.postDelayed(new OneShotTask<LoginPart>(this) {
+//			public void run () {
+//				logger.info(">> [LoginPart.onClick.OneShotTask.run]");
+//				Chrono chrono = new Chrono();
+//				getTargetPart().toggleExpanded();
+//				getTargetPart().invalidate();
+//				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+//				_clickRunning = false;
+//				logger.info("<< [LoginPart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+//			}
+//		}, CoreConstants.HUNDRETH);
+//		logger.info("<< [LoginPart.onClick]");
+//	}
 
 	/**
 	 * Sort the Regions by their names.
@@ -91,7 +83,7 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 	@Override
 	public List<IPart> runPolicies (final List<IPart> targets) {
 		// Order the characters by alphabetical name.
-		Collections.sort(targets, PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
 		return targets;
 	}
 
@@ -110,18 +102,18 @@ public class LoginPart extends NeoComAbstractPart implements INamedPart, OnClick
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class LoginRender extends NeoComRender {
+final class LoginRender extends BaseExpandableRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
-	public TextView name = null;
-	public TextView childCount = null;
-
-	// - L A Y O U T   L A B E L S
-	public TextView titleLabel = null;
-	public TextView locationLabel = null;
+//	public TextView name = null;
+//	public TextView childCount = null;
+//
+//	// - L A Y O U T   L A B E L S
+//	public TextView titleLabel = null;
+//	public TextView locationLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public LoginRender (final LoginPart target, final Activity context) {
@@ -134,31 +126,36 @@ final class LoginRender extends NeoComRender {
 		return (LoginPart) super.getPart();
 	}
 
-	@Override
-	public void initializeViews () {
-		super.initializeViews();
-		name = (TextView) _convertView.findViewById(R.id.name);
-		childCount = (TextView) _convertView.findViewById(R.id.childCount);
-
-		titleLabel = (TextView) _convertView.findViewById(R.id.titleLabel);
-		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
-	}
+//	@Override
+//	public void initializeViews () {
+//		super.initializeViews();
+//		name = (TextView) _convertView.findViewById(R.id.name);
+//		childCount = (TextView) _convertView.findViewById(R.id.childCount);
+//
+//		titleLabel = (TextView) _convertView.findViewById(R.id.titleLabel);
+//		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
+//	}
 
 	@Override
 	public void updateContent () {
 		logger.info(">> [LoginRender.updateContent]");
 		super.updateContent();
+		nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot,getContext().getTheme()));
 		name.setText(this.getPart().getName());
-		childCount.setText(this.getPart().getTransformedContentCount());
-		//		_convertView.invalidate();
+		childCount.setText(this.getPart().getTContentCount());
+
+		// Set this variant labels
+		classLabel.setText("LOGIN");
+		categoryLabel.setText("CHARACTERS");
+		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
 		logger.info("<< [LoginRender.updateContent]");
 	}
 
-	@Override
-	protected void createView () {
-		_convertView = inflateView(R.layout.login4list);
-		_convertView.setTag(this);
-	}
+//	@Override
+//	protected void createView () {
+//		_convertView = inflateView(R.layout.login4list);
+//		_convertView.setTag(this);
+//	}
 }
 
 // - UNUSED CODE ............................................................................................

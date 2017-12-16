@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="app/src/main/java-newrelease"/>
+	<classpathentry kind="src" path="app/src/main/res-layouts"/>
 	<classpathentry kind="src" path="app/src/main/res-removed"/>
 	<classpathentry kind="src" path="app/src/main/java-removed"/>
 	<classpathentry kind="src" path="app/src/main/res"/>
