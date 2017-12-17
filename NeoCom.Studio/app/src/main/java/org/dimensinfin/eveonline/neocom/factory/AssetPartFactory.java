@@ -16,9 +16,11 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.AssetCategory;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetCategoryPart;
+import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.NeoComSimpleAssetPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
@@ -57,6 +59,11 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
+					if (node instanceof NeoComAsset ) {
+						IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+						                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+						return part;
+					}
 			//		if (node instanceof Separator ) {
 			//			// These special separators can configure an specific icon.
 			//			IPart part = null;
@@ -108,11 +115,6 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 			//			IPart part = new ContainerPart((NeoComAsset) node)
 			//					.setRenderMode(AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION);
 			//			part.setFactory(this);
-			//			return part;
-			//		}
-			//		if (node instanceof NeoComAsset) {
-			//			IPart part = new AssetPart((NeoComAsset) node)
-			//					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
 			//			return part;
 			//		}
 			//		if (node instanceof ProcessingAction) {

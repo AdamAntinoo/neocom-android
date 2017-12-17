@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderorange" >
+    android:background="@drawable/panelborderorange">
 
     <include layout="@layout/nodebase4expand" />
 
@@ -11,6 +11,7 @@
         style="@style/AppTheme.NeoComText.Orange"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="2dp"
         android:gravity="right"
         android:text="@string/default_region"
         android:textSize="12sp" />
@@ -21,32 +22,32 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/rightArrow"
-        android:layout_toRightOf="@+id/nodeIcon" >
+        android:layout_toRightOf="@+id/nodeIcon">
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/locationSystem"
-            style="@style/AppTheme.TextView"
+            style="@style/AppTheme.NeoComText.Orange"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:textSize="14sp"
-            android:text="Tash-Murkon - Moon 22" />
+            android:text="Tash-Murkon - Moon 22"
+            android:textSize="14sp" />
 
-        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/locationIdentifier"
             style="@style/AppTheme.TextView"
-            android:textSize="11sp"
             android:layout_alignBaseline="@+id/locationSystem"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dp"
             android:layout_toRightOf="@+id/locationSystem"
-            android:text="[60014089]" />
+            android:text="[60014089]"
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/stationBlock"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/locationSystem"
-            android:background="@drawable/bottomwhiteline" >
+            android:layout_below="@+id/locationSystem">
 
             <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/locationStation"
@@ -56,16 +57,16 @@
                 android:layout_toLeftOf="@+id/childCount"
                 android:text="@string/default_location" />
 
-            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
                 android:id="@+id/childCount"
                 style="@style/AppTheme.TextView"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:minWidth="30dp"
-                android:text="@string/default_smallnumber"
-                android:textColor="@android:color/white" />
+                android:text="@string/default_locationitems"
+                android:textColor="@color/appwhite"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -73,7 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/stationBlock" >
+            android:layout_below="@+id/stationBlock"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/locationLabel"
@@ -93,7 +95,7 @@
             android:id="@+id/functionBlock"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/stationLabelBlock" >
+            android:layout_below="@+id/stationLabelBlock">
 
             <TextView
                 android:id="@+id/role"
@@ -102,7 +104,7 @@
                 android:layout_toLeftOf="@+id/functionLabel"
                 android:gravity="right"
                 android:text=" MANUFACTURE"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/functionLabel"
@@ -111,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="2dp"
-                android:text="ROLE" />
+                android:text="ROLE"
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -119,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/functionBlock" >
+            android:layout_below="@+id/functionBlock">
 
             <LinearLayout
                 android:id="@+id/valueLabelBlock"
@@ -129,17 +132,17 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="90dp"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
-                <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/locationItemsValueLabel"
                     style="@style/AppTheme.TextView"
                     android:gravity="left"
-                    android:textSize="10sp"
                     android:text="ISK"
+                    android:textSize="10sp"
                     android:visibility="visible" />
 
-                <org.dimensinfin.eveonline.neocom.core.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/locationItemsVolumeLabel"
                     style="@style/AppTheme.TextView"
                     android:gravity="left"
@@ -156,16 +159,16 @@
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/valueLabelBlock"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/locationItemsValue"
                     style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"
-                    android:textSize="12sp"
                     android:layout_marginRight="3dp"
                     android:gravity="right"
                     android:text="-"
+                    android:textSize="12sp"
                     android:visibility="visible" />
 
                 <org.dimensinfin.android.mvc.fonts.Din1451TextView
@@ -173,10 +176,10 @@
                     style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginRight="3dp"
                     android:gravity="right"
                     android:text="-"
+                    android:textSize="12sp"
                     android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>

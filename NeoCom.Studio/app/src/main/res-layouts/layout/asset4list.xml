@@ -2,40 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderyellow" >
+    android:background="@drawable/panelborderyellow">
 
-    <ImageView
-        android:id="@+id/assetIcon"
-        style="@style/ItemIconStyle.Size32"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="2dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/whiteborderbox"
-        android:contentDescription="Item Icon"
-        android:src="@drawable/nopilot" />
-
-    <ImageView
-        android:id="@+id/separator"
-        android:layout_width="10dp"
-        android:layout_height="1dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:src="@color/panelbackgroundblack"
-        android:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/rightArrow"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="right"
-        android:gravity="right"
-        android:padding="-4dp"
-        android:src="@drawable/arrowleft"
-        android:visibility="gone" />
+    <include layout="@layout/nodebase4list" />
 
     <RelativeLayout
         android:id="@+id/pilotInformationBlock"
@@ -43,23 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/separator"
-        android:layout_toRightOf="@+id/assetIcon"
-        android:orientation="vertical" >
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:orientation="vertical">
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/assetName"
+            style="@style/AppTheme.NeoComText.Green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:text="@string/default_bponame"
-            android:textColor="@color/orangeText"
-            android:textSize="12sp" />
+            android:text="@string/default_bponame" />
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.Din1451EngTextView
             android:id="@+id/assetCategory"
+            style="@style/AppTheme.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -67,11 +36,12 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="Mineral - Asteroid"
-            android:textColor="@android:color/white"
+            android:textColor="@color/appwhite"
             android:textSize="12sp" />
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/itemPrice"
+            style="@style/AppTheme.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -80,12 +50,13 @@
             android:ellipsize="marquee"
             android:gravity="left"
             android:text="123,456.65 ISK"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textColor="@color/appwhite"
+            android:textSize="11sp"
             android:visibility="visible" />
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/stackValue"
+            style="@style/AppTheme.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -94,12 +65,12 @@
             android:gravity="right"
             android:singleLine="true"
             android:text="123,456.65 ISK"
-            android:textColor="@android:color/white"
-            android:textSize="10sp" />
+            android:textColor="@color/appwhite"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/valueLabel"
-            style="@style/AppTheme.LabelUpLineStyle"
+            style="@style/AppTheme.Label.TopLine"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -112,10 +83,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <TextView
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
                 android:id="@+id/count"
+                style="@style/AppTheme.StockCounter"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -125,15 +97,13 @@
 
             <TextView
                 android:id="@+id/countLabel"
+                style="@style/AppTheme.Label"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/topwhiteline"
                 android:ellipsize="marquee"
                 android:gravity="right"
                 android:singleLine="true"
-                android:text="NO. ITEMS"
-                android:textColor="@android:color/white"
-                android:textSize="7sp" />
+                android:text="NO. ITEMS" />
         </LinearLayout>
     </RelativeLayout>
 

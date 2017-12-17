@@ -1,15 +1,18 @@
-//	PROJECT:        EVEIndustrialist (EVEI)
+//	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Industry and Manufacture.
-
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
+//									for characters and corporations at Eve Online. This is the Android application but shares
+//                  libraries and code with other application designed for alternate platforms.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
-
 import android.text.Spanned;
+
+import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class MarketDataPart extends NeoComAbstractPart {
@@ -20,15 +23,10 @@ public abstract class MarketDataPart extends NeoComAbstractPart {
 	protected EveItem					item							= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MarketDataPart(final AbstractComplexNode node) {
+	public MarketDataPart(final NeoComAsset node) {
 		super(node);
 		this.initialize();
 	}
-
-	//	public MarketDataPart(final AbstractGEFNode node) {
-	//		super(node);
-	//		initialize();
-	//	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public Spanned display_BuyerLocation() {

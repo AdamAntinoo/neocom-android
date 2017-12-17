@@ -61,6 +61,7 @@
     <string name="default_label">-LABEL-</string>
     <string name="default_actionablearrow">Arrow button to expand/collapse a group item.</string>
     <string name="default_nodeicon">EveOnline icon for the representing item.</string>
+    <string name="default_locationitems">25 items</string>
 
     <!-- CONTEXT MENU VALUES -->
     <string-array name="assetActions">

@@ -94,7 +94,7 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 	}
 
 	public CharSequence getTLocationID () {
-		return NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getID());
+		return "["+NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getID())+"]";
 	}
 
 	/**
