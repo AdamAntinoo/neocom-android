@@ -15,15 +15,23 @@ import android.view.View.OnClickListener;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.OneShotTask;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.core.util.Chrono;
+
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComExpandablePart extends NeoComAbstractPart implements OnClickListener {
+	public enum ColorFlavour {
+		RED, ORANGE, YELLOW, GREEN
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private ColorFlavour _flavour = ColorFlavour.RED;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComExpandablePart (final ICollaboration node) {
@@ -31,6 +39,25 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public List<IPart> collaborate2View () {
+		// Update the color depending on the configured flavour.
+		switch (getFlavour()) {
+			case RED:
+				separatorColor = ESeparatorType.LINE_RED;
+				break;
+			case ORANGE:
+				separatorColor = ESeparatorType.LINE_ORANGE;
+				break;
+			case YELLOW:
+				separatorColor = ESeparatorType.LINE_YELLOW;
+				break;
+			default:
+				separatorColor = ESeparatorType.LINE_RED;
+				break;
+		}
+		return super.collaborate2View();
+	}
+
 	public void onClick (final View view) {
 		logger.info(">> [NeoComExpandablePart.onClick]");
 		// Signal the action may take some time and launch it on the background.
@@ -51,6 +78,14 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 			}
 		}, CoreConstants.HUNDRETH);
 		logger.info("<< [NeoComExpandablePart.onClick]");
+	}
+
+	public void setFlavour (ColorFlavour newcolor) {
+		_flavour = newcolor;
+	}
+
+	public ColorFlavour getFlavour () {
+		return _flavour;
 	}
 }
 // - UNUSED CODE ............................................................................................

@@ -19,6 +19,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
@@ -67,7 +68,9 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		NeoComAbstractPart.securityLevels.put(1, "#D73000");
 		NeoComAbstractPart.securityLevels.put(0, "#F00000");
 	}
+
 	protected static final DateTimeFormatter timePointFormatter = DateTimeFormat.forPattern("YYYY.MM.dd HH:mm");
+
 	public static String generateTimeString (final long millis) {
 		try {
 			DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
@@ -87,6 +90,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
+	protected ESeparatorType separatorColor = ESeparatorType.LINE_RED;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComAbstractPart (final ICollaboration model) {
@@ -120,20 +124,20 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 			if ( this.isEmpty() ) {
 				if ( this.isRenderWhenEmpty() ) {
 					// The region is surrounded with the Red Separator at the beginning and at the end.
-					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.LINE_RED))
+					result.add(new SeparatorPart(new Separator().setType(separatorColor))
 							.setRenderMode(this.getRenderMode()));
 					result.add(this);
 					// This region is empty of contents. Add the Empty Separator and complete.
 					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
 							.setRenderMode(this.getRenderMode()));
-					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.LINE_RED))
+					result.add(new SeparatorPart(new Separator().setType(separatorColor))
 							.setRenderMode(this.getRenderMode()));
 				}
 			} else {
 				// Generate the list of Parts that should be collaborated to the ListView.
 				// The region is surrounded with the Red Separator at the beginning and at the end.
 				result.add(
-						new SeparatorPart(new Separator().setType(Separator.ESeparatorType.LINE_RED)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
 				result.add(this);
 				// --- This is the section where we get the Contents and then we apply the customized Part policies.
 				List<IPart> childParts = this.runPolicies(this.getChildren());
@@ -141,13 +145,13 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 				for (IPart part : childParts) {
 					// For each of the children that are registered to this part and that have a model recursively search for collaborations.
 					final List<IPart> collaboration = part.collaborate2View();
-//					if ( !part.isNewImplemented() ) {
-//						result.add(part);
-//					}
+					//					if ( !part.isNewImplemented() ) {
+					//						result.add(part);
+					//					}
 					result.addAll(collaboration);
 				}
 				result.add(
-						new SeparatorPart(new Separator().setType(Separator.ESeparatorType.LINE_RED)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
@@ -254,7 +258,8 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		htmlFragmentWithColor.append("<font color='").append(secColor).append("'>").append(data).append("</font>");
 		return htmlFragmentWithColor.toString();
 	}
-@Deprecated
+
+	@Deprecated
 	protected NeoComCharacter getPilot () {
 		return NeoComModelStore.getSingleton().getPilot();
 	}

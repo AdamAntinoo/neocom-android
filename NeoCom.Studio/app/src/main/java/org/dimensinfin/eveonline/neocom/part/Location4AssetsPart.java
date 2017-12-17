@@ -43,6 +43,8 @@ public class Location4AssetsPart extends LocationPart /*implements IMenuActionTa
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public Location4AssetsPart (final EveLocation location) {
 		super(location);
+		// Set the separator color.
+		setFlavour(ColorFlavour.ORANGE);
 		//		_contextMenu = NeoComApp.getSingletonApp().getResources()
 		//				.getStringArray(R.array.locationFunctions);
 	}
