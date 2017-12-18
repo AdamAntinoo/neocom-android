@@ -81,18 +81,22 @@ public abstract class NeoComRender extends AbstractRender {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
+	/**
+	 * Check if the expandable nodes have a click active. During the click show the spinner until the action finishes
+	 * with a new <code>updateContent()</code>.
+	 */
 	@Override
 	public void updateContent () {
 		super.updateContent();
 		// Check if the click is running and then replace the right arrow by an spinner.
 		if ( getPart().clickRunning() ) {
 			if ( null != _rightArrow ) {
-				logger.info("-- [LoginRender.updateContent]> Activating spinner animation.");
-				_rightArrow.setImageDrawable(getDrawable(R.drawable.redprogress70));
+				logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
+				_rightArrow.setImageDrawable(getDrawable(R.drawable.progressspinner));
 				Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 				rotation.setRepeatCount(Animation.INFINITE);
 				_rightArrow.startAnimation(rotation);
-				_convertView.invalidate();
+				_rightArrow.invalidate();
 			}
 		}
 	}

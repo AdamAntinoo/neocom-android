@@ -133,7 +133,7 @@ final class Asset4CategoryRender extends NeoComRender {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	public TextView assetName = null;
-	public TextView assetLocation = null;
+//	public TextView assetLocation = null;
 	public TextView assetCategory = null;
 	public TextView itemPrice = null;
 	public TextView stackValue = null;
@@ -156,7 +156,7 @@ final class Asset4CategoryRender extends NeoComRender {
 	public void initializeViews () {
 		super.initializeViews();
 		this.assetName = (TextView) this._convertView.findViewById(R.id.assetName);
-		this.assetLocation = (TextView) this._convertView.findViewById(R.id.assetLocation);
+//		this.assetLocation = (TextView) this._convertView.findViewById(R.id.assetLocation);
 		this.assetCategory = (TextView) this._convertView.findViewById(R.id.assetCategory);
 		this.itemPrice = (TextView) this._convertView.findViewById(R.id.itemPrice);
 		this.stackValue = (TextView) this._convertView.findViewById(R.id.stackValue);
@@ -167,7 +167,7 @@ final class Asset4CategoryRender extends NeoComRender {
 	public void updateContent () {
 		super.updateContent();
 		this.assetName.setText(getPart().getTAssetName());
-		assetLocation.setText(getPart().getTAssetLocation());
+//		assetLocation.setText(getPart().getTAssetLocation());
 		this.assetCategory.setText(getPart().getTAssetInformation());
 		this.itemPrice.setText(getPart().getTItemPrice());
 		this.stackValue.setText(getPart().getTStackValue());
