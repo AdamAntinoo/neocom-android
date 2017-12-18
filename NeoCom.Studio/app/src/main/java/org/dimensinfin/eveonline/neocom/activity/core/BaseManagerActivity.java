@@ -1,45 +1,46 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
+//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
+//                  the game data to help capsuleers organize and prioritize activities. The strong points are
+//                  help at the Industry level tracking and calculating costs and benefits. Also the market
+//                  information update service will help to identify best prices and locations.
+//                  Planetary Interaction and Ship fittings are point under development.
+//                  ESI authorization is a new addition that will give continuity and allow download game data
+//                  from the new CCP data services.
+//                  This is the Android application version but shares libraries and code with other application
+//                  designed for Spring Boot Angular 4 platform.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.activity;
+package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class AssetsDirectorActivity extends ANeoComPagerActivity {
+public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String loginid = null;
 	private long characterid = -1;
+	protected Bundle extras = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName () {
-		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsActivity);
-	}
+	public abstract String getName ();
 
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
-		AssetsDirectorActivity.logger.info(">> [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
+		AssetsManagerActivity.logger.info(">> [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			Bundle extras = null;
+//			Bundle extras = null;
 			if ( null != savedInstanceState ) {
 				extras = savedInstanceState;
 				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
@@ -49,18 +50,12 @@ public class AssetsDirectorActivity extends ANeoComPagerActivity {
 				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			}
-			int page = 0;
-			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras), page++);
 		} catch (RuntimeException rtex) {
-			AssetsDirectorActivity.logger.warning("RTEX [AssetsDirectorActivity.onCreate]> " + rtex.getMessage());
+			AssetsManagerActivity.logger.warning("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX [AssetsDirectorActivity.onCreate]> " + rtex.getMessage()));
+			this.stopActivity(new RuntimeException("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
-		// Reinitialize the tile and subtitle from the first page.
-		this.updateInitialTitle();
-		AssetsDirectorActivity.logger.info("<< [AssetsDirectorActivity.onCreate]"); //$NON-NLS-1$
+		AssetsManagerActivity.logger.info("<< [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	@Override
