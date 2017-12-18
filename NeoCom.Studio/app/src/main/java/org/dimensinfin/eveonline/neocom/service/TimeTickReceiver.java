@@ -1,14 +1,53 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
+//                  the game data to help capsuleers organize and prioritize activities. The strong points are
+//                  help at the Industry level tracking and calculating costs and benefits. Also the market
+//                  information update service will help to identify best prices and locations.
+//                  Planetary Interaction and Ship fittings are point under development.
+//                  ESI authorization is a new addition that will give continuity and allow download game data
+//                  from the new CCP data services.
+//                  This is the Android application version but shares libraries and code with other application
+//                  designed for Spring Boot Angular 4 platform.
+//                  The model management is shown using a generic Model View Controller that allows make the
+//                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.service;
 
-//- IMPORT SECTION .........................................................................................
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+
+import com.beimin.eveapi.exception.ApiException;
+import com.beimin.eveapi.model.eve.Station;
+import com.beimin.eveapi.parser.eve.ConquerableStationListParser;
+import com.beimin.eveapi.response.eve.StationListResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.nikr.eve.jeveasset.data.Citadel;
+
+import org.dimensinfin.eveonline.neocom.NeoComApp;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
+import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
+import org.dimensinfin.eveonline.neocom.enums.ERequestState;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.model.Outpost;
+import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,38 +67,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
-import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
-import org.dimensinfin.eveonline.neocom.enums.ERequestState;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.Outpost;
-import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.beimin.eveapi.exception.ApiException;
-import com.beimin.eveapi.model.eve.Station;
-import com.beimin.eveapi.parser.eve.ConquerableStationListParser;
-import com.beimin.eveapi.response.eve.StationListResponse;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import net.nikr.eve.jeveasset.data.Citadel;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -387,15 +394,15 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	}
 
 	private void launchCharacterDataUpdate(final PendingRequestEntry entry) {
-		TimeTickReceiver.logger.info(
-				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
-		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
-		Number content = entry.getContent();
-		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
-		if (null != _context) {
-			_context.startService(serialService);
-		}
-		entry.state = ERequestState.ON_PROGRESS;
+//		TimeTickReceiver.logger.info(
+//				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
+//		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
+//		Number content = entry.getContent();
+//		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
+//		if (null != _context) {
+//			_context.startService(serialService);
+//		}
+//		entry.state = ERequestState.ON_PROGRESS;
 		//		// Increment the counter.
 		//		NeoComApp.topCounter++;
 	}
