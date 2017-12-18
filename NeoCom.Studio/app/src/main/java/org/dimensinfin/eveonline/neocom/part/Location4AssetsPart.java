@@ -24,6 +24,8 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 

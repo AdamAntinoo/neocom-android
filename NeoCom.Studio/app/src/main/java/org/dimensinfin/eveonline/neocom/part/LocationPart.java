@@ -19,6 +19,8 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 
 import java.util.Collections;
 import java.util.Vector;

@@ -4,7 +4,7 @@
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Minery and mainly on Manufacture.
 
-package org.dimensinfin.eveonline.neocom.holder;
+package org.dimensinfin.eveonline.neocom.render;
 
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;

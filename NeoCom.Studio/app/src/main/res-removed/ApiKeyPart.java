@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComApiKey;
 import org.dimensinfin.eveonline.neocom.render.ApiKeyRender;

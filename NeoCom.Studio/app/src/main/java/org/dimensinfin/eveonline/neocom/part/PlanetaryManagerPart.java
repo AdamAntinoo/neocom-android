@@ -19,6 +19,7 @@ import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 // - CLASS IMPLEMENTATION ...................................................................................

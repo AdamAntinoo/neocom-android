@@ -23,11 +23,11 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.FittingActivity;
 import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.holder.Ship4AssetHolder;
-import org.dimensinfin.eveonline.neocom.holder.Ship4PilotInfoHolder;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Ship;
+import org.dimensinfin.eveonline.neocom.render.Ship4AssetHolder;
+import org.dimensinfin.eveonline.neocom.render.Ship4PilotInfoHolder;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import android.content.Intent;

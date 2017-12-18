@@ -28,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 

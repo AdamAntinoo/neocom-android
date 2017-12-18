@@ -13,6 +13,7 @@ import android.text.Spanned;
 
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class MarketDataPart extends NeoComAbstractPart {

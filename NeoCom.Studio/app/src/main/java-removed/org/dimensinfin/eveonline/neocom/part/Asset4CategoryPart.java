@@ -13,8 +13,8 @@ import android.support.v4.app.Fragment;
 import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.eveonline.neocom.holder.Asset4CategoryHolder;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.render.Asset4CategoryHolder;
 
 import java.util.HashMap;
 import java.util.logging.Logger;

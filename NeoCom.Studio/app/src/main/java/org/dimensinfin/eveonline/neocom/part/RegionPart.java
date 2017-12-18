@@ -18,6 +18,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
 import org.dimensinfin.eveonline.neocom.model.Region;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
 
 import java.util.Collections;

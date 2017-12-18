@@ -18,9 +18,9 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.holder.ContainerHolder;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
+import org.dimensinfin.eveonline.neocom.render.ContainerHolder;
 
 import android.view.View;
 import android.view.View.OnClickListener;

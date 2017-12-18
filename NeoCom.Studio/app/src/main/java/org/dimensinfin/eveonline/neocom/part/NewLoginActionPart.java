@@ -17,6 +17,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NewLoginActionPart extends NeoComAbstractPart implements View.OnClickListener {

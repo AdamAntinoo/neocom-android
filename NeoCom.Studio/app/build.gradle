@@ -27,7 +27,7 @@ android {
         }
     }
     sourceSets {
-        main.java.srcDirs += 'src/main/java-newrelease'
+//        main.java.srcDirs += 'src/main/java-newrelease'
         main.java.srcDirs += 'src/main/java-eveesiandroid'
         main.res.srcDirs += 'src/main/res-definitions'
         main.res.srcDirs += 'src/main/res-final'

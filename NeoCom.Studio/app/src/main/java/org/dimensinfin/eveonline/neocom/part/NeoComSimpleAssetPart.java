@@ -19,6 +19,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 import java.text.DecimalFormat;

@@ -7,7 +7,7 @@
 //                  libraries and code with other application designed for alternate platforms.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.part;
+package org.dimensinfin.eveonline.neocom.part.core;
 
 import android.text.Html;
 import android.text.Spanned;

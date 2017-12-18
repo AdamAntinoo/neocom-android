@@ -9,7 +9,6 @@
 //									Code integration that is not dependent on any specific platform.
 package org.dimensinfin.eveonline.neocom.enums;
 
-// - CLASS IMPLEMENTATION ...................................................................................
 /**
  * This enumerated defines the possible values for the comparator fields. Depending on this value the
  * comparator will check if the instance received fits the api required and then will get the right field for

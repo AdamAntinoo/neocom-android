@@ -11,7 +11,7 @@ import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.holder.TerminatorHolder;
+import org.dimensinfin.eveonline.neocom.render.TerminatorHolder;
 
 import java.util.GregorianCalendar;
 import java.util.logging.Logger;
