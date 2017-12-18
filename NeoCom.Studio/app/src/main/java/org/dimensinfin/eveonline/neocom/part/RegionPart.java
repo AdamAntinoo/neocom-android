@@ -166,7 +166,8 @@ final class RegionRender extends BaseExpandableRender {
 		// Set this variant labels
 		classLabel.setText("REGION");
 		categoryLabel.setText("LOCATIONS");
-		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderorange));
+		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderorange, getContext().getTheme()));
+		_convertView.invalidate();
 		logger.info("<< [RegionRender.updateContent]");
 	}
 }

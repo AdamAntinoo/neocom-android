@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
@@ -40,6 +42,7 @@ import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
@@ -674,8 +677,8 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 */
 	public void startTimer () {
 		if ( null == NeoComApp.timeTickReceiver ) {
-			//			NeoComApp.timeTickReceiver = new TimeTickReceiver(this);
-			//			this.registerReceiver(NeoComApp.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+			NeoComApp.timeTickReceiver = new TimeTickReceiver(this);
+			this.registerReceiver(NeoComApp.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 

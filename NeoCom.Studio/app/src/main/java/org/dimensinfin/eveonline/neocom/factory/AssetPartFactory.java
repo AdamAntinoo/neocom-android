@@ -59,11 +59,11 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
-					if (node instanceof NeoComAsset ) {
-						IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
-						                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-						return part;
-					}
+			if ( node instanceof NeoComAsset ) {
+				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
 			//		if (node instanceof Separator ) {
 			//			// These special separators can configure an specific icon.
 			//			IPart part = null;
@@ -135,7 +135,27 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				return part;
 			}
 		}
-		// If no part is trapped then call the parent chain until one is found.
+		if ( this.getVariant() == ENeoComVariants.PLANETARY_BYLOCATION.name() ) {
+			if ( node instanceof Region ) {
+				IPart part = new RegionPart((Region) node).setFactory(this)
+				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof EveLocation ) {
+				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
+				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof NeoComAsset ) {
+				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+		}
+		if ( this.getVariant() == ENeoComVariants.PLANETARY_OPTIMIZATION.name() ) {
+		}
+
+			// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);
 	}
 }

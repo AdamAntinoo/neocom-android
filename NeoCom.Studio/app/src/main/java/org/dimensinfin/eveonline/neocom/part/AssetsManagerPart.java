@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerPart extends NeoComAbstractPart
-		implements INeoComDirectorPart, INamedPart, OnClickListener /* , OnLongClickListener */ {
+		implements INeoComDirectorPart, INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8992564305513190092L;
 
@@ -65,19 +65,10 @@ public class AssetsManagerPart extends NeoComAbstractPart
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-			//				intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.PLANETARY_MANAGER.name());
 			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
 		NeoComAbstractPart.logger.info("<< [AssetsManagerPart.onClick]");
 	}
-
-	//	/**
-	//	 * The Managers do not expand so their collaboration is only themselves.
-	//	 */
-	//	@Override
-	//	public List<IPart> collaborate2View() {
-	//		return new ArrayList<IPart>();
-	//	}
 
 	public int getActiveIcon () {
 		return R.drawable.assets;

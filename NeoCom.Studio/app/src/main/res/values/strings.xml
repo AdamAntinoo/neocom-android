@@ -17,7 +17,7 @@
     <string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
     <string name="activity_subtitle_AssetsByCategory">ASSETS - By Category</string>
     <string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
-    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY MANAGER</string>
+    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY RESOURCES</string>
     <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
 
     <string name="title_activity_PilotList">Pilot Roaster</string>

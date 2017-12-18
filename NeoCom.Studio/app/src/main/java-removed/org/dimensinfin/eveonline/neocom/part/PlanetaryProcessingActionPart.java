@@ -8,18 +8,6 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.Vector;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractHolder;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.planetary.ProcessingAction;
-import org.dimensinfin.eveonline.neocom.refactoring.AExtendedPart;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -27,21 +15,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.planetary.ProcessingAction;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+
+import java.util.Vector;
+
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryProcessingActionPart
-		extends AExtendedPart /* implements IItemPart, OnClickListener, IMenuActionTarget */ {
+		extends NeoComAbstractPart /* implements IItemPart, OnClickListener, IMenuActionTarget */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -2155103853531229362L;
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PlanetaryProcessingActionPart(final AbstractComplexNode node) {
+	public PlanetaryProcessingActionPart(final ProcessingAction node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
 	public ProcessingAction getCastedModel() {
 		return (ProcessingAction) this.getModel();
 	}
@@ -76,7 +74,7 @@ public class PlanetaryProcessingActionPart
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class PlanetaryActionResourceRender extends EveAbstractHolder {
+final class PlanetaryActionResourceRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

@@ -1,30 +1,42 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
+//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
+//                  the game data to help capsuleers organize and prioritize activities. The strong points are
+//                  help at the Industry level tracking and calculating costs and benefits. Also the market
+//                  information update service will help to identify best prices and locations.
+//                  Planetary Interaction and Ship fittings are point under development.
+//                  ESI authorization is a new addition that will give continuity and allow download game data
+//                  from the new CCP data services.
+//                  This is the Android application version but shares libraries and code with other application
+//                  designed for Spring Boot Angular 4 platform.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
+import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryManagerPart extends NeoComAbstractPart
-		implements INeoComDirectorPart, INamedPart/*, OnClickListener*//* , OnLongClickListener */ {
+		implements INeoComDirectorPart, INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7725920841939916584L;
 
@@ -44,14 +56,6 @@ public class PlanetaryManagerPart extends NeoComAbstractPart
 	public boolean checkActivation () {
 		return true;
 	}
-
-	//	/**
-	//	 * The Managers do not expand so their collaboration is only themselves.
-	//	 */
-	//	@Override
-	//	public ArrayList<IPart> collaborate2View() {
-	//		return new ArrayList<IPart>();
-	//	}
 
 	public int getActiveIcon () {
 		return R.drawable.planets;
@@ -81,38 +85,25 @@ public class PlanetaryManagerPart extends NeoComAbstractPart
 	public String getTResourcesCount () {
 		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getAssetTotalCount());
 	}
-	//
-	//	public String getTRegionCount() {
-	//		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getRegions().size());
-	//	}
 
-	//	/**
-	//	 * A click on the Manager should trigger the expand/collapse pattern.
-	//	 */
-	//	public void onClick(final View view) {
-	//		NeoComAbstractPart.logger.info(">> [PilotInfoPart.onClick]");
-	//		final Object managerPart = view.getTag();
-	//		if (managerPart instanceof PlanetaryManagerPart) {
-	//			// Managers have a reference to the Character linked when created.
-	//			final NeoComCharacter pilot = ((PlanetaryManagerPart) managerPart).getCastedModel().getPilot();
-	//			final Intent intent = new Intent(this.getActivity(), PlanetaryManagerActivity.class);
-	//			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-	//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
-	//			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-	//			intent.putExtra(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name(), EManagerType.PLANETARY_MANAGER.name());
-	//			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
-	//		}
-	//		NeoComAbstractPart.logger.info("<< [PilotInfoPart.onClick]");
-	//	}
+	/**
+	 * A click on the Manager should trigger the expand/collapse pattern.
+	 */
+	public void onClick (final View view) {
+		NeoComAbstractPart.logger.info(">> [PlanetaryManagerPart.onClick]");
+		final Object managerPart = view.getTag();
+		if ( managerPart instanceof PlanetaryManagerPart ) {
+			// Managers have a reference to the Character linked when created.
+			final NeoComCharacter pilot = ((PlanetaryManagerPart) managerPart).getCastedModel().getPilot();
+			final Intent intent = new Intent(this.getActivity(), PlanetaryManagerActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+		}
+		NeoComAbstractPart.logger.info("<< [PlanetaryManagerPart.onClick]");
+	}
 
-	//	/**
-	//	 * A long click should activate the Manager associated activity.
-	//	 */
-	//	public boolean onLongClick(final View v) {
-	//		return false;
-	//	}
-
-	@Override
 	protected AbstractRender selectRenderer () {
 		return new PlanetaryManagerRender(this, _activity);
 	}
@@ -160,19 +151,19 @@ final class PlanetaryManagerRender extends NeoComRender {
 		//		regionCount.setText(this.getPart().getTRegionCount());
 		// Needs the check to test of the manager is active to select the right icon.
 		if ( this.getPart().checkActivation() ) {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon()));
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon(), getContext().getTheme()));
 		} else {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
+			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon(), getContext().getTheme()));
 		}
-		//		_convertView.setBackgroundResource(R.drawable.topwhiteline);
+		// Check if the click is active. If not change the border to gray.
+		if ( getPart() instanceof OnClickListener )
+			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
+		_convertView.invalidate();
 	}
 
 	@Override
 	protected void createView () {
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		// The view is a new view. We have to fill all the items
-		_convertView = mInflater.inflate(R.layout.planetarymanager4pilot, null);
+		_convertView = inflateView(R.layout.planetarymanager4pilot);
 		_convertView.setTag(this);
 	}
 }

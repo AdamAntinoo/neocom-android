@@ -55,29 +55,6 @@ public class LoginPart extends NeoComExpandablePart implements INamedPart/*, OnC
 		return LoginPart.itemCountFormatter.format(this.getCastedModel().getCharacters().size());
 	}
 
-//	public void onClick (final View view) {
-//		logger.info(">> [LoginPart.onClick]");
-//		// Signal the action may take some time and launch it on the background.
-//		_clickRunning = true;
-//		// Force the update of the listview.
-//		invalidate();
-//		notifyDataSetChanged();
-//		// launch the actions on a new thread.
-//		Handler handler = new Handler();
-//		handler.postDelayed(new OneShotTask<LoginPart>(this) {
-//			public void run () {
-//				logger.info(">> [LoginPart.onClick.OneShotTask.run]");
-//				Chrono chrono = new Chrono();
-//				getTargetPart().toggleExpanded();
-//				getTargetPart().invalidate();
-//				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-//				_clickRunning = false;
-//				logger.info("<< [LoginPart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-//			}
-//		}, CoreConstants.HUNDRETH);
-//		logger.info("<< [LoginPart.onClick]");
-//	}
-
 	/**
 	 * Sort the Regions by their names.
 	 */
@@ -109,12 +86,12 @@ final class LoginRender extends BaseExpandableRender {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - L A Y O U T   F I E L D S
-//	public TextView name = null;
-//	public TextView childCount = null;
-//
-//	// - L A Y O U T   L A B E L S
-//	public TextView titleLabel = null;
-//	public TextView locationLabel = null;
+	//	public TextView name = null;
+	//	public TextView childCount = null;
+	//
+	//	// - L A Y O U T   L A B E L S
+	//	public TextView titleLabel = null;
+	//	public TextView locationLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public LoginRender (final LoginPart target, final Activity context) {
@@ -127,36 +104,30 @@ final class LoginRender extends BaseExpandableRender {
 		return (LoginPart) super.getPart();
 	}
 
-//	@Override
-//	public void initializeViews () {
-//		super.initializeViews();
-//		name = (TextView) _convertView.findViewById(R.id.name);
-//		childCount = (TextView) _convertView.findViewById(R.id.childCount);
-//
-//		titleLabel = (TextView) _convertView.findViewById(R.id.titleLabel);
-//		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
-//	}
+	//	@Override
+	//	public void initializeViews () {
+	//		super.initializeViews();
+	//		name = (TextView) _convertView.findViewById(R.id.name);
+	//		childCount = (TextView) _convertView.findViewById(R.id.childCount);
+	//
+	//		titleLabel = (TextView) _convertView.findViewById(R.id.titleLabel);
+	//		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
+	//	}
 
 	@Override
 	public void updateContent () {
 		logger.info(">> [LoginRender.updateContent]");
 		super.updateContent();
-		nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot,getContext().getTheme()));
+		nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
 		name.setText(this.getPart().getName());
 		childCount.setText(this.getPart().getTContentCount());
 
 		// Set this variant labels
 		classLabel.setText("LOGIN");
 		categoryLabel.setText("CHARACTERS");
-		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
+		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
 		logger.info("<< [LoginRender.updateContent]");
 	}
-
-//	@Override
-//	protected void createView () {
-//		_convertView = inflateView(R.layout.login4list);
-//		_convertView.setTag(this);
-//	}
 }
 
 // - UNUSED CODE ............................................................................................
