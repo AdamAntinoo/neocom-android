@@ -22,6 +22,7 @@ import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetCategoryPart;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
+import org.dimensinfin.eveonline.neocom.part.Location4PlanetaryPart;
 import org.dimensinfin.eveonline.neocom.part.NeoComSimpleAssetPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
 
@@ -142,8 +143,8 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				return part;
 			}
 			if ( node instanceof EveLocation ) {
-				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
-				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				IPart part = new Location4PlanetaryPart((EveLocation) node).setFactory(this)
+				                                                           .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
 			if ( node instanceof NeoComAsset ) {

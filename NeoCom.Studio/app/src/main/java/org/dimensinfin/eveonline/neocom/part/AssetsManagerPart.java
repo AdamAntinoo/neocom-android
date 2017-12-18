@@ -1,17 +1,22 @@
 //	PROJECT:        NeoCom.Android (NEOC.A)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
+//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
+//                  the game data to help capsuleers organize and prioritize activities. The strong points are
+//                  help at the Industry level tracking and calculating costs and benefits. Also the market
+//                  information update service will help to identify best prices and locations.
+//                  Planetary Interaction and Ship fittings are point under development.
+//                  ESI authorization is a new addition that will give continuity and allow download game data
+//                  from the new CCP data services.
+//                  This is the Android application version but shares libraries and code with other application
+//                  designed for Spring Boot Angular 4 platform.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -162,14 +167,15 @@ final class AssetsManagerRender extends NeoComRender {
 		} else {
 			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
 		}
+		if ( getPart() instanceof OnClickListener )
+			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
+		else
+			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
 	}
 
 	@Override
 	protected void createView () {
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		// The view is a new view. We have to fill all the items
-		_convertView = mInflater.inflate(R.layout.assetsmanager4pilot, null);
+		_convertView = inflateView(R.layout.assetsmanager4pilot);
 		_convertView.setTag(this);
 	}
 }

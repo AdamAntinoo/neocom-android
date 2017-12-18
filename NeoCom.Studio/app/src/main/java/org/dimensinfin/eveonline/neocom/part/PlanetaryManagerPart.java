@@ -157,6 +157,8 @@ final class PlanetaryManagerRender extends NeoComRender {
 		}
 		// Check if the click is active. If not change the border to gray.
 		if ( getPart() instanceof OnClickListener )
+			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
+		else
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
 		_convertView.invalidate();
 	}
