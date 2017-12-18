@@ -103,7 +103,7 @@
                 android:ellipsize="marquee"
                 android:gravity="right"
                 android:singleLine="true"
-                android:text="NO. ITEMS" />
+                android:text="STACK SIZE" />
         </LinearLayout>
     </RelativeLayout>
 

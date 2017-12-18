@@ -171,12 +171,12 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	protected AbstractRender selectRenderer () {
 		//		// Get the proper holder from the render mode.
 		//		if ( this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION )
-		//			return new AssetHolder(this, _activity);
+		//			return new AssetRender(this, _activity);
 		//		if ( this.getRenderMode() == AppWideConstants.rendermodes.RENDER_LOCATIONMODE )
 		//			return new AssetLineRender(this, _activity);
 		//		if ( this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ITEMMODULESTACKS )
 		//			return new Asset4CategoryHolder(this, _activity);
-		return new AssetHolder(this, _activity);
+		return new AssetRender(this, _activity);
 	}
 
 	//	private MarketDataSet searchMarketData(final int itemid) {
@@ -188,9 +188,9 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 }
 
 // - CLASS IMPLEMENTATION ...................................................................................
-final class AssetHolder extends NeoComRender {
+final class AssetRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger			logger					= Logger.getLogger("AssetHolder");
+	//	private static Logger			logger					= Logger.getLogger("AssetRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	//	protected GestureDetector	_gestureScanner	= null;
@@ -203,7 +203,7 @@ final class AssetHolder extends NeoComRender {
 	public TextView countLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetHolder (final AssetPart target, final Activity context) {
+	public AssetRender (final AssetPart target, final Activity context) {
 		super(target, context);
 	}
 
@@ -221,11 +221,6 @@ final class AssetHolder extends NeoComRender {
 		this.itemPrice = (TextView) this._convertView.findViewById(R.id.itemPrice);
 		this.stackValue = (TextView) this._convertView.findViewById(R.id.stackValue);
 		this.count = (TextView) this._convertView.findViewById(R.id.count);
-
-		//		this.assetName.setTypeface(getThemeTextFont());
-		//		this.count.setTypeface(getThemeTextFont());
-		//		this.itemPrice.setTypeface(getThemeTextFont());
-		//		this.stackValue.setTypeface(getThemeTextFont());
 	}
 
 	@Override
