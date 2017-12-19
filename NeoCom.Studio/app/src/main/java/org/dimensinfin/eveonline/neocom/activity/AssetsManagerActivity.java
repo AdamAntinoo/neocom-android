@@ -33,7 +33,7 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String getName () {
-		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsActivity);
+		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
 	}
 
 	@Override

@@ -13,12 +13,14 @@
     <string name="activity_title_Settings">Settings</string>
     <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
     <string name="activity_title_PilotDetailsActivity">PILOT DETAILS</string>
-    <string name="activity_title_AssetsActivity">ASSETS MANAGER</string>
+    <string name="activity_title_AssetsManagerActivity">ASSETS MANAGER</string>
     <string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
     <string name="activity_subtitle_AssetsByCategory">ASSETS - By Category</string>
     <string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
     <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY RESOURCES</string>
     <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
+    <string name="activity_title_IndustryManagerActivity">INDUSTRY MANAGER</string>
+    <string name="activity_subtitle_BlueprintsT2">T2 Blueprints</string>
 
     <string name="title_activity_PilotList">Pilot Roaster</string>
     <string name="title_activity_DirectorsBoard">Activity Selection</string>

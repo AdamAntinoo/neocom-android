@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-//- CLASS IMPLEMENTATION ...................................................................................
+// - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger(AssetsFragment.class);
@@ -60,7 +60,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
-	//- M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public void createFactory () {
 		AssetsFragment.logger.info(">> [AssetsFragment.createFactory]");
@@ -120,7 +120,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 	}
 
 	private String getPilotName () {
-		return NeoComModelStore.getSingleton().getCurrentPilot().getName();
+		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
 	}
 }
 
