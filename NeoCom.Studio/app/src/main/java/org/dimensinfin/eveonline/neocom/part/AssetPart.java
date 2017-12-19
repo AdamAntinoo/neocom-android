@@ -28,13 +28,14 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
+import org.dimensinfin.core.util.Chrono;
+import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -45,7 +46,7 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 
 	// - F I E L D - S E C T I O N ............................................................................
 	@SuppressWarnings("rawtypes")
-	private final HashMap<Long, HashMap<Integer, AssetPart>> stackList = new HashMap();
+//	private final HashMap<Long, HashMap<Integer, AssetPart>> stackList = new HashMap();
 
 	//	private MarketDataSet																			mdata							= null;
 
@@ -135,32 +136,32 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 		Log.i("EVEI", "<< AssetPart.onClick");
 	}
 
-	protected void checkAssetStacking (final AssetPart apart) {
-		// Locate the stack if exists.
-		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getDAOID());
-		int type = apart.getCastedModel().getTypeID();
-		if ( null != container ) {
-			AssetPart stack = container.get(type);
-			if ( null != stack ) {
-				//	if (stack instanceof AssetPart) {
-				int count = stack.getCastedModel().getQuantity();
-				stack.getCastedModel().setQuantity(count + 1);
-				return;
-				//	}
-				// Do nothing because we do not know how to add to Assets.
-			} else {
-				// Add a new stack for this type to the current container.
-				container.put(type, apart);
-				this.addChild(apart);
-			}
-		} else {
-			// There is no container also with this stack.
-			container = new HashMap<Integer, AssetPart>();
-			container.put(type, apart);
-			this.addChild(apart);
-			stackList.put(this.getCastedModel().getDAOID(), container);
-		}
-	}
+//	protected void checkAssetStacking (final AssetPart apart) {
+//		// Locate the stack if exists.
+//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getDAOID());
+//		int type = apart.getCastedModel().getTypeID();
+//		if ( null != container ) {
+//			AssetPart stack = container.get(type);
+//			if ( null != stack ) {
+//				//	if (stack instanceof AssetPart) {
+//				int count = stack.getCastedModel().getQuantity();
+//				stack.getCastedModel().setQuantity(count + 1);
+//				return;
+//				//	}
+//				// Do nothing because we do not know how to add to Assets.
+//			} else {
+//				// Add a new stack for this type to the current container.
+//				container.put(type, apart);
+//				this.addChild(apart);
+//			}
+//		} else {
+//			// There is no container also with this stack.
+//			container = new HashMap<Integer, AssetPart>();
+//			container.put(type, apart);
+//			this.addChild(apart);
+//			stackList.put(this.getCastedModel().getDAOID(), container);
+//		}
+//	}
 
 	@Override
 	protected void initialize () {
@@ -226,6 +227,7 @@ final class AssetRender extends NeoComRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
+		Chrono chrono = new Chrono();
 		this.assetName.setText(getPart().getTAssetName());
 		this.assetCategory.setText(getPart().getTAssetInformation());
 		this.itemPrice.setText(getPart().getTItemPrice());
@@ -241,6 +243,7 @@ final class AssetRender extends NeoComRender {
 		}
 
 		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeID());
+		logger.info("-- [AssetRender.updateContent]> Rendering time: "+chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 	}
 
 	@Override

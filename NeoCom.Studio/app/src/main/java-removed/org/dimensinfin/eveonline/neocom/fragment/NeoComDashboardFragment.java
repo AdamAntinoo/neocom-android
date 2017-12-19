@@ -154,7 +154,7 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 				switch (directorCode) {
 					//					case ASSETDIRECTOR:
 					//						// Create the part, configure it and add to the layout.
-					//						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new AssetsDirectorActivity()));
+					//						dirPart = (AbstractAndroidPart) this.getFactory().createPart(new Director(new AssetsManagerActivity()));
 					//						break;
 					case SHIPDIRECTOR:
 						// Create the part, configure it and add to the layout.
