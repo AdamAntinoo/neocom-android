@@ -194,12 +194,9 @@ final class PilotManagersGenerator extends AbstractGenerator implements IModelGe
 		this.setDataModel(new RootNode());
 
 		// Add to the data model list the Directors that can be used on this character.
-//		AbstractManager manager = character.getAssetsManager();
-//		manager.initialize();
 		_dataModelRoot.addChild(character.getAssetsManager());
-//		manager = character.getPlanetaryManager();
-//		manager.initialize();
 		_dataModelRoot.addChild(character.getPlanetaryManager());
+		_dataModelRoot.addChild(character.getBlueprintsManager());
 
 		AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");
 		return _dataModelRoot;

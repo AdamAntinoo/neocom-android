@@ -61,26 +61,13 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'org.htmlparser:htmlparser:2.1'
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:slf4j-android:1.7.25'
 //    implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
 
     // A P P L I C A T I O N    D E P E N D E N C I E S
     implementation 'com.jakewharton:butterknife:7.0.1'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
-//    implementation 'io.reactivex:rxandroid:1.0.1'
-//    implementation 'com.google.code.findbugs:jsr305:2.0.1'
-//    implementation('com.google.oauth-client:google-oauth-client:1.20.0') {
-//        exclude group: 'xpp3', module: 'xpp3'
-//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-//        exclude group: 'junit', module: 'junit'
-//        exclude group: 'com.google.android', module: 'android'
-//        exclude group: 'com.google.oauth-client', module: 'google-oauth-client'
-//    }
-//    implementation('com.google.http-client:google-http-client-jackson2:1.20.0') {
-//        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
-//    }
-//    implementation 'commons-lang:commons-lang:2.6'
 
     // L O C A L    L I B R A R I E S
     implementation files('libs/jeveassets.3.1.2.jar')
@@ -93,4 +80,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //SQLite -> Chrome (debug)
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }

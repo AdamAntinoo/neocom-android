@@ -23,22 +23,27 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
+import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.model.Pilot;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class CharacterUpdaterService extends IntentService {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static Logger logger = Logger.getLogger("MarketUpdaterService");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public CharacterUpdaterService() {
+	public CharacterUpdaterService () {
 		super("CharacterUpdaterService");
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * We can process two types of events. <code>CHARACTERDATA</code> where we update frequent character
 	 * information and <code>ASSETDATA</code> that is the call to down the heavy load of the list of character
@@ -47,20 +52,20 @@ public class CharacterUpdaterService extends IntentService {
 	 * own type.
 	 */
 	@Override
-	protected void onHandleIntent(final Intent intent) {
-		Log.i("CharacterUpdaterService", ">> [CharacterUpdaterService.onHandleIntent]");
+	protected void onHandleIntent (final Intent intent) {
+		logger.info(">> [CharacterUpdaterService.onHandleIntent]");
 		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name());
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
-		if (NeoComAppConnector.getSingleton().checkNetworkAccess()) {
+		if ( NeoComAppConnector.getSingleton().checkNetworkAccess() ) {
 			Set<NeoComCharacter> activeCharacters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
 			NeoComCharacter pilot = null;
 			for (NeoComCharacter neocomchar : activeCharacters) {
-				if (neocomchar.getCharacterID() == localizer) {
+				if ( neocomchar.getCharacterID() == localizer ) {
 					pilot = neocomchar;
 					break;
 				}
 			}
-			if (null != pilot) {
+			if ( null != pilot ) {
 				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
 				EDataBlock datacode = pilot.needsUpdate();
 				try {
@@ -74,22 +79,25 @@ public class CharacterUpdaterService extends IntentService {
 							break;
 						case ASSETDATA:
 							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
-							if (pilot.isCorporation()) {
-								pilot.getAssetsManager().downloadCorporationAssets();
-							} else {
-								pilot.getAssetsManager().downloadPilotAssets();
+							if ( pilot instanceof Corporation ) {
+								pilot.getDownloadManager().downloadCorporationAssets();
 							}
-							//							pilot.downloadAssets();
-							//							pilot.downloadBlueprints();
+							if ( pilot instanceof Pilot ) {
+								pilot.getDownloadManager().downloadPilotAssets();
+							}
 							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
 							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							break;
-						//													case BLUEPRINTDATA:
-						////							pilot.downloadAssets();
-						//							pilot.downloadBlueprints();
-						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-						//							NeoComApp.topCounter--;
-						//							break;
+						case BLUEPRINTDATA:
+//							if ( pilot instanceof Corporation ) {
+//								pilot.getDownloadManager().downloadCorporationBlueprints();
+//							}
+							if ( pilot instanceof Pilot ) {
+								pilot.getDownloadManager().downloadPilotBlueprints();
+							}
+							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+							break;
 						//						case INDUSTRYJOBS:
 						//							pilot.downloadIndustryJobs();
 						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
@@ -105,7 +113,7 @@ public class CharacterUpdaterService extends IntentService {
 							break;
 					}
 					// Clean the top counter if completed.
-					if (NeoComApp.topCounter < 0) {
+					if ( NeoComApp.topCounter < 0 ) {
 						NeoComApp.topCounter = 0;
 					}
 				} catch (RuntimeException rtex) {
@@ -114,7 +122,7 @@ public class CharacterUpdaterService extends IntentService {
 			// Relaunch more jobs if completed.
 			NeoComApp.runTimer();
 		}
-		Log.i("CharacterUpdaterService", "<< CharacterUpdaterService.onHandleIntent");
+		logger.info( "<< CharacterUpdaterService.onHandleIntent");
 	}
 }
 

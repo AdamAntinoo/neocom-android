@@ -68,6 +68,11 @@
             android:icon="@drawable/planets"
             android:label="@string/activity_subtitle_PlanetaryOptimizationActivity"
             android:parentActivityName=".activity.LoginListActivity"></activity>
+        <activity
+            android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"
+            android:icon="@drawable/planets"
+            android:label="@string/activity_subtitle_BlueprintsT2"
+            android:parentActivityName=".activity.LoginListActivity"></activity>
 
 
         <!--         Section where to add the new Activities to match the new model presentation. -->
@@ -144,10 +149,9 @@
         <service
             android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"
             android:enabled="true"></service>
-        <!--<service-->
-        <!--android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"-->
-        <!--android:enabled="true" >-->
-        <!--</service>-->
+        <service
+            android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"
+            android:enabled="true"></service>
     </application>
 
 </manifest>

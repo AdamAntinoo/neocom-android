@@ -13,6 +13,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Login;
@@ -20,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
+import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
 import org.dimensinfin.eveonline.neocom.part.LoginPart;
 import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
@@ -103,6 +105,11 @@ public class PilotPartFactory extends PartFactory {
 			if (node instanceof PlanetaryManager ) {
 				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this)
 				                                                              .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+				return part;
+			}
+			if (node instanceof BlueprintManager ) {
+				IPart part = new BlueprintManagerPart((BlueprintManager) node).setFactory(this)
+				                                                              .setRenderMode(this.getVariant());
 				return part;
 			}
 		}

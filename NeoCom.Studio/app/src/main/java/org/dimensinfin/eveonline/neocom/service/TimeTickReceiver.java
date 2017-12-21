@@ -394,15 +394,15 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	}
 
 	private void launchCharacterDataUpdate(final PendingRequestEntry entry) {
-//		TimeTickReceiver.logger.info(
-//				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
-//		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
-//		Number content = entry.getContent();
-//		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
-//		if (null != _context) {
-//			_context.startService(serialService);
-//		}
-//		entry.state = ERequestState.ON_PROGRESS;
+		TimeTickReceiver.logger.info(
+				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
+		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
+		Number content = entry.getContent();
+		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
+		if (null != _context) {
+			_context.startService(serialService);
+		}
+		entry.state = ERequestState.ON_PROGRESS;
 		//		// Increment the counter.
 		//		NeoComApp.topCounter++;
 	}
