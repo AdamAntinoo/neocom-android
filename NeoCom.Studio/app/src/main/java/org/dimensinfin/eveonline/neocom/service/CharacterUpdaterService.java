@@ -17,7 +17,6 @@ package org.dimensinfin.eveonline.neocom.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
@@ -69,7 +68,7 @@ public class CharacterUpdaterService extends IntentService {
 				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
 				EDataBlock datacode = pilot.needsUpdate();
 				try {
-					Log.i("CharacterUpdaterService", "-- [CharacterUpdaterService.onHandleIntent] EDataBlock to process: "
+					logger.info( "-- [CharacterUpdaterService.onHandleIntent] EDataBlock to process: "
 							+ pilot.getName() + " - " + datacode);
 					switch (datacode) {
 						case CHARACTERDATA:

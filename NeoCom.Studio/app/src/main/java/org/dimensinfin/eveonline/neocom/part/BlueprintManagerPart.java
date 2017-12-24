@@ -82,8 +82,8 @@ public class BlueprintManagerPart extends NeoComAbstractPart
 	 * Returns the number of planetary resources that belong to this Character. This data is obtained from the
 	 * <code>PlanetaryManager</code> after checking the database records.
 	 */
-	public String getTResourcesCount () {
-		return NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getT2Delegate().getBlueprintCount());
+	public String getTResourcesCount (int valuetoFormat) {
+		return NeoComAbstractPart.itemCountFormatter.format(valuetoFormat);
 	}
 
 	/**
@@ -118,8 +118,9 @@ final class BlueprintManagerRender extends NeoComRender {
 	// - L A Y O U T   F I E L D S
 	private ImageView nodeIcon = null;
 	private TextView name = null;
-	private TextView resourceCount = null;
-	//	private TextView regionCount = null;
+	private TextView t1BueprintCount = null;
+	private TextView t2BueprintCount = null;
+	private TextView t3BueprintCount = null;
 
 	// - L A Y O U T   L A B E L S
 
@@ -139,16 +140,18 @@ final class BlueprintManagerRender extends NeoComRender {
 		super.initializeViews();
 		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		name = (TextView) _convertView.findViewById(R.id.name);
-		resourceCount = (TextView) _convertView.findViewById(R.id.resourceCount);
-		//		regionCount = (TextView) _convertView.findViewById(R.id.managerRegionCount);
+		t1BueprintCount = (TextView) _convertView.findViewById(R.id.t1BueprintCount);
+		t2BueprintCount = (TextView) _convertView.findViewById(R.id.t2BueprintCount);
+		t3BueprintCount = (TextView) _convertView.findViewById(R.id.t3BueprintCount);
 	}
 
 	@Override
 	public void updateContent () {
 		super.updateContent();
 		name.setText(this.getPart().getName());
-		resourceCount.setText(this.getPart().getTResourcesCount());
-		//		regionCount.setText(this.getPart().getTRegionCount());
+		t1BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT1Delegate().getBlueprintCount()));
+		t2BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT2Delegate().getBlueprintCount()));
+//		t3BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT3Delegate().getBlueprintCount()));
 		// Needs the check to test of the manager is active to select the right icon.
 		if ( this.getPart().checkActivation() ) {
 			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon(), getContext().getTheme()));
@@ -165,7 +168,7 @@ final class BlueprintManagerRender extends NeoComRender {
 
 	@Override
 	protected void createView () {
-		_convertView = inflateView(R.layout.planetarymanager4pilot);
+		_convertView = inflateView(R.layout.blueprintmanager4pilot);
 		_convertView.setTag(this);
 	}
 }

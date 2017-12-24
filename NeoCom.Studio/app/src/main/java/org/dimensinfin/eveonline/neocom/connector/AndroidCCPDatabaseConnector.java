@@ -403,19 +403,18 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	 */
 	@Override
 	public EveLocation searchLocationbyID (final long locationID) {
-		AndroidCCPDatabaseConnector.logger
-				.info(">< [CCPDatabaseConnector.searchLocationbyID]> Searching ID: " + locationID);
 		// First check if the location is already on the cache table.
 		EveLocation hit = locationsCache.get(locationID);
 		if ( null != hit ) {
 			int access = AndroidCCPDatabaseConnector.locationsCacheStatistics.accountAccess(true);
 			int hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 			AndroidCCPDatabaseConnector.logger.info(">< [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
-					+ access + "] Location " + locationID + " found at cache.");
+					+ access + "] Location " + locationID + ": found at cache.");
 			return hit;
 		} else {
 			// Try to get that id from the cache tables
 			int access = AndroidCCPDatabaseConnector.locationsCacheStatistics.accountAccess(false);
+			int hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 			List<EveLocation> locationList = null;
 			try {
 				Dao<EveLocation, String> locationDao = NeoComAppConnector.getSingleton().getDBConnector().getLocationDAO();
@@ -426,22 +425,14 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 				locationList = locationDao.query(preparedQuery);
 			} catch (java.sql.SQLException sqle) {
 				sqle.printStackTrace();
+				AndroidCCPDatabaseConnector.logger.info(">< [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
+						+ access + "] Location " + locationID + ": not found at database. Returning DUMMY.");
 				return new EveLocation(locationID);
 			}
 
 			// Check list contents. If found we have the location. Else then check if Office
 			if ( locationList.size() < 1 ) {
-				//				CCPDatabaseConnector.logger.info(
-				//						"-- [CCPDatabaseConnector.searchLocationbyID]> Location: " + locationID + " not found on local Database.");
-				// Offices
 				long fixedLocationID = locationID;
-				//				if (fixedLocationID >= 66000000) {
-				//					if (fixedLocationID < 66014933) {
-				//						fixedLocationID = fixedLocationID - 6000001;
-				//					} else {
-				//						fixedLocationID = fixedLocationID - 6000000;
-				//					}
-				//				}
 				hit = new EveLocation(fixedLocationID);
 				Cursor cursor = null;
 				try {
@@ -452,7 +443,8 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 						if ( cursor.moveToFirst() ) {
 							detected = true;
 							AndroidCCPDatabaseConnector.logger.info(
-									"-- [CCPDatabaseConnector.searchLocationbyID]> Location: " + locationID + " Obtained from CCP data.");
+									"-- [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
+											+ access + "] Location " + locationID + ": Obtained from CCP database.");
 							detected = true;
 							// Check returned values when doing the assignments.
 							long fragmentID = cursor.getLong(cursor.getColumnIndex("systemID"));
@@ -478,20 +470,21 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 							hit.setSecurity(cursor.getString(cursor.getColumnIndex("security")));
 
 							// Location found on CCP database.
-							int hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
+							hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 							AndroidCCPDatabaseConnector.logger.info(">< [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
-									+ access + "] Location " + locationID + " found at CCP Database.");
+									+ access + "] Location " + locationID + ": found at CCP Database.");
 							locationsCache.put(hit.getID(), hit);
 						}
 						if ( !detected ) {
 							AndroidCCPDatabaseConnector.logger
-									.info("-- [searchLocationbyID]> Location: " + locationID + " not found on any Database - UNKNOWN-.");
+									.info("-- [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
+											+ access + "] Location " + locationID + ": not found on any Database - UNKNOWN-.");
 							hit.setSystem("ID>" + Long.valueOf(locationID).toString());
 						}
 					}
 				} catch (final Exception ex) {
 					AndroidCCPDatabaseConnector.logger.warn(
-							"W- [AndroidDatabaseConnector.searchLocationbyID]> Location <" + fixedLocationID + "> not found.");
+							"W- [CCPDatabaseConnector.searchLocationbyID]> Location <" + fixedLocationID + "> not found.");
 				} finally {
 					try {
 						cursor.close();
@@ -503,9 +496,9 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 				return hit;
 			} else {
 				// Location found on the Application database.
-				int hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
+				 hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 				AndroidCCPDatabaseConnector.logger.info(">< [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
-						+ access + "] Location " + locationID + " found at Application Database.");
+						+ access + "] Location " + locationID + ": found at Application Database.");
 				EveLocation foundLoc = locationList.get(0);
 				locationsCache.put(foundLoc.getID(), foundLoc);
 				return locationList.get(0);

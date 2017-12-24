@@ -4,19 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/panelbordergreen" >
 
-    <ImageView
-        android:id="@+id/nodeIcon"
-        style="@style/AppTheme.NodeIcon"
-        android:contentDescription="@string/default_nodeicon"
-        android:src="@drawable/nopilot" />
-
-    <ImageView
-        android:id="@+id/rightArrow"
-        style="@style/AppTheme.Arrow"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/default_actionablearrow" />
+    <include layout="@layout/nodebase4list" />
 
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
         android:id="@+id/name"
@@ -32,8 +20,9 @@
         android:id="@+id/leftBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="2dp"
         android:orientation="vertical" >
 
         <LinearLayout

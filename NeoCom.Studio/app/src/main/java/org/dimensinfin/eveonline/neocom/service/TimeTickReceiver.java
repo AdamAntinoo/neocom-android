@@ -69,6 +69,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+
 /**
  * This class is a one minute timer activated at startup. It will search for data obsolete and fire the
  * services required to update that data by downloading new CCP api calls.<br>
@@ -86,11 +87,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		//		private final AbstractNewPagerFragment fragment;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public UpdateCitadelsTask() {
+		public UpdateCitadelsTask () {
 			//			this.fragment = fragment;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
+
 		/**
 		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
 		 * are executed at this time both the model contents update and the list of parts to be used on the
@@ -101,21 +103,21 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		 * from the main thread as it is recommended by Google.
 		 */
 		@Override
-		protected Void doInBackground(final Void... arg0) {
+		protected Void doInBackground (final Void... arg0) {
 			TimeTickReceiver.logger.info(">> [TimeTicketReceiver.UpdateCitadelsTask.doInBackground]");
 			String destination = "https://stop.hammerti.me.uk/api/citadel/all";
 			// Create a trust manager that does not validate certificate chains
-			TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-				public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
+			TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+				public void checkClientTrusted (final X509Certificate[] certs, final String authType) {
 				}
 
-				public void checkServerTrusted(final X509Certificate[] certs, final String authType) {
+				public void checkServerTrusted (final X509Certificate[] certs, final String authType) {
 				}
 
-				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				public java.security.cert.X509Certificate[] getAcceptedIssuers () {
 					return null;
 				}
-			} };
+			}};
 			// Install the all-trusting trust manager
 			SSLContext sc;
 			InputStream in = null;
@@ -128,23 +130,27 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 				// Install the all-trusting host verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
 				ObjectMapper mapper = new ObjectMapper(); //create once, reuse
 				mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 				URL url = new URL(destination);
 				URLConnection con = url.openConnection();
 				con.setRequestProperty("Accept-Encoding", "gzip");
-				//				long contentLength = con.getContentLength();
-				String contentEncoding = con.getContentEncoding();
+				con.setRequestProperty("Accept-Encoding", "html");
+				con.setRequestProperty("Accept-Encoding", "json");
+				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+				long contentLength = con.getContentLength();
 				InputStream inputStream = con.getInputStream();
-				if ("gzip".equals(contentEncoding)) {
+				String contentEncoding = con.getContentEncoding();
+				if ( "gzip".equals(contentEncoding) ) {
 					in = new GZIPInputStream(inputStream);
 				} else {
 					in = inputStream;
 				}
 				Map<Long, Citadel> results = mapper.readValue(in, new TypeReference<Map<Long, Citadel>>() {
 				});
-				if (results != null) {
+				if ( results != null ) {
 					for (Map.Entry<Long, Citadel> entry : results.entrySet()) {
 						// Convert each Citadel to a new Location and update the database if needed.
 						EveLocation loc = new EveLocation(entry.getKey(), entry.getValue());
@@ -156,7 +162,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				// TODO Auto-generated catch block
 				ex.printStackTrace();
 			} finally {
-				if (in != null) {
+				if ( in != null ) {
 					try {
 						in.close();
 					} catch (IOException ex) {
@@ -175,11 +181,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		// - F I E L D - S E C T I O N ............................................................................
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public UpdateOutpostsTask() {
+		public UpdateOutpostsTask () {
 			//			this.fragment = fragment;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
+
 		/**
 		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
 		 * are executed at this time both the model contents update and the list of parts to be used on the
@@ -190,13 +197,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		 * from the main thread as it is recommended by Google.
 		 */
 		@Override
-		protected Void doInBackground(final Void... arg0) {
+		protected Void doInBackground (final Void... arg0) {
 			TimeTickReceiver.logger.info(">> [TimeTicketReceiver.UpdateOutpostsTask.doInBackground]");
 			try {
 				//				StationListResponse response = null;
 				ConquerableStationListParser parser = new ConquerableStationListParser();
 				StationListResponse response = parser.getResponse();
-				if (null != response) {
+				if ( null != response ) {
 					Map<Long, Station> stations = response.getStations();
 					for (Long stationid : stations.keySet()) {
 						// Convert the station to an EveLocation
@@ -217,26 +224,27 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	}
 
 	final class Verifier implements HostnameVerifier {
-		public boolean verify(final String hostname, final SSLSession session) {
+		public boolean verify (final String hostname, final SSLSession session) {
 			return true;
 		}
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger		logger					= Logger.getLogger("TimeTickReceiver");
-	private static boolean	BLOCKED_STATUS	= false;
-	private static int			LAUNCH_LIMIT		= 30;
+	private static Logger logger = Logger.getLogger("TimeTickReceiver");
+	private static boolean BLOCKED_STATUS = false;
+	private static int LAUNCH_LIMIT = 30;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Context					_context				= null;
-	private int							limit						= 0;
+	private Context _context = null;
+	private int limit = 0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public TimeTickReceiver(final Context context) {
+	public TimeTickReceiver (final Context context) {
 		_context = context;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * Receive an intent on every minute tick.<br>
 	 * We should scan the list of pending data for queued requests and after termination we have to check for
@@ -248,12 +256,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 * Every minute the process checks for pending market data downloads.
 	 */
 	@Override
-	public void onReceive(final Context context, final Intent intent) {
+	public void onReceive (final Context context, final Intent intent) {
 		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]");
 		// Run only if the network is active.
-		if (!NeoComAppConnector.getSingleton().checkNetworkAccess()) return;
+		if ( !NeoComAppConnector.getSingleton().checkNetworkAccess() ) return;
 		// Or if the service is disables by configuration.
-		if (this.blockedDownload()) return;
+		if ( this.blockedDownload() ) return;
 
 		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
@@ -262,24 +270,24 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			// Process request by priority. Additions to queue are limited.
 			limit = 0;
 			for (PendingRequestEntry entry : requests)
-				if (entry.state == ERequestState.PENDING) {
+				if ( entry.state == ERequestState.PENDING ) {
 					// Filter only MARKETDATA requests.
-					if (entry.reqClass == ERequestClass.MARKETDATA)
-						if (limit <= TimeTickReceiver.LAUNCH_LIMIT) if (this.blockedMarket()) {
-						continue;
+					if ( entry.reqClass == ERequestClass.MARKETDATA )
+						if ( limit <= TimeTickReceiver.LAUNCH_LIMIT ) if ( this.blockedMarket() ) {
+							continue;
 						} else {
-						this.launchMarketUpdate(entry);
+							this.launchMarketUpdate(entry);
 						}
 					// Filter the rest of the character data to be updated
-					if (entry.reqClass == ERequestClass.CHARACTERUPDATE) {
+					if ( entry.reqClass == ERequestClass.CHARACTERUPDATE ) {
 						this.launchCharacterDataUpdate(entry);
 					}
-					if (entry.reqClass == ERequestClass.CITADELUPDATE) {
+					if ( entry.reqClass == ERequestClass.CITADELUPDATE ) {
 						// Launch the update and remove the event from the queue.
 						new UpdateCitadelsTask().execute();
 						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
 					}
-					if (entry.reqClass == ERequestClass.OUTPOSTUPDATE) {
+					if ( entry.reqClass == ERequestClass.OUTPOSTUPDATE ) {
 						// Launch the update and remove the event from the queue.
 						new UpdateOutpostsTask().execute();
 						NeoComApp.getSingletonApp().getCacheConnector().clearPendingRequest(entry.getIdentifier());
@@ -291,16 +299,16 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		Set<NeoComCharacter> characters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
 		for (NeoComCharacter eveChar : characters) {
 			EDataBlock updateCode = eveChar.needsUpdate();
-			if (updateCode != EDataBlock.READY) {
+			if ( updateCode != EDataBlock.READY ) {
 				TimeTickReceiver.logger
 						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
 				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
 			}
 		}
 		Activity activity = NeoComModelStore.getSingleton().getActivity();
-		if (null != activity) {
+		if ( null != activity ) {
 			activity.runOnUiThread(new Runnable() {
-				public void run() {
+				public void run () {
 					NeoComApp.updateProgressSpinner();
 				}
 			});
@@ -309,35 +317,35 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				+ "/" + NeoComApp.topCounter + "]");
 	}
 
-	private boolean blockedDownload() {
+	private boolean blockedDownload () {
 		// Read the flag values from the preferences.
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(_context);
 		boolean blockDownload = sharedPrefs.getBoolean(AppWideConstants.preference.PREF_BLOCKDOWNLOAD, false);
 		return blockDownload;
 	}
 
-	private boolean blockedMarket() {
+	private boolean blockedMarket () {
 		// Read the flag values from the preferences.
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(_context);
 		boolean blockDownload = sharedPrefs.getBoolean(AppWideConstants.preference.PREF_BLOCKMARKET, false);
 		return blockDownload;
 	}
 
-	private void citadelLocationUpdate() {
+	private void citadelLocationUpdate () {
 		TimeTickReceiver.logger.info(">> [TimeTicketReceiver.citadelLocationUpdate]> Citadels updating");
 		String destination = "https://stop.hammerti.me.uk/api/citadel/all";
 		// Create a trust manager that does not validate certificate chains
-		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-			public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
+		TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+			public void checkClientTrusted (final X509Certificate[] certs, final String authType) {
 			}
 
-			public void checkServerTrusted(final X509Certificate[] certs, final String authType) {
+			public void checkServerTrusted (final X509Certificate[] certs, final String authType) {
 			}
 
-			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers () {
 				return null;
 			}
-		} };
+		}};
 		// Install the all-trusting trust manager
 		SSLContext sc;
 		InputStream in = null;
@@ -347,7 +355,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 			// Create all-trusting host name verifier
 			HostnameVerifier allHostsValid = new HostnameVerifier() {
-				public boolean verify(final String hostname, final SSLSession session) {
+				public boolean verify (final String hostname, final SSLSession session) {
 					return true;
 				}
 			};
@@ -362,14 +370,14 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			//			long contentLength = con.getContentLength();
 			String contentEncoding = con.getContentEncoding();
 			InputStream inputStream = con.getInputStream();
-			if ("gzip".equals(contentEncoding)) {
+			if ( "gzip".equals(contentEncoding) ) {
 				in = new GZIPInputStream(inputStream);
 			} else {
 				in = inputStream;
 			}
 			Map<Long, Citadel> results = mapper.readValue(in, new TypeReference<Map<Long, Citadel>>() {
 			});
-			if (results != null) { //Updated OK
+			if ( results != null ) { //Updated OK
 				for (Map.Entry<Long, Citadel> entry : results.entrySet()) {
 					// Convert each Citadel to a new Location and update the database if needed.
 					EveLocation loc = new EveLocation(entry.getKey(), entry.getValue());
@@ -381,7 +389,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		} finally {
-			if (in != null) {
+			if ( in != null ) {
 				try {
 					in.close();
 				} catch (IOException ex) {
@@ -393,13 +401,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		//[02]
 	}
 
-	private void launchCharacterDataUpdate(final PendingRequestEntry entry) {
+	private void launchCharacterDataUpdate (final PendingRequestEntry entry) {
 		TimeTickReceiver.logger.info(
 				"-- [TimeTickReceiver.launchCharacterDataUpdate]> Character Update Request Class [" + entry.reqClass + "]");
 		Intent serialService = new Intent(_context, CharacterUpdaterService.class);
 		Number content = entry.getContent();
 		serialService.putExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name(), content.longValue());
-		if (null != _context) {
+		if ( null != _context ) {
 			_context.startService(serialService);
 		}
 		entry.state = ERequestState.ON_PROGRESS;
@@ -407,10 +415,10 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		//		NeoComApp.topCounter++;
 	}
 
-	private void launchMarketUpdate(final PendingRequestEntry entry) {
+	private void launchMarketUpdate (final PendingRequestEntry entry) {
 		TimeTickReceiver.logger
 				.info("-- [TimeTickReceiver.launchService Market]> Update Request Class [" + entry.reqClass + "]");
-		if (null != _context) {
+		if ( null != _context ) {
 			Intent serialService = new Intent(_context, MarketUpdaterService.class);
 			Number content = entry.getContent();
 			TimeTickReceiver.logger
@@ -424,7 +432,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private void outpostLocationUpdate() {
+	private void outpostLocationUpdate () {
 		// Check if the outpotst already loaded.
 		//	if ((null == outpostsCache) || (outpostsCache.size() < 1)) {
 		// Making a request to url and getting response
@@ -475,13 +483,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		//		return location;
 	}
 
-	private String readJsonData() {
+	private String readJsonData () {
 		StringBuffer data = new StringBuffer();
 		try {
 			String str = "";
 			InputStream is = NeoComAppConnector.getSingleton().getStorageConnector().accessInternalStorage("outposts.json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			if (is != null) {
+			if ( is != null ) {
 				while ((str = reader.readLine()) != null) {
 					data.append(str);
 				}

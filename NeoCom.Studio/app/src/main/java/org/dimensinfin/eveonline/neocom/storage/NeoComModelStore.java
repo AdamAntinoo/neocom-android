@@ -67,12 +67,12 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * @return the single global sinleton.
 	 */
 	public static NeoComModelStore getSingleton () {
-		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
+//		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
 		if ( null == NeoComModelStore.singleton ) {
 			// Initiate the recovery.
 			NeoComModelStore.initialize();
 		}
-		NeoComModelStore.logger.info("<< [NeoComModelStore.getSingleton]");
+//		NeoComModelStore.logger.info("<< [NeoComModelStore.getSingleton]");
 		return NeoComModelStore.singleton;
 	}
 

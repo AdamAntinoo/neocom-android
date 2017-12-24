@@ -64,7 +64,7 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 
 	public String getTransformedAssetsCount() {
 		final DecimalFormat formatter = new DecimalFormat("###,###");
-		final long assetCount = this.getCastedModel().getAssetCount();
+		final long assetCount = this.getCastedModel().getAssetsManager().getTotalAssetsNumber();
 		final String countString = formatter.format(assetCount);
 		return countString;
 	}
