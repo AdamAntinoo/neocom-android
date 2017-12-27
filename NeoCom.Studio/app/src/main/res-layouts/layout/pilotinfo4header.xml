@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/panelbordergreen" >
+    android:background="@drawable/panelbordergreen">
 
     <ImageView
         android:id="@+id/pilotAvatar"
@@ -21,19 +20,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/pilotAvatar"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <org.dimensinfin.android.mvc.fonts.DaysTextView
-            android:id="@+id/pilotName"
-            style="@style/AppTheme.NeoComText.Orange"
-            android:text="Adam Antinoo" />
+        <LinearLayout
+            android:id="@+id/pilotIdentificationBlock"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/pilotAvatar"
+            android:orientation="horizontal">
+
+            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+                android:id="@+id/pilotName"
+                style="@style/AppTheme.NeoComText.Orange"
+                android:text="Adam Antinoo" />
+
+            <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+                android:id="@+id/characterId"
+                style="@style/AppTheme.TextView"
+                android:layout_marginLeft="3dp"
+                android:text="[9863234]"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/lastKnownLocation"
             style="@style/AppTheme.TextView"
             android:singleLine="false"
-            android:textStyle="bold"
-            android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;" />
+            android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lastKnownLocationLabel"

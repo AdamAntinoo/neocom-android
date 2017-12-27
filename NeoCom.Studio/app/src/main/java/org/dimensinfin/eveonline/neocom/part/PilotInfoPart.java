@@ -38,41 +38,45 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= -1731066477259354660L;
-	private static Logger			logger						= Logger.getLogger("PilotInfoPart");
+	private static final long serialVersionUID = -1731066477259354660L;
+	private static Logger logger = Logger.getLogger("PilotInfoPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PilotInfoPart(final NeoComCharacter pilot) {
+	public PilotInfoPart (final NeoComCharacter pilot) {
 		super(pilot);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public NeoComCharacter getCastedModel() {
+	public NeoComCharacter getCastedModel () {
 		return (NeoComCharacter) this.getModel();
 	}
 
 	@Override
-	public long getModelID() {
+	public long getModelID () {
 		return 0;
 	}
 
-	public String getName() {
+	public String getName () {
 		return this.getCastedModel().getName();
 	}
 
-	public String getTransformedAssetsCount() {
+	public String getTransformedAssetsCount () {
 		final DecimalFormat formatter = new DecimalFormat("###,###");
 		final long assetCount = this.getCastedModel().getAssetsManager().getTotalAssetsNumber();
 		final String countString = formatter.format(assetCount);
 		return countString;
 	}
 
-	public String getTransformedBalance() {
+	public String getTransformedBalance () {
 		final DecimalFormat formatter = new DecimalFormat("#,###.00 ISK");
 		final String strbalance = formatter.format(this.getCastedModel().getAccountBalance());
 		return strbalance;
+	}
+
+	public String getTCharacterID () {
+		return "[" + Long.valueOf(getCastedModel().getCharacterID()).toString() + "]";
 	}
 
 	/**
@@ -81,11 +85,11 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	 * If this part is used on more places we should control the variant so the click can be active for ones and
 	 * not active for others.
 	 */
-	public void onClick(final View view) {
+	public void onClick (final View view) {
 		PilotInfoPart.logger.info(">> [PilotInfoPart.onClick]");
 		// Set the pilot selected on the context and then go to the Pilot Dashboard.
 		final Object pilotPart = view.getTag();
-		if (pilotPart instanceof PilotInfoPart) {
+		if ( pilotPart instanceof PilotInfoPart ) {
 			// TODO This is to keep compatibility with the old data management.
 			// Pilot are expected to be at the global context
 			final NeoComCharacter pilot = ((PilotInfoPart) pilotPart).getCastedModel();
@@ -102,11 +106,11 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	protected AbstractRender selectRenderer () {
 		// Get the proper holder set for the render mode.
-		if (this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.name())
+		if ( this.getRenderMode() == ENeoComVariants.CAPSULEER_LIST.name() )
 			return new Pilot4ListRender(this, _activity);
-		if (this.getRenderMode() == ENeoComVariants.PILOT_HEADER.name())
+		if ( this.getRenderMode() == ENeoComVariants.PILOT_HEADER.name() )
 			return new Pilot4HeaderRender(this, _activity);
 		else
 			return new Pilot4ListRender(this, _activity);
@@ -121,32 +125,32 @@ final class Pilot4ListRender extends NeoComRender {
 	// - F I E L D - S E C T I O N ............................................................................
 	// - L A Y O U T   F I E L D S
 	private ImageView nodeIcon = null;
-	private TextView	pilotName						= null;
+	private TextView pilotName = null;
 	//	private TextView	lastKnownLocation				= null;
-	private TextView	accountBalance			= null;
-	private TextView	assetsCount					= null;
+	private TextView accountBalance = null;
+	private TextView assetsCount = null;
 
 	// - L A Y O U T   L A B E L S
 	//	@SuppressWarnings("unused")
 	//	private TextView	lastKnownLocationLabel	= null;
 	@SuppressWarnings("unused")
-	private TextView	accountBalanceLabel	= null;
+	private TextView accountBalanceLabel = null;
 	@SuppressWarnings("unused")
-	private TextView	assetsCountLabel		= null;
+	private TextView assetsCountLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Pilot4ListRender(final AbstractAndroidPart newPart, final Activity context) {
+	public Pilot4ListRender (final AbstractAndroidPart newPart, final Activity context) {
 		super(newPart, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public PilotInfoPart getPart() {
+	public PilotInfoPart getPart () {
 		return (PilotInfoPart) super.getPart();
 	}
 
 	@Override
-	public void initializeViews() {
+	public void initializeViews () {
 		super.initializeViews();
 		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
@@ -160,7 +164,7 @@ final class Pilot4ListRender extends NeoComRender {
 	}
 
 	@Override
-	public void updateContent() {
+	public void updateContent () {
 		super.updateContent();
 		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(pilot.getName());
@@ -168,7 +172,7 @@ final class Pilot4ListRender extends NeoComRender {
 		accountBalance.setText(this.getPart().getTransformedBalance());
 		assetsCount.setText(this.getPart().getTransformedAssetsCount());
 
-		if (null != nodeIcon ) {
+		if ( null != nodeIcon ) {
 			String link = pilot.getURLForAvatar();
 			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, nodeIcon);
 			nodeIcon.setImageDrawable(draw);
@@ -177,49 +181,52 @@ final class Pilot4ListRender extends NeoComRender {
 
 	@SuppressLint("InflateParams")
 	@Override
-	protected void createView() {
+	protected void createView () {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		_convertView = mInflater.inflate(R.layout.pilotinfo4login, null);
 		_convertView.setTag(this);
 	}
 }
+
 // - CLASS IMPLEMENTATION ...................................................................................
 final class Pilot4HeaderRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 	// - L A Y O U T   F I E L D S
-	private ImageView	pilotAvatar							= null;
-	private TextView	pilotName								= null;
-	private TextView	lastKnownLocation				= null;
-	private TextView	accountBalance					= null;
-	private TextView	assetsCount							= null;
+	private ImageView pilotAvatar = null;
+	private TextView pilotName = null;
+	private TextView pilotIdentifier = null;
+	private TextView lastKnownLocation = null;
+	private TextView accountBalance = null;
+	private TextView assetsCount = null;
 
 	// - L A Y O U T   L A B E L S
 	@SuppressWarnings("unused")
-	private TextView	lastKnownLocationLabel	= null;
+	private TextView lastKnownLocationLabel = null;
 	@SuppressWarnings("unused")
-	private TextView	accountBalanceLabel			= null;
+	private TextView accountBalanceLabel = null;
 	@SuppressWarnings("unused")
-	private TextView	assetsCountLabel				= null;
+	private TextView assetsCountLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public Pilot4HeaderRender(final AbstractAndroidPart newPart, final Activity context) {
+	public Pilot4HeaderRender (final AbstractAndroidPart newPart, final Activity context) {
 		super(newPart, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public PilotInfoPart getPart() {
+	public PilotInfoPart getPart () {
 		return (PilotInfoPart) super.getPart();
 	}
 
 	@Override
-	public void initializeViews() {
+	public void initializeViews () {
 		super.initializeViews();
 		pilotAvatar = (ImageView) _convertView.findViewById(R.id.pilotAvatar);
 		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
+		pilotIdentifier = (TextView) _convertView.findViewById(R.id.characterId);
 		lastKnownLocation = (TextView) _convertView.findViewById(R.id.lastKnownLocation);
 		accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
 		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
@@ -230,15 +237,16 @@ final class Pilot4HeaderRender extends NeoComRender {
 	}
 
 	@Override
-	public void updateContent() {
+	public void updateContent () {
 		super.updateContent();
 		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(pilot.getName());
+		pilotIdentifier.setText(getPart().getTCharacterID());
 		lastKnownLocation.setText(">> " + pilot.getLastKnownLocation());
 		accountBalance.setText(this.getPart().getTransformedBalance());
 		assetsCount.setText(this.getPart().getTransformedAssetsCount());
 
-		if (null != pilotAvatar) {
+		if ( null != pilotAvatar ) {
 			String link = pilot.getURLForAvatar();
 			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
 			pilotAvatar.setImageDrawable(draw);
@@ -247,7 +255,7 @@ final class Pilot4HeaderRender extends NeoComRender {
 	}
 
 	@Override
-	protected void createView() {
+	protected void createView () {
 		_convertView = inflateView(R.layout.pilotinfo4header);
 		_convertView.setTag(this);
 	}
