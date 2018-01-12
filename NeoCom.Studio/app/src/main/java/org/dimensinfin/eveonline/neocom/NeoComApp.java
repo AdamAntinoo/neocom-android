@@ -449,7 +449,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 	 * Reference to the startup activity of the application. This Activity gets restarted when there is an
 	 * intercepted runtime exception.
 	 */
-	private Class<?> _firstActivity = null;
+	private Activity _firstActivity = null;
 
 	private Instant chrono = null;
 	private AndroidStorageConnector storage = null;
@@ -577,7 +577,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		return dbNeocomConnector;
 	}
 
-	public Class<?> getFirstActivity () {
+	public Activity getFirstActivity () {
 		if ( null == _firstActivity )
 			throw new RuntimeException(
 					"RTEX [NeoComApp.getFirstActivity]> Target destination First Activity of application is not defined.");
@@ -632,7 +632,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		// Initialize global objects that are going to be used on main code.
 		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// Set the initial activity as a return point in case of exceptions.
-		_firstActivity = LoginListActivity.class;
+		_firstActivity = new LoginListActivity();
 
 		// Setup the referencing structures that will serve as proxy and global references.
 			NeoComApp.singleton = this;

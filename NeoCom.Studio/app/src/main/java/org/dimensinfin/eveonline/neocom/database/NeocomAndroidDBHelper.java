@@ -21,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -45,6 +46,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	//	private Connection														ccpDatabase								= null;
 
 	private Dao<DatabaseVersion, String> versionDao = null;
+	private Dao<Credential, String> credentialDao = null;
 	private Dao<TimeStamp, String> timeStampDao = null;
 	private Dao<ApiKey, String> apiKeysDao = null;
 	private Dao<Property, String> propertyDao = null;
@@ -99,6 +101,13 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 		return blueprintDao;
 	}
 
+	public Dao<Credential,String> getCredentialDAO () throws java.sql.SQLException{
+		if ( null == credentialDao ) {
+			credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
+		}
+		return credentialDao;
+	}
+
 	//	public Dao<Job, String> getJobDAO() throws java.sql.SQLException {
 	//		if (null == jobDao) {
 	//			jobDao = DaoManager.createDao(this.getConnectionSource(), Job.class);
@@ -120,7 +129,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 	//		return marketOrderDao;
 	//	}
 
-	public Dao<PlanetaryResource, String> getPlanetaryResourceDao () throws SQLException {
+	public Dao<PlanetaryResource, String> getPlanetaryResourceDao () throws java.sql.SQLException {
 		if ( null == planetaryResourceDao ) {
 			planetaryResourceDao = DaoManager.createDao(this.getConnectionSource(), PlanetaryResource.class);
 		}
@@ -134,21 +143,21 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 		return propertyDao;
 	}
 
-	public Dao<ResourceList, String> getResourceListDao () throws SQLException {
+	public Dao<ResourceList, String> getResourceListDao () throws java.sql.SQLException {
 		if ( null == resourceList ) {
 			resourceList = DaoManager.createDao(this.getConnectionSource(), ResourceList.class);
 		}
 		return resourceList;
 	}
 
-	public Dao<TimeStamp, String> getTimeStampDAO () throws SQLException {
+	public Dao<TimeStamp, String> getTimeStampDAO () throws java.sql.SQLException {
 		if ( null == timeStampDao ) {
 			timeStampDao = DaoManager.createDao(this.getConnectionSource(), TimeStamp.class);
 		}
 		return timeStampDao;
 	}
 
-	public Dao<DatabaseVersion, String> getVersionDao () throws SQLException {
+	public Dao<DatabaseVersion, String> getVersionDao () throws java.sql.SQLException {
 		if ( null == versionDao ) {
 			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
 		}

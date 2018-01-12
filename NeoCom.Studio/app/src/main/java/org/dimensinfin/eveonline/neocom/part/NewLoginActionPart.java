@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
@@ -49,6 +50,27 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 	public long getModelID () {
 		return 1;
 	}
+	/**
+	 * A click on this button will trigger the new login flow to get the ESI validation code to be interchanged with a
+	 * valid token. The operations should be performed at the Activity that is part of the authorization flow. The process
+	 * starts creating a Dialog where the progress and other user data will be collected. Once the Dialog is open and
+	 * running the process starts to add tasks to be run in background. Each task will use a callback and that will
+	 * continue with the authorization flow.
+	 *
+	 * @param view the view clicked. This is self.
+	 */
+	@Override
+	public void onClick (final View view) {
+		logger.info(">> [NewLoginActionPart.onClick]");
+
+		// Handle the click on the new login by interacting with the CCP ESI Authorization.
+		// Do all this code at the Activity.
+		final Activity callback = getActivity();
+		if(callback instanceof LoginListActivity ) {
+			((LoginListActivity) callback).handleLogin();
+		}
+		logger.info("<< [NewLoginActionPart.onClick]");
+	}
 
 	@Override
 	public String toString () {
@@ -63,71 +85,10 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 		return new NewLoginActionRender(this, getActivity());
 	}
 
-	/**
-	 * A click on this button will trigger the new login flow to get the ESI validation code to be interchanged with a
-	 * valid token. The operations should be performed at the Activity that is part of the authorization flow. The process
-	 * starts creating a Dialog where the progress and other user data will be collected. Once the Dialog is open and
-	 * running the process starts to add tasks to be run in background. Each task will use a callback and that will
-	 * continue with the authorization flow.
-	 *
-	 * @param view the view clicked. This is self.
-	 */
-	@Override
-	public void onClick (final View view) {
-		logger.info(">> [NewLoginActionPart.onClick]");
-
-		//		// Open a Navigator and capture the Api Key ftom the CCP support web.
-		//		public static void startImportEve(final Activity activity, final String loginUri) {
-		//			final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(loginUri));
-		//			browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID, activity.getPackageName());
-		//			activity.startActivity(browserIntent, new Bundle());
-		//		}
-		//
-		//
-		//
-		//
-		//
-		//
-		//		// Activate the new Activity to follow the authorization flow.
-		//		Intent intent = new Intent(this.getActivity(), NewLoginActivity.class);
-		//		this.getActivity().startActivity(intent);
-
-
-		//		// Open the Dialog to show the authentication progress.
-		//		final NewLoginProgressDialog dialog = new NewLoginProgressDialog(this);
-		//		final Bundle dialogArguments = new Bundle();
-		//		dialogArguments.putString("TESTSTRING", "NewLoginProgressDialog");
-		//		dialog.setArguments(dialogArguments);
-		//		dialog.setDialogCallback(new ADialogCallback() {
-		//			@Override
-		//			public void onDialogNegativeClick (final DialogFragment dialog) {
-		//			}
-		//
-		//			@Override
-		//			public void onDialogPositiveClick (final DialogFragment dialog) {
-		//				// This is the point where I should save the Login data to the persistence local database.
-		//				// Save new Login to the database.
-		//				// The GymActivity should be already created at the Database.
-		//				//				invalidate();
-		//				//				fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), this, this);
-		//			}
-		//		});
-		//		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		//		dialog.show(getActivity().getFragmentManager(), "NewLoginProgressDialog");
-		//		logger.info("<< [NewLoginActionPart.onClick]");
-
-
-		//		final Activity activity = getActivity();
-		//		if ( activity instanceof LoginListActivity ) {
-		//			// We have verified that we are on the right Activity. Fire the authorization flow.
-		//			((LoginListActivity) activity).startESIAuthentication();
-		//		}
-		logger.info("<< [NewLoginActionPart.onClick]");
-	}
 }
 
 // - CLASS IMPLEMENTATION ...................................................................................
-final class NewLoginActionRender extends AbstractRender {
+final class NewLoginActionRender extends AbstractRender implements View.OnClickListener{
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

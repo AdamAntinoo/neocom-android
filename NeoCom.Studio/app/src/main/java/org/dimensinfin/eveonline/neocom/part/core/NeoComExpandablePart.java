@@ -70,9 +70,9 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 			public void run () {
 				logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
 				Chrono chrono = new Chrono();
-				getTargetPart().toggleExpanded();
-				getTargetPart().invalidate();
-				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+				getTarget().toggleExpanded();
+				getTarget().invalidate();
+				getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 				completeClick();
 				logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
 			}

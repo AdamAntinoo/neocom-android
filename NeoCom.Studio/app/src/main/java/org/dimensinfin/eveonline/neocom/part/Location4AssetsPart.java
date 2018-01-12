@@ -107,7 +107,7 @@ public class Location4AssetsPart extends LocationPart {
 		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
 			public void run () {
 				logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
-				getTargetPart().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+				getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
 				logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
 			}
 		}, CoreConstants.HUNDRETH);

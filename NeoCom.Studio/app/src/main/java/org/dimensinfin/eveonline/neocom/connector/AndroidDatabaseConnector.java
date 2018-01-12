@@ -29,6 +29,7 @@ import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -234,6 +235,11 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 	public Dao<NeoComBlueprint, String> getBlueprintDAO () throws SQLException {
 		return this.getNeocomDBHelper().getBlueprintDAO();
 	}
+	@Override
+	public Dao<Credential, String> getCredentialDao () throws SQLException {
+		return this.getNeocomDBHelper().getCredentialDAO();
+	}
+
 
 	//	public Dao<ApiKey, String> getApiKeysDao() throws SQLException {
 	//		return this.getNeocomDBHelper().getApiKeysDao();

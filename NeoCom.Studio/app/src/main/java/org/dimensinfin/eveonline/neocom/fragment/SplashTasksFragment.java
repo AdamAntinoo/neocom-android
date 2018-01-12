@@ -152,7 +152,7 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 				logger.info("-- Copied resource from assets [" + resourceName + "]");
 			} catch (final Exception e) {
 				e.printStackTrace();
-				logger.severe("E> Failed to copy resource: " + resourceName);
+				logger.error("E> Failed to copy resource: " + resourceName);
 			} finally {
 				try {
 					if ( ostream != null ) {

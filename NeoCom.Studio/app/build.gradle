@@ -54,27 +54,28 @@ dependencies {
 
     // A P P L I C A T I O N    D E P E N D E N C I E S
     // N E O C O M
-    implementation 'joda-time:joda-time:2.3'
-    implementation 'com.beimin:eveapi:6.0.6'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     implementation 'org.htmlparser:htmlparser:2.1'
-    implementation 'org.slf4j:slf4j-android:1.7.25'
-//    implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
 
+//    implementation 'joda-time:joda-time:2.3'
+//    implementation 'com.beimin:eveapi:6.0.6'
+//    implementation 'org.slf4j:slf4j-android:1.7.25'
+//    implementation 'org.slf4j:slf4j-android:1.7.25'
+
     // A P P L I C A T I O N    D E P E N D E N C I E S
-    implementation 'com.jakewharton:butterknife:7.0.1'
-    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/jeveassets.3.1.2.jar')
-    compileOnly files('libs/viewpagerindicator-release.aar')
-    implementation project(path: ':AndroidMVCLibrary')
-    implementation project(path: ':NeoCom.Model')
     implementation project(path: ':CoreBaseLibrary')
+    implementation project(path: ':NeoCom.Model')
+    implementation project(path: ':AndroidMVCLibrary')
+//    implementation files('libs/jeveassets.3.1.2.jar')
+//    compileOnly files('libs/viewpagerindicator-release.aar')
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
