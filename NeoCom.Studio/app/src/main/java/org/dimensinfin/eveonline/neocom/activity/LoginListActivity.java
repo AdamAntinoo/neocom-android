@@ -23,11 +23,10 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
-import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
-import com.tlabs.android.eve.esi.network.ESIOAuth20;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
 import org.dimensinfin.eveonline.neocom.model.Credential;
@@ -48,7 +47,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginListActivity extends AbstractPagerActivity {
+public class LoginListActivity extends ANeoComPagerActivity {
 
 	public static class NeoComAuthApi extends DefaultApi20 {
 
@@ -376,7 +375,7 @@ public class LoginListActivity extends AbstractPagerActivity {
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			int page = 0;
 			// Register this Activity as the current active Activity.
-			ApplicationCloudAndroidAdapter.getSingleton().registerActivity(this);
+	//		ApplicationCloudAndroidAdapter.getSingleton().registerActivity(this);
 			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger.severe("[LoginListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
@@ -403,13 +402,13 @@ public class LoginListActivity extends AbstractPagerActivity {
 		startActivity(intent);
 	}
 
-	private ESIOAuth20 createService () {
-		return new ESIOAuth20.Builder(NeoComAuthService.CLIENT_ID, NeoComAuthService.SECRET_KEY)
-				.withCallback(NeoComAuthService.CALLBACK)
-				.withScope(SCOPES)
-				.withAgent("org.dimensinfin.eveonline.neocom")
-				.build();
-	}
+//	private ESIOAuth20 createService () {
+//		return new ESIOAuth20.Builder(NeoComAuthService.CLIENT_ID, NeoComAuthService.SECRET_KEY)
+//				.withCallback(NeoComAuthService.CALLBACK)
+//				.withScope(SCOPES)
+//				.withAgent("org.dimensinfin.eveonline.neocom")
+//				.build();
+//	}
 
 	private Uri getAuthorizationUrl () {
 		return Uri.parse(service.getAuthorizationUrl());

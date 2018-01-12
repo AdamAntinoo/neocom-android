@@ -1,7 +1,9 @@
 include ':app'
-include ':AndroidMVCLibrary'
-project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC 2.0.x\\AndroidMVC\\AndroidMVCLibrary')
-include ':NeoCom.Model'
-project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-Model 2.0.x\\NeoCom-Model\\NeoCom.Model')
 include ':CoreBaseLibrary'
 project(':CoreBaseLibrary').projectDir = new File('D:\\Development\\Libraries Base\\Corebase 2.0.x\\org.dimensinfin.core')
+include ':NeoCom.Model'
+project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-Model 2.0.x\\NeoCom-Model\\NeoCom.Model')
+include ':AndroidMVCLibrary'
+project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC 2.0.x\\AndroidMVC\\AndroidMVCLibrary')
+include ':ApplicationCloudAdapter'
+project(':ApplicationCloudAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAdapter')
