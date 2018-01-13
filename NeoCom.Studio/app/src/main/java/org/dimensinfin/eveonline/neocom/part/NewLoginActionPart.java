@@ -119,7 +119,7 @@ final class NewLoginActionRender extends AbstractRender {
 		super.updateContent();
 		nodeIcon.setImageResource(R.drawable.account_plus);
 		// Set the color changing the background color.
-//		nodeIcon.setImageTintList();
+		nodeIcon.setImageTintList(getContext().getResources().getColorStateList(R.color.colorstates_neocom));
 	}
 
 	public String toString () {

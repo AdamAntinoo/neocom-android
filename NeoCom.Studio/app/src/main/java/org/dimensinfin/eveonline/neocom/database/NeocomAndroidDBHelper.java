@@ -463,6 +463,8 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
+		}
+		if ( oldVersion < 95 ) {
 			try {
 				TableUtils.dropTable(databaseConnection, Credential.class, true);
 			} catch (RuntimeException rtex) {
