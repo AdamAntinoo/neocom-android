@@ -37,7 +37,10 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.planetary.Colony;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
+
+import java.util.List;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class ColonyFragment extends AbstractPagerFragment {
@@ -191,12 +194,12 @@ final class ColonyStructureGenerator extends AbstractGenerator implements IModel
 
 			// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
 			final PlanetaryManager manager = new PlanetaryManager(NeoComModelStore.getSingleton().getActiveCredential());
-
-
-
-			// Get the Colony Manager for this pilot.
-			final ColonyManager manager = new ColonyManager(_pilot);
 			final List<Colony> colonies = manager.accessAllColonies();
+//
+//
+//			// Get the Colony Manager for this pilot.
+//			final ColonyManager manager = new ColonyManager(_pilot);
+//			final List<Colony> colonies = manager.accessAllColonies();
 			for (Colony colony : colonies) {
 				_dataModelRoot.addChild(colony);
 			}

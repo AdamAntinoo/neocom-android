@@ -19,7 +19,6 @@ import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
@@ -27,6 +26,7 @@ import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.Location4PlanetaryPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
+import org.dimensinfin.eveonline.neocom.planetary.Colony;
 
 import java.util.logging.Logger;
 
@@ -72,9 +72,9 @@ public class PlanetaryPartFactory extends PartFactory implements IPartFactory {
 		}
 		if ( this.getVariant() == ENeoComVariants.PLANETARY_COLONIES.name() ) {
 			if ( node instanceof Colony ) {
-				IPart part = new ColonyPart((Colony) node).setFactory(this)
-																									.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-				return part;
+//				IPart part = new ColonyPart((Colony) node).setFactory(this)
+//																									.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+//				return part;
 			}
 		}
 		if ( this.getVariant() == ENeoComVariants.PLANETARY_COLONY_LAYOUT.name() ) {
