@@ -73,8 +73,8 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		//		EManagerType manager = EManagerType
 		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+		NeoComModelStore.getSingleton().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 		                                                   .addIdentifier(loginid)
