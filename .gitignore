@@ -10,3 +10,5 @@ traces/OutboxSources/
 NeoCom.Studio.Beta/
 NeoCom.Studio/bin/
 Documentation/NeoCom.javadoc/
+NeoCom.Studio/ESISwaggerApi/generated/
+NeoCom.Studio/ESISwaggerApi/gradle/wrapper/gradle-wrapper.jar

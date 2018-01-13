@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
-      <module fileurl="file://D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\androidmvc\AndroidMVCLibrary.iml" filepath="D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\androidmvc\AndroidMVCLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../POCProjects/POCDataCloud/ApplicationCloudAdapter/ApplicationCloudAdapter.iml" filepath="$PROJECT_DIR$/../../../POCProjects/POCDataCloud/ApplicationCloudAdapter/ApplicationCloudAdapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core/CoreBaseLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core/CoreBaseLibrary.iml" />
-      <module fileurl="file://D:\Development\Libraries Base\Corebase 2.0.x\CoreBase\CoreBaseLibrary\CoreBaseLibrary.iml" filepath="D:\Development\Libraries Base\Corebase 2.0.x\CoreBase\CoreBaseLibrary\CoreBaseLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ESISwaggerApi/ESISwaggerApi.iml" filepath="$PROJECT_DIR$/ESISwaggerApi/ESISwaggerApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model/NeoCom.Model.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model/NeoCom.Model.iml" />
       <module fileurl="file://$PROJECT_DIR$/NeoCom.Studio.iml" filepath="$PROJECT_DIR$/NeoCom.Studio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
