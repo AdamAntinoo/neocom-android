@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
@@ -117,7 +119,8 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				this.startActivity(intent);
 				return false;
 			case R.id.action_fullreload:
-				// Do a reload of the application data. First doa cleanup of the data structures to force a reload.
+				// Do a reload of the application data. First do a cleanup of the data structures to force a reload.
+				// This is a hard reset of the application.
 				NeoComAppConnector.getSingleton().getModelStore().cleanModel();
 				this.startActivity(new Intent(this, NeoComSplashActivity.class));
 				return true;
@@ -125,11 +128,19 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				// Insert into the download queue the action to download the locations.
 				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
 				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
-				break;
+				return true;
 			case R.id.action_updateaccounts:
-				// Refresh the store data
-				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
-				break;
+				// Clean the model store data and force a reload of new data from Database.
+				// This is equivalent to a soft restart.
+				ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(new Runnable() {
+					@Override
+					public void run () {
+						NeoComModelStore.getSingleton().initialize();
+					}
+				});
+				return true;
+//				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
+//				break;
 			//			case R.id.action_createFitting:
 			//				// Create demo fittings to test the save/restore and continue the development.
 			//				Fitting onConstructionFit = new Fitting();
@@ -157,18 +168,6 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 		super.onStart();
 		NeoComApp.updateProgressSpinner();
 	}
-
-	//	/**
-	//	 * This is a test to try to close the databases when the activity is closed to see if this affects to the
-	//	 * data availability at the local database. This is a test and can cause later access problems to the
-	//	 * database data.
-	//	 */
-	//	@Override
-	//	protected void onStop() {
-	//		Log.i("EVEI", ">> AbstractPagerActivity.onStop"); //$NON-NLS-1$
-	//		NeoComApp.getSingletonApp().closeDB();
-	//		super.onStop();
-	//	}
 }
 
 // - UNUSED CODE ............................................................................................

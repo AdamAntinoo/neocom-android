@@ -66,7 +66,7 @@ public class BlueprintManagerPart extends NeoComAbstractPart
 	}
 
 	public int getDimmedIcon () {
-		return R.drawable.planets;
+		return R.drawable.industry;
 	}
 
 	@Override

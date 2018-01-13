@@ -87,8 +87,8 @@
             android:parentActivityName=".activity.LoginListActivity"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"
-            android:icon="@drawable/planets"
-            android:label="@string/activity_subtitle_BlueprintsT2"
+            android:icon="@drawable/industry"
+            android:label="@string/activity_subtitle_IndustryManagerActivity"
             android:parentActivityName=".activity.LoginListActivity"></activity>
 
 

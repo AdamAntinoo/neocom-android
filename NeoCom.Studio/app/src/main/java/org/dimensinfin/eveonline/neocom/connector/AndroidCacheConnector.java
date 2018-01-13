@@ -291,7 +291,11 @@ public class AndroidCacheConnector implements ICacheConnector {
 	private final SparseArray<MarketDataSet>	sellMarketDataCache	= new SparseArray<MarketDataSet>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public AndroidCacheConnector() {
+		super();
+	}
 	public AndroidCacheConnector(final Context app) {
+		this();
 		//		_context = app;
 	}
 
