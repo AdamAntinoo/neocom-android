@@ -63,7 +63,6 @@ dependencies {
     implementation project(path: ':NeoCom.Model')
     implementation project(path: ':AndroidMVCLibrary')
     implementation project(path: ':ApplicationCloudAdapter')
-    implementation project(path: ':ESISwaggerApi')
 
     // L O C A L    L I B R A R I E S
 
@@ -78,8 +77,8 @@ dependencies {
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation 'com.github.scribejava:scribejava-core:4.2.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+//    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+//    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
 
     // P L A T F O R M    D E P E N D E N C I E S
 

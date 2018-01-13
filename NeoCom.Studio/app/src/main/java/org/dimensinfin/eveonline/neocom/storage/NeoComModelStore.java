@@ -18,6 +18,7 @@ import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.slf4j.Logger;
@@ -67,12 +68,12 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * @return the single global sinleton.
 	 */
 	public static NeoComModelStore getSingleton () {
-//		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
+		//		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
 		if ( null == NeoComModelStore.singleton ) {
 			// Initiate the recovery.
 			NeoComModelStore.initialize();
 		}
-//		NeoComModelStore.logger.info("<< [NeoComModelStore.getSingleton]");
+		//		NeoComModelStore.logger.info("<< [NeoComModelStore.getSingleton]");
 		return NeoComModelStore.singleton;
 	}
 
@@ -106,6 +107,18 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	private transient Activity _activity = null;
 	/** This is the unique list for all registered distinct credentials at the database. */
 	private Hashtable<String, Login> _loginList = null;
+	private final Hashtable<String, Credential> _credentialList = new Hashtable<>();
+	/**
+	 * Reference to the Active Credential that points to the Active Character. If null we should go back to the Login
+	 * Activity to select a new Credential.
+	 */
+	private Credential _activeCredential = null;
+	/**
+	 * Reference to the current active Character. If this field is null we have to go back to the Login Activity to select
+	 * another one.
+	 */
+	private NeoComCharacter _activeCharacter = null;
+
 	/** This is the credential identifier assigned to this session and that relates to an specific credential. */
 	private Login _loginIdentifier = null;
 	/** Reference to the current active Character, be it a Pilot or a Corporation. */
@@ -182,6 +195,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 * we should get them from the backend database and then search for the indicated login. If finally that
 	 * login is not found we can fire an Exception.
 	 */
+	@Deprecated
 	public Login activateLoginIdentifier (final String loginTarget) {
 		NeoComModelStore.logger.info(">< [NeoComModelStore.activateLoginIdentifier]> loginTarget: {}", loginTarget);
 		if ( null == _loginList ) {
@@ -228,34 +242,35 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 		return hit;
 	}
 
+	@Deprecated
 	public NeoComCharacter activatePilot (final String characterstring) {
 		return this.activatePilot(Long.valueOf(characterstring).longValue());
 	}
 
-	//	/**
-	//	 * Adds a new fitting to the list of stored ones and persists the data structures.
-	//	 *
-	//	 * @param fit
-	//	 * @param label
-	//	 */
-	//	public void addFitting(final Fitting fit, final String label) {
-	//		fittings.put(label, fit);
-	//		this.setDirty(true);
-	//		this.save();
-	//	}
-
-	//	@Override
-	//	@Deprecated
-	//	public void clean() {
-	//		_neocomApiKeys.clear();
-	//		fittings = new HashMap<String, Fitting>();
-	//	}
-
 	/**
-	 * Returns any previously activated character
+	 * Returns any previously activated character. Raises a runtime exception if the character is null.
 	 */
 	public NeoComCharacter getActiveCharacter () {
+		if ( null == _pilot ) {
+			// Try to get the Character if the credential is set.
+			if ( null == _activeCredential )
+				throw new RuntimeException("RT> Accessing an invalid Character. Select a new character from the list of Credentials.");
+			else {
+				// Get the Character from the Active Credential.
+				return activatePilot(_activeCredential.getAccountId());
+			}
+		}
 		return _pilot;
+	}
+
+	/**
+	 * Returns the current active Credential that matched the active character. Raises a runtime exception if the
+	 * character is null.
+	 */
+	public Credential getActiveCredential () {
+		if ( null == _activeCredential )
+			throw new RuntimeException("RT> Accessing an invalid Credential. Select a new character from the list of Credentials.");
+		return _activeCredential;
 	}
 
 	/**
@@ -271,11 +286,13 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 			return _loginIdentifier.getCharacters();
 	}
 
+	@Deprecated
 	@Override
 	public Login getActiveLogin () {
 		return _loginIdentifier;
 	}
 
+	@Deprecated
 	@Override
 	public String getActiveLoginName () {
 		return _loginIdentifier.getName();
@@ -290,20 +307,6 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	public Menu getAppMenu () {
 		return _appMenu;
 	}
-
-	//	public List<NeoComApiKey> getApiKeys() {
-	//		if (null == _neocomApiKeys) {
-	//			this.readApiKeys();
-	//		}
-	//		return _neocomApiKeys;
-	//	}
-
-	//	public IDataSourceConnector getDataSourceConector() {
-	//		if (null == dsManager) {
-	//			dsManager = new DataSourceManager();
-	//		}
-	//		return dsManager;
-	//	}
 
 	/**
 	 * Returns the current active pilot or corporation if exists. If the value is not defined then this means
@@ -337,30 +340,6 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	public NeoComCharacter getPilot () {
 		return this.getCurrentPilot();
 	}
-
-	//	/**
-	//	 * Checks if there is a need to retrieve again from the servers the user data.
-	//	 *
-	//	 * @return
-	//	 */
-	//	public boolean needsUpdate() {
-	//		return NeoComAppConnector.getSingleton().checkExpiration(lastCCPAccessTime, ModelWideConstants.HOURS3);
-	//	}
-
-	//	public String printReport() {
-	//		final StringBuffer buffer = new StringBuffer("[UserModelStore (");
-	//		buffer.append("keys: ").append(apiKeys).append(" ");
-	//		buffer.append("]");
-	//		return buffer.toString();
-	//	}
-
-	//	/**
-	//	 * Refreshes the api keys and all other depending structures from the api list file. Keeps as much of the
-	//	 * current information as possible while updating the list of keys.
-	//	 */
-	//	public void refresh() {
-	//		// TODO Auto-generated method stub
-	//	}
 
 	/**
 	 * Checks if we have data or we have to restore from disk, usually only on the initialization.
@@ -410,112 +389,22 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 			return false;
 	}
 
-	//	/**
-	//	 * Search for the specified character id in the list of associated characters list.
-	//	 *
-	//	 * @param characterID
-	//	 * @return
-	//	 */
-	//	//	@Deprecated
-	//	public NeoComCharacter searchCharacter(final long characterID) {
-	//		for (NeoComCharacter character : _neocomCharacters) {
-	//			if (character.getCharacterID() == characterID) return character;
-	//		}
-	//		throw new NeocomRuntimeException("Character with id=" + characterID + " not found on list");
-	//	}
-
-	//	public Fitting searchFitting(final String fittingLabel) {
-	//		return fittings.get(fittingLabel);
-	//	}
-
-	//	/**
-	//	 * Stored the keys on the store fields from the persistence store. This code should reconnect pointers to
-	//	 * fields not stored and marked as transient.
-	//	 *
-	//	 * @param newkeys
-	//	 */
-	//	public void setApiKeys(final List<NeoComApiKey> newkeys) {
-	//		_neocomApiKeys = newkeys;
-	//		// we have to reparent the new data because this is not stored on the serialization.
-	//		// Also reinitialize transient fields that are not saved
-	//		//		final Iterator<ApiKey> eit = apiKeys.values().iterator();
-	//		//		while (eit.hasNext()) {
-	//		//			final ApiKey apiKey = eit.next();
-	//		//			//	apiKey.setParent(this);
-	//		//		}
-	//	}
-
+	@Deprecated
 	public void setAppMenu (final Menu appMenu) {
 		_appMenu = appMenu;
 	}
 
-	//	public void setFittings(final HashMap<String, Fitting> readObject) {
-	//		fittings = readObject;
-	//	}
-
-	//	public void setLoginIdentifier(final String login) {
-	//		_loginIdentifier = login;
-	//		// Update the list of api keys and the characters related to the,.
-	//		this.readApiKeys();
-	//	}
-
 	@Override
 	public String toString () {
 		final StringBuffer buffer = new StringBuffer("AppModelStore [");
-		//		buffer.append(" _neocomApiKeys(").append(_neocomApiKeys.size()).append("): ").append(_neocomApiKeys);
-		//	buffer.append(" fittings(").append(fittings.size()).append("): ").append(fittings.size());
+		buffer.append("Credentials [").append(_credentialList.size()).append("]: ").append(_credentialList.toString());
 		buffer.append(" ]");
 		return buffer.toString();
 	}
 
-	//	/**
-	//	 * Get a complete list of the characters available indexed by the character id.
-	//	 *
-	//	 * @return
-	//	 */
-	//	private HashMap<Long, NeoComCharacter> getCharacters() {
-	//		HashMap<Long, NeoComCharacter> charCache = new HashMap<Long, NeoComCharacter>();
-	//		for (final ApiKey key : apiKeys) {
-	//			try {
-	//				for (final NeoComCharacter eveChar : key.getApiCharacters()) {
-	//					charCache.put(eveChar.getCharacterID(), eveChar);
-	//				}
-	//			} catch (ApiException apiex) {
-	//				apiex.printStackTrace();
-	//			}
-	//		}
-	//		return charCache;
-	//	}
-
 	private boolean isRestored () {
 		return recovered;
 	}
-
-	//	@Deprecated
-	//	private void readApiKeys() {
-	//		AppModelStore.logger.info(">> [AppModelStore.readApiKeys]");
-	//		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
-	//		List<ApiKey> apiKeys = NeoComAppConnector.getSingleton().getDBConnector().getApiList4Login(this.getLoginIdentifier());
-	//		// For each key get the list of characters and instantiate them to the resulting list.
-	//		_neocomApiKeys = new ArrayList<NeoComApiKey>();
-	//		_neocomCharacters = new ArrayList<NeoComCharacter>();
-	//		for (ApiKey apiKey : apiKeys) {
-	//			try {
-	//				NeoComApiKey key = NeoComApiKey.build(apiKey.getKeynumber(), apiKey.getValidationcode());
-	//				_neocomApiKeys.add(key);
-	//				// Scan for the characters declared into this key.
-	//				for (NeoComCharacter pilot : key.getApiCharacters()) {
-	//					_neocomCharacters.add(pilot);
-	//					AppModelStore.logger
-	//							.info("-- [AppModelStore.readApiKeys]> Adding " + pilot.getName() + " to the _neocomCharacters");
-	//				}
-	//			} catch (ApiException apiex) {
-	//				apiex.printStackTrace();
-	//			}
-	//		}
-	//		AppModelStore.logger.info("<< [AppModelStore.readApiKeys]");
-	//	}
-
 }
 
 // - UNUSED CODE ............................................................................................

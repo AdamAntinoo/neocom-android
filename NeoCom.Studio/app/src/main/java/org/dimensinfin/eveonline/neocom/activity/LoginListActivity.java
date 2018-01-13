@@ -30,9 +30,11 @@ import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
 import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.joda.time.Instant;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -506,7 +508,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 					credential.setAccountName(verificationResponse.body().getCharacterName())
 										.setAccessToken(token.getAccessToken())
 										.setTokenType(token.getTokenType())
-										.setExpires(token.getExpires())
+										.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 										.setRefreshToken(token.getRefreshToken())
 										.store();
 				} else {
