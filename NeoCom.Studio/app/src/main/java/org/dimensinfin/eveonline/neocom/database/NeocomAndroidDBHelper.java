@@ -218,6 +218,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			// Now open the DAO connector and create tables if they not exist
 			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
 			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
+			TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
 
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
@@ -449,12 +450,21 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				sqle.printStackTrace();
 			}
 		}
-		if ( oldVersion < 95 ) {
+		if ( oldVersion < 94 ) {
 			try {
 				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
 				// Post the events to reload the Locations data.
 				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
 				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
+			} catch (RuntimeException rtex) {
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
+				sqle.printStackTrace();
+			}
+			try {
+				TableUtils.dropTable(databaseConnection, Credential.class, true);
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E> Error dropping table on Database new version.");
 				rtex.printStackTrace();

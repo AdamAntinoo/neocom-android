@@ -9,6 +9,7 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
@@ -112,15 +113,13 @@ final class NewLoginActionRender extends AbstractRender {
 		//		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	public void updateContent () {
 		super.updateContent();
-		//		applicationName.setText(getPart().getCastedModel().getAppName());
-		//		applicationVersion.setText(getPart().getCastedModel().getAppVersion());
-		//		// During initialization set the background borders to red until completion of the core tasks.
-		nodeIcon.setImageDrawable(getDrawable(R.drawable.account_plus));
-		nodeIcon.invalidate();
-		_convertView.invalidate();
+		nodeIcon.setImageResource(R.drawable.account_plus);
+		// Set the color changing the background color.
+//		nodeIcon.setImageTintList();
 	}
 
 	public String toString () {

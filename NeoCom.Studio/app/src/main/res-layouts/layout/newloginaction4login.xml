@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/panelborderwhite">
 
-    <include layout="@layout/nodebase4list" />
+    <include layout="@layout/nodebase4new" />
 
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/instructionsLabel"

@@ -43,11 +43,28 @@
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
             android:label="@string/activity_title_Settings"></activity>
+
         <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.LoginListActivity"
+            android:name=".activity.LoginListActivity"
             android:icon="@drawable/nopilot"
             android:label="@string/activity_title_LoginListActivity"
-            android:parentActivityName=".activity.core.SettingsActivity"></activity>
+            android:parentActivityName=".activity.core.SettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensor">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="authentication"
+                    android:scheme="eveauth-neotest" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
             android:icon="@drawable/nopilot"
