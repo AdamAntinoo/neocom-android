@@ -165,7 +165,7 @@ final class RegionRender extends BaseExpandableRender {
 	public void updateContent () {
 		logger.info(">> [RegionRender.updateContent]");
 		super.updateContent();
-		nodeIcon.setImageDrawable(getDrawable(R.drawable.nopilot));
+		nodeIcon.setImageDrawable(getDrawable(R.drawable.region));
 		name.setText(this.getPart().getName());
 		childCount.setText(this.getPart().getTContentCount());
 

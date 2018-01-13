@@ -92,7 +92,7 @@ public abstract class NeoComRender extends AbstractRender {
 		if ( getPart().clickRunning() ) {
 			if ( null != _rightArrow ) {
 				logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
-				_rightArrow.setImageDrawable(getDrawable(R.drawable.progressspinner));
+				_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
 				Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 				rotation.setRepeatCount(Animation.INFINITE);
 				_rightArrow.startAnimation(rotation);
