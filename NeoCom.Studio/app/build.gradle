@@ -11,9 +11,14 @@ android {
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 100
-        versionName "0.10.0"
+        versionName "0.10.3"
+
+        project.archivesBaseName = "NeoCom.Android"
+        project.version = android.defaultConfig.versionName
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -26,6 +31,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     sourceSets {
         main.java.srcDirs += 'src/main/java-planetary'
         main.java.srcDirs += 'src/main/java-newrelease'
@@ -68,21 +74,24 @@ dependencies {
 
     // M O D U L E    D E P E N D E N C I E S
     // N E O C O M
-    implementation 'com.jakewharton:butterknife:7.0.1'
-    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
-
-    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'joda-time:joda-time:2.3'
     implementation 'com.j256.ormlite:ormlite-android:4.48'
+    implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'org.htmlparser:htmlparser:2.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation 'com.github.scribejava:scribejava-core:4.2.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
-//    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-//    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+//    implementation 'com.jakewharton:butterknife:7.0.1'
+//    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 
     // P L A T F O R M    D E P E N D E N C I E S
 
     // D E P E N D E N C I E S    F R O M    M O D U L E S
+    implementation 'com.beimin:eveapi:6.0.6'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
