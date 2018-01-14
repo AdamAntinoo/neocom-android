@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
@@ -93,7 +95,14 @@ public class ColonyFragment extends AbstractPagerFragment {
 				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
 				if ( null != pilotIcon ) {
 					String link = NeoComModelStore.getSingleton().getActiveCharacter().getURLForAvatar();
-					pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
+					ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
+							new Runnable() {
+								@Override
+								public void run () {
+									pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
+								}
+							}
+					);
 				}
 				if ( null != activityIcon ) {
 					activityIcon.setImageResource(R.drawable.planets);

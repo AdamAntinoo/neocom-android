@@ -27,7 +27,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
+import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -47,7 +47,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 	@Override
 	public void createFactory () {
 		PlanetaryFragment.logger.info(">> [PlanetaryFragment.createFactory]");
-		this.setFactory(new AssetPartFactory(this.getVariant()));
+		this.setFactory(new PlanetaryPartFactory(this.getVariant()));
 		PlanetaryFragment.logger.info("<< [PlanetaryFragment.createFactory]");
 	}
 

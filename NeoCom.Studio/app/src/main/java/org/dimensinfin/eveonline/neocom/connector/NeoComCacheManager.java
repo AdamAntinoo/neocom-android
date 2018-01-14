@@ -26,7 +26,7 @@ import android.widget.ImageView;
 public class NeoComCacheManager {
 	// - S T A T I C - S E C T I O N ..........................................................................
 //	private static Logger logger = LoggerFactory.getLogger(NeoComCacheManager.class);
-	private static final AndroidCacheConnector singleton = new AndroidCacheConnector();
+	private static final AndroidCacheConnector singleton = NeoComAppConnector.getSingleton().getCacheConnector();
 
 	public static Drawable getCacheDrawable (final String urlString, final ImageView target) {
 		return singleton.getCacheDrawable(urlString, target);

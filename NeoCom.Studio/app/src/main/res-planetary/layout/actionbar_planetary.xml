@@ -10,6 +10,7 @@
         android:layout_height="18dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
         android:src="@drawable/nopilot" />
 
     <ImageView
@@ -27,13 +28,13 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/pilotIcon"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Adam Antinoo"
         android:textColor="@color/apporange"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/toolBarTitleRight"
@@ -42,13 +43,14 @@
         android:layout_alignBaseline="@+id/toolBarTitleLeft"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/toolBarTitleLeft"
         android:ellipsize="end"
         android:maxLines="1"
-        android:visibility="gone"
         android:text="v 1.0.0"
         android:textColor="@color/appyellow"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:visibility="gone" />
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/toolBarSubTitle"
@@ -63,5 +65,5 @@
         android:maxLines="1"
         android:text="COLONY STRUCTURE"
         android:textColor="@color/appwhite"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 </RelativeLayout>
