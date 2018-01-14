@@ -139,11 +139,11 @@ public class ColonyFragment extends AbstractPagerFragment {
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		NeoComModelStore.getSingleton().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
 		NeoComModelStore.getSingleton().activatePilot(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-																											 .addIdentifier(loginid)
+//																											 .addIdentifier(loginid)
 																											 .addIdentifier(characterid);
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;

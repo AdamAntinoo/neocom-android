@@ -102,18 +102,18 @@ final class PlanetaryOptimization4LocationGenerator extends AbstractGenerator im
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String _loginid = null;
-	private long _characterid = -1;
+//	private String _loginid = null;
+	private long characterid = -1;
 	private NeoComCharacter _pilot = null;
 	private long _locationid = -2;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public PlanetaryOptimization4LocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
-		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		_locationid = extras.getLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name());
-		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+//		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -131,9 +131,7 @@ final class PlanetaryOptimization4LocationGenerator extends AbstractGenerator im
 		// On cached generators we should check if the model is initialized.
 		if ( null == _dataModelRoot ) {
 			// Get the Assets Manager active at the character.
-			PlanetaryManager planetaryMan = getPilot().getPlanetaryManager();
-			// Check it is initialized.
-			planetaryMan.initialize();
+			PlanetaryManager planetaryMan = (PlanetaryManager) new PlanetaryManager(NeoComModelStore.getSingleton().activateCredential(characterid)).initialize();
 			try {
 				// Get the location and then process all its contents to extract the Planetary Resources.
 				Vector<Resource> resources = planetaryMan.getLocationContents(Long.valueOf(_locationid).toString());

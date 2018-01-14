@@ -17,6 +17,8 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -29,10 +31,8 @@ import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerPart extends NeoComAbstractPart
@@ -65,12 +65,12 @@ public class AssetsManagerPart extends NeoComAbstractPart
 		final Object managerPart = view.getTag();
 		if ( managerPart instanceof AssetsManagerPart ) {
 			// Managers have a reference to the Character linked when created.
-			final NeoComCharacter pilot = ((AssetsManagerPart) managerPart).getCastedModel().getPilot();
+			//			final NeoComCharacter pilot = ((AssetsManagerPart) managerPart).getCastedModel().getPilot();
 			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+			//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), ((AssetsManagerPart) managerPart).getCastedModel().getCredentialIdentifier());
+			getActivity().startActivity(intent);
 		}
 		NeoComAbstractPart.logger.info("<< [AssetsManagerPart.onClick]");
 	}
@@ -168,9 +168,12 @@ final class AssetsManagerRender extends NeoComRender {
 			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon()));
 		}
 		if ( getPart() instanceof OnClickListener )
-			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
-		else
+			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
+				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
+			else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen));
+		else if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
+		else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray));
 	}
 
 	@Override

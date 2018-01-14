@@ -94,11 +94,11 @@ public class BlueprintManagerPart extends NeoComAbstractPart
 		final Object managerPart = view.getTag();
 		if ( managerPart instanceof BlueprintManagerPart ) {
 			// Managers have a reference to the Character linked when created.
-			final NeoComCharacter pilot = ((BlueprintManagerPart) managerPart).getCastedModel().getPilot();
+//			final NeoComCharacter pilot = ((BlueprintManagerPart) managerPart).getCastedModel().getPilot();
 			final Intent intent = new Intent(this.getActivity(), IndustryDirectorActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
-			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
+//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), ((BlueprintManagerPart) managerPart).getCastedModel().getCredentialIdentifier());
 			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
 		NeoComAbstractPart.logger.info("<< [PlanetaryManagerPart.onClick]");

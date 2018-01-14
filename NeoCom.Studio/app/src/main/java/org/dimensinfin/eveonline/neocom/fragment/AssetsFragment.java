@@ -129,16 +129,16 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String _loginid = null;
-	private long _characterid = -1;
+//	private String _loginid = null;
+	private long characterid = -1;
 	private NeoComCharacter _pilot = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
-		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+//		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -159,9 +159,7 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		if ( null == _dataModelRoot ) {
 			this.setDataModel(new RootNode());
 			// Get the Assets Manager active at the character.
-			AssetsManager assetsMan = getPilot().getAssetsManager();
-			// Check it is initialized.
-			assetsMan.initialize();
+			AssetsManager assetsMan = new AssetsManager(NeoComModelStore.getSingleton().activateCredential(characterid)).initialize();
 			// Initialize the Adapter data structures.
 			this.setDataModel(new RootNode());
 			// Add the first level that are the Regions.

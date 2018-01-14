@@ -37,6 +37,63 @@ import java.util.Hashtable;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryFragment extends AbstractPagerFragment {
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class PlanetaryByLocationGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+//		private String _loginid = null;
+		private long characterid = -1;
+		private NeoComCharacter _pilot = null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public PlanetaryByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
+			super(locator, variant);
+//			_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+			characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//			_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		public NeoComCharacter getPilot () {
+			return _pilot;
+		}
+
+		/**
+		 * This adapter should generate the model for all the assets that belong to the Planetary category and aggregated
+		 * by Location. The Locations are completely evaluated so once the list of locations is added to the model root
+		 * all the nodes are already calculated and on memory.
+		 * The presentation is on 3 levels. The first level are the Regions, then the Locations and finally the Planetary
+		 * Resources. The first level can be removed if the number of locations is below a user preference.
+		 * <p>
+		 * This Generator is cached so on next requests it can found already an initialized Generator. In that cases we
+		 * can skip the initialization and processing of the PLanetary resources.
+		 */
+		public RootNode collaborate2Model () {
+			AbstractGenerator.logger.info(">> [PlanetaryByLocationGenerator.collaborate2Model]");
+			// On cached generators we should check if the model is initialized.
+			if ( null == _dataModelRoot ) {
+				// Get the Planetary Manager active at the character.
+				PlanetaryManager planetaryMan = (PlanetaryManager) new PlanetaryManager(NeoComModelStore.getSingleton().activateCredential(characterid)).initialize();
+				// Initialize the Adapter data structures.
+				this.setDataModel(new RootNode());
+
+				// Check the number of Locations and skip the Regions if below the preference level.
+				//			numberLocs= planetaryMan.getLocationCount();
+
+				// Add the first level that are the Regions.
+				Hashtable<Long, Region> regs = planetaryMan.getRegions();
+				for (Long key : regs.keySet()) {
+					_dataModelRoot.addChild(regs.get(key));
+					AbstractGenerator.logger.info("-- [PlanetaryByLocationGenerator.collaborate2Model]> Adding '"
+							+ regs.get(key).getLocations() + "' to the _dataModelRoot");
+				}
+			}
+			AbstractGenerator.logger.info("<< [PlanetaryByLocationGenerator.collaborate2Model]");
+			return _dataModelRoot;
+		}
+	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -69,15 +126,16 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		PlanetaryFragment.logger.info(">> [PlanetaryFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		//		EManagerType manager = EManagerType
 		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-		NeoComModelStore.getSingleton().activateLoginIdentifier(loginid);
-		NeoComModelStore.getSingleton().activatePilot(characterid);
+		// TODO Activate the fake login until the code is removed
+		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(loginid)
+//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier("PLANETARY-MANAGER");
 		// This part of the code may depend on the variant so surround it with the detector.
@@ -94,65 +152,5 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 	@Override
 	public void setHeaderContents () {
 	}
-}
-
-//- CLASS IMPLEMENTATION ...................................................................................
-final class PlanetaryByLocationGenerator extends AbstractGenerator implements IModelGenerator {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
-	private String _loginid = null;
-	private long _characterid = -1;
-	private NeoComCharacter _pilot = null;
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PlanetaryByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
-		super(locator, variant);
-		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public NeoComCharacter getPilot () {
-		return _pilot;
-	}
-
-	/**
-	 * This adapter should generate the model for all the assets that belong to the Planetary category and aggregated
-	 * by Location. The Locations are completely evaluated so once the list of locations is added to the model root
-	 * all the nodes are already calculated and on memory.
-	 * The presentation is on 3 levels. The first level are the Regions, then the Locations and finally the Planetary
-	 * Resources. The first level can be removed if the number of locations is below a user preference.
-	 * <p>
-	 * This Generator is cached so on next requests it can found already an initialized Generator. In that cases we
-	 * can skip the initialization and processing of the PLanetary resources.
-	 */
-	public RootNode collaborate2Model () {
-		AbstractGenerator.logger.info(">> [PlanetaryByLocationGenerator.collaborate2Model]");
-		// On cached generators we should check if the model is initialized.
-		if ( null == _dataModelRoot ) {
-			// Get the Planetary Manager active at the character.
-			PlanetaryManager planetaryMan = getPilot().getPlanetaryManager();
-			// Check it is initialized.
-			planetaryMan.initialize();
-			// Initialize the Adapter data structures.
-			this.setDataModel(new RootNode());
-
-			// Check the number of Locations and skip the Regions if below the preference level.
-//			numberLocs= planetaryMan.getLocationCount();
-
-			// Add the first level that are the Regions.
-			Hashtable<Long, Region> regs = planetaryMan.getRegions();
-			for (Long key : regs.keySet()) {
-				_dataModelRoot.addChild(regs.get(key));
-				AbstractGenerator.logger.info("-- [PlanetaryByLocationGenerator.collaborate2Model]> Adding '"
-						+ regs.get(key).getLocations() + "' to the _dataModelRoot");
-			}
-		}
-		AbstractGenerator.logger.info("<< [PlanetaryByLocationGenerator.collaborate2Model]");
-		return _dataModelRoot;
-	}
-
 }
 //- UNUSED CODE ............................................................................................

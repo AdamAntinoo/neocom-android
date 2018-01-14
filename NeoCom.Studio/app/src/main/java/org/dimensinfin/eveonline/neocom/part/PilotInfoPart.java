@@ -27,6 +27,8 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
@@ -64,7 +66,8 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 
 	public String getTransformedAssetsCount () {
 		final DecimalFormat formatter = new DecimalFormat("###,###");
-		final long assetCount = this.getCastedModel().getAssetsManager().getTotalAssetsNumber();
+		final Credential credential = NeoComModelStore.getSingleton().activateCredential(getCastedModel().getCharacterID());
+		final long assetCount = new AssetsManager(credential).getTotalAssetsNumber();
 		final String countString = formatter.format(assetCount);
 		return countString;
 	}
