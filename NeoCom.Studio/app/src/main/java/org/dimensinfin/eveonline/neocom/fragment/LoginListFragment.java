@@ -9,38 +9,80 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.os.Bundle;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.model.Login;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class LoginListFragment extends AbstractPagerFragment {
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class LoginListGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public LoginListGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
+			super(locator, variant);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+
+		/**
+		 * This adapter should generate the model for all the Eve Online characters associated to a set of api keys
+		 * or ESI authorization credentials. The old api key model will get obsolete on 2018 and the new authorization
+		 * should be active before that date.
+		 * The Character list of obtained with a merge and filter from the api keys and the credentials stored at
+		 * the database and the result is shown on this Fragment.
+		 */
+		public RootNode collaborate2Model () {
+			AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
+			// Initialize the Adapter data structures.
+			this.setDataModel(new RootNode());
+			// Add each Credential to the list.
+//			final List<Credential> credentials =;
+			for (Credential login :  NeoComModelStore.getSingleton().accessCredentialList()) {
+				_dataModelRoot.addChild(login);
+				AbstractGenerator.logger
+						.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getAccountName() + "' to the _dataModelRoot");
+			}
+			// Add the node to display the new New Login Button.
+			_dataModelRoot.addChild(new Separator().setType(ESeparatorType.LINE_WHITE));
+			_dataModelRoot.addChild(new NewLoginAction());
+			AbstractGenerator.logger.info("<< [LoginListGenerator.collaborate2Model]");
+			return _dataModelRoot;
+		}
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public void createFactory() {
+	public void createFactory () {
 		this.setFactory(new PilotPartFactory(this.getVariant()));
 	}
 
 	@Override
-	public String getSubtitle() {
+	public String getSubtitle () {
 		return "";
 	}
 
 	@Override
-	public String getTitle() {
+	public String getTitle () {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_LoginListActivity);
 	}
 
@@ -52,22 +94,13 @@ public class LoginListFragment extends AbstractPagerFragment {
 	 * Web uses javascript to manage the model and the MVC presentation layer.
 	 */
 	@Override
-	protected void registerDataSource() {
+	protected void registerDataSource () {
 		AbstractPagerFragment.logger.info(">> [LoginListFragment.registerDataSource]");
-		// Get the model generator with the informed variant. And use the global login that is ever defined.
-		//	String login = AppModelStore.getSingleton().getLoginIdentifier();
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant());
 		IModelGenerator generator = ModelGeneratorStore
-				.registerGenerator(new LoginListGenerator(locator, this.getVariant()));
+				.registerGenerator(new LoginListGenerator(locator, this.getVariant(), new Bundle()));
 		setGenerator(generator);
-//		// Register the datasource. If this same datasource is already at the manager we get it
-//		// instead creating a new one.
-//		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
-//				.registerDataSource(new MVCDataSource(locator, this.getFactory(), generator));
-//		ds.setVariant(this.getVariant());
-//		ds.setCacheable(true);
-//		this.setDataSource(ds);
 		AbstractPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
 	}
 
@@ -76,42 +109,7 @@ public class LoginListFragment extends AbstractPagerFragment {
 	 * there is no content on the head section.
 	 */
 	@Override
-	protected void setHeaderContents() {
-	}
-}
-
-//- CLASS IMPLEMENTATION ...................................................................................
-final class LoginListGenerator extends AbstractGenerator implements IModelGenerator {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LoginListGenerator(final DataSourceLocator locator, final String variant) {
-		super(locator, variant);
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-	/**
-	 * This adapter should generate the model for all the EVE characters associated to a set of api keys. The
-	 * set is selected on the value of the login identifier that should already have stores that identifier
-	 * along the api key on the Neocom database for retrieval. So from the unique login we get access to the set
-	 * of keys and from there to the set of characters.
-	 */
-	public RootNode collaborate2Model() {
-		AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
-		// Initialize the Adapter data structures.
-		this.setDataModel(new RootNode());
-		// Add each Login to the list. They will expand to show the Character selection.
-		for (Login login : NeoComModelStore.getSingleton().accessLoginList().values()) {
-			_dataModelRoot.addChild(login);
-			AbstractGenerator.logger
-					.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getName() + "' to the _dataModelRoot");
-		}
-		// Add the node to display the new New Login Button.
-		_dataModelRoot.addChild(new NewLoginAction());
-		AbstractGenerator.logger.info("<< [LoginListGenerator.collaborate2Model]");
-		return _dataModelRoot;
+	protected void setHeaderContents () {
 	}
 }
 // - UNUSED CODE ............................................................................................

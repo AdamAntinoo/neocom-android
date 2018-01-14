@@ -17,6 +17,7 @@ import org.dimensinfin.core.parser.IPersistentHandler;
 import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
+import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.Login;
@@ -24,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -107,7 +109,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	private transient Activity _activity = null;
 	/** This is the unique list for all registered distinct credentials at the database. */
 	private Hashtable<String, Login> _loginList = null;
-	private final Hashtable<String, Credential> _credentialList = new Hashtable<>();
+	private final List<Credential> _credentialList = new ArrayList<>();
 	/**
 	 * Reference to the Active Credential that points to the Active Character. If null we should go back to the Login
 	 * Activity to select a new Credential.
@@ -143,23 +145,11 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
-	 * This methods should do a complete cleanup of the data structures to force a new reload of the data from its
-	 * sources. Also check that the delegated instances are on place. In the future it will also need to close databases
-	 * to reset its status.
-	 */
-	@Override
-	public void cleanModel () {
-		_loginList = null;
-		_loginIdentifier = null;
-		_pilot = null;
-		singleton = null;
-	}
-
-	/**
 	 * Gets a unique list of all the different characters available to the system from the different Logins.
 	 * This action is done without disturbing the login selected or any other AppModel structure. The list is
 	 * not kept and is calculated each time the call is received.
 	 */
+	@Deprecated
 	public Set<NeoComCharacter> accessCharacterList () {
 		Hashtable<String, Login> loginList = NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
 		Set<NeoComCharacter> charList = new HashSet<NeoComCharacter>();
@@ -173,14 +163,37 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	}
 
 	/**
-	 * Gets access to the complete list of Logins. If this list is empty we go back to the database to populate
-	 * it.
+	 * Returns the current list of active credentials. At this stage credentials are generated from a mix of
+	 * api keys and esi tokens. After march 2018 only esi tokens will be available.
+	 * If the list is empty we go to the database to fetch any valid key or identifier and merge all them
+	 * into a single table indexed by the Character identifier. If there are more that one key or credential for
+	 * the same character they are merged taking on account the mask value for keys or the scope list for
+	 * credentials.
 	 */
-	public Hashtable<String, Login> accessLoginList () {
-		if ( null == _loginList ) {
-			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
+	public List<Credential> accessCredentialList () {
+		if ( _credentialList.size() < 1 ) {
+			// Read and process the list of ApiKeys and Credentials to get a single Character list.
+			final Hashtable<String, Login> logins = NeoComDatabase.accessAllLogins();
+			final List<Credential> credentials = NeoComDatabase.accessAllCredentials();
+			//			final List<Credential> results = new ArrayList<>();
+			_credentialList.clear();
+			for (Credential current : credentials) {
+				_credentialList.add(current);
+				// Scan the keys to search for matches.
+				final long cid = current.getAccountId();
+				for (Login login : logins.values()) {
+					for (NeoComCharacter character : login.getCharacters()) {
+						if ( character.getCharacterID() == cid ) {
+							current.setKeyCode(character.getAuthorization().getKeyID())
+										 .setValidationCode(character.getAuthorization().getVCode())
+										 //							current.setAuthorizationmask(character.getAuthorization().get...)
+										 .store();
+						}
+					}
+				}
+			}
 		}
-		return _loginList;
+		return _credentialList;
 	}
 
 	/**
@@ -189,6 +202,42 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	public void activateActivity (final Activity currentActivity) {
 		_activity = currentActivity;
 	}
+
+	/**
+	 * Activated the selected credential as the active Credential. This will also point to the current Character but
+	 * allows for lazy evaluation of most of the Character data to be obtained when the character is later used on the
+	 * interfaces.
+	 * @param identifier unique account number of character identifier.
+	 * @return the new credential made active. Raises a RuntimeException if the Credential is not found.
+	 */
+	public Credential activateCredential (final long identifier) {
+		// Check if the list of credentials is already loaded. If not get it from the database.
+		if ( _credentialList.size() < 1 ) accessCredentialList();
+		if ( null != _activeCredential )
+			if ( _activeCredential.getAccountId() == identifier ) return _activeCredential;
+		// Search for the credential on the list.
+		for (Credential target : _credentialList) {
+			if ( target.getAccountId() == identifier ) {
+				_activeCredential = target;
+				return _activeCredential;
+			}
+		}
+		// If we reach this point this means that we have not found the credential. This is an exception.
+		throw new RuntimeException("RT [NeoComModelStore]> Credential with id " + identifier + " not found.");
+	}
+
+	/**
+	 * Gets access to the complete list of Logins. If this list is empty we go back to the database to populate
+	 * it.
+	 */
+	@Deprecated
+	public Hashtable<String, Login> accessLoginList () {
+		if ( null == _loginList ) {
+			_loginList = NeoComAppConnector.getSingleton().getDBConnector().queryAllLogins();
+		}
+		return _loginList;
+	}
+
 
 	/**
 	 * This is the main activation entry point for the Login. If there are no logins already on the ModelStore
@@ -226,6 +275,7 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 	 *
 	 * @param characterid id of the character to activate and select for work with.
 	 */
+	@Deprecated
 	public NeoComCharacter activatePilot (final long characterid) {
 		NeoComModelStore.logger.info(">< [NeoComModelStore.activatePilot]> Id: {}", characterid);
 		// If the current pilot is the one searched simplify the search.
@@ -404,6 +454,19 @@ public class NeoComModelStore extends AbstractModelStore implements INeoComModel
 
 	private boolean isRestored () {
 		return recovered;
+	}
+
+	/**
+	 * This methods should do a complete cleanup of the data structures to force a new reload of the data from its
+	 * sources. Also check that the delegated instances are on place. In the future it will also need to close databases
+	 * to reset its status.
+	 */
+	@Override
+	public void cleanModel () {
+		_loginList = null;
+		_loginIdentifier = null;
+		_pilot = null;
+		singleton = null;
 	}
 }
 

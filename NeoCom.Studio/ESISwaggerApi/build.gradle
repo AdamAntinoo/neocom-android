@@ -52,15 +52,15 @@ dependencies {
 
     // M O D U L E    D E P E N D E N C I E S
     // E S I S W A G G E R
-    implementation 'io.swagger:swagger-annotations:1.5.17'
-    implementation 'joda-time:joda-time:2.9.9'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
-    implementation 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1'
 
     // P L A T F O R M    D E P E N D E N C I E S
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+    compileOnly 'io.swagger:swagger-annotations:1.5.17'
+    compileOnly 'joda-time:joda-time:2.9.9'
+    compileOnly 'com.squareup.retrofit2:retrofit:2.3.0'
+    compileOnly 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compileOnly 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    compileOnly 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
@@ -90,6 +90,8 @@ task swaggerBuild(type:Delete, dependsOn: swaggerGenerate) {
     delete "$swaggerGenerated/gradle"
     delete "$swaggerGenerated/src/test/"
     delete "$swaggerGenerated/src/main/AndroidManifest.xml"
+    // Remove the client code because it is not used.
+    delete "$swaggerGenerated/src/main/java/org/dimansinfin/eveonline/neocom/esiswagger/client"
     delete fileTree("$swaggerGenerated").include('*')
 }
 
@@ -97,7 +99,7 @@ task swaggerDelete(type: Delete) {
     delete "$swaggerGenerated"
 }
 
-//compileJava.dependsOn swaggerBuild
+compileJava.dependsOn swaggerBuild
 
 clean.doFirst {
     delete "$swaggerGenerated"

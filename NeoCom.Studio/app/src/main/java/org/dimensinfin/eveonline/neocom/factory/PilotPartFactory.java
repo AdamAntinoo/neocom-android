@@ -16,12 +16,14 @@ import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Corporation;
+import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
+import org.dimensinfin.eveonline.neocom.part.CredentialPart;
 import org.dimensinfin.eveonline.neocom.part.LoginPart;
 import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
@@ -37,47 +39,49 @@ public class PilotPartFactory extends PartFactory {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PilotPartFactory(final String variantSelected) {
+	public PilotPartFactory (final String variantSelected) {
 		super(variantSelected);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * The method should create the matching part for the model received but there is no other place where we
 	 * should create the next levels of the hierarchy. So we will create the part transformations here.
 	 */
 	@Override
-	public IPart createPart(final ICollaboration node) {
+	public IPart createPart (final ICollaboration node) {
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> Node class: " + node.getClass().getName());
-		if (this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name()) {
-			if (node instanceof Login ) {
+		if ( this.getVariant() == ENeoComVariants.CAPSULEER_LIST.name() ) {
+			if ( node instanceof Login ) {
 				IPart part = new LoginPart((Login) node).setFactory(this);
 				return part;
 			}
-//			if (node instanceof NeoComApiKey ) {
-//				IPart part = new ApiKeyPart((NeoComApiKey) node).setFactory(this);
-//				return part;
-//			}
-			if (node instanceof Pilot ) {
+			if ( node instanceof Credential ) {
+				IPart part = new CredentialPart((Credential) node).setFactory(this)
+																													.setRenderMode(getVariant());
+				return part;
+			}
+			if ( node instanceof Pilot ) {
 				IPart part = new PilotInfoPart((Pilot) node).setFactory(this)
-				                                            .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
-			if (node instanceof Corporation ) {
+			if ( node instanceof Corporation ) {
 				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-				                                                      .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+																															.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
-			if (node instanceof NewLoginAction ) {
+			if ( node instanceof NewLoginAction ) {
 				IPart part = new NewLoginActionPart((NewLoginAction) node).setFactory(this)
-				                                                          .setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+																																	.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
 		}
-		if (this.getVariant() == ENeoComVariants.PILOT_HEADER.name()) {
+		if ( this.getVariant() == ENeoComVariants.PILOT_HEADER.name() ) {
 			if ( node instanceof Pilot ) {
 				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-				                                                      .setRenderMode(ENeoComVariants.PILOT_HEADER.name());
+																															.setRenderMode(ENeoComVariants.PILOT_HEADER.name());
 				return part;
 			}
 		}
@@ -91,25 +95,25 @@ public class PilotPartFactory extends PartFactory {
 		//				return part;
 		//			}
 		//		}
-		if (this.getVariant() == ENeoComVariants.PILOT_DETAILS.name()) {
-			if (node instanceof Pilot) {
+		if ( this.getVariant() == ENeoComVariants.PILOT_DETAILS.name() ) {
+			if ( node instanceof Pilot ) {
 				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-				                                                      .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+																															.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
-			if (node instanceof AssetsManager ) {
+			if ( node instanceof AssetsManager ) {
 				IPart part = new AssetsManagerPart((AssetsManager) node).setFactory(this)
-				                                                        .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+																																.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
-			if (node instanceof PlanetaryManager ) {
+			if ( node instanceof PlanetaryManager ) {
 				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this)
-				                                                              .setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+																																			.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
-			if (node instanceof BlueprintManager ) {
+			if ( node instanceof BlueprintManager ) {
 				IPart part = new BlueprintManagerPart((BlueprintManager) node).setFactory(this)
-				                                                              .setRenderMode(this.getVariant());
+																																			.setRenderMode(this.getVariant());
 				return part;
 			}
 		}

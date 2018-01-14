@@ -74,17 +74,18 @@ dependencies {
 
     // M O D U L E    D E P E N D E N C I E S
     // N E O C O M
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+//    implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'org.htmlparser:htmlparser:2.1'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
+//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation 'com.github.scribejava:scribejava-core:4.2.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+//    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+
 //    implementation 'com.jakewharton:butterknife:7.0.1'
 //    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 

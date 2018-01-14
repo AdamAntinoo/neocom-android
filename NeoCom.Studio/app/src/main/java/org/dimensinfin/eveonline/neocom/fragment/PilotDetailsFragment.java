@@ -9,6 +9,8 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.os.Bundle;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.datasource.AbstractGenerator;
@@ -21,7 +23,9 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
+import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -32,6 +36,41 @@ import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
  * @author Adam Antinoo
  */
 public class PilotDetailsFragment extends AbstractPagerFragment {
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class PilotManagersGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+		//	private final String		login			= "Default";
+		private Credential character	= null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public PilotManagersGenerator(final DataSourceLocator locator, final String variant, final Bundle extras) {
+			super(locator, variant);
+			character = NeoComModelStore.getSingleton().activateCredential(Long.valueOf(extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name())).longValue());
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		/**
+		 * The collaboration for a Pilot or Corporation on this Activity is the list of Managers that can be applied
+		 * to the Character. So we can move the decission to the place where it better suits that is the Character
+		 * that is already selected. This is performed internally in a recursive way by calling the model
+		 * collaboration depending on the variant.
+		 */
+		public RootNode collaborate2Model() {
+			AbstractGenerator.logger.info(">> [PilotManagersGenerator.collaborate2Model]");
+			// Initialize the Adapter data structures.
+			this.setDataModel(new RootNode());
+
+			// Add to the data model list the Directors that can be used on this character.
+//			_dataModelRoot.addChild(character.getAssetsManager());
+			_dataModelRoot.addChild(new PlanetaryManager(character));
+//			_dataModelRoot.addChild(character.getBlueprintsManager());
+
+			AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");
+			return _dataModelRoot;
+		}
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -63,24 +102,17 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	protected void registerDataSource() {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		final NeoComCharacter pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(loginid)
+//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid);
 		IModelGenerator generator = ModelGeneratorStore
-				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), pilot));
+				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), getExtras()));
 		setGenerator(generator);
-		// Register the datasource. If this same datasource is already at the manager we get it
-		// instead creating a new one.
-//		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
-//				.registerDataSource(new PilotManagersDataSource(locator, generator, this.getFactory()));
-//		ds.setVariant(this.getVariant());
-//		ds.setCacheable(true);
-//		this.setDataSource(ds);
 		AbstractPagerFragment.logger.info("<< [PilotDetailsFragment.registerDataSource]");
 	}
 
@@ -98,109 +130,4 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		AbstractPagerFragment.logger.info("<< [PilotDetailsFragment.setHeaderContents]");
 	}
 }
-
-////- CLASS IMPLEMENTATION ...................................................................................
-///**
-// * Creates the DataSource adaptation code for the new generator received as a parameter. This code possibly
-// * will be comon and standard so maybe will return back to its own source file. On current implementation go
-// * on with the file count reduction for single usage code.
-// *
-// * @author Adam Antinoo
-// */
-//final class PilotManagersDataSource extends SpecialDataSource {
-//	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static final long serialVersionUID = -8821864120476622316L;
-//
-//	// - F I E L D - S E C T I O N ............................................................................
-//
-//	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public PilotManagersDataSource(final DataSourceLocator locator, final IModelGenerator generator,
-//			final IPartFactory partFactory) {
-//		super(locator, partFactory);
-//		if (null == generator)
-//			throw new NeocomRuntimeException("UNEX. The Model Generator should not be empty when creating a DataSource.");
-//		// REFACTOR The next code should go to the SpecialDataSource once all the DataSources comply to the new implementation.
-//		_modelGenerator = generator;
-//	}
-//
-//	// - M E T H O D - S E C T I O N ..........................................................................
-//	/**
-//	 * Initialize the root part and set the sorting properties before going to the SuperDataSource to perform
-//	 * the function.
-//	 */
-//	@Override
-//	public void createContentHierarchy() {
-//		_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
-//				.setSorting(PartComparatorFactory.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
-//		super.createContentHierarchy();
-//	}
-//
-//	/**
-//	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
-//	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
-//	 * The model does not change but the result from the collaborate2View transformation does.
-//	 */
-//	@Override
-//	public void propertyChange(final PropertyChangeEvent event) {
-//		// The expand/collapse state has changed.
-//		if ( SystemWideConstants.events
-//				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
-//			// REFACTOR Trying to fire a new model generation to solve the problem of renderization.
-//			//	_dataModelRoot = modelGenerator.collaborate2Model();
-//			this.createContentHierarchy();
-//
-//			_bodyParts = new ArrayList<IPart>();
-//			_bodyParts.addAll(_partModelRoot.collaborate2View());
-//			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
-//					event.getNewValue());
-//			return;
-//		}
-//		// TODO Check if we should get this event and fire it again.
-//		if (SystemWideConstants.events
-//				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
-//			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
-//					event.getNewValue());
-//			return;
-//		}
-//		super.propertyChange(event);
-//	}
-//}
-
-//- CLASS IMPLEMENTATION ...................................................................................
-final class PilotManagersGenerator extends AbstractGenerator implements IModelGenerator {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
-//	private final String		login			= "Default";
-	private NeoComCharacter	character	= null;
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PilotManagersGenerator(final DataSourceLocator locator, final String variant,
-			final NeoComCharacter pilotCorp) {
-		super(locator, variant);
-		character = pilotCorp;
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-	/**
-	 * The collaboration for a Pilot or Corporation on this Activity is the list of Managers that can be applied
-	 * to the Character. So we can move the decission to the place where it better suits that is the Character
-	 * that is already selected. This is performed internally in a recursive way by calling the model
-	 * collaboration depending on the variant.
-	 */
-	public RootNode collaborate2Model() {
-		AbstractGenerator.logger.info(">> [PilotManagersGenerator.collaborate2Model]");
-		// Initialize the Adapter data structures.
-		this.setDataModel(new RootNode());
-
-		// Add to the data model list the Directors that can be used on this character.
-		_dataModelRoot.addChild(character.getAssetsManager());
-		_dataModelRoot.addChild(character.getPlanetaryManager());
-		_dataModelRoot.addChild(character.getBlueprintsManager());
-
-		AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");
-		return _dataModelRoot;
-	}
-}
-
 // - UNUSED CODE ............................................................................................
