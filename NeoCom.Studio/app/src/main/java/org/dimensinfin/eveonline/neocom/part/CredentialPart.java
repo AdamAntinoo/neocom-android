@@ -93,7 +93,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 	 * not active for others.
 	 */
 	public void onClick (final View view) {
-		logger.info(">> [PilotInfoPart.onClick]");
+		logger.info(">> [CredentialPart.onClick]");
 		// Set the pilot selected on the context and then go to the Pilot Dashboard.
 		final Object pilotPart = view.getTag();
 		if ( pilotPart instanceof CredentialPart ) {
@@ -110,10 +110,9 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
 			//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), identifier);
-			final Activity act = getActivity();
-			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
+			getActivity().startActivity(intent);
 		}
-		logger.info("<< [PilotInfoPart.onClick]");
+		logger.info("<< [CredentialPart.onClick]");
 	}
 
 

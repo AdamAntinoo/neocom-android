@@ -123,6 +123,8 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	@Override
 	protected void setHeaderContents() {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.setHeaderContents]");
+		// TODO This is an additional activation because now Logins are not visible and cannot be activated.
+		NeoComModelStore.getSingleton().activateLoginIdentifier("CapitanHaddock09");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
 		this.addtoHeader((AbstractAndroidPart) this.getFactory()
 		                                           .createPart(NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter())

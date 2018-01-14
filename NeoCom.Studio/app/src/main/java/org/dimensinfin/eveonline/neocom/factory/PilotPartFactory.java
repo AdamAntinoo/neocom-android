@@ -10,7 +10,9 @@ package org.dimensinfin.eveonline.neocom.factory;
 
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
@@ -75,6 +77,10 @@ public class PilotPartFactory extends PartFactory {
 			if ( node instanceof NewLoginAction ) {
 				IPart part = new NewLoginActionPart((NewLoginAction) node).setFactory(this)
 																																	.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				return part;
+			}
+			if ( node instanceof Separator ) {
+				IPart part = new SeparatorPart((Separator) node).setFactory(this);
 				return part;
 			}
 		}
