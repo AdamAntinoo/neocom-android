@@ -1,0 +1,44 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:id="@+id/nodeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/targetIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsize"
+            android:layout_height="@dimen/nodeiconsize"
+            android:src="@drawable/nopilot" />
+
+        <ImageView
+            android:id="@+id/esiDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/hamburger_icon_white" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/AppTheme.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:src="@color/panelbackgroundblack"
+        android:visibility="visible" />
+</merge>
