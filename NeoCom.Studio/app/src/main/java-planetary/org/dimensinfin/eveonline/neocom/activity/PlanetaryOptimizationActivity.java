@@ -28,7 +28,7 @@ public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String	loginid			= null;
+//	private String	loginid			= null;
 	private long		characterid	= -1;
 	private long		locationid	= -2;
 
@@ -50,12 +50,12 @@ public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
 			Bundle extras = null;
 			if (null != savedInstanceState) {
 				extras = savedInstanceState;
-				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 				locationid = extras.getLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name());
 			} else {
 				extras = this.getIntent().getExtras();
-				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 				locationid = extras.getLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name());
 			}
@@ -76,7 +76,7 @@ public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
 
 	@Override
 	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
-		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		locationid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name());
 		super.onRestoreInstanceState(savedInstanceState);
@@ -92,7 +92,7 @@ public class PlanetaryOptimizationActivity extends ANeoComPagerActivity {
 	protected void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
+//		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
 		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
 		outState.putLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), locationid);
 	}

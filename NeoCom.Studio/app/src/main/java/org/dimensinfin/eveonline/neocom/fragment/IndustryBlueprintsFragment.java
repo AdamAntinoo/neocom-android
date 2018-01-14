@@ -68,7 +68,7 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 	}
 
 	private String getPilotName () {
-		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
+		return NeoComModelStore.getSingleton().getActiveCredential().getAccountName();
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class IndustryBlueprintsFragment extends AbstractPagerFragment {
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+//		NeoComAppConnector.getSingleton().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 		                                                   .addIdentifier(loginid)

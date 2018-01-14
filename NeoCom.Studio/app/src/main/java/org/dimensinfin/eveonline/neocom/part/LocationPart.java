@@ -117,11 +117,11 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 
 
 	//	public ArrayList accessLocationFunction () {
-	//		return this.getPilot().getLocationRoles(this.getCastedModel().getID(), "-NO-FUNCTION-");
+	//		return this.getPilot().getLocationRoles(this.getCastedModel().getLocationId(), "-NO-FUNCTION-");
 	//	}
 	//
 	//	public long get_locationID () {
-	//		return this.getCastedModel().getID();
+	//		return this.getCastedModel().getLocationId();
 	//	}
 
 
@@ -181,7 +181,7 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	//
 	//	protected void checkAssetStacking (/* final LocationPart target, */final AssetPart apart) {
 	//		// Locate the stack if exists.
-	//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getID());
+	//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getLocationId());
 	//		int type = apart.getCastedModel().getTypeID();
 	//		if ( null != container ) {
 	//			AssetPart stack = container.get(type);
@@ -202,7 +202,7 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	//			container = new HashMap<Integer, AssetPart>();
 	//			container.put(type, apart);
 	//			this.addChild(apart);
-	//			stackList.put(this.getCastedModel().getID(), container);
+	//			stackList.put(this.getCastedModel().getLocationId(), container);
 	//		}
 	//	}
 }

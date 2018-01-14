@@ -21,10 +21,8 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.render.DefaultRender;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -259,10 +257,10 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		return htmlFragmentWithColor.toString();
 	}
 
-	@Deprecated
-	protected NeoComCharacter getPilot () {
-		return NeoComModelStore.getSingleton().getPilot();
-	}
+//	@Deprecated
+//	protected NeoComCharacter getPilot () {
+//		return NeoComModelStore.getSingleton().getPilot();
+//	}
 
 	@Override
 	protected AbstractRender selectRenderer () {

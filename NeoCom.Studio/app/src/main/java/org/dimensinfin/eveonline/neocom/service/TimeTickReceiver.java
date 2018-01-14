@@ -15,7 +15,6 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.service;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,14 +35,11 @@ import net.nikr.eve.jeveasset.data.Citadel;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +52,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -296,23 +291,25 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check characters for pending structures to update.
-		Set<NeoComCharacter> characters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
-		for (NeoComCharacter eveChar : characters) {
-			EDataBlock updateCode = eveChar.needsUpdate();
-			if ( updateCode != EDataBlock.READY ) {
-				TimeTickReceiver.logger
-						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
-				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
-			}
-		}
-		Activity activity = NeoComModelStore.getSingleton().getActivity();
-		if ( null != activity ) {
-			activity.runOnUiThread(new Runnable() {
-				public void run () {
-					NeoComApp.updateProgressSpinner();
-				}
-			});
-		}
+		// TODO At this point we require a method to get a Character instance from the matching Credential.
+//		Set<NeoComCharacter> characters = NeoComModelStore.getSingleton().accessCharacterList();
+//		for (NeoComCharacter eveChar : characters) {
+//			EDataBlock updateCode = eveChar.needsUpdate();
+//			if ( updateCode != EDataBlock.READY ) {
+//				TimeTickReceiver.logger
+//						.info("-- [TimeTickReceiver.onReceive] EDataBlock to update: " + eveChar.getName() + " - " + updateCode);
+//				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
+//			}
+//		}
+//		Activity activity = NeoComModelStore.getSingleton().getActivity();
+//		if ( null != activity ) {
+//			activity.runOnUiThread(new Runnable() {
+//				public void run () {
+//					NeoComApp.updateProgressSpinner();
+//				}
+//			});
+//		}
+		// TODO ------------------------------------------------
 		TimeTickReceiver.logger.info("<< TimeTickReceiver.onReceive [" + requests.size() + " - " + NeoComApp.marketCounter
 				+ "/" + NeoComApp.topCounter + "]");
 	}

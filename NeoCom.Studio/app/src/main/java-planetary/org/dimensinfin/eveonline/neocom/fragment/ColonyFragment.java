@@ -70,7 +70,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle () {
-		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
+		return NeoComModelStore.getActiveCredential().getName();
 	}
 
 	public View onCreateView (final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {

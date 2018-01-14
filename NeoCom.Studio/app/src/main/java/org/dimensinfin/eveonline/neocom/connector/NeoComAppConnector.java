@@ -9,15 +9,14 @@
 //									Code integration that is not dependent on any specific platform.
 package org.dimensinfin.eveonline.neocom.connector;
 
-import java.io.File;
+import android.annotation.TargetApi;
+import android.graphics.drawable.Drawable;
 
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.eveonline.neocom.interfaces.INeoComModelStore;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
-import android.annotation.TargetApi;
-import android.graphics.drawable.Drawable;
+import java.io.File;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -112,12 +111,12 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		return (INeoComDatabase) _connector.getDBConnector();
 	}
 
-	@Override
-	public INeoComModelStore getModelStore() {
-		if (null == _connector) throw new RuntimeException(
-				"RTEX [GymAppConnector.getModelStore]> Application connection not defined. Functionality 'getModelStore' disabled.");
-		return _connector.getModelStore();
-	}
+//	@Override
+//	public INeoComModelStore getModelStore() {
+//		if (null == _connector) throw new RuntimeException(
+//				"RTEX [GymAppConnector.getModelStore]> Application connection not defined. Functionality 'getModelStore' disabled.");
+//		return _connector.getModelStore();
+//	}
 
 	@Override
 	public IStorageConnector getStorageConnector() {

@@ -124,7 +124,7 @@ public class Location4AssetsPart extends LocationPart {
 	//				// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
 	//				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 	//				intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), pilot.getCharacterID());
-	//				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), this.getCastedModel().getID());
+	//				intent.putExtra(AppWideConstants.EExtras.EXTRA_LOCATIONID.name(), this.getCastedModel().getLocationId());
 	//				NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 	//				return true;
 	//			default:

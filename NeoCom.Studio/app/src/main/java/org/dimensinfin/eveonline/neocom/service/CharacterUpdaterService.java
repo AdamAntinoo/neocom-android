@@ -21,12 +21,10 @@ import android.content.Intent;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.EDataBlock;
-import org.dimensinfin.eveonline.neocom.model.Corporation;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
-import org.dimensinfin.eveonline.neocom.model.Pilot;
+import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -56,68 +54,70 @@ public class CharacterUpdaterService extends IntentService {
 		Long localizer = (Long) intent.getSerializableExtra(AppWideConstants.EExtras.EXTRA_CHARACTER_LOCALIZER.name());
 		// Be sure we have access to the network. Otherwise intercept the exceptions.
 		if ( NeoComAppConnector.getSingleton().checkNetworkAccess() ) {
-			Set<NeoComCharacter> activeCharacters = NeoComAppConnector.getSingleton().getModelStore().accessCharacterList();
-			NeoComCharacter pilot = null;
-			for (NeoComCharacter neocomchar : activeCharacters) {
-				if ( neocomchar.getCharacterID() == localizer ) {
-					pilot = neocomchar;
+			final List<Credential> activeCredentials = NeoComModelStore.getSingleton().accessCredentialList();
+			Credential pilot = null;
+			for (Credential credential : activeCredentials) {
+				if ( credential.getAccountId() == localizer ) {
+					pilot = credential;
 					break;
 				}
 			}
-			if ( null != pilot ) {
-				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
-				EDataBlock datacode = pilot.needsUpdate();
-				try {
-					logger.info( "-- [CharacterUpdaterService.onHandleIntent] EDataBlock to process: "
-							+ pilot.getName() + " - " + datacode);
-					switch (datacode) {
-						case CHARACTERDATA:
-							pilot.updateCharacterInfo();
-							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
-							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-							break;
-						case ASSETDATA:
-							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
-							if ( pilot instanceof Corporation ) {
-								pilot.getDownloadManager().downloadCorporationAssets();
-							}
-							if ( pilot instanceof Pilot ) {
-								pilot.getDownloadManager().downloadPilotAssets();
-							}
-							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
-							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-							break;
-						case BLUEPRINTDATA:
+			// TODO At this point we require a method to get a Character instance from the matching Credential.
+//			if ( null != pilot ) {
+//				// Pilot signaled for update. Locate the next data set to update because its cache has expired.
+//				EDataBlock datacode = pilot.needsUpdate();
+//				try {
+//					logger.info( "-- [CharacterUpdaterService.onHandleIntent] EDataBlock to process: "
+//							+ pilot.getName() + " - " + datacode);
+//					switch (datacode) {
+//						case CHARACTERDATA:
+//							pilot.updateCharacterInfo();
+//							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+//							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+//							break;
+//						case ASSETDATA:
+//							// New data model decouples the character from the data managers. But requires to know if Pilot or Corporation.
 //							if ( pilot instanceof Corporation ) {
-//								pilot.getDownloadManager().downloadCorporationBlueprints();
+//								pilot.getDownloadManager().downloadCorporationAssets();
 //							}
-							if ( pilot instanceof Pilot ) {
-								pilot.getDownloadManager().downloadPilotBlueprints();
-							}
-							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
-							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-							break;
-						//						case INDUSTRYJOBS:
-						//							pilot.downloadIndustryJobs();
-						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-						//							NeoComApp.topCounter--;
-						//							break;
-						//						case MARKETORDERS:
-						//							pilot.downloadMarketOrders();
-						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
-						//							NeoComApp.topCounter--;
-						//							break;
-
-						default:
-							break;
-					}
-					// Clean the top counter if completed.
-					if ( NeoComApp.topCounter < 0 ) {
-						NeoComApp.topCounter = 0;
-					}
-				} catch (RuntimeException rtex) {
-				}
-			}
+//							if ( pilot instanceof Pilot ) {
+//								pilot.getDownloadManager().downloadPilotAssets();
+//							}
+//							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+//							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+//							break;
+//						case BLUEPRINTDATA:
+////							if ( pilot instanceof Corporation ) {
+////								pilot.getDownloadManager().downloadCorporationBlueprints();
+////							}
+//							if ( pilot instanceof Pilot ) {
+//								pilot.getDownloadManager().downloadPilotBlueprints();
+//							}
+//							NeoComAppConnector.getSingleton().getCacheConnector().clearPendingRequest(localizer);
+//							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+//							break;
+//						//						case INDUSTRYJOBS:
+//						//							pilot.downloadIndustryJobs();
+//						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
+//						//							NeoComApp.topCounter--;
+//						//							break;
+//						//						case MARKETORDERS:
+//						//							pilot.downloadMarketOrders();
+//						//							NeoComApp.getTheCacheConnector().clearPendingRequest(Long.valueOf(localizer).toString());
+//						//							NeoComApp.topCounter--;
+//						//							break;
+//
+//						default:
+//							break;
+//					}
+//					// Clean the top counter if completed.
+//					if ( NeoComApp.topCounter < 0 ) {
+//						NeoComApp.topCounter = 0;
+//					}
+//				} catch (RuntimeException rtex) {
+//				}
+//			}
+			// TODO ------------------------------------------------
 			// Relaunch more jobs if completed.
 			NeoComApp.runTimer();
 		}

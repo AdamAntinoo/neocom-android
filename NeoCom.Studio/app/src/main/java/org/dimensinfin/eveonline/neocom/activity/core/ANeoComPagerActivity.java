@@ -121,7 +121,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 			case R.id.action_fullreload:
 				// Do a reload of the application data. First do a cleanup of the data structures to force a reload.
 				// This is a hard reset of the application.
-				NeoComAppConnector.getSingleton().getModelStore().cleanModel();
+				NeoComModelStore.getSingleton().cleanModel();
 				this.startActivity(new Intent(this, NeoComSplashActivity.class));
 				return true;
 			case R.id.action_downloadlocations:

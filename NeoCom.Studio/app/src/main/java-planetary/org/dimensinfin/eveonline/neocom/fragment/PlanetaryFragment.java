@@ -131,7 +131,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		//		EManagerType manager = EManagerType
 		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
 		// TODO Activate the fake login until the code is removed
-		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
+//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
 		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())

@@ -43,6 +43,7 @@ import org.dimensinfin.eveonline.neocom.model.InitializationTask;
 import org.dimensinfin.eveonline.neocom.model.RunnableTask;
 import org.dimensinfin.eveonline.neocom.model.RunnableTask.ERunState;
 import org.dimensinfin.eveonline.neocom.parts.AppVersionPart;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -104,7 +105,7 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Processing Character Information...");
-			NeoComAppConnector.getSingleton().getModelStore().accessLoginList();
+			NeoComModelStore.getSingleton().accessCredentialList();
 			logger.info("<< [NeoComInitialization.doStep01]");
 
 			// Start the timers for background processing.

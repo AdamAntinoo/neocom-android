@@ -12,7 +12,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
@@ -21,7 +20,6 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Credential;
@@ -123,12 +121,13 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	@Override
 	protected void setHeaderContents() {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.setHeaderContents]");
-		// TODO This is an additional activation because now Logins are not visible and cannot be activated.
-		NeoComModelStore.getSingleton().activateLoginIdentifier("CapitanHaddock09");
+//		// TODO This is an additional activation because now Logins are not visible and cannot be activated.
+//		NeoComModelStore.getSingleton().activateLoginIdentifier("CapitanHaddock09");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
-		this.addtoHeader((AbstractAndroidPart) this.getFactory()
-		                                           .createPart(NeoComAppConnector.getSingleton().getModelStore().getActiveCharacter())
-		                                           .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
+		// TODO This requires the creation of the new Character model with data from the ESI interface to draw this header.
+//		this.addtoHeader((AbstractAndroidPart) this.getFactory()
+//		                                           .createPart(NeoComModelStore.getSingleton().getActiveCharacter())
+//		                                           .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
 		AbstractPagerFragment.logger.info("<< [PilotDetailsFragment.setHeaderContents]");
 	}
 }

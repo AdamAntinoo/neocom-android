@@ -71,6 +71,7 @@ dependencies {
     implementation project(path: ':ApplicationCloudAdapter')
 
     // L O C A L    L I B R A R I E S
+//    implementation files('libs/ESISwaggerApi-1.0.0.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     // N E O C O M

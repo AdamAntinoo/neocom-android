@@ -89,15 +89,15 @@ public class AssetsFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		//		EManagerType manager = EManagerType
 		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(loginid)
+//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier("ASSETS-MANAGER");
 		// This part of the code may depend on the variant so surround it with the detector.
@@ -120,7 +120,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 	}
 
 	private String getPilotName () {
-		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
+		return NeoComModelStore.getActiveCredential().getAccountName();
 	}
 }
 
@@ -182,7 +182,7 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	private static Logger logger = LoggerFactory.getLogger(AssetsByCategoryGenerator.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String _loginid = null;
+//	private String _loginid = null;
 	private long _characterid = -1;
 	private NeoComCharacter _pilot = null;
 
@@ -193,9 +193,9 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByCategoryGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
-		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+//		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

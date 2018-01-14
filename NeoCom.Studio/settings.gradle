@@ -1,4 +1,5 @@
-include ':app', ':ESISwaggerApi', ':ESISwaggerApi'
+include ':app'
+//include ':ESISwaggerApi'
 include ':CoreBaseLibrary'
 project(':CoreBaseLibrary').projectDir = new File('D:\\Development\\Libraries Base\\Corebase 2.0.x\\org.dimensinfin.core')
 include ':NeoCom.Model'
