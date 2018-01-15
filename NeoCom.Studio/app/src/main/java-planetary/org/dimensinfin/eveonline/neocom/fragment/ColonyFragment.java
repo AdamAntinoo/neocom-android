@@ -94,7 +94,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 				toolBarTitleRight = (TextView) newbar.findViewById(R.id.toolBarTitleRight);
 				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
 				if ( null != pilotIcon ) {
-					String link = NeoComModelStore.getSingleton().getActiveCharacter().getURLForAvatar();
+					String link = NeoComModelStore.getSingleton().getActiveCredential().getURLForAvatar();
 					ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
 							new Runnable() {
 								@Override
@@ -108,7 +108,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 					activityIcon.setImageResource(R.drawable.planets);
 				}
 				if ( null != toolBarTitleLeft ) {
-					toolBarTitleLeft.setText(NeoComModelStore.getSingleton().getActiveCharacter().getName());
+					toolBarTitleLeft.setText(NeoComModelStore.getSingleton().getActiveCredential().getName());
 				}
 				if ( null != toolBarTitleRight ) {
 					toolBarTitleRight.setVisibility(View.GONE);
@@ -139,8 +139,8 @@ public class ColonyFragment extends AbstractPagerFragment {
 		// Get access to the parameters and reconstruct the data chain if required.
 		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
-		NeoComModelStore.getSingleton().activatePilot(characterid);
+//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 //																											 .addIdentifier(loginid)
@@ -184,7 +184,7 @@ final class ColonyStructureGenerator extends AbstractGenerator implements IModel
 		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		//		_planetid = extras.getLong(EExtras.EXTRA_PLANETID.name());
-		_pilot = NeoComModelStore.getSingleton().activatePilot(_characterid);
+//		_pilot = NeoComModelStore.getSingleton().activateCredential(_characterid);
 		//		_pilot = new Pilot();
 		//		_pilot.setID(_characterid);
 		//		_pilot.setAuthorization(new ApiAuthorization(2889577, _characterid, "Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw"));

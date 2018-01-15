@@ -119,7 +119,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle () {
-		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
+		return NeoComModelStore.getActiveCredential().getName();
 	}
 
 	@Override

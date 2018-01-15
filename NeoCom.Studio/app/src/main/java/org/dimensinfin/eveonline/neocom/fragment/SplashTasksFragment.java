@@ -97,10 +97,10 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 			this.createCacheDirectories();
 			logger.info("-- [NeoComInitialization.doStep01]> STEP 01. App Directories created");
 			// STEP 02. Check existence of required files.
-			if ( !this.checkAppFile(NeoComAppConnector.getSingleton().getResourceString(R.string.ccpdatabasefilename)) ) {
-				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(R.string.ccpdatabasefilename);
-			}
+//			if ( !this.checkAppFile(NeoComAppConnector.getSingleton().getResourceString(R.string.ccpdatabasefilename)) ) {
+//				// TODO The CCP database is not distributed with the application. If not available then close the App
+//				this.copyFromAssets(R.string.ccpdatabasefilename);
+//			}
 			logger.info("-- [NeoComInitialization.doStep01]> STEP 02. Required files on place");
 
 			// Create the login information that later will be requested to the user at the login page.
@@ -214,9 +214,8 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 
 	/**
 	 * Because the initialization of the model has to start after the elements are connected and in place I should move
-	 * the intialization code
-	 * from the Activity to the Fragment. After initializing all the adapters and models we can launch the initiallization
-	 * check tasks.
+	 * the initialization code from the Activity to the Fragment. After initializing all the adapters and models
+	 * we can launch the initialization check tasks.
 	 */
 	public View onCreateView (final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		AbstractPagerFragment.logger.info(">> [SplashTasksFragment.onCreateView]");
@@ -249,6 +248,9 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 	 * current Page. The current version inserts directly the Parts so the Fragment will have the responsibility to
 	 * generate all the content parts from the supposed model. This sample code will have to be added to the Superclass to
 	 * remove all that knowledge from the development fragment.
+	 * This new version will use already developed methods to convert from Model to the Part list to be used
+	 * on the header container. Ths simplifies the creation of the header contents and uses better code practices.
+	 * But those are only valid for simple models and not hierarchical ones.
 	 */
 	@Override
 	protected void setHeaderContents () {

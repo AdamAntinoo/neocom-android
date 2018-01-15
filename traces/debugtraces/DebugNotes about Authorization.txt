@@ -1,0 +1,18 @@
+ESIRetrofit
+        OkHttpClient.Builder retrofitClient =
+                new OkHttpClient.Builder()
+                        .addInterceptor(chain -> {
+                            Request.Builder builder = chain.request().newBuilder()
+                                            .addHeader("User-Agent", agent);
+                            return chain.proceed(builder.build());
+                        })
+                        .addInterceptor(chain -> {
+                            if (StringUtils.isBlank(refresh)) {
+                                return chain.proceed(chain.request());
+                            }
+
+                            Request.Builder builder = chain.request().newBuilder();
+                            final ESIToken token = auth.fromRefresh(refresh);
+
+
+ESINetwork

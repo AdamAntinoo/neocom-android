@@ -62,22 +62,22 @@ public class PlanetaryOptimizationFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle () {
-		return NeoComModelStore.getSingleton().getActiveCharacter().getName();
+		return NeoComModelStore.getActiveCredential().getName();
 	}
 
 	@Override
 	public void registerDataSource () {
 		PlanetaryOptimizationFragment.logger.info(">> [PlanetaryOptimizationFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		long locationid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_LOCATIONID.name());
 
-		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
+		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(loginid)
+//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier(locationid)
 		                                                   .addIdentifier("PLANETARY-OPTIMIZATION");

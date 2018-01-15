@@ -62,13 +62,13 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 			_actionBar.setDisplayHomeAsUpEnabled(false);
 			// Hide the Actionbar because this activity should not show it.
 			_actionBar.hide();
-			// Create the pages that form this Activity. Each page implemented by a Fragment.
 		} catch (RuntimeException rtex) {
 			logger.warning("RTEX [NeoComSplashActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
 			this.stopActivity(new RuntimeException("RTEX [NeoComSplashActivity.onCreate]> " + rtex.getMessage()));
 		}
 		try {
+			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			int page = 0;
 			this.addPage(new SplashTasksFragment().setVariant(ENeoComVariants.SPLASH_SCREEN.name()), page++);
 		} catch (RuntimeException rtex) {
@@ -79,6 +79,13 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
 		logger.info("<< [NeoComSplashActivity.onCreate]"); //$NON-NLS-1$
+	}
+
+	protected void onStart () {
+		logger.info(">> [NeoComSplashActivity.onStart]");
+		super.onStart();
+		obtainPrivileges();
+		logger.info("<< [NeoComSplashActivity.onStart]");
 	}
 
 	/**
@@ -104,13 +111,7 @@ public class NeoComSplashActivity extends ANeoComPagerActivity {
 	 * </ul>
 	 * </p>
 	 */
-	protected void onStart () {
-		logger.info(">> [NeoComSplashActivity.onStart]");
-		super.onStart();
-		obtainPrivileges();
-		logger.info("<< [NeoComSplashActivity.onStart]");
-	}
-	private boolean obtainPrivileges(){
+	private boolean obtainPrivileges () {
 		// Request application privileges if not already obtained.
 		if ( Build.VERSION.SDK_INT < 23 ) return true;
 		if ( Build.VERSION.SDK_INT >= 23 ) {
