@@ -15,4 +15,38 @@ ESIRetrofit
                             final ESIToken token = auth.fromRefresh(refresh);
 
 
-ESINetwork
+
+
+
+---------------------------------------------------------------------------------------
+ESIOAuth20 - centralizes the OAuth authorization flow. The creator has entry points for clientid, clientkey, callback, agent, store and scope.
+The store is just a memory array where to index the credentials by the refresh code.
+
+Uses a ServiceBuilder from scribejava
+Then checks the callback and converts the list of scopes to a single space separated list of privileges.
+Stores the service on "oauth" using a new DefaultApi20 confguration api.
+Creates a new OkHttpClient with some certificates to be used on the verification service that is also created at this time.
+Uses an Interface Retrofit2 service called VerifyService
+
+FIELDS
+    private final OAuth20Service oAuth;
+    private final ESIStore store;
+    private VerifyService verify;
+
+---------------------------------------------------------------------------------------
+ESIRetrofit - encapsulates the retrofit configuration and the HTTP parametrizations.
+
+---------------------------------------------------------------------------------------
+ESINetwork - Stores the services and the cache (probable used for the responses).
+Connect to the ESIAuth20 service during the initialization. This also uses a Builder initialization.
+
+
+---------------------------------------------------------------------------------------
+EQUIVALENCES TO NEOCOM
+ESIOAuth20 === NeoComOAuth20
+ESIApi20 === NeoComAuthApi20
+VerfyService === VerifyCharacter
+ESIToken === TokenTranslationResponse
+ESICharacterToken === VerifyCharacterResponse
+ESIRetrofit === NeoComRetrofitHTTP
+---------------------------------------------------------------------------------------

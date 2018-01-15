@@ -15,7 +15,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
+
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -25,11 +31,13 @@ import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
+import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
-import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
+import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
@@ -64,9 +72,9 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		return "-";
 	}
 
-	public String getURLForAvatar () {
-		return "http://image.eveonline.com/character/" + getCastedModel().getAccountId() + "_256.jpg";
-	}
+	//	public String getURLForAvatar () {
+	//		return "http://image.eveonline.com/character/" + getCastedModel().getAccountId() + "_256.jpg";
+	//	}
 
 	/**
 	 * Sort the Regions by their names.
@@ -114,7 +122,11 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		}
 		logger.info("<< [CredentialPart.onClick]");
 	}
-
+	public void propertyChange (final PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name())){
+			fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), this, this);
+		}
+	}
 
 	@Override
 	protected AbstractRender selectRenderer () {
@@ -123,12 +135,28 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class CredentialRender extends BaseExpandableRender {
+final class CredentialRender extends NeoComRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private TextView pilotName = null;
+	private TextView accountBalance = null;
+	private TextView assetsCount = null;
+	private TextView race = null;
+	private TextView cloneType = null;
+	private TextView expirationTime = null;
 
 	// - L A Y O U T   F I E L D S
+	private ViewGroup nodeIconBlock = null;
+	private ImageView targetIcon = null;
+	private ImageView esiDecorator = null;
+	private ImageView xmlApiDecorator = null;
+	private ViewGroup rightBlock = null;
+	private ImageView separator = null;
+	private ImageView menuIcon = null;
+	private ImageView rightArrow = null;
+	private TextView nodeClass = null;
+
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public CredentialRender (final CredentialPart target, final Activity context) {
@@ -144,38 +172,74 @@ final class CredentialRender extends BaseExpandableRender {
 	@Override
 	public void initializeViews () {
 		super.initializeViews();
-		//		name = (TextView) _convertView.findViewById(R.id.name);
-		//		childCount = (TextView) _convertView.findViewById(R.id.childCount);
-		//
-		//		titleLabel = (TextView) _convertView.findViewById(R.id.titleLabel);
-		//		locationLabel = (TextView) _convertView.findViewById(R.id.locationLabel);
+		// Layout decorator items.
+		nodeIconBlock = (ViewGroup) _convertView.findViewById(R.id.nodeIconBlock);
+		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+		esiDecorator = (ImageView) _convertView.findViewById(R.id.esiDecorator);
+		xmlApiDecorator = (ImageView) _convertView.findViewById(R.id.xmlApiDecorator);
+		rightBlock = (ViewGroup) _convertView.findViewById(R.id.rightBlock);
+		separator = (ImageView) _convertView.findViewById(R.id.separator);
+		menuIcon = (ImageView) _convertView.findViewById(R.id.menuIcon);
+		rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+		nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
+
+		// Content layout fields.
+		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
+		accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
+		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
+		race = (TextView) _convertView.findViewById(R.id.race);
+		cloneType = (TextView) _convertView.findViewById(R.id.cloneType);
+		expirationTime = (TextView) _convertView.findViewById(R.id.expirationTime);
 	}
 
 	@Override
 	public void updateContent () {
 		logger.info(">> [CredentialRender.updateContent]");
 		super.updateContent();
+		// Setup the initial layout configuration. No expandable and no menu.
+		menuIcon.setVisibility(View.GONE);
+		rightArrow.setVisibility(View.GONE);
 		_rightArrow.setVisibility(View.GONE);
-		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
-			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
-		else nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
-		if ( null != nodeIcon ) {
-			String link = getPart().getURLForAvatar();
-			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, nodeIcon);
-			nodeIcon.setImageDrawable(draw);
-		}
-		name.setText(this.getPart().getName());
-		//		childCount.setText(this.getPart().getTContentCount());
-
-		// Set this variant labels
-		classLabel.setText("CREDENTIAL");
-		categoryLabel.setText("CHARACTERS");
-		categoryLabel.setVisibility(View.GONE);
-		childCount.setVisibility(View.GONE);
+		separator.setVisibility(View.VISIBLE);
 		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
 		else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
+		nodeClass.setText("CREDENTIAL");
+
+		// Set content fields values.
+		pilotName.setText(this.getPart().getName());
+		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
+			targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
+		else targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
+		if ( null != targetIcon ) {
+			String link = getPart().getCastedModel().getURLForAvatar();
+			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
+			targetIcon.setImageDrawable(draw);
+		}
+				accountBalance.setText(this.getPart().getCastedModel().getLocation().getFullLocation());
+		ApplicationCloudAdapter.submit2uiExecutor(
+				new Runnable() {
+					@Override
+					public void run () {
+						// Get the number of assets on the AssetsManager.
+						final AssetsManager manager = new AssetsManager(getPart().getCastedModel());
+						final long totalAssets = manager.getTotalAssetsNumber();
+						getContext().runOnUiThread(
+								new Runnable() {
+									@Override
+									public void run () {
+										assetsCount.setText(qtyFormatter.format(totalAssets));
+									}
+								});
+					}
+				});
 		logger.info("<< [CredentialRender.updateContent]");
+	}
+
+	@Override
+	protected void createView () {
+		_convertView = inflateView(R.layout.pilot4credential);
+		_convertView.setTag(this);
 	}
 }
 
