@@ -99,7 +99,7 @@ task swaggerDelete(type: Delete) {
     delete "$swaggerGenerated"
 }
 
-compileJava.dependsOn swaggerBuild
+//compileJava.dependsOn swaggerBuild
 
 clean.doFirst {
     delete "$swaggerGenerated"

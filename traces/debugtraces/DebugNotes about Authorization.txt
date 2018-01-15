@@ -42,6 +42,16 @@ Connect to the ESIAuth20 service during the initialization. This also uses a Bui
 
 
 ---------------------------------------------------------------------------------------
+CharacterRetrofit - Uses retrofit structures that are created from the ESIRetrofit with the from() call.
+rf.create(<Interface>.class)
+CharacterRetrofit(rf, "tranquility");
+new ESIServiceImpl(builder.build()) --> return ESIRetrofit.build(refresh, auth, agent, cache, cacheSize, timeout);
+ESINetwork :: builder = ESIRetrofit.from(request.getRefreshToken(), this.auth20);
+	return new Builder(refresh, auth); <-- ESIRetrofit
+	
+
+
+---------------------------------------------------------------------------------------
 EQUIVALENCES TO NEOCOM
 ESIOAuth20 === NeoComOAuth20
 ESIApi20 === NeoComAuthApi20

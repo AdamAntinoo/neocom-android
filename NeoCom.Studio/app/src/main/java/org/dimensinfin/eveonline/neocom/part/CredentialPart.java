@@ -122,10 +122,18 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		}
 		logger.info("<< [CredentialPart.onClick]");
 	}
+
 	public void propertyChange (final PropertyChangeEvent evt) {
-		if(evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name())){
+		if ( evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()) ) {
 			fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), this, this);
 		}
+	}
+
+	/**
+	 * Verifies if the additional pilot data for the Credential is already available.
+	 */
+	public boolean checkPilot () {
+		return getCastedModel().checkPilotDownload();
 	}
 
 	@Override
@@ -212,11 +220,14 @@ final class CredentialRender extends NeoComRender {
 			targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
 		else targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
 		if ( null != targetIcon ) {
-			String link = getPart().getCastedModel().getURLForAvatar();
-			final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
-			targetIcon.setImageDrawable(draw);
+			if ( getPart().checkPilot() ) {
+				String link = getPart().getCastedModel().getURLForAvatar();
+				final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
+				targetIcon.setImageDrawable(draw);
+			}
 		}
-				accountBalance.setText(this.getPart().getCastedModel().getLocation().getFullLocation());
+		if ( getPart().checkPilot() )
+			accountBalance.setText(this.getPart().getCastedModel().getLocation().getFullLocation());
 		ApplicationCloudAdapter.submit2uiExecutor(
 				new Runnable() {
 					@Override
