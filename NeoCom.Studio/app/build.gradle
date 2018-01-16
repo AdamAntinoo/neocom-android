@@ -69,6 +69,7 @@ dependencies {
     implementation project(path: ':NeoCom.Model')
     implementation project(path: ':AndroidMVCLibrary')
     implementation project(path: ':ApplicationCloudAdapter')
+    implementation project(path: ':ApplicationCloudAndroidAdapter')
 
     // L O C A L    L I B R A R I E S
 //    implementation files('libs/ESISwaggerApi-1.0.0.jar')

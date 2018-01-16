@@ -105,13 +105,13 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Processing Character Information...");
-			NeoComModelStore.getSingleton().accessCredentialList();
+			NeoComModelStore.accessCredentialList();
 			logger.info("<< [NeoComInitialization.doStep01]");
 
 			// Start the timers for background processing.
 			// Do the start controlled by a settings toggle.
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(_activity);
-			boolean blockBackgroundTimer = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockBackgorundTimer.name(), false);
+			boolean blockBackgroundTimer = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockBackgroundTimer.name(), false);
 			if ( !blockBackgroundTimer ) NeoComApp.getSingletonApp().startTimer();
 			logger.info("<< [NeoComInitialization.doInBackground]");
 			return true;

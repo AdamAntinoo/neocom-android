@@ -29,7 +29,6 @@ public class PilotDetailActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private String	loginid			= null;
 	private long		characterid	= -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -54,8 +53,6 @@ public class PilotDetailActivity extends ANeoComPagerActivity {
 		AbstractPagerActivity.logger.info(">> [PilotDetailActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		try {
-//			// Register this Activity as the current active Activity.
-//			NeoComModelStore.getSingleton().activateActivity(this);
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
 			if (null != savedInstanceState) {

@@ -8,3 +8,5 @@ include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC 2.0.x\\AndroidMVC\\AndroidMVCLibrary')
 include ':ApplicationCloudAdapter'
 project(':ApplicationCloudAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAdapter')
+include ':ApplicationCloudAndroidAdapter'
+project(':ApplicationCloudAndroidAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAndroidAdapter')

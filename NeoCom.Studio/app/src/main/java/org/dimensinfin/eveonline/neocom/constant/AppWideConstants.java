@@ -18,7 +18,7 @@ package org.dimensinfin.eveonline.neocom.constant;
 public class AppWideConstants {
 	// - P R E F E R E N C E S
 	public enum preferenceKeys{
-		category_Development,prefkey_BlockBackgorundTimer,prefkey_BlockMarket,prefkey_BlockDownloads,category_Industry,prefkey_AllowMoveRequests,category_Assets,prefkey_locationsLimit,prefkey_RegionCollapsed
+		category_Development, prefkey_BlockBackgroundTimer,prefkey_BlockMarket,prefkey_BlockDownloads,category_Industry,prefkey_AllowMoveRequests,category_Assets,prefkey_locationsLimit,prefkey_RegionCollapsed
 	}
 	public static final class preference {
 		public static final String	PREF_APPTHEMES						= "prefkey_appthemes";

@@ -10,6 +10,7 @@
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.WorkerThread;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.datasource.AbstractGenerator;
@@ -48,13 +49,13 @@ public class LoginListFragment extends AbstractPagerFragment {
 		 * The Character list of obtained with a merge and filter from the api keys and the credentials stored at
 		 * the database and the result is shown on this Fragment.
 		 */
+		@WorkerThread
 		public RootNode collaborate2Model () {
 			AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
 			// Initialize the Adapter data structures.
 			this.setDataModel(new RootNode());
 			// Add each Credential to the list.
-//			final List<Credential> credentials =;
-			for (Credential login :  NeoComModelStore.getSingleton().accessCredentialList()) {
+			for (Credential login :  NeoComModelStore.accessCredentialList()) {
 				_dataModelRoot.addChild(login);
 				AbstractGenerator.logger
 						.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getAccountName() + "' to the _dataModelRoot");

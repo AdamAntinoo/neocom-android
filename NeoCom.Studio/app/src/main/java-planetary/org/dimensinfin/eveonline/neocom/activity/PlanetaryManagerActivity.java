@@ -20,6 +20,7 @@ import android.os.Bundle;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.ColonyFragment;
 import org.dimensinfin.eveonline.neocom.fragment.PlanetaryFragment;
@@ -29,21 +30,31 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private long characterid = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName() {
+	public String getName () {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_PlanetaryManagerActivity);
 	}
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate (final Bundle savedInstanceState) {
 		PlanetaryManagerActivity.logger.info(">> [PlanetaryManagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
 		_actionBar.setDisplayHomeAsUpEnabled(true);
 		try {
+			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			Bundle extras = null;
+			if ( null != savedInstanceState ) {
+				extras = savedInstanceState;
+				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			} else {
+				extras = this.getIntent().getExtras();
+				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_BYLOCATION.name()).setExtras(extras),
@@ -58,6 +69,24 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
 		PlanetaryManagerActivity.logger.info("<< [PlanetaryManagerActivity.onCreate]"); //$NON-NLS-1$
+	}
+
+	@Override
+	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	/**
+	 * Save the extra parameters information to be able to restore the page to their same state. There is no
+	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
+	 * reconstruct the AppModel state.
+	 */
+	@Override
+	protected void onSaveInstanceState (final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// Save the extra parameters information to be able to restore the page to their same state.
+		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
 	}
 }
 //- UNUSED CODE ............................................................................................

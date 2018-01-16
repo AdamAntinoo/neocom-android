@@ -15,7 +15,7 @@
             android:src="@drawable/nopilot" />
 
         <ImageView
-            android:id="@+id/esiDecorator"
+            android:id="@+id/botrightDecorator"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="right|bottom"
@@ -24,7 +24,7 @@
             android:src="@drawable/hamburger_icon_white" />
 
         <ImageView
-            android:id="@+id/xmlApiDecorator"
+            android:id="@+id/botleftDecorator"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="left|bottom"
