@@ -24,8 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
@@ -36,9 +34,11 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComCacheManager;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.planetary.Colony;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
@@ -94,15 +94,10 @@ public class ColonyFragment extends AbstractPagerFragment {
 				toolBarTitleRight = (TextView) newbar.findViewById(R.id.toolBarTitleRight);
 				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
 				if ( null != pilotIcon ) {
-					String link = NeoComModelStore.getSingleton().getActiveCredential().getURLForAvatar();
-					ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
-							new Runnable() {
-								@Override
-								public void run () {
-									pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
-								}
-							}
-					);
+					long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+					final PilotV1 pilot = ModelFactory.getPilotV1(characterid);
+					String link = pilot.getURLForAvatar();
+					pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
 				}
 				if ( null != activityIcon ) {
 					activityIcon.setImageResource(R.drawable.planets);

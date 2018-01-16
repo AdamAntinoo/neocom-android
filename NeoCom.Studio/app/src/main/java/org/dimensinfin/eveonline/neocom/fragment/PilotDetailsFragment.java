@@ -21,10 +21,13 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -103,13 +106,10 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	protected void registerDataSource () {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComModelStore.getSingleton().activateCredential(characterid);
+		NeoComModelStore.activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-																											 //		                                                   .addIdentifier(loginid)
 																											 .addIdentifier(characterid);
 		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), getExtras()));
@@ -125,8 +125,11 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	protected void setHeaderContents () {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.setHeaderContents]");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
+		// Get the Pilot instance to use as the origin model.
+		final long identifier = this.getExtras().getLong(EExtras.EXTRA_CAPSULEERID.name());
+		final PilotV1 pilot = ModelFactory.getPilotV1(identifier);
 		this.addtoHeader((AbstractAndroidPart) this.getFactory()
-																							 .createPart(NeoComModelStore.getSingleton().activateCredential(this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name())).getMasterCharacter())
+																							 .createPart(pilot)
 																							 .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
 		AbstractPagerFragment.logger.info("<< [PilotDetailsFragment.setHeaderContents]");
 	}

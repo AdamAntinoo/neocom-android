@@ -18,8 +18,6 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// - CLASS IMPLEMENTATION ...................................................................................
-
 /**
  * This class has as main responsibility the access to the data input by the user and the store of all Eve
  * data downloaded from the CCP servers. The data to be manipulated has some levels, starting on the list of
@@ -41,12 +39,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Adam Antinoo
  */
+// - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComModelStore extends DataManagementModelStore {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8777607802616543118L;
 	private static Logger logger = LoggerFactory.getLogger(NeoComModelStore.class);
 	private static NeoComModelStore singleton = null;
+//	private static DataManagementModelStore singletonDelegate=DataManagementModelStore.getSingleton();
 
 	/**
 	 * Returns the single global instance of the Store to be used as an instance. In case the instance does not
@@ -55,6 +55,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 	 *
 	 * @return the single global sinleton.
 	 */
+	@Deprecated
 	public static NeoComModelStore getSingleton () {
 		//		NeoComModelStore.logger.info(">> [NeoComModelStore.getSingleton]");
 		if ( null == NeoComModelStore.singleton ) {
@@ -87,6 +88,42 @@ public class NeoComModelStore extends DataManagementModelStore {
 		//		}
 		NeoComModelStore.logger.info("<< [AppModelStore.initialize]");
 	}
+//	private static DataManagementModelStore getSingletonDelegated(){
+//		return singletonDelegate;
+//	}
+
+//	public static List<Credential> accessCredentialList () {
+//		return DataManagementModelStore.accessCredentialList();
+//	}
+//
+//	public static Credential getActiveCredential () {
+//		return DataManagementModelStore.getActiveCredential();
+//	}
+//
+//	public static Credential getCredential4Id (final long identifier) {
+//		return DataManagementModelStore.getCredential4Id(identifier);
+//	}
+//
+//	public static Credential activateCredential (final long identifier) {
+//		return DataManagementModelStore.activateCredential(identifier);
+//	}
+//	public static void cleanModel () {
+//		singletonDelegate.cleanModel();
+//	}
+	//	public static List<Credential> accessCredentialList () {
+//		return getSingleton().accessCredentialList();
+//	}
+//
+//	public static Credential getActiveCredential () {
+//		return getSingleton().getActiveCredential();
+//	}
+//
+//	/**
+//	 * Search this identifier on the list of credentials and returns the findings.
+//	 */
+//	public static Credential getCredential4Id (final long identifier) {
+//		return getSingleton().getCredential4Id(identifier);
+//	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** Reference to the application menu to make it accessible to any level. */

@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.Pilot;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
@@ -69,6 +70,11 @@ public class PilotPartFactory extends PartFactory {
 																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
+			if ( node instanceof PilotV1 ) {
+				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
+																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+				return part;
+			}
 			if ( node instanceof Corporation ) {
 				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
 																															.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
@@ -88,6 +94,11 @@ public class PilotPartFactory extends PartFactory {
 			if ( node instanceof Pilot ) {
 				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
 																															.setRenderMode(ENeoComVariants.PILOT_HEADER.name());
+				return part;
+			}
+			if ( node instanceof PilotV1 ) {
+				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
+																											.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
 		}

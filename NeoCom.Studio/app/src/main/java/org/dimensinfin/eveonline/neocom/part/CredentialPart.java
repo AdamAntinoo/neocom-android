@@ -14,12 +14,13 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.support.annotation.WorkerThread;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
+import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -31,14 +32,16 @@ import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
+import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.beans.PropertyChangeEvent;
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,7 +49,7 @@ import java.util.List;
 public class CredentialPart extends NeoComExpandablePart implements INamedPart, View.OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7696249781992547826L;
-	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
+	//	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -61,20 +64,56 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 	}
 
 	public long getModelID () {
-		return this.getCastedModel().getAccountName().hashCode();
+		return this.getCastedModel().getAccountId();
 	}
 
 	public String getName () {
 		return this.getCastedModel().getAccountName();
 	}
 
-	public String getTContentCount () {
-		return "-";
+	// --- C O N T E N T   M E T H O D S
+
+	/**
+	 * Return the formatted string for the character wallet amount. This is a complex task because it requires to
+	 * get access to some character data that may have not been already downloaded. First it has to be performed
+	 * on a download task and second we have to get the Pilot information that matches this Character using
+	 * the Credential as the index.
+	 *
+	 * @return Formetted string for the ISK amount of the Character wallet.
+	 */
+	@WorkerThread
+	public String getTWalletAmount () {
+		// Get access to the matching character using the credential as index.
+		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
+		if ( null != pilot ) return generatePriceString(pilot.getAccountBalance(), false, true);
+		else return "- ISK";
 	}
 
-	//	public String getURLForAvatar () {
-	//		return "http://image.eveonline.com/character/" + getCastedModel().getAccountId() + "_256.jpg";
-	//	}
+	/**
+	 * Instantiates an AssetsManaget for the current Character associated to the Credential to be able to query
+	 * the database and get the real value.
+	 */
+	@WorkerThread
+	public String getTAssetsCount () {
+		// Get access to the AssetsManager for the current character to get this value
+		final AssetsManager manager = ManagerStore.getAssetsManager(getCastedModel().getAccountId());
+		final long totalAssets = manager.getTotalAssetsNumber();
+		return qtyFormatter.format(totalAssets);
+	}
+
+	@WorkerThread
+	public String getTRaceName () {
+		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
+		if ( null != pilot ) return upperCaseFirst(pilot.getCharacterInfo().getRace().name().toLowerCase());
+		else return "-";
+	}
+
+	@WorkerThread
+	public String getURLForAvatar () {
+		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
+		if ( null != pilot ) return pilot.getURLForAvatar();
+		else return null;
+	}
 
 	/**
 	 * Sort the Regions by their names.
@@ -107,20 +146,22 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		if ( pilotPart instanceof CredentialPart ) {
 			// With the new implementation get just the identifier for the Credential.
 			final long identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
-			NeoComModelStore.getSingleton().activateCredential(identifier);
-			// TODO This is to keep compatibility with the old data management.
-			// Pilot are expected to be at the global context
-			//			final NeoComCharacter pilot = ((PilotInfoPart) pilotPart).getCastedModel();
-			// TODO This should be done at the destination Activity
-			// NeoComAppConnector.getSingleton.getModelStore().activatePilot(pilot.getCharacterID());
-			//			final Intent intent = new Intent(this.getActivity(), DirectorsBoardActivity.class);
+			NeoComModelStore.activateCredential(identifier);
 			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
-			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
-			//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), identifier);
 			getActivity().startActivity(intent);
 		}
 		logger.info("<< [CredentialPart.onClick]");
+	}
+
+	public String upperCaseFirst (String value) {
+		// Convert String to char array.
+		char[] array = value.toCharArray();
+		// Modify first element in array.
+		array[0] = Character.toUpperCase(array[0]);
+		// Return string.
+		return new String(array);
 	}
 
 	public void propertyChange (final PropertyChangeEvent evt) {
@@ -157,8 +198,8 @@ final class CredentialRender extends NeoComRender {
 	// - L A Y O U T   F I E L D S
 	private ViewGroup nodeIconBlock = null;
 	private ImageView targetIcon = null;
-	private ImageView esiDecorator = null;
-	private ImageView xmlApiDecorator = null;
+	private ImageView botrightDecorator = null;
+	private ImageView botleftDecorator = null;
 	private ViewGroup rightBlock = null;
 	private ImageView separator = null;
 	private ImageView menuIcon = null;
@@ -183,8 +224,8 @@ final class CredentialRender extends NeoComRender {
 		// Layout decorator items.
 		nodeIconBlock = (ViewGroup) _convertView.findViewById(R.id.nodeIconBlock);
 		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
-		esiDecorator = (ImageView) _convertView.findViewById(R.id.esiDecorator);
-		xmlApiDecorator = (ImageView) _convertView.findViewById(R.id.xmlApiDecorator);
+		botrightDecorator = (ImageView) _convertView.findViewById(R.id.botrightDecorator);
+		botleftDecorator = (ImageView) _convertView.findViewById(R.id.botleftDecorator);
 		rightBlock = (ViewGroup) _convertView.findViewById(R.id.rightBlock);
 		separator = (ImageView) _convertView.findViewById(R.id.separator);
 		menuIcon = (ImageView) _convertView.findViewById(R.id.menuIcon);
@@ -207,8 +248,8 @@ final class CredentialRender extends NeoComRender {
 		// Setup the initial layout configuration. No expandable and no menu.
 		menuIcon.setVisibility(View.GONE);
 		rightArrow.setVisibility(View.GONE);
-		_rightArrow.setVisibility(View.GONE);
-		separator.setVisibility(View.VISIBLE);
+		if ( null != _rightArrow ) _rightArrow.setVisibility(View.GONE);
+		if ( null != separator ) separator.setVisibility(View.VISIBLE);
 		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
 		else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
@@ -216,34 +257,56 @@ final class CredentialRender extends NeoComRender {
 
 		// Set content fields values.
 		pilotName.setText(this.getPart().getName());
-		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
-			targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
-		else targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
-		if ( null != targetIcon ) {
-			if ( getPart().checkPilot() ) {
-				String link = getPart().getCastedModel().getURLForAvatar();
-				final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
-				targetIcon.setImageDrawable(draw);
-			}
-		}
-		if ( getPart().checkPilot() )
-			accountBalance.setText(this.getPart().getCastedModel().getLocation().getFullLocation());
-		ApplicationCloudAdapter.submit2uiExecutor(
-				new Runnable() {
-					@Override
-					public void run () {
-						// Get the number of assets on the AssetsManager.
-						final AssetsManager manager = new AssetsManager(getPart().getCastedModel());
-						final long totalAssets = manager.getTotalAssetsNumber();
-						getContext().runOnUiThread(
-								new Runnable() {
-									@Override
-									public void run () {
-										assetsCount.setText(qtyFormatter.format(totalAssets));
+		//		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
+		//			targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
+		//		else targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
+		//		if ( null != targetIcon ) {
+		//			if ( getPart().checkPilot() ) {
+		//			}
+		//		}
+		accountBalance.setText("- ISK"); // This is the default value.
+		assetsCount.setText("-"); // Set a default value while we get the real from the database.
+		race.setText("-"); // Set a default value while we get an update from the Character.
+		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
+			try {
+				// Obtain the values to be set on the fileds. This second task should be done on the UI thread.
+				final String walletAmount = getPart().getTWalletAmount();
+				final String assetcount = getPart().getTAssetsCount();
+				final String racename = getPart().getTRaceName();
+				final String link = getPart().getURLForAvatar();
+				getContext().runOnUiThread(() -> {
+							try {
+								accountBalance.setText(walletAmount);
+								assetsCount.setText(assetcount);
+								race.setText(racename);
+								if ( null != link ) {
+									if ( null != targetIcon ) {
+										final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
+										targetIcon.setImageDrawable(draw);
 									}
-								});
-					}
-				});
+								}
+							} catch (RuntimeException rtex) {
+								rtex.printStackTrace();
+							}
+						}
+				);
+			} catch (RuntimeException rtex) {
+				rtex.printStackTrace();
+			}
+		});
+
+		// Set the icon decorators deènding on the Credential type.
+		botrightDecorator.setVisibility(View.INVISIBLE);
+		botleftDecorator.setVisibility(View.INVISIBLE);
+		if ( getPart().getCastedModel().isESICompatible() ) {
+			botrightDecorator.setImageResource(R.drawable.hamburger_icon_white);
+			botrightDecorator.setVisibility(View.VISIBLE);
+		}
+		if ( getPart().getCastedModel().isXMLCompatible() ) {
+			botleftDecorator.setImageResource(R.drawable.xml_icon);
+			botleftDecorator.setVisibility(View.VISIBLE);
+		}
+
 		logger.info("<< [CredentialRender.updateContent]");
 	}
 
