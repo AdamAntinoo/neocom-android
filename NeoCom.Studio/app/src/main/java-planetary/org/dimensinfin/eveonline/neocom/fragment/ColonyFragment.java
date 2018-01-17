@@ -81,7 +81,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 		public RootNode collaborate2Model () {
 			AbstractGenerator.logger.info(">> [ColonyStructureGenerator.collaborate2Model]");
 			// Check if the model is already generated.
-			if ( null == _dataModelRoot ) {
+	//		if ( null == _dataModelRoot ) {
 				this.setDataModel(new RootNode());
 
 				// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
@@ -98,10 +98,10 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
 				return _dataModelRoot;
-			} else {
-				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
-				return _dataModelRoot;
-			}
+//			} else {
+//				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
+//				return _dataModelRoot;
+	//		}
 		}
 	}
 	// - S T A T I C - S E C T I O N ..........................................................................
