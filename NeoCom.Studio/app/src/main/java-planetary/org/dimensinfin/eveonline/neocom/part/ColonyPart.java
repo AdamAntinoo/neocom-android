@@ -85,6 +85,7 @@ public class ColonyPart extends NeoComExpandablePart {
 			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP ) {
 				nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets, getContext().getTheme()));
 			}else nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets));
+			botrightDecorator.setVisibility(View.VISIBLE);
 			switch (getPart().getCastedModel().getUpgradeLevel()){
 				case 1:
 					botrightDecorator.setImageResource(R.drawable.level1white);

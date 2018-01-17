@@ -76,7 +76,7 @@
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:src="@drawable/hamburger_icon_white"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/rightArrow"
@@ -86,6 +86,6 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/arrowdown"
             android:layout_centerVertical="true"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 </merge>

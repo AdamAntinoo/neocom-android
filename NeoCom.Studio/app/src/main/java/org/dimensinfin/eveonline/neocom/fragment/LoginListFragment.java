@@ -22,9 +22,11 @@ import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -57,6 +59,8 @@ public class LoginListFragment extends AbstractPagerFragment {
 			// Add each Credential to the list.
 			for (Credential login :  NeoComModelStore.accessCredentialList()) {
 				_dataModelRoot.addChild(login);
+				// Preload the matching pilot.
+				final PilotV1 pilot = ModelFactory.getPilotV1(login.getAccountId());
 				AbstractGenerator.logger
 						.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getAccountName() + "' to the _dataModelRoot");
 			}

@@ -30,7 +30,7 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 	private ImageView botleftDecorator=null;
 	private ImageView separator=null;
 	private ImageView menuIcon=null;
-	private ImageView rightArrow=null;
+//	private ImageView rightArrow=null;
 
 	// - L A Y O U T   L A B E L S
 	private ViewGroup nodeIconBlock = null;
@@ -52,7 +52,7 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 		botleftDecorator = (ImageView) _convertView.findViewById(R.id.botleftDecorator);
 		separator = (ImageView) _convertView.findViewById(R.id.separator);
 		menuIcon = (ImageView) _convertView.findViewById(R.id.menuIcon);
-		rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+//		rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 	}
 	@Override
 	public void updateContent () {
@@ -64,7 +64,7 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 		botrightDecorator.setVisibility(View.INVISIBLE);
 		botleftDecorator.setVisibility(View.INVISIBLE);
 		menuIcon.setVisibility(View.GONE);
-		rightArrow.setVisibility(View.GONE);
+		_rightArrow.setVisibility(View.GONE);
 //		nodeIcon.setBackground(getContext().getResources().getColor(Color.TRANSPARENT));
 	}
 	@Override

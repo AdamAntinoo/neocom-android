@@ -16,12 +16,15 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
@@ -73,6 +76,7 @@ public abstract class NeoComRender extends AbstractRender {
 			.createFromAsset(NeoComAppConnector.getSingleton().getApplicationContext().getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	protected ImageView _rightArrow = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComRender (final AbstractAndroidPart target, final Activity context) {
@@ -81,6 +85,11 @@ public abstract class NeoComRender extends AbstractRender {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
+	public void initializeViews () {
+		// Get the view of the rightArrow if found.
+		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+	}
+
 	/**
 	 * Check if the expandable nodes have a click active. During the click show the spinner until the action finishes
 	 * with a new <code>updateContent()</code>.
@@ -88,16 +97,29 @@ public abstract class NeoComRender extends AbstractRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-		// Check if the click is running and then replace the right arrow by an spinner.
-		if ( getPart().clickRunning() ) {
-			if ( null != _rightArrow ) {
-				logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
-				_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
-				Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
-				rotation.setRepeatCount(Animation.INFINITE);
-				_rightArrow.startAnimation(rotation);
-				_rightArrow.invalidate();
-			}
+		// Check if the model is expandable to show or hide the arrow.
+		final ICollaboration targetModel = getPart().getModel();
+		if ( null != _rightArrow ) {
+			if ( targetModel instanceof IExpandable ) {
+				_rightArrow.setVisibility(View.VISIBLE);
+				if ( this.getPart().isExpanded() ) {
+					_rightArrow.setImageResource(R.drawable.arrowdown);
+				} else {
+					_rightArrow.setImageResource(R.drawable.arrowright);
+				}
+
+				// Check if the click is running and then replace the right arrow by an spinner.
+				if ( getPart().clickRunning() ) {
+					if ( null != _rightArrow ) {
+						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
+						_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
+						Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
+						rotation.setRepeatCount(Animation.INFINITE);
+						_rightArrow.startAnimation(rotation);
+						//				_rightArrow.invalidate();
+					}
+				}
+			} else _rightArrow.setVisibility(View.GONE);
 		}
 	}
 
@@ -133,7 +155,7 @@ public abstract class NeoComRender extends AbstractRender {
 	 * be refactored to use ever the same generation code.
 	 */
 	protected Spanned displayManufactureCost (final double cost, final double price, final boolean compress,
-	                                          final boolean suffix) {
+																						final boolean suffix) {
 		final StringBuffer htmlFragmentWithColor = new StringBuffer();
 		final String priceString = this.generatePriceString(cost, compress, suffix);
 		String color = "#FFFFFF";
@@ -286,22 +308,22 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 		// Append the Region -> system
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
-		            .append(AppWideConstants.FLOW_ARROW_RIGHT);
+								.append(AppWideConstants.FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-		            .append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+								.append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
 
-//	@Deprecated
-//	@TargetApi(VERSION_CODES.ICE_CREAM_SANDWICH)
-//	@SuppressWarnings("deprecation")
-//	protected void setBackgroundTransparency (final int resource) {
-//		// Set the background form the Theme.
-//		if ( Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH ) {
-//			_convertView.setBackgroundDrawable(this.getContext().getResources().getDrawable(resource));
-//		}
-//	}
+	//	@Deprecated
+	//	@TargetApi(VERSION_CODES.ICE_CREAM_SANDWICH)
+	//	@SuppressWarnings("deprecation")
+	//	protected void setBackgroundTransparency (final int resource) {
+	//		// Set the background form the Theme.
+	//		if ( Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH ) {
+	//			_convertView.setBackgroundDrawable(this.getContext().getResources().getDrawable(resource));
+	//		}
+	//	}
 }
 
 // - UNUSED CODE
