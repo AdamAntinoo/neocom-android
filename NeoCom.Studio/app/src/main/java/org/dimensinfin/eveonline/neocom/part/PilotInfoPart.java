@@ -297,7 +297,7 @@ final class Pilot4HeaderRender extends NeoComRender {
 		race.setText("-"); // Set a default value while we get an update from the Character.
 		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
 			try {
-				// Obtain the values to be set on the fileds. This second task should be done on the UI thread.
+				// Obtain the values to be set on the fields. This second task should be done on the UI thread.
 				final String walletAmount = getPart().getTWalletAmount();
 				final String assetcount = getPart().getTAssetsCount();
 				final String racename = getPart().getTRaceName();

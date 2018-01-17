@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/panelplanetary">
+
+    <include layout="@layout/nodebase4expandnew" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/solarSystemName"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="Planet 40208301"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/installationsLabel"
+        style="@style/AppTheme.Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_toRightOf="@+id/installationsNumber"
+        android:layout_alignBaseline="@+id/installationsNumber"
+        android:text="Installations" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/installationsNumber"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/solarSystemName"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="11"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/planetType"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:gravity="right"
+        android:text="Lava"
+        android:textSize="12sp" />
+</RelativeLayout>

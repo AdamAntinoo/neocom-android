@@ -161,12 +161,12 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		}
 	}
 
-	/**
-	 * Verifies if the additional pilot data for the Credential is already available.
-	 */
-	public boolean checkPilot () {
-		return getCastedModel().checkPilotDownload();
-	}
+//	/**
+//	 * Verifies if the additional pilot data for the Credential is already available.
+//	 */
+//	public boolean checkPilot () {
+//		return getCastedModel().checkPilotDownload();
+//	}
 
 	@Override
 	protected AbstractRender selectRenderer () {

@@ -51,7 +51,7 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		// Reinitialize the tile and subtitle from the first page.
-		this.updateInitialTitle();
+//		this.updateInitialTitle();
 		AssetsManagerActivity.logger.info("<< [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 }

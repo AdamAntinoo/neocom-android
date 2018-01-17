@@ -17,6 +17,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComCacheManager;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
@@ -81,27 +84,22 @@ public class ColonyFragment extends AbstractPagerFragment {
 		public RootNode collaborate2Model () {
 			AbstractGenerator.logger.info(">> [ColonyStructureGenerator.collaborate2Model]");
 			// Check if the model is already generated.
-	//		if ( null == _dataModelRoot ) {
+			if ( null == _dataModelRoot ) {
 				this.setDataModel(new RootNode());
 
 				// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
 				final PlanetaryManager manager = ManagerStore.getPlanetaryManager(_characterid);
 				final List<Colony> colonies = manager.accessAllColonies();
-				//
-				//
-				//			// Get the Colony Manager for this pilot.
-				//			final ColonyManager manager = new ColonyManager(_pilot);
-				//			final List<Colony> colonies = manager.accessAllColonies();
 				for (Colony colony : colonies) {
 					_dataModelRoot.addChild(colony);
 				}
 
 				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
 				return _dataModelRoot;
-//			} else {
-//				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
-//				return _dataModelRoot;
-	//		}
+			} else {
+				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
+				return _dataModelRoot;
+			}
 		}
 	}
 	// - S T A T I C - S E C T I O N ..........................................................................
@@ -123,7 +121,12 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getSubtitle () {
-		return getActivity().getResources().getString(R.string.activity_subtitle_ColonyActivity);
+		// TODO The getSubtitle is called too early and the Fragment is still waiting to be associated with the Activity
+		final Activity act = getActivity();
+		if ( android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M ) {
+			final Context con = getContext();
+		}
+		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_ColonyActivity);
 	}
 
 	@Override
@@ -133,10 +136,22 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 	public View onCreateView (final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		// Create the Action Bar custom and replace it on the Bar.
+//		updateInitialTitle();
 		activateActionBar(inflater);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
+//	protected void updateInitialTitle () {
+//		final ActionBar actionBar = getActivity().getActionBar()
+//		if ( null != actionBar ) {
+//			Fragment firstFragment = this.getPageAdapter().getInitialPage();
+//			// REFACTOR This IF can be removed once this code works.
+//			if ( firstFragment instanceof AbstractPagerFragment ) {
+//				actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
+//				actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
+//			}
+//		}
+//	}
 	/**
 	 * Create a new ActionBar block to be used on this fragment only.
 	 */

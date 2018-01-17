@@ -1,0 +1,91 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:id="@+id/nodeIconBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/nodeIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsize"
+            android:layout_height="@dimen/nodeiconsize"
+            android:src="@drawable/nopilot"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/topleftDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/toprightDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/botrightDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/botleftDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/hamburger_icon_white" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/rightBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/separator"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:src="@android:color/transparent"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/rightArrow"
+            style="@style/AppTheme.Arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrowdown"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+    </LinearLayout>
+</merge>
