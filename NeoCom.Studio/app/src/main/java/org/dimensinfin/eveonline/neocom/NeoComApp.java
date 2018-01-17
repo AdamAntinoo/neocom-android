@@ -42,6 +42,7 @@ import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.network.NetworkManager;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Duration;
@@ -646,6 +647,9 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		dbCCPConnector = null;
 		dbNeocomConnector = null;
 		cache = null;
+
+		// Initialize the Network with the base location for the cache.
+		NetworkManager.retrofitApplicationParameter=getApplicationContext().getCacheDir();
 		NeoComApp.logger.info("<< [NeoComApp.onCreate]");
 	}
 

@@ -39,6 +39,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -2988276062110424930L;
 	protected static Logger logger = Logger.getLogger("NeoComAbstractPart");
+
 	private static final long ONEMINUTE = 60 * 1000;
 	private static final long ONEHOUR = 60 * NeoComAbstractPart.ONEMINUTE;
 	private static final long ONEDAY = 24 * NeoComAbstractPart.ONEHOUR;
@@ -261,6 +262,15 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 //	protected NeoComCharacter getPilot () {
 //		return NeoComModelStore.getSingleton().getPilot();
 //	}
+
+	public String upperCaseFirst (String value) {
+		// Convert String to char array.
+		char[] array = value.toCharArray();
+		// Modify first element in array.
+		array[0] = Character.toUpperCase(array[0]);
+		// Return string.
+		return new String(array);
+	}
 
 	@Override
 	protected AbstractRender selectRenderer () {

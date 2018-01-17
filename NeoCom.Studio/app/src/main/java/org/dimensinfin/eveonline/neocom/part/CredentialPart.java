@@ -155,15 +155,6 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		logger.info("<< [CredentialPart.onClick]");
 	}
 
-	public String upperCaseFirst (String value) {
-		// Convert String to char array.
-		char[] array = value.toCharArray();
-		// Modify first element in array.
-		array[0] = Character.toUpperCase(array[0]);
-		// Return string.
-		return new String(array);
-	}
-
 	public void propertyChange (final PropertyChangeEvent evt) {
 		if ( evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()) ) {
 			fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), this, this);

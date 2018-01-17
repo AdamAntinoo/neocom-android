@@ -17,12 +17,9 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.Corporation;
 import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.Login;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.model.Pilot;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
@@ -65,21 +62,21 @@ public class PilotPartFactory extends PartFactory {
 																													.setRenderMode(getVariant());
 				return part;
 			}
-			if ( node instanceof Pilot ) {
-				IPart part = new PilotInfoPart((Pilot) node).setFactory(this)
-																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
-				return part;
-			}
-			if ( node instanceof PilotV1 ) {
-				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
-																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
-				return part;
-			}
-			if ( node instanceof Corporation ) {
-				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-																															.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
-				return part;
-			}
+//			if ( node instanceof Pilot ) {
+//				IPart part = new PilotInfoPart((Pilot) node).setFactory(this)
+//																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+//				return part;
+//			}
+//			if ( node instanceof PilotV1 ) {
+//				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
+//																										.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+//				return part;
+//			}
+//			if ( node instanceof Corporation ) {
+//				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+//																															.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
+//				return part;
+//			}
 			if ( node instanceof NewLoginAction ) {
 				IPart part = new NewLoginActionPart((NewLoginAction) node).setFactory(this)
 																																	.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
@@ -90,18 +87,13 @@ public class PilotPartFactory extends PartFactory {
 				return part;
 			}
 		}
-		if ( this.getVariant() == ENeoComVariants.PILOT_HEADER.name() ) {
-			if ( node instanceof Pilot ) {
-				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-																															.setRenderMode(ENeoComVariants.PILOT_HEADER.name());
-				return part;
-			}
-			if ( node instanceof PilotV1 ) {
-				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
-																											.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
-				return part;
-			}
-		}
+//		if ( this.getVariant() == ENeoComVariants.PILOT_HEADER.name() ) {
+//			if ( node instanceof Pilot ) {
+//				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+//																															.setRenderMode(ENeoComVariants.PILOT_HEADER.name());
+//				return part;
+//			}
+//		}
 		//		if (this.getVariant() == EDashboardVariants.NEOCOM_DASHBOARD.name()) {
 		//			if (node instanceof Director) {
 		//				IPart part = new DirectorPart((Director) node);
@@ -113,11 +105,16 @@ public class PilotPartFactory extends PartFactory {
 		//			}
 		//		}
 		if ( this.getVariant() == ENeoComVariants.PILOT_DETAILS.name() ) {
-			if ( node instanceof Pilot ) {
-				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
-																															.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+			if ( node instanceof PilotV1 ) {
+				IPart part = new PilotInfoPart((PilotV1) node).setFactory(this)
+																											.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
+//			if ( node instanceof Pilot ) {
+//				IPart part = new PilotInfoPart((NeoComCharacter) node).setFactory(this)
+//																															.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+//				return part;
+//			}
 			if ( node instanceof AssetsManager ) {
 				IPart part = new AssetsManagerPart((AssetsManager) node).setFactory(this)
 																																.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());

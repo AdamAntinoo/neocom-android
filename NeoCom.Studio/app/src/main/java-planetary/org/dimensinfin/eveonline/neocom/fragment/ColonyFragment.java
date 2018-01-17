@@ -34,6 +34,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComCacheManager;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
@@ -46,6 +47,63 @@ import java.util.List;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class ColonyFragment extends AbstractPagerFragment {
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class ColonyStructureGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+		private final Bundle _extras;
+		private String _loginid = null;
+		private long _characterid = -1;
+		//	private long _planetid = -2;
+		private NeoComCharacter _pilot = null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
+			super(locator, variant);
+			_extras = extras;
+
+//			_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+			_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			//		_planetid = extras.getLong(EExtras.EXTRA_PLANETID.name());
+			//		_pilot = NeoComModelStore.getSingleton().activateCredential(_characterid);
+			//		_pilot = new Pilot();
+			//		_pilot.setID(_characterid);
+			//		_pilot.setAuthorization(new ApiAuthorization(2889577, _characterid, "Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw"));
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+
+		/**
+		 * If the debug flag is true (usually has that value or POCs we should get the model from the mockup model
+		 * generator.
+		 */
+		public RootNode collaborate2Model () {
+			AbstractGenerator.logger.info(">> [ColonyStructureGenerator.collaborate2Model]");
+			// Check if the model is already generated.
+			if ( null == _dataModelRoot ) {
+				this.setDataModel(new RootNode());
+
+				// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
+				final PlanetaryManager manager = ManagerStore.getPlanetaryManager(_characterid);
+				final List<Colony> colonies = manager.accessAllColonies();
+				//
+				//
+				//			// Get the Colony Manager for this pilot.
+				//			final ColonyManager manager = new ColonyManager(_pilot);
+				//			final List<Colony> colonies = manager.accessAllColonies();
+				for (Colony colony : colonies) {
+					_dataModelRoot.addChild(colony);
+				}
+
+				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
+				return _dataModelRoot;
+			} else {
+				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
+				return _dataModelRoot;
+			}
+		}
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -132,13 +190,13 @@ public class ColonyFragment extends AbstractPagerFragment {
 	protected void registerDataSource () {
 		logger.info(">> [ColonyFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
+		//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
-		NeoComModelStore.getSingleton().activateCredential(characterid);
+		//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
+		NeoComModelStore.activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-//																											 .addIdentifier(loginid)
+																											 //																											 .addIdentifier(loginid)
 																											 .addIdentifier(characterid);
 		// This part of the code may depend on the variant so surround it with the detector.
 		IModelGenerator generator = null;
@@ -157,63 +215,6 @@ public class ColonyFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
-	}
-}
-
-//- CLASS IMPLEMENTATION ...................................................................................
-final class ColonyStructureGenerator extends AbstractGenerator implements IModelGenerator {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
-	private final Bundle _extras;
-	private String _loginid = null;
-	private long _characterid = -1;
-	//	private long _planetid = -2;
-	private NeoComCharacter _pilot = null;
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
-		super(locator, variant);
-		_extras = extras;
-
-		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		//		_planetid = extras.getLong(EExtras.EXTRA_PLANETID.name());
-//		_pilot = NeoComModelStore.getSingleton().activateCredential(_characterid);
-		//		_pilot = new Pilot();
-		//		_pilot.setID(_characterid);
-		//		_pilot.setAuthorization(new ApiAuthorization(2889577, _characterid, "Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw"));
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-
-	/**
-	 * If the debug flag is true (usually has that value or POCs we should get the model from the mockup model generator.
-	 */
-	public RootNode collaborate2Model () {
-		AbstractGenerator.logger.info(">> [ColonyStructureGenerator.collaborate2Model]");
-		// Check if the model is already generated.
-		if ( null == _dataModelRoot ) {
-			this.setDataModel(new RootNode());
-
-			// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
-			final PlanetaryManager manager = new PlanetaryManager(NeoComModelStore.getSingleton().getActiveCredential());
-			final List<Colony> colonies = manager.accessAllColonies();
-//
-//
-//			// Get the Colony Manager for this pilot.
-//			final ColonyManager manager = new ColonyManager(_pilot);
-//			final List<Colony> colonies = manager.accessAllColonies();
-			for (Colony colony : colonies) {
-				_dataModelRoot.addChild(colony);
-			}
-
-			AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
-			return _dataModelRoot;
-		} else {
-			AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
-			return _dataModelRoot;
-		}
 	}
 }
 // - UNUSED CODE ............................................................................................
