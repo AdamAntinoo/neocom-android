@@ -45,11 +45,11 @@ public class ColonyPart extends NeoComExpandablePart {
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class ColonyRender extends NewBaseExpandableRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
-			private static Logger logger					= LoggerFactory.getLogger("AssetRender");
+		private static Logger logger = LoggerFactory.getLogger("AssetRender");
 
 		// - F I E L D - S E C T I O N ............................................................................
 		private ImageView nodeIcon = null;
-		private ImageView botrightDecorator=null;
+		private ImageView botrightDecorator = null;
 		private TextView solarSystemName = null;
 		private TextView planetType = null;
 		private TextView installationsNumber = null;
@@ -84,9 +84,9 @@ public class ColonyPart extends NeoComExpandablePart {
 			this.installationsNumber.setText(getPart().getTInstallations());
 			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP ) {
 				nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets, getContext().getTheme()));
-			}else nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets));
+			} else nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets));
 			botrightDecorator.setVisibility(View.VISIBLE);
-			switch (getPart().getCastedModel().getUpgradeLevel()){
+			switch (getPart().getCastedModel().getUpgradeLevel()) {
 				case 1:
 					botrightDecorator.setImageResource(R.drawable.level1white);
 					break;
@@ -107,10 +107,11 @@ public class ColonyPart extends NeoComExpandablePart {
 
 			// Hide the right arrow while the number on contents is zero.
 			int modelContents = getPart().getCastedModel().getNumPins();
-			if ( getPart().ifModelEmpty() ) _rightArrow.setVisibility(View.INVISIBLE);
+			if ( getPart().ifModelEmpty() ) _rightArrow.setVisibility(View.GONE);
 			logger.debug("-- [ColonyRender.updateContent]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 		}
-		protected void setPlanetIcon() {
+
+		protected void setPlanetIcon () {
 			// Get the planet type name and set the icon depending on that value.
 			final String planetTypeName = getPart().getCastedModel().getPlanetType();
 			if ( planetTypeName.equalsIgnoreCase("barren") )
@@ -160,9 +161,10 @@ public class ColonyPart extends NeoComExpandablePart {
 	public String getName () {
 		return getCastedModel().getSolarSystemName();
 	}
+
 	public Spanned getTSolarSystemName () {
 		double security = this.getCastedModel().getSecurityValue();
-		security=1.0;
+		security = 1.0;
 		return Html.fromHtml(this.generateSecurityColor(security, this.getCastedModel().getSolarSystemName()
 				+ AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getPlanetName()));
 	}
@@ -176,8 +178,8 @@ public class ColonyPart extends NeoComExpandablePart {
 	}
 
 	public boolean ifModelEmpty () {
-		//		return getCastedModel().isEmpty();
-		return true;
+		return getCastedModel().isEmpty();
+		//		return true;
 	}
 
 	//	@Override
@@ -220,49 +222,49 @@ public class ColonyPart extends NeoComExpandablePart {
 		return new ColonyRender(this, _activity);
 	}
 
-//	@Override
-//	public void onClick (final View view) {
-//		logger.info(">> [Location4AssetsPart.onClick]");
-//		// Do the standard expand/collapse and the fire another message for the update of the model.
-//		onParentClick(view);
-//		ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
-//				new OneShotTask<ColonyPart>(this) {
-//					public void run () {
-//						logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
-//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-//						logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
-//					}
-//				}, CoreConstants.HUNDRETH);
-//		logger.info("<< [Location4AssetsPart.onClick]");
-//	}
-//
-//	public void onParentClick (final View view) {
-//		logger.info(">> [NeoComExpandablePart.onClick]");
-//		// Signal the action may take some time and launch it on the background.
-//		activateClick();
-//		// Force the update of the listview.
-//		invalidate();
-//		notifyDataSetChanged();
-//		// Launch the actions on a new thread.
-//		ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
-//				new OneShotTask<ColonyPart>(this) {
-//					public void run () {
-//						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
-//						Chrono chrono = new Chrono();
-//						getTarget().toggleExpanded();
-//						//						getActivity().runOnUiThread(new Runnable() {
-//						//							@Override
-//						//							public void run () {
-//						getTarget().invalidate();
-//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-//						//							}
-//						//						});
-//						completeClick();
-//						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-//					}
-//				}, CoreConstants.HUNDRETH);
-//		logger.info("<< [NeoComExpandablePart.onClick]");
-//	}
+	//	@Override
+	//	public void onClick (final View view) {
+	//		logger.info(">> [Location4AssetsPart.onClick]");
+	//		// Do the standard expand/collapse and the fire another message for the update of the model.
+	//		onParentClick(view);
+	//		ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
+	//				new OneShotTask<ColonyPart>(this) {
+	//					public void run () {
+	//						logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
+	//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+	//						logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
+	//					}
+	//				}, CoreConstants.HUNDRETH);
+	//		logger.info("<< [Location4AssetsPart.onClick]");
+	//	}
+	//
+	//	public void onParentClick (final View view) {
+	//		logger.info(">> [NeoComExpandablePart.onClick]");
+	//		// Signal the action may take some time and launch it on the background.
+	//		activateClick();
+	//		// Force the update of the listview.
+	//		invalidate();
+	//		notifyDataSetChanged();
+	//		// Launch the actions on a new thread.
+	//		ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(
+	//				new OneShotTask<ColonyPart>(this) {
+	//					public void run () {
+	//						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+	//						Chrono chrono = new Chrono();
+	//						getTarget().toggleExpanded();
+	//						//						getActivity().runOnUiThread(new Runnable() {
+	//						//							@Override
+	//						//							public void run () {
+	//						getTarget().invalidate();
+	//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+	//						//							}
+	//						//						});
+	//						completeClick();
+	//						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+	//					}
+	//				}, CoreConstants.HUNDRETH);
+	//		logger.info("<< [NeoComExpandablePart.onClick]");
+	//	}
 
 	@Override
 	public String toString () {

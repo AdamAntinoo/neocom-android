@@ -64,7 +64,7 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 		botrightDecorator.setVisibility(View.INVISIBLE);
 		botleftDecorator.setVisibility(View.INVISIBLE);
 		menuIcon.setVisibility(View.GONE);
-		_rightArrow.setVisibility(View.GONE);
+//		_rightArrow.setVisibility(View.GONE);
 //		nodeIcon.setBackground(getContext().getResources().getColor(Color.TRANSPARENT));
 	}
 	@Override

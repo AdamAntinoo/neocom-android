@@ -5,11 +5,11 @@
     <style name="AppTheme" parent="@android:style/Theme.Holo">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/NeoComActionBar</item>
+    </style>
 
-        <!--<item name="android:textColorPrimary">@color/apporange</item>-->
-        <!--<item name="android:textColorHighlight">@color/apporangemedium</item>-->
-        <!--<item name="android:windowBackground">@color/appblack</item>-->
-        <!--<item name="android:navigationBarColor">@color/appgreydark</item>-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="NeoComActionBar" parent="@android:style/Widget.Holo.ActionBar">

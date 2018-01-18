@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/panelbordergreen">
+    android:background="@drawable/panelplanetary">
 
     <FrameLayout
         android:id="@+id/headerBackground"
@@ -91,7 +91,7 @@
             android:id="@+id/lastKnownLocation"
             style="@style/AppTheme.TextView"
             android:singleLine="false"
-            android:text=">>> Goni VII - Transtellar Shipping &lt;&lt;&lt;"
+            android:text=">>> Goni VII - Transtellar Shipping"
             android:textStyle="bold" />
 
         <TextView
@@ -106,6 +106,7 @@
             android:id="@+id/accountBalanceLabel"
             style="@style/AppTheme.Label.TopLine"
             android:gravity="left"
+            android:visibility="gone"
             android:text="BALANCE" />
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView

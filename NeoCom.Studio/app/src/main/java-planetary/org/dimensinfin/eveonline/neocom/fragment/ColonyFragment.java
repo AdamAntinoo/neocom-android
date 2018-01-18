@@ -41,7 +41,6 @@ import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.planetary.Colony;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -56,23 +55,13 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 		// - F I E L D - S E C T I O N ............................................................................
 		private final Bundle _extras;
-		private String _loginid = null;
 		private long _characterid = -1;
-		//	private long _planetid = -2;
-		private NeoComCharacter _pilot = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			_extras = extras;
-
-//			_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 			_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			//		_planetid = extras.getLong(EExtras.EXTRA_PLANETID.name());
-			//		_pilot = NeoComModelStore.getSingleton().activateCredential(_characterid);
-			//		_pilot = new Pilot();
-			//		_pilot.setID(_characterid);
-			//		_pilot.setAuthorization(new ApiAuthorization(2889577, _characterid, "Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw"));
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................

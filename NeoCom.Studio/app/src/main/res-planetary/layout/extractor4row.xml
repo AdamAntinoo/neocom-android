@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/nodebase4list" />
+
+    <TextView
+        android:id="@+id/contentName"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="EXTRACTOR (Barren)"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headsCounter"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="right"
+        android:text="4 heads"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/productImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/contentName"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <TextView
+        android:id="@+id/productName"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contentName"
+        android:layout_toRightOf="@+id/productImage"
+        android:text="Precious Metals"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/quantityPerCycleLabel"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/productImage"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="Quantity per Cycle:"
+        android:textSize="10sp" />
+
+    <ProgressBar
+        android:id="@+id/cycleProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/cycleTime"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/productName"
+        android:backgroundTint="#40FFFFFF"
+        android:indeterminate="false"
+        android:layoutDirection="ltr"
+        android:max="100"
+        android:min="0"
+        android:progress="35"
+        android:progressTint="#800000A0" />
+
+    <TextView
+        android:id="@+id/cycleTime"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/quantityPerCycle"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/quantityPerCycle"
+        android:layout_toRightOf="@+id/productName"
+        android:text="Cyce timing: 3200/7200 seconds"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/quantityPerCycle"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/quantityPerCycleLabel"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:text="9.123 units"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/timeToCompleteLabel"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quantityPerCycleLabel"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="Time to Complete run:"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/timeToComplete"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/timeToCompleteLabel"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:text="1d 13 hours 23 min 48 secs"
+        android:textSize="12sp" />
+</RelativeLayout>

@@ -1,12 +1,18 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.app.Activity;
@@ -29,6 +35,13 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
+/**
+ * This bastract class has the responsibility to register the Activity upon creation so tis action is not forget
+ * to do at any new Activity. All activities should inherit from this class.
+ * Other functionality is the definition and operation of the application menu.
+ *
+ * @author Adam Antinoo
+ */
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	/**
@@ -76,8 +89,8 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ANeoComPagerActivity () {
-	}
+//	public ANeoComPagerActivity () {
+//	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
@@ -90,7 +103,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	protected void onCreate (@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Register this Activity as the current active Activity.
-		NeoComModelStore.getSingleton().activateActivity(this);
+		NeoComModelStore.activateActivity(this);
 	}
 
 	@Override

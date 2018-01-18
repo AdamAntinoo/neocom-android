@@ -152,12 +152,12 @@ final class Pilot4ListRender extends NeoComRender {
 	// - L A Y O U T   F I E L D S
 	private ImageView nodeIcon = null;
 	private TextView pilotName = null;
-		private TextView	lastKnownLocation				= null;
+	private TextView lastKnownLocation = null;
 	private TextView accountBalance = null;
 	private TextView assetsCount = null;
 
 	// - L A Y O U T   L A B E L S
-		private TextView	lastKnownLocationLabel	= null;
+	private TextView lastKnownLocationLabel = null;
 	private TextView accountBalanceLabel = null;
 	private TextView assetsCountLabel = null;
 
@@ -177,11 +177,11 @@ final class Pilot4ListRender extends NeoComRender {
 		super.initializeViews();
 		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
-				lastKnownLocation = (TextView) _convertView.findViewById(R.id.lastKnownLocation);
+		lastKnownLocation = (TextView) _convertView.findViewById(R.id.lastKnownLocation);
 		accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
 		assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
 
-				lastKnownLocationLabel = (TextView) _convertView.findViewById(R.id.lastKnownLocationLabel);
+		lastKnownLocationLabel = (TextView) _convertView.findViewById(R.id.lastKnownLocationLabel);
 		accountBalanceLabel = (TextView) _convertView.findViewById(R.id.accountBalanceLabel);
 		assetsCountLabel = (TextView) _convertView.findViewById(R.id.assetsCountLabel);
 	}
@@ -189,13 +189,13 @@ final class Pilot4ListRender extends NeoComRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-//		NeoComCharacter pilot = this.getPart().getCastedModel();
+		//		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(getPart().getCastedModel().getName());
 		//		lastKnownLocation.setText(">> " + pilot.getLastKnownLocation());
 
 		accountBalance.setText("- ISK"); // This is the default value.
 		assetsCount.setText("-"); // Set a default value while we get the real from the database.
-//		race.setText("-"); // Set a default value while we get an update from the Character.
+		//		race.setText("-"); // Set a default value while we get an update from the Character.
 		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
 			try {
 				// Obtain the values to be set on the fileds. This second task should be done on the UI thread.
@@ -207,7 +207,7 @@ final class Pilot4ListRender extends NeoComRender {
 							try {
 								accountBalance.setText(walletAmount);
 								assetsCount.setText(assetcount);
-//								race.setText(racename);
+								//								race.setText(racename);
 								if ( null != link ) {
 									if ( null != nodeIcon ) {
 										final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, nodeIcon);
@@ -229,7 +229,7 @@ final class Pilot4ListRender extends NeoComRender {
 	@Override
 	protected void createView () {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+																													.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		_convertView = mInflater.inflate(R.layout.pilotinfo4login, null);
 		_convertView.setTag(this);
 	}
@@ -287,41 +287,41 @@ final class Pilot4HeaderRender extends NeoComRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-//		NeoComCharacter pilot = this.getPart().getCastedModel();
+		//		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(getPart().getCastedModel().getName());
 		pilotIdentifier.setText(getPart().getTCharacterID());
-		lastKnownLocation.setText(">> " + getPart().getCastedModel().getLastKnownLocation());
+		lastKnownLocation.setText(getPart().getCastedModel().getLastKnownLocation().getFullLocation());
 
 		accountBalance.setText("- ISK"); // This is the default value.
 		assetsCount.setText("-"); // Set a default value while we get the real from the database.
 		race.setText("-"); // Set a default value while we get an update from the Character.
-		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
-			try {
-				// Obtain the values to be set on the fields. This second task should be done on the UI thread.
-				final String walletAmount = getPart().getTWalletAmount();
-				final String assetcount = getPart().getTAssetsCount();
-				final String racename = getPart().getTRaceName();
-				final String link = getPart().getURLForAvatar();
-				getContext().runOnUiThread(() -> {
-							try {
-								accountBalance.setText(walletAmount);
-								assetsCount.setText(assetcount);
-								race.setText(racename);
-								if ( null != link ) {
-									if ( null != pilotAvatar ) {
-										final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
-										pilotAvatar.setImageDrawable(draw);
-									}
-								}
-							} catch (RuntimeException rtex) {
-								rtex.printStackTrace();
-							}
-						}
-				);
-			} catch (RuntimeException rtex) {
-				rtex.printStackTrace();
+		//		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
+		//			try {
+		// Obtain the values to be set on the fields. This second task should be done on the UI thread.
+		final String walletAmount = getPart().getTWalletAmount();
+		final String assetcount = getPart().getTAssetsCount();
+		final String racename = getPart().getTRaceName();
+		final String link = getPart().getURLForAvatar();
+		//				getContext().runOnUiThread(() -> {
+		//							try {
+		accountBalance.setText(walletAmount);
+		assetsCount.setText(assetcount);
+		race.setText(racename);
+		if ( null != link ) {
+			if ( null != pilotAvatar ) {
+				final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, pilotAvatar);
+				pilotAvatar.setImageDrawable(draw);
 			}
-		});
+		}
+		//							} catch (RuntimeException rtex) {
+		//								rtex.printStackTrace();
+		//							}
+		//						}
+		//				);
+		//			} catch (RuntimeException rtex) {
+		//				rtex.printStackTrace();
+		//			}
+		//		});
 	}
 
 	@Override

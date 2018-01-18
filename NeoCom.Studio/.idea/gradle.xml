@@ -8,11 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ESISwaggerApi" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core" />
-            <option value="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model/NeoCom.Model" />
+            <option value="$PROJECT_DIR$/../../../Libraries Base/NeoCom-DM 3.0.x/NeoCom-DataMngmt/ESI.SwaggerApi" />
+            <option value="$PROJECT_DIR$/../../../Libraries Base/NeoCom-DM 3.0.x/NeoCom-DataMngmt/NeoCom.Model" />
             <option value="$PROJECT_DIR$/../../../POCProjects/POCDataCloud/ApplicationCloudAdapter" />
             <option value="$PROJECT_DIR$/../../../POCProjects/POCDataCloud/ApplicationCloudAndroidAdapter" />
           </set>

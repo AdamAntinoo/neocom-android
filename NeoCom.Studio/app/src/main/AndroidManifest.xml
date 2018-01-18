@@ -22,7 +22,7 @@
         android:logo="@drawable/neocom_icon"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <!-- S T A R T U P    A C T I V I T Y -->
         <activity
@@ -32,7 +32,8 @@
             android:label="@string/appversionname"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -46,12 +47,13 @@
 
         <activity
             android:name=".activity.LoginListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/nopilot"
             android:label="@string/activity_title_LoginListActivity"
-            android:parentActivityName=".activity.core.SettingsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
-            android:screenOrientation="sensor">
+            android:parentActivityName=".activity.core.SettingsActivity"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -79,7 +81,8 @@
             android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"
             android:icon="@drawable/planets"
             android:label="@string/activity_subtitle_PlanetaryManagerActivity"
-            android:parentActivityName=".activity.LoginListActivity"></activity>
+            android:parentActivityName=".activity.LoginListActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"
             android:icon="@drawable/planets"

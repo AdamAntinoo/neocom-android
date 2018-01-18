@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/nodebase4expand" />
+
+    <TextView
+        android:id="@+id/structureType"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="Comand Center (Barren)"
+        android:textSize="13sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/structureType"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:layout_toRightOf="@+id/nodeIcon">
+
+        <TextView
+            android:id="@+id/fillLevelLabel"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="5dp"
+            android:text="Capacity used:"
+            android:textSize="10sp"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/storageUsedProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/fillLevelNumber"
+            android:layout_toRightOf="@+id/fillLevelLabel"
+            android:backgroundTint="#40FFFFFF"
+            android:indeterminate="false"
+            android:layoutDirection="ltr"
+            android:max="100"
+            android:min="0"
+            android:progress="35"
+            android:progressTint="#800000A0" />
+
+        <TextView
+            android:id="@+id/fillLevelNumber"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="2dp"
+            android:text="35%"
+            android:textSize="10sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/installationsLabel"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/structureType"
+        android:layout_marginRight="2dp"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="Number of Structures:"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/installationsNumber"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:gravity="right"
+        android:text="11"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</RelativeLayout>

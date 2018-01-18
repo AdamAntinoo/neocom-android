@@ -25,9 +25,14 @@ import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.ColonyPart;
+import org.dimensinfin.eveonline.neocom.part.ColonyStructurePart;
+import org.dimensinfin.eveonline.neocom.part.ExtractorPart;
 import org.dimensinfin.eveonline.neocom.part.Location4PlanetaryPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
+import org.dimensinfin.eveonline.neocom.part.StructureWithContentsPart;
 import org.dimensinfin.eveonline.neocom.planetary.Colony;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure.EPlanetaryStructureType;
 
 import java.util.logging.Logger;
 
@@ -75,6 +80,26 @@ public class PlanetaryPartFactory extends PartFactory implements IPartFactory {
 			if ( node instanceof Colony ) {
 				IPart part = new ColonyPart((Colony) node).setFactory(this)
 																									.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof ColonyCoreStructure ) {
+				// Select the right part depending on the struture type.
+				final EPlanetaryStructureType type = ((ColonyCoreStructure) node).getStructureTypeCode();
+				IPart part = null;
+				switch (type) {
+					case COMMAND_CENTER:
+					case LAUNCHPAD:
+					case STORAGE:
+						part = new StructureWithContentsPart((ColonyCoreStructure) node).setFactory(this).setRenderMode(getVariant());
+						break;
+					case EXTRACTOR:
+						// Use the Pin on the passing because I need the Pin fields
+						part = new ExtractorPart((ColonyCoreStructure) node).setFactory(this).setRenderMode(getVariant());
+						break;
+					default:
+						part = new ColonyStructurePart((ColonyCoreStructure) node).setFactory(this).setRenderMode(getVariant());
+						break;
+				}
 				return part;
 			}
 		}

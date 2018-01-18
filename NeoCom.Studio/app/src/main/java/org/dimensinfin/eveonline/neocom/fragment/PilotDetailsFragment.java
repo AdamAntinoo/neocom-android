@@ -11,6 +11,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
+import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.datasource.AbstractGenerator;
@@ -18,15 +20,16 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
-import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.Credential;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
@@ -45,19 +48,19 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private Credential character = null;
+		private final long capsulerrid;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public PilotManagersGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
-			character = NeoComModelStore.getSingleton().activateCredential(Long.valueOf(extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name())).longValue());
+			capsulerrid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 
 		/**
 		 * The collaboration for a Pilot or Corporation on this Activity is the list of Managers that can be applied
-		 * to the Character. So we can move the decission to the place where it better suits that is the Character
+		 * to the Character. So we can move the decision to the place where it better suits that is the Character
 		 * that is already selected. This is performed internally in a recursive way by calling the model
 		 * collaboration depending on the variant.
 		 */
@@ -67,8 +70,13 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 			this.setDataModel(new RootNode());
 
 			// Add to the data model list the Directors that can be used on this character.
-			//			_dataModelRoot.addChild(character.getAssetsManager());
-			_dataModelRoot.addChild(new PlanetaryManager(character));
+			_dataModelRoot.addChild(new Separator().setType(ESeparatorType.LINE_WHITE));
+			_dataModelRoot.addChild(ManagerStore.getAssetsManager(capsulerrid));
+			_dataModelRoot.addChild(ManagerStore.getPlanetaryManager(capsulerrid));
+			// Accelerate the availability of data.
+			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
+				ManagerStore.getPlanetaryManager(capsulerrid).accessAllColonies();
+			});
 			//			_dataModelRoot.addChild(character.getBlueprintsManager());
 
 			AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");

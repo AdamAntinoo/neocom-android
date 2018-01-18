@@ -10,7 +10,7 @@
         android:layout_height="18dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="6dp"
         android:src="@drawable/nopilot" />
 
     <ImageView
@@ -28,7 +28,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignBottom="@+id/pilotIcon"
         android:layout_toRightOf="@+id/pilotIcon"
         android:ellipsize="end"
         android:maxLines="1"
@@ -61,6 +62,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="0dp"
         android:layout_toRightOf="@+id/pilotIcon"
+        android:layout_alignBottom="@+id/activityIcon"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="COLONY STRUCTURE"

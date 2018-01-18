@@ -82,10 +82,10 @@ public class PilotPartFactory extends PartFactory {
 																																	.setRenderMode(ENeoComVariants.CAPSULEER_LIST.name());
 				return part;
 			}
-			if ( node instanceof Separator ) {
-				IPart part = new SeparatorPart((Separator) node).setFactory(this);
-				return part;
-			}
+//			if ( node instanceof Separator ) {
+//				IPart part = new SeparatorPart((Separator) node).setFactory(this);
+//				return part;
+//			}
 		}
 //		if ( this.getVariant() == ENeoComVariants.PILOT_HEADER.name() ) {
 //			if ( node instanceof Pilot ) {
@@ -130,6 +130,10 @@ public class PilotPartFactory extends PartFactory {
 																																			.setRenderMode(this.getVariant());
 				return part;
 			}
+		}
+		if ( node instanceof Separator ) {
+			IPart part = new SeparatorPart((Separator) node).setFactory(this);
+			return part;
 		}
 		// If no part is trapped then call the parent chain until one is found.
 		PilotPartFactory.logger.info("-- [PilotPartFactory.createPart]> calling super implementation to get a part");
