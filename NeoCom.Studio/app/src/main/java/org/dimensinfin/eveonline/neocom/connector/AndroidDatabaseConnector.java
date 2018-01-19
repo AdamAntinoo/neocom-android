@@ -1291,7 +1291,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return staticDatabase;
 	}
 
-	private NeocomAndroidDBHelper getNeocomDBHelper () {
+	public NeocomAndroidDBHelper getNeocomDBHelper () {
 		if ( null == neocomDBHelper ) {
 			AndroidDatabaseConnector.logger.warning(
 					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");

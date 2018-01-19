@@ -14,6 +14,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.WorkerThread;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
@@ -108,6 +111,12 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 		else return null;
 	}
 
+	public Spanned getTLastKnownLocation(){
+		final EveLocation loc = getCastedModel().getLastKnownLocation();
+		double security = Double.valueOf(loc.getSecurity()).doubleValue();
+		String securityFormatted = securityFormatter.format(security);
+		return Html.fromHtml("["+this.generateSecurityColor(security,securityFormatted)+"] "+loc.getRegion()+AppWideConstants.FLOW_ARROW_RIGHT+loc.getSystem());
+	}
 	public String getTCharacterID () {
 		return "[" + Long.valueOf(getCastedModel().getCharacterId()).toString() + "]";
 	}
@@ -290,7 +299,7 @@ final class Pilot4HeaderRender extends NeoComRender {
 		//		NeoComCharacter pilot = this.getPart().getCastedModel();
 		pilotName.setText(getPart().getCastedModel().getName());
 		pilotIdentifier.setText(getPart().getTCharacterID());
-		lastKnownLocation.setText(getPart().getCastedModel().getLastKnownLocation().getFullLocation());
+		lastKnownLocation.setText(getPart().getTLastKnownLocation());
 
 		accountBalance.setText("- ISK"); // This is the default value.
 		assetsCount.setText("-"); // Set a default value while we get the real from the database.

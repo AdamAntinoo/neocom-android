@@ -13,6 +13,7 @@ import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
@@ -109,6 +110,11 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 		if (null == _connector) throw new RuntimeException(
 				"RTEX [GymAppConnector.getDBConnector]> Application connection not defined. Functionality 'getDBConnector' disabled.");
 		return (INeoComDatabase) _connector.getDBConnector();
+	}
+	public INeoComDBHelper getNewDBConnector() {
+		if (null == _connector) throw new RuntimeException(
+				"RTEX [GymAppConnector.getDBConnector]> Application connection not defined. Functionality 'getDBConnector' disabled.");
+		return (INeoComDBHelper) _connector.getDBConnector();
 	}
 
 //	@Override

@@ -43,6 +43,7 @@ import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.planetary.Colony;
+import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.List;
@@ -55,13 +56,13 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 		// - F I E L D - S E C T I O N ............................................................................
 		private final Bundle _extras;
-		private long _characterid = -1;
+		private long characterid = -1;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			_extras = extras;
-			_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -77,7 +78,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 				this.setDataModel(new RootNode());
 
 				// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
-				final PlanetaryManager manager = ManagerStore.getPlanetaryManager(_characterid);
+				final PlanetaryManager manager = ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(characterid));
 				final List<Colony> colonies = manager.accessAllColonies();
 				for (Colony colony : colonies) {
 					_dataModelRoot.addChild(colony);

@@ -42,6 +42,7 @@ import org.dimensinfin.eveonline.neocom.connector.INeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.IStorageConnector;
 import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.network.NetworkManager;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -576,6 +577,12 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 			dbNeocomConnector = new AndroidDatabaseConnector(this);
 		}
 		return dbNeocomConnector;
+	}
+	public NeocomAndroidDBHelper getNewDBConnector () {
+		if ( null == dbNeocomConnector ) {
+			dbNeocomConnector = new AndroidDatabaseConnector(this);
+		}
+		return dbNeocomConnector.getNeocomDBHelper();
 	}
 
 	public Activity getFirstActivity () {

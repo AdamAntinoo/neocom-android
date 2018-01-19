@@ -16,6 +16,8 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
@@ -165,14 +167,16 @@ final class RegionRender extends BaseExpandableRender {
 	public void updateContent () {
 		logger.info(">> [RegionRender.updateContent]");
 		super.updateContent();
-		nodeIcon.setImageDrawable(getDrawable(R.drawable.region));
+		nodeIcon.setImageDrawable(getDrawable(R.drawable.map));
 		name.setText(this.getPart().getName());
 		childCount.setText(this.getPart().getTContentCount());
 
 		// Set this variant labels
 		classLabel.setText("REGION");
 		categoryLabel.setText("LOCATIONS");
-		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
+		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP ) {
+			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
+		} else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
 		_convertView.invalidate();
 		logger.info("<< [RegionRender.updateContent]");
 	}

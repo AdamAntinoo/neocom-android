@@ -31,6 +31,7 @@ import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
+import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -72,10 +73,10 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 			// Add to the data model list the Directors that can be used on this character.
 			_dataModelRoot.addChild(new Separator().setType(ESeparatorType.LINE_WHITE));
 			_dataModelRoot.addChild(ManagerStore.getAssetsManager(capsulerrid));
-			_dataModelRoot.addChild(ManagerStore.getPlanetaryManager(capsulerrid));
+			_dataModelRoot.addChild(ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)));
 			// Accelerate the availability of data.
 			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
-				ManagerStore.getPlanetaryManager(capsulerrid).accessAllColonies();
+				ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)).accessAllColonies();
 			});
 			//			_dataModelRoot.addChild(character.getBlueprintsManager());
 

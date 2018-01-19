@@ -35,7 +35,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
+public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeoComDBHelper{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = Logger.getLogger("NeocomAndroidDBHelper");
 
@@ -66,6 +66,8 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 				                  .getAbsolutePath(),
 				null, new Integer(NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion)).intValue(),
 				R.raw.ormlite_config);
+		// TODO Set this Helper to the new NeoComDatabase.
+//		NeoComDatabase.setImplementer(this);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -85,6 +87,19 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			apiKeysDao = DaoManager.createDao(this.getConnectionSource(), ApiKey.class);
 		}
 		return apiKeysDao;
+	}
+
+	@Override
+	public Dao<Credential, String> getCredentialDao () throws SQLException {
+		if ( null == credentialDao ) {
+			credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
+		}
+		return credentialDao;
+	}
+
+	@Override
+	public Dao<ColonyStorage, String> getColonyStorageDao () throws SQLException {
+		return null;
 	}
 
 	public Dao<NeoComAsset, String> getAssetDAO () throws java.sql.SQLException {
@@ -210,6 +225,23 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper {
 			NeocomAndroidDBHelper.logger.severe("E> Error creating the initial table on the app database.");
 			sqle.printStackTrace();
 		}
+	}
+
+	@Override
+	public int getDatabaseVersion () {
+		return new Integer(NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion)).intValue();
+	}
+
+	@Override
+	public int getStoredVersion () throws SQLException {
+		 		return new Integer(NeoComAppConnector.getSingleton().getResourceString(R.string.databaseversion)).intValue();
+	}
+
+	public void onCreate (final ConnectionSource databaseConnection) {
+	}
+
+	@Override
+	public void onUpgrade (final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
 	}
 
 	@Override
