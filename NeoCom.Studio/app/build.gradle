@@ -24,11 +24,22 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appdatabasefilename", "neocom-test.db"
+            //           buildConfigField 'String', 'appdatabasefilename', 'neocom-test.db'
+//            sourceSets {
+//                main.res.srcDirs += 'androidTest/main/res-testresources'
+//            }
         }
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+//            resValue "string", "appdatabasefilename", "neocom-100.db"
+//            sourceSets {
+//                main.res.srcDirs += 'src/main/res-production'
+//            }
         }
     }
 
@@ -43,6 +54,7 @@ android {
         main.res.srcDirs += 'src/main/res-newrelease'
         main.res.srcDirs += 'src/main/res-obsolete'
         main.res.srcDirs += 'src/main/res-window'
+        main.res.srcDirs += 'src/main/res-production'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

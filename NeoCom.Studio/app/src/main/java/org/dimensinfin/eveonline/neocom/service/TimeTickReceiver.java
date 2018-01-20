@@ -29,7 +29,6 @@ import com.beimin.eveapi.response.eve.StationListResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
 
 import net.nikr.eve.jeveasset.data.Citadel;
 
@@ -44,6 +43,7 @@ import org.dimensinfin.eveonline.neocom.enums.EDataUpdateJobs;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.network.NetworkManager;
@@ -66,6 +66,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -97,7 +98,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	public static class Job {
 		private static final String DEFAULT_REF_VALUE = "-REF-";
 
-		public static String constructReference (final EDataUpdateJobs type, final long identifier){
+		public static String constructReference (final EDataUpdateJobs type, final long identifier) {
 			return new StringBuffer(type.name()).append("/").append(identifier).toString();
 		}
 
@@ -115,9 +116,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		public Job setReference (final String reference) {
-			this.reference = reference;
-			return this;
+		//		private Job setReference (final String reference) {
+		//			this.reference = reference;
+		//			return this;
+		//		}
+
+		public String getReference () {
+			return reference;
 		}
 
 		public Job setCredentialIdentifier (final long identifier) {
@@ -161,17 +166,43 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 * requested.
 	 */
 	//- CLASS IMPLEMENTATION ...................................................................................
-	private static class UpdateJobManager {
+	public static class UpdateJobManager {
 		// - S T A T I C - S E C T I O N ..........................................................................
 		private static final List<Job> jobList = new Vector();
 		private static final ExecutorService downloadExecutor = Executors.newSingleThreadExecutor();
+		public static final Hashtable<String, Future<?>> runningJobs = new Hashtable();
+
+		/**
+		 * Submits the job to out private executor. Store the Future to control job duplicated and to check when the
+		 * job completes. The job reference can be used a primary key to detect job duplicates and collision.
+		 *
+		 * @param newJob the job to update some information.
+		 */
+		public synchronized static void submit (final Job newJob) {
+			try {
+				final String identifier = newJob.getReference();
+				final Future<?> hit = runningJobs.get(identifier);
+				if ( null == hit ) {
+					final Future<?> future = newJob.submit();
+					runningJobs.put(identifier, future);
+				} else {
+					// Check for job completed.
+					if ( hit.isDone() ) {
+						final Future<?> future = newJob.submit();
+						runningJobs.put(identifier, future);
+					}
+				}
+
+			} catch (NeoComException neoe) {
+				neoe.printStackTrace();
+			}
+		}
 
 		// - F I E L D - S E C T I O N ............................................................................
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
@@ -420,10 +451,10 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 			// Now process all the rest of the jobs that where not cleared from the list. That means they had no timestamp.
 			for (EDataUpdateJobs jobName : joblist) {
-//				final TimeStamp newjob = new TimeStamp(jobName.name(),)
-//						.setReference(jobName.name())
-//						.setTimeStamp(0);
-//				doProcessJob(newjob, cred);
+				//				final TimeStamp newjob = new TimeStamp(jobName.name(),)
+				//						.setReference(jobName.name())
+				//						.setTimeStamp(0);
+				//				doProcessJob(newjob, cred);
 			}
 
 			//			if ( null == getDownloadManager()._characterCacheTime ) {
@@ -493,42 +524,47 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 	private void doProcessJob (final TimeStamp job, final Credential credential) {
 		// Calculate job reference to match the job request.
-		final String currentrequestReference = EDataUpdateJobs.CHARACTER_CORE.name() + Long.valueOf(credential.getAccountId()).toString();
+		TimeTickReceiver.logger.info(">> [TimeTickReceiver.doProcessJob]> Job Type: {} - Job credential: {}", job.getReference(), credential.getAccountName());
+		String currentrequestReference = Job.constructReference(EDataUpdateJobs.CHARACTER_CORE, credential.getAccountId());
 		if ( job.getReference() == currentrequestReference ) {
-			// Chech if vlid data time has elapsed.
-//			if ( job.getTimeStamp() < Instant.now().getMillis() ) {
-//				// Submit the job to the manager
-//				final Future<?> newJob = new Job(job)
-//						.setReference(currentrequestReference)
-//						.setCredentialIdentifier(credential.getAccountId())
-//						.setJobClass(EDataUpdateJobs.CHARACTER_CORE)
-//						.setTask(() -> {
-//							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
-//							TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
-//							ModelFactory.udpatePilotV1(credential.getAccountId());
-//							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-//						})
-//						.submit();
-//			}
-
-			ApplicationCloudAdapter.submit2downloadExecutor(() -> {
-			});
+			// Check if valid data time has elapsed.
+			if ( job.getTimeStamp() < Instant.now().getMillis() ) {
+				// Submit the job to the manager
+				final Job newJob = new Job(job)
+						.setCredentialIdentifier(credential.getAccountId())
+						.setJobClass(EDataUpdateJobs.CHARACTER_CORE)
+						.setTask(() -> {
+							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+							TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
+							ModelFactory.udpatePilotV1(credential.getAccountId());
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+						});
+				UpdateJobManager.submit(newJob);
+			}
 		}
-		if ( job.getReference() == EDataUpdateJobs.COLONYDATA.name() ) {
-			if ( job.getTimeStamp() < Instant.now().getMillis() ) ApplicationCloudAdapter.submit2downloadExecutor(() -> {
-				NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
-				TimeTickReceiver.logger.info(
-						"-- [TimeTickReceiver.onReceive]> Downloading Colony list for: [{}]", credential.getAccountName());
-				// Get the list of planet colonies for this credential and update each one on the factory.
-				final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
-				for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
-					TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
-					Colony col = modelMapper.map(colonyOK, Colony.class);
-					TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", colonyOK.getPlanetId());
-					col.create(colonyOK.getPlanetId());
-					NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-				}
-			});
+		currentrequestReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
+		if ( job.getReference() == currentrequestReference ) {
+			if ( job.getTimeStamp() < Instant.now().getMillis() ) {
+				// Submit the job to the manager
+				final Job newJob = new Job(job)
+						.setCredentialIdentifier(credential.getAccountId())
+						.setJobClass(EDataUpdateJobs.COLONYDATA)
+						.setTask(() -> {
+							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+							TimeTickReceiver.logger.info(
+									"-- [TimeTickReceiver.onReceive]> Downloading Colony list for: [{}]", credential.getAccountName());
+							// Get the list of planet colonies for this credential and update each one on the factory.
+							final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
+							for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
+								TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
+								Colony col = modelMapper.map(colonyOK, Colony.class);
+								TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", colonyOK.getPlanetId());
+								col.create(colonyOK.getPlanetId());
+								NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+							}
+						});
+				UpdateJobManager.submit(newJob);
+			}
 		}
 	}
 

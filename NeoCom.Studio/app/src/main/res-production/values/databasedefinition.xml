@@ -3,7 +3,7 @@
 
     <string name="ccpdatabasefilename">eve.db</string>
     <string name="appdatabasepath">jdbc:sqlite:</string>
-    <string name="appdatabasefilename">neocom-100.db</string>
+    <!--<string name="appdatabasefilename">neocom-100.db</string>-->
     <string name="databaseversion">103</string>
     <string name="databasechangeversioncomment_v103">v103 - Updated the structure of the Credentials. Added the ColonyStorage. Added identifier to the timestamp to simplify updates.</string>
     <string name="databasechangeversioncomment_v095">v095 - Added the Credential table to store ESI credentials.</string>
