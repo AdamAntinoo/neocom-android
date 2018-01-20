@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.model.Login;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;

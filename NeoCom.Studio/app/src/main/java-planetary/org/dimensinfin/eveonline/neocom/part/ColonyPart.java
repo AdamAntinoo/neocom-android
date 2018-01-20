@@ -30,7 +30,7 @@ import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
-import org.dimensinfin.eveonline.neocom.planetary.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

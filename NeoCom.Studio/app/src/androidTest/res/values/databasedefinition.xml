@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ccpdatabasefilename">eve.db</string>
+    <string name="appdatabasepath">jdbc:sqlite:</string>
+    <string name="appdatabasefilename">neocom-test.db</string>
+    <string name="databaseversion">103</string>
+    <string name="databasechangeversioncomment_v103">v103 - Updated the structure of the Credentials. Added the ColonyStorage. Added identifier to the timestamp to simplify updates.</string>
+    <string name="databasechangeversioncomment_v095">v095 - Added the Credential table to store ESI credentials.</string>
+    <string name="databasechangeversioncomment_v094">v094 - Chnaged the format for the EveLocation. Table reconstructed.</string>
+    <string name="databasechangeversioncomment_v093">v093 - Changed the type field on the Locations to store the new type texts.</string>
+    <string name="databasechangeversioncomment_v092">v092 - Added a new filed to ApiKey to activate/deactivate keys.</string>
+    <string name="databasechangeversioncomment_v091">v091 - Added the TimeStamp table to control assets download.</string>
+    <string name="databasechangeversioncomment_v090">v090 - Added the new model tables for the Login, Keys and Resources.</string>
+    <string name="databasechangeversioncomment_v081">v081 - Change in the name of the new Assets colum need to drop and recreate that Column.</string>
+    <string name="databasechangeversioncomment_v065">v065 - New column on Asset to store the asset estimated value.</string>
+    <string name="databasechangeversioncomment_v064">v064 - Added a nre table for the locations.</string>
+    <string name="databasechangeversioncomment_v053">v053 - Changed the way Property IDs are generated. Clearing the table to create it back.</string>
+    <string name="databasechangeversioncomment_v052">v052 - Added more calculated fields to the Blueprints.</string>
+    <string name="databasechangeversioncomment_v051">v051 - Added more calculated fields to the Blueprints.</string>
+    <string name="databasechangeversioncomment_v050">v050 - Added the MarketOrders table.</string>
+    <string name="databasechangeversioncomment_v049">v049 - Parent asset converted into an asset identifier. Parent asset download done on access and not on query.</string>
+    <string name="databasechangeversioncomment_v048">v048 - Added back the userLabel to the assets. Needs to drop this table.</string>
+    <string name="databasechangeversioncomment_v047">v047 - The Items and Locations are now extracted from the eve.db so the user databse is no longer needed to be set on the project.</string>
+
+</resources>

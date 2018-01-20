@@ -417,7 +417,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			int hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 			List<EveLocation> locationList = null;
 			try {
-				Dao<EveLocation, String> locationDao = NeoComAppConnector.getSingleton().getDBConnector().getLocationDAO();
+				Dao<EveLocation, String> locationDao = NeoComAppConnector.getSingleton().getDBConnector().getLocationDao();
 				QueryBuilder<EveLocation, String> queryBuilder = locationDao.queryBuilder();
 				Where<EveLocation, String> where = queryBuilder.where();
 				where.eq("id", locationID);

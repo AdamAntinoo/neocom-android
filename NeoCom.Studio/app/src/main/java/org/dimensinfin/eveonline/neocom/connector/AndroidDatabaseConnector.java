@@ -29,14 +29,14 @@ import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
-import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.Property;
-import org.dimensinfin.eveonline.neocom.model.TimeStamp;
+import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
@@ -228,16 +228,16 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return apilist;
 	}
 
-	public Dao<NeoComAsset, String> getAssetDAO () throws SQLException {
-		return this.getNeocomDBHelper().getAssetDAO();
+	public Dao<NeoComAsset, String> getAssetDao () throws SQLException {
+		return this.getNeocomDBHelper().getAssetDao();
 	}
 
-	public Dao<NeoComBlueprint, String> getBlueprintDAO () throws SQLException {
-		return this.getNeocomDBHelper().getBlueprintDAO();
+	public Dao<NeoComBlueprint, String> getBlueprintDao () throws SQLException {
+		return this.getNeocomDBHelper().getBlueprintDao();
 	}
 	@Override
 	public Dao<Credential, String> getCredentialDao () throws SQLException {
-		return this.getNeocomDBHelper().getCredentialDAO();
+		return this.getNeocomDBHelper().getCredentialDao();
 	}
 
 
@@ -249,8 +249,8 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 	//		return this.getNeocomDBHelper().getJobDAO();
 	//	}
 
-	public Dao<EveLocation, String> getLocationDAO () throws SQLException {
-		return this.getNeocomDBHelper().getLocationDAO();
+	public Dao<EveLocation, String> getLocationDao () throws SQLException {
+		return this.getNeocomDBHelper().getLocationDao();
 	}
 
 	//	public Dao<NeoComMarketOrder, String> getMarketOrderDAO() throws SQLException {
@@ -261,8 +261,8 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return this.getNeocomDBHelper().getPlanetaryResourceDao();
 	}
 
-	public Dao<Property, String> getPropertyDAO () throws SQLException {
-		return this.getNeocomDBHelper().getPropertyDAO();
+	public Dao<Property, String> getPropertyDao () throws SQLException {
+		return this.getNeocomDBHelper().getPropertyDao();
 	}
 
 	public Dao<ResourceList, String> getResourceListDao () throws SQLException {
@@ -276,8 +276,8 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return staticDatabase;
 	}
 
-	public Dao<TimeStamp, String> getTimeStampDAO () throws SQLException {
-		return this.getNeocomDBHelper().getTimeStampDAO();
+	public Dao<TimeStamp, String> getTimeStampDao () throws SQLException {
+		return this.getNeocomDBHelper().getTimeStampDao();
 	}
 
 	public Dao<DatabaseVersion, String> getVersionDao () throws SQLException {
@@ -391,7 +391,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> uniqueContainers = new Vector<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder().distinct()
 			                                                         .selectColumns("parentAssetID");
 			Where<NeoComAsset, String> where = queryBuilder.where();
@@ -493,7 +493,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> contents = new Vector<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			//			where.eq("ownerID", identifier);
@@ -518,7 +518,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> contents = new Vector<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			//			where.eq("ownerID", identifier);
@@ -537,7 +537,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Get access to one assets with a distinct location. Discard the rest of the data and only process the Location id
 		List<NeoComAsset> contents = new Vector<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			where.eq("category", "Planetary Commodities");
@@ -656,7 +656,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		try {
 			ModelAppConnector.getSingleton().startChrono();
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			where.eq("ownerID", characterID);
@@ -677,7 +677,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Select assets for the owner and with an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			where.eq("ownerID", characterID);
@@ -698,7 +698,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 			// Select assets for the owner and with an specific type id.
 			List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 			try {
-				Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+				Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 				QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 				Where<NeoComAsset, String> where = queryBuilder.where();
 				where.eq("assetID", assetID);
@@ -719,7 +719,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Select assets for the owner and with an specific type id.
 		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
 		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDAO();
+			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
 			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
 			Where<NeoComAsset, String> where = queryBuilder.where();
 			where.eq("ownerID", characterID);
@@ -1294,7 +1294,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 	public NeocomAndroidDBHelper getNeocomDBHelper () {
 		if ( null == neocomDBHelper ) {
 			AndroidDatabaseConnector.logger.warning(
-					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not found. Creating a new one with default database.");
+					"W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not initialized. Creating new instance from configuration.");
 			neocomDBHelper = OpenHelperManager.getHelper(_context, NeocomAndroidDBHelper.class);
 		}
 		return neocomDBHelper;

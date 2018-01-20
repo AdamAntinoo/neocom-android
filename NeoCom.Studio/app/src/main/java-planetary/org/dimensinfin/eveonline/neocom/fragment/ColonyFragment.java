@@ -42,7 +42,7 @@ import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
-import org.dimensinfin.eveonline.neocom.planetary.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 

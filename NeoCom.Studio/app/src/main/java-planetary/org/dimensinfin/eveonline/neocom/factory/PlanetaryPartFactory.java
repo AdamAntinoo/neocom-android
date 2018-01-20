@@ -30,7 +30,7 @@ import org.dimensinfin.eveonline.neocom.part.ExtractorPart;
 import org.dimensinfin.eveonline.neocom.part.Location4PlanetaryPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
 import org.dimensinfin.eveonline.neocom.part.StructureWithContentsPart;
-import org.dimensinfin.eveonline.neocom.planetary.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure.EPlanetaryStructureType;
 

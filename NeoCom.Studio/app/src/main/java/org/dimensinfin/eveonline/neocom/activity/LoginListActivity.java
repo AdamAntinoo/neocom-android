@@ -29,7 +29,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
-import org.dimensinfin.eveonline.neocom.model.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.joda.time.Instant;
 
 import java.io.IOException;
