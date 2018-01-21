@@ -27,9 +27,9 @@ android {
             versionNameSuffix 'debug'
 
             resValue "string", "appname", "NeoCom"
-            resValue "string", "appversion", "v0.10.3"
-            resValue "string", "appversionname", "NeoCom v0.10.3"
-//            resValue "string", "appversionnumber", "103"
+            resValue "string", "appversion", "v0.10.4"
+            resValue "string", "appversionname", "NeoCom v0.10.4"
+            resValue "string", "appversionnumber", "3"
 
             resValue "string", "appdatabasefilename", "neocom-100.db"
             resValue "string", "databaseversion", "104"

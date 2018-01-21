@@ -58,6 +58,9 @@ public class AppVersionPart extends NeoComAbstractPart {
 		return this.getCastedModel().getAppName();
 	}
 
+	public String getTVersionNumber(){
+return new StringBuffer("v").append(getCastedModel().getAppVersionNumber()).toString();
+	}
 	@Override
 	public String toString () {
 		final StringBuffer buffer = new StringBuffer("AppVersionPart [");
@@ -102,7 +105,7 @@ final class AppVersionRender extends AbstractRender {
 	public void updateContent () {
 		super.updateContent();
 		applicationName.setText(getPart().getCastedModel().getAppName());
-		applicationVersion.setText(getPart().getCastedModel().getAppVersion());
+		applicationVersion.setText(getPart().getTVersionNumber());
 		// During initialization set the background borders to red until completion of the core tasks.
 		_convertView.setBackground(getDrawable(R.drawable.panelborderred));
 	}

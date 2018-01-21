@@ -27,9 +27,9 @@ import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.joda.time.Instant;
 
 import java.io.IOException;
@@ -414,8 +414,10 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	 */
 	protected void onNewIntent (final Intent intent) {
 		super.onNewIntent(intent);
-		final Bundle bun = intent.getBundleExtra(Browser.EXTRA_APPLICATION_ID);
-		handleIntent(this, intent);
+		if ( null != intent ) {
+//			final Bundle bun = intent.getBundleExtra(Browser.EXTRA_APPLICATION_ID);
+			handleIntent(this, intent);
+		}
 	}
 
 	/**
@@ -487,9 +489,9 @@ public class LoginListActivity extends ANeoComPagerActivity {
 												.build())
 								.addInterceptor(chain -> chain.proceed(
 										chain.request()
-												 .newBuilder()
-												 .addHeader("User-Agent", "org.dimensinfin")
-												 .build()));
+										     .newBuilder()
+										     .addHeader("User-Agent", "org.dimensinfin")
+										     .build()));
 				// Verify the character authenticated and create the Credential.
 				logger.info("-- [LoginListActivity.registerInBackground]> Creating character verification.");
 				final VerifyCharacter verificationService = new Builder()
@@ -506,11 +508,11 @@ public class LoginListActivity extends ANeoComPagerActivity {
 					newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential(newAccountIdentifier);
 					credential.setAccountName(verificationResponse.body().getCharacterName())
-										.setAccessToken(token.getAccessToken())
-										.setTokenType(token.getTokenType())
-										.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
-										.setRefreshToken(token.getRefreshToken())
-										.store();
+					          .setAccessToken(token.getAccessToken())
+					          .setTokenType(token.getTokenType())
+					          .setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
+					          .setRefreshToken(token.getRefreshToken())
+					          .store();
 				} else {
 					Toast.makeText(getApplicationContext(), "Character verification failed. " + verificationResponse.message(),
 							Toast.LENGTH_LONG).show();

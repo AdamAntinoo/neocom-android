@@ -706,7 +706,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 				assetList = assetDao.query(preparedQuery);
 				if ( assetList.size() > 0 ) {
 					hit = assetList.get(0);
-					containerCache.put(hit.getAssetID(), hit);
+					containerCache.put(hit.getAssetId(), hit);
 				}
 			} catch (java.sql.SQLException sqle) {
 				sqle.printStackTrace();

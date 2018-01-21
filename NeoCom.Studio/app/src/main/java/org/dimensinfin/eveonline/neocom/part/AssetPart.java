@@ -61,14 +61,15 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	}
 
 	public String getTAssetCategory () {
-		final String assetIdentifier = this.getCastedModel().getAssetID() + "-" + this.getCastedModel().getCategory();
+		final String assetIdentifier = this.getCastedModel().getAssetId() + "-" + this.getCastedModel().getCategory();
 		return assetIdentifier;
 	}
 
 	public Spanned getTAssetInformation () {
 		StringBuffer assetInfo = new StringBuffer();
 		assetInfo.append("<font color='#FFFFFF'>").append("id: ").append("</font>");
-		assetInfo.append("<font color='#A0A0A0'>").append(getCastedModel().getAssetID()).append("</font>").append(AppWideConstants.FLOW_ARROW_RIGHT);
+		assetInfo.append("<font color='#A0A0A0'>").append(getCastedModel().getAssetId()).append("</font>").append
+				(AppWideConstants.FLOW_ARROW_RIGHT);
 		assetInfo.append("<font color='#FFFFFF'>").append("Cat.: ").append("</font>");
 		assetInfo.append("<font color='#0000FF'>").append(getCastedModel().getCategory()).append("</font>").append(AppWideConstants.FLOW_ARROW_RIGHT);
 		assetInfo.append("<font color='#FFFFFF'>").append("Type: ").append("</font>");
@@ -110,7 +111,7 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 
 
 	public long getAssetID () {
-		return this.getCastedModel().getAssetID();
+		return this.getCastedModel().getAssetId();
 	}
 
 	public NeoComAsset getCastedModel () {
@@ -242,7 +243,7 @@ final class AssetRender extends NeoComRender {
 			image.setLayoutParams(lp);
 		}
 
-		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeID());
+		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeId());
 		logger.info("-- [AssetRender.updateContent]> Rendering time: "+chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 	}
 

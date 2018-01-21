@@ -1,0 +1,337 @@
+
+01/21 18:36:19: Launching app
+$ adb push D:\Development\Applications Android\Neocom 0.10.x\NeoCom.Studio\app\build\outputs\apk\debug\NeoCom.Android-debug.apk /data/local/tmp/org.dimensinfin.eveonline.neocom.debug
+$ adb shell pm install -t -r "/data/local/tmp/org.dimensinfin.eveonline.neocom.debug"
+	pkg: /data/local/tmp/org.dimensinfin.eveonline.neocom.debug
+Success
+
+
+$ adb shell am start -n "org.dimensinfin.eveonline.neocom.debug/org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -D
+Waiting for application to come online: org.dimensinfin.eveonline.neocom.debug | org.dimensinfin.eveonline.neocom.test
+Waiting for application to come online: org.dimensinfin.eveonline.neocom.debug | org.dimensinfin.eveonline.neocom.test
+Connecting to org.dimensinfin.eveonline.neocom.debug
+Connected to the target VM, address: 'localhost:8600', transport: 'socket'
+Capturing and displaying logcat messages from application. This behavior can be disabled in the "Logcat output" section of the "Debugger" settings page.
+I/art: Late-enabling -Xcheck:jni
+W/ResourceType: Found multiple library tables, ignoring...
+W/ResourceType: Found multiple library tables, ignoring...
+W/ActivityThread: Application org.dimensinfin.eveonline.neocom.debug is waiting for the debugger on port 8100...
+I/System.out: Sending WAIT chunk
+I/art: Debugger is active
+I/System.out: Debugger has connected
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: debugger has settled (1455)
+I/art: Explicit concurrent mark sweep GC freed 1664(123KB) AllocSpace objects, 0(0B) LOS objects, 40% free, 10MB/18MB, paused 7.263ms total 35.217ms
+I/art: Counter: 1
+W/linker: libsupportjni.so: unused DT entry: type 0x6ffffffe arg 0xdbb4
+W/linker: libsupportjni.so: unused DT entry: type 0x6fffffff arg 0x2
+E/StudioProfiler: Studio Profilers encountered an unexpected error. Consider reporting a bug, including logcat output below.
+                  See also: https://developer.android.com/studio/report-bugs.html#studio-bugs
+
+                  Failed to capture application
+I/NeoComApp: >> [NeoComApp.onCreate]
+V/StudioProfiler: Acquiring Application for Events
+W/nAnnotationIntrospector: Unable to load JDK7 annotation types; will have to skip
+I/NeoComApp: << [NeoComApp.onCreate]
+I/NeoComSplashActivity: >> [NeoComSplashActivity.onCreate]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.onCreate]
+I/AbstractPagerActivity: << [AbstractPagerActivity.onCreate]
+I/NeoComModelStore: >> [AppModelStore.initialize]
+I/NeoComModelStore: << [AppModelStore.initialize]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+I/NeoComSplashActivity: << [NeoComSplashActivity.onCreate]
+I/NeoComSplashActivity: >> [NeoComSplashActivity.onStart]
+I/NeoComSplashActivity: << [NeoComSplashActivity.onStart]
+D/OpenGLRenderer: Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+D/Atlas: Validating map...
+I/AbstractPagerFragment: >> [SplashTasksFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateViewSuper]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateViewSuper]
+I/AbstractPagerFragment: >> [SplashTasksFragment.createFactory]
+I/AbstractPagerFragment: << [SplashTasksFragment.createFactory]
+I/AbstractPagerFragment: >> [SplashTasksFragment.registerDataSource]
+I/ModelGeneratorStore: -- [ModelGeneratorStore.registerGenerator]> Registering new Generator: SPLASH_SCREEN/
+I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class
+I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Using variant: SPLASH_SCREEN
+I/AbstractPagerFragment: << [SplashTasksFragment.registerDataSource]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 1	,[[AppVersion [NeoCom v0.10.3 ]]] org.dimensinfin.core.model.RootNode@36a34ec3 ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [AppVersion [NeoCom v0.10.3 ]]
+I/PartFactory: >< [SplashPartFactory.createPart]> Node class: AppVersion
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: AppVersionPart [AppVersion [NeoCom v0.10.3 ]]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: AppVersion [NeoCom v0.10.3 ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 1
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 1
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/AbstractPagerFragment: >> [AbstractPagerFragment.addtoHeader]
+I/AbstractPagerFragment: << [AbstractPagerFragment.addtoHeader]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: << [SplashTasksFragment.onCreateView]
+I/AbstractPagerFragment: >> [NeoComInitialization.doInBackground]
+I/AbstractPagerFragment: >> [NeoComInitialization.doStep01]
+I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 01. App Directories created
+I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 02. Required files on place
+I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 03. Loading available credentials.
+I/*taManagementModelStore: >> [AppModelStore.initialize]
+I/*taManagementModelStore: << [AppModelStore.initialize]
+I/NeoComDatabase: >> [NeoComDatabase.accessAllLogins]
+W/ndroidDatabaseConnector: W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not initialized. Creating new instance from configuration.
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+I/AbstractPagerFragment: >> [AbstractPagerFragment.addViewtoHeader]
+I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}/storage/emulated/0/NeoCom/neocom-100.db
+I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}104
+W/FileUtils: Failed to chmod(/storage/emulated/0/NeoCom/neocom-100.db): android.system.ErrnoException: chmod failed: EPERM (Operation not permitted)
+I/NeocomAndroidDBHelper: >> [NeocomAndroidDBHelper.onUpgrade]
+I/AbstractPagerFragment: << AbstractPagerFragment.addViewtoHeader
+I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+I/Adreno-EGL: <qeglDrvAPI_eglInitialize:410>: EGL 1.4 QUALCOMM build: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020_msm8960_LA.AF.1.1_RB1__release_AU ()
+              OpenGL ES Shader Compiler Version: E031.25.03.06
+              Build Date: 05/22/15 Fri
+              Local Branch: mybranch10237523
+              Remote Branch: quic/LA.AF.1.1_rb1.18
+              Local Patches: NONE
+              Reconstruct Branch: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020 + 9b2699f + 2215637 + 60aa592 + f2362e6 + 5c64f59 + 82411a1 + 89a0db6 + 6151be1 +  NOTHING
+I/OpenGLRenderer: Initialized EGL, version 1.4
+D/OpenGLRenderer: Enabling debug mode 0
+I/Choreographer: Skipped 10962 frames!  The application may be doing too much work on its main thread.
+V/RenderScript: 0xb76f5fc0 Launching thread(s), CPUs 4
+I/Timeline: Timeline: Activity_idle id: android.os.BinderProxy@32dc3ff5 time:62861241
+I/TableUtils: dropping table 'ApiKey'
+I/TableUtils: executed drop table statement changed 0 rows: DROP TABLE `ApiKey` 
+I/TableUtils: dropping table 'Credential'
+I/TableUtils: dropping index 'Credential_accountId_idx' for table 'Credential
+E/SQLiteLog: (1) no such index: Credential_accountId_idx
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP INDEX `Credential_accountId_idx`' for statement: DROP INDEX `Credential_accountId_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP TABLE `Credential` 
+I/TableUtils: dropping table 'TimeStamp'
+I/TableUtils: dropping index 'TimeStamp_credentialId_idx' for table 'TimeStamp
+I/TableUtils: dropping index 'TimeStamp_reference_idx' for table 'TimeStamp
+E/SQLiteLog: (1) no such index: TimeStamp_credentialId_idx
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP INDEX `TimeStamp_credentialId_idx`' for statement: DROP INDEX `TimeStamp_credentialId_idx`
+E/SQLiteLog: (1) no such index: TimeStamp_reference_idx
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP INDEX `TimeStamp_reference_idx`' for statement: DROP INDEX `TimeStamp_reference_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP TABLE `TimeStamp` 
+I/TableUtils: dropping table 'Colony'
+I/TableUtils: dropping index 'Colony_solarSystemId_idx' for table 'Colony
+I/TableUtils: dropping index 'Colony_planetId_idx' for table 'Colony
+E/SQLiteLog: (1) no such index: Colony_solarSystemId_idx
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP INDEX `Colony_solarSystemId_idx`' for statement: DROP INDEX `Colony_solarSystemId_idx`
+E/SQLiteLog: (1) no such index: Colony_planetId_idx
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP INDEX `Colony_planetId_idx`' for statement: DROP INDEX `Colony_planetId_idx`
+E/SQLiteLog: (1) no such table: Colony
+I/TableUtils: ignoring drop error 'java.sql.SQLException: Problems executing runExecute Android statement: DROP TABLE `Colony` ' for statement: DROP TABLE `Colony` 
+I/TableUtils: dropping table 'Assets'
+I/TableUtils: dropping index 'Assets_typeId_idx' for table 'Assets
+I/TableUtils: dropping index 'Assets_locationId_idx' for table 'Assets
+I/TableUtils: dropping index 'Assets_category_idx' for table 'Assets
+I/TableUtils: dropping index 'Assets_assetId_idx' for table 'Assets
+I/TableUtils: dropping index 'Assets_groupName_idx' for table 'Assets
+I/TableUtils: executed drop table statement changed 0 rows: DROP INDEX `Assets_typeId_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP INDEX `Assets_locationId_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP INDEX `Assets_category_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP INDEX `Assets_assetId_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP INDEX `Assets_groupName_idx`
+I/TableUtils: executed drop table statement changed 0 rows: DROP TABLE `Assets` 
+I/NeocomAndroidDBHelper: >> [NeocomAndroidDBHelper.onCreate]
+I/TableUtils: creating table 'Version'
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Version` (`versionNumber` INTEGER , PRIMARY KEY (`versionNumber`) ) 
+I/TableUtils: creating table 'ApiKey'
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `ApiKey` (`active` SMALLINT , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `keynumber` INTEGER , `login` VARCHAR , `validationcode` VARCHAR ) 
+I/TableUtils: creating table 'Credential'
+I/TableUtils: creating index 'Credential_accountId_idx' for table 'Credential
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Credential` (`accessToken` VARCHAR , `accountId` INTEGER , `accountName` VARCHAR , `active` SMALLINT , `expires` BIGINT , `keycode` INTEGER , `refreshToken` TEXT , `tokenType` VARCHAR , `validationcode` VARCHAR , PRIMARY KEY (`accountId`) ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Credential_accountId_idx` ON `Credential` ( `accountId` )
+I/TableUtils: creating table 'TimeStamp'
+I/TableUtils: creating index 'TimeStamp_credentialId_idx' for table 'TimeStamp
+I/TableUtils: creating index 'TimeStamp_reference_idx' for table 'TimeStamp
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `TimeStamp` (`credentialId` BIGINT , `dateTimeUserReference` VARCHAR , `reference` VARCHAR , `timeStamp` BIGINT , PRIMARY KEY (`reference`) ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `TimeStamp_credentialId_idx` ON `TimeStamp` ( `credentialId` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `TimeStamp_reference_idx` ON `TimeStamp` ( `reference` )
+I/TableUtils: creating table 'ColonyStorage'
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `ColonyStorage` (`colonySerialization` BLOB , `planetIdentifier` INTEGER , PRIMARY KEY (`planetIdentifier`) ) 
+I/TableUtils: creating table 'Locations'
+I/TableUtils: creating index 'Locations_id_idx' for table 'Locations
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Locations` (`constellation` VARCHAR , `constellationID` BIGINT , `id` BIGINT , `region` VARCHAR , `regionID` BIGINT , `security` VARCHAR , `station` VARCHAR , `stationID` BIGINT , `system` VARCHAR , `systemID` BIGINT , `typeID` VARCHAR , PRIMARY KEY (`id`) ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Locations_id_idx` ON `Locations` ( `id` )
+I/TableUtils: creating table 'Assets'
+I/TableUtils: creating index 'Assets_typeId_idx' for table 'Assets
+I/TableUtils: creating index 'Assets_locationId_idx' for table 'Assets
+I/TableUtils: creating index 'Assets_category_idx' for table 'Assets
+I/TableUtils: creating index 'Assets_assetId_idx' for table 'Assets
+I/TableUtils: creating index 'Assets_groupName_idx' for table 'Assets
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Assets` (`assetId` BIGINT , `blueprintFlag` SMALLINT , `category` VARCHAR , `containerFlag` SMALLINT , `groupName` VARCHAR , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `isSingleton` SMALLINT , `iskValue` DOUBLE PRECISION , `locationFlag` VARCHAR , `locationId` BIGINT , `locationType` VARCHAR , `name` VARCHAR , `ownerID` BIGINT , `parentAssetID` BIGINT , `quantity` INTEGER , `shipFlag` SMALLINT , `tech` VARCHAR , `typeId` INTEGER , `userLabel` VARCHAR ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Assets_typeId_idx` ON `Assets` ( `typeId` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Assets_locationId_idx` ON `Assets` ( `locationId` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Assets_category_idx` ON `Assets` ( `category` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Assets_assetId_idx` ON `Assets` ( `assetId` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Assets_groupName_idx` ON `Assets` ( `groupName` )
+I/TableUtils: creating table 'Blueprints'
+I/TableUtils: creating index 'Blueprints_typeID_idx' for table 'Blueprints
+I/TableUtils: creating index 'Blueprints_containerID_idx' for table 'Blueprints
+I/TableUtils: creating index 'Blueprints_assetID_idx' for table 'Blueprints
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Blueprints` (`assetID` BIGINT , `bpo` SMALLINT , `containerID` BIGINT , `flag` INTEGER , `id` INTEGER PRIMARY KEY AUTOINCREMENT , `inventionIndex` INTEGER , `jobProductionCost` DOUBLE PRECISION , `manufacturableCount` INTEGER , `manufactureIndex` INTEGER , `materialEfficiency` INTEGER , `moduleTypeID` INTEGER , `ownerID` BIGINT , `packaged` SMALLINT , `quantity` INTEGER , `runs` INTEGER , `stackIDRefences` VARCHAR , `tech` VARCHAR , `timeEfficiency` INTEGER , `typeID` INTEGER , `typeName` VARCHAR ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Blueprints_typeID_idx` ON `Blueprints` ( `typeID` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Blueprints_containerID_idx` ON `Blueprints` ( `containerID` )
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Blueprints_assetID_idx` ON `Blueprints` ( `assetID` )
+I/TableUtils: creating table 'PlanetaryResource'
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `PlanetaryResource` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `name` VARCHAR , `ownerList_id` INTEGER , `quantity` DOUBLE PRECISION , `typeid` INTEGER ) 
+I/TableUtils: creating table 'Properties'
+I/TableUtils: creating index 'Properties_id_idx' for table 'Properties
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `Properties` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `numericValue` DOUBLE PRECISION , `ownerID` BIGINT , `propertyType` VARCHAR , `stringValue` VARCHAR ) 
+I/TableUtils: executed create table statement changed 0 rows: CREATE INDEX IF NOT EXISTS `Properties_id_idx` ON `Properties` ( `id` )
+I/TableUtils: creating table 'ResourceList'
+I/TableUtils: executed create table statement changed 0 rows: CREATE TABLE IF NOT EXISTS `ResourceList` (`id` INTEGER PRIMARY KEY AUTOINCREMENT , `name` VARCHAR ) 
+I/NeocomAndroidDBHelper: >> [NeocomAndroidDBHelper.loadSeedData]
+I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.loadSeedData]> Loading DatabaseVersion
+I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.loadSeedData]> DatabaseVersion records: 1
+I/NeocomAndroidDBHelper: << [NeocomAndroidDBHelper.loadSeedData]
+I/NeocomAndroidDBHelper: << [NeocomAndroidDBHelper.onCreate]
+I/NeocomAndroidDBHelper: << [NeocomAndroidDBHelper.onUpgrade]
+I/NeoComDatabase: << [NeoComDatabase.accessAllLogins]
+I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 04. Checking if background timer service should be activated.
+I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 04. blockBackgroundTimer: false
+I/AbstractPagerFragment: << [NeoComInitialization.doInBackground]
+I/Timeline: Timeline: Activity_launch_request id:org.dimensinfin.eveonline.neocom.debug time:63000648
+I/AbstractPagerFragment: >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 0
+I/SpecialDataSource: >< [SpecialDataSource.collaborate2Model]
+I/AbstractGenerator: >> [InitializationGenerator.collaborate2Model]
+I/AbstractGenerator: << [InitializationGenerator.collaborate2Model]> nodes: 3
+I/SpecialDataSource: >> [SpecialDataSource.createContentHierarchy]
+I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 3	,[[NeoComNode [ ], NeoComNode [ ], NeoComNode [ ]]] org.dimensinfin.core.model.RootNode@7bc5551 ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [NeoComNode [ ], NeoComNode [ ], NeoComNode [ ]]
+I/AbstractPagerActivity: >> [LoginListActivity.onCreate]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.onCreate]
+I/PartFactory: >< [SplashPartFactory.createPart]> Node class: RunnableTask
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[RunnableTask]-  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[RunnableTask]-  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: >< [SplashPartFactory.createPart]> Node class: RunnableTask
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[RunnableTask]-  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[RunnableTask]-  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: >< [SplashPartFactory.createPart]> Node class: InitializationTask
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[InitializationTask]-  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[InitializationTask]-  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 3
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 3
+I/SpecialDataSource: << [SpecialDataSource.createContentHierarchy]
+I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 3
+I/AbstractPagerFragment: << [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: 0m 00s
+I/AbstractPagerActivity: << [AbstractPagerActivity.onCreate]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: << [LoginListActivity.onCreate]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateViewSuper]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateViewSuper]
+I/AbstractPagerFragment: >> [LoginListFragment.registerDataSource]
+I/ModelGeneratorStore: -- [ModelGeneratorStore.registerGenerator]> Registering new Generator: CAPSULEER_LIST/
+I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class
+I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Using variant: CAPSULEER_LIST
+I/AbstractPagerFragment: << [LoginListFragment.registerDataSource]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 0
+I/SpecialDataSource: >< [SpecialDataSource.collaborate2Model]
+I/AbstractGenerator: >> [LoginListGenerator.collaborate2Model]
+I/NeoComDatabase: >> [NeoComDatabase.accessAllLogins]
+I/NeoComDatabase: << [NeoComDatabase.accessAllLogins]
+I/AbstractPagerFragment: >> [CreatePartsTask.onPostExecute]
+I/AbstractPagerFragment: << [CreatePartsTask.onPostExecute]
+I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [0] - SeparatorPart-Rendering time: 0s.030
+I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [1] - SeparatorPart-Rendering time: 0s.018
+I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [2] - SeparatorPart-Rendering time: 0s.018
+I/Timeline: Timeline: Activity_idle id: android.os.BinderProxy@14c65bfd time:63001856
+I/AbstractGenerator: << [LoginListGenerator.collaborate2Model]
+I/SpecialDataSource: >> [SpecialDataSource.createContentHierarchy]
+I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 2	,[[Separator [-TITLE-  ], NewLoginAction [name:-CHARACTER NAME- ]]] org.dimensinfin.core.model.RootNode@22261a4c ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Separator [-TITLE-  ], NewLoginAction [name:-CHARACTER NAME- ]]
+I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.core.model.Separator
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-TITLE-  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-TITLE-  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.NewLoginAction
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: NewLoginActionPart [NewLoginAction [name:-CHARACTER NAME- ]]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: NewLoginAction [name:-CHARACTER NAME- ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 2
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 2
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 2
+I/SpecialDataSource: << [SpecialDataSource.createContentHierarchy]
+I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 2
+I/AbstractPagerFragment: << [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: 0m 00s
+I/AbstractPagerFragment: >> [CreatePartsTask.onPostExecute]
+I/AbstractPagerFragment: << [CreatePartsTask.onPostExecute]
+I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [0] - SeparatorPart-Rendering time: 0s.023
+I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [1] - NewLoginActionPart-Rendering time: 0s.179
+I/NeoComAbstractPart: >> [NewLoginActionPart.onClick]
+I/NeoComAbstractPart: << [NewLoginActionPart.onClick]
+I/art: Thread[5,tid=7493,WaitingInMainSignalCatcherLoop,Thread*=0xb742e6c8,peer=0x32c080a0,"Signal Catcher"]: reacting to signal 3
+I/art: Wrote mini stack traces to '/data/anr/traces.txt.mini'
+I/art: Wrote stack traces to '/data/anr/traces.txt'
+I/TimeTickReceiver: >> [TimeTickReceiver.onReceive]
+Disconnected from the target VM, address: 'localhost:8600', transport: 'socket'
