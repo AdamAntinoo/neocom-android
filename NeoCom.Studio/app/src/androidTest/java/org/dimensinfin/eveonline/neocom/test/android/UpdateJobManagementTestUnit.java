@@ -21,7 +21,6 @@ import junit.framework.Assert;
 
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.core.util.Chrono.ChonoOptions;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
@@ -110,7 +109,7 @@ public class UpdateJobManagementTestUnit extends NeoComCoreTestEngine {
 
 	public Credential credentialUsageTest () throws Exception {
 		logger.info(">> [UpdateJobManagementTestUnit.credentialUsageTest]");
-		final long accountIdentifier = 325476;
+		final int accountIdentifier = 325476;
 		// Check minimal Credential state.
 		final Credential credentialMinimum = new Credential(accountIdentifier);
 		Assert.assertEquals("> Testing time point after writing: ", false, credentialMinimum.isXMLCompatible());
@@ -162,7 +161,7 @@ public class UpdateJobManagementTestUnit extends NeoComCoreTestEngine {
 	}
 
 	@Test
-	public void colonyStoreUsetest () throws Exception {
+	public void colonyStoreUseTest () throws Exception {
 		final Credential credential = credentialUsageTest();
 		logger.info(
 				"-- [TimeTickReceiver.onReceive]> Downloading Colony list for: [{}]", credential.getAccountName());
@@ -173,7 +172,7 @@ public class UpdateJobManagementTestUnit extends NeoComCoreTestEngine {
 			Colony col = modelMapper.map(colonyOK, Colony.class);
 			logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", colonyOK.getPlanetId());
 			col.create(colonyOK.getPlanetId());
-			NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+//			NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 		}
 	}
 

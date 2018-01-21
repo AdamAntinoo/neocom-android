@@ -44,6 +44,7 @@ import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
+import org.dimensinfin.eveonline.neocom.manager.DownloadManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
 import org.dimensinfin.eveonline.neocom.network.NetworkManager;
@@ -86,7 +87,7 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * This class is a one minute timer activated at startup. It will search for data obsolete and fire the
- * services required to update that data by downloading new CCP api calls.<br>
+ * services required to update that data by downloading from CCP servers using the required API calls.<br>
  * There are two sets of services, one for character data and the other for market data that have quite
  * different mechanics. All data updates the background counters that inform the user that some background
  * services are active and the number of elements on their queues.
@@ -180,19 +181,21 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		 */
 		public synchronized static void submit (final Job newJob) {
 			try {
+				// Search for the job to detect duplications
 				final String identifier = newJob.getReference();
 				final Future<?> hit = runningJobs.get(identifier);
 				if ( null == hit ) {
+					// New job. Launch it and store the reference.
 					final Future<?> future = newJob.submit();
 					runningJobs.put(identifier, future);
 				} else {
 					// Check for job completed.
 					if ( hit.isDone() ) {
+						// The job with this same reference has completed. We can launch a new one.
 						final Future<?> future = newJob.submit();
 						runningJobs.put(identifier, future);
 					}
 				}
-
 			} catch (NeoComException neoe) {
 				neoe.printStackTrace();
 			}
@@ -406,12 +409,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			for (PendingRequestEntry entry : requests)
 				if ( entry.state == ERequestState.PENDING ) {
 					// Filter only MARKETDATA requests.
-					if ( entry.reqClass == ERequestClass.MARKETDATA )
-						if ( limit <= TimeTickReceiver.LAUNCH_LIMIT ) if ( this.blockedMarket() ) {
-							continue;
-						} else {
+					if ( entry.reqClass == ERequestClass.MARKETDATA ) {
+						if ( this.blockedMarket() ) continue;
+						if ( limit <= TimeTickReceiver.LAUNCH_LIMIT ) {
 							this.launchMarketUpdate(entry);
 						}
+					}
 					// Filter the rest of the character data to be updated
 					if ( entry.reqClass == ERequestClass.CHARACTERUPDATE ) {
 						this.launchCharacterDataUpdate(entry);
@@ -430,112 +433,65 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check Credentials for pending data to update.
+		TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Accessing credentials to search for obsolete data.");
 		final List<Credential> credentialList = DataManagementModelStore.accessCredentialList();
 		for (Credential cred : credentialList) {
 			// Get the list of timestamps pending for this Credential.
 			final List<TimeStamp> stamps = cred.needsUpdate();
+			TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Received {} timestamps.", stamps.size());
 			// Not all timestamps should have to be defined so scan them and remove from the list all the ones processed.
 			final ArrayList<EDataUpdateJobs> joblist = new ArrayList<>();
 			joblist.add(EDataUpdateJobs.CHARACTER_CORE);
 			//			joblist.add(EDataUpdateJobs.CHARACTER_FULL);
 			joblist.add(EDataUpdateJobs.ASSETDATA);
-			joblist.add(EDataUpdateJobs.BLUEPRINTDATA);
+			//		joblist.add(EDataUpdateJobs.BLUEPRINTDATA);
 			//			joblist.add(EDataUpdateJobs.INDUSTRYJOBS);
 			//			joblist.add(EDataUpdateJobs.MARKETORDERS);
 			joblist.add(EDataUpdateJobs.COLONYDATA);
 			//			joblist.add(EDataUpdateJobs.SKILL_DATA);
+
 			for (TimeStamp job : stamps) {
 				doProcessJob(job, cred);
-				joblist.remove(EDataUpdateJobs.CHARACTER_CORE);
+				//				joblist.remove(EDataUpdateJobs.CHARACTER_CORE);
 			}
 
 			// Now process all the rest of the jobs that where not cleared from the list. That means they had no timestamp.
 			for (EDataUpdateJobs jobName : joblist) {
-				//				final TimeStamp newjob = new TimeStamp(jobName.name(),)
-				//						.setReference(jobName.name())
-				//						.setTimeStamp(0);
-				//				doProcessJob(newjob, cred);
+				final String reference = Job.constructReference(jobName, cred.getAccountId());
+				TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Generating job request for {}.", reference);
+				final TimeStamp newjob = new TimeStamp(jobName.name(), Instant.now())
+						.setCredentialId(cred.getAccountId());
+				doProcessJob(newjob, cred);
 			}
-
-			//			if ( null == getDownloadManager()._characterCacheTime ) {
-			//				try {
-			//					// Get access to the database record for this Character cache time stamp.
-			//					final String reference = this.getCharacterID() + ".CHARACTERDATA";
-			//					getDownloadManager()._characterCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
-			//					if ( null == getDownloadManager()._characterCacheTime ) return EDataUpdateJobs.CHARACTERDATA;
-			//				} catch (final SQLException sqle) {
-			//					return EDataUpdateJobs.CHARACTERDATA;
-			//				}
-			//			}
-			//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._characterCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
-			//				return EDataUpdateJobs.CHARACTERDATA;
-			//			// Check for asset cached time.
-			//			if ( null == getDownloadManager()._assetsCacheTime ) {
-			//				try {
-			//					// Get access to the database record for this Character cache time stamp.
-			//					final String reference = this.getCharacterID() + ".ASSETDATA";
-			//					getDownloadManager()._assetsCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
-			//					if ( null == getDownloadManager()._assetsCacheTime ) return EDataUpdateJobs.ASSETDATA;
-			//				} catch (final SQLException sqle) {
-			//					return EDataUpdateJobs.ASSETDATA;
-			//				}
-			//			}
-			//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._assetsCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
-			//				return EDataUpdateJobs.ASSETDATA;
-			//			// Check for blueprints cached time.
-			//			if ( null == getDownloadManager()._blueprintsCacheTime ) {
-			//				try {
-			//					// Get access to the database record for this Character cache time stamp.
-			//					final String reference = this.getCharacterID() + ".BLUEPRINTDATA";
-			//					getDownloadManager()._blueprintsCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
-			//					if ( null == getDownloadManager()._blueprintsCacheTime ) return EDataUpdateJobs.BLUEPRINTDATA;
-			//				} catch (final SQLException sqle) {
-			//					return EDataUpdateJobs.BLUEPRINTDATA;
-			//				}
-			//			}
-			//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._blueprintsCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
-			//				return EDataUpdateJobs.BLUEPRINTDATA;
-			//
-			//			// If not returned before we have nothing to update
-			//			return EDataUpdateJobs.READY;
+			//[01]
 		}
-		// TODO At this point we require a method to get a Character instance from the matching Credential.
-		//		Set<NeoComCharacter> characters = NeoComModelStore.getSingleton().accessCharacterList();
-		//		for (NeoComCharacter eveChar : characters) {
-		//			EDataUpdateJobs updateCode = eveChar.needsUpdate();
-		//			if ( updateCode != EDataUpdateJobs.READY ) {
-		//				TimeTickReceiver.logger
-		//						.info("-- [TimeTickReceiver.onReceive] EDataUpdateJobs to update: " + eveChar.getName() + " - " + updateCode);
-		//				NeoComApp.getSingletonApp().getCacheConnector().addCharacterUpdateRequest(eveChar.getCharacterID());
-		//			}
-		//		}
-		//		Activity activity = NeoComModelStore.getSingleton().getActivity();
-		//		if ( null != activity ) {
-		//			activity.runOnUiThread(new Runnable() {
-		//				public void run () {
-		//					NeoComApp.updateProgressSpinner();
-		//				}
-		//			});
-		//		}
-		// TODO ------------------------------------------------
-		TimeTickReceiver.logger.info("<< TimeTickReceiver.onReceive [" + requests.size() + " - " + NeoComApp.marketCounter
-				+ "/" + NeoComApp.topCounter + "]");
+		TimeTickReceiver.logger.info("<< TimeTickReceiver.onReceive [{} - {}/{}]", requests.size(), NeoComApp.marketCounter, NeoComApp.topCounter);
 	}
 
-	private void doProcessJob (final TimeStamp job, final Credential credential) {
+	/**
+	 * With the TS and the Credential check id the data is still valid. If the timestamp has elapsed then we should
+	 * request the launch of the job. It is possible that this has been detected also on previous iterations but the
+	 * Manager filter should remove the duplication of jobs.
+	 * @param dataIdentifier the time stamp and reference identifier for the job to launch.
+	 * @param credential the credential to use during the update.
+	 */
+	private void doProcessJob (final TimeStamp dataIdentifier, final Credential credential) {
 		// Calculate job reference to match the job request.
-		TimeTickReceiver.logger.info(">> [TimeTickReceiver.doProcessJob]> Job Type: {} - Job credential: {}", job.getReference(), credential.getAccountName());
+		TimeTickReceiver.logger.info(">> [TimeTickReceiver.doProcessJob]> Job Type: {} - Job credential: {}"
+				, dataIdentifier.getReference()
+				, credential.getAccountName());
 		String currentrequestReference = Job.constructReference(EDataUpdateJobs.CHARACTER_CORE, credential.getAccountId());
-		if ( job.getReference() == currentrequestReference ) {
+		// Check that the request is a COLONY_DATA update request.
+		if ( dataIdentifier.getReference() == currentrequestReference ) {
 			// Check if valid data time has elapsed.
-			if ( job.getTimeStamp() < Instant.now().getMillis() ) {
+			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
-				final Job newJob = new Job(job)
+				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
 						.setJobClass(EDataUpdateJobs.CHARACTER_CORE)
 						.setTask(() -> {
 							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
-							TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
+							TimeTickReceiver.logger.info("-- [Job.CHARACTER_CORE]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
 							ModelFactory.udpatePilotV1(credential.getAccountId());
 							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 						});
@@ -543,25 +499,49 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			}
 		}
 		currentrequestReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
-		if ( job.getReference() == currentrequestReference ) {
-			if ( job.getTimeStamp() < Instant.now().getMillis() ) {
+		// Check that the request is a COLONYDATA update request.
+		if ( dataIdentifier.getReference() == currentrequestReference ) {
+			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
-				final Job newJob = new Job(job)
+				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
 						.setJobClass(EDataUpdateJobs.COLONYDATA)
 						.setTask(() -> {
 							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
-							TimeTickReceiver.logger.info(
-									"-- [TimeTickReceiver.onReceive]> Downloading Colony list for: [{}]", credential.getAccountName());
-							// Get the list of planet colonies for this credential and update each one on the factory.
-							final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
-							for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
-								TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
-								Colony col = modelMapper.map(colonyOK, Colony.class);
-								TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", colonyOK.getPlanetId());
-								col.create(colonyOK.getPlanetId());
-								NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+							try {
+								TimeTickReceiver.logger.info(
+										"-- [Job.COLONYDATA]> Downloading Colony list for: [{}]", credential.getAccountName());
+								// Get the list of planet colonies for this credential and update each one on the database.
+								final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
+								for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
+									TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
+									Colony col = modelMapper.map(colonyOK, Colony.class);
+									TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", col.getPlanetId());
+									col.create(colonyOK.getPlanetId());
+									NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+								}
+							}catch(RuntimeException rtex){
+								rtex.printStackTrace();
 							}
+						});
+				UpdateJobManager.submit(newJob);
+			}
+		}
+		currentrequestReference = Job.constructReference(EDataUpdateJobs.ASSETDATA, credential.getAccountId());
+		// Check that the request is a ASSETDATA update request.
+		if ( dataIdentifier.getReference() == currentrequestReference ) {
+			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
+				// Submit the job to the manager
+				final Job newJob = new Job(dataIdentifier)
+						.setCredentialIdentifier(credential.getAccountId())
+						.setJobClass(EDataUpdateJobs.ASSETDATA)
+						.setTask(() -> {
+							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+							TimeTickReceiver.logger.info(
+									"-- [TimeTickReceiver.onReceive]> Downloading asset list for: [{}]", credential.getAccountName());
+							// Get the list of planet colonies for this credential and update the character assets at the database.
+							final DownloadManager downloader = new DownloadManager(credential);
+							downloader.downloadPilotAssetsESI();
 						});
 				UpdateJobManager.submit(newJob);
 			}
@@ -754,6 +734,48 @@ public class TimeTickReceiver extends BroadcastReceiver {
 }
 
 // - UNUSED CODE ............................................................................................
+//[01]
+//				try {
+//					// Get access to the database record for this Character cache time stamp.
+//					final String reference = this.getCharacterID() + ".CHARACTERDATA";
+//					getDownloadManager()._characterCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
+//					if ( null == getDownloadManager()._characterCacheTime ) return EDataUpdateJobs.CHARACTERDATA;
+//				} catch (final SQLException sqle) {
+//					return EDataUpdateJobs.CHARACTERDATA;
+//				}
+//			}
+//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._characterCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
+//				return EDataUpdateJobs.CHARACTERDATA;
+//			// Check for asset cached time.
+//			if ( null == getDownloadManager()._assetsCacheTime ) {
+//				try {
+//					// Get access to the database record for this Character cache time stamp.
+//					final String reference = this.getCharacterID() + ".ASSETDATA";
+//					getDownloadManager()._assetsCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
+//					if ( null == getDownloadManager()._assetsCacheTime ) return EDataUpdateJobs.ASSETDATA;
+//				} catch (final SQLException sqle) {
+//					return EDataUpdateJobs.ASSETDATA;
+//				}
+//			}
+//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._assetsCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
+//				return EDataUpdateJobs.ASSETDATA;
+//			// Check for blueprints cached time.
+//			if ( null == getDownloadManager()._blueprintsCacheTime ) {
+//				try {
+//					// Get access to the database record for this Character cache time stamp.
+//					final String reference = this.getCharacterID() + ".BLUEPRINTDATA";
+//					getDownloadManager()._blueprintsCacheTime = ModelAppConnector.getSingleton().getDBConnector().getTimeStampDAO().queryForId(reference);
+//					if ( null == getDownloadManager()._blueprintsCacheTime ) return EDataUpdateJobs.BLUEPRINTDATA;
+//				} catch (final SQLException sqle) {
+//					return EDataUpdateJobs.BLUEPRINTDATA;
+//				}
+//			}
+//			if ( ModelAppConnector.getSingleton().checkExpiration(getDownloadManager()._blueprintsCacheTime.getTimeStamp(), ModelWideConstants.NOW) )
+//				return EDataUpdateJobs.BLUEPRINTDATA;
+//
+//			// If not returned before we have nothing to update
+//			return EDataUpdateJobs.READY;
+
 //[02]
 //		 CitadelSettings	citadelSettings	= new CitadelSettings();
 //		if (citadelSettings.getNextUpdate().after(new Date()) && true && true) { //Check if we can update now

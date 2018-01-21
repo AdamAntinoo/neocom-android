@@ -61,13 +61,13 @@ public class NeoComCoreTestEngine implements IModelAppConnector {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Before
 	public void initializeApplicationConnectors () throws SQLException {
-		logger.info(">> [UpdateJobManagementTestUnit.initializeApplicationConnectors]");
+		logger.info(">> [NeoComCoreTestEngine.initializeApplicationConnectors]");
 		context = InstrumentationRegistry.getTargetContext();
 		try {
 			connector = new ModelAppConnector(this);
 			Dao<TimeStamp, String> mTimeStampDao = NeoComDatabase.getImplementer().getTimeStampDao();
 			Assert.assertNotNull("> Verifying the Dao is available", mTimeStampDao);
-			logger.info("<< [UpdateJobManagementTestUnit.initializeApplicationConnectors]");
+			logger.info("<< [NeoComCoreTestEngine.initializeApplicationConnectors]");
 		} catch (RuntimeException rtex) {
 			rtex.printStackTrace();
 		}

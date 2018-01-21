@@ -4,7 +4,10 @@
     <string name="ccpdatabasefilename">eve.db</string>
     <string name="appdatabasepath">jdbc:sqlite:</string>
     <!--<string name="appdatabasefilename">neocom-100.db</string>-->
-    <string name="databaseversion">103</string>
+    <!--<string name="databaseversion">103</string>-->
+    <string name="databasechangeversioncomment_v104">v104 - Review of some classes. removed
+        unused id fields and set for some ENUM fields. Some classes require a complete drop for
+        the records to be compatible.</string>
     <string name="databasechangeversioncomment_v103">v103 - Updated the structure of the Credentials. Added the ColonyStorage. Added identifier to the timestamp to simplify updates.</string>
     <string name="databasechangeversioncomment_v095">v095 - Added the Credential table to store ESI credentials.</string>
     <string name="databasechangeversioncomment_v094">v094 - Chnaged the format for the EveLocation. Table reconstructed.</string>

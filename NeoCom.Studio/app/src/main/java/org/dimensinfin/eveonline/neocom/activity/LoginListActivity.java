@@ -340,7 +340,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 	private final NeoComAuthService service = new NeoComAuthService();
 	private TokenTranslationResponse token;
 	private String accessToken;
-	private long newAccountIdentifier;
+	private int newAccountIdentifier;
 
 	private Response<TokenTranslationResponse> response;
 	private Response<VerifyCharacterResponse> verificationResponse;
@@ -503,7 +503,7 @@ public class LoginListActivity extends ANeoComPagerActivity {
 				if ( verificationResponse.isSuccessful() ) {
 					logger.info("-- [LoginListActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it.
-					newAccountIdentifier = verificationResponse.body().getCharacterID();
+					newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential(newAccountIdentifier);
 					credential.setAccountName(verificationResponse.body().getCharacterName())
 										.setAccessToken(token.getAccessToken())
