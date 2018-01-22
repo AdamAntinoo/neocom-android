@@ -31,7 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.activity.CredentialListActivity;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidCacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
@@ -616,7 +616,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 //		NeoComApp.singleton = this;
 //		//		_appConnector = new NeoComAppConnector(this);
 //		// Set the initial activity as a return point in case of exceptions.
-//		_firstActivity = LoginListActivity.class;
+//		_firstActivity = LoginProgressActivity.class;
 //		// Close databases if they were left open.
 //		this.getDBConnector().closeDatabases();
 //		// Remove any reference to old adapters and helpers.
@@ -640,7 +640,7 @@ public class NeoComApp extends Application implements INeoComAppConnector {
 		// Initialize global objects that are going to be used on main code.
 		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
 		// Set the initial activity as a return point in case of exceptions.
-		_firstActivity = new LoginListActivity();
+		_firstActivity = new CredentialListActivity();
 
 		// Setup the referencing structures that will serve as proxy and global references.
 			NeoComApp.singleton = this;

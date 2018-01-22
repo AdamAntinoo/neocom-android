@@ -23,8 +23,8 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix '.debug'
-            versionNameSuffix 'debug'
+//            applicationIdSuffix '.debug'
+//            versionNameSuffix 'debug'
 
             resValue "string", "appname", "NeoCom"
             resValue "string", "appversion", "v0.10.4"

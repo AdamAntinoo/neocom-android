@@ -459,7 +459,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			for (EDataUpdateJobs jobName : joblist) {
 				final String reference = Job.constructReference(jobName, cred.getAccountId());
 				TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Generating job request for {}.", reference);
-				final TimeStamp newjob = new TimeStamp(jobName.name(), Instant.now())
+				final TimeStamp newjob = new TimeStamp(reference, Instant.now())
 						.setCredentialId(cred.getAccountId());
 				doProcessJob(newjob, cred);
 			}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/panelplanetary"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/panelplanetary">
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/applicationName"
+            style="@style/AppTheme.TextView.Glow.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="NEOCOM"
+            android:textSize="30sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/applicationVersion"
+            style="@style/AppTheme.TextView.Glow.Orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/applicationName"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/applicationName"
+            android:text="@string/appversion"
+            android:textSize="20sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/copyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="right"
+            android:text="(c) Dimensinfin Industries 2018"
+            android:textColor="@color/appwhite"
+            android:textSize="8sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nodeiconsize"
+        android:background="@drawable/panelplanetary">
+
+        <ImageView
+            android:id="@+id/nodeIcon"
+            style="@style/AppTheme.NodeIcon.NoBorder"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/progress70_white" />
+
+
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/message"
+            style="@style/AppTheme.TextView"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@id/nodeIcon"
+            android:text="Wait while doing credential authorization..."
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+</LinearLayout>

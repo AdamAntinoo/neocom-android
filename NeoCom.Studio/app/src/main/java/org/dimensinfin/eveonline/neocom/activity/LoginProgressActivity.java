@@ -9,31 +9,38 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Browser;
+import android.support.annotation.WorkerThread;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
 import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.auth.NeoComAuthService;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -47,7 +54,8 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LoginListActivity extends AbstractPagerActivity {
+public class LoginProgressActivity extends Activity {
+
 	public interface VerifyCharacter {
 		@GET("/oauth/verify")
 		Call<VerifyCharacterResponse> getVerification (@Header("Authorization") String token);
@@ -63,57 +71,7 @@ public class LoginListActivity extends AbstractPagerActivity {
 	//[01]
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("LoginListActivity");
-	public static final String[] SCOPES = {
-			"publicData",
-			"esi-skills.read_skills.v1",
-			"esi-skills.read_skillqueue.v1",
-
-			"esi-clones.read_clones.v1",
-			"esi-clones.read_implants.v1",
-
-			"esi-location.read_location.v1",
-			"esi-location.read_ship_type.v1",
-			"esi-location.read_online.v1",
-
-			"esi-wallet.read_character_wallet.v1",
-
-			"esi-fittings.read_fittings.v1",
-			"esi-fittings.write_fittings.v1",
-
-			"esi-mail.read_mail.v1",
-			"esi-mail.send_mail.v1",
-			"esi-mail.organize_mail.v1",
-			"esi-killmails.read_killmails.v1",
-
-			"esi-calendar.read_calendar_events.v1",
-			"esi-calendar.respond_calendar_events.v1",
-
-			"esi-assets.read_assets.v1",
-			"esi-industry.read_character_jobs.v1",
-			"esi-industry.read_character_mining.v1",
-			"esi-markets.read_character_orders.v1",
-
-			"esi-characters.read_fatigue.v1",
-			"esi-characters.read_notifications.v1",
-			"esi-characters.read_contacts.v1",
-			"esi-characters.read_agents_research.v1",
-			"esi-characters.read_blueprints.v1",
-			"esi-characters.read_standings.v1",
-			"esi-characters.read_corporation_roles.v1",
-
-			"esi-characters.write_contacts.v1",
-
-			"esi-planets.manage_planets.v1",
-
-			"esi-contracts.read_character_contracts.v1",
-
-			"esi-ui.write_waypoint.v1",
-
-			"esi-search.search_structures.v1",
-			"esi-universe.read_structures.v1",
-			"esi-markets.structure_markets.v1",
-	};
+	private static Logger logger = LoggerFactory.getLogger("LoginProgressActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final NeoComAuthService service = new NeoComAuthService();
@@ -124,17 +82,14 @@ public class LoginListActivity extends AbstractPagerActivity {
 	private Response<TokenTranslationResponse> response;
 	private Response<VerifyCharacterResponse> verificationResponse;
 
+	private ActionBar actionBar;
+	private ImageView nodeIcon;
+	private TextView message;
+	private TextView applicationVersion;
+
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-
-	/**
-	 * Return the name of this activity
-	 */
-	public String getName () {
-		//		return ApplicationCloudAndroidAdapter.getSingleton().getResourceString(R.string.activity_title_LoginListActivity);
-		return "Login";
-	}
 
 	/**
 	 * On the Activity create phase we will set the layout, then create the action bar and all other UI elements
@@ -143,52 +98,60 @@ public class LoginListActivity extends AbstractPagerActivity {
 	 */
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
-		LoginListActivity.logger.info(">> [LoginListActivity.onCreate]"); //$NON-NLS-1$
+		LoginProgressActivity.logger.info(">> [LoginProgressActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
+		// Dispatch VIEW intents to the alternative metgod.
 		final Intent intent = getIntent();
 		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) onNewIntent(intent);
 
-		// Disable go home for this activity since this is home.
-		//		_actionBar.setDisplayHomeAsUpEnabled(false);
 		try {
-			// Process the parameters into the context. This initial Activity is the only one with no parameters.
-			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			int page = 0;
-			// Register this Activity as the current active Activity.
-			ApplicationCloudAndroidAdapter.getSingleton().registerActivity(this);
-			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
-		} catch (final Exception rtex) {
-			AbstractPagerActivity.logger.severe("[LoginListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
+			// Set the layout to the core activity that defines the background, the indicator and the fragment container.
+			this.setContentView(R.layout.activity_loginprogress);
+			// Gets the activity's default ActionBar
+			actionBar = this.getActionBar();
+			actionBar.show();
+			actionBar.setDisplayHomeAsUpEnabled(false);
+
+			// Locate the elements of the page and store in global data.
+			nodeIcon = (ImageView) this.findViewById(R.id.nodeIcon);
+			message = (TextView) this.findViewById(R.id.message);
+			applicationVersion = (TextView) this.findViewById(R.id.applicationVersion);
+
+			// Start the spinner.
+			Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_rotation);
+			rotation.setRepeatCount(Animation.INFINITE);
+			nodeIcon.startAnimation(rotation);
+			// Update the version.
+			applicationVersion.setText(getResources().getString(R.string.appversionname));
+
+			// Fire the credential authorization flow on a background task.
+			ApplicationCloudAndroidAdapter.submit2uiExecutor(() -> {
+				onFireAuth();
+			});
+		} catch (final RuntimeException rtex) {
+			logger.error("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(rtex);
 		}
-		// Reinitialize the tile and subtitle from the first page.
-		this.updateInitialTitle();
-		AbstractPagerActivity.logger.info("<< [LoginListActivity.onCreate]"); //$NON-NLS-1$
+		logger.info("<< [LoginProgressActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	// - L O G I N   T O   E S I   B L O C K
 
 	/**
-	 * Initiates a call to the CCP authentication platform.
+	 * Initiates a call to the CCP authentication platform. Thos message will start another intent on this activity
+	 * but will go to the onNewIntent message.
 	 */
-	public void handleLogin () {
-		// Create the service and initialize it.
-		service.createService();
-		//		service = createService();
-		final Uri url = getAuthorizationUrl();
-		final Intent intent = new Intent(Intent.ACTION_VIEW, url);
-		intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
-		startActivity(intent);
+	protected void onFireAuth () {
+		//		super.onStart();
+		this.runOnUiThread(() -> {
+			service.createService();
+			//		service = createService();
+			final Uri url = getAuthorizationUrl();
+			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
+			intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
+			startActivity(intent);
+		});
 	}
-
-	//	private ESIOAuth20 createService () {
-	//		return new ESIOAuth20.Builder(NeoComAuthService.CLIENT_ID, NeoComAuthService.SECRET_KEY)
-	//				.withCallback(NeoComAuthService.CALLBACK)
-	//				.withScope(SCOPES)
-	//				.withAgent("org.dimensinfin.eveonline.neocom")
-	//				.build();
-	//	}
 
 	private Uri getAuthorizationUrl () {
 		return Uri.parse(service.getAuthorizationUrl());
@@ -197,22 +160,14 @@ public class LoginListActivity extends AbstractPagerActivity {
 	/**
 	 * This is called when the Activity responds to a new request as selected by the OS. For example when a callback
 	 * from CCP is usued to a host/path it gets intercepted by the AndroidManifest and then passed to the matching
-	 * Activity, entering with the <code>onNewIntent</code> instead of using the <code>onCreate</code>
+	 * Activity, entering with the <code>onNewIntent</code> instead of using the <code>onCreate</code>.
+	 * <p>
+	 * Handles VIEW requests that com from the authentication CCP site. Verify the data is for us and then call the
+	 * registratipo process to create a new Credential entry that gets stored at the database.
 	 */
 	protected void onNewIntent (final Intent intent) {
 		super.onNewIntent(intent);
 		final Bundle bun = intent.getBundleExtra(Browser.EXTRA_APPLICATION_ID);
-		handleIntent(this, intent);
-	}
-
-	/**
-	 * Handkles VIEW requests that com from the authentication CCP site. Verify the data is for us and then call the
-	 * registratipo process to create a new Credential entry that gets stored at the database.
-	 *
-	 * @param activity the activity that generates the Intent.
-	 * @param intent   the Intent received.
-	 */
-	private void handleIntent (final Activity activity, final Intent intent) {
 		if ( (null == intent) || (null == intent.getData()) ) {
 			return;
 		}
@@ -223,11 +178,8 @@ public class LoginListActivity extends AbstractPagerActivity {
 			if ( urlData.getScheme().equals("eveauth-neotest") ) {
 				final String authCode = urlData.getQueryParameter("code");
 				if ( StringUtils.isNotBlank(authCode) ) {
-					ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(new Runnable() {
-						@Override
-						public void run () {
-							registerInBackground(authCode);
-						}
+					ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(() -> {
+						registerInBackground(authCode);
 					});
 				}
 			}
@@ -240,10 +192,11 @@ public class LoginListActivity extends AbstractPagerActivity {
 	 *
 	 * @param authCode the authorization code received from the Eve Online Developer Application site.
 	 */
+	@WorkerThread
 	private void registerInBackground (final String authCode) {
 		// Create the conversion call by coding.
-		logger.info("-- [LoginListActivity.registerInBackground]> Preparing Verification HTTP request.");
-		logger.info("-- [LoginListActivity.registerInBackground]> Creating access token request.");
+		logger.info("-- [LoginProgressActivity.registerInBackground]> Preparing Verification HTTP request.");
+		logger.info("-- [LoginProgressActivity.registerInBackground]> Creating access token request.");
 		try {
 			// Create a Retrofit request service to encapsulate the call.
 			final GetAccessToken serviceGetAccessToken = new Builder()
@@ -251,17 +204,17 @@ public class LoginListActivity extends AbstractPagerActivity {
 					.addConverterFactory(JacksonConverterFactory.create())
 					.build()
 					.create(GetAccessToken.class);
-			logger.info("-- [LoginListActivity.registerInBackground]> Creating request body.");
+			logger.info("-- [LoginProgressActivity.registerInBackground]> Creating request body.");
 			final TokenRequestBody tokenRequestBody = new TokenRequestBody()
 					.setCode(authCode);
-			logger.info("-- [LoginListActivity.registerInBackground]> Creating request call.");
+			logger.info("-- [LoginProgressActivity.registerInBackground]> Creating request call.");
 			final Call<TokenTranslationResponse> request = serviceGetAccessToken.getAccessToken("Basic " + NeoComAuthService.PECK
 					, NeoComAuthService.CONTENT_TYPE
 					, tokenRequestBody);
 			// Getting the request response to be stored if valid.
 			response = request.execute();
 			if ( response.isSuccessful() ) {
-				logger.info("-- [LoginListActivity.registerInBackground]> Response is 200 OK.");
+				logger.info("-- [LoginProgressActivity.registerInBackground]> Response is 200 OK.");
 				token = response.body();
 				// Create a security verification instance.
 				OkHttpClient.Builder verifyClient =
@@ -278,7 +231,7 @@ public class LoginListActivity extends AbstractPagerActivity {
 										     .addHeader("User-Agent", "org.dimensinfin")
 										     .build()));
 				// Verify the character authenticated and create the Credential.
-				logger.info("-- [LoginListActivity.registerInBackground]> Creating character verification.");
+				logger.info("-- [LoginProgressActivity.registerInBackground]> Creating character verification.");
 				final VerifyCharacter verificationService = new Builder()
 						.baseUrl("https://login.eveonline.com")
 						.addConverterFactory(JacksonConverterFactory.create())
@@ -288,7 +241,7 @@ public class LoginListActivity extends AbstractPagerActivity {
 				accessToken = token.getAccessToken();
 				verificationResponse = verificationService.getVerification("Bearer " + accessToken).execute();
 				if ( verificationResponse.isSuccessful() ) {
-					logger.info("-- [LoginListActivity.registerInBackground]> Character verification OK.");
+					logger.info("-- [LoginProgressActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it.
 					newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential(newAccountIdentifier);
@@ -298,12 +251,18 @@ public class LoginListActivity extends AbstractPagerActivity {
 					          .setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 					          .setRefreshToken(token.getRefreshToken())
 					          .store();
+					// Update the Pilot information.
+					ModelFactory.getPilotV1(credential.getAccountId());
+					// Then cleanup the credential list.
+					NeoComModelStore.getSingleton().cleanModel();
+					// Once the credential is stores we go back to the last Activity.
+					finish();
 				} else {
 					Toast.makeText(getApplicationContext(), "Character verification failed. " + verificationResponse.message(),
 							Toast.LENGTH_LONG).show();
 				}
 				//				if ( verificationResponse.isSuccessful() ) {
-				//					logger.info("-- [LoginListActivity.registerInBackground]> Character verification OK.");
+				//					logger.info("-- [LoginProgressActivity.registerInBackground]> Character verification OK.");
 				//					// Create the credential and store it.
 				//					newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 				//					final Credential credential = new Credential(newAccountIdentifier);
@@ -316,7 +275,8 @@ public class LoginListActivity extends AbstractPagerActivity {
 						Toast.LENGTH_LONG).show();
 			}
 		} catch (IOException ioe) {
-			logger.severe("ER [LoginListActivity.registerInBackground]> IO Excetion on authorization request call. " + ioe.getMessage());
+			logger.error("ER [LoginProgressActivity.registerInBackground]> IO Excetion on authorization request call. " + ioe
+					.getMessage());
 		}
 	}
 

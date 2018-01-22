@@ -11,12 +11,14 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.activity.LoginProgressActivity;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
@@ -63,13 +65,10 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 	@Override
 	public void onClick (final View view) {
 		logger.info(">> [NewLoginActionPart.onClick]");
-
-		// Handle the click on the new login by interacting with the CCP ESI Authorization.
-		// Do all this code at the Activity.
-		final Activity callback = getActivity();
-		if(callback instanceof LoginListActivity ) {
-			((LoginListActivity) callback).handleLogin();
-		}
+		// launch the LoginProgress so the display is blocked while we authorize a new Credential.
+		final Intent intent = new Intent(this.getActivity(), LoginProgressActivity.class);
+		// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
+		getActivity().startActivity(intent);
 		logger.info("<< [NewLoginActionPart.onClick]");
 	}
 
@@ -119,7 +118,9 @@ final class NewLoginActionRender extends AbstractRender {
 		super.updateContent();
 		nodeIcon.setImageResource(R.drawable.account_plus);
 		// Set the color changing the background color.
-		nodeIcon.setImageTintList(getContext().getResources().getColorStateList(R.color.colorstates_neocom));
+		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+			nodeIcon.setImageTintList(getContext().getResources().getColorStateList(R.color.colorstates_neocom));
+		}
 	}
 
 	public String toString () {

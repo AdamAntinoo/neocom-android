@@ -9,7 +9,7 @@
 //                  rendering of the model data similar on all the platforms used.
 //                  Latest version adds support for ESI authentication since CREST and other sources will be
 //                  removed on 2018.
-package org.dimensinfin.eveonline.neocom.parts;
+package org.dimensinfin.eveonline.neocom.part;
 
 // - IMPORT SECTION .........................................................................................
 

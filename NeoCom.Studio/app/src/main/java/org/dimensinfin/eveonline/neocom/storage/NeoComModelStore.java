@@ -14,7 +14,7 @@ import android.content.Context;
 import android.view.Menu;
 
 import org.dimensinfin.core.parser.IPersistentHandler;
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.activity.LoginProgressActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -197,7 +197,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 	 * @return the last registered Activity or a new Activity that maybe will have connected to the Android service.
 	 */
 	public Activity getActivity () {
-		if ( null == _activity ) return new LoginListActivity();
+		if ( null == _activity ) return new LoginProgressActivity();
 		return _activity;
 	}
 
@@ -430,7 +430,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 	//	}
 
 	public Activity getFirstActivity () {
-		return new LoginListActivity();
+		return new LoginProgressActivity();
 	}
 
 	//	public HashMap<String, Fitting> getFittings() {

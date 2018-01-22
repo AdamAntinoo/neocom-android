@@ -35,14 +35,14 @@ import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.LoginListActivity;
+import org.dimensinfin.eveonline.neocom.activity.CredentialListActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.InitializationTask;
 import org.dimensinfin.eveonline.neocom.model.RunnableTask;
 import org.dimensinfin.eveonline.neocom.model.RunnableTask.ERunState;
-import org.dimensinfin.eveonline.neocom.parts.AppVersionPart;
+import org.dimensinfin.eveonline.neocom.part.AppVersionPart;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.io.File;
@@ -124,7 +124,7 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 		protected void onPostExecute (final Boolean result) {
 			// Check if we have pilots to show or we have to go to the AddAPI page.
 			if ( result ) {
-				startActivity(new Intent(_activity, LoginListActivity.class));
+				startActivity(new Intent(_activity, CredentialListActivity.class));
 			}
 		}
 

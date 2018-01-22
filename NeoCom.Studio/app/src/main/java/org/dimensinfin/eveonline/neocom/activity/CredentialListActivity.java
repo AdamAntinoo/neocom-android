@@ -21,7 +21,7 @@ import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class CredentialListActivity extends ANeoComPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//		private static Logger logger = LoggerFactory.getLogger("LoginListActivity");
+//		private static Logger logger = LoggerFactory.getLogger("LoginProgressActivity");
 	//	public static final String[] SCOPES = {
 	//	};
 
@@ -53,7 +53,7 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 	 */
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
-		logger.info(">> [LoginListActivity.onCreate]"); //$NON-NLS-1$
+		logger.info(">> [LoginProgressActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		final Intent intent = getIntent();
 		if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) onNewIntent(intent);
@@ -68,13 +68,13 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 			//		ApplicationCloudAndroidAdapter.getSingleton().registerActivity(this);
 			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
-			AbstractPagerActivity.logger.severe("[LoginListActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
+			AbstractPagerActivity.logger.severe("[LoginProgressActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();
 			this.stopActivity(rtex);
 		}
 		// Reinitialize the tile and subtitle from the first page.
 		this.updateInitialTitle();
-		AbstractPagerActivity.logger.info("<< [LoginListActivity.onCreate]"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info("<< [LoginProgressActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	// - L O G I N   T O   E S I   B L O C K
@@ -101,8 +101,8 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //- UNUSED CODE ............................................................................................
 //[01]
 //		// Create the conversion call by coding.
-//		logger.info("-- [LoginListActivity.registerInBackground]> Preparing Verification HTTP request.");
-//		logger.info("-- [LoginListActivity.registerInBackground]> Creating access token request.");
+//		logger.info("-- [LoginProgressActivity.registerInBackground]> Preparing Verification HTTP request.");
+//		logger.info("-- [LoginProgressActivity.registerInBackground]> Creating access token request.");
 //		try {
 //			// Create a Retrofit request service to encapsulate the call.
 //			final GetAccessToken serviceGetAccessToken = new Builder()
@@ -110,10 +110,10 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //					.addConverterFactory(JacksonConverterFactory.create())
 //					.build()
 //					.create(GetAccessToken.class);
-//			logger.info("-- [LoginListActivity.registerInBackground]> Creating request body.");
+//			logger.info("-- [LoginProgressActivity.registerInBackground]> Creating request body.");
 //			final TokenRequestBody tokenRequestBody = new TokenRequestBody()
 //					.setCode(authCode);
-//			logger.info("-- [LoginListActivity.registerInBackground]> Creating request call.");
+//			logger.info("-- [LoginProgressActivity.registerInBackground]> Creating request call.");
 //			final Call<TokenTranslationResponse> request = serviceGetAccessToken.getAccessToken("Basic " + NeoComAuthService.PECK
 //					, NeoComAuthService.CONTENT_TYPE
 //					, tokenRequestBody);
@@ -184,12 +184,12 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //	 * @param authCode the authorization code received from the Eve Online Developer Application site.
 //	 */
 //	private void registerInBackground (final String authCode) {
-//		logger.info("-- [LoginListActivity.registerInBackground]> Trying another authentication process.");
+//		logger.info("-- [LoginProgressActivity.registerInBackground]> Trying another authentication process.");
 //		try {
 //			final ApiClient authClient = new ApiClient("ESIEveOnline", NeoComAuthService.CLIENT_ID, NeoComAuthService.SECRET_KEY,
 //					"CaptainHaddock09M2012", "50.Beta");
 //			final GetAccessToken srv = authClient.createService(GetAccessToken.class);
-//			logger.info("-- [LoginListActivity.registerInBackground]> Creating request body.");
+//			logger.info("-- [LoginProgressActivity.registerInBackground]> Creating request body.");
 //			final TokenRequestBody tokenRequestBody = new TokenRequestBody()
 //					.setCode(authCode);
 //			final Call<TokenTranslationResponse> req = srv.getAccessToken("Basic " + NeoComAuthService.PECK, NeoComAuthService.CONTENT_TYPE, tokenRequestBody);
@@ -198,7 +198,7 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //			// Getting the request response to be stored if valid.
 //			response = req.execute();
 //			if ( response.isSuccessful() ) {
-//				logger.info("-- [LoginListActivity.registerInBackground]> Response is 200 OK.");
+//				logger.info("-- [LoginProgressActivity.registerInBackground]> Response is 200 OK.");
 //				token = response.body();
 //				//			// Create a security verification instance.
 //				//			OkHttpClient.Builder verifyClient =
@@ -215,7 +215,7 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //				//									     .addHeader("User-Agent", "org.dimensinfin")
 //				//									     .build()));
 //				// Verify the character authenticated and create the Credential.
-//				logger.info("-- [LoginListActivity.registerInBackground]> Creating character verification.");
+//				logger.info("-- [LoginProgressActivity.registerInBackground]> Creating character verification.");
 //				final VerifyCharacter verificationService = new Builder()
 //						.baseUrl("https://login.eveonline.com")
 //						.addConverterFactory(JacksonConverterFactory.create())
@@ -225,7 +225,7 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //				accessToken = token.getAccessToken();
 //				verificationResponse = verificationService.getVerification("Bearer " + accessToken).execute();
 //				if ( verificationResponse.isSuccessful() ) {
-//					logger.info("-- [LoginListActivity.registerInBackground]> Character verification OK.");
+//					logger.info("-- [LoginProgressActivity.registerInBackground]> Character verification OK.");
 //					// Create the credential and store it.
 //					newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 //					final Credential credential = new Credential(newAccountIdentifier);
@@ -244,6 +244,6 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 //						Toast.LENGTH_LONG).show();
 //			}
 //		} catch (IOException ioe) {
-//			logger.severe("ER [LoginListActivity.registerInBackground]> IO Excetion on authorization request call. " + ioe.getMessage());
+//			logger.severe("ER [LoginProgressActivity.registerInBackground]> IO Excetion on authorization request call. " + ioe.getMessage());
 //		}
 //	}
