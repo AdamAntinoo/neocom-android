@@ -36,6 +36,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
+import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
@@ -66,6 +67,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -367,8 +369,8 @@ public class TimeTickReceiver extends BroadcastReceiver {
 
 	static {
 		modelMapper.getConfiguration()
-							 .setFieldMatchingEnabled(true)
-							 .setMethodAccessLevel(AccessLevel.PRIVATE);
+		           .setFieldMatchingEnabled(true)
+		           .setMethodAccessLevel(AccessLevel.PRIVATE);
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -403,6 +405,8 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		// STEP 01. Launch pending Data Requests
 		// Get requests pending from the queue service.
 		Vector<PendingRequestEntry> requests = NeoComApp.getSingletonApp().getCacheConnector().getAndroidPendingRequests();
+		if ( requests.size() > 0 ) TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Pending requests: {}",
+				requests.size());
 		synchronized (requests) {
 			// Process request by priority. Additions to queue are limited.
 			limit = 0;
@@ -433,13 +437,16 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// STEP 02. Check Credentials for pending data to update.
-		TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Accessing credentials to search for obsolete data.");
 		final List<Credential> credentialList = DataManagementModelStore.accessCredentialList();
+		TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Accessing credentials. Credentials found: {}",
+				credentialList.size());
 		for (Credential cred : credentialList) {
-			// Get the list of timestamps pending for this Credential.
-			final List<TimeStamp> stamps = cred.needsUpdate();
-			TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Received {} timestamps.", stamps.size());
-			// Not all timestamps should have to be defined so scan them and remove from the list all the ones processed.
+			//			// Get the list of timestamps pending for this Credential.
+			//			final List<TimeStamp> stamps = cred.needsUpdate();
+			//			TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Credential [{}] - Received {} timestamps.", cred.getAccountName(), stamps.size());
+			// Scan all the possible TimeStamps we have to check for each Credential.
+			// If the TS do not exists then we launch the job and create it.
+			// Set up the complete list.
 			final ArrayList<EDataUpdateJobs> joblist = new ArrayList<>();
 			joblist.add(EDataUpdateJobs.CHARACTER_CORE);
 			//			joblist.add(EDataUpdateJobs.CHARACTER_FULL);
@@ -450,18 +457,34 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			joblist.add(EDataUpdateJobs.COLONYDATA);
 			//			joblist.add(EDataUpdateJobs.SKILL_DATA);
 
-			for (TimeStamp job : stamps) {
-				doProcessJob(job, cred);
-				//				joblist.remove(EDataUpdateJobs.CHARACTER_CORE);
-			}
+
+			// Not all timestamps should have to be defined so scan them and remove from the list all the ones processed.
+			//			for (TimeStamp job : stamps) {
+			//				doProcessJob(job, cred);
+			//				//				joblist.remove(EDataUpdateJobs.CHARACTER_CORE);
+			//			}
 
 			// Now process all the rest of the jobs that where not cleared from the list. That means they had no timestamp.
 			for (EDataUpdateJobs jobName : joblist) {
-				final String reference = Job.constructReference(jobName, cred.getAccountId());
-				TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Generating job request for {}.", reference);
-				final TimeStamp newjob = new TimeStamp(reference, Instant.now())
-						.setCredentialId(cred.getAccountId());
-				doProcessJob(newjob, cred);
+				try {
+					final String reference = Job.constructReference(jobName, cred.getAccountId());
+					// Search for the TS and check the expiration time.
+					final TimeStamp ts = NeoComDatabase.getImplementer().getTimeStampDao().queryForId(reference);
+					if ( null == ts ) {
+						TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Generating job request for {}.", reference);
+						final TimeStamp newts = new TimeStamp(reference, Instant.now())
+								.setCredentialId(cred.getAccountId());
+						doProcessJob(newts, cred);
+					} else {
+						// Check if time point has already happened.
+						if ( ts.getTimeStamp() < Instant.now().getMillis() ){
+							TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Time point past. Generating job request for {}.",
+									reference);
+							doProcessJob(ts, cred);
+					}}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 			//[01]
 		}
@@ -472,9 +495,11 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	 * With the TS and the Credential check id the data is still valid. If the timestamp has elapsed then we should
 	 * request the launch of the job. It is possible that this has been detected also on previous iterations but the
 	 * Manager filter should remove the duplication of jobs.
+	 *
 	 * @param dataIdentifier the time stamp and reference identifier for the job to launch.
-	 * @param credential the credential to use during the update.
+	 * @param credential     the credential to use during the update.
 	 */
+
 	private void doProcessJob (final TimeStamp dataIdentifier, final Credential credential) {
 		// Calculate job reference to match the job request.
 		TimeTickReceiver.logger.info(">> [TimeTickReceiver.doProcessJob]> Job Type: {} - Job credential: {}"
@@ -482,9 +507,9 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				, credential.getAccountName());
 		String currentrequestReference = Job.constructReference(EDataUpdateJobs.CHARACTER_CORE, credential.getAccountId());
 		// Check that the request is a COLONY_DATA update request.
-		if ( dataIdentifier.getReference() == currentrequestReference ) {
+		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			// Check if valid data time has elapsed.
-			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
+	//		if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
@@ -496,11 +521,11 @@ public class TimeTickReceiver extends BroadcastReceiver {
 							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 						});
 				UpdateJobManager.submit(newJob);
-			}
+	//		}
 		}
 		currentrequestReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
 		// Check that the request is a COLONYDATA update request.
-		if ( dataIdentifier.getReference() == currentrequestReference ) {
+		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)
@@ -514,13 +539,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 								// Get the list of planet colonies for this credential and update each one on the database.
 								final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
 								for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
-									TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
+									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Mapping Colony: [{}]", colonyOK.getPlanetId());
 									Colony col = modelMapper.map(colonyOK, Colony.class);
-									TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Saving Colony data at DB: [{}]", col.getPlanetId());
+									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Saving Colony data at DB: [{}]", col.getPlanetId());
 									col.create(colonyOK.getPlanetId());
 									NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 								}
-							}catch(RuntimeException rtex){
+							} catch (RuntimeException rtex) {
 								rtex.printStackTrace();
 							}
 						});
@@ -529,7 +554,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 		currentrequestReference = Job.constructReference(EDataUpdateJobs.ASSETDATA, credential.getAccountId());
 		// Check that the request is a ASSETDATA update request.
-		if ( dataIdentifier.getReference() == currentrequestReference ) {
+		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)

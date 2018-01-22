@@ -18,16 +18,8 @@
     </style>
 
     <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/apporange</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:shadowColor">@color/apporange</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">10</item>
-    </style>
-
-    <style name="AppTheme.ActionBar.SubTitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
         <item name="android:textColor">@color/appwhite</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:shadowColor">@color/appwhite</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
