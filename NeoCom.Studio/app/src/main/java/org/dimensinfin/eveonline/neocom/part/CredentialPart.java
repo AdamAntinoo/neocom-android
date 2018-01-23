@@ -39,7 +39,7 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
@@ -279,7 +279,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		logger.info(">> [CredentialRender.runDependencies]");
 		// Make access to the rendering dependencies during this preparation phase.
 		pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
-		manager = ManagerStore.getAssetsManager(getCastedModel().getAccountId());
+		manager = GlobalDataManager.getAssetsManager(getCastedModel().getAccountId());
 		logger.info("<< [CredentialRender.runDependencies]");
 		if ( null == pilot ) return false;
 		if ( null == manager ) return false;

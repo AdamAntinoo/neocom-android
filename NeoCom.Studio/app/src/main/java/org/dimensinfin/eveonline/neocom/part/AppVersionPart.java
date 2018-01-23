@@ -58,9 +58,10 @@ public class AppVersionPart extends NeoComAbstractPart {
 		return this.getCastedModel().getAppName();
 	}
 
-	public String getTVersionNumber(){
-return new StringBuffer("v").append(getCastedModel().getAppVersionNumber()).toString();
+	public String getTVersionNumber () {
+		return new StringBuffer("v").append(getCastedModel().getAppVersion()).toString();
 	}
+
 	@Override
 	public String toString () {
 		final StringBuffer buffer = new StringBuffer("AppVersionPart [");

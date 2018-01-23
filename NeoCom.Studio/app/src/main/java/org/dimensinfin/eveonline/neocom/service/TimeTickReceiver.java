@@ -40,7 +40,7 @@ import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
-import org.dimensinfin.eveonline.neocom.enums.EDataUpdateJobs;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
@@ -101,14 +101,14 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	public static class Job {
 		private static final String DEFAULT_REF_VALUE = "-REF-";
 
-		public static String constructReference (final EDataUpdateJobs type, final long identifier) {
+		public static String constructReference (final GlobalDataManager.EDataUpdateJobs type, final long identifier) {
 			return new StringBuffer(type.name()).append("/").append(identifier).toString();
 		}
 
 		// - F I E L D - S E C T I O N ............................................................................
 		private String reference = DEFAULT_REF_VALUE;
 		private long credentialId = -1;
-		private EDataUpdateJobs jobClass = EDataUpdateJobs.READY;
+		private GlobalDataManager.EDataUpdateJobs jobClass = GlobalDataManager.EDataUpdateJobs.READY;
 		private Runnable task = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -133,7 +133,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			return this;
 		}
 
-		public Job setJobClass (final EDataUpdateJobs jobClass) {
+		public Job setJobClass (final GlobalDataManager.EDataUpdateJobs jobClass) {
 			this.jobClass = jobClass;
 			return this;
 		}
@@ -448,14 +448,14 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			// Scan all the possible TimeStamps we have to check for each Credential.
 			// If the TS do not exists then we launch the job and create it.
 			// Set up the complete list.
-			final ArrayList<EDataUpdateJobs> joblist = new ArrayList<>();
-			joblist.add(EDataUpdateJobs.CHARACTER_CORE);
+			final ArrayList<GlobalDataManager.EDataUpdateJobs> joblist = new ArrayList<>();
+			joblist.add(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE);
 			//			joblist.add(EDataUpdateJobs.CHARACTER_FULL);
-			joblist.add(EDataUpdateJobs.ASSETDATA);
+			joblist.add(GlobalDataManager.EDataUpdateJobs.ASSETDATA);
 			//		joblist.add(EDataUpdateJobs.BLUEPRINTDATA);
 			//			joblist.add(EDataUpdateJobs.INDUSTRYJOBS);
 			//			joblist.add(EDataUpdateJobs.MARKETORDERS);
-			joblist.add(EDataUpdateJobs.COLONYDATA);
+			joblist.add(GlobalDataManager.EDataUpdateJobs.COLONYDATA);
 			//			joblist.add(EDataUpdateJobs.SKILL_DATA);
 
 
@@ -466,7 +466,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			//			}
 
 			// Now process all the rest of the jobs that where not cleared from the list. That means they had no timestamp.
-			for (EDataUpdateJobs jobName : joblist) {
+			for (GlobalDataManager.EDataUpdateJobs jobName : joblist) {
 				try {
 					final String reference = Job.constructReference(jobName, cred.getAccountId());
 					// Search for the TS and check the expiration time.
@@ -506,7 +506,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		TimeTickReceiver.logger.info(">> [TimeTickReceiver.doProcessJob]> Job Type: {} - Job credential: {}"
 				, dataIdentifier.getReference()
 				, credential.getAccountName());
-		String currentrequestReference = Job.constructReference(EDataUpdateJobs.CHARACTER_CORE, credential.getAccountId());
+		String currentrequestReference = Job.constructReference(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE, credential.getAccountId());
 		// Check that the request is a COLONY_DATA update request.
 		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			// Check if valid data time has elapsed.
@@ -514,7 +514,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
-						.setJobClass(EDataUpdateJobs.CHARACTER_CORE)
+						.setJobClass(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE)
 						.setTask(() -> {
 							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 							TimeTickReceiver.logger.info("-- [Job.CHARACTER_CORE]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
@@ -524,14 +524,14 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				UpdateJobManager.submit(newJob);
 	//		}
 		}
-		currentrequestReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
+		currentrequestReference = Job.constructReference(GlobalDataManager.EDataUpdateJobs.COLONYDATA, credential.getAccountId());
 		// Check that the request is a COLONYDATA update request.
 		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
-						.setJobClass(EDataUpdateJobs.COLONYDATA)
+						.setJobClass(GlobalDataManager.EDataUpdateJobs.COLONYDATA)
 						.setTask(() -> {
 							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 							try {
@@ -553,14 +553,14 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				UpdateJobManager.submit(newJob);
 			}
 		}
-		currentrequestReference = Job.constructReference(EDataUpdateJobs.ASSETDATA, credential.getAccountId());
+		currentrequestReference = Job.constructReference(GlobalDataManager.EDataUpdateJobs.ASSETDATA, credential.getAccountId());
 		// Check that the request is a ASSETDATA update request.
 		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
 				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
-						.setJobClass(EDataUpdateJobs.ASSETDATA)
+						.setJobClass(GlobalDataManager.EDataUpdateJobs.ASSETDATA)
 						.setTask(() -> {
 							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 							TimeTickReceiver.logger.info(

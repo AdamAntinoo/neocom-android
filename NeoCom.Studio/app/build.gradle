@@ -10,8 +10,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 104
-        versionName '0.10.4'
+        versionCode 106
+        versionName "0.10.6"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,12 +27,14 @@ android {
 //            versionNameSuffix 'debug'
 
             resValue "string", "appname", "NeoCom"
-            resValue "string", "appversion", "v0.10.4"
-            resValue "string", "appversionname", "NeoCom v0.10.4"
-            resValue "string", "appversionnumber", "104"
+            resValue "string", "appversion", android.defaultConfig.versionName
+            resValue "string", "appversionname", "NeoCom" + " v" + android.defaultConfig.versionName
+            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
 
             resValue "string", "appdatabasefilename", "neocom-100.db"
-            resValue "string", "databaseversion", "105"
+            resValue "string", "databaseversion", "106"
+            // This defines Java constants
+//            buildConfigField "String", "URL_ENDPOINT", "\"http://your.production.endpoint.com/\""
         }
 //        incubation {
 //            initWith(buildTypes.debug)

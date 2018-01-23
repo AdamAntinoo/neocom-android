@@ -5,6 +5,9 @@
     <string name="appdatabasepath">jdbc:sqlite:</string>
     <!--<string name="appdatabasefilename">neocom-100.db</string>-->
     <!--<string name="databaseversion">103</string>-->
+    <string name="databasechangeversioncomment_v106">v106 - Recreated the Colony because added
+        the PlanetName filed.
+        .</string>
     <string name="databasechangeversioncomment_v104">v104 - Review of some classes. removed
         unused id fields and set for some ENUM fields. Some classes require a complete drop for
         the records to be compatible.</string>

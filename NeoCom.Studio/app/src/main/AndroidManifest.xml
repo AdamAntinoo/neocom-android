@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
-        android:minSdkVersion="22"
+        android:minSdkVersion="16"
         android:targetSdkVersion="27" />
 
     <application
@@ -20,7 +20,7 @@
         android:label="@string/appversionname"
         android:largeHeap="true"
         android:logo="@drawable/neocom_icon"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/neocom_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
@@ -54,7 +54,7 @@
             android:name=".activity.LoginProgressActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/nopilot"
-            android:label="@string/activity_title_LoginListActivity"
+            android:label="Authorization Flow"
             android:launchMode="singleTop"
             android:parentActivityName=".activity.core.SettingsActivity"
             android:screenOrientation="sensor"
@@ -76,28 +76,28 @@
             android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
             android:icon="@drawable/nopilot"
             android:label="Pilot Details"
-            android:parentActivityName=".activity.LoginProgressActivity"></activity>
+            android:parentActivityName=".activity.CredentialListActivity"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity"
             android:icon="@drawable/assets"
             android:label="@string/title_activity_AssetsDirector"
-            android:parentActivityName=".activity.LoginProgressActivity"></activity>
+            android:parentActivityName=".activity.CredentialListActivity"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"
             android:icon="@drawable/planets"
             android:label="@string/activity_subtitle_PlanetaryManagerActivity"
-            android:parentActivityName=".activity.LoginProgressActivity"
+            android:parentActivityName=".activity.CredentialListActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"
             android:icon="@drawable/planets"
             android:label="@string/activity_subtitle_PlanetaryOptimizationActivity"
-            android:parentActivityName=".activity.LoginProgressActivity"></activity>
+            android:parentActivityName=".activity.CredentialListActivity"></activity>
         <activity
             android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"
             android:icon="@drawable/industry"
             android:label="@string/activity_subtitle_IndustryManagerActivity"
-            android:parentActivityName=".activity.LoginProgressActivity"></activity>
+            android:parentActivityName=".activity.CredentialListActivity"></activity>
 
 
         <!--         Section where to add the new Activities to match the new model presentation. -->

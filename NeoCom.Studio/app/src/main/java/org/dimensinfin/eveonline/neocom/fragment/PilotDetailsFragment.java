@@ -11,8 +11,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
-import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.datasource.AbstractGenerator;
@@ -26,8 +24,8 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
@@ -72,12 +70,12 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 
 			// Add to the data model list the Directors that can be used on this character.
 			_dataModelRoot.addChild(new Separator().setType(ESeparatorType.LINE_WHITE));
-			_dataModelRoot.addChild(ManagerStore.getAssetsManager(capsulerrid));
-			_dataModelRoot.addChild(ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)));
+			_dataModelRoot.addChild(GlobalDataManager.getAssetsManager(capsulerrid));
+			_dataModelRoot.addChild(GlobalDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)));
 			// Accelerate the availability of data.
-			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
-				ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)).accessAllColonies();
-			});
+//			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
+//				GlobalDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)).accessAllColonies();
+//			});
 			//			_dataModelRoot.addChild(character.getBlueprintsManager());
 
 			AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");

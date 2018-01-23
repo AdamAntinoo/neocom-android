@@ -1,18 +1,18 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
-//                  the game data to help capsuleers organize and prioritize activities. The strong points are
-//                  help at the Industry level tracking and calculating costs and benefits. Also the market
-//                  information update service will help to identify best prices and locations.
-//                  Planetary Interaction and Ship fittings are point under development.
-//                  ESI authorization is a new addition that will give continuity and allow download game data
-//                  from the new CCP data services.
-//                  This is the Android application version but shares libraries and code with other application
-//                  designed for Spring Boot Angular 4 platform.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
@@ -26,8 +26,8 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.Region;
@@ -65,9 +65,9 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		public RootNode collaborate2Model () {
 			AbstractGenerator.logger.info(">> [PlanetaryByLocationGenerator.collaborate2Model]");
 			// On cached generators we should check if the model is initialized.
-			if ( cacheValid() ) {
+			if ( cacheIsInvalid() ) {
 				// Get the Planetary Manager active at the character.
-				PlanetaryManager planetaryMgr = ManagerStore.getPlanetaryManager(NeoComModelStore.getCredential4Id
+				PlanetaryManager planetaryMgr = GlobalDataManager.getPlanetaryManager(NeoComModelStore.getCredential4Id
 						(characterid));
 				Hashtable<Long, Region> regs = planetaryMgr.getRegions();
 				for (Long key : regs.keySet()) {
@@ -80,14 +80,14 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 			return _dataModelRoot;
 		}
 
-		private boolean cacheValid () {
-			if ( null == _dataModelRoot ) {
-				// Initialize the Adapter data structures.
-				this.setDataModel(new RootNode());
-				return false;
-			}
-			else return true;
-		}
+//		private boolean cacheIsValid () {
+//			if ( null == _dataModelRoot ) {
+//				// Initialize the Adapter data structures.
+//				this.setDataModel(new RootNode());
+//				return false;
+//			}
+//			else return true;
+//		}
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................

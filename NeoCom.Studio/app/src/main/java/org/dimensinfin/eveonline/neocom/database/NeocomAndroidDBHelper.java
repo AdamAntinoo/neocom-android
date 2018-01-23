@@ -28,6 +28,7 @@ import com.j256.ormlite.table.TableUtils;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
@@ -54,7 +55,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<ApiKey, String> apiKeysDao = null;
 	private Dao<Credential, String> credentialDao = null;
 	private Dao<Colony, String> colonyDao = null;
-	private Dao<ColonyStorage, String> colonyStorageDao = null;
+	private Dao<org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage, String> colonyStorageDao = null;
 
 	private Dao<Property, String> propertyDao = null;
 	private Dao<ResourceList, String> resourceList = null;
@@ -132,9 +133,9 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<ColonyStorage, String> getColonyStorageDao () throws SQLException {
+	public Dao<org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage, String> getColonyStorageDao () throws SQLException {
 		if ( null == colonyStorageDao ) {
-			colonyStorageDao = DaoManager.createDao(this.getConnectionSource(), ColonyStorage.class);
+			colonyStorageDao = DaoManager.createDao(this.getConnectionSource(), org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage.class);
 		}
 		return colonyStorageDao;
 	}
@@ -372,11 +373,24 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				TableUtils.dropTable(databaseConnection, Colony.class, true);
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
-						"new version 104.");
+						"new version 105.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
 				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
-						"new version 104.");
+						"new version 105.");
+				sqle.printStackTrace();
+			}
+		}
+		if ( oldVersion < 106 ) {
+			try {
+				TableUtils.dropTable(databaseConnection, Colony.class, true);
+			} catch (RuntimeException rtex) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 106.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 106.");
 				sqle.printStackTrace();
 			}
 		}

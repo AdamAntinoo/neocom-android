@@ -31,8 +31,8 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -92,7 +92,7 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	@WorkerThread
 	public String getTAssetsCount () {
 		// Get access to the AssetsManager for the current character to get this value
-		final AssetsManager manager = ManagerStore.getAssetsManager(getCastedModel().getCharacterId());
+		final AssetsManager manager = GlobalDataManager.getAssetsManager(getCastedModel().getCharacterId());
 		final long totalAssets = manager.getTotalAssetsNumber();
 		return qtyFormatter.format(totalAssets);
 	}
