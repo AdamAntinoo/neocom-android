@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.ColonyFragment;
+import org.dimensinfin.eveonline.neocom.fragment.PlanetaryFragment;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryManagerActivity extends BaseManagerActivity {
@@ -56,8 +57,8 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
-//			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_BYLOCATION.name()).setExtras(extras),
-//					page++);
+			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_BYLOCATION.name()).setExtras(extras),
+					page++);
 			this.addPage(new ColonyFragment().setVariant(ENeoComVariants.PLANETARY_COLONIES.name()).setExtras(extras),
 					page++);
 		} catch (Exception rtex) {

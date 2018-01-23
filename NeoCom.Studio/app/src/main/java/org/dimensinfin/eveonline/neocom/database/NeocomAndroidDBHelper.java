@@ -276,6 +276,7 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
 			TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
 			TableUtils.createTableIfNotExists(databaseConnection, TimeStamp.class);
+			TableUtils.createTableIfNotExists(databaseConnection, Colony.class);
 			TableUtils.createTableIfNotExists(databaseConnection, ColonyStorage.class);
 			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
@@ -355,6 +356,20 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				TableUtils.dropTable(databaseConnection, TimeStamp.class, true);
 				TableUtils.dropTable(databaseConnection, Colony.class, true);
 				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
+			} catch (RuntimeException rtex) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 104.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 104.");
+				sqle.printStackTrace();
+			}
+		}
+		if ( oldVersion < 105 ) {
+			try {
+				TableUtils.dropTable(databaseConnection, TimeStamp.class, true);
+				TableUtils.dropTable(databaseConnection, Colony.class, true);
 			} catch (RuntimeException rtex) {
 				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
 						"new version 104.");

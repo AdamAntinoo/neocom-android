@@ -6,7 +6,7 @@
 
     <include layout="@layout/nodebase4new" />
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+    <org.dimensinfin.android.mvc.fonts.Din1451TextView
         android:id="@+id/instructionsLabel"
         style="@style/AppTheme.TextView"
         android:layout_centerVertical="true"

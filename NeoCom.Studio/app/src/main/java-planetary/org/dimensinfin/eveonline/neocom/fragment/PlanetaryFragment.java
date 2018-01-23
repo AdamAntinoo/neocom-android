@@ -27,9 +27,9 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ManagerStore;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
@@ -42,22 +42,15 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-//		private String _loginid = null;
 		private long characterid = -1;
-		private NeoComCharacter _pilot = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public PlanetaryByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
-//			_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 			characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//			_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		public NeoComCharacter getPilot () {
-			return _pilot;
-		}
 
 		/**
 		 * This adapter should generate the model for all the assets that belong to the Planetary category and aggregated
@@ -72,17 +65,11 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		public RootNode collaborate2Model () {
 			AbstractGenerator.logger.info(">> [PlanetaryByLocationGenerator.collaborate2Model]");
 			// On cached generators we should check if the model is initialized.
-			if ( null == _dataModelRoot ) {
+			if ( cacheValid() ) {
 				// Get the Planetary Manager active at the character.
-				PlanetaryManager planetaryMan = (PlanetaryManager) new PlanetaryManager(NeoComModelStore.getSingleton().activateCredential(characterid)).initialize();
-				// Initialize the Adapter data structures.
-				this.setDataModel(new RootNode());
-
-				// Check the number of Locations and skip the Regions if below the preference level.
-				//			numberLocs= planetaryMan.getLocationCount();
-
-				// Add the first level that are the Regions.
-				Hashtable<Long, Region> regs = planetaryMan.getRegions();
+				PlanetaryManager planetaryMgr = ManagerStore.getPlanetaryManager(NeoComModelStore.getCredential4Id
+						(characterid));
+				Hashtable<Long, Region> regs = planetaryMgr.getRegions();
 				for (Long key : regs.keySet()) {
 					_dataModelRoot.addChild(regs.get(key));
 					AbstractGenerator.logger.info("-- [PlanetaryByLocationGenerator.collaborate2Model]> Adding '"
@@ -91,6 +78,15 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 			}
 			AbstractGenerator.logger.info("<< [PlanetaryByLocationGenerator.collaborate2Model]");
 			return _dataModelRoot;
+		}
+
+		private boolean cacheValid () {
+			if ( null == _dataModelRoot ) {
+				// Initialize the Adapter data structures.
+				this.setDataModel(new RootNode());
+				return false;
+			}
+			else return true;
 		}
 	}
 
@@ -117,6 +113,10 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		return st;
 	}
 
+	/**
+	 * Warning. This value has dependencies. I have to simplify this to reduce the number of global methods.
+	 * @return
+	 */
 	@Override
 	public String getTitle () {
 		return NeoComModelStore.getActiveCredential().getName();
@@ -126,16 +126,14 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		PlanetaryFragment.logger.info(">> [PlanetaryFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
 		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		//		EManagerType manager = EManagerType
-		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-		// TODO Activate the fake login until the code is removed
-//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
-		NeoComModelStore.getSingleton().activateCredential(characterid);
-		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
+//		//		EManagerType manager = EManagerType
+//		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
+//		// TODO Activate the fake login until the code is removed
+//		//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
+//		NeoComModelStore.getSingleton().activateCredential(characterid);
+//		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier("PLANETARY-MANAGER");
 		// This part of the code may depend on the variant so surround it with the detector.

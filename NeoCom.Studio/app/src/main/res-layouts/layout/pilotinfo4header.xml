@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/cloneIcon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentLeft="true"
                 android:contentDescription="Clone Type Icon"
                 android:src="@drawable/omega" />
@@ -44,9 +44,9 @@
                 android:padding="0dp"
                 android:layout_toRightOf="@+id/cloneIcon"
                  android:text="Adam Antinoo"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
-            <org.dimensinfin.android.mvc.fonts.Din1451EngTextView
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/characterId"
                 style="@style/AppTheme.TextView"
                 android:layout_toRightOf="@+id/cloneIcon"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pilotName"
                  android:text="[9863234]"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -91,8 +91,8 @@
 
             <ImageView
                 android:id="@+id/cloneBlockIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:contentDescription="Cloner Marker place"
                 android:src="@drawable/medical" />
 
@@ -105,7 +105,7 @@
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:text="The Forge > Japeto > Carthum Comglometary Station 0.4"
-                android:textSize="10sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <org.dimensinfin.android.mvc.fonts.Din1451EngTextView

@@ -15,7 +15,7 @@ android {
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testApplicationId 'org.dimensinfin.eveonline.neocom.test'
+//        testApplicationId 'org.dimensinfin.eveonline.neocom.test'
     }
     buildTypes {
         debug {
@@ -32,7 +32,7 @@ android {
             resValue "string", "appversionnumber", "104"
 
             resValue "string", "appdatabasefilename", "neocom-100.db"
-            resValue "string", "databaseversion", "104"
+            resValue "string", "databaseversion", "105"
         }
 //        incubation {
 //            initWith(buildTypes.debug)

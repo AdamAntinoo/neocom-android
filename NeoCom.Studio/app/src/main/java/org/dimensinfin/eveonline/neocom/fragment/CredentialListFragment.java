@@ -36,7 +36,7 @@ import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class LoginListFragment extends AbstractPagerFragment {
+public class CredentialListFragment extends AbstractPagerFragment {
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class LoginListGenerator extends AbstractGenerator implements IModelGenerator {
 		// - S T A T I C - S E C T I O N ..........................................................................
@@ -77,6 +77,7 @@ public class LoginListFragment extends AbstractPagerFragment {
 			return _dataModelRoot;
 		}
 	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -106,13 +107,13 @@ public class LoginListFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void registerDataSource () {
-		AbstractPagerFragment.logger.info(">> [LoginListFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info(">> [CredentialListFragment.registerDataSource]");
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant());
 		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new LoginListGenerator(locator, this.getVariant(), new Bundle()));
 		setGenerator(generator);
-		AbstractPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info("<< [CredentialListFragment.registerDataSource]");
 	}
 
 	/**

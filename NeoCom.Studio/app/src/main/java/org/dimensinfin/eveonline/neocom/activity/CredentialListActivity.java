@@ -1,12 +1,18 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
 import android.content.Intent;
@@ -16,7 +22,7 @@ import android.view.MenuItem;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.ANeoComPagerActivity;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.LoginListFragment;
+import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class CredentialListActivity extends ANeoComPagerActivity {
@@ -66,7 +72,7 @@ public class CredentialListActivity extends ANeoComPagerActivity {
 			int page = 0;
 			// Register this Activity as the current active Activity.
 			//		ApplicationCloudAndroidAdapter.getSingleton().registerActivity(this);
-			this.addPage(new LoginListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
+			this.addPage(new CredentialListFragment().setVariant(ENeoComVariants.CAPSULEER_LIST.name()), page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger.severe("[LoginProgressActivity.onCreate]> RTEX> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();
