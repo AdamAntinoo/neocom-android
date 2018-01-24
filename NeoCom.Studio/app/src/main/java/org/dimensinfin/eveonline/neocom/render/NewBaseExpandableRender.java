@@ -1,12 +1,18 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.render;
 
 import android.app.Activity;
@@ -23,14 +29,13 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	// - L A Y O U T   F I E L D S
-	private ImageView nodeIcon = null;
-	private ImageView topleftDecorator=null;
-	private ImageView toprightDecorator=null;
-	private ImageView botrightDecorator=null;
-	private ImageView botleftDecorator=null;
-	private ImageView separator=null;
-	private ImageView menuIcon=null;
-//	private ImageView rightArrow=null;
+	protected ImageView nodeIcon = null;
+	protected ImageView topleftDecorator = null;
+	protected ImageView toprightDecorator = null;
+	protected ImageView botrightDecorator = null;
+	protected ImageView botleftDecorator = null;
+	protected ImageView separator = null;
+	protected ImageView menuIcon = null;
 
 	// - L A Y O U T   L A B E L S
 	private ViewGroup nodeIconBlock = null;
@@ -52,8 +57,8 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 		botleftDecorator = (ImageView) _convertView.findViewById(R.id.botleftDecorator);
 		separator = (ImageView) _convertView.findViewById(R.id.separator);
 		menuIcon = (ImageView) _convertView.findViewById(R.id.menuIcon);
-//		rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 	}
+
 	@Override
 	public void updateContent () {
 		super.updateContent();
@@ -63,14 +68,8 @@ public abstract class NewBaseExpandableRender extends NeoComRender {
 		toprightDecorator.setVisibility(View.INVISIBLE);
 		botrightDecorator.setVisibility(View.INVISIBLE);
 		botleftDecorator.setVisibility(View.INVISIBLE);
+//		separator.setVisibility(View.GONE);
 		menuIcon.setVisibility(View.GONE);
-//		_rightArrow.setVisibility(View.GONE);
-//		nodeIcon.setBackground(getContext().getResources().getColor(Color.TRANSPARENT));
-	}
-	@Override
-	protected void createView () {
-		_convertView = inflateView(R.layout.nodebase4expandnew);
-		_convertView.setTag(this);
 	}
 }
 

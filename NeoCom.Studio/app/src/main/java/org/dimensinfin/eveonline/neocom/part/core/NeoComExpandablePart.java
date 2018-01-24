@@ -77,6 +77,14 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
 					}
 				});
+		GlobalAndroidDataManager.submitOnClick(
+				new OneShotTask<NeoComExpandablePart>(this) {
+					public void run () {
+						logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
+						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+						logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
+					}
+				});
 		logger.info("<< [NeoComExpandablePart.onClick]");
 	}
 

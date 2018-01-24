@@ -3,6 +3,7 @@
 
     <!-- Android Common UI dimensions. Icon and Grapical components -->
     <dimen name="nodeiconsize">36dp</dimen>
+    <dimen name="halfnodeiconsize">18dp</dimen>
     <dimen name="arrowsize">28dp</dimen>
 
     <!-- Android Common UI dimensions. Separators -->
@@ -22,7 +23,11 @@
     <dimen name="menuIconWidth">34dip</dimen>
     <dimen name="menuIconHeight">32dip</dimen>
 
-    <!-- NeoCom default dimensions for UI objectsº. -->
+    <!-- NeoCom default dimensions for UI objects. -->
     <dimen name="pilotavatarsize">96dip</dimen>
+
+    <!-- NeoCom margings and UI sizes. -->
+    <dimen name="uilefttextmargin">3dp</dimen>
+    <dimen name="uirighttextmargin">3dp</dimen>
 
 </resources>

@@ -87,6 +87,7 @@ android {
         main.res.srcDirs += 'src/main/res-obsolete'
         main.res.srcDirs += 'src/main/res-window'
         main.res.srcDirs += 'src/main/res-production'
+        main.res.srcDirs += 'src/main/res-ui'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

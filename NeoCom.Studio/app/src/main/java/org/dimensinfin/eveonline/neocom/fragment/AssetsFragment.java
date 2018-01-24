@@ -21,6 +21,7 @@ import android.util.SparseArray;
 import com.beimin.eveapi.exception.ApiException;
 import com.beimin.eveapi.model.shared.Asset;
 import com.beimin.eveapi.model.shared.Location;
+import com.beimin.eveapi.parser.ApiAuthorization;
 import com.beimin.eveapi.parser.pilot.LocationsParser;
 import com.beimin.eveapi.parser.pilot.PilotAssetListParser;
 import com.beimin.eveapi.response.shared.AssetListResponse;
@@ -35,11 +36,12 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.AssetCategory;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -89,15 +91,10 @@ public class AssetsFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-//		String loginid = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		//		EManagerType manager = EManagerType
-		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-//		NeoComAppConnector.getSingleton().getModelStore().activateLoginIdentifier(loginid);
-		NeoComModelStore.getSingleton().activateCredential(characterid);
+		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//		NeoComModelStore.getSingleton().activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-//		                                                   .addIdentifier(loginid)
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier("ASSETS-MANAGER");
 		// This part of the code may depend on the variant so surround it with the detector.
@@ -129,23 +126,15 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private String _loginid = null;
-	private long characterid = -1;
-	private NeoComCharacter _pilot = null;
+	private int characterid = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
-//		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(characterid);
+		characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public NeoComCharacter getPilot () {
-		return _pilot;
-	}
-
 	/**
 	 * This adapter should generate the model for all the assets aggregated by Location. The Locations are lazy
 	 * evaluated so no need to get all the assets by the list of locations and then construct the first two
@@ -159,9 +148,9 @@ final class AssetsByLocationGenerator extends AbstractGenerator implements IMode
 		if ( null == _dataModelRoot ) {
 			this.setDataModel(new RootNode());
 			// Get the Assets Manager active at the character.
-			AssetsManager assetsMan = new AssetsManager(NeoComModelStore.getSingleton().activateCredential(characterid)).initialize();
+			AssetsManager assetsMan = GlobalAndroidDataManager.getAssetsManager(NeoComModelStore.getCredential4Id(characterid));
 			// Initialize the Adapter data structures.
-			this.setDataModel(new RootNode());
+//			this.setDataModel(new RootNode());
 			// Add the first level that are the Regions.
 			Hashtable<Long, Region> regs = assetsMan.getRegions();
 			for (Long key : regs.keySet()) {
@@ -182,27 +171,17 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	private static Logger logger = LoggerFactory.getLogger(AssetsByCategoryGenerator.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private String _loginid = null;
-	private long _characterid = -1;
-	private NeoComCharacter _pilot = null;
+	private int characterid = -1;
 
 	private SparseArray<AssetCategory> _categories = new SparseArray();
-
-	//	private Hashtable<String, Hashtable<String, Vector<Asset>>> assetGroups = new Hashtable();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AssetsByCategoryGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 		super(locator, variant);
-//		_loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		_characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//		_pilot = NeoComAppConnector.getSingleton().getModelStore().activatePilot(_characterid);
+		characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public NeoComCharacter getPilot () {
-		return _pilot;
-	}
-
 	/**
 	 * This adapter will use another approach to obtain the assets. It will call the CCP service and get the complete
 	 * list of this character assets and then process them fast, without adding more data that the strictly necessary just
@@ -230,8 +209,10 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 	public void downloadPilotAssets () {
 		logger.info(">> [AssetsByCategoryGenerator.downloadPilotAssets]");
 		try {
+			final Credential credential = NeoComModelStore.getCredential4Id(characterid);
+			final ApiAuthorization auth = new ApiAuthorization(credential.getKeyCode(), characterid, credential.getValidationCode());
 			PilotAssetListParser parser = new PilotAssetListParser();
-			AssetListResponse response = parser.getResponse(getPilot().getAuthorization());
+			AssetListResponse response = parser.getResponse(auth);
 			logger.info(">> [AssetsByCategoryGenerator.downloadPilotAssets]");
 			if ( null != response ) {
 				List<Asset> assets = response.getAll();
@@ -262,29 +243,6 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 			newcategory.addAsset(newasset);
 			_categories.put(categoryid, newcategory);
 		} else hit.addAsset(newasset);
-		//
-		//
-		//
-		//
-		////		final EveItem item = ModelAppConnector.getSingleton().getCCPDBConnector().searchItembyID(typeID);
-		////		final String group = item.getGroupName();
-		////		final String category = item.getCategory();
-		//
-		//		// Search for the Group.
-		//		Hashtable<String, Vector<Asset>> targetGroup = assetGroups.get(group);
-		//		if ( null == targetGroup ) {
-		//			targetGroup = new Hashtable<String, Vector<Asset>>();
-		//			assetGroups.put(group, targetGroup);
-		//		}
-		//
-		//		// Search for the Category
-		//		Vector<Asset> targetCategory = targetGroup.get(category);
-		//		if ( null == targetCategory ) {
-		//			targetCategory = new Vector<Asset>();
-		//			targetGroup.put(category, targetCategory);
-		//		}
-		//
-		//		targetCategory.add(eveAsset);
 	}
 
 	protected String downloadAssetEveName (final long assetID) {
@@ -297,8 +255,10 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 		final Vector<Long> ids = new Vector<Long>();
 		ids.add(assetID);
 		try {
+			final Credential credential = NeoComModelStore.getCredential4Id(characterid);
+			final ApiAuthorization auth = new ApiAuthorization(credential.getKeyCode(), characterid, credential.getValidationCode());
 			final LocationsParser parser = new LocationsParser();
-			final LocationsResponse response = parser.getResponse(this.getPilot().getAuthorization(), ids);
+			final LocationsResponse response = parser.getResponse(auth, ids);
 			if ( null != response ) {
 				Set<Location> userNames = response.getAll();
 				if ( userNames.size() > 0 ) return userNames.iterator().next().getItemName();
@@ -309,7 +269,6 @@ final class AssetsByCategoryGenerator extends AbstractGenerator implements IMode
 		}
 		return null;
 	}
-
 }
 
 //- UNUSED CODE ............................................................................................

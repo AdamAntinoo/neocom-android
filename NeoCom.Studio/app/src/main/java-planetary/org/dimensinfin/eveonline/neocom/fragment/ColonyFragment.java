@@ -40,7 +40,9 @@ import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManag
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
+import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
+import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.List;
@@ -66,6 +68,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			setCaching(false);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -79,20 +82,15 @@ public class ColonyFragment extends AbstractPagerFragment {
 			// Check if the model is already generated.
 			if ( cacheIsInvalid() ) {
 				// Get the list of colonies for this character identifier form the Global.
-				final List<Colony> colonies = GlobalAndroidDataManager.accessColonies4Credential(characterid);
-
-				//				this.setDataModel(new RootNode());
-
-				// Initialize the Planetary Manager and connect to the ESI api to get the Colony information.
-				//				final PlanetaryManager manager = ManagerStore.getPlanetaryManager(DataManagementModelStore.getCredential4Id(characterid));
-				//				final List<Colony> colonies = manager.accessAllColonies();
+				//				final List<Colony> colonies = GlobalAndroidDataManager.accessColonies4Credential(characterid);
+				// Get access to the Planetary Manager and connect the Global to get the colony information.
+				final PlanetaryManager manager = GlobalAndroidDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id
+						(characterid));
+				final List<Colony> colonies = manager.accessAllColonies();
 				for (Colony colony : colonies) {
 					_dataModelRoot.addChild(colony);
 				}
 			}
-			//				AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
-			//				return _dataModelRoot;
-			//			} else {
 			AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
 			return _dataModelRoot;
 		}
