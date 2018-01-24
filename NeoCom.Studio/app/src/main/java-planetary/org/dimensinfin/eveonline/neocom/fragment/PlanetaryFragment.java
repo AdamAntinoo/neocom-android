@@ -26,7 +26,7 @@ import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
@@ -42,12 +42,12 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private long characterid = -1;
+		private int characterid = -1;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public PlanetaryByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
-			characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -67,7 +67,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 			// On cached generators we should check if the model is initialized.
 			if ( cacheIsInvalid() ) {
 				// Get the Planetary Manager active at the character.
-				PlanetaryManager planetaryMgr = GlobalDataManager.getPlanetaryManager(NeoComModelStore.getCredential4Id
+				PlanetaryManager planetaryMgr = GlobalAndroidDataManager.getPlanetaryManager(NeoComModelStore.getCredential4Id
 						(characterid));
 				Hashtable<Long, Region> regs = planetaryMgr.getRegions();
 				for (Long key : regs.keySet()) {
@@ -79,17 +79,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 			AbstractGenerator.logger.info("<< [PlanetaryByLocationGenerator.collaborate2Model]");
 			return _dataModelRoot;
 		}
-
-//		private boolean cacheIsValid () {
-//			if ( null == _dataModelRoot ) {
-//				// Initialize the Adapter data structures.
-//				this.setDataModel(new RootNode());
-//				return false;
-//			}
-//			else return true;
-//		}
 	}
-
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

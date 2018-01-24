@@ -31,6 +31,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
@@ -39,6 +40,7 @@ import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.logging.Logger;
 
@@ -92,7 +94,8 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	@WorkerThread
 	public String getTAssetsCount () {
 		// Get access to the AssetsManager for the current character to get this value
-		final AssetsManager manager = GlobalDataManager.getAssetsManager(getCastedModel().getCharacterId());
+		final Credential credential = NeoComModelStore.getCredential4Id(getCastedModel().getCharacterId());
+		final AssetsManager manager = GlobalDataManager.getAssetsManager(credential);
 		final long totalAssets = manager.getTotalAssetsNumber();
 		return qtyFormatter.format(totalAssets);
 	}

@@ -47,12 +47,12 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private final long capsulerrid;
+		private final int capsulerrid;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public PilotManagersGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
-			capsulerrid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			capsulerrid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -70,12 +70,12 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 
 			// Add to the data model list the Directors that can be used on this character.
 			_dataModelRoot.addChild(new Separator().setType(ESeparatorType.LINE_WHITE));
-			_dataModelRoot.addChild(GlobalDataManager.getAssetsManager(capsulerrid));
+			_dataModelRoot.addChild(GlobalDataManager.getAssetsManager(DataManagementModelStore.getCredential4Id(capsulerrid)));
 			_dataModelRoot.addChild(GlobalDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)));
 			// Accelerate the availability of data.
-//			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
-//				GlobalDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)).accessAllColonies();
-//			});
+			//			ApplicationCloudAndroidAdapter.submit2downloadExecutor(()->{
+			//				GlobalDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id(capsulerrid)).accessAllColonies();
+			//			});
 			//			_dataModelRoot.addChild(character.getBlueprintsManager());
 
 			AbstractGenerator.logger.info("<< [PilotManagersGenerator.collaborate2Model]");
@@ -113,11 +113,11 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 	protected void registerDataSource () {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		final int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		NeoComModelStore.activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-																											 .addIdentifier(characterid);
+		                                                   .addIdentifier(characterid);
 		IModelGenerator generator = ModelGeneratorStore
 				.registerGenerator(new PilotManagersGenerator(locator, this.getVariant(), getExtras()));
 		setGenerator(generator);
@@ -133,11 +133,11 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		AbstractPagerFragment.logger.info(">> [PilotDetailsFragment.setHeaderContents]");
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
 		// Get the Pilot instance to use as the origin model.
-		final long identifier = this.getExtras().getLong(EExtras.EXTRA_CAPSULEERID.name());
+		final int identifier = this.getExtras().getInt(EExtras.EXTRA_CAPSULEERID.name());
 		final PilotV1 pilot = ModelFactory.getPilotV1(identifier);
 		this.addtoHeader((AbstractAndroidPart) this.getFactory()
-																							 .createPart(pilot)
-																							 .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
+		                                           .createPart(pilot)
+		                                           .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));
 		AbstractPagerFragment.logger.info("<< [PilotDetailsFragment.setHeaderContents]");
 	}
 }

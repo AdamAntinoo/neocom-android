@@ -30,7 +30,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private long characterid = -1;
+	private int characterid = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -50,10 +50,10 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 			Bundle extras = null;
 			if ( null != savedInstanceState ) {
 				extras = savedInstanceState;
-				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+				characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			} else {
 				extras = this.getIntent().getExtras();
-				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+				characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			}
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
@@ -70,7 +70,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	}
 	@Override
 	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
-		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 

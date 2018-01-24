@@ -29,8 +29,8 @@ import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,6 +221,15 @@ public class ColonyPart extends NeoComExpandablePart {
 	protected AbstractRender selectRenderer () {
 		return new ColonyRender(this, _activity);
 	}
+//	/**
+//	 * During the expansion check if we have the structures for the colony already available at the node. If not
+//	 * launch hte download of that data while we show the spinner.
+//	 * @return
+//	 */
+//	public boolean toggleExpanded () {
+//		getCastedModel().downloadColonyStructures();
+//	}
+
 
 	//	@Override
 	//	public void onClick (final View view) {

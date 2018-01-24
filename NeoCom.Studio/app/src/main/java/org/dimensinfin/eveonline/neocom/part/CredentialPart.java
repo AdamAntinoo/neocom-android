@@ -26,8 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tlabs.android.evanova.adapter.ApplicationCloudAndroidAdapter;
-
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
@@ -137,7 +135,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 			accountBalance.setText("- ISK"); // This is the default value.
 			assetsCount.setText("-"); // Set a default value while we get the real from the database.
 			race.setText("-"); // Set a default value while we get an update from the Character.
-			ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
+	//		ApplicationCloudAndroidAdapter.submit2downloadExecutor(() -> {
 				try {
 					// Obtain the values to be set on the fileds. This second task should be done on the UI thread.
 					final String walletAmount = getPart().getTWalletAmount();
@@ -163,7 +161,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 				} catch (RuntimeException rtex) {
 					rtex.printStackTrace();
 				}
-			});
+	//		});
 
 			// Set the icon decorators deènding on the Credential type.
 			botrightDecorator.setVisibility(View.INVISIBLE);
@@ -279,7 +277,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		logger.info(">> [CredentialRender.runDependencies]");
 		// Make access to the rendering dependencies during this preparation phase.
 		pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
-		manager = GlobalDataManager.getAssetsManager(getCastedModel().getAccountId());
+		manager = GlobalDataManager.getAssetsManager(getCastedModel());
 		logger.info("<< [CredentialRender.runDependencies]");
 		if ( null == pilot ) return false;
 		if ( null == manager ) return false;
@@ -299,7 +297,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 		final Object pilotPart = view.getTag();
 		if ( pilotPart instanceof CredentialPart ) {
 			// With the new implementation get just the identifier for the Credential.
-			final long identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
+			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
 			NeoComModelStore.activateCredential(identifier);
 			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier

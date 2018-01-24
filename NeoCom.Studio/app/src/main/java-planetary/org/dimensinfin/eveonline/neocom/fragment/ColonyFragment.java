@@ -36,7 +36,7 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.NeoComCacheManager;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
@@ -60,13 +60,12 @@ public class ColonyFragment extends AbstractPagerFragment {
 
 		// - F I E L D - S E C T I O N ............................................................................
 		//		private final Bundle _extras;
-		private long characterid = -1;
+		private int characterid = -1;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
-			//			_extras = extras;
-			characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -80,7 +79,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 			// Check if the model is already generated.
 			if ( cacheIsInvalid() ) {
 				// Get the list of colonies for this character identifier form the Global.
-				final List<Colony> colonies = GlobalDataManager.accessColonies4Credential(characterid);
+				final List<Colony> colonies = GlobalAndroidDataManager.accessColonies4Credential(characterid);
 
 				//				this.setDataModel(new RootNode());
 
@@ -165,7 +164,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 				toolBarTitleRight = (TextView) newbar.findViewById(R.id.toolBarTitleRight);
 				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
 				if ( null != pilotIcon ) {
-					long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+					final int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 					final PilotV1 pilot = ModelFactory.getPilotV1(characterid);
 					String link = pilot.getURLForAvatar();
 					pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
@@ -203,7 +202,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 	protected void registerDataSource () {
 		logger.info(">> [ColonyFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		//		NeoComModelStore.activateCredential(characterid);
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
