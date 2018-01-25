@@ -26,7 +26,7 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 
 	// - F I E L D - S E C T I O N ............................................................................
 //	private String loginid = null;
-	private long characterid = -1;
+	private int characterid = -1;
 	protected Bundle extras = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -42,12 +42,10 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			if ( null != savedInstanceState ) {
 				extras = savedInstanceState;
-//				loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-				characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+				characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			} else {
 				extras = this.getIntent().getExtras();
-//				loginid = extras.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-				characterid = extras.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+				characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			}
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage());
@@ -59,8 +57,7 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 
 	@Override
 	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
-//		loginid = savedInstanceState.getString(AppWideConstants.EExtras.EXTRA_LOGINID.name());
-		characterid = savedInstanceState.getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -73,8 +70,7 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 	protected void onSaveInstanceState (final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-//		outState.putString(AppWideConstants.EExtras.EXTRA_LOGINID.name(), loginid);
-		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
+		outState.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
 	}
 }
 //- UNUSED CODE ............................................................................................

@@ -394,6 +394,19 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				sqle.printStackTrace();
 			}
 		}
+		if ( oldVersion < 107 ) {
+			try {
+				TableUtils.dropTable(databaseConnection, ColonyStorage.class, true);
+			} catch (RuntimeException rtex) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 107.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				NeocomAndroidDBHelper.logger.severe("E [NeocomAndroidDBHelper.onUpgrade]> Error dropping table on Database " +
+						"new version 107.");
+				sqle.printStackTrace();
+			}
+		}
 		this.onCreate(database, databaseConnection);
 		logger.info("<< [NeocomAndroidDBHelper.onUpgrade]");
 	}

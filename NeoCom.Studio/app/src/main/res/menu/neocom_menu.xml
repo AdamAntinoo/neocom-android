@@ -9,7 +9,7 @@
         android:id="@+id/action_launchUpdate"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:icon="@drawable/redprogress70"
+        android:icon="@drawable/progress70_orange"
         android:showAsAction="always"
         android:title="Download Data"
         android:visible="false"/>
@@ -30,9 +30,9 @@
         android:showAsAction="collapseActionView"
         android:title="Update Accounts"/>
     <item
-        android:id="@+id/action_createFitting"
+        android:id="@+id/action_showactivejobs"
         android:orderInCategory="500"
         android:showAsAction="collapseActionView"
-        android:title="Create Fitting"/>
+        android:title="Show Jobs..."/>
 
 </menu>

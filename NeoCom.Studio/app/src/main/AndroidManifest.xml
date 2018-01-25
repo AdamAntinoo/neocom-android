@@ -39,6 +39,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.ActiveJobsActivity"
+            android:icon="@drawable/insurance"
+            android:label="Active Jobs"
+            android:parentActivityName=".activity.CredentialListActivity"></activity>
 
         <!-- A C T I V I T I E S -->
         <activity

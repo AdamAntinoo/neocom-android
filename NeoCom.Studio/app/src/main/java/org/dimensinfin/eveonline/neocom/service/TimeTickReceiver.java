@@ -43,14 +43,13 @@ import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.DownloadManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
-import org.dimensinfin.eveonline.neocom.network.NetworkManager;
 import org.dimensinfin.eveonline.neocom.services.PendingRequestEntry;
 import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +75,7 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HostnameVerifier;
@@ -119,11 +119,6 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		//		private Job setReference (final String reference) {
-		//			this.reference = reference;
-		//			return this;
-		//		}
-
 		public String getReference () {
 			return reference;
 		}
@@ -171,7 +166,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class UpdateJobManager {
 		// - S T A T I C - S E C T I O N ..........................................................................
-		private static final List<Job> jobList = new Vector();
+		//		private static final List<Job> jobList = new Vector();
 		private static final ExecutorService downloadExecutor = Executors.newSingleThreadExecutor();
 		public static final Hashtable<String, Future<?>> runningJobs = new Hashtable();
 
@@ -188,7 +183,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				final Future<?> hit = runningJobs.get(identifier);
 				if ( null == hit ) {
 					// New job. Launch it and store the reference.
-					logger.info("-- [UpdateJobManager.submit]> Launching job {}",newJob.getReference());
+					logger.info("-- [UpdateJobManager.submit]> Launching job {}", newJob.getReference());
 					final Future<?> future = newJob.submit();
 					runningJobs.put(identifier, future);
 				} else {
@@ -202,6 +197,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			} catch (NeoComException neoe) {
 				neoe.printStackTrace();
 			}
+			// Count the running or pending jobs to update the ActionBar counter.
+			int counter = 0;
+			for (Future<?> future : runningJobs.values()) {
+				if ( !future.isDone() ) counter++;
+			}
+			NeoComModelStore.setJobCounter(counter);
 		}
 
 		// - F I E L D - S E C T I O N ............................................................................
@@ -449,13 +450,22 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			// If the TS do not exists then we launch the job and create it.
 			// Set up the complete list.
 			final ArrayList<GlobalDataManager.EDataUpdateJobs> joblist = new ArrayList<>();
-			joblist.add(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE);
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(NeoComModelStore.getActivity());
+			boolean blockCharacter = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockCharacterUpdate.name
+					(), false);
+			if ( !blockCharacter ) joblist.add(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE);
 			//			joblist.add(EDataUpdateJobs.CHARACTER_FULL);
-			joblist.add(GlobalDataManager.EDataUpdateJobs.ASSETDATA);
+			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(NeoComModelStore.getActivity());
+			boolean blockAssets = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockAssetsUpdate
+					.name(), false);
+			if ( !blockAssets ) joblist.add(GlobalDataManager.EDataUpdateJobs.ASSETDATA);
 			//		joblist.add(EDataUpdateJobs.BLUEPRINTDATA);
 			//			joblist.add(EDataUpdateJobs.INDUSTRYJOBS);
 			//			joblist.add(EDataUpdateJobs.MARKETORDERS);
-			joblist.add(GlobalDataManager.EDataUpdateJobs.COLONYDATA);
+			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(NeoComModelStore.getActivity());
+			boolean blockColony = sharedPrefs.getBoolean(AppWideConstants.preferenceKeys.prefkey_BlockColonyUpdate
+					.name(), false);
+			if ( !blockColony ) joblist.add(GlobalDataManager.EDataUpdateJobs.COLONYDATA);
 			//			joblist.add(EDataUpdateJobs.SKILL_DATA);
 
 
@@ -478,11 +488,12 @@ public class TimeTickReceiver extends BroadcastReceiver {
 						doProcessJob(newts, cred);
 					} else {
 						// Check if time point has already happened.
-						if ( ts.getTimeStamp() < Instant.now().getMillis() ){
+						if ( ts.getTimeStamp() < Instant.now().getMillis() ) {
 							TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Time point past. Generating job request for {}.",
 									reference);
 							doProcessJob(ts, cred);
-					}}
+						}
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -510,42 +521,48 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		// Check that the request is a COLONY_DATA update request.
 		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			// Check if valid data time has elapsed.
-	//		if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
-				// Submit the job to the manager
-				final Job newJob = new Job(dataIdentifier)
-						.setCredentialIdentifier(credential.getAccountId())
-						.setJobClass(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE)
-						.setTask(() -> {
-							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
-							TimeTickReceiver.logger.info("-- [Job.CHARACTER_CORE]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
-							ModelFactory.udpatePilotV1(credential.getAccountId());
-							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-						});
-				UpdateJobManager.submit(newJob);
-	//		}
+			//		if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
+			// Submit the job to the manager
+			final Job newJob = new Job(dataIdentifier)
+					.setCredentialIdentifier(credential.getAccountId())
+					.setJobClass(GlobalDataManager.EDataUpdateJobs.CHARACTER_CORE)
+					.setTask(() -> {
+						//		NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+						TimeTickReceiver.logger.info("-- [Job.CHARACTER_CORE]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
+						ModelFactory.udpatePilotV1(credential.getAccountId());
+						NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
+					});
+			UpdateJobManager.submit(newJob);
+			//		}
 		}
 		currentrequestReference = Job.constructReference(GlobalDataManager.EDataUpdateJobs.COLONYDATA, credential.getAccountId());
 		// Check that the request is a COLONYDATA update request.
 		if ( dataIdentifier.getReference().equalsIgnoreCase(currentrequestReference) ) {
 			if ( dataIdentifier.getTimeStamp() < Instant.now().getMillis() ) {
 				// Submit the job to the manager
+				final String finalCurrentrequestReference = currentrequestReference;
 				final Job newJob = new Job(dataIdentifier)
 						.setCredentialIdentifier(credential.getAccountId())
 						.setJobClass(GlobalDataManager.EDataUpdateJobs.COLONYDATA)
 						.setTask(() -> {
-							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+							//		NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 							try {
 								TimeTickReceiver.logger.info(
 										"-- [Job.COLONYDATA]> Downloading Colony list for: [{}]", credential.getAccountName());
 								// Get the list of planet colonies for this credential and update each one on the database.
-								final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
-								for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
-									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Mapping Colony: [{}]", colonyOK.getPlanetId());
-									Colony col = modelMapper.map(colonyOK, Colony.class);
-									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Saving Colony data at DB: [{}]", col.getPlanetId());
-									col.create(colonyOK.getPlanetId());
-									NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
-								}
+								final List<Colony> colonyInstances = GlobalDataManager.downloadColonies4Credential(credential);
+								//								for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
+								//									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Mapping Colony: [{}]", colonyOK.getPlanetId());
+								//									Colony col = modelMapper.map(colonyOK, Colony.class);
+								//									TimeTickReceiver.logger.info("-- [Job.COLONYDATA]> Saving Colony data at DB: [{}]", col.getPlanetId());
+								//									col.create(colonyOK.getPlanetId());
+								//								}
+								// Update the timer for this download at the database.
+								final Instant validUntil = Instant.now().plus(TimeUnit.SECONDS.toMillis(600));
+								final TimeStamp ts = new TimeStamp(finalCurrentrequestReference, validUntil)
+										.setCredentialId(credential.getAccountId())
+										.store();
+								NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 							} catch (RuntimeException rtex) {
 								rtex.printStackTrace();
 							}
@@ -562,12 +579,13 @@ public class TimeTickReceiver extends BroadcastReceiver {
 						.setCredentialIdentifier(credential.getAccountId())
 						.setJobClass(GlobalDataManager.EDataUpdateJobs.ASSETDATA)
 						.setTask(() -> {
-							NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
+							//			NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 							TimeTickReceiver.logger.info(
 									"-- [TimeTickReceiver.onReceive]> Downloading asset list for: [{}]", credential.getAccountName());
 							// Get the list of planet colonies for this credential and update the character assets at the database.
 							final DownloadManager downloader = new DownloadManager(credential);
 							downloader.downloadPilotAssetsESI();
+							NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 						});
 				UpdateJobManager.submit(newJob);
 			}

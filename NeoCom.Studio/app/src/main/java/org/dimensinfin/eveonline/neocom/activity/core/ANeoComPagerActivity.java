@@ -30,6 +30,7 @@ import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.ActiveJobsActivity;
 import org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
@@ -89,8 +90,8 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public ANeoComPagerActivity () {
-//	}
+	//	public ANeoComPagerActivity () {
+	//	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
@@ -152,26 +153,28 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 					}
 				});
 				return true;
-//				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
-//				break;
-			//			case R.id.action_createFitting:
-			//				// Create demo fittings to test the save/restore and continue the development.
-			//				Fitting onConstructionFit = new Fitting();
-			//				onConstructionFit.setName("Testing - Crusader");
-			//				onConstructionFit.addHull(11184);
-			//				onConstructionFit.fitModule(6719, 4);
-			//				onConstructionFit.fitModule(5973);
-			//				onConstructionFit.fitModule(5405);
-			//				onConstructionFit.fitModule(5839);
-			//				onConstructionFit.fitModule(5849);
-			//				onConstructionFit.fitModule(11563);
-			//				onConstructionFit.fitModule(33076);
-			//				onConstructionFit.fitRig(26929);
-			//				onConstructionFit.fitRig(26929);
-			//				onConstructionFit.addCargo(244, 4);
-			//				onConstructionFit.addCargo(240, 4);
-			//				NeoComModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
-			//				return true;
+			//				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
+			//				break;
+			case R.id.action_showactivejobs:
+				this.startActivity(new Intent(this, ActiveJobsActivity.class));
+				return true;
+			//							// Create demo fittings to test the save/restore and continue the development.
+			//							Fitting onConstructionFit = new Fitting();
+			//							onConstructionFit.setName("Testing - Crusader");
+			//							onConstructionFit.addHull(11184);
+			//							onConstructionFit.fitModule(6719, 4);
+			//							onConstructionFit.fitModule(5973);
+			//							onConstructionFit.fitModule(5405);
+			//							onConstructionFit.fitModule(5839);
+			//							onConstructionFit.fitModule(5849);
+			//							onConstructionFit.fitModule(11563);
+			//							onConstructionFit.fitModule(33076);
+			//							onConstructionFit.fitRig(26929);
+			//							onConstructionFit.fitRig(26929);
+			//							onConstructionFit.addCargo(244, 4);
+			//							onConstructionFit.addCargo(240, 4);
+			//							NeoComModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
+			//							return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -180,7 +183,7 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 	protected void onStart () {
 		super.onStart();
 		// Reinitialize the tile and subtitle from the first page.
-//		this.updateInitialTitle();
+		//		this.updateInitialTitle();
 		NeoComApp.updateProgressSpinner();
 	}
 }

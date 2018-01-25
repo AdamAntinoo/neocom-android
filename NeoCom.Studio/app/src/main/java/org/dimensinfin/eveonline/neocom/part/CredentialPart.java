@@ -111,7 +111,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 
 		@Override
 		public void updateContent () {
-			logger.info(">> [CredentialRender.updateContent]");
+	//		logger.info(">> [CredentialRender.updateContent]");
 			super.updateContent();
 			// Setup the initial layout configuration. No expandable and no menu.
 			menuIcon.setVisibility(View.GONE);
@@ -175,7 +175,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 				botleftDecorator.setVisibility(View.VISIBLE);
 			}
 
-			logger.info("<< [CredentialRender.updateContent]");
+	//		logger.info("<< [CredentialRender.updateContent]");
 		}
 
 		@Override

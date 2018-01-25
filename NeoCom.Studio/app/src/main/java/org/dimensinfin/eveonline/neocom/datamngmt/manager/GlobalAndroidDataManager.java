@@ -133,7 +133,7 @@ public class GlobalAndroidDataManager extends GlobalDataManager{
 //		if ( null != newImplementer ) helper = newImplementer;
 //	}
 //
-//	public static String constructReference (final EDataUpdateJobs type, final long identifier) {
+//	public static String constructJobReference (final EDataUpdateJobs type, final long identifier) {
 //		return new StringBuffer(type.name()).append("/").append(identifier).toString();
 //	}
 //
@@ -238,7 +238,7 @@ public class GlobalAndroidDataManager extends GlobalDataManager{
 //			// Check the number of registers. If they are zero then we have to perform additional checks.
 //			if ( colonyList.size() < 1 ) {
 //				// Check if there is a valid TS.
-//				final String reference = constructReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
+//				final String reference = constructJobReference(EDataUpdateJobs.COLONYDATA, credential.getAccountId());
 //				final TimeStamp ts = GlobalDataManager.getHelper().getTimeStampDao().queryForId(reference);
 //				if ( null == ts ) {
 //					// No time stamp so force a request for this data now.

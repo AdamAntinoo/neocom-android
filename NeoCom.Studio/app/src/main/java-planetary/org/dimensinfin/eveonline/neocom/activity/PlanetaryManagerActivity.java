@@ -22,7 +22,6 @@ import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.fragment.ColonyFragment;
 import org.dimensinfin.eveonline.neocom.fragment.PlanetaryFragment;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -59,7 +58,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_BYLOCATION.name()).setExtras(extras),
 					page++);
-			this.addPage(new ColonyFragment().setVariant(ENeoComVariants.PLANETARY_COLONIES.name()).setExtras(extras),
+			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_COLONIES.name()).setExtras(extras),
 					page++);
 //			this.addPage(new ColonyLayoutFragment().setVariant(ENeoComVariants.PLANETARY_COLONY_LAYOUT.name()).setExtras(extras),
 //					page++);
@@ -85,7 +84,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	protected void onSaveInstanceState (final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
+		outState.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);
 	}
 }
 //- UNUSED CODE ............................................................................................

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.view.Menu;
 
 import org.dimensinfin.core.parser.IPersistentHandler;
+import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.activity.LoginProgressActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.slf4j.Logger;
@@ -102,9 +103,55 @@ public class NeoComModelStore extends DataManagementModelStore {
 		singleton.activateActivityImpl(currentActivity);
 	}
 
+	/**
+	 * Used to get access to some of the Android services.
+	 *
+	 * @return the last registered Activity or a new Activity that maybe will have connected to the Android service.
+	 */
+	public static Activity getActivity () {
+		return singleton.getActivityImpl();
+	}
+
 	public static Context getContext () {
 		if ( null == singleton ) NeoComModelStore.initialize();
 		return singleton.getContextImpl();
+	}
+
+	public static void setJobCounter(final int count){
+		NeoComApp.topCounter=count;
+		final Activity activity = NeoComModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(()->{
+				NeoComApp.updateProgressSpinner();
+			});
+		}
+	}
+	public static int decrementMarketCounter() {
+		NeoComApp.marketCounter--;
+		if (NeoComApp.marketCounter < 0) {
+			NeoComApp.marketCounter = 0;
+		}
+		final Activity activity = NeoComModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(()->{
+				NeoComApp.updateProgressSpinner();
+			});
+		}
+		return NeoComApp.marketCounter;
+	}
+
+	public static int decrementTopCounter() {
+		NeoComApp.topCounter--;
+		if (NeoComApp.topCounter < 0) {
+			NeoComApp.topCounter = 0;
+		}
+		final Activity activity = NeoComModelStore.getSingleton().getActivity();
+		if (null != activity) {
+			activity.runOnUiThread(()->{
+				NeoComApp.updateProgressSpinner();
+			});
+		}
+		return NeoComApp.topCounter;
 	}
 
 	//	private static DataManagementModelStore getSingletonDelegated(){
@@ -202,7 +249,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 	 *
 	 * @return the last registered Activity or a new Activity that maybe will have connected to the Android service.
 	 */
-	public Activity getActivity () {
+	public Activity getActivityImpl () {
 		if ( null == _activity ) return new LoginProgressActivity();
 		return _activity;
 	}

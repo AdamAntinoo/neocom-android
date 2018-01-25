@@ -18,13 +18,11 @@ package org.dimensinfin.eveonline.neocom.part;
 import android.app.Activity;
 import android.text.Html;
 import android.text.Spanned;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
@@ -133,32 +131,12 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 			storageUsedProgress.setMax(100);
 			storageUsedProgress.setProgress(37);
 			storageUsedProgress.setScaleY(2f);
-
-			//	setFillLevel();
-			//		installationsNumber.setText(model.get);
-			//		final long time = model.getLastLaunchTime();
-			//		lastLaunchTime.setText("-");
 			nodeIcon.setImageResource(R.drawable.commandcenter80_white);
-
-			//		loadNodeIcon(nodeIcon, model.getTypeId());
-			// Update the right arrow depending on model content and status.
-			if ( model instanceof IExpandable ) {
-				if ( ((IExpandable) model).isEmpty() ) _rightArrow.setVisibility(View.INVISIBLE);
-			} else _rightArrow.setVisibility(View.GONE);
+			//			// Update the right arrow depending on model content and status.
+			//			if ( model instanceof IExpandable ) {
+			//				if ( ((IExpandable) model).isEmpty() ) _rightArrow.setVisibility(View.INVISIBLE);
+			//			} else _rightArrow.setVisibility(View.GONE);
 		}
-
-		//        private void setFillLevel() {
-		//            final int capacity = 12000;
-		//            double fillLevel = 0.0;
-		//            final List<PinContent> contents = getPart().getCastedModel().getContent();
-		//            if ( null != contents ) {
-		//                fillLevel = 0.0;
-		//                for (PinContent content : contents) {
-		//                    fillLevel += content.getAmount() * 0.1;
-		//                }
-		//            }
-		//            final double progress = fillLevel / capacity * 100.0;
-		//        }
 
 		protected void createView () {
 			_convertView = inflateView(R.layout.commandcenter4colony);
@@ -166,7 +144,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		}
 	}
 
-	public static class LaunchpadRender extends CommandCenterRender {
+	public static class LaunchpadRender extends NewBaseExpandableRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
@@ -182,6 +160,11 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
+		public StructureWithContentsPart getPart () {
+			return (StructureWithContentsPart) super.getPart();
+		}
+
+		@Override
 		public void initializeViews () {
 			super.initializeViews();
 			structureType = (TextView) _convertView.findViewById(R.id.structureType);
@@ -194,7 +177,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		public void updateContent () {
 			super.updateContent();
 			final ColonyCoreStructure model = getPart().getCastedModel();
-			structureType.setText("Command Center");
+			structureType.setText("Launch Pad");
 			fillLevelLabel.setText(getPart().getTFillLevel());
 			fillLevelNumbers.setText(getPart().getTFillData());
 			storageUsedProgress.setMax(100);

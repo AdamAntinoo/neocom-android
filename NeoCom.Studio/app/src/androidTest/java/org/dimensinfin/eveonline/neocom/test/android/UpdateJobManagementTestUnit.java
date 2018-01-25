@@ -92,12 +92,12 @@ public class UpdateJobManagementTestUnit extends NeoComCoreTestEngine {
 		Assert.assertEquals("> Testing time point after writing: ", timePoint, timeStampVerification.getTimeStamp());
 
 		// Check TimeStamp evolution if changing the reference on the fly.
-		//		keyReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, 1004);
+		//		keyReference = Job.constructJobReference(EDataUpdateJobs.COLONYDATA, 1004);
 		//		final TimeStamp timeStampFly = new TimeStamp(keyReference, Instant.now());
 		//		Assert.assertEquals("> Testing reference on creation: ", keyReference, timeStampFly.getReference());
 		//		timeStampVerification = NeoComDatabase.getImplementer().getTimeStampDao().queryForId(keyReference);
 		//		Assert.assertEquals("> Testing reference on creation: ", keyReference, timeStampVerification.getReference());
-		//		final String keyReferenceFly = Job.constructReference(EDataUpdateJobs.COLONYDATA, 1005);
+		//		final String keyReferenceFly = Job.constructJobReference(EDataUpdateJobs.COLONYDATA, 1005);
 		//		timeStampFly.setReference(keyReferenceFly)
 		//								.store();
 		//		Assert.assertEquals("> Testing reference on modification: ", keyReference, timeStampFly.getReference());

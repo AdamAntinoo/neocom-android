@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/uipanelborderred">
+    android:background="@drawable/uipanelborderyellow">
 
     <include layout="@layout/nodebase4expandnew" />
 
@@ -59,29 +59,4 @@
             android:text="499.5/500.0"
             android:visibility="visible" />
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/installationsLabel"
-        style="@style/AppTheme.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/structureType"
-        android:layout_marginRight="2dp"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="Number of Structures:"
-        android:textSize="10sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/installationsNumber"
-        style="@style/AppTheme.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/rightBlock"
-        android:gravity="right"
-        android:text="11"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
 </RelativeLayout>

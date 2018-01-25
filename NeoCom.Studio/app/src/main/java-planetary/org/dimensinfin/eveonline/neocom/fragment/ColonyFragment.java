@@ -68,7 +68,7 @@ public class ColonyFragment extends AbstractPagerFragment {
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			setCaching(false);
+			setCacheable(false);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -134,19 +134,6 @@ public class ColonyFragment extends AbstractPagerFragment {
 		activateActionBar(inflater);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
-
-	//	protected void updateInitialTitle () {
-	//		final ActionBar actionBar = getActivity().getActionBar()
-	//		if ( null != actionBar ) {
-	//			Fragment firstFragment = this.getPageAdapter().getInitialPage();
-	//			// REFACTOR This IF can be removed once this code works.
-	//			if ( firstFragment instanceof AbstractPagerFragment ) {
-	//				actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
-	//				actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
-	//			}
-	//		}
-	//	}
-
 	/**
 	 * Create a new ActionBar block to be used on this fragment only.
 	 */

@@ -15,7 +15,13 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.datasource.AbstractGenerator;
@@ -25,18 +31,65 @@ import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.connector.NeoComCacheManager;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
+import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.model.Region;
+import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.Hashtable;
+import java.util.List;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class PlanetaryFragment extends AbstractPagerFragment {
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class ColonyStructureGenerator extends AbstractGenerator implements IModelGenerator {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+		//		private final Bundle _extras;
+		private int characterid = -1;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
+			super(locator, variant);
+			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			setCacheable(false);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+
+		/**
+		 * If the debug flag is true (usually has that value or POCs we should get the model from the mockup model
+		 * generator.
+		 */
+		public RootNode collaborate2Model () {
+			AbstractGenerator.logger.info(">> [ColonyStructureGenerator.collaborate2Model]");
+			// Check if the model is already generated.
+			if ( cacheIsInvalid() ) {
+				// Get the list of colonies for this character identifier form the Global.
+				//				final List<Colony> colonies = GlobalAndroidDataManager.accessColonies4Credential(characterid);
+				// Get access to the Planetary Manager and connect the Global to get the colony information.
+				final PlanetaryManager manager = GlobalAndroidDataManager.getPlanetaryManager(DataManagementModelStore.getCredential4Id
+						(characterid));
+				final List<Colony> colonies = manager.accessAllColonies();
+				for (Colony colony : colonies) {
+					_dataModelRoot.addChild(colony);
+				}
+			}
+			AbstractGenerator.logger.info("<< [ColonyStructureGenerator.collaborate2Model]");
+			return _dataModelRoot;
+		}
+		//		}
+	}
+
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class PlanetaryByLocationGenerator extends AbstractGenerator implements IModelGenerator {
 		// - S T A T I C - S E C T I O N ..........................................................................
@@ -48,6 +101,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		public PlanetaryByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			setCacheable(false);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -83,6 +137,11 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private ImageView pilotIcon;
+	private ImageView activityIcon;
+	private TextView toolBarTitleLeft;
+	private TextView toolBarTitleRight;
+	private TextView toolBarSubTitle;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -100,9 +159,11 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		if ( this.getVariant() == ENeoComVariants.PLANETARY_BYLOCATION.name() ) {
 			st = NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_PlanetaryManagerActivity);
 		}
+		if ( this.getVariant() == ENeoComVariants.PLANETARY_COLONIES.name() ) {
+			st = NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_ColonyActivity);
+		}
 		return st;
 	}
-
 	/**
 	 * Warning. This value has dependencies. I have to simplify this to reduce the number of global methods.
 	 * @return
@@ -112,17 +173,62 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		return NeoComModelStore.getActiveCredential().getName();
 	}
 
+	public View onCreateView (final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+		// Create the Action Bar custom and replace it on the Bar.
+		//		updateInitialTitle();
+		activateActionBar(inflater);
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	/**
+	 * Create a new ActionBar block to be used on this fragment only.
+	 */
+	private void activateActionBar (final LayoutInflater inflater) {
+		try {
+			View newbar = inflater.inflate(R.layout.actionbar_planetary, null);
+			final ActionBar actionBar = getActivity().getActionBar();
+			if ( (null != newbar) && (null != actionBar) ) {
+				// Get the fields of the Action bar and setup their values.
+				pilotIcon = (ImageView) newbar.findViewById(R.id.pilotIcon);
+				activityIcon = (ImageView) newbar.findViewById(R.id.activityIcon);
+				toolBarTitleLeft = (TextView) newbar.findViewById(R.id.toolBarTitleLeft);
+				toolBarTitleRight = (TextView) newbar.findViewById(R.id.toolBarTitleRight);
+				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
+				if ( null != pilotIcon ) {
+					final int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+					final PilotV1 pilot = ModelFactory.getPilotV1(characterid);
+					String link = pilot.getURLForAvatar();
+					pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
+				}
+				if ( null != activityIcon ) {
+					activityIcon.setImageResource(R.drawable.planets);
+				}
+				if ( null != toolBarTitleLeft ) {
+					toolBarTitleLeft.setText(getTitle());
+				}
+				if ( null != toolBarTitleRight ) {
+					toolBarTitleRight.setVisibility(View.GONE);
+				}
+				if ( null != toolBarSubTitle ) {
+					toolBarSubTitle.setText(getSubtitle());
+				}
+				actionBar.setCustomView(newbar);
+				actionBar.setDisplayShowCustomEnabled(true);
+				actionBar.setDisplayShowTitleEnabled(false);
+			}
+		} catch (RuntimeException rtex) {
+			try {
+				// Leave the action bar as the standard.
+				getActivity().getActionBar().setDisplayShowCustomEnabled(false);
+				getActivity().getActionBar().setDisplayShowTitleEnabled(true);
+			} catch (RuntimeException rtexreleased) {
+			}
+		}
+	}
 	@Override
 	public void registerDataSource () {
 		PlanetaryFragment.logger.info(">> [PlanetaryFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		long characterid = this.getExtras().getLong(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-//		//		EManagerType manager = EManagerType
-//		//				.valueOf(this.getExtras().getString(AppWideConstants.EExtras.EXTRA_MANAGERNAME.name()));
-//		// TODO Activate the fake login until the code is removed
-//		//		NeoComModelStore.getSingleton().activateLoginIdentifier("CaptainHaddock09");
-//		NeoComModelStore.getSingleton().activateCredential(characterid);
-//		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
+		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 		                                                   .addIdentifier(characterid)
 		                                                   .addIdentifier("PLANETARY-MANAGER");
@@ -131,6 +237,10 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		if ( this.getVariant() == ENeoComVariants.PLANETARY_BYLOCATION.name() ) {
 			generator = ModelGeneratorStore.registerGenerator(
 					new PlanetaryByLocationGenerator(locator, this.getVariant(), getExtras()));
+		}
+		if ( this.getVariant() == ENeoComVariants.PLANETARY_COLONIES.name() ) {
+			generator = ModelGeneratorStore.registerGenerator(
+					new ColonyStructureGenerator(locator, this.getVariant(), getExtras()));
 		}
 		if ( null != generator )
 			setGenerator(generator);

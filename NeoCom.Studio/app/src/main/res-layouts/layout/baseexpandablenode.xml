@@ -24,14 +24,13 @@
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/classLabel"
-            style="@style/AppTheme.Label"
+            style="@style/AppTheme.NodeClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:singleLine="true"
-            android:text="-CLASS-"
-            android:textSize="9sp" />
+            android:text="-CLASS-" />
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/childCount"
