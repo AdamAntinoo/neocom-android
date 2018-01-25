@@ -7,7 +7,7 @@
         <CheckBoxPreference
             android:background="@color/appgreydark"
             android:defaultValue="false"
-            android:key="prefkey_BlockBackgorundTimer"
+            android:key="prefkey_BlockBackgroundTimer"
             android:summary="Block the activation of the background timer service."
             style="@style/AppTheme.PrefCatStyle"
             android:title="Block Timer" />

@@ -86,6 +86,6 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/arrowdown"
             android:layout_centerVertical="true"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 </merge>
