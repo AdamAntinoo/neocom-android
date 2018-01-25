@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderred">
+
+    <include layout="@layout/nodebase4expandnew" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/structureType"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="Launch Pad"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/spaceUsageBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/structureType"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:layout_toRightOf="@+id/nodeIconBlock">
+
+        <TextView
+            android:id="@+id/fillLevelLabel"
+            style="@style/AppTheme.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/uirighttextmargin"
+            android:text="Capacity used: 35.00%"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/storageUsedProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/nodeIconBlock"
+            android:layout_toRightOf="@+id/fillLevelLabel"
+            android:backgroundTint="@color/uipanelborder"
+            android:max="100"
+            android:min="0"
+            android:progress="35"
+            android:progressTint="@color/appblue" />
+
+        <TextView
+            android:id="@+id/fillLevelNumbers"
+            style="@style/AppTheme.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/fillLevelLabel"
+            android:text="499.5/500.0"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/installationsLabel"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/structureType"
+        android:layout_marginRight="2dp"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="Number of Structures:"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/installationsNumber"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:gravity="right"
+        android:text="11"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</RelativeLayout>

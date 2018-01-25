@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="Comand Center (Barren)"
+        android:text="Command Center"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -47,12 +47,10 @@
             android:max="100"
             android:min="0"
             android:progress="35"
-            android:progressTint="@color/appblue"
-            android:secondaryProgress="35" />
-
+            android:progressTint="@color/appblue" />
 
         <TextView
-            android:id="@+id/fillLevelNumber"
+            android:id="@+id/fillLevelNumbers"
             style="@style/AppTheme.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

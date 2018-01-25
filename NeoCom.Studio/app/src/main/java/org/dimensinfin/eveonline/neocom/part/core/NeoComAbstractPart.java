@@ -58,6 +58,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	protected static DecimalFormat iskFormatter = new DecimalFormat("###,##0.0# MISK");
 	protected static DecimalFormat volumeFormatter = new DecimalFormat("###,##0.0");
 	protected static DecimalFormat securityFormatter = new DecimalFormat("0.0");
+	protected static DecimalFormat percentageFormat = new DecimalFormat("#0.00%");
 	protected static HashMap<Integer, String> securityLevels = new HashMap<Integer, String>();
 
 	static {

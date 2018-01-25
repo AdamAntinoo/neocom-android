@@ -35,7 +35,7 @@ import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class StructureWithContentsPart extends NeoComExpandablePart /*implements View.OnClickListener*/{
+public class StructureWithContentsPart extends NeoComExpandablePart /*implements View.OnClickListener*/ {
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class StructureRender extends NewBaseExpandableRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
@@ -76,42 +76,64 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 			_convertView.setTag(this);
 		}
 	}
+
 	public static class CommandCenterRender extends NewBaseExpandableRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
 		protected TextView structureType = null;
-		protected TextView fillLevelNumber = null;
+		protected TextView fillLevelLabel = null;
+		protected TextView fillLevelNumbers = null;
 		protected ProgressBar storageUsedProgress = null;
+		protected TextView cpuLevel = null;
+		protected TextView cpuLevelData = null;
+		protected ProgressBar cpuProgress = null;
+		protected TextView powerLevel = null;
+		protected TextView powerLevelData = null;
+		protected ProgressBar powerProgress = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public CommandCenterRender(final StructureWithContentsPart target, final Activity context) {
+		public CommandCenterRender (final StructureWithContentsPart target, final Activity context) {
 			super(target, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public StructureWithContentsPart getPart() {
+		public StructureWithContentsPart getPart () {
 			return (StructureWithContentsPart) super.getPart();
 		}
 
 		@Override
-		public void initializeViews() {
+		public void initializeViews () {
 			super.initializeViews();
 			structureType = (TextView) _convertView.findViewById(R.id.structureType);
-			fillLevelNumber = (TextView) _convertView.findViewById(R.id.fillLevelNumber);
+			fillLevelLabel = (TextView) _convertView.findViewById(R.id.fillLevelLabel);
+			fillLevelNumbers = (TextView) _convertView.findViewById(R.id.fillLevelNumbers);
 			storageUsedProgress = (ProgressBar) _convertView.findViewById(R.id.storageUsedProgress);
+			cpuLevel = (TextView) _convertView.findViewById(R.id.cpuLevel);
+			cpuLevelData = (TextView) _convertView.findViewById(R.id.cpuLevelData);
+			cpuProgress = (ProgressBar) _convertView.findViewById(R.id.cpuProgress);
+			powerLevel = (TextView) _convertView.findViewById(R.id.powerLevel);
+			powerLevelData = (TextView) _convertView.findViewById(R.id.powerLevelData);
+			powerProgress = (ProgressBar) _convertView.findViewById(R.id.powerProgress);
 		}
 
 		@Override
-		public void updateContent() {
+		public void updateContent () {
 			super.updateContent();
 			final ColonyCoreStructure model = getPart().getCastedModel();
 			structureType.setText("Command Center");
-			fillLevelNumber.setText(getPart().getTFillLevel());
+			fillLevelLabel.setText(getPart().getTFillLevel());
+			fillLevelNumbers.setText("499.0/500.0");
 			storageUsedProgress.setMax(100);
 			storageUsedProgress.setProgress(Double.valueOf(getPart().getCastedModel().getVolumeUsedPct()).intValue());
 			storageUsedProgress.setScaleY(2f);
+			cpuLevel.setText("CPU: 37%");
+			cpuLevelData.setText("7,945/12,456 tf");
+			storageUsedProgress.setMax(100);
+			storageUsedProgress.setProgress(37);
+			storageUsedProgress.setScaleY(2f);
+
 			//	setFillLevel();
 			//		installationsNumber.setText(model.get);
 			//		final long time = model.getLastLaunchTime();
@@ -138,54 +160,53 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		//            final double progress = fillLevel / capacity * 100.0;
 		//        }
 
-		protected void createView() {
+		protected void createView () {
 			_convertView = inflateView(R.layout.commandcenter4colony);
 			_convertView.setTag(this);
 		}
 	}
 
 	public static class LaunchpadRender extends CommandCenterRender {
-		//        protected TextView structureType = null;
-		//        protected TextView fillLevelNumber = null;
-		//        protected ProgressBar storageUsedProgress = null;
+		// - S T A T I C - S E C T I O N ..........................................................................
 
-		public LaunchpadRender(final StructureWithContentsPart target, final Activity context) {
+		// - F I E L D - S E C T I O N ............................................................................
+		protected TextView structureType = null;
+		protected TextView fillLevelLabel = null;
+		protected TextView fillLevelNumbers = null;
+		protected ProgressBar storageUsedProgress = null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public LaunchpadRender (final StructureWithContentsPart target, final Activity context) {
 			super(target, context);
 		}
 
-		//        @Override
-		//        public ColonyStructurePart getPart() {
-		//            return (ColonyStructurePart) super.getPart();
-		//        }
-		//
-		//        @Override
-		//        public void initializeViews() {
-		//            super.initializeViews();
-		//            structureType = (TextView) _convertView.findViewById(R.id.structureType);
-		//            fillLevelNumber = (TextView) _convertView.findViewById(R.id.fillLevelNumber);
-		//            storageUsedProgress = (ProgressBar) _convertView.findViewById(R.id.storageUsedProgress);
-		//        }
-
+		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public void updateContent() {
-			super.updateContent();
-			//      final Pin model = getPart().getCastedModel();
-			structureType.setText("LAUNCHPAD");
-			//            fillLevelNumber.setText(getPart().getTFillLevel());
-			//            storageUsedProgress.setMax(100);
-			//            storageUsedProgress.setProgress(Double.valueOf(getPart().getCastedModel().getVolumeUsedPct()).intValue());
-			//            storageUsedProgress.setScaleY(2f);
-			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.launchpad80_white));
-			// Update the right arrow depending on model content and status.
-			//            if ( getPart().getCastedModel() instanceof IExpandable ) {
-			//                if ( ((IExpandable) getPart().getCastedModel()).isEmpty() ) _rightArrow.setVisibility(View.INVISIBLE);
-			//            } else _rightArrow.setVisibility(View.GONE);
+		public void initializeViews () {
+			super.initializeViews();
+			structureType = (TextView) _convertView.findViewById(R.id.structureType);
+			fillLevelLabel = (TextView) _convertView.findViewById(R.id.fillLevelLabel);
+			fillLevelNumbers = (TextView) _convertView.findViewById(R.id.fillLevelNumbers);
+			storageUsedProgress = (ProgressBar) _convertView.findViewById(R.id.storageUsedProgress);
 		}
 
-		//         protected void createView() {
-		//            _convertView = inflateView(R.layout.commandcenter4colony);
-		//            _convertView.setTag(this);
-		//        }
+		@Override
+		public void updateContent () {
+			super.updateContent();
+			final ColonyCoreStructure model = getPart().getCastedModel();
+			structureType.setText("Command Center");
+			fillLevelLabel.setText(getPart().getTFillLevel());
+			fillLevelNumbers.setText(getPart().getTFillData());
+			storageUsedProgress.setMax(100);
+			storageUsedProgress.setProgress(Double.valueOf(getPart().getCastedModel().getVolumeUsedPct()).intValue());
+			storageUsedProgress.setScaleY(2f);
+			nodeIcon.setImageResource(R.drawable.launchpad80_white);
+		}
+
+		protected void createView () {
+			_convertView = inflateView(R.layout.launchpad4colony);
+			_convertView.setTag(this);
+		}
 	}
 
 	public static class StorageRender extends CommandCenterRender {
@@ -193,7 +214,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		//        protected TextView fillLevelNumber = null;
 		//        protected ProgressBar storageUsedProgress = null;
 
-		public StorageRender(final StructureWithContentsPart target, final Activity context) {
+		public StorageRender (final StructureWithContentsPart target, final Activity context) {
 			super(target, context);
 		}
 
@@ -211,7 +232,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		//        }
 
 		@Override
-		public void updateContent() {
+		public void updateContent () {
 			super.updateContent();
 			//      final Pin model = getPart().getCastedModel();
 			structureType.setText("STORAGE");
@@ -237,23 +258,23 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public StructureWithContentsPart(final ColonyCoreStructure node) {
+	public StructureWithContentsPart (final ColonyCoreStructure node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public ColonyCoreStructure getCastedModel() {
+	public ColonyCoreStructure getCastedModel () {
 		return (ColonyCoreStructure) this.getModel();
 	}
 
-	public long getModelID() {
+	public long getModelID () {
 		return -1;
 	}
 
 	/**
 	 * The render selected will depend on the Structure type stored on the Model.
 	 */
-	protected AbstractRender selectRenderer() {
+	protected AbstractRender selectRenderer () {
 		final ColonyCoreStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
 		switch (structureType) {
 			case COMMAND_CENTER:
@@ -265,7 +286,23 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		}
 		return new StructureRender(this, _activity);
 	}
-	public Spanned getTFillLevel () {
+
+	public String getTFillLevel () {
+		return new StringBuffer("CapacityUsed: ")
+				.append(percentageFormat.format(this.getCastedModel().getVolumeUsedPct()))
+				.toString();
+	}
+
+	public String getTFillData () {
+		final double used = this.getCastedModel().getVolumeUsed();
+		final double capacity = this.getCastedModel().getCapacity();
+		return new StringBuffer(itemCountFormatter.format(used))
+				.append("/")
+				.append(itemCountFormatter.format(capacity))
+				.toString();
+	}
+
+	public Spanned getTFillLevel2 () {
 		return Html.fromHtml(this.generateLevelColor(this.getCastedModel().getVolumeUsedPct()
 				, this.getCastedModel().getVolumeUsedPct()) + "%");
 	}
@@ -285,21 +322,21 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		return htmlFragmentWithColor.toString();
 	}
 
-//	@Override
-//	public void onClick(final View view) {
-//		logger.info(">> [StructureWithContentsPart.onClick]");
-//		// Do the standard expand/collapse and the fire another message for the update of the model.
-//		super.onClick(view);
-//		GlobalAndroidDataManager.submitOnClick(
-//				new OneShotTask<NeoComExpandablePart>(this) {
-//					public void run () {
-//						logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
-//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-//						logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
-//					}
-//				});
-//		logger.info("<< [StructureWithContentsPart.onClick]");
-//	}
+	//	@Override
+	//	public void onClick(final View view) {
+	//		logger.info(">> [StructureWithContentsPart.onClick]");
+	//		// Do the standard expand/collapse and the fire another message for the update of the model.
+	//		super.onClick(view);
+	//		GlobalAndroidDataManager.submitOnClick(
+	//				new OneShotTask<NeoComExpandablePart>(this) {
+	//					public void run () {
+	//						logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
+	//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+	//						logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
+	//					}
+	//				});
+	//		logger.info("<< [StructureWithContentsPart.onClick]");
+	//	}
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("StructureWithContentsPart [");
