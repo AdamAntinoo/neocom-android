@@ -21,15 +21,12 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
 import org.slf4j.Logger;
@@ -48,8 +45,6 @@ public class ColonyPart extends NeoComExpandablePart {
 		private static Logger logger = LoggerFactory.getLogger("AssetRender");
 
 		// - F I E L D - S E C T I O N ............................................................................
-//		private ImageView nodeIcon = null;
-//		private ImageView botrightDecorator = null;
 		private TextView solarSystemName = null;
 		private TextView planetType = null;
 		private TextView installationsNumber = null;
@@ -68,8 +63,6 @@ public class ColonyPart extends NeoComExpandablePart {
 		@Override
 		public void initializeViews () {
 			super.initializeViews();
-//			this.nodeIcon = (ImageView) this._convertView.findViewById(R.id.nodeIcon);
-//			this.botrightDecorator = (ImageView) this._convertView.findViewById(R.id.botrightDecorator);
 			this.solarSystemName = (TextView) this._convertView.findViewById(R.id.solarSystemName);
 			this.planetType = (TextView) this._convertView.findViewById(R.id.planetType);
 			this.installationsNumber = (TextView) this._convertView.findViewById(R.id.installationsNumber);
@@ -83,9 +76,6 @@ public class ColonyPart extends NeoComExpandablePart {
 			this.planetType.setText(getPart().getTPlanetType());
 			this.installationsNumber.setText(getPart().getTInstallations());
 			nodeIcon.setImageResource(R.drawable.planets);
-//			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP ) {
-//				nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets, getContext().getTheme()));
-//			} else nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets));
 			botrightDecorator.setVisibility(View.VISIBLE);
 			switch (getPart().getCastedModel().getUpgradeLevel()) {
 				case 1:
@@ -107,7 +97,6 @@ public class ColonyPart extends NeoComExpandablePart {
 			setPlanetIcon();
 
 			// Hide the right arrow while the number on contents is zero.
-			int modelContents = getPart().getCastedModel().getNumPins();
 			if ( getPart().getCastedModel().isEmpty() ) _rightArrow.setVisibility(View.GONE);
 			logger.debug("-- [ColonyRender.updateContent]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 		}
@@ -148,6 +137,7 @@ public class ColonyPart extends NeoComExpandablePart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public ColonyPart (final Colony node) {
 		super(node);
+		setFlavour(ColorFlavour.WHITE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -164,6 +154,10 @@ public class ColonyPart extends NeoComExpandablePart {
 	}
 
 	public Spanned getTSolarSystemName () {
+		return Html.fromHtml(getCastedModel().getSolarSystemName()
+				+ AppWideConstants.FLOW_ARROW_RIGHT + this.getCastedModel().getPlanetName());
+	}
+	public Spanned getTSolarSystemName2 () {
 		double security = this.getCastedModel().getSecurityValue();
 		security = 1.0;
 		return Html.fromHtml(this.generateSecurityColor(security, this.getCastedModel().getSolarSystemName()
@@ -178,10 +172,6 @@ public class ColonyPart extends NeoComExpandablePart {
 		return upperCaseFirst(getCastedModel().getPlanetType().toLowerCase());
 	}
 
-	public boolean ifModelEmpty () {
-		return getCastedModel().isEmpty();
-		//		return true;
-	}
 //[01]
 	/**
 	 * The render selected will depend on the Structure type stored on the Model.
@@ -190,21 +180,6 @@ public class ColonyPart extends NeoComExpandablePart {
 		return new ColonyRender(this, _activity);
 	}
 //[02]
-	public void onClick (final View view) {
-		logger.info(">> [ColonyPart.onClick]");
-		// Do the standard expand/collapse and the fire another message for the update of the model.
-		super.onClick(view);
-		GlobalAndroidDataManager.submitOnClick(
-				new OneShotTask<NeoComExpandablePart>(this) {
-					public void run () {
-						logger.info(">> [ColonyPart.onClick.OneShotTask.run]");
-						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-						logger.info("<< [ColonyPart.onClick.OneShotTask.run]");
-					}
-				});
-		logger.info("<< [ColonyPart.onClick]");
-	}
-
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("ColonyPart [");

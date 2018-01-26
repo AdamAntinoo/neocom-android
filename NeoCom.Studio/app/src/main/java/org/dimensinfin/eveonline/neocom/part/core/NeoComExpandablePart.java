@@ -13,19 +13,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.core.util.Chrono;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComExpandablePart extends NeoComAbstractPart implements OnClickListener {
 	public enum ColorFlavour {
-		RED, ORANGE, YELLOW, GREEN
+		WHITE, RED, ORANGE, YELLOW, GREEN, BLUE
 	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -41,6 +39,9 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	public List<IPart> collaborate2View () {
 		// Update the color depending on the configured flavour.
 		switch (getFlavour()) {
+			case WHITE:
+				separatorColor = ESeparatorType.LINE_WHITE;
+				break;
 			case RED:
 				separatorColor = ESeparatorType.LINE_RED;
 				break;
@@ -49,6 +50,9 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 				break;
 			case YELLOW:
 				separatorColor = ESeparatorType.LINE_YELLOW;
+				break;
+			case BLUE:
+				separatorColor = ESeparatorType.LINE_BLUE;
 				break;
 			default:
 				separatorColor = ESeparatorType.LINE_RED;
@@ -65,27 +69,31 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 		invalidate();
 		notifyDataSetChanged();
 		// Launch the actions on a new thread.
-		GlobalAndroidDataManager.submitOnClick(
-				new OneShotTask<NeoComExpandablePart>(this) {
-					public void run () {
-						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
-						Chrono chrono = new Chrono();
-						getTarget().toggleExpanded();
-						getTarget().invalidate();
-						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-						completeClick();
-						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-					}
-				});
-		GlobalAndroidDataManager.submitOnClick(
-				new OneShotTask<NeoComExpandablePart>(this) {
-					public void run () {
-						logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
-						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-						logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
-					}
-				});
+		//		GlobalAndroidDataManager.submitOnClick(
+		//				new OneShotTask<NeoComExpandablePart>(this) {
+		//					public void run () {
+		logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+		Chrono chrono = new Chrono();
+		getTarget().toggleExpanded();
+		getTarget().invalidate();
+		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+		completeClick();
+		logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+		//					}
+		//				});
+		//		GlobalAndroidDataManager.submitOnClick(
+		//				new OneShotTask<NeoComExpandablePart>(this) {
+		//					public void run () {
+		logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
+		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+		logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
+		//					}
+		//				});
 		logger.info("<< [NeoComExpandablePart.onClick]");
+	}
+
+	private NeoComExpandablePart getTarget () {
+		return this;
 	}
 
 	public void setFlavour (ColorFlavour newcolor) {

@@ -5,6 +5,8 @@
     <string name="appdatabasepath">jdbc:sqlite:</string>
     <!--<string name="appdatabasefilename">neocom-100.db</string>-->
     <!--<string name="databaseversion">103</string>-->
+    <string name="databasechangeversioncomment_v108">v108 - Updated again the ColonyStorage
+    to annd a new key.</string>
     <string name="databasechangeversioncomment_v107">v107 - Updated the ColonyStorage with the
         serialized colony stuctures to make the identifier a unique constraint.</string>
     <string name="databasechangeversioncomment_v106">v106 - Recreated the Colony because added

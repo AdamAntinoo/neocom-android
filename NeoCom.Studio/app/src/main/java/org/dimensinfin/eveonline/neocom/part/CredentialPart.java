@@ -266,19 +266,19 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 	 */
 	@Override
 	public List<IPart> runPolicies (final List<IPart> targets) {
-		logger.info(">> [CredentialRender.runPolicies]");
+		logger.info(">> [CredentialPart.runPolicies]");
 		// Order the characters by alphabetical name.
 		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
-		logger.info("<< [CredentialRender.runPolicies]");
+		logger.info("<< [CredentialPart.runPolicies]");
 		return targets;
 	}
 
 	public boolean runDependencies () {
-		logger.info(">> [CredentialRender.runDependencies]");
+		logger.info(">> [CredentialPart.runDependencies]");
 		// Make access to the rendering dependencies during this preparation phase.
 		pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
 		manager = GlobalDataManager.getAssetsManager(getCastedModel());
-		logger.info("<< [CredentialRender.runDependencies]");
+		logger.info("<< [CredentialPart.runDependencies]");
 		if ( null == pilot ) return false;
 		if ( null == manager ) return false;
 		return true;

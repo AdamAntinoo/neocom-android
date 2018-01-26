@@ -10,8 +10,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 107
-        versionName "0.10.7"
+        versionCode 108
+        versionName "0.10.8"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

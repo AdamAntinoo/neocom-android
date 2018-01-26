@@ -25,7 +25,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
-import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
+import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 /**
  * @author Adam Antinoo
@@ -34,7 +34,7 @@ import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class ColonyStructurePart extends NeoComAbstractPart {
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class StructureRender extends BaseExpandableRender {
+	public static class StructureRender extends NeoComRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
@@ -43,6 +43,45 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public StructureRender (final ColonyStructurePart target, final Activity context) {
+			super(target, context);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		public ColonyStructurePart getPart () {
+			return (ColonyStructurePart) super.getPart();
+		}
+
+		@Override
+		public void initializeViews () {
+			super.initializeViews();
+			nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+			structureName = (TextView) _convertView.findViewById(R.id.structureName);
+		}
+
+		@Override
+		public void updateContent () {
+			super.updateContent();
+			final ColonyCoreStructure model = getPart().getCastedModel();
+			final long type = model.getTypeId();
+			final String name = model.getStructureTypeCode().name();
+			structureName.setText(name);
+			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.planets));
+		}
+
+		protected void createView () {
+			_convertView = inflateView(R.layout.structure4list);
+			_convertView.setTag(this);
+		}
+	}
+	public static class BasicIndustryRender extends StructureRender {
+		// - S T A T I C - S E C T I O N ..........................................................................
+
+		// - F I E L D - S E C T I O N ............................................................................
+		protected ImageView nodeIcon = null;
+		protected TextView structureName = null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public BasicIndustryRender (final ColonyStructurePart target, final Activity context) {
 			super(target, context);
 		}
 
@@ -114,7 +153,19 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		return htmlFragmentWithColor.toString();
 	}
 
+	/**
+	 * The render selected will depend on the Structure type stored on the Model.
+	 */
 	protected AbstractRender selectRenderer () {
+		final ColonyCoreStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
+		switch (structureType) {
+			case BASIC_INDUSTRY:
+				return new BasicIndustryRender(this, _activity);
+//			case LAUNCHPAD:
+//				return new LaunchpadRender(this, _activity);
+//			case STORAGE:
+//				return new StorageRender(this, _activity);
+		}
 		return new StructureRender(this, _activity);
 	}
 

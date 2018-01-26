@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/nodeIconBlock"
         android:text="Command Center"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -25,7 +25,7 @@
         android:layout_toLeftOf="@+id/rightBlock"
         android:layout_toRightOf="@+id/nodeIconBlock">
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/fillLevelLabel"
             style="@style/AppTheme.Label"
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:progress="35"
             android:progressTint="@color/appblue" />
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
             android:id="@+id/fillLevelNumbers"
             style="@style/AppTheme.Label"
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/cpuBlock"
+        android:id="@+id/commandCenterInfoBlock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spaceUsageBlock"
