@@ -267,13 +267,13 @@ public class GlobalAndroidDataManager extends GlobalDataManager{
 //		List<Colony> colonies = new ArrayList<>();
 //		// Create a request to the ESI api downloader to get the list of Planets of the current Character.
 //		final int identifier = credential.getAccountId();
-//		final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(identifier, credential.getRefreshToken(), SERVER_DATASOURCE);
+//		final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = ESINetworkManager.getCharactersCharacterIdPlanets(identifier, credential.getRefreshToken(), SERVER_DATASOURCE);
 //		// Transform the received OK instance into a NeoCom compatible model instance.
 //		for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
 //			Colony col = modelMapper.map(colonyOK, Colony.class);
 //			// Block to add additional data not downloaded on this call.
 //			// To set more information about this particular planet we should call the Universe database.
-//			final GetUniversePlanetsPlanetIdOk planetData = NetworkManager.getUniversePlanetsPlanetId(col.getPlanetId(), credential.getRefreshToken(), SERVER_DATASOURCE);
+//			final GetUniversePlanetsPlanetIdOk planetData = ESINetworkManager.getUniversePlanetsPlanetId(col.getPlanetId(), credential.getRefreshToken(), SERVER_DATASOURCE);
 //			if ( null != planetData ) col.setPlanetData(planetData);
 //			col.store();
 //			colonies.add(col);
@@ -287,7 +287,7 @@ public class GlobalAndroidDataManager extends GlobalDataManager{
 //		//			Stream.of(colonies).forEach(c -> {
 //		//			try {
 //		Colony col=null;
-//		final GetCharactersCharacterIdPlanetsPlanetIdOk colonyStructures = NetworkManager.getCharactersCharacterIdPlanetsPlanetId(credential.getAccountId(), col.getPlanetId(), credential.getRefreshToken(), "tranquility");
+//		final GetCharactersCharacterIdPlanetsPlanetIdOk colonyStructures = ESINetworkManager.getCharactersCharacterIdPlanetsPlanetId(credential.getAccountId(), col.getPlanetId(), credential.getRefreshToken(), "tranquility");
 //		if ( null != colonyStructures ) {
 //			// Do not process the structures and the rest of the data directly but just generate the correct delegate methods.
 //			col.setStructuresData(colonyStructures);

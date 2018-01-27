@@ -90,6 +90,7 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
+		private ViewGroup nodeContainer;
 		protected ImageView nodeIcon = null;
 		protected TextView structureType = null;
 		protected ImageView productImage = null;
@@ -121,6 +122,8 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		@Override
 		public void initializeViews () {
 			super.initializeViews();
+			nodeContainer = (ViewGroup) _convertView.findViewById(R.id.nodeContainer);
+
 			nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 			structureType = (TextView) _convertView.findViewById(R.id.structureType);
 			productImage = (ImageView) _convertView.findViewById(R.id.productImage);
@@ -145,7 +148,16 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		@Override
 		public void updateContent () {
 			super.updateContent();
-
+			int start = -1;
+			if ( null != nodeContainer ) {
+				// Change the container layout attributes to indent it depending on the level.
+				final ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(nodeContainer.getLayoutParams());
+				if ( android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ) {
+					start = marginParams.getMarginStart();
+				} else {
+					start = 10;
+				}
+			}
 			final ColonyCoreStructure basicFactory = getPart().getCastedModel();
 			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.facility80_white));
 			structureType.setText("Basic Industry Facility");

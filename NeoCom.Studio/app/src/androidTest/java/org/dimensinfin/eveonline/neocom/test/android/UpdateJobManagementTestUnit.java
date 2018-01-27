@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
-import org.dimensinfin.eveonline.neocom.network.NetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver.Job;
 import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver.UpdateJobManager;
 import org.joda.time.Instant;
@@ -165,7 +165,7 @@ public class UpdateJobManagementTestUnit extends NeoComCoreTestEngine {
 		logger.info(
 				"-- [TimeTickReceiver.onReceive]> Downloading Colony list for: [{}]", credential.getAccountName());
 		// Get the list of planet colonies for this credential and update each one on the factory.
-		final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
+		final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = ESINetworkManager.getCharactersCharacterIdPlanets(Long.valueOf(credential.getAccountId()).intValue(), credential.getRefreshToken(), "tranquility");
 		for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
 			logger.info("-- [TimeTickReceiver.onReceive]> Mapping Colony: [{}]", colonyOK.getPlanetId());
 			Colony col = globalModelMapper.map(colonyOK, Colony.class);

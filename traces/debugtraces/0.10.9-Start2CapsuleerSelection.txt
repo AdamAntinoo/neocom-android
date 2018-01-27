@@ -1,0 +1,326 @@
+---
+Takes some time during the fill for the Credential list. Probably because there is some initialization (Pilot) being done there when this should be alredy been performed at
+the credential loading.
+
+
+---------------------------------------------------
+
+
+01-27 11:47:12.490 29877-29877/org.dimensinfin.eveonline.neocom I/art: Late-enabling -Xcheck:jni
+01-27 11:47:12.546 29877-29877/org.dimensinfin.eveonline.neocom W/ResourceType: Found multiple library tables, ignoring...
+01-27 11:47:12.553 29877-29877/org.dimensinfin.eveonline.neocom W/ResourceType: Found multiple library tables, ignoring...
+01-27 11:47:12.554 29877-29877/org.dimensinfin.eveonline.neocom W/ActivityThread: Application org.dimensinfin.eveonline.neocom is waiting for the debugger on port 8100...
+01-27 11:47:12.554 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: Sending WAIT chunk
+01-27 11:47:14.434 29877-29887/org.dimensinfin.eveonline.neocom I/art: Debugger is active
+01-27 11:47:14.556 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: Debugger has connected
+01-27 11:47:14.556 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:14.756 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:14.956 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:15.157 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:15.357 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:15.557 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:15.758 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:15.958 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:16.160 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:16.360 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:16.560 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:16.761 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:16.961 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:17.161 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:17.361 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:17.562 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:17.762 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:17.962 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: waiting for debugger to settle...
+01-27 11:47:18.164 29877-29877/org.dimensinfin.eveonline.neocom I/System.out: debugger has settled (1493)
+01-27 11:47:18.276 29877-29877/org.dimensinfin.eveonline.neocom I/art: Explicit concurrent mark sweep GC freed 1659(122KB) AllocSpace objects, 0(0B) LOS objects, 40% free, 11MB/18MB, paused 671us total 49.133ms
+01-27 11:47:18.277 29877-29877/org.dimensinfin.eveonline.neocom I/art: Counter: 1
+01-27 11:47:18.278 29877-29877/org.dimensinfin.eveonline.neocom W/linker: libsupportjni.so: unused DT entry: type 0x6ffffffe arg 0xdbb4
+01-27 11:47:18.278 29877-29877/org.dimensinfin.eveonline.neocom W/linker: libsupportjni.so: unused DT entry: type 0x6fffffff arg 0x2
+01-27 11:47:18.350 29877-30192/org.dimensinfin.eveonline.neocom E/StudioProfiler: Studio Profilers encountered an unexpected error. Consider reporting a bug, including logcat output below.
+                                                                                  See also: https://developer.android.com/studio/report-bugs.html#studio-bugs
+                                                                                  
+                                                                                  Failed to capture application
+01-27 11:47:18.359 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComApp: >> [NeoComApp.onCreate]
+01-27 11:47:18.807 29877-29877/org.dimensinfin.eveonline.neocom W/Java7Support: Unable to load JDK7 types (annotations, java.nio.file.Path): no Java7 support added
+01-27 11:47:18.953 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComApp: << [NeoComApp.onCreate]
+01-27 11:47:19.215 29877-29877/org.dimensinfin.eveonline.neocom W/art: Verification of void org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity.onCreate(android.os.Bundle) took 258.636ms
+01-27 11:47:19.262 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComSplashActivity: >> [NeoComSplashActivity.onCreate]
+01-27 11:47:19.262 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: >> [AbstractPagerActivity.onCreate]
+01-27 11:47:19.444 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: << [AbstractPagerActivity.onCreate]
+01-27 11:47:19.447 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComModelStore: >> [AppModelStore.initialize]
+01-27 11:47:19.448 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComModelStore: << [AppModelStore.initialize]
+01-27 11:47:19.449 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+01-27 11:47:19.449 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+01-27 11:47:19.450 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComSplashActivity: << [NeoComSplashActivity.onCreate]
+01-27 11:47:19.529 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComSplashActivity: >> [NeoComSplashActivity.onStart]
+01-27 11:47:19.529 29877-29877/org.dimensinfin.eveonline.neocom I/NeoComSplashActivity: << [NeoComSplashActivity.onStart]
+01-27 11:47:19.669 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [SplashTasksFragment.onCreateView]
+01-27 11:47:19.669 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+01-27 11:47:19.669 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateViewSuper]
+01-27 11:47:19.806 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateViewSuper]
+01-27 11:47:19.806 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [SplashTasksFragment.createFactory]
+01-27 11:47:19.808 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [SplashTasksFragment.createFactory]
+01-27 11:47:19.808 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [SplashTasksFragment.registerDataSource]
+01-27 11:47:19.842 29877-29877/org.dimensinfin.eveonline.neocom I/ModelGeneratorStore: -- [ModelGeneratorStore.registerGenerator]> Registering new Generator: SPLASH_SCREEN/
+01-27 11:47:19.842 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class
+01-27 11:47:19.857 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Using variant: SPLASH_SCREEN
+01-27 11:47:19.857 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [SplashTasksFragment.registerDataSource]
+01-27 11:47:19.864 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:19.864 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:19.864 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 1	,[[AppVersion [NeoCom 0.10.9 ]]] org.dimensinfin.core.model.RootNode@7677134 ]
+01-27 11:47:19.865 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [AppVersion [NeoCom 0.10.9 ]]
+01-27 11:47:19.865 29877-29877/org.dimensinfin.eveonline.neocom I/PartFactory: >< [SplashPartFactory.createPart]> Node class: AppVersion
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: AppVersionPart [AppVersion [NeoCom 0.10.9 ]]
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: AppVersion [NeoCom 0.10.9 ]
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:19.890 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 1
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 1
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.addtoHeader]
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.addtoHeader]
+01-27 11:47:19.891 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+01-27 11:47:19.893 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [SplashTasksFragment.onCreateView]
+01-27 11:47:19.895 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [NeoComInitialization.doInBackground]
+01-27 11:47:19.895 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [NeoComInitialization.doStep01]
+01-27 11:47:19.920 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+01-27 11:47:19.920 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+01-27 11:47:20.021 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.addViewtoHeader]
+01-27 11:47:20.057 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 01. App Directories created
+01-27 11:47:20.057 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 02. Required files on place
+01-27 11:47:20.057 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 03. Loading available credentials.
+01-27 11:47:20.065 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << AbstractPagerFragment.addViewtoHeader
+01-27 11:47:20.065 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+01-27 11:47:20.078 29877-30243/org.dimensinfin.eveonline.neocom I/NeoComDatabase: >> [NeoComDatabase.accessAllLogins]
+01-27 11:47:20.079 29877-30243/org.dimensinfin.eveonline.neocom W/ndroidDatabaseConnector: W> [NeocomDatabaseConnector.getNeocomDBHelper]> helper not initialized. Creating new instance from configuration.
+01-27 11:47:20.289 29877-30243/org.dimensinfin.eveonline.neocom I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}/storage/emulated/0/NeoCom/neocom-100.db
+01-27 11:47:20.290 29877-30243/org.dimensinfin.eveonline.neocom I/NeocomAndroidDBHelper: -- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}109
+01-27 11:47:20.312 29877-30242/org.dimensinfin.eveonline.neocom I/Adreno-EGL: <qeglDrvAPI_eglInitialize:410>: EGL 1.4 QUALCOMM build: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020_msm8960_LA.AF.1.1_RB1__release_AU ()
+                                                                              OpenGL ES Shader Compiler Version: E031.25.03.06
+                                                                              Build Date: 05/22/15 Fri
+                                                                              Local Branch: mybranch10237523
+                                                                              Remote Branch: quic/LA.AF.1.1_rb1.18
+                                                                              Local Patches: NONE
+                                                                              Reconstruct Branch: AU_LINUX_ANDROID_LA.AF.1.1_RB1.05.00.02.006.020 + 9b2699f + 2215637 + 60aa592 + f2362e6 + 5c64f59 + 82411a1 + 89a0db6 + 6151be1 +  NOTHING
+01-27 11:47:20.317 29877-30242/org.dimensinfin.eveonline.neocom I/OpenGLRenderer: Initialized EGL, version 1.4
+01-27 11:47:20.496 29877-29877/org.dimensinfin.eveonline.neocom I/Choreographer: Skipped 33 frames!  The application may be doing too much work on its main thread.
+01-27 11:47:20.681 29877-30243/org.dimensinfin.eveonline.neocom W/FileUtils: Failed to chmod(/storage/emulated/0/NeoCom/neocom-100.db): android.system.ErrnoException: chmod failed: EPERM (Operation not permitted)
+01-27 11:47:20.708 29877-30243/org.dimensinfin.eveonline.neocom I/NeoComDatabase: << [NeoComDatabase.accessAllLogins]
+01-27 11:47:20.734 29877-29877/org.dimensinfin.eveonline.neocom I/Timeline: Timeline: Activity_idle id: android.os.BinderProxy@21404c64 time:166212895
+01-27 11:47:22.003 29877-30243/org.dimensinfin.eveonline.neocom I/*taManagementModelStore: >> [AppModelStore.initialize]
+01-27 11:47:22.004 29877-30243/org.dimensinfin.eveonline.neocom I/*taManagementModelStore: << [AppModelStore.initialize]
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err: org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException: RTE [DataManagementModelStore.getCredential4IdImpl]> Credential not found on the credential list. This is not an expected exception
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore.getCredential4IdImpl(DataManagementModelStore.java:300)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore.getCredential4Id(DataManagementModelStore.java:129)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.factory.ModelFactory.getPilotV1Impl(ModelFactory.java:188)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.factory.ModelFactory.getPilotV1(ModelFactory.java:141)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore.coalesceCredentialList(DataManagementModelStore.java:265)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.fragment.SplashTasksFragment$NeoComInitialization.doInBackground(SplashTasksFragment.java:109)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at org.dimensinfin.eveonline.neocom.fragment.SplashTasksFragment$NeoComInitialization.doInBackground(SplashTasksFragment.java:70)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at android.os.AsyncTask$2.call(AsyncTask.java:292)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:231)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)
+01-27 11:47:22.007 29877-30243/org.dimensinfin.eveonline.neocom W/System.err:     at java.lang.Thread.run(Thread.java:818)
+01-27 11:47:22.008 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 04. Checking if background timer service should be activated.
+01-27 11:47:22.014 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [NeoComInitialization.doStep01]> STEP 04. blockBackgroundTimer: false
+01-27 11:47:22.076 29877-30243/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [NeoComInitialization.doInBackground]
+01-27 11:47:22.079 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+01-27 11:47:22.080 29877-29877/org.dimensinfin.eveonline.neocom I/Timeline: Timeline: Activity_launch_request id:org.dimensinfin.eveonline.neocom time:166214242
+01-27 11:47:22.110 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: >> [LoginProgressActivity.onCreate]
+01-27 11:47:22.110 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: >> [AbstractPagerActivity.onCreate]
+01-27 11:47:22.124 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+01-27 11:47:22.125 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 0
+01-27 11:47:22.125 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >< [SpecialDataSource.collaborate2Model]
+01-27 11:47:22.125 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractGenerator: >> [InitializationGenerator.collaborate2Model]
+01-27 11:47:22.288 29877-29887/org.dimensinfin.eveonline.neocom W/art: Suspending all threads took: 129.180ms
+01-27 11:47:22.383 29877-29895/org.dimensinfin.eveonline.neocom W/art: Suspending all threads took: 94.940ms
+01-27 11:47:22.394 29877-29895/org.dimensinfin.eveonline.neocom I/art: Background partial concurrent mark sweep GC freed 11472(541KB) AllocSpace objects, 5(383KB) LOS objects, 40% free, 18MB/30MB, paused 96.649ms total 248.107ms
+01-27 11:47:22.430 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractGenerator: << [InitializationGenerator.collaborate2Model]> nodes: 3
+01-27 11:47:22.441 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.createContentHierarchy]
+01-27 11:47:22.442 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+01-27 11:47:22.442 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:22.442 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:22.448 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 3	,[[NeoComNode [ ], NeoComNode [ ], NeoComNode [ ]]] org.dimensinfin.core.model.RootNode@2b4e1c06 ]
+01-27 11:47:22.450 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [NeoComNode [ ], NeoComNode [ ], NeoComNode [ ]]
+01-27 11:47:22.506 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: << [AbstractPagerActivity.onCreate]
+01-27 11:47:22.511 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+01-27 11:47:22.513 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+01-27 11:47:22.524 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerActivity: << [LoginProgressActivity.onCreate]
+01-27 11:47:22.572 29877-30288/org.dimensinfin.eveonline.neocom I/PartFactory: >< [SplashPartFactory.createPart]> Node class: RunnableTask
+01-27 11:47:22.589 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[RunnableTask]-  ] ]
+01-27 11:47:22.589 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:22.590 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:22.591 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[RunnableTask]-  ]
+01-27 11:47:22.591 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:22.592 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:22.606 29877-30288/org.dimensinfin.eveonline.neocom I/PartFactory: >< [SplashPartFactory.createPart]> Node class: RunnableTask
+01-27 11:47:22.622 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[RunnableTask]-  ] ]
+01-27 11:47:22.622 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:22.622 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:22.623 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[RunnableTask]-  ]
+01-27 11:47:22.624 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:22.624 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:22.627 29877-30288/org.dimensinfin.eveonline.neocom I/PartFactory: >< [SplashPartFactory.createPart]> Node class: InitializationTask
+01-27 11:47:22.630 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-NO Model-[InitializationTask]-  ] ]
+01-27 11:47:22.631 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:22.631 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:22.632 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-NO Model-[InitializationTask]-  ]
+01-27 11:47:22.632 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:22.633 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:22.634 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+01-27 11:47:22.635 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+01-27 11:47:22.636 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 3
+01-27 11:47:22.651 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+01-27 11:47:22.652 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:22.653 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+01-27 11:47:22.653 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:22.655 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+01-27 11:47:22.655 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:22.656 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 3
+01-27 11:47:22.656 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.createContentHierarchy]
+01-27 11:47:22.656 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+01-27 11:47:22.657 29877-30288/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 3
+01-27 11:47:22.658 29877-29877/org.dimensinfin.eveonline.neocom I/Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+01-27 11:47:22.659 29877-30288/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: 0m 00s
+01-27 11:47:22.731 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+01-27 11:47:22.731 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateViewSuper]
+01-27 11:47:22.782 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateViewSuper]
+01-27 11:47:22.783 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [CredentialListFragment.registerDataSource]
+01-27 11:47:22.786 29877-29877/org.dimensinfin.eveonline.neocom I/ModelGeneratorStore: -- [ModelGeneratorStore.registerGenerator]> Registering new Generator: CAPSULEER_LIST/
+01-27 11:47:22.787 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class
+01-27 11:47:22.787 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.setGenerator]> Using variant: CAPSULEER_LIST
+01-27 11:47:22.787 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [CredentialListFragment.registerDataSource]
+01-27 11:47:22.787 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+01-27 11:47:22.839 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+01-27 11:47:22.839 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: -- [AbstractPagerFragment.onStart]> - Launching CreatePartsTask
+01-27 11:47:22.842 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+01-27 11:47:22.848 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [AbstractPagerFragment.CreatePartsTask.doInBackground]
+01-27 11:47:22.861 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+01-27 11:47:22.862 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 0
+01-27 11:47:22.862 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >< [SpecialDataSource.collaborate2Model]
+01-27 11:47:22.862 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: >> [LoginListGenerator.collaborate2Model]
+01-27 11:47:23.028 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [CreatePartsTask.onPostExecute]
+01-27 11:47:23.033 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [CreatePartsTask.onPostExecute]
+01-27 11:47:23.175 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [0] - SeparatorPart - Rendering time: 0s.030
+01-27 11:47:23.207 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [1] - SeparatorPart - Rendering time: 0s.016
+01-27 11:47:23.240 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [2] - SeparatorPart - Rendering time: 0s.018
+01-27 11:47:23.397 29877-29877/org.dimensinfin.eveonline.neocom I/Timeline: Timeline: Activity_idle id: android.os.BinderProxy@26de8a8d time:166215559
+01-27 11:47:24.777 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: >> [ESINetworkManager.getCharactersCharacterIdClones]
+01-27 11:47:27.335 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: >> [NeoComOAuth20.fromRefresh]
+01-27 11:47:27.336 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: -- [NeoComOAuth20.fromRefresh]> Refresh of access token requested.
+01-27 11:47:27.956 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: << [NeoComOAuth20.fromRefresh]> Saving new token.
+01-27 11:47:33.794 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: << [ESINetworkManager.getCharactersCharacterIdClones]> [TIMING] Full elapsed: 09s.015
+01-27 11:47:34.371 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: >< [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/1] Location 1021037093228: found at Application Database.
+01-27 11:47:34.682 29877-30297/org.dimensinfin.eveonline.neocom I/TimeStamp: -- [TimeStamp.store]> Timestamp data updated successfully.
+01-27 11:47:36.190 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: >> [ESINetworkManager.getCharactersCharacterIdClones]
+01-27 11:47:36.206 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: >> [NeoComOAuth20.fromRefresh]
+01-27 11:47:36.206 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: -- [NeoComOAuth20.fromRefresh]> Refresh of access token requested.
+01-27 11:47:36.794 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: << [NeoComOAuth20.fromRefresh]> Saving new token.
+01-27 11:47:37.671 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: << [ESINetworkManager.getCharactersCharacterIdClones]> [TIMING] Full elapsed: 01s.479
+01-27 11:47:37.701 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: >< [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/2] Location 61000180: found at Application Database.
+01-27 11:47:37.759 29877-30297/org.dimensinfin.eveonline.neocom I/TimeStamp: -- [TimeStamp.store]> Timestamp data updated successfully.
+01-27 11:47:39.132 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: >> [ESINetworkManager.getCharactersCharacterIdClones]
+01-27 11:47:39.150 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: >> [NeoComOAuth20.fromRefresh]
+01-27 11:47:39.150 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: -- [NeoComOAuth20.fromRefresh]> Refresh of access token requested.
+01-27 11:47:39.702 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: << [NeoComOAuth20.fromRefresh]> Saving new token.
+01-27 11:47:40.568 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: << [ESINetworkManager.getCharactersCharacterIdClones]> [TIMING] Full elapsed: 01s.434
+01-27 11:47:40.675 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: -- [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/3] Location 60006610: Obtained from CCP database.
+01-27 11:47:40.685 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: >< [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/3] Location 60006610: found at CCP Database.
+01-27 11:47:40.720 29877-30297/org.dimensinfin.eveonline.neocom I/TimeStamp: -- [TimeStamp.store]> Timestamp data updated successfully.
+01-27 11:47:43.275 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: >> [ESINetworkManager.getCharactersCharacterIdClones]
+01-27 11:47:43.292 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: >> [NeoComOAuth20.fromRefresh]
+01-27 11:47:43.292 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: -- [NeoComOAuth20.fromRefresh]> Refresh of access token requested.
+01-27 11:47:43.825 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComOAuth20: << [NeoComOAuth20.fromRefresh]> Saving new token.
+01-27 11:47:44.576 29877-30297/org.dimensinfin.eveonline.neocom I/ESINetworkManager: << [ESINetworkManager.getCharactersCharacterIdClones]> [TIMING] Full elapsed: 01s.299
+01-27 11:47:44.596 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: -- [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/4] Location 60004420: Obtained from CCP database.
+01-27 11:47:44.602 29877-30297/org.dimensinfin.eveonline.neocom I/*idCCPDatabaseConnector: >< [CCPDatabaseConnector.searchLocationbyID]> [HIT-0/4] Location 60004420: found at CCP Database.
+01-27 11:47:44.636 29877-30297/org.dimensinfin.eveonline.neocom I/TimeStamp: -- [TimeStamp.store]> Timestamp data updated successfully.
+01-27 11:47:44.638 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: -- [LoginListGenerator.collaborate2Model]> Adding 'Zach Zender' to the _dataModelRoot
+01-27 11:47:44.640 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: -- [LoginListGenerator.collaborate2Model]> Adding 'Beth Ripley' to the _dataModelRoot
+01-27 11:47:44.642 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: -- [LoginListGenerator.collaborate2Model]> Adding 'Perico Tuerto' to the _dataModelRoot
+01-27 11:47:44.644 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: -- [LoginListGenerator.collaborate2Model]> Adding 'Tip Tophane' to the _dataModelRoot
+01-27 11:47:44.645 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractGenerator: << [LoginListGenerator.collaborate2Model]
+01-27 11:47:44.645 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.createContentHierarchy]
+01-27 11:47:44.645 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot
+01-27 11:47:44.646 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.646 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.655 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: RootNode [count: 6	,[[Credential [[91734031]  Zach Zender ], Credential [[92223647]  Beth Ripley ], Credential [[93813310]  Perico Tuerto ], Credential [[2113197470]  Tip Tophane ], Separator [-TITLE-  ], NewLoginAction [name:-CHARACTER NAME- ]]] org.dimensinfin.core.model.RootNode@241e56f3 ]
+01-27 11:47:44.663 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Credential [[91734031]  Zach Zender ], Credential [[92223647]  Beth Ripley ], Credential [[93813310]  Perico Tuerto ], Credential [[2113197470]  Tip Tophane ], Separator [-TITLE-  ], NewLoginAction [name:-CHARACTER NAME- ]]
+01-27 11:47:44.663 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.database.entity.Credential
+01-27 11:47:44.667 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: CredentialPart [Zach Zender ]
+01-27 11:47:44.667 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.667 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.669 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Credential [[91734031]  Zach Zender ]
+01-27 11:47:44.670 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.670 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.670 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.database.entity.Credential
+01-27 11:47:44.672 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: CredentialPart [Beth Ripley ]
+01-27 11:47:44.672 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.672 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.674 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Credential [[92223647]  Beth Ripley ]
+01-27 11:47:44.674 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.675 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.675 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.database.entity.Credential
+01-27 11:47:44.676 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: CredentialPart [Perico Tuerto ]
+01-27 11:47:44.676 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.677 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.681 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Credential [[93813310]  Perico Tuerto ]
+01-27 11:47:44.683 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.684 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.684 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.database.entity.Credential
+01-27 11:47:44.686 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: CredentialPart [Tip Tophane ]
+01-27 11:47:44.686 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.687 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.689 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Credential [[2113197470]  Tip Tophane ]
+01-27 11:47:44.689 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.690 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.691 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.core.model.Separator
+01-27 11:47:44.693 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [-TITLE-  ] ]
+01-27 11:47:44.693 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.694 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.695 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [-TITLE-  ]
+01-27 11:47:44.696 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.697 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.697 29877-30297/org.dimensinfin.eveonline.neocom I/PilotPartFactory: -- [PilotPartFactory.createPart]> Node class: org.dimensinfin.eveonline.neocom.model.NewLoginAction
+01-27 11:47:44.700 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: NewLoginActionPart [NewLoginAction [name:-CHARACTER NAME- ]]
+01-27 11:47:44.700 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >> [AbstractPart.refreshChildren]
+01-27 11:47:44.701 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+01-27 11:47:44.702 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: NewLoginAction [name:-CHARACTER NAME- ]
+01-27 11:47:44.702 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+01-27 11:47:44.703 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+01-27 11:47:44.703 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+01-27 11:47:44.705 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: RootPart
+01-27 11:47:44.705 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+01-27 11:47:44.706 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: >> [CredentialPart.runDependencies]
+01-27 11:47:44.733 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: << [CredentialPart.runDependencies]
+01-27 11:47:44.734 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.734 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: >> [CredentialPart.runDependencies]
+01-27 11:47:44.749 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: << [CredentialPart.runDependencies]
+01-27 11:47:44.750 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.750 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: >> [CredentialPart.runDependencies]
+01-27 11:47:44.764 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: << [CredentialPart.runDependencies]
+01-27 11:47:44.764 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.765 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: >> [CredentialPart.runDependencies]
+01-27 11:47:44.778 29877-30297/org.dimensinfin.eveonline.neocom I/NeoComAbstractPart: << [CredentialPart.runDependencies]
+01-27 11:47:44.779 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.781 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: SeparatorPart
+01-27 11:47:44.781 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.782 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaboration parts: 1
+01-27 11:47:44.783 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: -- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: 6
+01-27 11:47:44.783 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.createContentHierarchy]
+01-27 11:47:44.783 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: >> [SpecialDataSource.getBodyParts]
+01-27 11:47:44.784 29877-30297/org.dimensinfin.eveonline.neocom I/SpecialDataSource: << [SpecialDataSource.getBodyParts]> result.size: 6
+01-27 11:47:44.784 29877-30297/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: 0m 00s
+01-27 11:47:44.785 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: >> [CreatePartsTask.onPostExecute]
+01-27 11:47:44.790 29877-29877/org.dimensinfin.eveonline.neocom I/AbstractPagerFragment: << [CreatePartsTask.onPostExecute]
+01-27 11:47:47.674 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [0] - CredentialPart - Rendering time: 02s.856
+01-27 11:47:48.088 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [1] - CredentialPart - Rendering time: 0s.252
+01-27 11:47:48.490 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [2] - CredentialPart - Rendering time: 0s.237
+01-27 11:47:48.896 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [3] - CredentialPart - Rendering time: 0s.236
+01-27 11:47:49.081 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [4] - SeparatorPart - Rendering time: 0s.021
+01-27 11:47:49.241 29877-29877/org.dimensinfin.eveonline.neocom I/DataSourceAdapter: -- [DataSourceAdapter.getView]> Getting view [5] - NewLoginActionPart - Rendering time: 0s.153

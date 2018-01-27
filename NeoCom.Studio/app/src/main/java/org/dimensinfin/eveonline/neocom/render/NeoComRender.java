@@ -116,7 +116,6 @@ public abstract class NeoComRender extends AbstractRender {
 						Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 						rotation.setRepeatCount(Animation.INFINITE);
 						_rightArrow.startAnimation(rotation);
-						//				_rightArrow.invalidate();
 					}
 				}
 			} else _rightArrow.setVisibility(View.GONE);

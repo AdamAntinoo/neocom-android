@@ -61,7 +61,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 		public ColonyStructureGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
 			super(locator, variant);
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			setCacheable(false);
+			setCacheable(true);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................

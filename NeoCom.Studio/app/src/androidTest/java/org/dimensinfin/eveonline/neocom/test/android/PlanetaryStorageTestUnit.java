@@ -25,7 +25,7 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.network.NetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.junit.Test;
@@ -70,7 +70,7 @@ public class PlanetaryStorageTestUnit extends UpdateJobManagementTestUnit {
 
 	public GetCharactersCharacterIdPlanetsPlanetIdOk getPlanetStructures4Credential (final Credential credental, final int
 			planetid) {
-		return NetworkManager.getCharactersCharacterIdPlanetsPlanetId(credental.getAccountId(), planetid, credental
+		return ESINetworkManager.getCharactersCharacterIdPlanetsPlanetId(credental.getAccountId(), planetid, credental
 				.getRefreshToken(), null);
 	}
 

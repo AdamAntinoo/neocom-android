@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.core.util.Chrono;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 
 import java.util.List;
 
@@ -65,27 +67,28 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 		logger.info(">> [NeoComExpandablePart.onClick]");
 		// Signal the action may take some time and launch it on the background.
 		activateClick();
-		// Force the update of the listview.
+		// Force the update of the view by eliminating it form the Part cache. This forces a redraw and updates the model.
 		invalidate();
-		notifyDataSetChanged();
-		// Launch the actions on a new thread.
-		//		GlobalAndroidDataManager.submitOnClick(
-		//				new OneShotTask<NeoComExpandablePart>(this) {
-		//					public void run () {
-		logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
-		Chrono chrono = new Chrono();
-		getTarget().toggleExpanded();
-		getTarget().invalidate();
 		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-		completeClick();
-		logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-		//					}
-		//				});
+		//		notifyDataSetChanged();
+		// Launch the actions on a new thread.
+		GlobalAndroidDataManager.submitOnClick(
+				new OneShotTask<NeoComExpandablePart>(this) {
+					public void run () {
+						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+						Chrono chrono = new Chrono();
+						getTarget().toggleExpanded();
+						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+						completeClick();
+						getTarget().invalidate();
+						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+					}
+				});
 		//		GlobalAndroidDataManager.submitOnClick(
 		//				new OneShotTask<NeoComExpandablePart>(this) {
 		//					public void run () {
 		logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
-		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+		//		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
 		logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
 		//					}
 		//				});
