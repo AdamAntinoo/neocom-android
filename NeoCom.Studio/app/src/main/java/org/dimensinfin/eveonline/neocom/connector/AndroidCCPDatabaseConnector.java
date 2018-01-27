@@ -176,6 +176,18 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 			+ " LEFT OUTER JOIN eveIcons ei ON ic.iconID = ei.iconID"
 			+ " WHERE ic.categoryID = ?";
 
+	// --- S C H E M A T I C S I D
+	private static int SCHEMATICSID_SCHEMATICID_COLINDEX = 0;
+	private static int SCHEMATICSID_TYPEID_COLINDEX = 1;
+	private static int SCHEMATICSID_QUANTITY_COLINDEX = 2;
+	private static int SCHEMATICSID_ISINPUT_COLINDEX = 3;
+	private static final String SELECT_SCHEMATICSID =
+			"SELECT        pstms.schematicID, pstms.typeID, pstms.quantity, pstms.isInput"
+					+ " FROM   planetSchematicsTypeMap pstmt, planetSchematicsTypeMap pstms"
+					+ " WHERE  pstmt.schematicID = ?"
+					+ " AND    pstmt.isInput = 0"
+					+ " AND    pstms.schematicID = pstmt.schematicID";
+
 
 	// STATEMENTS TO CHECK
 	private static final String SELECT_MODULE4BLUEPRINT = "SELECT productTypeID FROM industryActivityProducts BT"
@@ -223,7 +235,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		return true;
 	}
 
-	// STATEMENTS VERIFIED
+	// --- STATEMENTS VERIFIED
 
 	/**
 	 * Search on the eve.db database for the attributes that describe an Item. Items are the lowest data
@@ -278,7 +290,27 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		}
 		return hit;
 	}
+	public Vector<Schematics> selectSchematics4Id (final int schematicId) {
+		Vector<Schematics> scheList = new Vector<Schematics>();
+		try {
+			final Cursor cursor = this.getCCPDatabase().rawQuery(AndroidCCPDatabaseConnector.SELECT_SCHEMATICSID,
+					new String[]{Integer.valueOf(schematicId).toString()});
+			if ( null != cursor ) {
+				while (cursor.moveToNext()) {
+					scheList.add(new Schematics().addData(cursor.getInt(cursor.getColumnIndex("typeID")),
+							cursor.getInt(cursor.getColumnIndex("quantity")),
+							(cursor.getInt(cursor.getColumnIndex("isInput")) == 1) ? true : false));
+				}
+				cursor.close();
+			}
+		} catch (Exception ex) {
+			AndroidCCPDatabaseConnector.logger
+					.warn("W- [SpingDatabaseConnector.searchRawPlanetaryOutput]> Database exception: " + ex.getMessage());
+		}
+		return scheList;
+	}
 
+	//--------------------------------------------------------------------------------------------------------------
 	/**
 	 * Search on the eve.db database for the item group information. This new select is used to get access to
 	 * the icon information that should be stored to be correlated to the resource list.
@@ -496,7 +528,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 				return hit;
 			} else {
 				// Location found on the Application database.
-				 hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
+				hits = AndroidCCPDatabaseConnector.locationsCacheStatistics.getHits();
 				AndroidCCPDatabaseConnector.logger.info(">< [CCPDatabaseConnector.searchLocationbyID]> [HIT-" + hits + "/"
 						+ access + "] Location " + locationID + ": found at Application Database.");
 				EveLocation foundLoc = locationList.get(0);

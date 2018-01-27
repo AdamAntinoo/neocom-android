@@ -21,8 +21,8 @@ import junit.framework.Assert;
 
 import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
-import org.dimensinfin.eveonline.neocom.enums.EDataUpdateJobs;
-import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver.Job;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver;
 import org.joda.time.Instant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +51,7 @@ public class TimeStampTestUnit extends NeoComCoreTestEngine{
 	@Test
 	public void verifyTimeStampRegistration () throws Exception {
 		logger.info(">> [UpdateJobManagementTestUnit.verifyTimeStampRegistration]");
-		final String keyReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, 1231);
+		final String keyReference = TimeTickReceiver.Job.constructReference(GlobalDataManager.EDataUpdateJobs.COLONYDATA, 1231);
 		Assert.assertEquals("> Testing the job constructor reference geneeates a proper code: ", "COLONYDATA/1231", keyReference);
 		final TimeStamp timeStampEmpty = new TimeStamp(keyReference, Instant.now())
 				.store();

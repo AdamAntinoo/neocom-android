@@ -106,7 +106,7 @@ public class SplashTasksFragment extends AbstractPagerFragment {
 			// Create the login information that later will be requested to the user at the login page.
 			this.updateStateLabel("Processing Character Information...");
 			logger.info("-- [NeoComInitialization.doStep01]> STEP 03. Loading available credentials.");
-			NeoComModelStore.accessCredentialList();
+			NeoComModelStore.getSingleton().coalesceCredentialList();
 //			logger.info("<< [NeoComInitialization.doStep01]");
 
 			// Start the timers for background processing.

@@ -17,24 +17,31 @@ package org.dimensinfin.eveonline.neocom.test.android;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
-import org.dimensinfin.eveonline.neocom.database.entity.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.ColonySerialized;
+import org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
-import org.dimensinfin.eveonline.neocom.enums.EDataUpdateJobs;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.network.NetworkManager;
-import org.dimensinfin.eveonline.neocom.service.TimeTickReceiver.Job;
-import org.joda.time.Instant;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
+ * This test will download the colony structures for a preselected character (Beth Ripley [922223647]) and then use the
+ * OK
+ * classes to get the data json serialized and stored at the databse table ColonyStorage. After verifying the storage
+ * is completed it will read it back and deserailize it to check that the result, mapped to MVC compliant classes
+ * matches the contents expected and there are no transformation errors.
+ *
  * @author Adam Antinoo
  */
 
@@ -42,43 +49,106 @@ import java.util.concurrent.TimeUnit;
 @RunWith(AndroidJUnit4.class)
 public class PlanetaryStorageTestUnit extends UpdateJobManagementTestUnit {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static final ModelMapper modelMapper = new ModelMapper();
+
+	static {
+		modelMapper.getConfiguration()
+		           .setFieldMatchingEnabled(true)
+		           .setMethodAccessLevel(Configuration.AccessLevel.PRIVATE);
+	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Test
-	public void createJobToDownloadColonies () throws Exception {
-		logger.info(">> [PlanetaryStorageTestUnit.createJobToDownloadColonies]");
-		// Check initialization with setting time point.
-		final Credential credentialVerification = credentialUsageTest();
-		Assert.assertEquals("> Validating Credential Token: ", "l503NeX7tjKwbwXfKeEQCibp8v8KknuIldR09FxhOjH3PaC4Tpsoa9yJV7Zi284JjNleq0JLzk4tNZmHGJ1P0w2", credentialVerification.getAccessToken());
-		Assert.assertEquals("> Validating Credential Refresh token: ", "rILzXqFN4C8aYKr2bY6rr-tvIcRuD3m_Qk5kHeedCn3aIV2vj3JjmucYgp_7TIeoS0wKEfIKs7vAhgopGAlIRQ7R47S1cuPHEVkILck-NQWPZH10Betk972YcFjHZVGO6IjbY-WjtFwsmGKgkBxaf67LgLTt5x_zsK1uRvURyYLMMA0Eh1bWyCStpo2Wg7evW1c79uBiEYaEP9OYpmfrXOKbzGFYb8U5McM7rr0o5lyeYlr4-H4xFG8yVe31b0d4PMlOPCQInENnGcd9-epl3QahYJYvpdkZtocVSC67JV9Q60-vgoTD9D6ZVoO4Iic_Hmm7i5OueCJctqupuV5G8Jja9M0kP6y7a3dl3WKFQUiTZs49X1YgqJPePVD--KvgoUXiwHTZQlQEiqZ2mWVsUQIrlD-7JAzCBQ1Fl89sCQ-iZ8RMUU6OtyDZqrMoQfSYdbuazovF4ueo2lX_PqA71NkL6GT-H_fUiKeurr35yLAU1vfphzckltF9gf7LC7cKuEiGJ14dpE20uLQU7zkzz2jF-zQpjdo61HNk8LXMXbERBhT4imtEC9V8msbsVPn4z04AInFvvNEwdlc2GLRJsoH8xNWWXPsuBIFGGsHiMUs1", credentialVerification.getRefreshToken());
-
-		final String keyReference = Job.constructReference(EDataUpdateJobs.COLONYDATA, credentialVerification.getAccountId());
-		final long timePoint = Instant.now().plus(TimeUnit.SECONDS.toMillis(5)).getMillis();
-		final TimeStamp timeStampComplete = new TimeStamp(keyReference, Instant.now())
-				.setTimeStamp(timePoint)
-				.store();
-		logger.info("-- [PlanetaryStorageTestUnit.createJobToDownloadColonies]> Created TimeStamp 5 seconds in the future.");
-		logger.info("-- [DownloadManager.downloadColonyList]> Download colony list for identifier: {}", credentialVerification.getAccountId());
-		//		server=ModelAppConnector.getSingleton().getResourceString(R.string.esisourceserver);
-		final String server = "tranquility";
-		final List<GetCharactersCharacterIdPlanets200Ok> colonyInstances = NetworkManager.getCharactersCharacterIdPlanets(credentialVerification.getAccountId(), credentialVerification.getRefreshToken(), server);
-
-		// Transform the received OK instance into a NeoCom compatible model instance.
-		for (GetCharactersCharacterIdPlanets200Ok colonyOK : colonyInstances) {
-			Colony col = modelMapper.map(colonyOK, Colony.class);
-			logger.info("-- [DownloadManager.downloadColonyList]> Transformed colony: {}", col.getPlanetId());
-			col.store();
-			final String colonyReference = Long.valueOf(col.getPlanetId()).toString();
-			final Colony colonyVerification = NeoComDatabase.getImplementer().getColonyDao().queryForId(colonyReference);
-			Assert.assertEquals("> Validating colony data stored [planetId]: ", col.getPlanetId(), colonyVerification.getPlanetId());
-			Assert.assertEquals("> Validating colony data stored [numPins]: ", col.getNumPins(), colonyVerification.getNumPins());
-			Assert.assertEquals("> Validating colony data stored [planetname]: ", col.getPlanetName(), colonyVerification.getPlanetName());
-		}
+	public Credential initializeConfiguration () {
+		// Load all the Credentials
+		final Credential credential = NeoComModelStore.activateCredential(92223647);
+		return credential;
 	}
+
+	public GetCharactersCharacterIdPlanetsPlanetIdOk getPlanetStructures4Credential (final Credential credental, final int
+			planetid) {
+		return NetworkManager.getCharactersCharacterIdPlanetsPlanetId(credental.getAccountId(), planetid, credental
+				.getRefreshToken(), null);
+	}
+
+	@Test
+	public void testStructureStore () throws Exception {
+		logger.info(">> [PlanetaryStorageTestUnit.testStructureStore]");
+		// Connect the credential
+		final Credential credential = initializeConfiguration();
+		// Get the planet identifier we like to test.
+		final int planetid = 40208073;
+		// Get the whole structures on that planet.
+		final GetCharactersCharacterIdPlanetsPlanetIdOk data = getPlanetStructures4Credential(credential, planetid);
+		// Convert again the OK data to a json string
+		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pinList = data.getPins();
+		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins structureOK : pinList) {
+			//			ColonyCoreStructure newstruct = modelMapper.map(structureOK, ColonyCoreStructure.class);
+			// TODO Convert the structure to a serialized Json string and store it into the database for fast access.
+			try {
+				final String serialized = objectMapper.writeValueAsString(structureOK);
+				final String storageIdentifier = GlobalDataManager.constructPlanetStorageIdentifier(credential.getAccountId()
+						, planetid);
+				final ColonyStorage storage = new ColonyStorage(structureOK.getPinId())
+						.setPlanetIdentifier(storageIdentifier)
+						.setColonySerialization(serialized)
+						.store();
+			} catch (JsonProcessingException jpe) {
+				jpe.printStackTrace();
+			}
+		}
+		logger.info("<< [PlanetaryStorageTestUnit.testStructureStore]");
+	}
+
+//	@Test
+	public void testStructureRead () throws Exception {
+		logger.info(">> [PlanetaryStorageTestUnit.testStructureStore]");
+		// Connect the credential
+		final Credential credential = initializeConfiguration();
+		// Get the planet identifier we like to test.
+		final int planetid = 40208073;
+		// Read the data structures from the database.
+		final String storageIdentifier = GlobalDataManager.constructPlanetStorageIdentifier(credential.getAccountId(),
+				planetid);
+		final String pinid = "1012696414582";
+		final ColonyStorage data = GlobalDataManager.getHelper().getColonyStorageDao().queryForId(pinid);
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins structure = objectMapper.readValue(data.getColonySerialization(), GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
+		ColonyCoreStructure newstruct = modelMapper.map(structure, ColonyCoreStructure.class);
+		logger.info("<< [PlanetaryStorageTestUnit.testStructureStore]");
+	}
+
+	@Test
+	public void testStructureSerialization () throws Exception {
+		logger.info(">> [PlanetaryStorageTestUnit.testStructureStore]");
+		// Connect the credential
+		final Credential credential = initializeConfiguration();
+		// Get the planet identifier we like to test.
+		final int planetid = 40208073;
+		// Get the whole structures on that planet.
+		final GetCharactersCharacterIdPlanetsPlanetIdOk data = getPlanetStructures4Credential(credential, planetid);
+		// Convert again the OK data to a json string
+		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pinList = data.getPins();
+		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins structureOK : pinList) {
+			ColonyCoreStructure newstruct = modelMapper.map(structureOK, ColonyCoreStructure.class);
+			// TODO Convert the structure to a serialized Json string and store it into the database for fast access.
+			try {
+//				final String serialized = objectMapper.writeValueAsString(structureOK);
+				final String storageIdentifier = GlobalDataManager.constructPlanetStorageIdentifier(credential.getAccountId()
+						, planetid);
+				final ColonySerialized storage = new ColonySerialized(structureOK.getPinId())
+						.setPlanetIdentifier(storageIdentifier)
+						.setColonySerialization(newstruct)
+						.store();
+			} catch (RuntimeException jpe) {
+				jpe.printStackTrace();
+			}
+		}
+		logger.info("<< [PlanetaryStorageTestUnit.testStructureStore]");
+	}
+
 }
 // - UNUSED CODE ............................................................................................
 //[01]

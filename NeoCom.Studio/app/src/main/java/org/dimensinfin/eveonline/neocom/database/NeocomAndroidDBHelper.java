@@ -28,6 +28,7 @@ import com.j256.ormlite.table.TableUtils;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
+import org.dimensinfin.eveonline.neocom.database.entity.ColonySerialized;
 import org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
@@ -55,7 +56,8 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<ApiKey, String> apiKeysDao = null;
 	private Dao<Credential, String> credentialDao = null;
 	private Dao<Colony, String> colonyDao = null;
-	private Dao<org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage, String> colonyStorageDao = null;
+	private Dao<ColonyStorage, String> colonyStorageDao = null;
+	private Dao<ColonySerialized, String> colonySerializedDao = null;
 
 	private Dao<Property, String> propertyDao = null;
 	private Dao<ResourceList, String> resourceList = null;
@@ -132,12 +134,17 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		return colonyDao;
 	}
 
-	@Override
-	public Dao<org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage, String> getColonyStorageDao () throws SQLException {
+	public Dao<ColonyStorage, String> getColonyStorageDao () throws SQLException {
 		if ( null == colonyStorageDao ) {
-			colonyStorageDao = DaoManager.createDao(this.getConnectionSource(), org.dimensinfin.eveonline.neocom.database.entity.ColonyStorage.class);
+			colonyStorageDao = DaoManager.createDao(this.getConnectionSource(), ColonyStorage.class);
 		}
 		return colonyStorageDao;
+	}
+	public Dao<ColonySerialized, String> getColonySerializedDao () throws SQLException {
+		if ( null == colonySerializedDao ) {
+			colonySerializedDao = DaoManager.createDao(this.getConnectionSource(), ColonySerialized.class);
+		}
+		return colonySerializedDao;
 	}
 
 	public Dao<NeoComAsset, String> getAssetDao () throws java.sql.SQLException {
@@ -279,6 +286,8 @@ public class NeocomAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			TableUtils.createTableIfNotExists(databaseConnection, TimeStamp.class);
 			TableUtils.createTableIfNotExists(databaseConnection, Colony.class);
 			TableUtils.createTableIfNotExists(databaseConnection, ColonyStorage.class);
+			TableUtils.createTableIfNotExists(databaseConnection, ColonySerialized.class);
+
 			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 

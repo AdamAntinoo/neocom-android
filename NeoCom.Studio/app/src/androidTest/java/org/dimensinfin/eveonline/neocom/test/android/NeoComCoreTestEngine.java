@@ -18,28 +18,38 @@ package org.dimensinfin.eveonline.neocom.test.android;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
+import com.beimin.eveapi.EveApi;
+import com.beimin.eveapi.connectors.ApiConnector;
+import com.beimin.eveapi.connectors.CachingConnector;
+import com.beimin.eveapi.connectors.LoggingConnector;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.j256.ormlite.dao.Dao;
 
 import junit.framework.Assert;
 
+import org.dimensinfin.eveonline.neocom.connector.AndroidCCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.AndroidDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICCPDatabaseConnector;
 import org.dimensinfin.eveonline.neocom.connector.ICacheConnector;
 import org.dimensinfin.eveonline.neocom.connector.IModelAppConnector;
 import org.dimensinfin.eveonline.neocom.connector.INeoComModelDatabase;
 import org.dimensinfin.eveonline.neocom.connector.ModelAppConnector;
+import org.dimensinfin.eveonline.neocom.core.NeoComConnector;
 import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.junit.After;
 import org.junit.Before;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration.AccessLevel;
+import org.modelmapper.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Adam Antinoo
@@ -49,12 +59,33 @@ import java.sql.SQLException;
 public class NeoComCoreTestEngine implements IModelAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = LoggerFactory.getLogger(NeoComCoreTestEngine.class);
+	static {
+		EveApi.setConnector(new NeoComConnector(new CachingConnector(new LoggingConnector())));
+		// Remove the secure XML access and configure the ApiConnector.
+		ApiConnector.setSecureXmlProcessing(false);
+	}
+	public static final ModelMapper globalModelMapper = new ModelMapper();
+	static {
+		globalModelMapper.getConfiguration()
+		           .setFieldMatchingEnabled(true)
+		           .setMethodAccessLevel(Configuration.AccessLevel.PRIVATE);
+	}
+
+	/** Jackson mapper to use for object json serialization. */
+	public static final ObjectMapper objectMapper = new ObjectMapper();
+	static {
+		objectMapper.registerModule(new JodaModule());
+	}
+
+	/** Background executor to use for long downloading jobs. */
+	private static final ExecutorService downloadExecutor = Executors.newSingleThreadExecutor();
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Context context = null;
+	private AndroidCCPDatabaseConnector dbCCPConnector = null;
 	private AndroidDatabaseConnector dbNeocomConnector = null;
 	private ModelAppConnector connector = null;
-	protected static ModelMapper modelMapper = new ModelMapper();
+//	protected static ModelMapper modelMapper = new ModelMapper();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -71,9 +102,9 @@ public class NeoComCoreTestEngine implements IModelAppConnector {
 		} catch (RuntimeException rtex) {
 			rtex.printStackTrace();
 		}
-		modelMapper.getConfiguration()
-							 .setFieldMatchingEnabled(true)
-							 .setMethodAccessLevel(AccessLevel.PRIVATE);
+//		modelMapper.getConfiguration()
+//							 .setFieldMatchingEnabled(true)
+//							 .setMethodAccessLevel(AccessLevel.PRIVATE);
 	}
 
 	@After
@@ -88,12 +119,18 @@ public class NeoComCoreTestEngine implements IModelAppConnector {
 
 	@Override
 	public ICCPDatabaseConnector getCCPDBConnector () {
-		return null;
+		if ( null == dbCCPConnector ) {
+			dbCCPConnector = new AndroidCCPDatabaseConnector();
+		}
+		return dbCCPConnector;
 	}
 
 	@Override
 	public INeoComModelDatabase getDBConnector () {
-		return null;
+		if ( null == dbNeocomConnector ) {
+			dbNeocomConnector = new AndroidDatabaseConnector(context);
+		}
+		return dbNeocomConnector;
 	}
 
 	@Override
