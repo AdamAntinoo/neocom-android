@@ -8,8 +8,8 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure.ColonyExtractor;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure.ColonyExtractor;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.joda.time.Instant;
 
@@ -78,12 +78,12 @@ public class ExtractorPart extends NeoComAbstractPart {
         }
     }
 
-    public ExtractorPart(final ColonyCoreStructure node) {
+    public ExtractorPart(final ColonyStructure node) {
         super(node);
     }
 
-    public ColonyCoreStructure getCastedModel() {
-        return (ColonyCoreStructure) this.getModel();
+    public ColonyStructure getCastedModel() {
+        return (ColonyStructure) this.getModel();
     }
 
     public long getModelID() {

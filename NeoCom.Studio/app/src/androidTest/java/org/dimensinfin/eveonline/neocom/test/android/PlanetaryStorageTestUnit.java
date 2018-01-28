@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,7 +86,7 @@ public class PlanetaryStorageTestUnit extends UpdateJobManagementTestUnit {
 		// Convert again the OK data to a json string
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pinList = data.getPins();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins structureOK : pinList) {
-			//			ColonyCoreStructure newstruct = modelMapper.map(structureOK, ColonyCoreStructure.class);
+			//			ColonyStructure newstruct = modelMapper.map(structureOK, ColonyStructure.class);
 			// TODO Convert the structure to a serialized Json string and store it into the database for fast access.
 			try {
 				final String serialized = objectMapper.writeValueAsString(structureOK);
@@ -116,7 +116,7 @@ public class PlanetaryStorageTestUnit extends UpdateJobManagementTestUnit {
 		final String pinid = "1012696414582";
 		final ColonyStorage data = GlobalDataManager.getHelper().getColonyStorageDao().queryForId(pinid);
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins structure = objectMapper.readValue(data.getColonySerialization(), GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
-		ColonyCoreStructure newstruct = modelMapper.map(structure, ColonyCoreStructure.class);
+		ColonyStructure newstruct = modelMapper.map(structure, ColonyStructure.class);
 		logger.info("<< [PlanetaryStorageTestUnit.testStructureStore]");
 	}
 
@@ -132,7 +132,7 @@ public class PlanetaryStorageTestUnit extends UpdateJobManagementTestUnit {
 		// Convert again the OK data to a json string
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pinList = data.getPins();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins structureOK : pinList) {
-			ColonyCoreStructure newstruct = modelMapper.map(structureOK, ColonyCoreStructure.class);
+			ColonyStructure newstruct = modelMapper.map(structureOK, ColonyStructure.class);
 			// TODO Convert the structure to a serialized Json string and store it into the database for fast access.
 			try {
 //				final String serialized = objectMapper.writeValueAsString(structureOK);

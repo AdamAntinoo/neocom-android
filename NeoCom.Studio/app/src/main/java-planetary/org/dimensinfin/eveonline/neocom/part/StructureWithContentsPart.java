@@ -27,7 +27,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
 
 /**
@@ -64,7 +64,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		@Override
 		public void updateContent () {
 			super.updateContent();
-			final ColonyCoreStructure model = getPart().getCastedModel();
+			final ColonyStructure model = getPart().getCastedModel();
 			final long type = model.getTypeId();
 			final String name = model.getStructureTypeCode().name();
 			structureName.setText(name);
@@ -125,7 +125,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		@Override
 		public void updateContent () {
 			super.updateContent();
-			final ColonyCoreStructure model = getPart().getCastedModel();
+			final ColonyStructure model = getPart().getCastedModel();
 			structureType.setText("Command Center");
 			fillLevelLabel.setText(getPart().getTFillLevel());
 			fillLevelNumbers.setText(getPart().getTFillData());
@@ -179,7 +179,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		@Override
 		public void updateContent () {
 			super.updateContent();
-			final ColonyCoreStructure model = getPart().getCastedModel();
+			final ColonyStructure model = getPart().getCastedModel();
 			structureType.setText("Launch Pad");
 			//						fillLevelLabel.setText(getPart().getTFillLevel());
 			//			fillLevelNumbers.setText(getPart().getTFillData());
@@ -212,13 +212,13 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public StructureWithContentsPart (final ColonyCoreStructure node) {
+	public StructureWithContentsPart (final ColonyStructure node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public ColonyCoreStructure getCastedModel () {
-		return (ColonyCoreStructure) this.getModel();
+	public ColonyStructure getCastedModel () {
+		return (ColonyStructure) this.getModel();
 	}
 
 	public long getModelID () {
@@ -229,7 +229,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 	 * The render selected will depend on the Structure type stored on the Model.
 	 */
 	protected AbstractRender selectRenderer () {
-		final ColonyCoreStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
+		final ColonyStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
 		switch (structureType) {
 			case COMMAND_CENTER:
 				return new CommandCenterRender(this, _activity);

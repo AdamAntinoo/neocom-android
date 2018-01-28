@@ -61,7 +61,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 	 * exists then we initiate the initialization process trying to create the most recent instance we have
 	 * recorded or recreate it from scratch from the stored credentials.
 	 *
-	 * @return the single global sinleton.
+	 * @return the single global singleton.
 	 */
 	@Deprecated
 	public static NeoComModelStore getSingleton () {

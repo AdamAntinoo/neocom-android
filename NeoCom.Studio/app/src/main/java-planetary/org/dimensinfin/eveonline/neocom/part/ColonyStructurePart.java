@@ -30,7 +30,7 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
@@ -76,7 +76,7 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		@Override
 		public void updateContent () {
 			super.updateContent();
-			final ColonyCoreStructure model = getPart().getCastedModel();
+			final ColonyStructure model = getPart().getCastedModel();
 			final long type = model.getTypeId();
 			final String name = model.getStructureTypeCode().name();
 			structureName.setText(name);
@@ -171,7 +171,7 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 					start = 10;
 				}
 			}
-			final ColonyCoreStructure basicFactory = getPart().getCastedModel();
+			final ColonyStructure basicFactory = getPart().getCastedModel();
 			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.facility80_white));
 			structureType.setText("Basic Industry Facility");
 			// Hide the 2 and 3 inputs because basic only have one input.
@@ -188,14 +188,14 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 			input1Name.setText(getPart().getInputName(1));
 			input1PctFill.setText(getPart().getInputPct(1));
 
-			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyStructure.EPlanetaryStructureType
 					.ADVANCED_INDUSTRY ) {
 				input2Block.setVisibility(View.VISIBLE);
 				structureType.setText("Advanced Industry Facility");
 				loadEveIcon(input2Icon, getPart().getInputTypeId(2));
 				input2PctFill.setText(getPart().getInputPct(2));
 			}
-			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyStructure.EPlanetaryStructureType
 					.HIGH_TECH_PRODUCTION ) {
 				input2Block.setVisibility(View.VISIBLE);
 				input3Block.setVisibility(View.VISIBLE);
@@ -207,15 +207,15 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 			}
 
 			int cycleDuration = 0;
-			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.BASIC_INDUSTRY ) {
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyStructure.EPlanetaryStructureType.BASIC_INDUSTRY ) {
 				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(30)).intValue();
 				cycleTimeProgress.setMax(cycleDuration);
 			}
-			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.ADVANCED_INDUSTRY ) {
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyStructure.EPlanetaryStructureType.ADVANCED_INDUSTRY ) {
 				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(60)).intValue();
 				cycleTimeProgress.setMax(cycleDuration);
 			}
-			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.HIGH_TECH_PRODUCTION ) {
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyStructure.EPlanetaryStructureType.HIGH_TECH_PRODUCTION ) {
 				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(120)).intValue();
 				cycleTimeProgress.setMax(cycleDuration);
 			}
@@ -274,13 +274,13 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 	private List<InputDataBlock> inputs = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ColonyStructurePart (final ColonyCoreStructure node) {
+	public ColonyStructurePart (final ColonyStructure node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public ColonyCoreStructure getCastedModel () {
-		return (ColonyCoreStructure) this.getModel();
+	public ColonyStructure getCastedModel () {
+		return (ColonyStructure) this.getModel();
 	}
 
 	public long getModelID () {
@@ -370,7 +370,7 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 
 	public double getInputPctUsage (final int resourceType) {
 		// Match the resource type of input with the strcuture contents.
-		final ColonyCoreStructure.ColonyContent content = locateContent4Id(resourceType);
+		final ColonyStructure.ColonyContent content = locateContent4Id(resourceType);
 		if ( null != content ) {
 			final Schematics input = locateInput4Id(resourceType);
 			if ( null != input ) {
@@ -381,16 +381,16 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		return 0.0;
 	}
 
-	private ColonyCoreStructure.ColonyContent locateContent4Id (final int typeid) {
-		final List<ColonyCoreStructure.ColonyContent> contentList = getCastedModel().getContentList();
-		for (ColonyCoreStructure.ColonyContent content : contentList) {
+	private ColonyStructure.ColonyContent locateContent4Id (final int typeid) {
+		final List<ColonyStructure.ColonyContent> contentList = getCastedModel().getContentList();
+		for (ColonyStructure.ColonyContent content : contentList) {
 			if ( content.getTypeId() == typeid ) return content;
 		}
 		return null;
 	}
 
 	private Schematics locateInput4Id (final int typeid) {
-		final List<ColonyCoreStructure.ColonyContent> contentList = getCastedModel().getContentList();
+		final List<ColonyStructure.ColonyContent> contentList = getCastedModel().getContentList();
 		for (Schematics schematic : schematicList) {
 			if ( schematic.getTypeId() == typeid ) return schematic;
 		}
@@ -416,7 +416,7 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 	 * The render selected will depend on the Structure type stored on the Model.
 	 */
 	protected AbstractRender selectRenderer () {
-		final ColonyCoreStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
+		final ColonyStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();
 		switch (structureType) {
 			case BASIC_INDUSTRY:
 			case ADVANCED_INDUSTRY:

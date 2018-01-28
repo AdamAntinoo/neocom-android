@@ -6,7 +6,7 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure.ColonyContent;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyStructure.ColonyContent;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 public class ContentsPart extends NeoComAbstractPart {
