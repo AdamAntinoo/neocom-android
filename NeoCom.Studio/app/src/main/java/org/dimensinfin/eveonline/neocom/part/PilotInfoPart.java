@@ -32,9 +32,9 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
@@ -82,7 +82,7 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 	@WorkerThread
 	public String getTWalletAmount () {
 		// Get access to the matching character using the credential as index.
-		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getCharacterId());
+		final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(getCastedModel().getCharacterId());
 		if ( null != pilot ) return generatePriceString(pilot.getAccountBalance(), false, true);
 		else return "- ISK";
 	}
@@ -102,14 +102,14 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 
 	@WorkerThread
 	public String getTRaceName () {
-		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getCharacterId());
+		final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(getCastedModel().getCharacterId());
 		if ( null != pilot ) return upperCaseFirst(pilot.getCharacterInfo().getRace().name().toLowerCase());
 		else return "-";
 	}
 
 	@WorkerThread
 	public String getURLForAvatar () {
-		final PilotV1 pilot = ModelFactory.getPilotV1(getCastedModel().getCharacterId());
+		final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(getCastedModel().getCharacterId());
 		if ( null != pilot ) return pilot.getURLForAvatar();
 		else return null;
 	}

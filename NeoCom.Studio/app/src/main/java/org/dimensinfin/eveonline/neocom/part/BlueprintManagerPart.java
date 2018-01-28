@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -29,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -94,10 +94,10 @@ public class BlueprintManagerPart extends NeoComAbstractPart
 		final Object managerPart = view.getTag();
 		if ( managerPart instanceof BlueprintManagerPart ) {
 			// Managers have a reference to the Character linked when created.
-//			final NeoComCharacter pilot = ((BlueprintManagerPart) managerPart).getCastedModel().getPilot();
+			//			final NeoComCharacter pilot = ((BlueprintManagerPart) managerPart).getCastedModel().getPilot();
 			final Intent intent = new Intent(this.getActivity(), IndustryDirectorActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
-//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
+			//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), ((BlueprintManagerPart) managerPart).getCastedModel().getCredentialIdentifier());
 			NeoComModelStore.getSingleton().getActivity().startActivity(intent);
 		}
@@ -151,18 +151,21 @@ final class BlueprintManagerRender extends NeoComRender {
 		name.setText(this.getPart().getName());
 		t1BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT1Delegate().getBlueprintCount()));
 		t2BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT2Delegate().getBlueprintCount()));
-//		t3BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT3Delegate().getBlueprintCount()));
+		//		t3BueprintCount.setText(this.getPart().getTResourcesCount(getPart().getCastedModel().getT3Delegate().getBlueprintCount()));
 		// Needs the check to test of the manager is active to select the right icon.
 		if ( this.getPart().checkActivation() ) {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon(), getContext().getTheme()));
+			nodeIcon.setImageResource(this.getPart().getActiveIcon());
 		} else {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon(), getContext().getTheme()));
+			nodeIcon.setImageResource(this.getPart().getDimmedIcon());
 		}
 		// Check if the click is active. If not change the border to gray.
 		if ( getPart() instanceof OnClickListener )
-			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
-		else
+			if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
+			} else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen));
+		else if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
+		} else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray));
 		_convertView.invalidate();
 	}
 

@@ -28,9 +28,9 @@ import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
-import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -66,7 +66,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 			for (Credential login :  NeoComModelStore.accessCredentialList()) {
 				_dataModelRoot.addChild(login);
 				// Preload the matching pilot.
-				final PilotV1 pilot = ModelFactory.getPilotV1(login.getAccountId());
+				final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(login.getAccountId());
 				AbstractGenerator.logger
 						.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getAccountName() + "' to the _dataModelRoot");
 			}

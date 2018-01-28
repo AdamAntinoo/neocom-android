@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -29,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -149,15 +149,18 @@ final class PlanetaryManagerRender extends NeoComRender {
 		//		regionCount.setText(this.getPart().getTRegionCount());
 		// Needs the check to test of the manager is active to select the right icon.
 		if ( this.getPart().checkActivation() ) {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getActiveIcon(), getContext().getTheme()));
+			nodeIcon.setImageResource(this.getPart().getActiveIcon());
 		} else {
-			nodeIcon.setImageDrawable(this.getContext().getResources().getDrawable(this.getPart().getDimmedIcon(), getContext().getTheme()));
+			nodeIcon.setImageResource(this.getPart().getDimmedIcon());
 		}
 		// Check if the click is active. If not change the border to gray.
 		if ( getPart() instanceof OnClickListener )
-			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
-		else
+			if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen, getContext().getTheme()));
+			} else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergreen));
+		else if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
 			_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray, getContext().getTheme()));
+		} else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelbordergray));
 		_convertView.invalidate();
 	}
 

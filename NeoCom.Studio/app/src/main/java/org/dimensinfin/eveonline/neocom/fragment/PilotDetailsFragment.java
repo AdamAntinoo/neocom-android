@@ -24,9 +24,9 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants.EExtras;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PilotPartFactory;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.storage.DataManagementModelStore;
@@ -134,7 +134,7 @@ public class PilotDetailsFragment extends AbstractPagerFragment {
 		// Set the part for the header that contains a detailed list of most Pilot characteristics.
 		// Get the Pilot instance to use as the origin model.
 		final int identifier = this.getExtras().getInt(EExtras.EXTRA_CAPSULEERID.name());
-		final PilotV1 pilot = ModelFactory.getPilotV1(identifier);
+		final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(identifier);
 		this.addtoHeader((AbstractAndroidPart) this.getFactory()
 		                                           .createPart(pilot)
 		                                           .setRenderMode(ENeoComVariants.PILOT_HEADER.name()));

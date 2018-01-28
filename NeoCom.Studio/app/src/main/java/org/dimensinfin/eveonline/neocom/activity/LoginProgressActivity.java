@@ -33,7 +33,7 @@ import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
@@ -252,7 +252,7 @@ public class LoginProgressActivity extends Activity {
 					          .setRefreshToken(token.getRefreshToken())
 					          .store();
 					// Update the Pilot information.
-					ModelFactory.getPilotV1(credential.getAccountId());
+					GlobalAndroidDataManager.getPilotV1(credential.getAccountId());
 					// Then cleanup the credential list.
 					NeoComModelStore.getSingleton().cleanModel();
 					// Once the credential is stores we go back to the last Activity.

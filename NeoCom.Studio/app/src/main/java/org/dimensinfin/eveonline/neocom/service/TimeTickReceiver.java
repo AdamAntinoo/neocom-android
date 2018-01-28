@@ -40,10 +40,10 @@ import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.enums.ERequestState;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.manager.DownloadManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.Outpost;
@@ -529,7 +529,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 					.setTask(() -> {
 						//		NeoComAppConnector.getSingleton().getCacheConnector().incrementTopCounter();
 						TimeTickReceiver.logger.info("-- [Job.CHARACTER_CORE]> Downloading Pilot v1 information for: [{}]", credential.getAccountName());
-						ModelFactory.udpatePilotV1(credential.getAccountId());
+						GlobalAndroidDataManager.udpatePilotV1(credential.getAccountId());
 						NeoComAppConnector.getSingleton().getCacheConnector().decrementTopCounter();
 					});
 			UpdateJobManager.submit(newJob);

@@ -36,7 +36,6 @@ import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.factory.ModelFactory;
 import org.dimensinfin.eveonline.neocom.factory.PlanetaryPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
@@ -195,7 +194,7 @@ public class PlanetaryFragment extends AbstractPagerFragment {
 				toolBarSubTitle = (TextView) newbar.findViewById(R.id.toolBarSubTitle);
 				if ( null != pilotIcon ) {
 					final int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-					final PilotV1 pilot = ModelFactory.getPilotV1(characterid);
+					final PilotV1 pilot = GlobalAndroidDataManager.getPilotV1(characterid);
 					String link = pilot.getURLForAvatar();
 					pilotIcon.setImageDrawable(NeoComCacheManager.getCacheDrawable(link, pilotIcon));
 				}

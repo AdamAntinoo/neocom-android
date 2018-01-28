@@ -30,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 import java.util.List;
@@ -106,7 +105,7 @@ final class BlueprintsTIIGenerator extends AbstractGenerator implements IModelGe
 	// - F I E L D - S E C T I O N ............................................................................
 //	private String _loginid = null;
 	private long characterid = -1;
-	private NeoComCharacter _pilot = null;
+//	private NeoComCharacter _pilot = null;
 	//	private final HashMap<Long, LocationIndustryPart>	locations					= new HashMap<Long, LocationIndustryPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -118,9 +117,9 @@ final class BlueprintsTIIGenerator extends AbstractGenerator implements IModelGe
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public NeoComCharacter getPilot () {
-		return _pilot;
-	}
+//	public NeoComCharacter getPilot () {
+//		return _pilot;
+//	}
 
 	/**
 	 * This adapter should generate the model for all the assets aggregated by Location. The Locations are lazy
