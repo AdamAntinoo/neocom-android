@@ -33,11 +33,10 @@
             android:background="@drawable/uipanelborderblue"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/input1Block"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/input1Name"
@@ -50,38 +49,31 @@
                     android:textSize="12sp"
                     android:visibility="visible" />
 
-                <LinearLayout
-                    android:id="@+id/input1BottomBlock"
+                <ImageView
+                    android:id="@+id/input1Icon"
+                    android:layout_width="@dimen/halfnodeiconsize"
+                    android:layout_height="@dimen/halfnodeiconsize"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/input1Name"
+                    android:src="@drawable/planetary_96_64_10" />
+
+                <TextView
+                    android:id="@+id/input1PctFill"
+                    style="@style/AppTheme.Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100">
+                    android:layout_below="@+id/input1Name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/input1Icon"
+                    android:text="98%"
+                    android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/input1PctFill"
-                        style="@style/AppTheme.Label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_weight="80"
-                        android:text="98%"
-                        android:textSize="11sp" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/input1Icon"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/halfnodeiconsize"
-                        android:layout_gravity="right"
-                        android:layout_weight="20"
-                        android:src="@drawable/planetary_96_64_10" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/input2Block"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/input2Name"
@@ -94,38 +86,31 @@
                     android:textSize="12sp"
                     android:visibility="visible" />
 
-                <LinearLayout
-                    android:id="@+id/input2BottomBlock"
+                <ImageView
+                    android:id="@+id/input2Icon"
+                    android:layout_width="@dimen/halfnodeiconsize"
+                    android:layout_height="@dimen/halfnodeiconsize"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/input2Name"
+                    android:src="@drawable/planetary_96_64_10" />
+
+                <TextView
+                    android:id="@+id/input2PctFill"
+                    style="@style/AppTheme.Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100">
+                    android:layout_below="@+id/input2Name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/input2Icon"
+                    android:text="98%"
+                    android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/input2PctFill"
-                        style="@style/AppTheme.Label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_weight="80"
-                        android:text="98%"
-                        android:textSize="11sp" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/input2Icon"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/halfnodeiconsize"
-                        android:layout_gravity="right"
-                        android:layout_weight="20"
-                        android:src="@drawable/planetary_96_64_10" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/input3Block"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <org.dimensinfin.android.mvc.fonts.Din1451TextView
                     android:id="@+id/input3Name"
@@ -138,42 +123,38 @@
                     android:textSize="12sp"
                     android:visibility="visible" />
 
-                <LinearLayout
-                    android:id="@+id/input3BottomBlock"
+                <ImageView
+                    android:id="@+id/input3Icon"
+                    android:layout_width="@dimen/halfnodeiconsize"
+                    android:layout_height="@dimen/halfnodeiconsize"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/input3Name"
+                    android:src="@drawable/planetary_96_64_10" />
+
+                <TextView
+                    android:id="@+id/input3PctFill"
+                    style="@style/AppTheme.Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100">
+                    android:layout_below="@+id/input3Name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/input3Icon"
+                    android:text="98%"
+                    android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/input3PctFill"
-                        style="@style/AppTheme.Label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_weight="80"
-                        android:text="98%"
-                        android:textSize="11sp" />
-
-                    <ImageView
-                        android:id="@+id/input3Icon"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/halfnodeiconsize"
-                        android:layout_gravity="right"
-                        android:layout_weight="20"
-                        android:src="@drawable/planetary_96_64_10" />
-                </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/arrowImage"
-            android:layout_width="15dp"
-            android:layout_height="120dp"
-            android:layout_centerVertical="true"
+            android:layout_width="@dimen/arrowsize"
+            android:layout_height="@dimen/arrowsize"
+            android:layout_below="@id/structureType"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/inputsBlock"
-            android:scaleY="4.0"
+            android:scaleX="0.8"
+            android:scaleY="2.0"
             android:src="@drawable/arrowright" />
 
         <LinearLayout

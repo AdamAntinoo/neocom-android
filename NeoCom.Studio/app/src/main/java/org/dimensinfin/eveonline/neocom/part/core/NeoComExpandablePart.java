@@ -9,6 +9,7 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part.core;
 
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -18,9 +19,9 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.core.util.Chrono;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComExpandablePart extends NeoComAbstractPart implements OnClickListener {
@@ -72,8 +73,23 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
 		//		notifyDataSetChanged();
 		// Launch the actions on a new thread.
-		GlobalAndroidDataManager.submitOnClick(
-				new OneShotTask<NeoComExpandablePart>(this) {
+//		GlobalAndroidDataManager.submitOnClick(
+//				new OneShotTask<NeoComExpandablePart>(this) {
+//					public void run () {
+//						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+//						Chrono chrono = new Chrono();
+//						getTarget().toggleExpanded();
+//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+//						completeClick();
+//						getTarget().invalidate();
+//						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+//					}
+//				});
+
+		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
+			public void run () {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
 					public void run () {
 						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
 						Chrono chrono = new Chrono();
@@ -84,6 +100,10 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
 					}
 				});
+			}
+		}, TimeUnit.MICROSECONDS.toMillis(500));
+
+
 		//		GlobalAndroidDataManager.submitOnClick(
 		//				new OneShotTask<NeoComExpandablePart>(this) {
 		//					public void run () {
