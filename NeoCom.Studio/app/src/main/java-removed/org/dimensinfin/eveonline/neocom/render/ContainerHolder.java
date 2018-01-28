@@ -24,7 +24,7 @@ import android.widget.TextView;
 public class ContainerHolder extends EveAbstractHolder {
 	// - S T A T I C - S E C T I O N
 	// ..........................................................................
-	private static Logger	logger						= Logger.getLogger("ContainerHolder");
+	private static Logger	logger						= Logger.getLogger("ContainerRender");
 
 	// - F I E L D - S E C T I O N
 	// ............................................................................

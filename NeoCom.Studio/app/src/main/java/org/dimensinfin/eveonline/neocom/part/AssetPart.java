@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
@@ -36,17 +37,36 @@ import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
 import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickListener*/ {
+	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
+		public int compare (final IPart left, final IPart right) {
+			String leftField = null;
+			String rightField = null;
+			if ( left instanceof INamedPart ) {
+				leftField = ((INamedPart) left).getName();
+			}
+			if ( right instanceof INamedPart ) {
+				rightField = ((INamedPart) right).getName();
+			}
+			if ( null == leftField ) return 1;
+			if ( null == rightField ) return -1;
+			if ( "" == leftField ) return 1;
+			if ( "" == rightField ) return -1;
+			return leftField.compareTo(rightField);
+		}
+	};
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8910031270706432316L;
 	private static Logger logger = Logger.getLogger("AssetPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	@SuppressWarnings("rawtypes")
-//	private final HashMap<Long, HashMap<Integer, AssetPart>> stackList = new HashMap();
+	//	private final HashMap<Long, HashMap<Integer, AssetPart>> stackList = new HashMap();
 
 	//	private MarketDataSet																			mdata							= null;
 
@@ -137,32 +157,32 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 		Log.i("EVEI", "<< AssetPart.onClick");
 	}
 
-//	protected void checkAssetStacking (final AssetPart apart) {
-//		// Locate the stack if exists.
-//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getDAOID());
-//		int type = apart.getCastedModel().getTypeID();
-//		if ( null != container ) {
-//			AssetPart stack = container.get(type);
-//			if ( null != stack ) {
-//				//	if (stack instanceof AssetPart) {
-//				int count = stack.getCastedModel().getQuantity();
-//				stack.getCastedModel().setQuantity(count + 1);
-//				return;
-//				//	}
-//				// Do nothing because we do not know how to add to Assets.
-//			} else {
-//				// Add a new stack for this type to the current container.
-//				container.put(type, apart);
-//				this.addChild(apart);
-//			}
-//		} else {
-//			// There is no container also with this stack.
-//			container = new HashMap<Integer, AssetPart>();
-//			container.put(type, apart);
-//			this.addChild(apart);
-//			stackList.put(this.getCastedModel().getDAOID(), container);
-//		}
-//	}
+	//	protected void checkAssetStacking (final AssetPart apart) {
+	//		// Locate the stack if exists.
+	//		HashMap<Integer, AssetPart> container = stackList.get(this.getCastedModel().getDAOID());
+	//		int type = apart.getCastedModel().getTypeID();
+	//		if ( null != container ) {
+	//			AssetPart stack = container.get(type);
+	//			if ( null != stack ) {
+	//				//	if (stack instanceof AssetPart) {
+	//				int count = stack.getCastedModel().getQuantity();
+	//				stack.getCastedModel().setQuantity(count + 1);
+	//				return;
+	//				//	}
+	//				// Do nothing because we do not know how to add to Assets.
+	//			} else {
+	//				// Add a new stack for this type to the current container.
+	//				container.put(type, apart);
+	//				this.addChild(apart);
+	//			}
+	//		} else {
+	//			// There is no container also with this stack.
+	//			container = new HashMap<Integer, AssetPart>();
+	//			container.put(type, apart);
+	//			this.addChild(apart);
+	//			stackList.put(this.getCastedModel().getDAOID(), container);
+	//		}
+	//	}
 
 	@Override
 	protected void initialize () {
@@ -244,7 +264,7 @@ final class AssetRender extends NeoComRender {
 		}
 
 		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeId());
-		logger.info("-- [AssetRender.updateContent]> Rendering time: "+chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+		logger.info("-- [AssetRender.updateContent]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 	}
 
 	@Override

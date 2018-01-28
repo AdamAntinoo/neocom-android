@@ -1,29 +1,42 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.factory;
 
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.model.AssetCategory;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComSimpleAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
+import org.dimensinfin.eveonline.neocom.model.Ship;
+import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
 import org.dimensinfin.eveonline.neocom.part.AssetCategoryPart;
+import org.dimensinfin.eveonline.neocom.part.AssetGroupPart;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
+import org.dimensinfin.eveonline.neocom.part.ContainerPart;
 import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.NeoComSimpleAssetPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
+import org.dimensinfin.eveonline.neocom.part.ShipPart;
 
 import java.util.logging.Logger;
 
@@ -59,69 +72,33 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
+			if ( node instanceof SpaceContainer ) {
+				IPart part = new ContainerPart((NeoComAsset) node).setFactory(this)
+				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			if ( node instanceof Ship ) {
+				// There are two renders for Ship. Fitted that are ShipParts and packaged that are AssetParts.
+				if ( ((Ship) node).isPackaged() ) {
+					IPart part = new ShipPart((Ship) node).setFactory(this)
+					                                      .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+					return part;
+				} else {
+					IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+					                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+					return part;
+				}
+			}
 			if ( node instanceof NeoComAsset ) {
 				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
 				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
-			//		if (node instanceof Separator ) {
-			//			// These special separators can configure an specific icon.
-			//			IPart part = null;
-			//			switch (((Separator) node).getType()) {
-			//				case SHIPSECTION_HIGH:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.filtericonhighslot)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				case SHIPSECTION_MED:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.filtericonmediumslot)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				case SHIPSECTION_LOW:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.filtericonlowslot)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				case SHIPSECTION_RIGS:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.filtericonrigslot)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				case SHIPSECTION_DRONES:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.filtericondrones)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				case SHIPSECTION_CARGO:
-			//					part = new GroupPart((Separator) node).setIconReference(R.drawable.itemhangar)
-			//							.setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-			//					break;
-			//				default:
-			//					part = new GroupPart((Separator) node).setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING)
-			//							.setFactory(this);
-			//
-			//			}
-			//			return part;
-			//		}
-			//		if (node instanceof Ship ) {
-			//			// There are two renders for Ship. Fitted that are ShipParts and packaged that are AssetParts.
-			//			if (((Ship) node).isPackaged()) {
-			//				IPart part = new ShipPart((NeoComAsset) node)
-			//						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
-			//				return part;
-			//			} else {
-			//				IPart part = new AssetPart((NeoComAsset) node)
-			//						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
-			//				return part;
-			//			}
-			//		}
-			//		if (node instanceof SpaceContainer ) {
-			//			IPart part = new ContainerPart((NeoComAsset) node)
-			//					.setRenderMode(AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION);
-			//			part.setFactory(this);
-			//			return part;
-			//		}
-			//		if (node instanceof ProcessingAction) {
-			//			IPart part = new PlanetaryProcessingActionPart(node)
-			//					.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).hashCode()).setFactory(this);
-			//			return part;
-			//		}
+			if ( node instanceof Ship.ShipAssetGroup ) {
+				IPart part = new AssetGroupPart((Ship.ShipAssetGroup) node).setFactory(this)
+				                                                           .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
 		}
 		if ( this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name() ) {
 			if ( node instanceof AssetCategory ) {
@@ -136,7 +113,12 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 			}
 		}
 
-			// If no part is trapped then call the parent chain until one is found.
+		if ( node instanceof Separator ) {
+			IPart part = new SeparatorPart((Separator) node).setFactory(this);
+			return part;
+		}
+
+		// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);
 	}
 }

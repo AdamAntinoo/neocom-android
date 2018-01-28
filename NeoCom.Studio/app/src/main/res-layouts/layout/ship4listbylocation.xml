@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/uipanelbordergreen">
+
+        <include layout="@layout/nodebase4expandnew" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/shipType"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:singleLine="true"
+            android:text="@string/default_shipname"
+            android:textStyle="bold" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/shipName"
+            style="@style/AppTheme.TextView"
+            android:layout_below="@+id/shipType"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:singleLine="true"
+            android:text="EE Oruga Syn" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/shipLocation"
+            style="@style/AppTheme.TextView"
+            android:layout_below="@+id/shipName"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:text="0.5 Hek - Boundles Station"
+            android:textSize="11sp" />
+    </RelativeLayout>
+</LinearLayout>

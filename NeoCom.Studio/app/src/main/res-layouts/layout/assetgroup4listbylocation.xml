@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/uipanelborderblue">
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/groupName"
+            style="@style/AppTheme.NeoComText.Orange"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/uilefttextmargin"
+            android:singleLine="false"
+            android:text="@string/default_bponame" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/childCount"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="12"
+            android:textColor="@android:color/white"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:id="@+id/qtyBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/qtyLabelsBlock"
+            android:orientation="vertical">
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/itemCount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="3,125,632"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/volume"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="1,456,876"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/sellValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="25,632"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/qtyLabelsBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:layout_marginLeft="3dp"
+            android:layout_toLeftOf="@+id/childCount"
+            android:orientation="vertical">
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/itemCountLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="pieces"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/volumeLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="m3"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/iskLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="ISK"
+                android:textColor="@android:color/white"
+                android:textSize="11dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

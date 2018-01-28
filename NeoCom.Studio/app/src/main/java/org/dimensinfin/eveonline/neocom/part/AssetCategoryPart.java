@@ -121,7 +121,7 @@ final class AssetCategoryRender extends BaseExpandableRender {
 
 	@Override
 	public void updateContent () {
-		logger.info(">> [AssetCategoryRender.updateContent]");
+//		logger.info(">> [AssetCategoryRender.updateContent]");
 		super.updateContent();
 		nodeIcon.setImageDrawable(getDrawable(R.drawable.nopilot));
 		name.setText(this.getPart().getName());
@@ -131,7 +131,7 @@ final class AssetCategoryRender extends BaseExpandableRender {
 		classLabel.setText("CATEGORY");
 		categoryLabel.setText("LOCATIONS");
 		_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
-		logger.info("<< [AssetCategoryRender.updateContent]");
+//		logger.info("<< [AssetCategoryRender.updateContent]");
 	}
 }
 

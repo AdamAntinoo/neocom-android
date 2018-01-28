@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/uipanelbordergreen">
+
+        <include layout="@layout/nodebase4expandnew" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/assetName"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:singleLine="true"
+            android:text="@string/default_itemname" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/nodeClass"
+            style="@style/AppTheme.NodeClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:gravity="right"
+            android:text="CONTAINER" />
+
+        <TextView
+            android:id="@+id/containerCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/assetName"
+            android:layout_toLeftOf="@+id/qtyBlock"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="Mineral - Asteroid"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+
+        <LinearLayout
+            android:id="@+id/qtyBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nodeClass"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/default_smallnumber"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/countLabel"
+                style="@style/AppTheme.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="NO. STACKS INSIDE"
+                android:textColor="@android:color/white"
+                android:textSize="7sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

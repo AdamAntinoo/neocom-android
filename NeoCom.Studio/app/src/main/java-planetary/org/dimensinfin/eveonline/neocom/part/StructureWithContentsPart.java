@@ -222,7 +222,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 	}
 
 	public long getModelID () {
-		return -1;
+		return getCastedModel().getPinId();
 	}
 
 	/**

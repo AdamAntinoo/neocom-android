@@ -633,7 +633,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 		// AndroidDatabaseConnector.searchListOfDatacores " +
 		// inventionJob.getSize());
 		AndroidCCPDatabaseConnector.logger
-				.info("~~ [AndroidCCPDatabaseConnector.searchStationType]> Time lapse for [SELECT STATIONTYPEID " + stationID
+				.debug("~~ [AndroidCCPDatabaseConnector.searchStationType]> Time lapse for [SELECT STATIONTYPEID " + stationID
 						+ "] " + NeoComAppConnector.getSingleton().timeLapse());
 		return stationTypeID;
 	}
