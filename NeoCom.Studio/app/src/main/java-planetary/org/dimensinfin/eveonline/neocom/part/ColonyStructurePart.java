@@ -34,10 +34,13 @@ import org.dimensinfin.eveonline.neocom.planetary.ColonyCoreStructure;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
+import org.joda.time.DateTime;
+import org.joda.time.Instant;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -93,21 +96,26 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		private ViewGroup nodeContainer;
 		protected ImageView nodeIcon = null;
 		protected TextView structureType = null;
-		protected ImageView productImage = null;
-		protected TextView productName = null;
 		private ViewGroup input1Block = null;
+		protected TextView input1Name = null;
 		protected ImageView input1Icon = null;
 		protected TextView input1PctFill = null;
 		private ViewGroup input2Block = null;
+		protected TextView input2Name = null;
 		protected ImageView input2Icon = null;
 		protected TextView input2PctFill = null;
 		private ViewGroup input3Block = null;
+		protected TextView input3Name = null;
 		protected ImageView input3Icon = null;
 		protected TextView input3PctFill = null;
+
+		protected ImageView productImage = null;
+		protected TextView productName = null;
+		protected TextView outputData = null;
+
 		protected TextView factoryStatus = null;
 		protected ProgressBar cycleTimeProgress = null;
 		protected TextView cycleTimeData = null;
-		protected TextView outputData = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public BasicIndustryRender (final ColonyStructurePart target, final Activity context) {
@@ -126,21 +134,26 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 
 			nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 			structureType = (TextView) _convertView.findViewById(R.id.structureType);
-			productImage = (ImageView) _convertView.findViewById(R.id.productImage);
-			productName = (TextView) _convertView.findViewById(R.id.productName);
 			input1Block = (ViewGroup) _convertView.findViewById(R.id.input1Block);
+			input1Name = (TextView) _convertView.findViewById(R.id.input1Name);
 			input1Icon = (ImageView) _convertView.findViewById(R.id.input1Icon);
 			input1PctFill = (TextView) _convertView.findViewById(R.id.input1PctFill);
 			input2Block = (ViewGroup) _convertView.findViewById(R.id.input2Block);
+			input2Name = (TextView) _convertView.findViewById(R.id.input2Name);
 			input2Icon = (ImageView) _convertView.findViewById(R.id.input2Icon);
 			input2PctFill = (TextView) _convertView.findViewById(R.id.input2PctFill);
 			input3Block = (ViewGroup) _convertView.findViewById(R.id.input3Block);
+			input3Name = (TextView) _convertView.findViewById(R.id.input3Name);
 			input3Icon = (ImageView) _convertView.findViewById(R.id.input3Icon);
 			input3PctFill = (TextView) _convertView.findViewById(R.id.input3PctFill);
+
+			productImage = (ImageView) _convertView.findViewById(R.id.productImage);
+			productName = (TextView) _convertView.findViewById(R.id.productName);
+			outputData = (TextView) _convertView.findViewById(R.id.outputData);
+
 			factoryStatus = (TextView) _convertView.findViewById(R.id.factoryStatus);
 			cycleTimeProgress = (ProgressBar) _convertView.findViewById(R.id.cycleTimeProgress);
 			cycleTimeData = (TextView) _convertView.findViewById(R.id.cycleTimeData);
-			outputData = (TextView) _convertView.findViewById(R.id.outputData);
 
 			getPart().prepareData();
 		}
@@ -167,10 +180,12 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 			// Set the information for the output.
 			loadEveIcon(productImage, getPart().getProductTypeId());
 			productName.setText(getPart().getProductName());
+			outputData.setText(getPart().getTOutputCount());
 			// Update the right arrow depending on model content and status.
 			_rightArrow.setVisibility(View.GONE);
 
 			loadEveIcon(input1Icon, getPart().getInputTypeId(1));
+			input1Name.setText(getPart().getInputName(1));
 			input1PctFill.setText(getPart().getInputPct(1));
 
 			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType
@@ -190,6 +205,22 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 				loadEveIcon(input3Icon, getPart().getInputTypeId(3));
 				input3PctFill.setText(getPart().getInputPct(3));
 			}
+
+			int cycleDuration = 0;
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.BASIC_INDUSTRY ) {
+				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(30)).intValue();
+				cycleTimeProgress.setMax(cycleDuration);
+			}
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.ADVANCED_INDUSTRY ) {
+				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(60)).intValue();
+				cycleTimeProgress.setMax(cycleDuration);
+			}
+			if ( getPart().getCastedModel().getStructureTypeCode() == ColonyCoreStructure.EPlanetaryStructureType.HIGH_TECH_PRODUCTION ) {
+				cycleDuration = Long.valueOf(TimeUnit.MINUTES.toSeconds(120)).intValue();
+				cycleTimeProgress.setMax(cycleDuration);
+			}
+			cycleTimeProgress.setProgress(getPart().getCycleProgressSeconds(cycleDuration));
+			//			cycleTimeProgress.setScaleY(2f);
 		}
 
 		protected void createView () {
@@ -199,8 +230,13 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 	}
 
 	private static class InputDataBlock {
+		private String name;
 		private int typeId;
 		private double percentage;
+
+		private String getName () {
+			return name;
+		}
 
 		private int getTypeId () {
 			return typeId;
@@ -208,6 +244,11 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 
 		private double getPercentage () {
 			return percentage;
+		}
+
+		private InputDataBlock setName (final String name) {
+			this.name = name;
+			return this;
 		}
 
 		private InputDataBlock setTypeId (final int typeId) {
@@ -261,12 +302,18 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		inputs.clear();
 		for (Schematics target : schematicList) {
 			if ( target.getDirection() == Schematics.ESchematicDirection.INPUT ) {
+				final EveItem item = GlobalAndroidDataManager.searchItemById(target.getTypeId());
 				final InputDataBlock inputData = new InputDataBlock()
+						.setName(item.getName())
 						.setTypeId(target.getTypeId())
 						.setPercentage(getInputPctUsage(target.getTypeId()));
 				inputs.add(inputData);
 			}
 		}
+	}
+
+	public String getInputName (final int index) {
+		return inputs.get(index - 1).getName();
 	}
 
 	/**
@@ -281,6 +328,10 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 
 	public String getInputPct (final int index) {
 		return percentageZeroFormat.format(inputs.get(index - 1).getPercentage()) + "%";
+	}
+
+	public String getTOutputCount () {
+		return output.getQty() + " units";
 	}
 
 	public Spanned getTFillLevel () {
@@ -298,6 +349,13 @@ public class ColonyStructurePart extends NeoComAbstractPart {
 		}
 		// We never should reach this place.
 		return 121;
+	}
+
+	public int getCycleProgressSeconds (final int duration) {
+		final DateTime install = getCastedModel().getLastCycleStart();
+		final double elapsed = (Instant.now().getMillis() - install.getMillis()) / 1000.0;
+		if ( elapsed > duration ) return 0;
+		else return Double.valueOf(duration - elapsed).intValue();
 	}
 
 	/** Gets the name of the output resources for this factory. */
