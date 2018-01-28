@@ -36,7 +36,6 @@ import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
-import org.dimensinfin.eveonline.neocom.database.NeoComDatabase;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
@@ -480,7 +479,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 				try {
 					final String reference = Job.constructReference(jobName, cred.getAccountId());
 					// Search for the TS and check the expiration time.
-					final TimeStamp ts = NeoComDatabase.getImplementer().getTimeStampDao().queryForId(reference);
+					final TimeStamp ts = GlobalAndroidDataManager.getHelper().getTimeStampDao().queryForId(reference);
 					if ( null == ts ) {
 						TimeTickReceiver.logger.info("-- [TimeTickReceiver.onReceive]> Generating job request for {}.", reference);
 						final TimeStamp newts = new TimeStamp(reference, Instant.now())

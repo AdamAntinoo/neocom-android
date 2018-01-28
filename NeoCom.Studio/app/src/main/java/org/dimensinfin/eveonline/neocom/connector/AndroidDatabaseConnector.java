@@ -26,17 +26,18 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.database.NeoComBaseDatabase;
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.ApiKey;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.model.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.model.Property;
-import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.ResourceList;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
@@ -215,7 +216,7 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		// Access the database to get the list of keys. From that point on we can retrieve the characters easily.
 		List<ApiKey> apilist = null;
 		try {
-			Dao<ApiKey, String> keyDao = NeoComAppConnector.getSingleton().getDBConnector().getApiKeysDao();
+			Dao<ApiKey, String> keyDao = GlobalAndroidDataManager.getHelper().getApiKeysDao();
 			QueryBuilder<ApiKey, String> queryBuilder = keyDao.queryBuilder();
 			Where<ApiKey, String> where = queryBuilder.where();
 			where.eq("login", login);
@@ -235,7 +236,6 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 	public Dao<NeoComBlueprint, String> getBlueprintDao () throws SQLException {
 		return this.getNeocomDBHelper().getBlueprintDao();
 	}
-	@Override
 	public Dao<Credential, String> getCredentialDao () throws SQLException {
 		return this.getNeocomDBHelper().getCredentialDao();
 	}
@@ -715,23 +715,23 @@ public class AndroidDatabaseConnector extends NeoComBaseDatabase implements INeo
 		return hit;
 	}
 
-	public ArrayList<NeoComAsset> searchAssetContainedAt (final long characterID, final long containerId) {
-		// Select assets for the owner and with an specific type id.
-		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
-		try {
-			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
-			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
-			Where<NeoComAsset, String> where = queryBuilder.where();
-			where.eq("ownerID", characterID);
-			where.and();
-			where.eq("parentAssetID", containerId);
-			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
-			assetList = assetDao.query(preparedQuery);
-		} catch (java.sql.SQLException sqle) {
-			sqle.printStackTrace();
-		}
-		return (ArrayList<NeoComAsset>) assetList;
-	}
+//	public ArrayList<NeoComAsset> searchAssetContainedAt (final long characterID, final long containerId) {
+//		// Select assets for the owner and with an specific type id.
+//		List<NeoComAsset> assetList = new ArrayList<NeoComAsset>();
+//		try {
+//			Dao<NeoComAsset, String> assetDao = this.getAssetDao();
+//			QueryBuilder<NeoComAsset, String> queryBuilder = assetDao.queryBuilder();
+//			Where<NeoComAsset, String> where = queryBuilder.where();
+//			where.eq("ownerID", characterID);
+//			where.and();
+//			where.eq("parentAssetID", containerId);
+//			PreparedQuery<NeoComAsset> preparedQuery = queryBuilder.prepare();
+//			assetList = assetDao.query(preparedQuery);
+//		} catch (java.sql.SQLException sqle) {
+//			sqle.printStackTrace();
+//		}
+//		return (ArrayList<NeoComAsset>) assetList;
+//	}
 
 	//	/**
 	//	 * Returns the blueprint id that matched this module from the <code>invBlueprintTypes</code> table.
