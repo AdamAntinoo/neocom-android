@@ -20,6 +20,7 @@ import android.os.Bundle;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 
@@ -43,8 +44,9 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 		try {
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
+			extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
 			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
+			//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
 			// page++);
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
@@ -52,7 +54,7 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		// Reinitialize the tile and subtitle from the first page.
-//		this.updateInitialTitle();
+		//		this.updateInitialTitle();
 		AssetsManagerActivity.logger.info("<< [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 }

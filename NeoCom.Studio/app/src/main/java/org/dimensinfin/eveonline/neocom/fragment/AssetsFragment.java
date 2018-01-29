@@ -15,6 +15,7 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
@@ -39,6 +40,7 @@ import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +89,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-//		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		//		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		int characterid = 92223647;
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
@@ -96,6 +98,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		// On this test we are not goint to use Generators but directly the DataSource to ease the connection to the Adapter.
 		AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getFactory(), getExtras());
 		ds.setVariant(this.getVariant());
+		ds.setContext(getActivity());
 		setDataSource(ds);
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
 	}
@@ -115,6 +118,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		// - F I E L D - S E C T I O N ............................................................................
 		private final DataSourceLocator locator;
 		private int characterid = -1;
+		private Activity context;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		//		public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
@@ -123,6 +127,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		//		}
 
 		public AssetsByLocationDataSource (final DataSourceLocator locator, final IPartFactory factory, final Bundle extras) {
+			super(factory);
 			this.locator = locator;
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
@@ -171,36 +176,56 @@ public class AssetsFragment extends AbstractPagerFragment {
 						_dataModelRoot.addChild(regionHit);
 						logger.info("-- [AssetsByLocationDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot.",
 								regionHit.toString());
-						// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-						fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
-					} else {
-						// Check if this Location is already present on this Region.
-						ExtendedLocation locationHit = locations.get(loc.getID());
-						if ( null == locationHit ) {
-							// This is a new location. Add it to the Region and check if this affects the UI.
-							// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
-							locationHit = new ExtendedLocation(characterid, loc);
-							locationHit.setContentManager(new StandardContentManager(locationHit));
-							locations.put(loc.getID(), locationHit);
-							regionHit.addLocation(locationHit);
-							// If the Region is expanded then we should regenerate the UI.
-							if ( regionHit.isExpanded() )
-								fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), regionHit, regionHit);
-						} else {
-							// The Region and the Location were already registered. Add the asset to the Location and check if this
-							// affects the UI.
-							locationHit.addContent(asset);
-							if ( locationHit.isExpanded() )
-								fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), locationHit, locationHit);
+						getContext().runOnUiThread(() -> {
+							// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+							PropertyChangeEvent event = new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
+							propertyChange(event);
+						});
+					}
+					// Check if this Location is already present on this Region.
+					ExtendedLocation locationHit = locations.get(loc.getID());
+					if ( null == locationHit ) {
+						// This is a new location. Add it to the Region and check if this affects the UI.
+						// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
+						locationHit = new ExtendedLocation(characterid, loc);
+						locationHit.setContentManager(new StandardContentManager(locationHit));
+						locations.put(loc.getID(), locationHit);
+						regionHit.addLocation(locationHit);
+						// If the Region is expanded then we should regenerate the UI.
+						if ( regionHit.isExpanded() ) {
+							getContext().runOnUiThread(() -> {
+								// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+								PropertyChangeEvent event = new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
+								propertyChange(event);
+							});
 						}
 					}
+					// The Region and the Location were already registered. Add the asset to the Location and check if this
+					// affects the UI.
+					locationHit.addContent(asset);
+					if ( locationHit.isExpanded() ) {
+						getContext().runOnUiThread(() -> {
+							// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+							PropertyChangeEvent event = new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
+							propertyChange(event);
+						});
+					}
+					//	}
+					//	}
 				}
-
-			} catch (SQLException sqle) {
+			} catch (SQLException sqle){
 				sqle.printStackTrace();
 			}
 			logger.info("<< [AssetsByLocationDataSource.collaborate2Model]");
 			return _dataModelRoot;
+		}
+
+		protected Activity getContext () {
+			return context;
+		}
+
+		protected void setContext (final Activity activity) {
+			this.context = activity;
 		}
 	}
 
