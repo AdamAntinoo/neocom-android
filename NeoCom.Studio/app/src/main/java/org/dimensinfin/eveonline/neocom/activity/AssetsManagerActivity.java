@@ -17,7 +17,6 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;

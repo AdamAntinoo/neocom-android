@@ -39,7 +39,7 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public List<IPart> collaborate2View () {
+	public List<IAndroidPart> collaborate2View () {
 		// Update the color depending on the configured flavour.
 		switch (getFlavour()) {
 			case WHITE:

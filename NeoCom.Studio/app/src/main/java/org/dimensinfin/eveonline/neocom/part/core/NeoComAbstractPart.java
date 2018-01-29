@@ -21,6 +21,7 @@ import android.text.Spanned;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -123,6 +124,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	 * <li>Separator Red</li>
 	 * </ul>
 	 */
+	@Deprecated
 	@Override
 	public List<IPart> collaborate2View () {
 		ArrayList<IPart> result = new ArrayList<IPart>();
@@ -170,6 +172,61 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		return result;
 	}
 
+	/**
+	 * New implementation for the collaboration to the view for all NeoCom parts using a Part collector that allows to
+	 * use a single final list so no more copies and memory use to keep all the changes on the flow. This is a full
+	 * optimization that maybe can also be used to feed the Adapter in real time when the changes are collected on the
+	 * part list.
+	 * @param contentCollector
+	 * @return
+	 */
+	public void collaborate2View (List<IAndroidPart> contentCollector) {
+//		ArrayList<IPart> result = new ArrayList<IPart>();
+		// If the node is expanded then give the children the opportunity to also be added.
+		if ( this.isExpanded() ) {
+			if ( this.isEmpty() ) {
+				if ( this.isRenderWhenEmpty() ) {
+					// The region is surrounded with the Red Separator at the beginning and at the end.
+					contentCollector.add(new SeparatorPart(new Separator().setType(separatorColor))
+							.setRenderMode(this.getRenderMode()));
+					contentCollector.add(this);
+					// This region is empty of contents. Add the Empty Separator and complete.
+					contentCollector.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
+							.setRenderMode(this.getRenderMode()));
+					contentCollector.add(new SeparatorPart(new Separator().setType(separatorColor))
+							.setRenderMode(this.getRenderMode()));
+				}
+			} else {
+				// Generate the list of Parts that should be collaborated to the ListView.
+				// The region is surrounded with the Red Separator at the beginning and at the end.
+				contentCollector.add(
+						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+				contentCollector.add(this);
+				// --- This is the section where we get the Contents and then we apply the customized Part policies.
+				List<IPart> childParts = this.runPolicies(this.getChildren());
+				// --- End of policies
+				for (IPart part : childParts) {
+					if(part instanceof IAndroidPart)
+					// For each of the children that are registered to this part and that have a model recursively search for collaborations.
+						((IAndroidPart)part).collaborate2View(contentCollector);
+					//					if ( !part.isNewImplemented() ) {
+					//						result.add(part);
+					//					}
+	//				contentCollector.addAll(collaboration);
+				}
+				contentCollector.add(
+						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+			}
+		} else {
+			// Check for items that will not shown when empty and not expanded.
+			if ( this.isRenderWhenEmpty() ) {
+				runDependencies();
+				contentCollector.add(this);
+			}
+		}
+//		return contentCollector;
+	}
+
 	private NeoComNode getCastedModel () {
 		return (NeoComNode) this.getModel();
 	}
@@ -206,14 +263,12 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	 * The default actions inside this method usually are the sorting of the children nodes. For actions there
 	 * is not sorting required so do nothing with the input.
 	 */
-	public List<IPart> runPolicies (final List<IPart> targets) {
-		return targets;
-	}
+//	public List<IPart> runPolicies (final List<IPart> targets) {
+//		return targets;
+//	}
 
 	/**
 	 * Makes sure that all Model dependencies are valid. If there is any problem with any of them it will return false.
-	 * @param targets
-	 * @return
 	 */
 	public boolean runDependencies () {
 		return true;
