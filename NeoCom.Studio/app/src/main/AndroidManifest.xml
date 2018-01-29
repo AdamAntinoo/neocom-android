@@ -26,7 +26,7 @@
 
         <!-- S T A R T U P    A C T I V I T Y -->
         <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity"
+            android:name="org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/splash_icon"
             android:label="@string/appversionname"
@@ -39,70 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.ActiveJobsActivity"
-            android:icon="@drawable/insurance"
-            android:label="Active Jobs"
-            android:parentActivityName=".activity.CredentialListActivity"></activity>
 
         <!-- A C T I V I T I E S -->
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.core.SettingsActivity"
-            android:label="@string/activity_title_Settings"></activity>
-
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.CredentialListActivity"
-            android:icon="@drawable/nopilot"
-            android:label="@string/activity_title_LoginListActivity"
-            android:parentActivityName=".activity.core.SettingsActivity"></activity>
-        <activity
-            android:name=".activity.LoginProgressActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/nopilot"
-            android:label="Authorization Flow"
-            android:launchMode="singleTop"
-            android:parentActivityName=".activity.core.SettingsActivity"
-            android:screenOrientation="sensor"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="authentication"
-                    android:scheme="eveauth-neotest" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity"
-            android:icon="@drawable/nopilot"
-            android:label="Pilot Details"
-            android:parentActivityName=".activity.CredentialListActivity"></activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity"
-            android:icon="@drawable/assets"
-            android:label="@string/title_activity_AssetsDirector"
-            android:parentActivityName=".activity.CredentialListActivity"></activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryManagerActivity"
-            android:icon="@drawable/planets"
-            android:label="@string/activity_subtitle_PlanetaryManagerActivity"
-            android:parentActivityName=".activity.CredentialListActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity"
-            android:icon="@drawable/planets"
-            android:label="@string/activity_subtitle_PlanetaryOptimizationActivity"
-            android:parentActivityName=".activity.CredentialListActivity"></activity>
-        <activity
-            android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"
-            android:icon="@drawable/industry"
-            android:label="@string/activity_subtitle_IndustryManagerActivity"
-            android:parentActivityName=".activity.CredentialListActivity"></activity>
 
 
         <!--         Section where to add the new Activities to match the new model presentation. -->

@@ -21,7 +21,6 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.datasource.NewMVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.R;
@@ -31,8 +30,9 @@ import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManag
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
-import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
+import org.dimensinfin.eveonline.neocom.manager.StandardContentManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -88,7 +87,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+//		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+		int characterid = 92223647;
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 		                                                   .addIdentifier(characterid)
@@ -113,6 +113,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
+		private final DataSourceLocator locator;
 		private int characterid = -1;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -122,10 +123,14 @@ public class AssetsFragment extends AbstractPagerFragment {
 		//		}
 
 		public AssetsByLocationDataSource (final DataSourceLocator locator, final IPartFactory factory, final Bundle extras) {
+			this.locator = locator;
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
+		public DataSourceLocator getDataSourceLocator () {
+			return locator;
+		}
 
 		/**
 		 * This adapter should generate the model for all the assets aggregated by Location. The Locations are lazy
@@ -135,7 +140,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		 * REFACTOR: For testing purposes we are going to download all the assets.
 		 */
 		public RootNode collaborate2Model () {
-			logger.info(">> [AssetsByLocationGenerator.collaborate2Model]");
+			logger.info(">> [AssetsByLocationDataSource.collaborate2Model]");
 			// TODO This is the new implementation witth dynamic model changes notification to render data once it is
 			// installed and this required changes on the UI.
 			// Data storages should have been initialized. For this test do not use caches so clean the list before start.
@@ -144,7 +149,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 			// Get the complete list of assets.
 			try {
 				final HashMap<Long, Region> regions = new HashMap<>();
-				final HashMap<Long, EveLocation> locations = new HashMap<>();
+				final HashMap<Long, ExtendedLocation> locations = new HashMap<>();
 				final List<NeoComAsset> assetList = GlobalAndroidDataManager.getHelper().getAssetDao().queryForEq("ownerID", Integer.valueOf
 						(characterid).toString());
 				// Process each asset received classifying them by location. The ones with locations not in the SDE get
@@ -164,13 +169,29 @@ public class AssetsFragment extends AbstractPagerFragment {
 						regionHit = new Region(loc.getRegion());
 						regions.put(regid, regionHit);
 						_dataModelRoot.addChild(regionHit);
+						logger.info("-- [AssetsByLocationDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot.",
+								regionHit.toString());
 						// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-						firePropertyChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
-					} else{
+						fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), _dataModelRoot, _dataModelRoot);
+					} else {
 						// Check if this Location is already present on this Region.
-						final EveLocation locationHit = locations.get(loc.getID());
-						if(null==locationHit){
-							// This is a new location. Add it to the Region and cehck if this affects the UI.
+						ExtendedLocation locationHit = locations.get(loc.getID());
+						if ( null == locationHit ) {
+							// This is a new location. Add it to the Region and check if this affects the UI.
+							// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
+							locationHit = new ExtendedLocation(characterid, loc);
+							locationHit.setContentManager(new StandardContentManager(locationHit));
+							locations.put(loc.getID(), locationHit);
+							regionHit.addLocation(locationHit);
+							// If the Region is expanded then we should regenerate the UI.
+							if ( regionHit.isExpanded() )
+								fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), regionHit, regionHit);
+						} else {
+							// The Region and the Location were already registered. Add the asset to the Location and check if this
+							// affects the UI.
+							locationHit.addContent(asset);
+							if ( locationHit.isExpanded() )
+								fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), locationHit, locationHit);
 						}
 					}
 				}
@@ -178,27 +199,9 @@ public class AssetsFragment extends AbstractPagerFragment {
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();
 			}
-
-
-			// On cached generators we should check if the model is initialized.
-			if ( null == _dataModelRoot ) {
-				this.setDataModel(new RootNode());
-				// Get the Assets Manager active at the character.
-				AssetsManager assetsMan = GlobalAndroidDataManager.getAssetsManager(NeoComModelStore.getCredential4Id(characterid));
-				// Initialize the Adapter data structures.
-				//			this.setDataModel(new RootNode());
-				// Add the first level that are the Regions.
-				Hashtable<Long, Region> regs = assetsMan.getRegions();
-				for (Long key : regs.keySet()) {
-					_dataModelRoot.addChild(regs.get(key));
-					AbstractGenerator.logger.info("-- [AssetsByLocationGenerator.collaborate2Model]> Adding '"
-							+ regs.get(key).getLocations() + "' to the _dataModelRoot");
-				}
-			}
-			AbstractGenerator.logger.info("<< [AssetsByLocationGenerator.collaborate2Model]");
+			logger.info("<< [AssetsByLocationDataSource.collaborate2Model]");
 			return _dataModelRoot;
 		}
-
 	}
 
 	//	//- CLASS IMPLEMENTATION ...................................................................................

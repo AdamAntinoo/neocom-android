@@ -16,7 +16,6 @@
 package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,15 +24,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.tlabs.android.evanova.adapter.ApplicationCloudAdapter;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.ActiveJobsActivity;
-import org.dimensinfin.eveonline.neocom.activity.NeoComSplashActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
-import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 /**
@@ -128,53 +121,53 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 				//
 				NavUtils.navigateUpFromSameTask(this);
 				return true;
-			case R.id.action_settings:
-				final Intent intent = new Intent(this, SettingsActivity.class);
-				this.startActivity(intent);
-				return false;
-			case R.id.action_fullreload:
-				// Do a reload of the application data. First do a cleanup of the data structures to force a reload.
-				// This is a hard reset of the application.
-				NeoComModelStore.getSingleton().cleanModel();
-				this.startActivity(new Intent(this, NeoComSplashActivity.class));
-				return true;
-			case R.id.action_downloadlocations:
-				// Insert into the download queue the action to download the locations.
-				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
-				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
-				return true;
-			case R.id.action_updateaccounts:
-				// Clean the model store data and force a reload of new data from Database.
-				// This is equivalent to a soft restart.
-				ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(new Runnable() {
-					@Override
-					public void run () {
-						NeoComModelStore.getSingleton().initialize();
-					}
-				});
-				return true;
-			//				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
-			//				break;
-			case R.id.action_showactivejobs:
-				this.startActivity(new Intent(this, ActiveJobsActivity.class));
-				return true;
-			//							// Create demo fittings to test the save/restore and continue the development.
-			//							Fitting onConstructionFit = new Fitting();
-			//							onConstructionFit.setName("Testing - Crusader");
-			//							onConstructionFit.addHull(11184);
-			//							onConstructionFit.fitModule(6719, 4);
-			//							onConstructionFit.fitModule(5973);
-			//							onConstructionFit.fitModule(5405);
-			//							onConstructionFit.fitModule(5839);
-			//							onConstructionFit.fitModule(5849);
-			//							onConstructionFit.fitModule(11563);
-			//							onConstructionFit.fitModule(33076);
-			//							onConstructionFit.fitRig(26929);
-			//							onConstructionFit.fitRig(26929);
-			//							onConstructionFit.addCargo(244, 4);
-			//							onConstructionFit.addCargo(240, 4);
-			//							NeoComModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
-			//							return true;
+//			case R.id.action_settings:
+//				final Intent intent = new Intent(this, SettingsActivity.class);
+//				this.startActivity(intent);
+//				return false;
+//			case R.id.action_fullreload:
+//				// Do a reload of the application data. First do a cleanup of the data structures to force a reload.
+//				// This is a hard reset of the application.
+//				NeoComModelStore.getSingleton().cleanModel();
+//				this.startActivity(new Intent(this, NeoComSplashActivity.class));
+//				return true;
+//			case R.id.action_downloadlocations:
+//				// Insert into the download queue the action to download the locations.
+//				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.CITADELUPDATE);
+//				NeoComAppConnector.getSingleton().getCacheConnector().addLocationUpdateRequest(ERequestClass.OUTPOSTUPDATE);
+//				return true;
+//			case R.id.action_updateaccounts:
+//				// Clean the model store data and force a reload of new data from Database.
+//				// This is equivalent to a soft restart.
+//				ApplicationCloudAdapter.getSingleton().getUIExecutor().submit(new Runnable() {
+//					@Override
+//					public void run () {
+//						NeoComModelStore.getSingleton().initialize();
+//					}
+//				});
+//				return true;
+//			//				new BackgroundMenuAction(this, R.id.action_updateaccounts).execute();
+//			//				break;
+//			case R.id.action_showactivejobs:
+//				this.startActivity(new Intent(this, ActiveJobsActivity.class));
+//				return true;
+//			//							// Create demo fittings to test the save/restore and continue the development.
+//			//							Fitting onConstructionFit = new Fitting();
+//			//							onConstructionFit.setName("Testing - Crusader");
+//			//							onConstructionFit.addHull(11184);
+//			//							onConstructionFit.fitModule(6719, 4);
+//			//							onConstructionFit.fitModule(5973);
+//			//							onConstructionFit.fitModule(5405);
+//			//							onConstructionFit.fitModule(5839);
+//			//							onConstructionFit.fitModule(5849);
+//			//							onConstructionFit.fitModule(11563);
+//			//							onConstructionFit.fitModule(33076);
+//			//							onConstructionFit.fitRig(26929);
+//			//							onConstructionFit.fitRig(26929);
+//			//							onConstructionFit.addCargo(244, 4);
+//			//							onConstructionFit.addCargo(240, 4);
+//			//							NeoComModelStore.getSingleton().addFitting(onConstructionFit, onConstructionFit.getName());
+//			//							return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

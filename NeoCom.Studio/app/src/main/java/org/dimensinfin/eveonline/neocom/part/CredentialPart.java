@@ -32,7 +32,7 @@ import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
@@ -298,7 +298,7 @@ public class CredentialPart extends NeoComExpandablePart implements INamedPart, 
 			// With the new implementation get just the identifier for the Credential.
 			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
 			NeoComModelStore.activateCredential(identifier);
-			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
+			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), identifier);
 			getActivity().startActivity(intent);

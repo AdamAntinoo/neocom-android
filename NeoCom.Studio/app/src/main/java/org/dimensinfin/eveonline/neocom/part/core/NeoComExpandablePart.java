@@ -15,12 +15,9 @@ import android.view.View.OnClickListener;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.OneShotTask;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.core.util.Chrono;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -39,30 +36,30 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public List<IAndroidPart> collaborate2View () {
-		// Update the color depending on the configured flavour.
-		switch (getFlavour()) {
-			case WHITE:
-				separatorColor = ESeparatorType.LINE_WHITE;
-				break;
-			case RED:
-				separatorColor = ESeparatorType.LINE_RED;
-				break;
-			case ORANGE:
-				separatorColor = ESeparatorType.LINE_ORANGE;
-				break;
-			case YELLOW:
-				separatorColor = ESeparatorType.LINE_YELLOW;
-				break;
-			case BLUE:
-				separatorColor = ESeparatorType.LINE_BLUE;
-				break;
-			default:
-				separatorColor = ESeparatorType.LINE_RED;
-				break;
-		}
-		return super.collaborate2View();
-	}
+//	public List<IAndroidPart> collaborate2View () {
+//		// Update the color depending on the configured flavour.
+//		switch (getFlavour()) {
+//			case WHITE:
+//				separatorColor = Separator.ESeparatorType.LINE_WHITE;
+//				break;
+//			case RED:
+//				separatorColor = Separator.ESeparatorType.LINE_RED;
+//				break;
+//			case ORANGE:
+//				separatorColor = Separator.ESeparatorType.LINE_ORANGE;
+//				break;
+//			case YELLOW:
+//				separatorColor = Separator.ESeparatorType.LINE_YELLOW;
+//				break;
+//			case BLUE:
+//				separatorColor = Separator.ESeparatorType.LINE_BLUE;
+//				break;
+//			default:
+//				separatorColor = Separator.ESeparatorType.LINE_RED;
+//				break;
+//		}
+//		return super.collaborate2View();
+//	}
 
 	public void onClick (final View view) {
 		logger.info(">> [NeoComExpandablePart.onClick]");

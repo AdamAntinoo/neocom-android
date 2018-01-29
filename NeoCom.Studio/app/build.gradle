@@ -11,7 +11,7 @@ android {
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 109
-        versionName "0.10.9"
+        versionName "0.10.10"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -76,7 +76,7 @@ android {
 //        }
 //    }
     sourceSets {
-        main.java.srcDirs += 'src/main/java-planetary'
+//        main.java.srcDirs += 'src/main/java-planetary'
         main.java.srcDirs += 'src/main/java-newrelease'
         main.java.srcDirs += 'src/main/java-eveesiandroid'
         main.res.srcDirs += 'src/main/res-planetary'

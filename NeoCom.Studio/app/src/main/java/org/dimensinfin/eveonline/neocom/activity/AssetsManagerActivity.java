@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
@@ -43,7 +44,8 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras), page++);
+//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
+			// page++);
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();

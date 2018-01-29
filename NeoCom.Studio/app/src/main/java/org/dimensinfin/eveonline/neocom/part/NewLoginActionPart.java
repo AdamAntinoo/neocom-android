@@ -18,7 +18,7 @@ import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.LoginProgressActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.core.NeocomRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
@@ -66,7 +66,7 @@ public class NewLoginActionPart extends NeoComAbstractPart implements View.OnCli
 	public void onClick (final View view) {
 		logger.info(">> [NewLoginActionPart.onClick]");
 		// launch the LoginProgress so the display is blocked while we authorize a new Credential.
-		final Intent intent = new Intent(this.getActivity(), LoginProgressActivity.class);
+		final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 		// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
 		getActivity().startActivity(intent);
 		logger.info("<< [NewLoginActionPart.onClick]");

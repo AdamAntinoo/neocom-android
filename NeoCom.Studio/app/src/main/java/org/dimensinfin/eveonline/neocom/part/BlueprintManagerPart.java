@@ -26,7 +26,7 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirectorPart;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
@@ -95,7 +95,7 @@ public class BlueprintManagerPart extends NeoComAbstractPart
 		if ( managerPart instanceof BlueprintManagerPart ) {
 			// Managers have a reference to the Character linked when created.
 			//			final NeoComCharacter pilot = ((BlueprintManagerPart) managerPart).getCastedModel().getPilot();
-			final Intent intent = new Intent(this.getActivity(), IndustryDirectorActivity.class);
+			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
 			//			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), ((BlueprintManagerPart) managerPart).getCastedModel().getCredentialIdentifier());

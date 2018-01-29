@@ -19,7 +19,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 
-import org.dimensinfin.eveonline.neocom.activity.PlanetaryOptimizationActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
@@ -53,7 +53,7 @@ public class Location4PlanetaryPart extends Location4AssetsPart implements OnLon
 		final Object targetPart = view.getTag();
 		if ( targetPart instanceof Location4PlanetaryPart ) {
 //			final NeoComCharacter pilot = NeoComModelStore.getSingleton().getActiveCharacter();
-			final Intent intent = new Intent(this.getActivity(), PlanetaryOptimizationActivity.class);
+			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot/Manager
 //			intent.putExtra(AppWideConstants.EExtras.EXTRA_LOGINID.name(), pilot.getLoginRef().getName());
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), NeoComModelStore.getActiveCredential().getAccountId());

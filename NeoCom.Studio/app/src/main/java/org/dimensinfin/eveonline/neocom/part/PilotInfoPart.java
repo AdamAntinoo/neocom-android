@@ -29,7 +29,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.eveonline.neocom.NeoComApp;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.PilotDetailActivity;
+import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
@@ -135,7 +135,7 @@ public class PilotInfoPart extends NeoComAbstractPart implements INamedPart, OnC
 		// Set the pilot selected on the context and then go to the Pilot Dashboard.
 		final Object pilotPart = view.getTag();
 		if ( pilotPart instanceof PilotInfoPart ) {
-			final Intent intent = new Intent(this.getActivity(), PilotDetailActivity.class);
+			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
 			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), getCastedModel().getCharacterId());
 			getActivity().startActivity(intent);

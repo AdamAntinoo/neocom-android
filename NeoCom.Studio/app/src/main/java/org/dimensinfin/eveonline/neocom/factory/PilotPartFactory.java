@@ -24,7 +24,6 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.manager.AssetsManager;
 import org.dimensinfin.eveonline.neocom.manager.BlueprintManager;
-import org.dimensinfin.eveonline.neocom.manager.PlanetaryManager;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
@@ -32,7 +31,6 @@ import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
 import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
-import org.dimensinfin.eveonline.neocom.part.PlanetaryManagerPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,11 +100,11 @@ public class PilotPartFactory extends PartFactory {
 																																.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
 				return part;
 			}
-			if ( node instanceof PlanetaryManager ) {
-				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this)
-																																			.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
-				return part;
-			}
+//			if ( node instanceof PlanetaryManager ) {
+//				IPart part = new PlanetaryManagerPart((PlanetaryManager) node).setFactory(this)
+//																																			.setRenderMode(ENeoComVariants.PILOT_DETAILS.name());
+//				return part;
+//			}
 			if ( node instanceof BlueprintManager ) {
 				IPart part = new BlueprintManagerPart((BlueprintManager) node).setFactory(this)
 																																			.setRenderMode(this.getVariant());
