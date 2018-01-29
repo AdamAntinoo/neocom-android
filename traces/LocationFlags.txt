@@ -36,6 +36,7 @@
     HIDDENMODIFIERS("HiddenModifiers"),
     IMPLANT("Implant"),
     LOCKED("Locked"),
+    QUAFEBAY("QuafeBay"),
     
     MEDSLOT0("MedSlot0"),
     MEDSLOT1("MedSlot1"),
@@ -46,7 +47,6 @@
     MEDSLOT6("MedSlot6"),
     MEDSLOT7("MedSlot7"),
 
-    QUAFEBAY("QuafeBay"),
     
     RIGSLOT0("RigSlot0"),
     RIGSLOT1("RigSlot1"),

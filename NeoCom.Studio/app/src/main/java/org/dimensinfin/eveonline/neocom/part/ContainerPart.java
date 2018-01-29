@@ -22,7 +22,6 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.SpaceContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.NewBaseExpandableRender;
@@ -38,9 +37,8 @@ public class ContainerPart extends NeoComExpandablePart /*implements OnClickList
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ContainerPart (final NeoComAsset node) {
+	public ContainerPart (final SpaceContainer node) {
 		super(node);
-		//		newImplementation = true;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

@@ -73,7 +73,7 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 				return part;
 			}
 			if ( node instanceof SpaceContainer ) {
-				IPart part = new ContainerPart((NeoComAsset) node).setFactory(this)
+				IPart part = new ContainerPart((SpaceContainer) node).setFactory(this)
 				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
