@@ -5,10 +5,10 @@
         android:orderInCategory="100"
         android:showAsAction="collapseActionView"
         android:title="@string/action_settingslabel"/>
-    <item android:id="@+id/search"
+    <item android:id="@+id/action_search"
         android:title="Search..."
         android:icon="@drawable/searchmarket"
-        android:showAsAction="collapseActionView|ifRoom"
+        android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
     <item
         android:id="@+id/action_launchUpdate"

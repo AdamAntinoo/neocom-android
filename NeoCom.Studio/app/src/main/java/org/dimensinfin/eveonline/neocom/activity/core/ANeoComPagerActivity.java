@@ -20,8 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
@@ -100,13 +98,13 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 		NeoComModelStore.activateActivity(this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu (final Menu menu) {
-		final MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.neocom_menu, menu);
-		NeoComModelStore.getSingleton().setAppMenu(menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu (final Menu menu) {
+//		final MenuInflater inflater = this.getMenuInflater();
+//		inflater.inflate(R.menu.neocom_menu, menu);
+//		NeoComModelStore.getSingleton().setAppMenu(menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
 
 	@Override
 	public boolean onOptionsItemSelected (final MenuItem item) {

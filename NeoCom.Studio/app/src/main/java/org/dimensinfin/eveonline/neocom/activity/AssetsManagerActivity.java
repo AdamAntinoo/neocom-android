@@ -15,7 +15,12 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
@@ -23,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerActivity extends BaseManagerActivity {
@@ -35,6 +41,19 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String getName () {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
+	}
+
+	public boolean onCreateOptionsMenu (Menu menu) {
+		final MenuInflater inflater = this.getMenuInflater();
+		inflater.inflate(R.menu.neocom_menu, menu);
+		NeoComModelStore.getSingleton().setAppMenu(menu);
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//		getMenuInflater().inflate(R.menu.main, menu);
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
