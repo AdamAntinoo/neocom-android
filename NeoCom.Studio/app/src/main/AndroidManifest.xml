@@ -47,7 +47,6 @@
         <activity
             android:name=".activity.SearchAssetsActivity"
             android:label="Asset Filter"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

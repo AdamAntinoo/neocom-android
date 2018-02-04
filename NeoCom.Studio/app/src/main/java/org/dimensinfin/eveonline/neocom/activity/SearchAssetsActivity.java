@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
@@ -38,20 +39,35 @@ public class SearchAssetsActivity extends BaseManagerActivity {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
 	}
 
-	private void handleIntent(Intent intent) {
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+	@Override
+	protected void onCreate (final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		handleIntent(getIntent());
+	}
+
+	@Override
+	protected void onNewIntent (Intent intent) {
+		setIntent(intent);
+		handleIntent(intent);
+	}
+
+	private void handleIntent (Intent intent) {
+		if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-	//		doMySearch(query);
+			createFilterFragment(query);
 		}
 	}
-	protected void createFilterFragment () {
+
+	protected void createFilterFragment (final String filter) {
 		logger.info(">> [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
-//		super.onCreate(savedInstanceState);
+		//		super.onCreate(savedInstanceState);
 		try {
 			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
+			extras.putString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name(), filter);
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_SEARCH.name()).setExtras(extras), page++);
 			//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
 			// page++);
 		} catch (RuntimeException rtex) {

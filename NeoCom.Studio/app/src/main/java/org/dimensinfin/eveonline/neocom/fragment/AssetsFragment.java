@@ -89,17 +89,34 @@ public class AssetsFragment extends AbstractPagerFragment {
 	public void registerDataSource () {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
 		// Get access to the parameters and reconstruct the data chain if required.
-		//		int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		int characterid = 92223647;
-		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-		                                                   .addIdentifier(characterid)
-		                                                   .addIdentifier("ASSETS-MANAGER");
-		// On this test we are not goint to use Generators but directly the DataSource to ease the connection to the Adapter.
-		AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getFactory(), getExtras());
-		ds.setVariant(this.getVariant());
-		ds.setContext(getActivity());
-		setDataSource(ds);
+		if ( getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
+			int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
+			DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
+			                                                   .addIdentifier(characterid)
+			                                                   .addIdentifier("ASSETS-MANAGER");
+			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
+			// Adapter.
+			AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getFactory(), getExtras());
+			ds.setVariant(this.getVariant());
+			ds.setContext(getActivity());
+			setDataSource(ds);
+		}
+		if ( getVariant() == ENeoComVariants.ASSETS_SEARCH.name() ) {
+			int characterid = this.getExtras().getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
+			String filter = this.getExtras().getString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name());
+			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
+			DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
+			                                                   .addIdentifier(characterid)
+			                                                   .addIdentifier("ASSETS-MANAGER");
+			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
+			// Adapter.
+			AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getFactory(), getExtras());
+			ds.setVariant(this.getVariant());
+			ds.setFilter(filter);
+			ds.setContext(getActivity());
+			setDataSource(ds);
+		}
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
 	}
 
@@ -119,13 +136,9 @@ public class AssetsFragment extends AbstractPagerFragment {
 		private final DataSourceLocator locator;
 		private int characterid = -1;
 		private Activity context;
+		private String filter;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		//		public AssetsByLocationGenerator (final DataSourceLocator locator, final String variant, final Bundle extras) {
-		//			super(locator, variant);
-		//			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-		//		}
-
 		public AssetsByLocationDataSource (final DataSourceLocator locator, final IPartFactory factory, final Bundle extras) {
 			super(factory);
 			this.locator = locator;
@@ -160,7 +173,16 @@ public class AssetsFragment extends AbstractPagerFragment {
 				// Process each asset received classifying them by location. The ones with locations not in the SDE get
 				// processed last.
 				final List<NeoComAsset> unprocessedAssets = new ArrayList<>();
+				// Check if the filter is active.
+				boolean filtering = false;
+				if ( null != filter ) filtering = true;
 				for (NeoComAsset asset : assetList) {
+					// Filter the assets by name.
+					if ( filtering ) {
+						final String name = asset.getName();
+						final boolean check = name.toLowerCase().contains(filter.toLowerCase());
+						if ( !check ) continue;
+					}
 					final EveLocation loc = asset.getLocation();
 					if ( loc.getTypeID() == ELocationType.UNKNOWN ) {
 						unprocessedAssets.add(asset);
@@ -172,6 +194,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					if ( null == regionHit ) {
 						// Create a new Region. This changes the UI so notify that to the Adapter.
 						regionHit = new Region(loc.getRegion());
+						if ( filtering ) regionHit.expand();
 						regions.put(regid, regionHit);
 						_dataModelRoot.addChild(regionHit);
 						logger.info("-- [AssetsByLocationDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot.",
@@ -189,6 +212,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 						// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
 						locationHit = new ExtendedLocation(characterid, loc);
 						locationHit.setContentManager(new StandardContentManager(locationHit));
+						if ( filtering ) locationHit.expand();
 						locations.put(loc.getID(), locationHit);
 						regionHit.addLocation(locationHit);
 						// If the Region is expanded then we should regenerate the UI.
@@ -213,7 +237,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					//	}
 					//	}
 				}
-			} catch (SQLException sqle){
+			} catch (SQLException sqle) {
 				sqle.printStackTrace();
 			}
 			logger.info("<< [AssetsByLocationDataSource.collaborate2Model]");
@@ -226,6 +250,10 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 		protected void setContext (final Activity activity) {
 			this.context = activity;
+		}
+
+		protected void setFilter (final String filter) {
+			this.filter = filter;
 		}
 	}
 

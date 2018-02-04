@@ -19,10 +19,7 @@ package org.dimensinfin.eveonline.neocom.constant;
 public class AppWideConstants {
 	// - P R E F E R E N C E S
 	public enum preferenceKeys {
-		category_Development
-		, prefkey_BlockBackgroundTimer, prefkey_BlockMarket, prefkey_BlockDownloads
-		, prefkey_BlockCharacterUpdate, prefkey_BlockAssetsUpdate, prefkey_BlockColonyUpdate
-		, category_Industry, prefkey_AllowMoveRequests, category_Assets, prefkey_locationsLimit, prefkey_RegionCollapsed
+		category_Development, prefkey_BlockBackgroundTimer, prefkey_BlockMarket, prefkey_BlockDownloads, prefkey_BlockCharacterUpdate, prefkey_BlockAssetsUpdate, prefkey_BlockColonyUpdate, category_Industry, prefkey_AllowMoveRequests, category_Assets, prefkey_locationsLimit, prefkey_RegionCollapsed
 	}
 
 	public static final class preference {
@@ -57,7 +54,7 @@ public class AppWideConstants {
 
 	// - E X T R A S   M E S S A G E S
 	public enum EExtras {
-		EXTRA_LOGINID, EXTRA_CAPSULEERID, EXTRA_MANAGERNAME, EXTRA_LOCATIONID, EXTRA_FITTINGID, EXTRA_BLUEPRINTID, EXTRA_BLUEPRINTACTIVITY, EXTRA_CHARACTER_LOCALIZER, EXTRA_PLANETID
+		EXTRA_LOGINID, EXTRA_CAPSULEERID, EXTRA_MANAGERNAME, EXTRA_LOCATIONID, EXTRA_FITTINGID, EXTRA_BLUEPRINTID, EXTRA_BLUEPRINTACTIVITY, EXTRA_CHARACTER_LOCALIZER, EXTRA_PLANETID, EXTRA_ASSETFILTER;
 	}
 
 	// - F R A G M E N T   I D E N T I F I E R S
