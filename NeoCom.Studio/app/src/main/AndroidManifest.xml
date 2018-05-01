@@ -126,12 +126,12 @@
         <!--</activity>-->
 
         <!-- S E R V I C E S -->
-        <service
-            android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"
-            android:enabled="true"></service>
-        <service
-            android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"
-            android:enabled="true"></service>
+        <!--<service-->
+            <!--android:name="org.dimensinfin.eveonline.neocom.service.MarketUpdaterService"-->
+            <!--android:enabled="true"></service>-->
+        <!--<service-->
+            <!--android:name="org.dimensinfin.eveonline.neocom.service.CharacterUpdaterService"-->
+            <!--android:enabled="true"></service>-->
     </application>
 
 </manifest>

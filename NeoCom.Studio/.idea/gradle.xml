@@ -10,10 +10,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC Dynamic-Final/AndroidMVCLibrary" />
-            <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/ESI.SwaggerApi" />
-            <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/NeoCom.Model" />
-            <option value="$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAdapter" />
-            <option value="$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAndroidAdapter" />
+            <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/ESI.SwaggerApi" />
+            <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.DataManagement" />
+            <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.Model" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

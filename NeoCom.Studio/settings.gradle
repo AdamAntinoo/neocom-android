@@ -5,7 +5,10 @@ project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries 
 //project(':ApplicationCloudAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAdapter')
 //include ':ApplicationCloudAndroidAdapter'
 //project(':ApplicationCloudAndroidAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAndroidAdapter')
-//include ':NeoCom.Model'
-//project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\NeoCom.Model')
-//include ':ESI.SwaggerApi'
-//project(':ESI.SwaggerApi').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\ESI.SwaggerApi')
+include ':ESI.SwaggerApi'
+project(':ESI.SwaggerApi').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Infinity\\ESI.SwaggerApi')
+include ':NeoCom.DataManagement'
+project(':NeoCom.DataManagement').projectDir = new File('D:\\Development\\Libraries ' +
+        'Base\\NeoCom-DM\\NeoCom-DataMngmt Infinity\\NeoCom.DataManagement')
+include ':NeoCom.Model'
+project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Infinity\\NeoCom.Model')

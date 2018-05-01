@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/../../../Libraries Android/AndroidMVC 2.0.x/AndroidMVC" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../../../Libraries Base/NeoCom-Model 2.0.x/NeoCom-Model" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC Dynamic-Final" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../../POCProjects" vcs="Git" />

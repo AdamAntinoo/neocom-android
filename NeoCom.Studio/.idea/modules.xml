@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC Dynamic-Final/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC Dynamic-Final/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAdapter/ApplicationCloudAdapter.iml" filepath="$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAdapter/ApplicationCloudAdapter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAndroidAdapter/ApplicationCloudAndroidAdapter.iml" filepath="$PROJECT_DIR$/../../../../POCProjects/POCDataCloud/ApplicationCloudAndroidAdapter/ApplicationCloudAndroidAdapter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/ESI.SwaggerApi/ESI.SwaggerApi.iml" filepath="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/ESI.SwaggerApi/ESI.SwaggerApi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/NeoCom.Model/NeoCom.Model.iml" filepath="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Dynamic/NeoCom.Model/NeoCom.Model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/ESI.SwaggerApi/ESI.SwaggerApi.iml" filepath="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/ESI.SwaggerApi/ESI.SwaggerApi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.DataManagement/NeoCom.DataManagement.iml" filepath="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.DataManagement/NeoCom.DataManagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.Model/NeoCom.Model.iml" filepath="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt Infinity/NeoCom.Model/NeoCom.Model.iml" />
       <module fileurl="file://$PROJECT_DIR$/NeoCom.Studio.iml" filepath="$PROJECT_DIR$/NeoCom.Studio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
