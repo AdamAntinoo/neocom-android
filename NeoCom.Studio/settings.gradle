@@ -1,11 +1,11 @@
 include ':app'
-include ':ApplicationCloudAdapter'
-project(':ApplicationCloudAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAdapter')
-include ':ApplicationCloudAndroidAdapter'
-project(':ApplicationCloudAndroidAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAndroidAdapter')
-include ':NeoCom.Model'
-project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\NeoCom.Model')
-include ':ESI.SwaggerApi'
-project(':ESI.SwaggerApi').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\ESI.SwaggerApi')
 include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC\\AndroidMVC Dynamic-Final\\AndroidMVCLibrary')
+//include ':ApplicationCloudAdapter'
+//project(':ApplicationCloudAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAdapter')
+//include ':ApplicationCloudAndroidAdapter'
+//project(':ApplicationCloudAndroidAdapter').projectDir = new File('D:\\Development\\POCProjects\\POCDataCloud\\ApplicationCloudAndroidAdapter')
+//include ':NeoCom.Model'
+//project(':NeoCom.Model').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\NeoCom.Model')
+//include ':ESI.SwaggerApi'
+//project(':ESI.SwaggerApi').projectDir = new File('D:\\Development\\Libraries Base\\NeoCom-DM\\NeoCom-DataMngmt Dynamic\\ESI.SwaggerApi')

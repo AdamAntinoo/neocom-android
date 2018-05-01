@@ -35,10 +35,9 @@ public class SearchAssetsActivity extends BaseManagerActivity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName () {
-		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
-	}
-
+//	public String getName () {
+//		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
+//	}
 
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
@@ -63,17 +62,17 @@ public class SearchAssetsActivity extends BaseManagerActivity {
 		logger.info(">> [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 		//		super.onCreate(savedInstanceState);
 		try {
-			int page = 0;
+//			int page = 0;
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
 			extras.putString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name(), filter);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_SEARCH.name()).setExtras(extras), page++);
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_SEARCH.name()).setExtras(extras));
 			//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
 			// page++);
 		} catch (RuntimeException rtex) {
 			SearchAssetsActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
+//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		// Reinitialize the tile and subtitle from the first page.
 		//		this.updateInitialTitle();

@@ -122,6 +122,7 @@ dependencies {
     implementation project(path: ':ESI.SwaggerApi')
 
     // L O C A L    L I B R A R I E S
+    implementation files('libs/CoreBase.core-2.0.2.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E

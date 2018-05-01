@@ -25,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
 import org.dimensinfin.eveonline.neocom.core.ComparatorFactory;
 import org.dimensinfin.eveonline.neocom.core.SimpleDiskCache;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.EComparatorField;
 import org.dimensinfin.eveonline.neocom.enums.EMarketSide;
 import org.dimensinfin.eveonline.neocom.enums.ERequestClass;
@@ -350,8 +351,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	@Override
 	public void addMarketDataRequest(final long localizer) {
 		AndroidCacheConnector.logger.info(">> [CoreCacheConnector.addMarketDataRequest]>Localizer: " + localizer);
-		final EveItem item = NeoComAppConnector.getSingleton().getCCPDBConnector()
-				.searchItembyID(Long.valueOf(localizer).intValue());
+		final EveItem item = GlobalDataManager.searchItem4Id(Long.valueOf(localizer).intValue());
 		AndroidCacheConnector.logger
 				.info("-- [AndroidCacheConnector.addMarketDataRequest] Posting market update for: " + item.getName());
 		// Detect priority from the Category of the item. Download data from Asteroids and Minerals first.

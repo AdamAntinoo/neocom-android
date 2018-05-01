@@ -16,7 +16,7 @@ import org.joda.time.Instant;
 import android.graphics.drawable.Drawable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface INeoComAppConnector extends  IModelAppConnector {
+public interface INeoComAppConnector extends IAndroidAppConnector {
 	public File accessAppStorage(final String resourceString);
 
 	public void addDrawableToCache(final String key, final Drawable image);

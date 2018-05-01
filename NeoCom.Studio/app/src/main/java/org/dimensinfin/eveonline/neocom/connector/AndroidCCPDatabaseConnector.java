@@ -433,7 +433,6 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 	 * The process starts searching for locations depending on range, first at the CCP database and then at the
 	 * Locations table at the application database.
 	 */
-	@Override
 	public EveLocation searchLocationbyID (final long locationID) {
 		// First check if the location is already on the cache table.
 		EveLocation hit = locationsCache.get(locationID);

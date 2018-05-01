@@ -27,7 +27,7 @@ import java.io.File;
  * 
  * @author Adam Antinoo
  */
-public class NeoComAppConnector implements INeoComAppConnector {
+public class NeoComAppConnector extends AndroidAppConnector implements INeoComAppConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static NeoComAppConnector _singleton = null;
@@ -43,7 +43,7 @@ public class NeoComAppConnector implements INeoComAppConnector {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComAppConnector(final INeoComAppConnector application) {
-//		super(application);
+		super(application);
 		_connector = application;
 		NeoComAppConnector._singleton = this;
 	}
