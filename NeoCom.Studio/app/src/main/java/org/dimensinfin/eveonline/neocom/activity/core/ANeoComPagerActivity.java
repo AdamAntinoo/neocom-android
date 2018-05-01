@@ -170,13 +170,13 @@ public abstract class ANeoComPagerActivity extends AbstractPagerActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onStart () {
-		super.onStart();
-		// Reinitialize the tile and subtitle from the first page.
-		//		this.updateInitialTitle();
-		NeoComApp.updateProgressSpinner();
-	}
+//	@Override
+//	protected void onStart () {
+//		super.onStart();
+//		// Reinitialize the tile and subtitle from the first page.
+//		//		this.updateInitialTitle();
+//		NeoComApp.updateProgressSpinner();
+//	}
 }
 
 // - UNUSED CODE ............................................................................................

@@ -1,12 +1,18 @@
-///	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. This is the Android application but shares
-//                  libraries and code with other application designed for alternate platforms.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part.core;
 
 import android.os.Handler;
@@ -14,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
 import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.util.Chrono;
@@ -28,7 +35,7 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private ColorFlavour _flavour = ColorFlavour.RED;
+	private ColorFlavour _flavour = ColorFlavour.WHITE;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComExpandablePart (final ICollaboration node) {
@@ -63,25 +70,11 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 
 	public void onClick (final View view) {
 		logger.info(">> [NeoComExpandablePart.onClick]");
+		// TODO - This is code already on the MVC but copied because class inheritance.
 		// Signal the action may take some time and launch it on the background.
 		activateClick();
 		// Force the update of the view by eliminating it form the Part cache. This forces a redraw and updates the model.
 		invalidate();
-		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-		//		notifyDataSetChanged();
-		// Launch the actions on a new thread.
-//		GlobalAndroidDataManager.submitOnClick(
-//				new OneShotTask<NeoComExpandablePart>(this) {
-//					public void run () {
-//						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
-//						Chrono chrono = new Chrono();
-//						getTarget().toggleExpanded();
-//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
-//						completeClick();
-//						getTarget().invalidate();
-//						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
-//					}
-//				});
 
 		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
 			public void run () {
@@ -91,24 +84,16 @@ public abstract class NeoComExpandablePart extends NeoComAbstractPart implements
 						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
 						Chrono chrono = new Chrono();
 						getTarget().toggleExpanded();
-						getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE.name(), this, this);
+						getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
 						completeClick();
 						getTarget().invalidate();
-						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.SHOWMILLIS));
+						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed
+								(Chrono.ChronoOptions.SHOWMILLIS));
 					}
 				});
 			}
 		}, TimeUnit.MICROSECONDS.toMillis(500));
-
-
-		//		GlobalAndroidDataManager.submitOnClick(
-		//				new OneShotTask<NeoComExpandablePart>(this) {
-		//					public void run () {
-		logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
-		//		getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-		logger.info("<< [StructureWithContentsPart.onClick.OneShotTask.run]");
-		//					}
-		//				});
+//		getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
 		logger.info("<< [NeoComExpandablePart.onClick]");
 	}
 

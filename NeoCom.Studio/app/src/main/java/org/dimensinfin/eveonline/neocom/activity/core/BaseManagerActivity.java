@@ -32,7 +32,7 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public abstract String getName ();
+//	public abstract String getName ();
 
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage()));
+//			this.stopActivity(new RuntimeException("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		AssetsManagerActivity.logger.info("<< [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
 	}

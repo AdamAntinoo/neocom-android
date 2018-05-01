@@ -8,7 +8,7 @@ https://public-crest.eveonline.com/industry/facilities/
 976524:lu8GM5eBWrRZvjI07VJP1ceFolaUYQiHTxU7tNXi3z8FKpiMGMR1hc0G4L32ySwQ
 92002067
 
-https://api.eveonline.com/char/CharacterSheet.xml.aspx?keyID=976524&vCode=lu8GM5eBWrRZvjI07VJP1ceFolaUYQiHTxU7tNXi3z8FKpiMGMR1hc0G4L32ySwQ&characterID=92002067
+https://api.eveonline.com/char/CharacterSheet.xml.aspx?keyID=2956305&vCode=u2Idzk1ymAufjgwwrQoHl0uTRa7fKwWNxotzZiEoLm0NgEHCdqpBr1C8pjmWdbiy&characterID=92002067
 This XML file does not appear to have any style information associated with it. The document tree is shown below.
 <eveapi version="2">
 <currentTime>2015-04-06 15:51:00</currentTime>

@@ -12,7 +12,6 @@ package org.dimensinfin.eveonline.neocom.connector;
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 
-import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
@@ -28,7 +27,7 @@ import java.io.File;
  * 
  * @author Adam Antinoo
  */
-public class NeoComAppConnector extends MVCAppConnector implements INeoComAppConnector {
+public class NeoComAppConnector implements INeoComAppConnector {
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static NeoComAppConnector _singleton = null;
@@ -44,7 +43,7 @@ public class NeoComAppConnector extends MVCAppConnector implements INeoComAppCon
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComAppConnector(final INeoComAppConnector application) {
-		super(application);
+//		super(application);
 		_connector = application;
 		NeoComAppConnector._singleton = this;
 	}

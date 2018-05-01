@@ -10,14 +10,13 @@ package org.dimensinfin.eveonline.neocom.connector;
 
 import java.io.File;
 
-import org.dimensinfin.android.mvc.connector.IMVCAppConnector;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
 import android.graphics.drawable.Drawable;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface INeoComAppConnector extends IMVCAppConnector, IModelAppConnector {
+public interface INeoComAppConnector extends  IModelAppConnector {
 	public File accessAppStorage(final String resourceString);
 
 	public void addDrawableToCache(final String key, final Drawable image);

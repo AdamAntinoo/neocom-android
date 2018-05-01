@@ -1,10 +1,18 @@
-//	PROJECT:      NeoCom.Databases (NEOC.D)
-//	AUTHORS:      Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:    (c) 2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:	Java 1.8 Library.
-//	DESCRIPTION:	SQLite database access library. Isolates Neocom database access from any
-//								environment limits.
-//								Database and model adaptations for storage model independency.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.connector;
 
 import android.content.ContentValues;
@@ -24,7 +32,6 @@ import com.j256.ormlite.stmt.Where;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
-import org.dimensinfin.eveonline.neocom.database.NeoComBaseDatabase;
 import org.dimensinfin.eveonline.neocom.database.NeocomAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.DatabaseVersion;

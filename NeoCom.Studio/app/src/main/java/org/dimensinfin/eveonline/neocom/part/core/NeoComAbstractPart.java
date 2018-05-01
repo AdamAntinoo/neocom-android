@@ -1,7 +1,7 @@
 //  PROJECT:     NeoCom.Android (NEOC.A)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API22.
+//  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
 //               the game data to help capsuleers organize and prioritize activities. The strong points are
 //               help at the Industry level tracking and calculating costs and benefits. Also the market
@@ -253,11 +253,11 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		}
 	}
 
-	protected void notifyDataSetChanged () {
-		// Locate the DataSourceAdapter and fire to it the message.
-		final AbstractPagerFragment fragment = getFragment();
-		fragment.notifyDataSetChanged();
-	}
+//	protected void notifyDataSetChanged () {
+//		// Locate the DataSourceAdapter and fire to it the message.
+//		final AbstractPagerFragment fragment = getFragment();
+//		fragment.notifyDataSetChanged();
+//	}
 
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. For actions there

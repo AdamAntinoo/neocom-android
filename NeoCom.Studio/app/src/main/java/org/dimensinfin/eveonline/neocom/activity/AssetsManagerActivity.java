@@ -1,18 +1,18 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
-//                  the game data to help capsuleers organize and prioritize activities. The strong points are
-//                  help at the Industry level tracking and calculating costs and benefits. Also the market
-//                  information update service will help to identify best prices and locations.
-//                  Planetary Interaction and Ship fittings are point under development.
-//                  ESI authorization is a new addition that will give continuity and allow download game data
-//                  from the new CCP data services.
-//                  This is the Android application version but shares libraries and code with other application
-//                  designed for Spring Boot Angular 4 platform.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
 import android.app.SearchManager;
@@ -39,10 +39,6 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName () {
-		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
-	}
-
 	public boolean onCreateOptionsMenu (Menu menu) {
 		final MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.neocom_menu, menu);
@@ -61,19 +57,15 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 		AssetsManagerActivity.logger.info(">> [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		try {
-			int page = 0;
-			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()).setExtras(extras), page++);
-			//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
-			// page++);
+			// We have the extras already loaded. Add the pilot id to simulate we have been called.
+			_extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
+			// TODO - Check that the correct extras arrive to the Fragment.
+			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()));
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
+//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
-		// Reinitialize the tile and subtitle from the first page.
-		//		this.updateInitialTitle();
 		AssetsManagerActivity.logger.info("<< [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 }
