@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 // - CLASS IMPLEMENTATION ...................................................................................
 #if (${VISIBILITY} == "PUBLIC")public #end #if (${ABSTRACT} == "TRUE")abstract #end #if (${FINAL} == "TRUE")final #end class ${NAME} #if (${SUPERCLASS} != "")extends ${SUPERCLASS} #end #if (${INTERFACES} != "")implements ${INTERFACES} #end {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger(${NAME}.class);
+	private static Logger logger = LoggerFactory.getLogger("${NAME}");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("${NAME} [");
+		StringBuffer buffer = new StringBuffer("${NAME} [ ");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		buffer.append("->").append(super.toString());

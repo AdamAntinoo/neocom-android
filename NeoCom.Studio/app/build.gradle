@@ -117,6 +117,7 @@ dependencies {
     // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':AndroidMVCLibrary')
     implementation project(path: ':ESI.SwaggerApi')
+    implementation project(path: ':NeoCom.DataManagement')
     implementation project(path: ':NeoCom.Model')
 //     implementation project(path: ':ApplicationCloudAdapter')
 //    implementation project(path: ':ApplicationCloudAndroidAdapter')

@@ -15,6 +15,7 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.datamngmt.manager;
 
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ import java.util.concurrent.Executors;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidDataManager extends GlobalDataManager{
+public class GlobalAndroidDataManager extends GlobalDataManager {
 	// - P U B L I C - S E C T I O N ..........................................................................
 //	private enum EModelVariants {
 //		PILOTV1, APIKEY
