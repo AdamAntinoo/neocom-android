@@ -26,9 +26,9 @@ import java.util.Hashtable;
  * @author Adam Antinoo
  */
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SDESBDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
+public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger(SDESBDBHelper.class);
+	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
 //	private static final String CCPDATABASE_URL = "jdbc:sqlite:src/main/resources/eve.db-this reference is platform specific-";
 //private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:sqlite:src/main/resources/eve.db";
 
@@ -45,7 +45,7 @@ public class SDESBDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
 	private final Hashtable<Long, EveLocation> locationsCache = new Hashtable<Long, EveLocation>(200);
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SDESBDBHelper() {
+	public SDEAndroidDBHelper () {
 		super();
 	}
 
@@ -99,19 +99,19 @@ public class SDESBDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
 	 * @return
 	 */
 	private boolean openSDEDB() {
-		logger.info(">> [SDESBDBHelper.openSDEDB]");
+		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
 		if (!isOpen) if (null == connectionSource) {
 			// Open and configure the connection datasource for hand written SQL queries.
 			try {
 				createConnectionSource();
-				logger.info("-- [SDESBDBHelper.openSDEDB]> Opened database {} successfully with version {}.",getConnectionDescriptor(),
+				logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}.",getConnectionDescriptor(),
 						databaseVersion);
 				isOpen = true;
 			} catch (Exception sqle) {
-				logger.error("E> [SDESBDBHelper.openSDEDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
+				logger.error("E> [SDEAndroidDBHelper.openSDEDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
 			}
 		}
-		logger.info("<< [SDESBDBHelper.openSDEDB]");
+		logger.info("<< [SDEAndroidDBHelper.openSDEDB]");
 		return isOpen;
 	}
 
@@ -148,7 +148,7 @@ public class SDESBDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("NeoComSBDBHelper [");
+		StringBuffer buffer = new StringBuffer("NeoComAndroidDBHelper [");
 		final String localConnectionDescriptor = schema + ":" + databasePath + databaseName;
 		buffer.append("Descriptor: ").append(localConnectionDescriptor);
 		buffer.append("]");

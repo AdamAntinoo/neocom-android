@@ -264,7 +264,7 @@ final class AssetRender extends NeoComRender {
 		}
 
 		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeId());
-		logger.info("-- [AssetRender.updateContent]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+		logger.info("-- [AssetRender.updateContent]> Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 	}
 
 	@Override

@@ -24,11 +24,9 @@ import android.widget.SearchView;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AssetsManagerActivity extends BaseManagerActivity {
@@ -42,7 +40,7 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 	public boolean onCreateOptionsMenu (Menu menu) {
 		final MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.neocom_menu, menu);
-		NeoComModelStore.getSingleton().setAppMenu(menu);
+		//		NeoComModelStore.getSingleton().setAppMenu(menu);
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		//		getMenuInflater().inflate(R.menu.main, menu);
@@ -64,7 +62,7 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 		} catch (RuntimeException rtex) {
 			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
+			//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		AssetsManagerActivity.logger.info("<< [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
 	}

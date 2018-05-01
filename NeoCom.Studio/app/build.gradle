@@ -138,7 +138,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
     implementation 'org.modelmapper:modelmapper:1.1.0'
    // N E O C O M
-     implementation 'com.j256.ormlite:ormlite-android:4.48'
+    implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'

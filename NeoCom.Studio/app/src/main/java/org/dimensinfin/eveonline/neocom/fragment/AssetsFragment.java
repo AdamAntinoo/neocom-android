@@ -27,17 +27,12 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
-import org.dimensinfin.eveonline.neocom.manager.StandardContentManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.Region;
-import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -175,7 +170,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					final List<NeoComAsset> unprocessedAssets = new ArrayList<>();
 
 					// Get the asset list for the database.
-					final List<NeoComAsset> assetList = GlobalAndroidDataManager.getNeocomDBHelper().getAssetDao().queryForEq(
+					final List<NeoComAsset> assetList = org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager.getNeocomDBHelper().getAssetDao().queryForEq(
 							"ownerID"
 							, Integer.valueOf(characterid).toString());
 

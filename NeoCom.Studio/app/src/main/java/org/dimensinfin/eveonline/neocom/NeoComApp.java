@@ -17,9 +17,8 @@ package org.dimensinfin.eveonline.neocom;
 
 import android.app.Application;
 
-import org.dimensinfin.eveonline.neocom.conf.GlobalConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.database.NeoComSBDBHelper;
-import org.dimensinfin.eveonline.neocom.database.SDESBDBHelper;
+import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
@@ -62,7 +61,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		// Connect the SDE database.
 		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting SDE database...");
 		try {
-			GlobalDataManager.connectSDEDBConnector(new SDESBDBHelper()
+			GlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
 					.setDatabaseSchema(GlobalDataManager.getResourceString("R.database.sdedatabase.databaseschema"))
 					.setDatabasePath(GlobalDataManager.getResourceString("R.database.sdedatabase.databasepath"))
 					.setDatabaseName(GlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))
@@ -76,7 +75,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		// Connect the NeoCom database.
 		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting NeoCom private database...");
 		try {
-			GlobalDataManager.connectNeoComDBConnector(new NeoComSBDBHelper()
+			GlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper()
 					.setDatabaseHost(GlobalDataManager.getResourceString("R.database.neocom.databasehost"
 							, "jdbc:mysql://localhost:3306"))
 					.setDatabaseName("neocom")

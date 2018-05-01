@@ -19,9 +19,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;

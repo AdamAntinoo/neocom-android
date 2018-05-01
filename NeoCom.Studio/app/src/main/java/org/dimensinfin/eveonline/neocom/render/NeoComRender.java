@@ -26,8 +26,8 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManagerStorage;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
@@ -73,7 +73,7 @@ public abstract class NeoComRender extends AbstractRender {
 	}
 
 	public static Typeface daysFace = Typeface
-			.createFromAsset(NeoComAppConnector.getSingleton().getApplicationContext().getAssets(), "fonts/Days.otf");
+			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected ImageView _rightArrow = null;
@@ -307,7 +307,7 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 		// Append the Region -> system
 		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
-								.append(AppWideConstants.FLOW_ARROW_RIGHT);
+		            .append(AppWideConstants.FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
 								.append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
