@@ -13,14 +13,14 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.datamngmt.manager;
+package org.dimensinfin.eveonline.neocom.datamngmt;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +34,21 @@ import java.io.File;
 public class GlobalDataManagerStorage extends GlobalDataManager {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("GlobalDataManagerStorage");
-	private static Application app = null;
+	private static Application application = null;
 
 	// --- A N D R O I D   C O N T E X T   S E C T I O N
-	public static Application getAppContext () {
-		if ( null == app ) throw new RuntimeException("Application not connected");
-		else return app;
+	public static Application getApplication () {
+		if ( null == application ) throw new RuntimeException("Application not connected");
+		else return application;
+	}
+
+	public static Context getAppContext () {
+		if ( null == application ) throw new RuntimeException("Application not connected");
+		else return application.getApplicationContext();
+	}
+
+	public static void setApplicationContext (final Application app) {
+		application = app;
 	}
 
 	// --- S T O R A G E   A C C E S S   S E C T I O N

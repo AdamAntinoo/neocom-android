@@ -730,7 +730,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 
 	// private void incrementMarketCounter() {
 	// EVEDroidApp.marketCounter++;
-	// Activity activity = EVEDroidApp.getAppContext().getActivity();
+	// Activity activity = EVEDroidApp.getApplication().getActivity();
 	// if (null != activity) {
 	// activity.runOnUiThread(new Runnable() {
 	// public void run() {

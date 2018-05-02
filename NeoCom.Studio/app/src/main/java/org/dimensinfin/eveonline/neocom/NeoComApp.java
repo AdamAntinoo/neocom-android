@@ -17,11 +17,12 @@ package org.dimensinfin.eveonline.neocom;
 
 import android.app.Application;
 
+import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +34,26 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComApp");
 
+	// - F I E L D - S E C T I O N ............................................................................
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	//	public NeoComApp () {
+	//		NeoComApp.logger.info(">> [NeoComApp.<contructor>]");
+	//		// Setup the referencing structures that will serve as proxy and global references.
+	//		if ( null == NeoComApp.singleton ) {
+	//			// Just connect the singleton and the Connector chain to get access to all the methods.
+	//			NeoComApp.singleton = this;
+	//			_appConnector = new NeoComAppConnector(this);
+	//			_modelAppConnector = new ModelAppConnector(this);
+	//		}
+	//		NeoComApp.logger.info("<< [NeoComApp.<consructor>]");
+	//	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+
 	/**
 	 * This Application lifecycle event is only called when the application is started or completely removed from memory.
-	 * The important and key point of this code is to initialize the Connector chain because if the app is not propagated
+	 * The important and key point of this code is to initialize the Global chain because if the app is not propagated
 	 * to the Connectors the core calls may fail.
 	 */
 	@Override
@@ -43,49 +61,55 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		NeoComApp.logger.info(">> [NeoComApp.onCreate]");
 		super.onCreate();
 
+		// Connect the application to the global context to be able to use all the resources.
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
+		GlobalAndroidDataManager.setApplicationContext(this);
 
-		logger.info(">> [NeoComMicroServiceApplication.main]");
 		// Connect the Configuration manager.
-		// Not required. The default configuration manager already reads the properties folder.
-		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting the Configuration Manager...");
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
 		GlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("resources/properties",
 				this));
 
 		// Initialize the Model with the current global instance.
-		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting Global to Model...");
+		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
 		ANeoComEntity.connectGlobal(new GlobalAndroidDataManager());
 
 		// Initializing the ESI api network controller.
-		ESINetworkManager.initialize();
+		//		ESINetworkManager.initialize();
 
 		// Connect the SDE database.
-		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting SDE database...");
+		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
 		try {
 			GlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
 					.setDatabaseSchema(GlobalDataManager.getResourceString("R.database.sdedatabase.databaseschema"))
-					.setDatabasePath(GlobalDataManager.getResourceString("R.database.sdedatabase.databasepath"))
+					//					.setDatabasePath(GlobalDataManager.getResourceString("R.database.sdedatabase.databasepath"))
 					.setDatabaseName(GlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))
 					.build()
 			);
 		} catch (SQLException sqle) {
+			GlobalAndroidDataManager.registerException(sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 			sqle.printStackTrace();
 		}
 		ANeoComEntity.connectSDEHelper(new GlobalDataManager().getSDEDBHelper());
 
 		// Connect the NeoCom database.
-		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting NeoCom private database...");
+		logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
 		try {
-			GlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper()
-					.setDatabaseHost(GlobalDataManager.getResourceString("R.database.neocom.databasehost"
-							, "jdbc:mysql://localhost:3306"))
-					.setDatabaseName("neocom")
-					.setDatabaseUser(GlobalDataManager.getResourceString("R.database.neocom.databaseuser"
-							, "NEOCOM"))
-					.setDatabasePassword(GlobalDataManager.getResourceString("R.database.neocom.databasepassword"))
+			GlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.NeoComAndroidDBHelperBuilder()
+					.setDatabaseLocation(GlobalAndroidDataManager
+							.accessAppStorage(GlobalAndroidDataManager
+									.getResourceString("R.database.neocom.databasename"))
+							.getAbsolutePath())
+					//					.setDatabaseHost(GlobalDataManager.getResourceString("R.database.neocom.databasehost"))
+					//					.setDatabaseName("neocom")
+					//					.setDatabaseUser(GlobalDataManager.getResourceString("R.database.neocom.databaseuser"
+					//							, "NEOCOM"))
+					//					.setDatabasePassword(GlobalDataManager.getResourceString("R.database.neocom.databasepassword"))
 					.setDatabaseVersion(GlobalDataManager.getResourceInt("R.database.neocom.databaseversion"))
 					.build()
 			);
 		} catch (SQLException sqle) {
+			GlobalAndroidDataManager.registerException(sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 			sqle.printStackTrace();
 		}
 
@@ -104,7 +128,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 
 		//		logger.info("-- [NeoComMicroServiceApplication.main]> Starting application instance...");
 		//		SpringApplication.run(NeoComMicroServiceApplication.class, args);
-		logger.info("<< [NeoComMicroServiceApplication.main]");
+		//		logger.info("<< [NeoComApp.onCreate]");
 
 
 		//		// Initialize global objects that are going to be used on main code.
@@ -502,7 +526,6 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	//		}
 	//	}
 
-	// - F I E L D - S E C T I O N ............................................................................
 	//	/**
 	//	 * Connectors are stores just for reference. Theis instances are not required after creation because the link if from
 	//	 * the code to their internal connector that it is initialized while it's construction.

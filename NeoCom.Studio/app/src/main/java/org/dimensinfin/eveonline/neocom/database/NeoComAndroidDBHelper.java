@@ -21,7 +21,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -30,7 +29,6 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
@@ -40,8 +38,8 @@ import org.dimensinfin.eveonline.neocom.database.entity.Job;
 import org.dimensinfin.eveonline.neocom.database.entity.MarketOrder;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.Property;
@@ -51,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * NeoCom private database connector that will have the same api as the connector to be used on Android. This
@@ -69,15 +66,11 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:mysql://localhost:3306/neocom?user=NEOCOMTEST&password=01.Alpha";
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String hostName = "";
-	private String databaseName = "";
-	private String databaseUser = "";
-	private String databasePassword = "";
-	private String databaseOptions = "&verifyServerCertificate=false&useSSL=true";
-	private int databaseVersion = 0;
 	private boolean databaseValid = false;
 	private boolean isOpen = false;
-	private JdbcPooledConnectionSource connectionSource = null;
+	private String storageLocation = "";
+	private int databaseVersion = 0;
+	//	private JdbcPooledConnectionSource connectionSource = null;
 
 	private Dao<DatabaseVersion, String> versionDao = null;
 	private Dao<TimeStamp, String> timeStampDao = null;
@@ -99,79 +92,17 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	//	public NeoComAndroidDBHelper () {
 	////		super();
 	//	}
-	public NeoComAndroidDBHelper (final Context context) {
-		super(context, GlobalAndroidDataManager.accessAppStorage(
-				GlobalAndroidDataManager.getResourceString("R.string.appdatabasefilename")).getAbsolutePath()
-				, null
-				, new Integer(GlobalAndroidDataManager.getResourceString("R.string.databaseversion")).intValue(),
-				R.raw.ormlite_config);
+	public NeoComAndroidDBHelper (final Context context, final String databaseName, final int databaseVersion) {
+		super(context, databaseName, null, databaseVersion, R.raw.ormlite_config);
 		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
-				+ GlobalAndroidDataManager
-				.accessAppStorage(GlobalAndroidDataManager.getResourceString("R.string.appdatabasefilename"))
-				.getAbsolutePath());
+				, databaseName);
 		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
-				+ GlobalAndroidDataManager.getResourceString("R.string.databaseversion"));
+				, databaseVersion);
+		this.storageLocation = databaseName;
+		this.databaseVersion = databaseVersion;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- B U I L D   S E C T I O N
-	public NeoComAndroidDBHelper setDatabaseHost (final String hostName) {
-		this.hostName = hostName;
-		return this;
-	}
-
-	public NeoComAndroidDBHelper setDatabaseName (final String instanceName) {
-		this.databaseName = instanceName;
-		return this;
-	}
-
-	public NeoComAndroidDBHelper setDatabaseUser (final String user) {
-		this.databaseUser = user;
-		return this;
-	}
-
-	public NeoComAndroidDBHelper setDatabasePassword (final String password) {
-		this.databasePassword = password;
-		return this;
-	}
-
-	public NeoComAndroidDBHelper setDatabaseVersion (final int newVersion) {
-		this.databaseVersion = newVersion;
-		return this;
-	}
-
-	public NeoComAndroidDBHelper build () throws SQLException {
-//		if ( StringUtils.isEmpty(hostName) )
-//			throw new SQLException("Cannot create connection: 'hostName' is empty.");
-//		if ( StringUtils.isEmpty(databaseName) )
-//			throw new SQLException("Cannot create connection: 'databaseName' is empty.");
-//		if ( StringUtils.isEmpty(databaseUser) )
-//			throw new SQLException("Cannot create connection: 'databaseUser' is empty.");
-//		if ( StringUtils.isEmpty(databasePassword) )
-//			throw new SQLException("Cannot create connection: 'databasePassword' is empty.");
-//		databaseOptions = GlobalDataManager.getResourceString("R.database.neocom.databaseoptions");
-		databaseValid = true;
-//		if ( openNeoComDB() ) {
-//			// Delay database initialization after the helper is assigned to the Global.
-//			GlobalDataManager.submitJob2Generic(() -> {
-//				// Wait for some time units.
-//				GlobalDataManager.suspendThread(TimeUnit.SECONDS.toMillis(2));
-//				int currentVersion = readDatabaseVersion();
-//				// During the current POC version force the creation of the tables and forget the version control.
-//				// Read the version information from the database. If version mismatch upgrade the database.
-//				if ( 0 == currentVersion ) {
-//					onUpgrade(connectionSource, currentVersion, databaseVersion);
-//				} else {
-//					// Check if the version is equal to the current software version.
-//					if ( currentVersion != databaseVersion ) onUpgrade(connectionSource, currentVersion, databaseVersion);
-//				}
-//				// Pass the creation tables routine even in case all tables are up to date.
-//				onCreate(connectionSource);
-//			});
-//		}
-		return this;
-	}
-
 	// --- I N E O C O M D B H E L P E R   I N T E R F A C E
 	public boolean isDatabaseValid () {
 		return databaseValid;
@@ -205,12 +136,14 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		} else return storedVersion.getVersionNumber();
 	}
 
-//	public ConnectionSource getConnectionSource () throws SQLException {
-//		if ( null == connectionSource ) createConnectionSource();
-//		return connectionSource;
-//	}
+	//	public ConnectionSource getConnectionSource () throws SQLException {
+	//		if ( null == connectionSource ) createConnectionSource();
+	//		return connectionSource;
+	//	}
 
-	public void onCreate (final ConnectionSource databaseConnection) {}
+	public void onCreate (final ConnectionSource databaseConnection) {
+	}
+
 	@Override
 	public void onCreate (final SQLiteDatabase database, final ConnectionSource databaseConnection) {
 		logger.info(">> [NeoComAndroidDBHelper.onCreate]");
@@ -286,7 +219,9 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		logger.info("<< [NeoComAndroidDBHelper.onCreate]");
 	}
 
-		public void onUpgrade (final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {}
+	public void onUpgrade (final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
+	}
+
 	@Override
 	public void onUpgrade (final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
 		logger.info(">> [NeoComAndroidDBHelper.onUpgrade]");
@@ -643,49 +578,49 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		//		}
 	}
 
-	/**
-	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
-	 * services. Being a pooled connection it can create as many connections as required to do requests in
-	 * parallel to the database instance. This only is effective for MySql databases.
-	 *
-	 * @return
-	 */
-	private boolean openNeoComDB () {
-		logger.info(">> [NeoComAndroidDBHelper.openNeoComDB]");
-		if ( !isOpen ) if ( null == connectionSource ) {
-			// Open and configure the connection datasource for DAO queries.
-			try {
-				final String localConnectionDescriptor = hostName + "/" + databaseName;
-				createConnectionSource();
-				logger.info("-- [NeoComAndroidDBHelper.openNeoComDB]> Opened database " + localConnectionDescriptor + " successfully with version "
-						+ databaseVersion + ".");
-				isOpen = true;
-			} catch (Exception sqle) {
-				logger.error("E> [NeoComAndroidDBHelper.openNeoComDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
-			}
-		}
-		logger.info("<< [NeoComAndroidDBHelper.openNeoComDB]");
-		return isOpen;
-	}
+	//	/**
+	//	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
+	//	 * services. Being a pooled connection it can create as many connections as required to do requests in
+	//	 * parallel to the database instance. This only is effective for MySql databases.
+	//	 *
+	//	 * @return
+	//	 */
+	//	private boolean openNeoComDB () {
+	//		logger.info(">> [NeoComAndroidDBHelper.openNeoComDB]");
+	//		if ( !isOpen ) if ( null == connectionSource ) {
+	//			// Open and configure the connection datasource for DAO queries.
+	//			try {
+	//				final String localConnectionDescriptor = hostName + "/" + databaseName;
+	//				createConnectionSource();
+	//				logger.info("-- [NeoComAndroidDBHelper.openNeoComDB]> Opened database " + localConnectionDescriptor + " successfully with version "
+	//						+ databaseVersion + ".");
+	//				isOpen = true;
+	//			} catch (Exception sqle) {
+	//				logger.error("E> [NeoComAndroidDBHelper.openNeoComDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
+	//			}
+	//		}
+	//		logger.info("<< [NeoComAndroidDBHelper.openNeoComDB]");
+	//		return isOpen;
+	//	}
 
-	/**
-	 * Creates and configures the connection datasource to the database.
-	 *
-	 * @throws SQLException
-	 */
-	private void createConnectionSource () throws SQLException {
-		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser
-				+ "&password=" + databasePassword + databaseOptions;
-		if ( databaseValid ) connectionSource = new JdbcPooledConnectionSource(localConnectionDescriptor);
-		else connectionSource = new JdbcPooledConnectionSource(DEFAULT_CONNECTION_DESCRIPTOR);
-		// only keep the connections open for 5 minutes
-		connectionSource.setMaxConnectionAgeMillis(TimeUnit.MINUTES.toMillis(5));
-		// change the check-every milliseconds from 30 seconds to 60
-		connectionSource.setCheckConnectionsEveryMillis(TimeUnit.SECONDS.toMillis(60));
-		// for extra protection, enable the testing of connections
-		// right before they are handed to the user
-		connectionSource.setTestBeforeGet(true);
-	}
+	//	/**
+	//	 * Creates and configures the connection datasource to the database.
+	//	 *
+	//	 * @throws SQLException
+	//	 */
+	//	private void createConnectionSource () throws SQLException {
+	//		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser
+	//				+ "&password=" + databasePassword + databaseOptions;
+	//		if ( databaseValid ) connectionSource = new JdbcPooledConnectionSource(localConnectionDescriptor);
+	//		else connectionSource = new JdbcPooledConnectionSource(DEFAULT_CONNECTION_DESCRIPTOR);
+	//		// only keep the connections open for 5 minutes
+	//		connectionSource.setMaxConnectionAgeMillis(TimeUnit.MINUTES.toMillis(5));
+	//		// change the check-every milliseconds from 30 seconds to 60
+	//		connectionSource.setCheckConnectionsEveryMillis(TimeUnit.SECONDS.toMillis(60));
+	//		// for extra protection, enable the testing of connections
+	//		// right before they are handed to the user
+	//		connectionSource.setTestBeforeGet(true);
+	//	}
 
 	private int readDatabaseVersion () {
 		// Access the version object persistent on the database.
@@ -708,21 +643,45 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("NeoComAndroidDBHelper [");
-		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser + "&password=" + databasePassword;
-		buffer.append("Descriptor: ").append(localConnectionDescriptor);
+		//		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser + "&password=" + databasePassword;
+		buffer.append("Descriptor: ").append(storageLocation);
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
+
+	public static class NeoComAndroidDBHelperBuilder {
+		// - F I E L D - S E C T I O N ............................................................................
+		private String storageLocation = "";
+		private String databaseName = "";
+		private int databaseVersion = 0;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public NeoComAndroidDBHelperBuilder () {
+		}
+
+		// --- B U I L D   S E C T I O N
+		public NeoComAndroidDBHelperBuilder setDatabaseLocation (final String location) {
+			this.storageLocation = location;
+			return this;
+		}
+
+		public NeoComAndroidDBHelperBuilder setDatabaseName (final String instanceName) {
+			this.databaseName = instanceName;
+			return this;
+		}
+
+		public NeoComAndroidDBHelperBuilder setDatabaseVersion (final int newVersion) {
+			this.databaseVersion = newVersion;
+			return this;
+		}
+
+		public NeoComAndroidDBHelper build () throws SQLException {
+			return new NeoComAndroidDBHelper(GlobalAndroidDataManager.getAppContext()
+					, storageLocation, databaseVersion);
+		}
+
+	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]
-//				ApiKey key = new ApiKey("Beth Ripley").setKeynumber(2889577)
-//				                                      .setValidationcode("Mb6iDKR14m9Xjh9maGTQCGTkpjRHPjOgVUkvK6E9r6fhMtOWtipaqybp0qCzxuuw")
-//				                                      .setActive(true);
-//				key = new ApiKey("Perico").setKeynumber(3106761)
-//				                          .setValidationcode("gltCmvVoZl5akrM8d6DbNKZn7Jm2SaukrmqjnSOyqKbvzz5CtNfknTEwdBe6IIFf").setActive(false);
-//				ApiKey		key = new ApiKey("CapitanHaddock09").setKeynumber(924767)
-//				                                    .setValidationcode("2qBKUY6I9ozYhKxYUBPnSIix0fHFCqveD1UEAv0GbYqLenLLTIfkkIWeOBejKX5P").setActive(true);
-//				key = new ApiKey("CapitanHaddock29").setKeynumber(6472981)
-//				                                    .setValidationcode("pj1NJKKb0pNO8LTp0qN2yJSxZoZUO0UYYq8qLtOeFXNsNBRpiz7orcqVAu7UGF7z").setActive(true);

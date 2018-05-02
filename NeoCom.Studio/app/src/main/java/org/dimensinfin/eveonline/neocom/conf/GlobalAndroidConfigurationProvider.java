@@ -13,7 +13,7 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom;
+package org.dimensinfin.eveonline.neocom.conf;
 
 import android.app.Application;
 
@@ -72,28 +72,6 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 		logger.info("<< [GlobalAndroidConfigurationProvider.readAllProperties]> Total properties number: {}", contentCount());
 	}
 
-//	private boolean getResourceFilesno (final String path) {
-//		String[] list;
-//		try {
-//			list = app.getAssets().list(path);
-//			if ( list.length > 0 ) {
-//				// This is a folder
-//				for (String file : list) {
-//					if ( !listAssetFiles(path + "/" + file) )
-//						return false;
-//					else {
-//						// This is a file
-//						// TODO: add file name to an array list
-//					}
-//				}
-//			}
-//		} catch (IOException e) {
-//			return false;
-//		}
-//
-//		return true;
-//	}
-
 	/**
 	 * This function generates a list for all the property files inside the selected directory and all inside
 	 * directories. We only process <b>.properties</b> files.
@@ -123,23 +101,6 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 		}
 		return propertyFiles;
 	}
-	//	protected List<String> getResourceFilesbin( String path ) throws IOException {
-	//
-	//
-	//
-	//
-	//		List<String> filenames = new ArrayList<>();
-	//		try (
-	//				InputStream in = getResourceAsStream(path);
-	//				BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-	//			String resource;
-	//
-	//			while ((resource = br.readLine()) != null) {
-	//				filenames.add(resource);
-	//			}
-	//		}
-	//		return filenames;
-	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]
