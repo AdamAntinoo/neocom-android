@@ -31,13 +31,21 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidDataManager extends GlobalDataManagerStorage {
+public class GlobalAndroidDataManager extends GlobalAndroidDataManagerCache {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("GlobalAndroidDataManager");
 
 	// --- G L O B A L   A N D R O I D   D A T A   A C C E S S
 	public static String getResourceString (final int resourceid) {
 		return getApplication().getResources().getString(resourceid);
+	}
+	public static String getURLForItem(final int typeID) {
+		final String iconUrl = "http://image.eveonline.com/Type/" + typeID + "_64.png";
+		return iconUrl;
+	}
+	public static String getURLForStation(final int typeID) {
+		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
+		return iconUrl;
 	}
 }
 // - UNUSED CODE ............................................................................................

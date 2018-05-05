@@ -137,15 +137,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
     implementation 'org.modelmapper:modelmapper:1.1.0'
-   // N E O C O M
+    implementation 'com.annimon:stream:1.1.9'
+    // N E O C O M
     implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
     implementation 'com.github.scribejava:scribejava-core:4.2.0'
-//    implementation 'org.apache.commons:commons-lang3:3.7'
-    //    implementation 'com.jakewharton:butterknife:7.0.1'
-    //    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'

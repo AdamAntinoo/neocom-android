@@ -30,18 +30,17 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.util.Chrono;
-import org.dimensinfin.core.util.Chrono.ChonoOptions;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
-import java.text.DecimalFormat;
+import java.beans.PropertyChangeListener;
 import java.util.Comparator;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickListener*/ {
+public class AssetPart extends NeoComAbstractPart/* implements INamedPart/*, OnClickListener*/ {
 	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
 		public int compare (final IPart left, final IPart right) {
 			String leftField = null;
@@ -62,7 +61,7 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8910031270706432316L;
-	private static Logger logger = Logger.getLogger("AssetPart");
+//	private static Logger logger = LoggerFactory.getLogger("AssetPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	@SuppressWarnings("rawtypes")
@@ -76,15 +75,57 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- I A N D R O I D P A R T   I N T E R F A C E
+	public void addPropertyChangeListener (final PropertyChangeListener newListener){}
+	/**
+	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
+	 * parts to allow for easy management of the corresponding parts and views. The asset part return the unique asset
+	 * identifier that is unique for each asset on the game, as most of the game data instances.
+	 *
+	 * @return <code>long</code> identifier with the model number.
+	 */
+	public long getModelId (){
+		return this.getCastedModel().getAssetId();
+	}
+	@Override
+	public AbstractRender selectRenderer () {
+		return new AssetRender(this, _activity);
+	}
+
+	// --- N E O C O M   P A R T   R E Q U I R E M E N T S
+	public NeoComAsset getCastedModel () {
+		return (NeoComAsset) this.getModel();
+	}
+
+	// --- M O D E L   D A T A   T R A N S F O R M A T I O N
+	public long getAssetID () {
+		return this.getCastedModel().getAssetId();
+	}
 	public String getTAssetName () {
 		return this.getCastedModel().getName();
 	}
-
 	public String getTAssetCategory () {
 		final String assetIdentifier = this.getCastedModel().getAssetId() + "-" + this.getCastedModel().getCategory();
 		return assetIdentifier;
 	}
+	/**
+	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
+	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
+	 * the background manager.
+	 */
+	public String getTItemPrice () {
+		return this.generatePriceString(this.getBuyerPrice(), false, true);
+	}
 
+
+
+
+
+
+
+
+
+@Deprecated
 	public Spanned getTAssetInformation () {
 		StringBuffer assetInfo = new StringBuffer();
 		assetInfo.append("<font color='#FFFFFF'>").append("id: ").append("</font>");
@@ -97,21 +138,15 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 		return Html.fromHtml(assetInfo.toString());
 	}
 
-	/**
-	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
-	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
-	 * the background manager.
-	 */
-	public String getTItemPrice () {
-		return this.generatePriceString(this.getBuyerPrice(), false, true);
-	}
 
+	@Deprecated
 	public String getTStackValue () {
 		long quantity = this.getCastedModel().getQuantity();
 		//		double price = searchMarketData(getCastedModel().getTypeID()).getBestMarket().getPrice();
 		return this.generatePriceString(this.getBuyerPrice() * quantity, true, true);
 	}
 
+	@Deprecated
 	public String getTCount () {
 		long quantity = this.getCastedModel().getQuantity();
 		DecimalFormat formatter = new DecimalFormat("###,###");
@@ -120,6 +155,7 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	}
 
 
+	@Deprecated
 	public Spanned get_assetLocation () {
 		return this.colorFormatLocation(this.getCastedModel().getLocation());
 	}
@@ -130,22 +166,17 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	//	}
 
 
-	public long getAssetID () {
-		return this.getCastedModel().getAssetId();
-	}
 
-	public NeoComAsset getCastedModel () {
-		return (NeoComAsset) this.getModel();
-	}
 
-	@Override
-	public long getModelID () {
-		return this.getCastedModel().getDAOID();
-	}
+//	@Override
+//	public long getModelID () {
+//		return this.getCastedModel().getDAOID();
+//	}
 
-	public String getName () {
-		return this.getCastedModel().getName();
-	}
+//	@Deprecated
+//	public String getName () {
+//		return this.getCastedModel().getName();
+//	}
 
 	public void onClick (final View target) {
 		Log.i("EVEI", ">> AssetPart.onClick");
@@ -184,22 +215,11 @@ public class AssetPart extends MarketDataPart implements INamedPart/*, OnClickLi
 	//		}
 	//	}
 
-	@Override
-	protected void initialize () {
-		item = this.getCastedModel().getItem();
-	}
+//	@Deprecated
+//	protected void initialize () {
+//		item = this.getCastedModel().getItem();
+//	}
 
-	@Override
-	protected AbstractRender selectRenderer () {
-		//		// Get the proper holder from the render mode.
-		//		if ( this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ASSETSBYLOCATION )
-		//			return new AssetRender(this, _activity);
-		//		if ( this.getRenderMode() == AppWideConstants.rendermodes.RENDER_LOCATIONMODE )
-		//			return new AssetLineRender(this, _activity);
-		//		if ( this.getRenderMode() == AppWideConstants.fragment.FRAGMENT_ITEMMODULESTACKS )
-		//			return new Asset4CategoryHolder(this, _activity);
-		return new AssetRender(this, _activity);
-	}
 
 	//	private MarketDataSet searchMarketData(final int itemid) {
 	//		if (null == mdata)

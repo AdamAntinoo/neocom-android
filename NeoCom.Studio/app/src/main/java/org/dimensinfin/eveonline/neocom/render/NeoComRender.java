@@ -9,10 +9,7 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.render;
 
-// - IMPORT SECTION .........................................................................................
-
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
@@ -27,7 +24,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalDataManagerStorage;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
@@ -36,6 +33,8 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComRender extends AbstractRender {
@@ -72,8 +71,8 @@ public abstract class NeoComRender extends AbstractRender {
 		NeoComRender.securityLevels.put(0, "#F00000");
 	}
 
-	public static Typeface daysFace = Typeface
-			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
+//	public static Typeface daysFace = Typeface
+//			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected ImageView _rightArrow = null;
@@ -122,9 +121,9 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-	public Typeface getThemeTextFont () {
-		return NeoComRender.daysFace;
-	}
+//	public Typeface getThemeTextFont () {
+//		return NeoComRender.daysFace;
+//	}
 
 	protected Spanned colorFormat (final String data, final String color, final String suffix) {
 		final StringBuffer htmlFragment = new StringBuffer();
@@ -287,12 +286,18 @@ public abstract class NeoComRender extends AbstractRender {
 		// Check if the layout has the icon placeholder.
 		if ( null != targetIcon ) {
 			// If the flag signals an station change the code.
-			String link = NeoComAppConnector.getSingleton().getCacheConnector().getURLForItem(typeID);
+			String link = GlobalAndroidDataManager.getURLForItem(typeID);
 			if ( station ) {
-				link = NeoComAppConnector.getSingleton().getCacheConnector().getURLForStation(typeID);
+				link = GlobalAndroidDataManager.getURLForStation(typeID);
 			}
-			final Drawable draw = NeoComAppConnector.getSingleton().getCacheConnector().getCacheDrawable(link, targetIcon);
-			targetIcon.setImageDrawable(draw);
+			try {
+			final Future<Drawable> draw = GlobalAndroidDataManager.getCacheDrawable(link, targetIcon, getContext());
+				targetIcon.setImageDrawable(draw.get());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

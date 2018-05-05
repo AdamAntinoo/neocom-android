@@ -31,7 +31,7 @@ import java.io.File;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalDataManagerStorage extends GlobalDataManager {
+public class GlobalAndroidDataManagerStorage extends GlobalDataManager {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("GlobalDataManagerStorage");
 	private static Application application = null;
