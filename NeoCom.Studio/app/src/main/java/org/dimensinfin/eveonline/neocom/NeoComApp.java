@@ -87,7 +87,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 					.build()
 			);
 		} catch (SQLException sqle) {
-			GlobalAndroidDataManager.registerException(sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
+			GlobalAndroidDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 			sqle.printStackTrace();
 		}
 		ANeoComEntity.connectSDEHelper(new GlobalDataManager().getSDEDBHelper());
@@ -109,7 +109,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 					.build()
 			);
 		} catch (SQLException sqle) {
-			GlobalAndroidDataManager.registerException(sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
+			GlobalAndroidDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 			sqle.printStackTrace();
 		}
 
