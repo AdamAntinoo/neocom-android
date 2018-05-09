@@ -3,12 +3,12 @@
 
     <string name="appfoldername">NeoCom</string>
     <!--<string name="appversionsuffix">09</string>-->
-    <string name="cachefoldername">neocomcache</string>
+    <!--<string name="cachefoldername">neocomcache</string>-->
     <string name="drawablecachefoldername">drawablecache</string>
-    <string name="marketdatacachefoldername">marketdata</string>
-    <string name="userdatamodelfilename">datamodel.store</string>
+    <!--<string name="marketdatacachefoldername">marketdata</string>-->
+    <!--<string name="userdatamodelfilename">datamodel.store</string>-->
     <!--<string name="apikeysfilename">api_keys.txt</string>-->
-    <string name="fittingsfilename">FitRequirements.txt</string>
-    <string name="industrystorefilename">industrial.store</string>
+    <!--<string name="fittingsfilename">FitRequirements.txt</string>-->
+    <!--<string name="industrystorefilename">industrial.store</string>-->
 
 </resources>

@@ -28,8 +28,9 @@ android {
             resValue "string", "appversionname", "NeoCom" + " v" + android.defaultConfig.versionName
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
 
-            resValue "string", "appdatabasefilename", "neocom-100.db"
-            resValue "string", "databaseversion", "\"" + android.defaultConfig.versionCode + "\""
+            resValue "string", "appdatabasefilename", "neocom" + android.defaultConfig
+                    .versionCode + ".db"
+            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
         }
 //        incubation {
 //            initWith(buildTypes.debug)
@@ -72,8 +73,8 @@ android {
 //    }
     sourceSets {
 //        main.java.srcDirs += 'src/main/java-planetary'
-        main.java.srcDirs += 'src/main/java-newrelease'
-        main.java.srcDirs += 'src/main/java-eveesiandroid'
+//        main.java.srcDirs += 'src/main/java-newrelease'
+//        main.java.srcDirs += 'src/main/java-eveesiandroid'
         main.res.srcDirs += 'src/main/res-planetary'
         main.res.srcDirs += 'src/main/res-definitions'
         main.res.srcDirs += 'src/main/res-final'
@@ -109,6 +110,27 @@ android {
     }
 }
 
+//--- T A S K S
+task cleanUpResources(type: Delete) {
+    delete 'src/main/resources'
+}
+task copyResources(type: Copy) {
+    copy {
+        // NeoCom.Model Properties
+        from project(':NeoCom.Model').file('src/main/resources')
+        into file('src/main/assets/resources')
+//        include 'properties/**'
+//        include 'ESINetworkScopes.Singularity.txt'
+    }
+    copy {
+        from project(':NeoCom.DataManagement').file('src/main/resources')
+        into file('src/main/assets/resources')
+//        include 'properties/**'
+//        include 'sdecontents/**'
+//        include 'yaml/**'
+    }
+}
+
 dependencies {
     // A N D R O I D    S U P P O R T
     implementation 'com.android.support:appcompat-v7:27.0.2'
@@ -123,13 +145,13 @@ dependencies {
 //    implementation project(path: ':ApplicationCloudAndroidAdapter')
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/CoreBase.core-2.0.2.jar')
+    implementation files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E
     implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
-     // A N D R O I D M V C L I B R A R Y
+    // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
     // N E O C O M . M O D E L
     implementation 'com.beimin:eveapi:6.0.6'

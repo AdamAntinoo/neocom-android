@@ -13,7 +13,7 @@ package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,11 @@ public class AppVersion extends NeoComNode implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String appName = NeoComAppConnector.getSingleton().getResourceString(R.string.appname);
-	private String appVersion = NeoComAppConnector.getSingleton().getResourceString(R.string.appversion);
-	private int appVersionNumber = Integer.valueOf(NeoComAppConnector.getSingleton().getResourceString(R.string.appversionnumber)).intValue();
+	private String appName = GlobalAndroidDataManager.getAppContext().getResources().getString(R.string.appname);
+	private String appVersion = GlobalAndroidDataManager.getAppContext().getResources().getString(R.string.appversion);
+	private int appVersionNumber = Integer.valueOf(
+			GlobalAndroidDataManager.getAppContext().getResources().getString(R.string.appversionnumber))
+	                                      .intValue();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AppVersion () {

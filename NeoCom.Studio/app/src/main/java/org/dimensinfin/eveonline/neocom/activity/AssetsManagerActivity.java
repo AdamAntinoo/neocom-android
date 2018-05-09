@@ -25,6 +25,8 @@ import android.widget.SearchView;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 
@@ -60,7 +62,9 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 			// TODO - Check that the correct extras arrive to the Fragment.
 			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()));
 		} catch (RuntimeException rtex) {
-			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
+//			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
+			GlobalAndroidDataManager.registerRuntimeException("AssetsManagerActivity.onCreate"
+					, rtex, GlobalDataManagerExceptions.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 			//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
 		}

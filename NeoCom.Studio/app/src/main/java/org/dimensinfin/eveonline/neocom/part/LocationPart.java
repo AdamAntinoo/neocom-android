@@ -1,42 +1,37 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Android Application related to the Eve Online game. The purpose is to download and organize
-//                  the game data to help capsuleers organize and prioritize activities. The strong points are
-//                  help at the Industry level tracking and calculating costs and benefits. Also the market
-//                  information update service will help to identify best prices and locations.
-//                  Planetary Interaction and Ship fittings are point under development.
-//                  ESI authorization is a new addition that will give continuity and allow download game data
-//                  from the new CCP data services.
-//                  This is the Android application version but shares libraries and code with other application
-//                  designed for Spring Boot Angular 4 platform.
-//                  The model management is shown using a generic Model View Controller that allows make the
-//                  rendering of the model data similar on all the platforms used.
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.text.Html;
 import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.connector.NeoComAppConnector;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory;
-import org.dimensinfin.eveonline.neocom.core.PartComparatorFactory.ComparatorType;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
-
-import java.util.Collections;
-import java.util.Vector;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public abstract class LocationPart extends NeoComExpandablePart implements INamedPart {
+public abstract class LocationPart extends NeoComExpandablePart /*implements INamedPart*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 6823835480477273409L;
-	protected static Logger logger = Logger.getLogger("LocationPart");
+	protected static Logger logger = LoggerFactory.getLogger("LocationPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	//	@SuppressWarnings("rawtypes")
@@ -55,7 +50,7 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	}
 
 	@Override
-	public long getModelID () {
+	public long getModelId () {
 		return ((EveLocation) this.getModel()).getID();
 	}
 
@@ -102,18 +97,19 @@ public abstract class LocationPart extends NeoComExpandablePart implements IName
 	}
 
 	public int searchStationType () {
-		return NeoComAppConnector.getSingleton().getCCPDBConnector()
-		                         .searchStationType(this.getCastedModel().getStationID());
+		return new GlobalAndroidDataManager().getSDEDBHelper()
+		                         .searchStationType(this.getCastedModel().getStationId());
 	}
 
 	/**
 	 * The policies for locations are two sorts. The first one by name the second by item type.
 	 */
-	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
-		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
-		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_ITEM_TYPE));
-		return targets;
-	}
+	// TODO - Removed temporarily
+//	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+//		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
+//		Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_ITEM_TYPE));
+//		return targets;
+//	}
 
 
 	//	public ArrayList accessLocationFunction () {

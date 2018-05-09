@@ -73,8 +73,6 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 	public ISDEDBHelper build() throws SQLException {
 		if (StringUtils.isEmpty(schema))
 			throw new SQLException("Cannot create connection: 'schema' is empty.");
-		if (StringUtils.isEmpty(databasePath))
-			throw new SQLException("Cannot create connection: 'databasePath' is empty.");
 		if (StringUtils.isEmpty(databaseName))
 			throw new SQLException("Cannot create connection: 'databaseName' is empty.");
 		databaseValid = true;
