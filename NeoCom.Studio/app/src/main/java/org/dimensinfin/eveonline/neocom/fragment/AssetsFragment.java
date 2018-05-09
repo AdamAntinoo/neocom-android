@@ -15,7 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
@@ -27,15 +26,26 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.contentmngmt.StandardContentManager;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +107,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 			// Adapter.
 			AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras());
 			ds.setVariant(this.getVariant());
-//			ds.setContext(getActivity());
+			//			ds.setContext(getActivity());
 			ds.setCacheable(false);
 			return ds;
 		}
@@ -113,7 +123,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 			AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras());
 			ds.setVariant(this.getVariant());
 			ds.setFilter(filter);
-//			ds.setContext(getActivity());
+			//			ds.setContext(getActivity());
 			return ds;
 		}
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
@@ -121,7 +131,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 	}
 
 	private String getPilotName () {
-		return NeoComModelStore.getActiveCredential().getAccountName();
+		// TODO - Rebuild the application model store for cached data
+		return "to be implemented";
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
@@ -129,18 +140,51 @@ public class AssetsFragment extends AbstractPagerFragment {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		//		private final DataSourceLocator locator;
 		private int characterid = -1;
-		//		private Activity context;
+		private Credential credential = null;
 		private String filter = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public AssetsByLocationDataSource (final DataSourceLocator locator, final String variant, final IPartFactory
 				factory, final Bundle extras) {
 			super(locator, variant, factory, extras);
-			//			this.locator = locator;
 			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			filter = extras.getString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name());
+
+			// Get the Credential for the pilot identifier.
+			if ( GlobalAndroidDataManager.getResourceBoolean("R.runtime.mockdata", false) ) {
+				List<Credential> credentialList = null;
+				try {
+					final String inFileName = GlobalDataManager.getResourceString("R.runtime.mockdata.location")
+							+ "accessAllCredentials.data";
+					final InputStream inFile = GlobalAndroidDataManager.openAsset4Input(inFileName);
+					try {
+						final BufferedInputStream buffer = new BufferedInputStream(inFile);
+						final ObjectInputStream input = new ObjectInputStream(buffer);
+						try {
+							credentialList = (List<Credential>) input.readObject();
+							logger.info("-- [AssetsByLocationDataSource.<constructor>]> Restored credential list: {} entries."
+									, credentialList.size());
+						} finally {
+							input.close();
+							buffer.close();
+						}
+					} catch (final ClassNotFoundException ex) {
+						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> ClassNotFoundException."); //$NON-NLS-1$
+					} catch (final FileNotFoundException fnfe) {
+						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> FileNotFoundException."); //$NON-NLS-1$
+					} catch (final IOException ex) {
+						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> IOException."); //$NON-NLS-1$
+					} catch (final RuntimeException rex) {
+						rex.printStackTrace();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				for (Credential cred : credentialList) {
+					if ( cred.getAccountId() == characterid ) credential = cred;
+				}
+			}
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -170,9 +214,41 @@ public class AssetsFragment extends AbstractPagerFragment {
 					final List<NeoComAsset> unprocessedAssets = new ArrayList<>();
 
 					// Get the asset list for the database.
-					final List<NeoComAsset> assetList = org.dimensinfin.eveonline.neocom.datamngmt.manager.GlobalAndroidDataManager.getNeocomDBHelper().getAssetDao().queryForEq(
-							"ownerID"
-							, Integer.valueOf(characterid).toString());
+					List<NeoComAsset> assetList = new ArrayList<>();
+					if ( GlobalAndroidDataManager.getResourceBoolean("R.runtime.mockdata", false) ) {
+						try {
+							final String inFileName = GlobalDataManager.getResourceString("R.runtime.mockdata.location")
+									+ "accessAllAssets4Credential-" + characterid + ".data";
+							final InputStream inFile = GlobalAndroidDataManager.openAsset4Input(inFileName);
+							try {
+								final BufferedInputStream buffer = new BufferedInputStream(inFile);
+								final ObjectInputStream input = new ObjectInputStream(buffer);
+								try {
+									assetList = (List<NeoComAsset>) input.readObject();
+									logger.info("-- [AssetsByLocationDataSource.<constructor>]> Restored asset list: {} entries."
+											, assetList.size());
+								} finally {
+									input.close();
+									buffer.close();
+								}
+							} catch (final ClassNotFoundException ex) {
+								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> ClassNotFoundException."); //$NON-NLS-1$
+							} catch (final FileNotFoundException fnfe) {
+								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> FileNotFoundException."); //$NON-NLS-1$
+							} catch (final IOException ex) {
+								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> IOException."); //$NON-NLS-1$
+							} catch (final RuntimeException rex) {
+								rex.printStackTrace();
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						assetList = new GlobalAndroidDataManager()
+								.getNeocomDBHelper()
+								.getAssetDao()
+								.queryForEq("ownerID", Integer.valueOf(characterid).toString());
+					}
 
 					// Process each asset received classifying them by location. The ones with locations not in the SDE get
 					// processed last because can be stored into containers.
@@ -190,19 +266,19 @@ public class AssetsFragment extends AbstractPagerFragment {
 						}
 						// Check the asset location. If of type UNKNOWN then it should be processed later.
 						final EveLocation loc = asset.getLocation();
-						if ( loc.getTypeID() == ELocationType.UNKNOWN ) {
+						if ( loc.getTypeId() == ELocationType.UNKNOWN ) {
 							unprocessedAssets.add(asset);
 							continue;
 						}
 
 						//--- R E G I O N
 						// Search for the Location's region. Create a new one if not found.
-						final long regid = loc.getRegionID();
+						final long regid = loc.getRegionId();
 						// Search for regions on the list of already detected Regions.
 						Region regionHit = regions.get(regid);
 						if ( null == regionHit ) {
 							// Create a new Region. This changes the UI so notify that to the Adapter.
-							regionHit = new Region(loc.getRegion());
+							regionHit = new Region(loc.getRegionId(), loc.getRegion());
 							if ( filtering ) regionHit.expand();
 							regions.put(regid, regionHit);
 							addModelContents(regionHit);
@@ -237,17 +313,17 @@ public class AssetsFragment extends AbstractPagerFragment {
 					sqle.printStackTrace();
 				}
 				logger.info("<< [AssetsByLocationDataSource.collaborate2Model]");
-//				return _dataModelRoot;
+				//				return _dataModelRoot;
 			}
 		}
 
-//		protected Activity getContext () {
-//			return context;
-//		}
+		//		protected Activity getContext () {
+		//			return context;
+		//		}
 
-//		protected void setContext (final Activity activity) {
-//			this.context = activity;
-//		}
+		//		protected void setContext (final Activity activity) {
+		//			this.context = activity;
+		//		}
 
 		protected void setFilter (final String filter) {
 			this.filter = filter;

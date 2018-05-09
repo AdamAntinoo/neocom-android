@@ -25,7 +25,7 @@ import android.view.MenuItem;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 
 /**
- * This bastract class has the responsibility to register the Activity upon creation so tis action is not forget
+ * This abstract class has the responsibility to register the Activity upon creation so this action is not forget
  * to do at any new Activity. All activities should inherit from this class.
  * Other functionality is the definition and operation of the application menu.
  *

@@ -678,10 +678,10 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 		public NeoComAndroidDBHelper build () throws SQLException {
 			// Compose the global database name.
-			final String dbName = GlobalAndroidDataManager.getResourceString("R.database.neocom.databaseschema")
-					+ storageLocation + databaseName;
+//			final String dbName = GlobalAndroidDataManager.accessAppStorageFile(databaseName).getAbsolutePath();
+//					+ storageLocation + "/"+databaseName;
 			return new NeoComAndroidDBHelper(GlobalAndroidDataManager.getAppContext()
-					, GlobalAndroidDataManager.accessAppStorageFile(dbName).getAbsolutePath()
+					, GlobalAndroidDataManager.accessAppStorageFile(databaseName).getAbsolutePath()
 					, databaseVersion);
 		}
 	}

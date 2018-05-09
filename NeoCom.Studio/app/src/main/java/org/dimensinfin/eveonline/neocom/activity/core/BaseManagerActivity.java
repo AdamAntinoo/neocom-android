@@ -17,26 +17,28 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
+import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public abstract class BaseManagerActivity extends ANeoComPagerActivity {
+public abstract class BaseManagerActivity extends AbstractPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private String loginid = null;
+	//	private String loginid = null;
 	private int characterid = -1;
 	protected Bundle extras = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	public abstract String getName ();
+	//	public abstract String getName ();
 
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
-		AssetsManagerActivity.logger.info(">> [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
+		logger.info(">> [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
@@ -48,11 +50,13 @@ public abstract class BaseManagerActivity extends ANeoComPagerActivity {
 				characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			}
 		} catch (RuntimeException rtex) {
-			AssetsManagerActivity.logger.warning("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage());
+			logger.warning("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage());
+			GlobalAndroidDataManager.registerRuntimeException("BaseManagerActivity.onCreate"
+					, rtex, GlobalDataManagerExceptions.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
-//			this.stopActivity(new RuntimeException("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage()));
+			//			this.stopActivity(new RuntimeException("RTEX [BaseManagerActivity.onCreate]> " + rtex.getMessage()));
 		}
-		AssetsManagerActivity.logger.info("<< [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
+		logger.info("<< [BaseManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	@Override

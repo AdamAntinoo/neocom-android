@@ -22,8 +22,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 
 //- CLASS IMPLEMENTATION ...................................................................................
-public class AssetsManagerActivity extends BaseManagerActivity {
+public class AssetsManagerActivity extends AbstractPagerActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -58,11 +58,12 @@ public class AssetsManagerActivity extends BaseManagerActivity {
 		super.onCreate(savedInstanceState);
 		try {
 			// We have the extras already loaded. Add the pilot id to simulate we have been called.
-			_extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
+			if ( null == _extras ) _extras = new Bundle();
+			_extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92002067);
 			// TODO - Check that the correct extras arrive to the Fragment.
 			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYLOCATION.name()));
 		} catch (RuntimeException rtex) {
-//			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
+			//			AssetsManagerActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
 			GlobalAndroidDataManager.registerRuntimeException("AssetsManagerActivity.onCreate"
 					, rtex, GlobalDataManagerExceptions.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();

@@ -66,6 +66,17 @@ public class FileSystemAndroidImplementation implements IFileSystem {
 		else
 			return new File(Environment.getExternalStorageDirectory(), applicationFolderName);
 	}
+
+	@Override
+	public String accessAssetPath () {
+		try {
+			final String[] assetFileList = GlobalAndroidDataManager.getApplication().getAssets().list(".");
+			return assetFileList[0];
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return "./";
+		}
+	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

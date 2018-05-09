@@ -15,18 +15,13 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.conf;
 
-import android.app.Application;
-
 import com.annimon.stream.Stream;
 
-import org.dimensinfin.eveonline.neocom.conf.GlobalConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -41,12 +36,12 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 	private static Logger logger = LoggerFactory.getLogger("GlobalAndroidConfigurationProvider");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Application app = null;
+	//	private Application app = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public GlobalAndroidConfigurationProvider (final String propertiesFolder, final Application app) {
+	public GlobalAndroidConfigurationProvider (final String propertiesFolder) {
 		super(propertiesFolder);
-		this.app = app;
+		//		this.app = app;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -59,8 +54,9 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 		      .forEach((fileName) -> {
 			      logger.info("-- [GlobalAndroidConfigurationProvider.readAllProperties]> Processing file: {}", fileName);
 			      try {
-					      Properties properties = new Properties();
-					      properties.load(app.getAssets().open(fileName));
+				      Properties properties = new Properties();
+				      final String filePath = getResourceLocation() + "/" + fileName;
+				      properties.load(GlobalAndroidDataManager.getApplication().getAssets().open(filePath));
 				      // Copy properties to globals.
 				      globalConfigurationProperties.putAll(properties);
 			      } catch (IOException ioe) {
@@ -75,6 +71,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 	/**
 	 * This function generates a list for all the property files inside the selected directory and all inside
 	 * directories. We only process <b>.properties</b> files.
+	 *
 	 * @param path the path where to look for files. This path is based on <b>assets/</b>
 	 * @return list of pathnames for property files.
 	 */
@@ -82,7 +79,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 		final List<String> propertyFiles = new ArrayList<>();
 
 		try {
-			final String[] list = app.getAssets().list(path);
+			final String[] list = GlobalAndroidDataManager.getApplication().getAssets().list(path);
 			if ( list.length > 0 ) {
 				for (String file : list) {
 					if ( file.indexOf(".") < 0 ) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
@@ -91,7 +88,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 						// Copy the file list to the results.
 						propertyFiles.addAll(dirList);
 					} else {
-						if(file.toLowerCase().contains(".properties"))
+						if ( file.toLowerCase().contains(".properties") )
 							propertyFiles.add(file);
 					}
 				}

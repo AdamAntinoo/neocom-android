@@ -21,7 +21,6 @@ import android.os.Environment;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.FileSystemAndroidImplementation;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
@@ -88,11 +87,12 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		ANeoComEntity.connectGlobal(new GlobalAndroidDataManager());
 
 		// Initializing the ESI api network controller.
-		ESINetworkManager.initialize();
+		//		ESINetworkManager.initialize();
 
 		// Check if the files and folders to run on Android are in place. If not create/copy them.
 		createAppDir();
 		createCacheDirectories();
+		copyPreloadFiles();
 		// Check if the SDE database file is at the right place. If not copy it.
 		if ( !GlobalAndroidDataManager.checkAppFile(
 				GlobalAndroidDataManager.getResourceString("R.database.sdedatabase.databasename")) ) {
@@ -105,7 +105,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		try {
 			GlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
 					.setDatabaseSchema(GlobalDataManager.getResourceString("R.database.sdedatabase.databaseschema"))
-					.setDatabasePath(GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname)+"/")
+					.setDatabasePath(GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname) + "/")
 					.setDatabaseName(GlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))
 					.build()
 			);
@@ -121,7 +121,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 			GlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.NeoComAndroidDBHelperBuilder()
 					.setDatabaseLocation(GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname))
 					//					.setDatabaseHost(GlobalDataManager.getResourceString("R.database.neocom.databasehost"))
-										.setDatabaseName(GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appdatabasefilename))
+					.setDatabaseName(GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appdatabasefilename))
 					//					.setDatabaseUser(GlobalDataManager.getResourceString("R.database.neocom.databaseuser"
 					//							, "NEOCOM"))
 					//					.setDatabasePassword(GlobalDataManager.getResourceString("R.database.neocom.databasepassword"))
@@ -140,9 +140,9 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		//		mdServer = new MarketDataServer().start();
 		//		GlobalDataManager.setMarketDataManager(mdServer);
 
-		//		// Load the Locations cache to speed up the Citadel and Outpost search.
-		//		logger.info("-- [NeoComMicroServiceApplication.main]> Read Locations data cache...");
-		//		GlobalDataManager.readLocationsDataCache();
+		// Load the Locations cache to speed up the Citadel and Outpost search.
+		logger.info("-- [NeoComApp.onCreate]> Read Locations data cache...");
+		GlobalDataManager.readLocationsDataCache();
 
 		//		// Connect the Timed Upgrade scan.
 		//		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting the background timed download scanner...");
@@ -182,7 +182,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	private boolean createAppDir () {
 		// Create file application directory if it doesn't exist
 		final File sdcarddir = new File(Environment.getExternalStorageDirectory()
-				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername));
+				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname));
 		final boolean existence = sdcarddir.exists();
 		if ( !sdcarddir.exists() ) {
 			sdcarddir.mkdir();
@@ -193,9 +193,9 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	private void createCacheDirectories () {
 		// Create additional cache folders.
 		File cachedir = new File(Environment.getExternalStorageDirectory()
-				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername)
-				+ "/" + GlobalAndroidDataManager.getResourceString("R.cache.directorypath")
-				+ GlobalAndroidDataManager.getResourceString("R.cache.cachefoldername"));
+				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname)
+				+ "/" + GlobalAndroidDataManager.getResourceString("R.cache.directorypath"));
+		//				+ GlobalAndroidDataManager.getResourceString("R.cache.cachefoldername"));
 		cachedir.mkdir();
 		File alternatedir = new File(cachedir
 				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.drawablecachefoldername));
@@ -209,10 +209,10 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	 * Copies the parameter files from the assets installation directory to the user application directory.
 	 * Current contents are the static database and the initial API list if found.
 	 */
-	private void copyFromAssets (final String sourceFileName){
+	private void copyFromAssets (final String sourceFileName) {
 		InputStream istream = null;
 		OutputStream ostream = null;
-//		String resourceName = NeoComAppConnector.getSingleton().getResourceString(resourceId);
+		//		String resourceName = NeoComAppConnector.getSingleton().getResourceString(resourceId);
 		//		final Context context = singleton.getApplicationContext();
 		try {
 			istream = GlobalAndroidDataManager.openAsset4Input(sourceFileName);
@@ -225,10 +225,10 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 				ostream.write(buffer, 0, length);
 			}
 			ostream.flush();
-			logger.info("-- Copied resource from assets [" + sourceFileName + "]");
+			logger.info("-- [NeoComApp.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]");
 		} catch (final Exception e) {
 			e.printStackTrace();
-			logger.error("E> Failed to copy resource: " + sourceFileName);
+			logger.error("E> [NeoComApp.copyFromAssets] Failed to copy resource: " + sourceFileName);
 		} finally {
 			try {
 				if ( ostream != null ) {
@@ -242,15 +242,24 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		}
 	}
 
-//	public File accessAppStorage (final String resourceString) {
-//		if ( null != resourceString )
-//			return new File(Environment.getExternalStorageDirectory()
-//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername)
-//					+ "/" + resourceString);
-//		else
-//			return new File(Environment.getExternalStorageDirectory()
-//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername));
-//	}
+	public void copyPreloadFiles () {
+		try {
+			for (String name : GlobalAndroidDataManager.getApplication().getAssets().list("preloadcache")) {
+				copyFromAssets("preloadcache/"+name);
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	//	public File accessAppStorage (final String resourceString) {
+	//		if ( null != resourceString )
+	//			return new File(Environment.getExternalStorageDirectory()
+	//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername)
+	//					+ "/" + resourceString);
+	//		else
+	//			return new File(Environment.getExternalStorageDirectory()
+	//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername));
+	//	}
 
 	//	private static NeoComApp singleton = null;
 	//	/** Background receiver to process pending data downloads. */
