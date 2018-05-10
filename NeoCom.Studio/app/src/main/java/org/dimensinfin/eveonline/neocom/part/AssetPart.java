@@ -113,9 +113,9 @@ public class AssetPart extends NeoComAbstractPart/* implements INamedPart/*, OnC
 	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
 	 * the background manager.
 	 */
-	public String getTItemPrice () {
-		return this.generatePriceString(this.getBuyerPrice(), false, true);
-	}
+//	public String getTItemPrice () {
+//		return this.generatePriceString(this.getBuyerPrice(), false, true);
+//	}
 
 
 
@@ -139,20 +139,20 @@ public class AssetPart extends NeoComAbstractPart/* implements INamedPart/*, OnC
 	}
 
 
-	@Deprecated
-	public String getTStackValue () {
-		long quantity = this.getCastedModel().getQuantity();
-		//		double price = searchMarketData(getCastedModel().getTypeID()).getBestMarket().getPrice();
-		return this.generatePriceString(this.getBuyerPrice() * quantity, true, true);
-	}
-
-	@Deprecated
-	public String getTCount () {
-		long quantity = this.getCastedModel().getQuantity();
-		DecimalFormat formatter = new DecimalFormat("###,###");
-		String qtyString = formatter.format(quantity);
-		return qtyString;
-	}
+//	@Deprecated
+//	public String getTStackValue () {
+//		long quantity = this.getCastedModel().getQuantity();
+//		//		double price = searchMarketData(getCastedModel().getTypeID()).getBestMarket().getPrice();
+//		return this.generatePriceString(this.getBuyerPrice() * quantity, true, true);
+//	}
+//
+//	@Deprecated
+//	public String getTCount () {
+//		long quantity = this.getCastedModel().getQuantity();
+//		DecimalFormat formatter = new DecimalFormat("###,###");
+//		String qtyString = formatter.format(quantity);
+//		return qtyString;
+//	}
 
 
 	@Deprecated
@@ -271,9 +271,9 @@ final class AssetRender extends NeoComRender {
 		Chrono chrono = new Chrono();
 		this.assetName.setText(getPart().getTAssetName());
 		this.assetCategory.setText(getPart().getTAssetInformation());
-		this.itemPrice.setText(getPart().getTItemPrice());
-		this.stackValue.setText(getPart().getTStackValue());
-		this.count.setText(getPart().getTCount());
+//		this.itemPrice.setText(getPart().getTItemPrice());
+//		this.stackValue.setText(getPart().getTStackValue());
+//		this.count.setText(getPart().getTCount());
 
 		// If asset inside a container or ship then set a white margin at the left.
 		if ( getPart().getCastedModel().hasParent() ) {

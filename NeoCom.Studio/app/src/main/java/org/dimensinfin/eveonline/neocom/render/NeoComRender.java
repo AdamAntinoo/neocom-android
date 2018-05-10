@@ -18,6 +18,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -35,13 +37,17 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static final long ONEMINUTE = 60 * 1000;
-	protected static final long ONEHOUR = 60 * NeoComRender.ONEMINUTE;
-	protected static final long ONEDAY = 24 * NeoComRender.ONEHOUR;
+	static {
+		Picasso.get().setIndicatorsEnabled(true);
+	}
+	protected static final long ONEMINUTE = TimeUnit.MINUTES.toMillis(1);
+	protected static final long ONEHOUR = TimeUnit.HOURS.toMillis(1);
+	protected static final long ONEDAY = TimeUnit.DAYS.toMillis(1);
 	protected static final DecimalFormat keyFormatter = new DecimalFormat("0000000");
 	protected static final DateTimeFormatter durationFormatter = DateTimeFormat.forPattern("d HH:mm");
 	protected static final DateTimeFormatter timePointFormatter = DateTimeFormat
@@ -274,30 +280,31 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-	protected void loadEveIcon (final ImageView targetIcon, final int typeID) {
-		this.loadEveIcon(targetIcon, typeID, false);
+	protected void loadEveIcon (final ImageView targetIcon, final int typeId) {
+		this.loadEveIcon(targetIcon, typeId, false);
 	}
 
 	/**
 	 * Downloads and caches the item icon from the CCP server. The new implementation check for special cases
 	 * such as locations. Stations on locations have an image that can be downloaded from the same place.
 	 */
-	protected void loadEveIcon (final ImageView targetIcon, final int typeID, final boolean station) {
+	protected void loadEveIcon (final ImageView targetIcon, final int typeId, final boolean station) {
 		// Check if the layout has the icon placeholder.
 		if ( null != targetIcon ) {
 			// If the flag signals an station change the code.
-			String link = GlobalAndroidDataManager.getURLForItem(typeID);
+			String link = GlobalAndroidDataManager.getURLForItem(typeId);
 			if ( station ) {
-				link = GlobalAndroidDataManager.getURLForStation(typeID);
+				link = GlobalAndroidDataManager.getURLForStation(typeId);
 			}
-			try {
-			final Future<Drawable> draw = GlobalAndroidDataManager.getCacheDrawable(link, targetIcon, getContext());
-				targetIcon.setImageDrawable(draw.get());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
+			Picasso.get().load(link).into(targetIcon);
+//			try {
+//			final Future<Drawable> draw = GlobalAndroidDataManager.getCacheDrawable(link, targetIcon, getContext());
+//				targetIcon.setImageDrawable(draw.get());
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			} catch (ExecutionException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 

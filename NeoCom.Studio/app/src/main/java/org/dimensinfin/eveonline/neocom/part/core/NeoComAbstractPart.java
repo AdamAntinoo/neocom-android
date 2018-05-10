@@ -145,20 +145,20 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 			if ( this.isEmpty() ) {
 				if ( this.isRenderWhenEmpty() ) {
 					// The region is surrounded with the Red Separator at the beginning and at the end.
-					result.add(new SeparatorPart(new Separator().setType(separatorColor))
+					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 					result.add(this);
 					// This region is empty of contents. Add the Empty Separator and complete.
 					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
 							.setRenderMode(this.getRenderMode()));
-					result.add(new SeparatorPart(new Separator().setType(separatorColor))
+					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 				}
 			} else {
 				// Generate the list of Parts that should be collaborated to the ListView.
 				// The region is surrounded with the Red Separator at the beginning and at the end.
 				result.add(
-						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
 				result.add(this);
 				// --- This is the section where we get the Contents and then we apply the customized Part policies.
 				List<IPart> childParts = this.runPolicies(this.getChildren());
@@ -172,7 +172,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 					result.addAll(collaboration);
 				}
 				result.add(
-						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
@@ -200,20 +200,20 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 			if ( this.isEmpty() ) {
 				if ( this.isRenderWhenEmpty() ) {
 					// The region is surrounded with the Red Separator at the beginning and at the end.
-					contentCollector.add(new SeparatorPart(new Separator().setType(separatorColor))
+					contentCollector.add(new SeparatorPart(new Separator().setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 					contentCollector.add(this);
 					// This region is empty of contents. Add the Empty Separator and complete.
 					contentCollector.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
 							.setRenderMode(this.getRenderMode()));
-					contentCollector.add(new SeparatorPart(new Separator().setType(separatorColor))
+					contentCollector.add(new SeparatorPart(new Separator().setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 				}
 			} else {
 				// Generate the list of Parts that should be collaborated to the ListView.
 				// The region is surrounded with the Red Separator at the beginning and at the end.
 				contentCollector.add(
-						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
 				contentCollector.add(this);
 				// --- This is the section where we get the Contents and then we apply the customized Part policies.
 				List<IPart> childParts = this.runPolicies(this.getChildren());
@@ -228,7 +228,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	//				contentCollector.addAll(collaboration);
 				}
 				contentCollector.add(
-						new SeparatorPart(new Separator().setType(separatorColor)).setRenderMode(this.getRenderMode()));
+						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
@@ -240,7 +240,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 //		return contentCollector;
 	}
 
-	private AbstractRender getRenderer ( final Activity activity ) {
+	public AbstractRender getRenderer ( final Activity activity ) {
 		_activity = activity;
 		final AbstractRender render = this.selectRenderer();
 		// If there is no render defined set a default one to intercept the exception.

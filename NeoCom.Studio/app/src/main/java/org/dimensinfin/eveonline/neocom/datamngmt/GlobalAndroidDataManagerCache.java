@@ -32,7 +32,7 @@ import java.util.concurrent.Future;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidDataManagerCache extends GlobalAndroidDataManagerStorage {
+public class GlobalAndroidDataManagerCache extends GlobalDataManager {
 	private static Map<String, Drawable> drawablesCache = new Hashtable<>();
 
 	public static Future<Drawable> getCacheDrawable (final String url, final ImageView targetImage, final Activity

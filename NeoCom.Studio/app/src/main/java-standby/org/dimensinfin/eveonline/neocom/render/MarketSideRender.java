@@ -62,7 +62,7 @@ public class MarketSideRender extends EveAbstractHolder {
 		//			count.setText(getPart().get_counter());
 		//			count.setVisibility(View.INVISIBLE);
 		//		}
-		//		int resource = JobManager.getIconIdentifier(EIndustryGroup.decode(getPart().getTitle()));
+		//		int resource = JobManager.getIconIdentifier(EIndustryGroup.decode(getPart().getName()));
 		groupIcon.setImageResource(R.drawable.markethub);
 		_convertView.setBackgroundResource(R.drawable.whitetraslucent40);
 	}

@@ -16,22 +16,17 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.OneShotTask;
-import org.dimensinfin.core.constant.CoreConstants;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 import org.dimensinfin.eveonline.neocom.render.BaseExpandableRender;
 import org.dimensinfin.eveonline.neocom.render.NeoComRender;
 
@@ -51,10 +46,8 @@ public class Location4AssetsPart extends LocationPart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public Location4AssetsPart (final EveLocation location) {
 		super(location);
-		// Set the separator color.
-		setFlavour(ColorFlavour.ORANGE);
-		//		_contextMenu = NeoComApp.getSingletonApp().getResources()
-		//				.getStringArray(R.array.locationFunctions);
+		// Set the the color.
+		setThemeColor(Separator.ESeparatorType.LINE_ROSE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -87,32 +80,32 @@ public class Location4AssetsPart extends LocationPart {
 		return countString;
 	}
 
-	public CharSequence getTLocationID () {
+	public CharSequence getTLocationId () {
 		return "[" + NeoComAbstractPart.keyFormatter.format(this.getCastedModel().getID()) + "]";
 	}
 
-	/**
-	 * This is a lazy evaluation implementation that will access their database contents on the fist call. If
-	 * those contents are already on place it will return the signal to update the UI.<br>
-	 * During the download of the contents it will detect BPC and process the assets to generate aggregations of
-	 * BPC to simplify the interface. It will also calculate the number of real assets (shown when the Location
-	 * is collapsed) and the number of children (shown when the Location is expanded).<br>
-	 * During the processing the number of contents should be changed to a spinning later replaced by the right
-	 * number (expand/collapse).
-	 */
-	public void onClick (final View view) {
-		logger.info(">> [Location4AssetsPart.onClick]");
-		// Do the standard expand/collapse and the fire another message for the update of the model.
-		super.onClick(view);
-		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
-			public void run () {
-				logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
-				getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
-				logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
-			}
-		}, CoreConstants.HUNDRETH);
-		logger.info("<< [Location4AssetsPart.onClick]");
-	}
+//	/**
+//	 * This is a lazy evaluation implementation that will access their database contents on the fist call. If
+//	 * those contents are already on place it will return the signal to update the UI.<br>
+//	 * During the download of the contents it will detect BPC and process the assets to generate aggregations of
+//	 * BPC to simplify the interface. It will also calculate the number of real assets (shown when the Location
+//	 * is collapsed) and the number of children (shown when the Location is expanded).<br>
+//	 * During the processing the number of contents should be changed to a spinning later replaced by the right
+//	 * number (expand/collapse).
+//	 */
+//	public void onClick (final View view) {
+//		logger.info(">> [Location4AssetsPart.onClick]");
+//		// Do the standard expand/collapse and the fire another message for the update of the model.
+//		super.onClick(view);
+//		new Handler().postDelayed(new OneShotTask<NeoComExpandablePart>(this) {
+//			public void run () {
+//				logger.info(">> [Location4AssetsPart.onClick.OneShotTask.run]");
+//				getTarget().fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA.name(), this, this);
+//				logger.info("<< [Location4AssetsPart.onClick.OneShotTask.run]");
+//			}
+//		}, CoreConstants.HUNDRETH);
+//		logger.info("<< [Location4AssetsPart.onClick]");
+//	}
 
 	//	public boolean onContextItemSelected (final MenuItem item) {
 	//		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
@@ -144,7 +137,7 @@ public class Location4AssetsPart extends LocationPart {
 	//	}
 
 	@Override
-	protected AbstractRender selectRenderer () {
+	public AbstractRender selectRenderer () {
 		// Get the proper holder from the render mode.
 		return new Location4AssetsRender(this, _activity);
 	}
@@ -262,14 +255,14 @@ final class Location4AssetsRender extends BaseExpandableRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-		if ( this.getPart().getCastedModel().getTypeID() == ELocationType.UNKNOWN ) {
+		if ( this.getPart().getCastedModel().getTypeId() == ELocationType.UNKNOWN ) {
 			locationRegion.setText(this.getPart().getTLocationRegion());
 		} else {
 			locationRegion.setText(this.getPart().getTLocationRegionConstellation());
 		}
 		locationSystem.setText(this.getPart().getTLocationSystem());
-		if ( this.getPart().getCastedModel().getTypeID() != ELocationType.UNKNOWN )
-			locationIdentifier.setText(this.getPart().getTLocationID());
+		if ( this.getPart().getCastedModel().getTypeId() != ELocationType.UNKNOWN )
+			locationIdentifier.setText(this.getPart().getTLocationId());
 		locationStation.setText(this.getPart().getTLocationStation());
 		childCount.setText(this.getPart().getTLocationContentCount());
 

@@ -166,6 +166,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
     implementation 'com.github.scribejava:scribejava-core:4.2.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'

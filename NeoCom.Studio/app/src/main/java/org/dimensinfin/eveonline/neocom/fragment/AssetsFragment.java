@@ -50,6 +50,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetsFragment extends AbstractPagerFragment {
@@ -211,7 +212,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					final HashMap<Long, Region> regions = new HashMap<>();
 					final HashMap<Long, ExtendedLocation> locations = new HashMap<>();
 					final HashMap<Long, IAssetContainer> containers = new HashMap<>();
-					final List<NeoComAsset> unprocessedAssets = new ArrayList<>();
+					final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
 
 					// Get the asset list for the database.
 					List<NeoComAsset> assetList = new ArrayList<>();
@@ -267,7 +268,12 @@ public class AssetsFragment extends AbstractPagerFragment {
 						// Check the asset location. If of type UNKNOWN then it should be processed later.
 						final EveLocation loc = asset.getLocation();
 						if ( loc.getTypeId() == ELocationType.UNKNOWN ) {
-							unprocessedAssets.add(asset);
+							unprocessedAssets.put(asset.getAssetId(), asset);
+							continue;
+						}
+						// If the assets has a parent then also process it later when we have all the containers in place.
+						if ( asset.getParentContainerId() > 0 ) {
+							unprocessedAssets.put(asset.getAssetId(), asset);
 							continue;
 						}
 
@@ -309,6 +315,19 @@ public class AssetsFragment extends AbstractPagerFragment {
 						if ( locationHit.isExpanded() )
 							firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 					}
+
+					// Pending the processing for the orphaned nodes that are contained.
+//					final List<Long> processedIdList = new Vector<>();
+//					for (Long assetId : unprocessedAssets.keySet()) {
+//						// Check if the asset has already been processed.
+//						if ( processedIdList.contains(assetId) ) continue;
+//						else {
+//							//							final NeoComAsset asset = unprocessedAssets.get(assetId);
+//							//							final long parentId = asset.getParentContainerId();
+//							//							if ( parentId > 0 )
+//							processAsset2Location(assetId, unprocessedAssets);
+//						}
+//					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
 				}
@@ -317,6 +336,16 @@ public class AssetsFragment extends AbstractPagerFragment {
 			}
 		}
 
+//		private void processAsset2Location (final long assetIdentifier, final HashMap<Long, NeoComAsset> unprocessedAssets) {
+//			final NeoComAsset asset = unprocessedAssets.get(assetIdentifier);
+//			final long parentId = asset.getParentContainerId();
+//			if ( parentId > 0 ) processAsset2Location(parentId, unprocessedAssets);
+//			else{
+//				// This is an end asset. Add it to the location and also to the processed list.
+//				ExtendedLocation locationHit = locations.get(loc.getID());
+//
+//			}
+//		}
 		//		protected Activity getContext () {
 		//			return context;
 		//		}

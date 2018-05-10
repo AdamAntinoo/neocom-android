@@ -19,17 +19,33 @@ import android.app.Activity;
 
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComExpandablePart;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Vector;
+
 // - CLASS IMPLEMENTATION ...................................................................................
 public class RegionPart extends NeoComExpandablePart /*implements INamedPart/*, OnClickListener */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7696249781992547826L;
-	//	private static Logger					logger							= Logger.getLogger("RegionPart");
-	//	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
+
+	public static Comparator<IPart> regionNameComparator = new Comparator<IPart>() {
+		public int compare (IPart part1, IPart part2) {
+			String partName1 = ((RegionPart) part1).getTName().toUpperCase();
+			String partName2 = ((RegionPart) part2).getTName().toUpperCase();
+
+			//ascending order
+			return partName1.compareTo(partName2);
+
+			//descending order
+			//return fruitName2.compareTo(fruitName1);
+		}
+	};
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -53,14 +69,14 @@ public class RegionPart extends NeoComExpandablePart /*implements INamedPart/*, 
 		return new RegionRender(this, _activity);
 	}
 
-	//		/**
-	//		 * Sort the Regions by their names.
-	//		 */
-	//		public Vector<IPart> runPolicies (final Vector<IPart> targets) {
-	//			// Order the characters by alphabetical name.
-	//			Collections.sort(targets, PartComparatorFactory.createPartComparator(ComparatorType.COMPARATOR_NAME));
-	//			return targets;
-	//		}
+	/**
+	 * Sort the Regions by their names.
+	 */
+	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+		// Order the characters by alphabetical name.
+		Collections.sort(targets, regionNameComparator);
+		return targets;
+	}
 
 	// --- N E O C O M   P A R T   R E Q U I R E M E N T S
 	public Region getCastedModel () {
@@ -69,7 +85,7 @@ public class RegionPart extends NeoComExpandablePart /*implements INamedPart/*, 
 
 	// --- M O D E L   D A T A   T R A N S F O R M A T I O N
 	public String getTName () {
-		return this.getCastedModel().getTitle();
+		return this.getCastedModel().getName();
 	}
 
 	public String getTContentCount () {
@@ -110,9 +126,9 @@ final class RegionRender extends AbstractExpandableRender {
 		return (RegionPart) super.getPart();
 	}
 
-	@Override
-	public void initializeViews () {
-	}
+	//	@Override
+	//	public void initializeViews () {
+	//	}
 
 	@Override
 	public void updateContent () {
