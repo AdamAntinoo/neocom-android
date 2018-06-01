@@ -2,7 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC Dynamic-Final" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../../POCProjects" vcs="Git" />
   </component>
 </project>

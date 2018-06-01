@@ -11,7 +11,7 @@ android {
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 109
-        versionName "Dynamic"
+        versionName "0.12.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,24 +27,9 @@ android {
             resValue "string", "appversion", android.defaultConfig.versionName
             resValue "string", "appversionname", "NeoCom" + " v" + android.defaultConfig.versionName
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
-
-            resValue "string", "appdatabasefilename", "neocom" + android.defaultConfig
-                    .versionCode + ".db"
+            resValue "string", "appdatabasefilename", "neocom" + android.defaultConfig.versionCode + ".db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
         }
-//        incubation {
-//            initWith(buildTypes.debug)
-//            debuggable true
-//            renderscriptDebuggable true
-//            minifyEnabled false
-//            pseudoLocalesEnabled true
-//            useProguard false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            applicationIdSuffix '.test'
-//            versionNameSuffix 'test'
-//
-//            resValue "string", "appdatabasefilename", "neocom-test.db"
-//        }
         release {
             debuggable false
             shrinkResources true
@@ -53,15 +38,6 @@ android {
 
             resValue "string", "appdatabasefilename", "neocom.db"
         }
-        /**
-         * The `initWith` property allows you to copy configurations from other build types,
-         * then configure just the settings you want to change. This one copies the debug build
-         * type, and then changes the manifest placeholder and application ID.
-         */
-//        staging {
-//            initWith debug
-//            applicationIdSuffix ".incubationStaging"
-//        }
     }
 //    signingConfigs {
 //        release {
@@ -75,15 +51,15 @@ android {
 //        main.java.srcDirs += 'src/main/java-planetary'
 //        main.java.srcDirs += 'src/main/java-newrelease'
 //        main.java.srcDirs += 'src/main/java-eveesiandroid'
-        main.res.srcDirs += 'src/main/res-planetary'
-        main.res.srcDirs += 'src/main/res-definitions'
-        main.res.srcDirs += 'src/main/res-final'
-        main.res.srcDirs += 'src/main/res-layouts'
-        main.res.srcDirs += 'src/main/res-newrelease'
-        main.res.srcDirs += 'src/main/res-obsolete'
-        main.res.srcDirs += 'src/main/res-window'
-        main.res.srcDirs += 'src/main/res-production'
-        main.res.srcDirs += 'src/main/res-ui'
+//        main.res.srcDirs += 'src/main/res-planetary'
+//        main.res.srcDirs += 'src/main/res-definitions'
+//        main.res.srcDirs += 'src/main/res-final'
+//        main.res.srcDirs += 'src/main/res-layouts'
+//        main.res.srcDirs += 'src/main/res-newrelease'
+//        main.res.srcDirs += 'src/main/res-obsolete'
+//        main.res.srcDirs += 'src/main/res-window'
+//        main.res.srcDirs += 'src/main/res-production'
+//        main.res.srcDirs += 'src/main/res-ui'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -111,25 +87,26 @@ android {
 }
 
 //--- T A S K S
+// Clean up the resources received from other modules.
+// Needs to be executed manually because it is dangerous to leave this decision to the build.
 task cleanUpResources(type: Delete) {
-    delete 'src/main/resources'
+    delete 'src/main/resources/sdecontents'
+    delete 'src/main/resources/yaml'
 }
-task copyResources(type: Copy) {
-    copy {
-        // NeoCom.Model Properties
-        from project(':NeoCom.Model').file('src/main/resources')
-        into file('src/main/assets/resources')
-//        include 'properties/**'
-//        include 'ESINetworkScopes.Singularity.txt'
-    }
-    copy {
-        from project(':NeoCom.DataManagement').file('src/main/resources')
-        into file('src/main/assets/resources')
-//        include 'properties/**'
-//        include 'sdecontents/**'
-//        include 'yaml/**'
-    }
-}
+// Copy configuration and property resources fro other modules to the final 'resources' application folder.
+//task copyResources(type: Copy) {
+//    copy {
+//        // NeoCom.Model Properties
+//        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.Model').file('src/main/resources')
+//        into file('src/main/resources')
+//    }
+//    copy {
+//        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.DataManagement').file('src/main/resources')
+//        into file('src/main/resources')
+//    }
+//}
 
 dependencies {
     // A N D R O I D    S U P P O R T
@@ -137,15 +114,16 @@ dependencies {
     implementation 'com.android.support:support-core-utils:27.0.2'
 
     // P R O J E C T    D E P E N D E N C I E S
-    implementation project(path: ':AndroidMVCLibrary')
-    implementation project(path: ':ESI.SwaggerApi')
-    implementation project(path: ':NeoCom.DataManagement')
-    implementation project(path: ':NeoCom.Model')
-//     implementation project(path: ':ApplicationCloudAdapter')
-//    implementation project(path: ':ApplicationCloudAndroidAdapter')
-
+//    implementation project(path: ':AndroidMVCLibrary')
+//    implementation project(path: ':ESI.SwaggerApi')
+//    implementation project(path: ':NeoCom.DataManagement')
+//    implementation project(path: ':NeoCom.Model')
+////     implementation project(path: ':ApplicationCloudAdapter')
+////    implementation project(path: ':ApplicationCloudAndroidAdapter')
+//
     // L O C A L    L I B R A R I E S
     implementation files('libs/CoreBase.core-2.0.3.jar')
+    implementation files('libs/AndroidMVC-3.0.0.aar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E
@@ -153,28 +131,28 @@ dependencies {
     implementation 'joda-time:joda-time:2.3'
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
-    // N E O C O M . M O D E L
-    implementation 'com.beimin:eveapi:6.0.6'
-    implementation 'org.htmlparser:htmlparser:2.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
-    implementation 'org.modelmapper:modelmapper:1.1.0'
-    implementation 'com.annimon:stream:1.1.9'
-    // N E O C O M
-    implementation 'com.j256.ormlite:ormlite-android:4.48'
-    implementation 'com.jakewharton:disklrucache:2.0.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
-    implementation 'com.github.scribejava:scribejava-core:4.2.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+//    // N E O C O M . M O D E L
+//    implementation 'com.beimin:eveapi:6.0.6'
+//    implementation 'org.htmlparser:htmlparser:2.1'
+//    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+//    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+//    implementation 'org.modelmapper:modelmapper:1.1.0'
+//    implementation 'com.annimon:stream:1.1.9'
+//    // N E O C O M
+//    implementation 'com.j256.ormlite:ormlite-android:4.48'
+//    implementation 'com.jakewharton:disklrucache:2.0.2'
+//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
+//    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
+//    implementation 'com.github.scribejava:scribejava-core:4.2.0'
+//    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:1.10.19'
-    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    //SQLite -> Chrome (debug)
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+//    testImplementation 'org.mockito:mockito-core:1.10.19'
+//    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//    //SQLite -> Chrome (debug)
+//    implementation 'com.facebook.stetho:stetho:1.5.0'
+//    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }

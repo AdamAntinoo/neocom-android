@@ -11,7 +11,7 @@
         android:targetSdkVersion="27" />
 
     <application
-        android:name="NeoComApp"
+        android:name="NeoComApplication"
         android:allowBackup="true"
         android:description="@string/AppDescription"
         android:icon="@drawable/neocom_icon"
@@ -23,36 +23,36 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <!-- S T A R T U P    A C T I V I T Y -->
-        <activity
-            android:name=".activity.AssetsManagerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/splash_icon"
-            android:label="@string/appversionname"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:stateNotNeeded="true"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".activity.SearchAssetsActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!--<activity-->
+            <!--android:name=".activity.AssetsManagerActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:icon="@drawable/splash_icon"-->
+            <!--android:label="@string/appversionname"-->
+            <!--android:noHistory="true"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:stateNotNeeded="true"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<meta-data-->
+                <!--android:name="android.app.default_searchable"-->
+                <!--android:value=".activity.SearchAssetsActivity" />-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <!-- A C T I V I T I E S -->
-        <activity
-            android:name=".activity.SearchAssetsActivity"
-            android:label="Asset Filter"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <!--<activity-->
+            <!--android:name=".activity.SearchAssetsActivity"-->
+            <!--android:label="Asset Filter"-->
+            <!--android:screenOrientation="portrait">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.SEARCH" />-->
+            <!--</intent-filter>-->
+            <!--<meta-data-->
+                <!--android:name="android.app.searchable"-->
+                <!--android:resource="@xml/searchable" />-->
+        <!--</activity>-->
 
 
         <!--         Section where to add the new Activities to match the new model presentation. -->

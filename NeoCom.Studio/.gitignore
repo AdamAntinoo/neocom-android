@@ -7,3 +7,6 @@
 /local.properties
 /build
 /captures
+/gradle
+gradlew
+gradlew.bat
