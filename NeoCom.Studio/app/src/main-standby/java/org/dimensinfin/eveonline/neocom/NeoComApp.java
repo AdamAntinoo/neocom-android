@@ -195,7 +195,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 		File cachedir = new File(Environment.getExternalStorageDirectory()
 				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname)
 				+ "/" + GlobalAndroidDataManager.getResourceString("R.cache.directorypath"));
-		//				+ GlobalAndroidDataManager.getResourceString("R.cache.cachefoldername"));
+		//				+ AndroidGlobalDataManager.getResourceString("R.cache.cachefoldername"));
 		cachedir.mkdir();
 		File alternatedir = new File(cachedir
 				, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.drawablecachefoldername));
@@ -254,11 +254,11 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	//	public File accessAppStorage (final String resourceString) {
 	//		if ( null != resourceString )
 	//			return new File(Environment.getExternalStorageDirectory()
-	//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername)
+	//					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appfoldername)
 	//					+ "/" + resourceString);
 	//		else
 	//			return new File(Environment.getExternalStorageDirectory()
-	//					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appfoldername));
+	//					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appfoldername));
 	//	}
 
 	//	private static NeoComApp singleton = null;

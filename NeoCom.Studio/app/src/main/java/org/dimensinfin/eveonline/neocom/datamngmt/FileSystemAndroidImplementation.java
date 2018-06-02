@@ -17,15 +17,16 @@ package org.dimensinfin.eveonline.neocom.datamngmt;
 
 import android.os.Environment;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @author Adam Antinoo
@@ -37,45 +38,53 @@ public class FileSystemAndroidImplementation implements IFileSystem {
 	private static Logger logger = LoggerFactory.getLogger("FileSystemAndroidImplementation");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String applicationFolderName = "NeoCom";
+	private String applicationFolder = "NeoCom";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public FileSystemAndroidImplementation (final String applicationName) {
-		super();
-		this.applicationFolderName=applicationName;
+	public FileSystemAndroidImplementation (final String applicationStoreDirectory) {
+		logger.info(">< [FileSystemAndroidImplementation.constructor]> applicationStoreDirectory: {}", applicationStoreDirectory);
+		if ( null != applicationStoreDirectory )
+			this.applicationFolder = applicationStoreDirectory;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public InputStream openAsset4Input (final String filePath) throws IOException {
-		return GlobalAndroidDataManager.getApplication().getAssets().open(filePath);
-	}
-
-	@Override
 	public InputStream openResource4Input (final String filePath) throws IOException {
-		// Target file.
-		final File file = accessAppStorageFile(filePath);
-		return new FileInputStream(file);
+		return new FileInputStream(new File(applicationFolder + "/" + filePath));
 	}
 
 	@Override
-	public File accessAppStorageFile (final String resourceString) {
-		if ( null != resourceString )
-			return new File(Environment.getExternalStorageDirectory()
-					, applicationFolderName + "/" + resourceString);
-		else
-			return new File(Environment.getExternalStorageDirectory(), applicationFolderName);
+	public OutputStream openResource4Output (final String filePath) throws IOException {
+		return new FileOutputStream(new File(applicationFolder + "/" + filePath));
 	}
 
 	@Override
-	public String accessAssetPath () {
+	public InputStream openAsset4Input (final String filePath) throws IOException {
+		return AndroidGlobalDataManager.getApplication().getAssets().open(filePath);
+	}
+
+	/**
+	 * The is no direct access to the root path for the assets. The way to get it is to get the first record of the
+	 * list of assets and then remove the asset name. This should return the equivalent string for the root for the
+	 * assets location.
+	 * @param filePath filepath for the asset to get the whole asset path.
+	 * @return
+	 * @throws IOException
+	 */
+	@Override
+	public String accessAsset4Path (final String filePath) throws IOException {
 		try {
-			final String[] assetFileList = GlobalAndroidDataManager.getApplication().getAssets().list(".");
-			return assetFileList[0];
+			final String[] assetFileList = AndroidGlobalDataManager.getApplication().getAssets().list(".");
+			return assetFileList[0] + filePath;
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-			return "./";
+			return "./" + filePath;
 		}
+	}
+
+	@Override
+	public String accessResource4Path (final String filePath) {
+		return applicationFolder + "/" + filePath;
 	}
 }
 // - UNUSED CODE ............................................................................................

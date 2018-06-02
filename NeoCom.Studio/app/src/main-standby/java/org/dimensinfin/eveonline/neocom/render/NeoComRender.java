@@ -298,7 +298,7 @@ public abstract class NeoComRender extends AbstractRender {
 			}
 			Picasso.get().load(link).into(targetIcon);
 //			try {
-//			final Future<Drawable> draw = GlobalAndroidDataManager.getCacheDrawable(link, targetIcon, getContext());
+//			final Future<Drawable> draw = AndroidGlobalDataManager.getCacheDrawable(link, targetIcon, getContext());
 //				targetIcon.setImageDrawable(draw.get());
 //			} catch (InterruptedException e) {
 //				e.printStackTrace();

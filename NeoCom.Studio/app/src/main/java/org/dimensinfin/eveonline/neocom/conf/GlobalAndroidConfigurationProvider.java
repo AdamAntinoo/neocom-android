@@ -17,7 +17,7 @@ package org.dimensinfin.eveonline.neocom.conf;
 
 import com.annimon.stream.Stream;
 
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 			      try {
 				      Properties properties = new Properties();
 				      final String filePath = getResourceLocation() + "/" + fileName;
-				      properties.load(GlobalAndroidDataManager.getApplication().getAssets().open(filePath));
+				      properties.load(AndroidGlobalDataManager.getApplication().getAssets().open(filePath));
 				      // Copy properties to globals.
 				      globalConfigurationProperties.putAll(properties);
 			      } catch (IOException ioe) {
@@ -79,7 +79,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 		final List<String> propertyFiles = new ArrayList<>();
 
 		try {
-			final String[] list = GlobalAndroidDataManager.getApplication().getAssets().list(path);
+			final String[] list = AndroidGlobalDataManager.getApplication().getAssets().list(path);
 			if ( list.length > 0 ) {
 				for (String file : list) {
 					if ( file.indexOf(".") < 0 ) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .

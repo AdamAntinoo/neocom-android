@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,7 +100,7 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 		if ( !isOpen ) {
 			if ( null == ccpDatabase ) {
 				final String path = Environment.getExternalStorageDirectory() + "/" + databasePath + databaseName;
-				if ( GlobalAndroidDataManager.sdcardAvailable() ) {
+				if ( AndroidGlobalDataManager.sdcardAvailable() ) {
 					ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 					logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}."
 							, path, databaseVersion);

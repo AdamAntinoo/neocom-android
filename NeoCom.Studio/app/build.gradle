@@ -29,6 +29,9 @@ android {
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
             resValue "string", "appdatabasefilename", "neocom" + android.defaultConfig.versionCode + ".db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+
+            resValue "string", "cachefoldername", "neocomcache"
+            resValue "string", "drawablecachefoldername", "drawablecache"
         }
         release {
             debuggable false
@@ -115,12 +118,10 @@ dependencies {
 
     // P R O J E C T    D E P E N D E N C I E S
 //    implementation project(path: ':AndroidMVCLibrary')
-//    implementation project(path: ':ESI.SwaggerApi')
-//    implementation project(path: ':NeoCom.DataManagement')
-//    implementation project(path: ':NeoCom.Model')
-////     implementation project(path: ':ApplicationCloudAdapter')
-////    implementation project(path: ':ApplicationCloudAndroidAdapter')
-//
+    implementation project(path: ':ESI.SwaggerApi')
+    implementation project(path: ':NeoCom.DataManagement')
+    implementation project(path: ':NeoCom.Model')
+
     // L O C A L    L I B R A R I E S
     implementation files('libs/CoreBase.core-2.0.3.jar')
     implementation files('libs/AndroidMVC-3.0.0.aar')
@@ -129,22 +130,35 @@ dependencies {
     // C O R E
     implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
+
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
-//    // N E O C O M . M O D E L
-//    implementation 'com.beimin:eveapi:6.0.6'
-//    implementation 'org.htmlparser:htmlparser:2.1'
-//    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-//    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
-//    implementation 'org.modelmapper:modelmapper:1.1.0'
-//    implementation 'com.annimon:stream:1.1.9'
-//    // N E O C O M
-//    implementation 'com.j256.ormlite:ormlite-android:4.48'
-//    implementation 'com.jakewharton:disklrucache:2.0.2'
-//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
-//    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
-//    implementation 'com.github.scribejava:scribejava-core:4.2.0'
-//    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // N E O C O M . M O D E L
+    implementation 'com.beimin:eveapi:6.0.6'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.6'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.8.6'
+    implementation 'org.modelmapper:modelmapper:1.1.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.j256.ormlite:ormlite-core:4.48'
+
+    // N E O C O M . D A T A M A N A G E M E N T
+    implementation 'org.htmlparser:htmlparser:2.1'
+    implementation 'com.github.scribejava:scribejava-core:5.4.0'
+    implementation 'com.annimon:stream:1.1.9'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'com.j256.ormlite:ormlite-core:4.48'
+    implementation 'com.j256.ormlite:ormlite-jdbc:4.48'
+    implementation 'org.xerial:sqlite-jdbc:3.16.1'
+
+    // N E O C O M
+    implementation 'com.j256.ormlite:ormlite-android:4.48'
+    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'

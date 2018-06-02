@@ -33,14 +33,13 @@ import java.io.File;
  * that information available and up to date.
  * <p>
  * The initial release will start transferring the ModelFactory functionality.
- *
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidDataManager extends GlobalAndroidDataManagerCache {
+public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("GlobalAndroidDataManager");
+	private static Logger logger = LoggerFactory.getLogger("AndroidGlobalDataManager");
 
 	// --- A N D R O I D   C O N T E X T   S E C T I O N
 	private static Application application = null;
@@ -60,9 +59,11 @@ public class GlobalAndroidDataManager extends GlobalAndroidDataManagerCache {
 	}
 
 	// --- G L O B A L   A N D R O I D   D A T A   A C C E S S
-	public static boolean sdcardAvailable(){
+	// TODO - Call the android api to solve this check.
+	public static boolean sdcardAvailable () {
 		return true;
 	}
+
 	public static String getResourceString (final int resourceid) {
 		return getApplication().getResources().getString(resourceid);
 	}
@@ -78,17 +79,17 @@ public class GlobalAndroidDataManager extends GlobalAndroidDataManagerCache {
 	}
 
 	public static boolean checkAppFile (final String resourceString) {
-		return checkStorageResource(GlobalAndroidDataManager.accessAppStorageFile(null), resourceString);
+		return checkStorageResource(AndroidGlobalDataManager.accessAppStorage4Path(resourceString));
 	}
 
 	public static File accessAppStorageFile (final String resourceString) {
 		if ( null != resourceString )
 			return new File(Environment.getExternalStorageDirectory()
-					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname)
+					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname)
 					+ "/" + resourceString);
 		else
 			return new File(Environment.getExternalStorageDirectory()
-					, GlobalAndroidDataManager.getApplication().getResources().getString(R.string.appname));
+					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname));
 	}
 }
 // - UNUSED CODE ............................................................................................

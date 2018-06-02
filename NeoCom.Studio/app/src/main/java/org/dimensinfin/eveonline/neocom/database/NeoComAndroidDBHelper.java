@@ -36,13 +36,14 @@ import org.dimensinfin.eveonline.neocom.database.entity.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.database.entity.FittingRequest;
 import org.dimensinfin.eveonline.neocom.database.entity.Job;
 import org.dimensinfin.eveonline.neocom.database.entity.MarketOrder;
+import org.dimensinfin.eveonline.neocom.database.entity.Property;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.Property;
+import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +56,6 @@ import java.util.concurrent.Callable;
  * version already uses the mySql database JDBC implementation instead the SQLite copied from the Android
  * platform.
  * The class will encapsulate all dao and connection access.
- *
  * @author Adam Antinoo
  */
 
@@ -81,7 +81,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<NeoComAsset, String> assetDao = null;
 	private Dao<EveLocation, String> locationDao = null;
 	private Dao<Property, String> propertyDao = null;
-	//	private Dao<NeoComBlueprint, String> blueprintDao = null;
+	private Dao<NeoComBlueprint, String> blueprintDao = null;
 	private Dao<Job, String> jobDao = null;
 	private Dao<MarketOrder, String> marketOrderDao = null;
 	private Dao<FittingRequest, String> fittingRequestDao = null;
@@ -211,10 +211,10 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		//			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
 		//		} catch (SQLException sqle) {
 		//		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
-		//		} catch (SQLException sqle) {
-		//		}
+		try {
+			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
+		} catch (SQLException sqle) {
+		}
 		this.loadSeedData();
 		logger.info("<< [NeoComAndroidDBHelper.onCreate]");
 	}
@@ -457,13 +457,13 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		return propertyDao;
 	}
 
-	//
-	//	public Dao<NeoComBlueprint, String> getBlueprintDao() throws SQLException {
-	//		if (null == blueprintDao) {
-	//			blueprintDao = DaoManager.createDao(this.getConnectionSource(), NeoComBlueprint.class);
-	//		}
-	//		return blueprintDao;
-	//	}
+	public Dao<NeoComBlueprint, String> getBlueprintDao () throws SQLException {
+		if ( null == blueprintDao ) {
+			blueprintDao = DaoManager.createDao(this.getConnectionSource(), NeoComBlueprint.class);
+		}
+		return blueprintDao;
+	}
+
 	public Dao<Job, String> getJobDao () throws SQLException {
 		if ( null == jobDao ) {
 			jobDao = DaoManager.createDao(this.getConnectionSource(), Job.class);
@@ -678,10 +678,10 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 		public NeoComAndroidDBHelper build () throws SQLException {
 			// Compose the global database name.
-//			final String dbName = GlobalAndroidDataManager.accessAppStorageFile(databaseName).getAbsolutePath();
-//					+ storageLocation + "/"+databaseName;
-			return new NeoComAndroidDBHelper(GlobalAndroidDataManager.getAppContext()
-					, GlobalAndroidDataManager.accessAppStorageFile(databaseName).getAbsolutePath()
+			//			final String dbName = AndroidGlobalDataManager.accessAppStorageFile(databaseName).getAbsolutePath();
+			//					+ storageLocation + "/"+databaseName;
+			return new NeoComAndroidDBHelper(AndroidGlobalDataManager.getAppContext()
+					, AndroidGlobalDataManager.accessAppStorageFile(databaseName).getAbsolutePath()
 					, databaseVersion);
 		}
 	}
