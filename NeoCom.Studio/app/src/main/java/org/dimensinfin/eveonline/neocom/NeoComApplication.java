@@ -209,7 +209,7 @@ public class NeoComApplication extends Application {
 		//		final Context context = singleton.getApplicationContext();
 		try {
 			istream = AndroidGlobalDataManager.openAsset4Input(sourceFileName);
-			final File destination = AndroidGlobalDataManager.accessAppStorageFile(sourceFileName);
+			final File destination = new File(AndroidGlobalDataManager.accessResource4Path(sourceFileName));
 			destination.createNewFile();
 			ostream = new FileOutputStream(destination);
 			final byte[] buffer = new byte[8192];

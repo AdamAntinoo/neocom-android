@@ -681,7 +681,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			//			final String dbName = AndroidGlobalDataManager.accessAppStorageFile(databaseName).getAbsolutePath();
 			//					+ storageLocation + "/"+databaseName;
 			return new NeoComAndroidDBHelper(AndroidGlobalDataManager.getAppContext()
-					, AndroidGlobalDataManager.accessAppStorageFile(databaseName).getAbsolutePath()
+					, AndroidGlobalDataManager.accessResource4Path(databaseName)
 					, databaseVersion);
 		}
 	}

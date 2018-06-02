@@ -15,19 +15,19 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.datamngmt;
 
-import android.os.Environment;
-
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import android.os.Environment;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 /**
  * @author Adam Antinoo
@@ -78,7 +78,10 @@ public class FileSystemAndroidImplementation implements IFileSystem {
 
 	@Override
 	public String accessResource4Path( final String filePath ) {
-		return applicationFolder + "/" + filePath;
+		if ( null != filePath )
+			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath;
+		else
+			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder;
 	}
 }
 // - UNUSED CODE ............................................................................................

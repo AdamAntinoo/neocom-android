@@ -81,16 +81,6 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	public static boolean checkAppFile (final String resourceString) {
 		return checkStorageResource(AndroidGlobalDataManager.accessAppStorage4Path(resourceString));
 	}
-
-	public static File accessAppStorageFile (final String resourceString) {
-		if ( null != resourceString )
-			return new File(Environment.getExternalStorageDirectory()
-					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname)
-					+ "/" + resourceString);
-		else
-			return new File(Environment.getExternalStorageDirectory()
-					, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname));
-	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]
