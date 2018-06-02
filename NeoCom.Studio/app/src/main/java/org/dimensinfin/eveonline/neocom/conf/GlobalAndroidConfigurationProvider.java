@@ -47,7 +47,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void readAllProperties () throws IOException {
 		logger.info(">> [GlobalAndroidConfigurationProvider.readAllProperties]");
-		// Read all .properties files under the predefined path on the /resources folder.
+		// Read all .properties files under the predefined path on the /assets folder.
 		final List<String> propertyFiles = getResourceFiles(getResourceLocation());
 		Stream.of(propertyFiles)
 		      .sorted()

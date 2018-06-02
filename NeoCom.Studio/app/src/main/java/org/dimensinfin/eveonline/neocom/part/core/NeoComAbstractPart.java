@@ -15,11 +15,21 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part.core;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Logger;
+
 import android.app.Activity;
 import android.text.Html;
 import android.text.Spanned;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
@@ -27,21 +37,8 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
-import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-import org.dimensinfin.eveonline.neocom.part.RegionPart;
 import org.dimensinfin.eveonline.neocom.render.DefaultRender;
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComAbstractPart extends AbstractAndroidPart {
@@ -81,7 +78,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 
 	protected static final DateTimeFormatter timePointFormatter = DateTimeFormat.forPattern("YYYY.MM.dd HH:mm");
 
-	public static String generateTimeString (final long millis) {
+	public static String generateTimeString( final long millis ) {
 		try {
 			DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
 			if ( millis > NeoComAbstractPart.ONEDAY ) {
@@ -100,21 +97,21 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	protected ESeparatorType separatorColor = ESeparatorType.LINE_RED;
+	//	protected ESeparatorType separatorColor = ESeparatorType.LINE_RED;
 	private Separator.ESeparatorType _themeColor = Separator.ESeparatorType.LINE_WHITE;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComAbstractPart (final ICollaboration model) {
+	public NeoComAbstractPart( final ICollaboration model ) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- P A N E L   C O L O R   T H E M E
-	public Separator.ESeparatorType getThemeColor () {
+	public Separator.ESeparatorType getThemeColor() {
 		return _themeColor;
 	}
 
-	public IAndroidPart setThemeColor (final Separator.ESeparatorType themeColor) {
+	public IAndroidPart setThemeColor( final Separator.ESeparatorType themeColor ) {
 		this._themeColor = themeColor;
 		return this;
 	}
@@ -138,7 +135,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	 */
 	@Deprecated
 	@Override
-	public List<IPart> collaborate2View () {
+	public List<IPart> collaborate2View() {
 		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if ( this.isExpanded() ) {
@@ -193,8 +190,8 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	 * @return
 	 */
 	@Deprecated
-	public void collaborate2View (List<IAndroidPart> contentCollector) {
-//		ArrayList<IPart> result = new ArrayList<IPart>();
+	public void collaborate2View( List<IAndroidPart> contentCollector ) {
+		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if ( this.isExpanded() ) {
 			if ( this.isEmpty() ) {
@@ -219,13 +216,13 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 				List<IPart> childParts = this.runPolicies(this.getChildren());
 				// --- End of policies
 				for (IPart part : childParts) {
-					if(part instanceof IAndroidPart)
-					// For each of the children that are registered to this part and that have a model recursively search for collaborations.
-						((IAndroidPart)part).collaborate2View(contentCollector);
+					if ( part instanceof IAndroidPart )
+						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
+						((IAndroidPart) part).collaborate2View(contentCollector);
 					//					if ( !part.isNewImplemented() ) {
 					//						result.add(part);
 					//					}
-	//				contentCollector.addAll(collaboration);
+					//				contentCollector.addAll(collaboration);
 				}
 				contentCollector.add(
 						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
@@ -237,48 +234,48 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 				contentCollector.add(this);
 			}
 		}
-//		return contentCollector;
+		//		return contentCollector;
 	}
 
-	public AbstractRender getRenderer ( final Activity activity ) {
+	public AbstractRender getRenderer( final Activity activity ) {
 		_activity = activity;
 		final AbstractRender render = this.selectRenderer();
 		// If there is no render defined set a default one to intercept the exception.
-		if(null==render)return new DefaultRender(this,activity);
+		if ( null == render ) return new DefaultRender(this, activity);
 		else return render;
 	}
 
 	//	@Deprecated
-//	private NeoComNode getCastedModel () {
-//		return (NeoComNode) this.getModel();
-//	}
+	//	private NeoComNode getCastedModel () {
+	//		return (NeoComNode) this.getModel();
+	//	}
 
 
-//	protected void notifyDataSetChanged () {
-//		// Locate the DataSourceAdapter and fire to it the message.
-//		final AbstractPagerFragment fragment = getFragment();
-//		fragment.notifyDataSetChanged();
-//	}
+	//	protected void notifyDataSetChanged () {
+	//		// Locate the DataSourceAdapter and fire to it the message.
+	//		final AbstractPagerFragment fragment = getFragment();
+	//		fragment.notifyDataSetChanged();
+	//	}
 
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. For actions there
 	 * is not sorting required so do nothing with the input.
 	 */
-//	public List<IPart> runPolicies (final List<IPart> targets) {
-//		return targets;
-//	}
+	//	public List<IPart> runPolicies (final List<IPart> targets) {
+	//		return targets;
+	//	}
 
 	/**
 	 * Makes sure that all Model dependencies are valid. If there is any problem with any of them it will return false.
 	 */
 	@Deprecated
-	public boolean runDependencies () {
+	public boolean runDependencies() {
 		return true;
 	}
 
 	//-------------------------------------------------------------------------
 	@Deprecated
-	protected Spanned colorFormatLocation (final EveLocation location) {
+	protected Spanned colorFormatLocation( final EveLocation location ) {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
@@ -287,7 +284,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	@Deprecated
-	protected String generateDateString (final long millis) {
+	protected String generateDateString( final long millis ) {
 		try {
 			DateTimeFormatterBuilder dateFormatter = new DateTimeFormatterBuilder();
 			dateFormatter.appendYear(4, 4).appendLiteral(".");
@@ -300,16 +297,17 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 			return "2014 01/01 00:00:00";
 		}
 	}
+
 	/**
 	 * Accepts a <code>Duration</code> as a parameter and returns an string with the formatted duration in the
 	 * pattern <b>9D 99H 99M 99S</b> depending on the real duration of the object.
 	 */
-	protected String generateDurationString (final Instant timer) {
+	protected String generateDurationString( final Instant timer ) {
 		return this.generateDurationString(timer.getMillis());
 	}
 
 	@Deprecated
-	protected String generateDurationString (final long millis) {
+	protected String generateDurationString( final long millis ) {
 		DateTimeFormatterBuilder timeLeftCountdown = new DateTimeFormatterBuilder();
 		if ( millis > NeoComAbstractPart.ONEDAY ) {
 			timeLeftCountdown.appendDayOfYear(1).appendLiteral("D ");
@@ -324,7 +322,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	@Deprecated
-	protected String generatePriceString (final double price, final boolean compress, final boolean addSuffix) {
+	protected String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
 		// Generate different formats depending on the quantity and the compress flag.
 		// Get rid of negative numbers.
 		if ( compress ) {
@@ -344,7 +342,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	}
 
 	@Deprecated
-	protected String generateSecurityColor (double sec, final String data) {
+	protected String generateSecurityColor( double sec, final String data ) {
 		StringBuffer htmlFragmentWithColor = new StringBuffer();
 		String secColor = "#F00000";
 		// Get the color from the table.
@@ -360,13 +358,13 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		return htmlFragmentWithColor.toString();
 	}
 
-//	@Deprecated
-//	protected NeoComCharacter getPilot () {
-//		return NeoComModelStore.getSingleton().getPilot();
-//	}
+	//	@Deprecated
+	//	protected NeoComCharacter getPilot () {
+	//		return NeoComModelStore.getSingleton().getPilot();
+	//	}
 
 	@Deprecated
-	public String upperCaseFirst (String value) {
+	public String upperCaseFirst( String value ) {
 		// Convert String to char array.
 		char[] array = value.toCharArray();
 		// Modify first element in array.
@@ -374,10 +372,10 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		// Return string.
 		return new String(array);
 	}
-//	@Override
-//	public AbstractRender selectRenderer () {
-//		return new DefaultRender(this, _activity);
-//	}
+	//	@Override
+	//	public AbstractRender selectRenderer () {
+	//		return new DefaultRender(this, _activity);
+	//	}
 }
 
 // - UNUSED CODE ............................................................................................

@@ -81,7 +81,7 @@ public class NeoComApplication extends Application {
 
 		// Connect the Configuration manager. Dothis after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("resources/properties"));
+		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties"));
 
 		// Initialize the Model with the current global instance.
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");

@@ -26,7 +26,7 @@
         android:layout_alignBaseline="@+id/applicationName"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/applicationName"
-        android:text="@string/appversion"
+        android:text="@string/appversionname"
         android:textSize="20sp" />
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
@@ -38,7 +38,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
         android:gravity="right"
-        android:text="(c) Dimensinfin Industries 2017"
+        android:text="(c) Dimensinfin Industries 2018"
         android:textColor="@color/appwhite"
         android:textSize="8sp" />
 </RelativeLayout>
