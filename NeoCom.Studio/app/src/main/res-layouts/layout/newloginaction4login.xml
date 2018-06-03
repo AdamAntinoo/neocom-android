@@ -26,10 +26,12 @@
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/instructionsLabel"
+        android:layout_height="wrap_content"
         style="@style/AppTheme.TextView"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/nodeIcon"
         android:text="Click this button to add a new Credential (ESI/API)"
+        android:singleLine="false"
         android:textSize="14sp" />
 
 </RelativeLayout>

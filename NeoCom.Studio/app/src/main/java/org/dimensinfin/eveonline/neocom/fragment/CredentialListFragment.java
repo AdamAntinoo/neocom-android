@@ -145,7 +145,8 @@ public class CredentialListFragment extends AbstractPagerFragment {
 
 					// Add the node to display the new New Login Button.
 					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE));
-					this.addModelContents(new NewLoginAction(),true);
+					this.addModelContents(new NewLoginAction());
+//					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE),true);
 				} catch (RuntimeException rtex) {
 					AndroidGlobalDataManager.registerRuntimeException("CredentialListDataSource.collaborate2Model"
 							, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);

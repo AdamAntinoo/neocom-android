@@ -247,8 +247,8 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 			//			if ( null != _rightArrow ) _rightArrow.setVisibility(View.GONE);
 			//			if ( null != separator ) separator.setVisibility(View.VISIBLE);
 			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
-				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred, getContext().getTheme()));
-			else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.panelborderred));
+				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose, getContext().getTheme()));
+			else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose));
 			nodeClass.setText("CREDENTIAL");
 
 			// Set content fields values.
@@ -310,7 +310,7 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.pilot4credential;
+			return R.layout.credential4list;
 		}
 	}
 	//...........................................................................................................
