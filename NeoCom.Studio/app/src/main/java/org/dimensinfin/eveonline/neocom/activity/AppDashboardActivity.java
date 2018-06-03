@@ -51,6 +51,9 @@ public class AppDashboardActivity extends AbstractPagerActivity {
 		super.onCreate(savedInstanceState);
 		// Create the fragment page. This is a single page activity with to input parameters.
 		try {
+			// Remove the go home for this initial Activity.
+			getActionBar().setDisplayHomeAsUpEnabled(false);
+
 			this.addPage(new AppDashboardFragment());
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AppDashboardActivity.onCreate"

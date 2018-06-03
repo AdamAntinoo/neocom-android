@@ -28,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.render.TransferRender;
 
 /**
  * @author Adam Antinoo
@@ -72,7 +73,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class AppVersionRender extends AbstractRender {
+	public static class AppVersionRender extends TransferRender {
 		// - F I E L D - S E C T I O N ............................................................................
 		// --- U I   F I E L D S
 		protected TextView applicationName = null;
@@ -101,9 +102,14 @@ public class AppVersionPart extends NeoComAbstractPart {
 			this.applicationVersion.setText(getPart().getCastedModel().getVersion());
 		}
 		@Override
-		protected void createView() {
-
+		public int accessLayoutReference(){
+			return R.layout.appversion4dashboard;
 		}
+//		@Override
+//		protected void createView() {
+//			_convertView = inflateView();
+//			_convertView.setTag(this);
+//		}
 	}
 	//...........................................................................................................
 }
