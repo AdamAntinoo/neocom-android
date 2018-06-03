@@ -27,7 +27,7 @@ android {
             resValue "string", "appversionnumber", android.defaultConfig.versionName
             resValue "string", "appversionname", "v" + android.defaultConfig.versionName
             resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
-            resValue "string", "appnameversion", "\"NeoCom v" + android.defaultConfig.versionName + "\""
+            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom" + android.defaultConfig.versionCode + ".db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""

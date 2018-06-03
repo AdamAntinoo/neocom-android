@@ -43,11 +43,19 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private PilotV2 pilot = null;
-	//	private AssetsManager manager = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public CredentialPart( final Credential node ) {
 		super(node);
+
+		// TODO - testing code to check if this can be equivalent to the runDependencies call.
+//		try {
+////			pilot = AndroidGlobalDataManager.requestPilotV2(node);
+//		} catch (NeoComRegisteredException neore) {
+//			AndroidGlobalDataManager.registerException("CredentialPart.<constructor>"
+//					, neore, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			neore.printStackTrace();
+//		}
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -129,11 +137,11 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 		logger.info(">> [CredentialPart.runDependencies]");
 		try {
 			// Make access to the rendering dependencies during this preparation phase.
-//			pilot = AndroidGlobalDataManager.requestPilotV2(getCastedModel());
-//		} catch (NeoComRegisteredException neore) {
-//			AndroidGlobalDataManager.registerException("CredentialPart.runDependencies", neore
-//					, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
-//			neore.printStackTrace();
+			pilot = AndroidGlobalDataManager.requestPilotV2(getCastedModel());
+		} catch (NeoComRegisteredException neore) {
+			AndroidGlobalDataManager.registerException("CredentialPart.runDependencies", neore
+					, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
+			neore.printStackTrace();
 		} finally {
 			logger.info("<< [CredentialPart.runDependencies]");
 			if ( null == pilot ) return false;

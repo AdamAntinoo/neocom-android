@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/nodeIcon"
+            android:layout_toRightOf="@id/spinner"
             android:text="Wait while doing credential authorization..."
             android:textSize="16sp" />
 
