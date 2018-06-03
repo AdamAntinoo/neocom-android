@@ -34,3 +34,18 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+// This block encapsulates custom properties and makes them available to all
+// modules in the project.
+//ext {
+//    compileSdkVersion 27
+//    buildToolsVersion "26.0.2"
+//    defaultConfig {
+//        minSdkVersion 16
+//        targetSdkVersion 27
+//        multiDexEnabled true
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testHandleProfiling true
+//        testFunctionalTest true
+//    }
+//    supportLibVersion = "27.0.2"
+//}

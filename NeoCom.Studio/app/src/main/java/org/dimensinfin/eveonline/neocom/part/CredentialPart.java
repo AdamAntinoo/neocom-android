@@ -49,13 +49,13 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 		super(node);
 
 		// TODO - testing code to check if this can be equivalent to the runDependencies call.
-//		try {
-////			pilot = AndroidGlobalDataManager.requestPilotV2(node);
-//		} catch (NeoComRegisteredException neore) {
-//			AndroidGlobalDataManager.registerException("CredentialPart.<constructor>"
-//					, neore, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-//			neore.printStackTrace();
-//		}
+		try {
+			pilot = AndroidGlobalDataManager.requestPilotV2(node);
+		} catch (NeoComRegisteredException neore) {
+			AndroidGlobalDataManager.registerException("CredentialPart.<constructor>"
+					, neore, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			neore.printStackTrace();
+		}
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
