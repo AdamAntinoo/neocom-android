@@ -120,8 +120,8 @@ public class AppDashboardFragment extends AbstractPagerFragment {
 			return super.createPart(node);
 		}
 	}
-
 	//...........................................................................................................
+
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class AppDashboardDataSource extends MVCDataSource {
 		// - F I E L D - S E C T I O N ............................................................................

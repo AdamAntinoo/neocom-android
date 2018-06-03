@@ -28,7 +28,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.render.TransferRender;
 
 /**
  * @author Adam Antinoo
@@ -48,7 +47,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AppVersion getCastedModel () {
+	public AppVersion getCastedModel() {
 		return (AppVersion) this.getModel();
 	}
 
@@ -60,7 +59,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 
 	@Override
 	public AbstractRender selectRenderer() {
-		return new AppVersionRender(this,getActivity());
+		return new AppVersionRender(this, getActivity());
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class AppVersionRender extends TransferRender {
+	public static class AppVersionRender extends AbstractRender {
 		// - F I E L D - S E C T I O N ............................................................................
 		// --- U I   F I E L D S
 		protected TextView applicationName = null;
@@ -86,30 +85,28 @@ public class AppVersionPart extends NeoComAbstractPart {
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public AppVersionPart getPart () {
+		public AppVersionPart getPart() {
 			return (AppVersionPart) super.getPart();
 		}
+
 		@Override
-		public void initializeViews () {
-			super.initializeViews();
+		public void initializeViews() {
+			//			super.initializeViews();
 			this.applicationName = (TextView) this._convertView.findViewById(R.id.applicationName);
 			this.applicationVersion = (TextView) this._convertView.findViewById(R.id.applicationVersion);
 		}
+
 		@Override
-		public void updateContent () {
-			super.updateContent();
+		public void updateContent() {
+			//			super.updateContent();
 			this.applicationName.setText(getPart().getCastedModel().getName());
 			this.applicationVersion.setText(getPart().getCastedModel().getVersion());
 		}
+
 		@Override
-		public int accessLayoutReference(){
+		public int accessLayoutReference() {
 			return R.layout.appversion4dashboard;
 		}
-//		@Override
-//		protected void createView() {
-//			_convertView = inflateView();
-//			_convertView.setTag(this);
-//		}
 	}
 	//...........................................................................................................
 }

@@ -61,12 +61,12 @@ android {
 //        main.res.srcDirs += 'src/main/res-final'
         main.res {
             srcDirs += 'src/main/res-layouts'
-            srcDirs += 'src/main/res-window'
+            srcDirs += 'src/main/res-sde'
+            srcDirs += 'src/main/res-ui'
         }
 //        main.res.srcDirs += 'src/main/res-newrelease'
 //        main.res.srcDirs += 'src/main/res-obsolete'
 //        main.res.srcDirs += 'src/main/res-production'
-//        main.res.srcDirs += 'src/main/res-ui'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -126,15 +126,15 @@ dependencies {
 //    implementation 'com.android.support:recyclerview-v7:27.0.2'
 
     // P R O J E C T    D E P E N D E N C I E S
-//    implementation project(path: ':AndroidMVCLibrary')
+    implementation project(path: ':AndroidMVCLibrary')
     implementation project(path: ':ESI.SwaggerApi')
     implementation project(path: ':NeoCom.DataManagement')
     implementation project(path: ':NeoCom.Model')
 
     // L O C A L    L I B R A R I E S
     implementation files('libs/CoreBase.core-2.0.3.jar')
-    implementation files('libs/viewpagerindicator-release.aar')
-    implementation files('libs/AndroidMVC-3.0.0.aar')
+//    implementation files('libs/viewpagerindicator-release.aar')
+//    implementation files('libs/AndroidMVC-3.0.0.aar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E

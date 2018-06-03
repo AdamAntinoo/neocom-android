@@ -15,27 +15,44 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 
 /**
+ * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
+ * them, this special page should put the fragments one below the previous one composing a list of panels. Initially this code belongs to
+ * the NeoCom project but is the code can be made generic it should add to the functionalities found on the MVC.
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AppDashboardActivity extends AbstractPagerActivity {
+public class AppDashboardActivity extends Activity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("AppDashboardActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	protected Bundle _extras = null;
+	private ViewGroup _fragmentContainer = null;
+	private FragmentDataContainer _linearAdapter = null;
+	/** Image reference to the background layout item that can be replaced by the application implementation. */
+	protected ImageView background = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- A C T I V I T Y   L I F E C Y C L E
@@ -43,24 +60,126 @@ public class AppDashboardActivity extends AbstractPagerActivity {
 	/**
 	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation code
 	 * for an Activity and the only code to integrate it into the MVC.
+	 *
+	 * This Activity structure is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
+	 * Fragments are added in order and usually should not change. In that case we should add an external storage structure to store the
+	 * list of fragments and use it to recreate the layout contents on any content change event.
 	 * @param savedInstanceState
 	 */
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [AppDashboardActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		// Create the fragment page. This is a single page activity with to input parameters.
+		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
-			// Remove the go home for this initial Activity.
-			getActionBar().setDisplayHomeAsUpEnabled(false);
+			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			if ( null != savedInstanceState ) {
+				_extras = savedInstanceState;
+			} else {
+				_extras = this.getIntent().getExtras();
+			}
+		} catch (RuntimeException rtex) {
+			logger.warn("RTEX [AppDashboardActivity.onCreate]> " + rtex.getMessage());
+		}
 
-			this.addPage(new AppDashboardFragment());
+		// Set the layout to the core activity that defines the background and the fragment container, this time one on top of another and
+		// not in different pages.
+		try {
+			this.setContentView(R.layout.activity_linear);
+
+			// Locate the elements of the page and store in global data.
+			_fragmentContainer = (ViewGroup) this.findViewById(R.id.fragmentContainer);
+			background = (ImageView) this.findViewById(R.id.backgroundFrame);
+			//		_indicator = (CirclePageIndicator) this.findViewById(org.dimensinfin.android.mvc.R.id.indicator);
+			// Check page structure.
+			if ( null == _fragmentContainer ) {
+				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
+			}
+			if ( null == background ) {
+				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
+			}
+
+			// Add the adapter for the page switching.
+			_linearAdapter = new FragmentDataContainer(_fragmentContainer.getId());
+
+			// Create and add the fragment to the layout container.
+			this.addLinear(new AppDashboardFragment());
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AppDashboardActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 		}
 		logger.info("<< [AppDashboardActivity.onCreate]");
+	}
+
+	public void addLinear( AbstractPagerFragment newFrag ) {
+		logger.info(">> [AppDashboardActivity.addLinear]");
+		// Before checking if we have already this fragment we should get its unique identifier.
+		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
+		if ( null == frag ) {
+			_linearAdapter.addLinear(newFrag);
+		} else {
+			if ( frag instanceof AbstractPagerFragment ) {
+				// Reuse a previous created Fragment. But watch some of the fields have been removed.
+				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
+				newFrag = (AbstractPagerFragment) frag;
+				// TODO Check next run so see if there are more fields to be initialized.
+				_linearAdapter.addLinear(newFrag);
+			} else
+				throw new RuntimeException("RTEX [AppDashboardActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
+		}
+		// Be sure the Fragment activity points to a valid activity.
+		newFrag.setAppContext(this);
+		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+		newFrag.setExtras(_extras);
+
+		// Now add the configured fragment to the activity container layout.
+		// Begin the transaction
+		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+		// Add the fragment to the container with the new fragment.
+		ft.add(R.id.fragmentContainer, newFrag);
+		ft.commit();
+		logger.info("<< [AppDashboardActivity.addLinear]"); //$NON-NLS-1$
+	}
+
+	// - CLASS IMPLEMENTATION ...................................................................................
+	public static class FragmentDataContainer {
+		// - F I E L D - S E C T I O N ............................................................................
+		private int _pagerid = R.id.fragmentContainer;
+		protected List<Fragment> _fragments = new ArrayList();
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public FragmentDataContainer( final int layoutId ) {
+			this._pagerid=layoutId;
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+
+		/**
+		 * Return the fragment internal identifier generated by the FragmentPager. This is a composed string from
+		 * some fields that have to be informed to this adapter.
+		 * @param position the page position identifier we are going to use for this Fragment. This has not to match the real
+		 *                 position of the instance on the Fragment internal list, it is only a numeric unique identifier.
+		 * @return internal Fragment Manager fragment identifier string.
+		 */
+		public String getFragmentId( final int position ) {
+			return "android:switcher:" + _pagerid + ":" + position;
+		}
+
+		public int getNextPosition() {
+			return _fragments.size();
+		}
+
+		/**
+		 * Add a new fragment at the end of the list of already managed fragments.
+		 * @param fragNew new fragment to all to the list of pages.
+		 */
+		public void addLinear( final Fragment fragNew ) {
+			if ( null != fragNew ) {
+				_fragments.add(fragNew);
+			}
+			//			this.notifyDataSetChanged();
+		}
 	}
 }
 // - UNUSED CODE ............................................................................................

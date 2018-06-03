@@ -11,7 +11,7 @@
 
     <!-- A C T I V I T I E S    T I T L E S -->
     <string name="activity_title_Settings">Settings</string>
-    <string name="activity_title_LoginListActivity">CAPSULEER SELECTION</string>
+    <string name="activity_title_CredentialList">CAPSULEER SELECTION</string>
     <string name="activity_title_PilotDetailsActivity">PILOT DETAILS</string>
     <string name="activity_title_AssetsManagerActivity">ASSETS MANAGER</string>
     <string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
