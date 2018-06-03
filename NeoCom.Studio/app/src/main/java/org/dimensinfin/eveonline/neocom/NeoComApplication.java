@@ -45,6 +45,9 @@ import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
+	public enum EExtras{
+		FIRE_AUTHORIZATION_FLOW
+	}
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComApplication");
 

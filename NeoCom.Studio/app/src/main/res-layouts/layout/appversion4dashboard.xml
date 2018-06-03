@@ -15,7 +15,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:text="NEOCOM"
+        android:text="@string/appname"
         android:textSize="30sp" />
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView

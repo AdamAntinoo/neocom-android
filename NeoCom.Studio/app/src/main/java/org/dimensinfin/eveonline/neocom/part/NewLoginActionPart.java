@@ -16,6 +16,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +24,9 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 
@@ -83,12 +86,12 @@ public class NewLoginActionPart extends AbstractAndroidPart implements View.OnCl
 	public void onClick( final View view ) {
 		logger.info(">> [NewLoginActionPart.onClick]");
 		Toast.makeText(this.getActivity(), "New Credential action fired.", Toast.LENGTH_LONG)
-		.show();
-		// TODO - Reactivate the activity actiovation once the destination is available.
-		//		// launch the LoginProgress so the display is blocked while we authorize a new Credential.
-		//		final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
-		//		// Add all the identification chain as in the backend Angular calls. This is Login/Pilot
-		//		getActivity().startActivity(intent);
+		     .show();
+		// Launch the Authorization Flow so the display is blocked while we authorize a new Credential.
+		final Intent intent = new Intent(this.getActivity(), AuthorizationFlowActivity.class);
+		// Tag this intent request with a flag to know we are firing it from the new login action part.
+		intent.putExtra(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name(), "NEW-LOGIN-PART");
+		getActivity().startActivity(intent);
 		logger.info("<< [NewLoginActionPart.onClick]");
 	}
 
