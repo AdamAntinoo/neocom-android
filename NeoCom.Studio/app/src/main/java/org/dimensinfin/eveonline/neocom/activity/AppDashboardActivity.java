@@ -34,6 +34,7 @@ import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
+import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
@@ -55,8 +56,37 @@ public class AppDashboardActivity extends Activity {
 	protected ImageView background = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- A C T I V I T Y   L I F E C Y C L E
+	public void addLinear( AbstractPagerFragment newFrag ) {
+		logger.info(">> [AppDashboardActivity.addLinear]");
+		// Before checking if we have already this fragment we should get its unique identifier.
+		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
+		if ( null == frag ) {
+			_linearAdapter.addLinear(newFrag);
+			// Now add the configured fragment to the activity container layout.
+			// Begin the transaction
+			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+			// Add the fragment to the container with the new fragment.
+			ft.add(R.id.fragmentContainer, newFrag);
+			ft.commit();
+		} else {
+			if ( frag instanceof AbstractPagerFragment ) {
+				// Reuse a previous created Fragment. But watch some of the fields have been removed.
+				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
+				newFrag = (AbstractPagerFragment) frag;
+				// TODO Check next run so see if there are more fields to be initialized.
+//				 todo - If the fragment exists problably it should not be added again to the container.
+//				_linearAdapter.addLinear(newFrag);
+			} else
+				throw new RuntimeException("RTEX [AppDashboardActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
+		}
+		// Be sure the Fragment activity points to a valid activity.
+		newFrag.setAppContext(this);
+		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+		newFrag.setExtras(_extras);
+		logger.info("<< [AppDashboardActivity.addLinear]"); //$NON-NLS-1$
+	}
 
+	// --- A C T I V I T Y   L I F E C Y C L E
 	/**
 	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation code
 	 * for an Activity and the only code to integrate it into the MVC.
@@ -104,6 +134,7 @@ public class AppDashboardActivity extends Activity {
 
 			// Create and add the fragment to the layout container.
 			this.addLinear(new AppDashboardFragment());
+			this.addLinear(new CredentialListFragment());
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AppDashboardActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
@@ -112,34 +143,15 @@ public class AppDashboardActivity extends Activity {
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 
-	public void addLinear( AbstractPagerFragment newFrag ) {
-		logger.info(">> [AppDashboardActivity.addLinear]");
-		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
-		if ( null == frag ) {
-			_linearAdapter.addLinear(newFrag);
-		} else {
-			if ( frag instanceof AbstractPagerFragment ) {
-				// Reuse a previous created Fragment. But watch some of the fields have been removed.
-				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
-				newFrag = (AbstractPagerFragment) frag;
-				// TODO Check next run so see if there are more fields to be initialized.
-				_linearAdapter.addLinear(newFrag);
-			} else
-				throw new RuntimeException("RTEX [AppDashboardActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
-		}
-		// Be sure the Fragment activity points to a valid activity.
-		newFrag.setAppContext(this);
-		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
-		newFrag.setExtras(_extras);
-
-		// Now add the configured fragment to the activity container layout.
-		// Begin the transaction
-		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-		// Add the fragment to the container with the new fragment.
-		ft.add(R.id.fragmentContainer, newFrag);
-		ft.commit();
-		logger.info("<< [AppDashboardActivity.addLinear]"); //$NON-NLS-1$
+	/**
+	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
+	 * then should be provided by the Activity itself.
+	 */
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Set the title and subtitle
+		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................

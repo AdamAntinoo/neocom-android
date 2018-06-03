@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.annotation.WorkerThread;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
@@ -27,10 +26,9 @@ import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.AbstractGenerator;
+import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
@@ -74,7 +72,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				, getVariant()
 				, createFactory()
 				, getExtras())
-				.setCacheable(false)
+				.setCacheable(true)
 				.setVariant(getVariant());
 	}
 
@@ -104,6 +102,11 @@ public class CredentialListFragment extends AbstractPagerFragment {
 			if ( node instanceof NewLoginAction ) {
 				IPart part = new NewLoginActionPart((NewLoginAction) node).setFactory(this)
 				                                                          .setRenderMode(this.getVariant());
+				return part;
+			}
+			if ( node instanceof Separator ) {
+				IPart part = new SeparatorPart((Separator) node).setFactory(this)
+				                                                .setRenderMode(this.getVariant());
 				return part;
 			}
 			return super.createPart(node);
@@ -142,7 +145,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 
 					// Add the node to display the new New Login Button.
 					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE));
-					this.addModelContents(new NewLoginAction());
+					this.addModelContents(new NewLoginAction(),true);
 				} catch (RuntimeException rtex) {
 					AndroidGlobalDataManager.registerRuntimeException("CredentialListDataSource.collaborate2Model"
 							, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);

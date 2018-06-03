@@ -74,7 +74,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class AppVersionRender extends AbstractRender {
 		// - F I E L D - S E C T I O N ............................................................................
-		// --- U I   F I E L D S
+		// - U I   F I E L D S
 		protected TextView applicationName = null;
 		protected TextView applicationVersion = null;
 
@@ -89,6 +89,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 			return (AppVersionPart) super.getPart();
 		}
 
+		// --- I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
 			//			super.initializeViews();

@@ -230,7 +230,7 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		} else {
 			// Check for items that will not shown when empty and not expanded.
 			if ( this.isRenderWhenEmpty() ) {
-				runDependencies();
+//				runDependencies();
 				contentCollector.add(this);
 			}
 		}
@@ -265,13 +265,13 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	//		return targets;
 	//	}
 
-	/**
-	 * Makes sure that all Model dependencies are valid. If there is any problem with any of them it will return false.
-	 */
-	@Deprecated
-	public boolean runDependencies() {
-		return true;
-	}
+//	/**
+//	 * Makes sure that all Model dependencies are valid. If there is any problem with any of them it will return false.
+//	 */
+//	@Deprecated
+//	public boolean runDependencies() {
+//		return true;
+//	}
 
 	//-------------------------------------------------------------------------
 	@Deprecated
@@ -321,7 +321,6 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
 	}
 
-	@Deprecated
 	protected String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
 		// Generate different formats depending on the quantity and the compress flag.
 		// Get rid of negative numbers.
@@ -363,7 +362,6 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	//		return NeoComModelStore.getSingleton().getPilot();
 	//	}
 
-	@Deprecated
 	public String upperCaseFirst( String value ) {
 		// Convert String to char array.
 		char[] array = value.toCharArray();

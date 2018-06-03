@@ -20,41 +20,36 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 // - CLASS IMPLEMENTATION ...................................................................................
 
 /**
- * This model class will serve as a placeholder to trigger the action to add new Logins to the list of authentications
+ * This model class will serve as a placeholder to trigger the action to add new Credentials to the list of authentications
  * stored on the local database. The existence of this node will generate an specific Part that will inform the user how
- * to add a new Login by clicking it. This model will serve as the temporal storage of the new login creation until it
- * is stored on the database
+ * to add a new Credential by clicking it.
  */
 public class NewLoginAction extends NeoComNode implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String name = "-CHARACTER NAME-";
+	private String label = "-LABEL-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NewLoginAction () {
 		super();
-		jsonClass = "NewLoginAction";
+//		jsonClass = "NewLoginAction";
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	@Override
-//	public ArrayList<AbstractComplexNode> collaborate2Model (final String variant) {
-//		return new ArrayList<AbstractComplexNode>();
-//	}
-
-	public String getName () {
-		return name;
+	public String getLabel () {
+		return label;
 	}
 
-	public void setName (final String name) {
-		this.name = name;
+	public NewLoginAction setLabel (final String name) {
+		this.label = name;
+		return this;
 	}
 
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("NewLoginAction [");
-		buffer.append("name:").append(getName());
+		StringBuffer buffer = new StringBuffer("NewLoginAction [ ");
+		buffer.append("label:").append(getLabel());
 		buffer.append(" ]");
 		return buffer.toString();
 	}
