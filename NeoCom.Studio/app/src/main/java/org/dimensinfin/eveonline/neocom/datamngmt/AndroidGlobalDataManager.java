@@ -17,13 +17,11 @@ package org.dimensinfin.eveonline.neocom.datamngmt;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Environment;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 /**
  * This static class centralizes all the functionalities to access data. It will provide a consistent api to the rest
@@ -44,42 +42,50 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	// --- A N D R O I D   C O N T E X T   S E C T I O N
 	private static Application application = null;
 
-	public static Application getApplication () {
+	public static Application getApplication() {
 		if ( null == application ) throw new RuntimeException("Application not connected");
 		else return application;
 	}
 
-	public static Context getAppContext () {
+	public static Context getAppContext() {
 		if ( null == application ) throw new RuntimeException("Application not connected");
 		else return application.getApplicationContext();
 	}
 
-	public static void setApplicationContext (final Application app) {
+	public static void setApplicationContext( final Application app ) {
 		application = app;
 	}
 
 	// --- G L O B A L   A N D R O I D   D A T A   A C C E S S
 	// TODO - Call the android api to solve this check.
-	public static boolean sdcardAvailable () {
+	public static boolean sdcardAvailable() {
 		return true;
 	}
 
-	public static String getResourceString (final int resourceid) {
+	public static String getResourceString( final int resourceid ) {
 		return getApplication().getResources().getString(resourceid);
 	}
 
-	public static String getURLForItem (final int typeID) {
+	public static String getURLForItem( final int typeID ) {
 		final String iconUrl = "http://image.eveonline.com/Type/" + typeID + "_64.png";
 		return iconUrl;
 	}
 
-	public static String getURLForStation (final int typeID) {
+	public static String getURLForStation( final int typeID ) {
 		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
 		return iconUrl;
 	}
 
-	public static boolean checkAppFile (final String resourceString) {
+	public static boolean checkAppFile( final String resourceString ) {
 		return checkStorageResource(AndroidGlobalDataManager.accessAppStorage4Path(resourceString));
+	}
+
+	public static boolean checkNetworkAccess() {
+		final ConnectivityManager cm = (ConnectivityManager) AndroidGlobalDataManager.getAppContext()
+		                                                                             .getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if ( (netInfo != null) && netInfo.isConnectedOrConnecting() ) return true;
+		return false;
 	}
 }
 // - UNUSED CODE ............................................................................................

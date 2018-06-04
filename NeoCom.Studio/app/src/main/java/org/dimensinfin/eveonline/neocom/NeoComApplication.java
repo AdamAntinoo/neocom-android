@@ -23,6 +23,9 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Environment;
 
 import org.slf4j.Logger;
@@ -38,6 +41,8 @@ import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.datamngmt.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
+import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
+import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 
 /**
  * @author Adam Antinoo
@@ -45,13 +50,26 @@ import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
-	public enum EExtras{
+	public enum EExtras {
 		FIRE_AUTHORIZATION_FLOW
 	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComApplication");
 
+	/** Market Data Downloader service. It is imeplemtned with threads and not as Android service. */
 	public static MarketDataServer mdServer = null;
+	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
+	private static BroadcastReceiver timeTickReceiver = null;
+	private static TimedUpdater timedService = null;
+
+	/** Direct entry point to fire a timer tick event . */
+	public static void runTimer() {
+		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
+	}
+	public static void runTicker() {
+		timedService.timeTick();
+	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -61,6 +79,20 @@ public class NeoComApplication extends Application {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
+	/**
+	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
+	 * checking elements that should be updated because they are obsolete. New updates will be launched as
+	 * separate async tasks.
+	 */
+	public void startTimer() {
+		if ( null == timeTickReceiver ) {
+			timeTickReceiver = new TimeTickReceiver(this);
+			timedService = new TimedUpdater();
+			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+		}
+	}
+	// --- A P P L I C A T I O N   L I F E   C Y C L E
 
 	/**
 	 * This Application lifecycle event is only called when the application is started or completely removed from memory.
@@ -144,33 +176,24 @@ public class NeoComApplication extends Application {
 		logger.info("-- [NeoComApp.onCreate]> Read Locations data cache...");
 		AndroidGlobalDataManager.readLocationsDataCache();
 
-		//		// Connect the Timed Upgrade scan.
-		//		logger.info("-- [NeoComMicroServiceApplication.main]> Connecting the background timed download scanner...");
-		//		timedService = new TimedUpdater();
-
-
-		//		// Initialize global objects that are going to be used on main code.
-		//		NeoComApp.daysFace = Typeface.createFromAsset(super.getApplicationContext().getAssets(), "fonts/Days.otf");
-		//		// Set the initial activity as a return point in case of exceptions.
-		//		_firstActivity = new AssetsManagerActivity();
-		//
-		//		// Setup the referencing structures that will serve as proxy and global references.
-		//			NeoComApp.singleton = this;
-		//			_appConnector = new NeoComAppConnector(this);
-		//			_modelAppConnector = new ModelAppConnector(this);
-		//
-		//		// Close databases if they were left open.
-		//		this.getDBConnector().closeDatabases();
-		//		// Remove any reference to old adapters and helpers.
-		//		storage = null;
-		//		dbCCPConnector = null;
-		//		dbNeocomConnector = null;
-		//		cache = null;
-		//
-		//		// Initialize the Network with the base location for the cache.
-		//		ESINetworkManager.retrofitApplicationParameter=getApplicationContext().getCacheDir();
+		// Connect the Timed Upgrade scan.
+		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
+		startTimer();
 		logger.info("<< [NeoComApp.onCreate]");
 	}
+
+	/**
+	 * Events called during the Application life cycle.
+	 */
+	@Override
+	public void onTerminate() {
+		logger.info(">> [NeoComApp.onTerminate]");
+		this.unregisterReceiver(timeTickReceiver);
+		super.onTerminate();
+		logger.info("<< [NeoComApp.onTerminate]");
+	}
+
+	// --- P R I V A T E   S E C T I O N
 
 	/**
 	 * Creates the application directory if it already does not exist on the sdcard.

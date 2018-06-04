@@ -15,6 +15,10 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.database;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -29,6 +33,9 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entity.Colony;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
@@ -36,20 +43,14 @@ import org.dimensinfin.eveonline.neocom.database.entity.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.database.entity.FittingRequest;
 import org.dimensinfin.eveonline.neocom.database.entity.Job;
 import org.dimensinfin.eveonline.neocom.database.entity.MarketOrder;
+import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.database.entity.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.database.entity.Property;
 import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NeoComBlueprint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * NeoCom private database connector that will have the same api as the connector to be used on Android. This
@@ -70,29 +71,27 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private boolean isOpen = false;
 	private String storageLocation = "";
 	private int databaseVersion = 0;
-	//	private JdbcPooledConnectionSource connectionSource = null;
 
 	private Dao<DatabaseVersion, String> versionDao = null;
 	private Dao<TimeStamp, String> timeStampDao = null;
 	private Dao<Credential, String> credentialDao = null;
-	private Dao<Colony, String> colonyDao = null;
-	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
-	//	private Dao<ColonySerialized, String> colonySerializedDao = null;
-	private Dao<NeoComAsset, String> assetDao = null;
 	private Dao<EveLocation, String> locationDao = null;
 	private Dao<Property, String> propertyDao = null;
+	private Dao<NeoComAsset, String> assetDao = null;
 	private Dao<NeoComBlueprint, String> blueprintDao = null;
 	private Dao<Job, String> jobDao = null;
 	private Dao<MarketOrder, String> marketOrderDao = null;
 	private Dao<FittingRequest, String> fittingRequestDao = null;
+	private Dao<MiningExtraction, String> miningExtractionDao = null;
+
+	private Dao<Colony, String> colonyDao = null;
+	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
+	//	private Dao<ColonySerialized, String> colonySerializedDao = null;
 
 	private DatabaseVersion storedVersion = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	//	public NeoComAndroidDBHelper () {
-	////		super();
-	//	}
-	public NeoComAndroidDBHelper (final Context context, final String databaseName, final int databaseVersion) {
+	public NeoComAndroidDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
 		super(context, databaseName, null, databaseVersion, R.raw.ormlite_config);
 		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
 				, databaseName);
@@ -104,19 +103,19 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- I N E O C O M D B H E L P E R   I N T E R F A C E
-	public boolean isDatabaseValid () {
+	public boolean isDatabaseValid() {
 		return databaseValid;
 	}
 
-	public boolean isOpen () {
+	public boolean isOpen() {
 		return isOpen;
 	}
 
-	public int getDatabaseVersion () {
+	public int getDatabaseVersion() {
 		return databaseVersion;
 	}
 
-	public int getStoredVersion () {
+	public int getStoredVersion() {
 		if ( null == storedVersion ) {
 			// Access the version object persistent on the database.
 			try {
@@ -136,16 +135,11 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		} else return storedVersion.getVersionNumber();
 	}
 
-	//	public ConnectionSource getConnectionSource () throws SQLException {
-	//		if ( null == connectionSource ) createConnectionSource();
-	//		return connectionSource;
-	//	}
-
-	public void onCreate (final ConnectionSource databaseConnection) {
+	public void onCreate( final ConnectionSource databaseConnection ) {
 	}
 
 	@Override
-	public void onCreate (final SQLiteDatabase database, final ConnectionSource databaseConnection) {
+	public void onCreate( final SQLiteDatabase database, final ConnectionSource databaseConnection ) {
 		logger.info(">> [NeoComAndroidDBHelper.onCreate]");
 		// Create the tables that do not exist
 		try {
@@ -158,28 +152,28 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
-		//		} catch (SQLException sqle) {
-		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-		//		}
 		try {
 			TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, ColonyStorage.class);
-		//		} catch (SQLException sqle) {
-		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-		//		}
+		try {
+			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+		} catch (SQLException sqle) {
+			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+		}
+		try {
+			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
+		} catch (SQLException sqle) {
+			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+		}
 		try {
 			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
@@ -199,10 +193,20 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
+			TableUtils.createTableIfNotExists(databaseConnection, MiningExtraction.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
+		//		try {
+		//			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
+		//		} catch (SQLException sqle) {
+		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+		//		}
+		//		try {
+		//			TableUtils.createTableIfNotExists(databaseConnection, ColonyStorage.class);
+		//		} catch (SQLException sqle) {
+		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+		//		}
 		//		try {
 		//			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
 		//		} catch (SQLException sqle) {
@@ -211,19 +215,15 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		//			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
 		//		} catch (SQLException sqle) {
 		//		}
-		try {
-			TableUtils.createTableIfNotExists(databaseConnection, NeoComBlueprint.class);
-		} catch (SQLException sqle) {
-		}
 		this.loadSeedData();
 		logger.info("<< [NeoComAndroidDBHelper.onCreate]");
 	}
 
-	public void onUpgrade (final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
+	public void onUpgrade( final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
 	}
 
 	@Override
-	public void onUpgrade (final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion) {
+	public void onUpgrade( final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
 		logger.info(">> [NeoComAndroidDBHelper.onUpgrade]");
 		// Execute different actions depending on the new version.
 		if ( oldVersion < 109 ) {
@@ -254,16 +254,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				logger.error("E> Error dropping table on Database new version.");
 				sqle.printStackTrace();
 			}
-			//			try {
-			//				// Drop all the tables to force a new update from the latest SQLite version.
-			//				TableUtils.dropTable(databaseConnection, ApiKey.class, true);
-			//			} catch (RuntimeException rtex) {
-			//				logger.error("E> Error dropping table on Database new version.");
-			//				rtex.printStackTrace();
-			//			} catch (SQLException sqle) {
-			//				logger.error("E> Error dropping table on Database new version.");
-			//				sqle.printStackTrace();
-			//			}
 			try {
 				// Drop all the tables to force a new update from the latest SQLite version.
 				TableUtils.dropTable(databaseConnection, Credential.class, true);
@@ -292,7 +282,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	/**
 	 * Checks if the key tables had been cleaned and then reinserts the seed data on them.
 	 */
-	public void loadSeedData () {
+	public void loadSeedData() {
 		logger.info(">> [NeoComAndroidDBHelper.loadSeedData]");
 		// Add seed data to the new database is the tables are empty.
 		try {
@@ -315,52 +305,52 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			sqle.printStackTrace();
 		}
 
-//		try {
-//			//--- C R E D E N T I A L S
-//			logger.info("-- [NeoComAndroidDBHelper.loadSeedData]> Loading seed data for Credentials");
-//			final long records = this.getCredentialDao().countOf();
-//			// If the table is empty then insert the seeded Credentials
-//			if ( records < 1 ) {
-//				Credential credential = null;
-//				//				credential = new Credential(92002067)
-//				//						.setAccountName("Adam Antinoo")
-//				//						.setAccessToken("51oilTxRLOECg5HJueiTEVcPvCWcltJ79-h-CUjHq6jYFuWdkZ9zcl0PCTRmGXuPtBuoX7jOe-3kVj7mODC57w2")
-//				//						.setRefreshToken("XLFPeyEdC3o-gb5N3cWlU1pGYyNXOppVQ5f30")
-//				//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
-//				//						.setScope(ESINetworkManager.getStringScopes())
-//				//						.store();
-//				//				Credential credential = new Credential(91734031)
-//				//						.setAccessToken("m58y5NBSK7T_1ki9jx4XsGgfu4laHIF9-3WRLeNqkABe-VKZ57tGFee8kpwFBO8RTtSIrHyz9UKtC17clitqsw2")
-//				//						.setAccountName("Zach Zender")
-//				//						.setRefreshToken("HB68Z3aeNjQxpA8ebcNijfMGv9wfkcn-dkcy5qchW88Pe0ackWDHCy2yr5RrY_ERE4aKNCsR-J2a_-V_tS2sV_21HMTYcIKQ-QJHhz6GugotFfrdRcl6nsVjEuxOay5c7t-0tFu2diGy-2cF9y4qYCJ53da5slsLjNBWiIvUTxP7PUOQIs0y23_LhMPku1O1AXZsKG383NOLYQTCFL6vrVjThKJKXX9xRqm2rsRoe7xA_hyV0PiSmxjclUl9XzYULQEpVi_yl65jw8Xhn88bADOcsjeh4dAIyW2U5_b5GOf7KfKTLf2JzpIWP6jtcJreMD6L228hYYGrG-F0tQxPp1pEhQjVwS0KepHSJV-o4s9-tEfDRfhTd5FtvJm_pNwbbyVEdtzoU81L834jZz9c5U3gxhRMvTfT5dp8ZiF8TbqLTAYnyL6QICqOU7uSSVV59hFtZF7lbZOFnWpis-2_4YsUXMzdgfW-dMFAjPlE-bGCvEF3tteFPhbSWj24JJQ1sfbVCdXQ6WEEsM5DJoeo_hdW-_nsORIaI3Q3hjOWC_Wb9ucF3465IqzuFFJEhL2m3zpX_V4gk0_9ARU8XaT7GTrkCpbq-Ds-q0bTmz5zh1w1")
-//				//						.store();
-//				credential = new Credential(92223647)
-//						.setAccessToken("Su9nYs3_qDQBHB2utYKQyZVfDy1l4ScMo81rtiDmDTDpRKV4yIln_cxfXDQaAR81wj1oBu8S1Hjxbf7VcJavaA2")
-//						.setAccountName("Beth Ripley")
-//						.setRefreshToken("NyjPkFKg1nr1nBK1e8bSaezKENbLZKtXOu0hkvnbK1LyghAHim-shdiXjMXZ8z8uQwCxUGPmow-BnSF5BX--zvbKI_bEQ5tGE6jiCZNKv0EoUrM205wRtq7QEWt-I0E51_YzMMHW05YWAG7ds4I72fsKJMtA0HZmfrtRQtf6q_tCoGErf0cpwuwHtNxeTg87UkEqEXicWHAdRRXTHONtDqrWiZbzOL48BQNXcgV3goL-hMzzi0V6sY1JolAxQ47MDKzJf6Fri7Zk2am4qwv2dZioVsGQ4j-U-COZhiyPphWyBUVWVpmuMqhwlYVrxah0n503rl3-dUEn05agnumHRu-KA22M8z6CHwtGx3ta2v_p63iy6n4DGjXjXI9efFKPEa3h-gmT9qRF4QQUNQ8tvJGB62a6YvkHCAsFy7FeVX7c7Bgb73w88ToGo5AH5kn4aBhx-kOnBQEyW11hi1xc1uZIHZOX4jn5OmrOYnJcYhYSnSBKtkpFgsgqiYrcO4zcRK__5XhoX1Owb2d0yj3B_y0m4FZ2-fYmgNlSGyQjbB-o1l_Fy7056bxoC28JLGkGPa-3c2jTfAhx7kltvW6q4oqGHqX7i2YXUulamfIe7I81")
-//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
-//						.setScope(ESINetworkManager.getStringScopes())
-//						.store();
-//				//				credential = new Credential(93813310)
-//				//						.setAccessToken("_WWshtZkjlNwXLRmvs3T0ZUaKAVo4QEl6JFwzIVIyNmdgjfqHhb41uY7ambYFDmjZsFZyLBjtH-90ONWu1E1sA2")
-//				//						.setAccountName("Perico Tuerto")
-//				//						.setRefreshToken("_rOthuCEPyRdKjNv6XyX84dguFmSkK4byrP3tTOj0Kv_3F_8GBvxsrUhrFZoRQPCjXXgzn5n0a5gdLeWA_hlS8Uv0LsK6upwKz2kfyG3mlANsAxfIDa2iGaGKq1pmFpe2w3lYuHl8cKGCItzL9uW4LL8gc8Uznqi9_jFNYC3Z-AXAPKNwN7hwQxcV7Znn2aprUC5BjaKrhBin-ptEPyVnNYvqBRBdXHYQcc-m4aaPu-4qD4lK4PXbcZanxrfDP_m2Tjd0EZNHMktlJgfVAwOMF7lBXxua6uXols7OKDYbJSadBeIa0Xrt9woLtbwQ7ZrKZMiXWOxbBH1QVbSbPkE-D5gNoR5Yl57D8ph4Q66w2CCWmYtQwdKR1Bx8hwPNtISfGQoTKHjrCIhtHL4ydBiRp_5V-4A1jJ2joJbc5rxfB2P9IRh-Qo42hO70BS5NCZMl1U3VMvmYkgauGGKSAKR_ckSbKDheE_Bv4yGKv2fW1HaLdNk59cD_PcHPX9Gb1DUA6BI_nUv9TG3SwcbEnqvKNnh3SzSD1tpn2IbxOzbwlyUz9rHcdqDbM9eh8oiXGxJCW3-FEPYwBnkI7I5DrARu0hthD-wtn6iKrPdeURCXGQ1")
-//				//						.store();
-//				credential = new Credential(92002067)
-//						.setAccessToken("D8KEMVvY2zcbRXMh6B7ldShWWM2rnoqMomH-PbPegPZH00vfC9yeMXMWo-Nl94LBDQwcl76LOgoDdl2F3qQfZA2")
-//						.setAccountName("Adam Antinoo")
-//						.setRefreshToken("veGsthIl6AWifDZHEjqmZFBrxwu0ZGOEPgLtfrAnzKJxrbD9HEAploBalAS40AgJeM5siWM1oEQu-At790COHTSpSzITYLJoN_BFpe337bGEU3r9HPDFtka5_rKRvFlG1kF1GawXQOgL0pZ6lxC6CsDEscUGLwSaxe1KG9cJbWK1KDC024fyoTmYZeVyUZMnNV3AX064E4eak7jOfPiijEPc2jKMefI0zJwZl_g3nhE1pVzJA_Cexlb-YEnh1zl0xsiLhPCfjdLs3blFoX-Y1IeVLV9iordxd_llrc54z2-Rvz2R8atpM1tN2NI7GIuKX21HEp2fVP6m4TRy854oFz1Bw1StaLzS2XprLEzPjIc1gHTlaC5GysdQROxY57VHyyEQqCtxsBDzbJZ3k4WaaO-QuWEE-by3V_N_I0vX6LdxFwfhw15eSUbHE2Zm2uOvgdJrwotks7kXmKWL9erOGxcBK1Q7W-ckpRgYCY3yClGG9ptEq9fTEhvDupcgbaff70yTtYX_VAqysbD35KKdpFpnVu76EuVkrdyqWD1CAJbZgUhbZe_CYk5lbBQfjziQ6GYRSdt_6AVjrxN08_oTqbXdzH8f5Vtn6BRUKr0DtVw1")
-//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
-//						.setScope(ESINetworkManager.getStringScopes())
-//						.store();
-//			}
-//		} catch (SQLException sqle) {
-//			logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
-//			sqle.printStackTrace();
-//		} catch (RuntimeException rtex) {
-//			logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
-//			rtex.printStackTrace();
-//		}
+		//		try {
+		//			//--- C R E D E N T I A L S
+		//			logger.info("-- [NeoComAndroidDBHelper.loadSeedData]> Loading seed data for Credentials");
+		//			final long records = this.getCredentialDao().countOf();
+		//			// If the table is empty then insert the seeded Credentials
+		//			if ( records < 1 ) {
+		//				Credential credential = null;
+		//				//				credential = new Credential(92002067)
+		//				//						.setAccountName("Adam Antinoo")
+		//				//						.setAccessToken("51oilTxRLOECg5HJueiTEVcPvCWcltJ79-h-CUjHq6jYFuWdkZ9zcl0PCTRmGXuPtBuoX7jOe-3kVj7mODC57w2")
+		//				//						.setRefreshToken("XLFPeyEdC3o-gb5N3cWlU1pGYyNXOppVQ5f30")
+		//				//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
+		//				//						.setScope(ESINetworkManager.getStringScopes())
+		//				//						.store();
+		//				//				Credential credential = new Credential(91734031)
+		//				//						.setAccessToken("m58y5NBSK7T_1ki9jx4XsGgfu4laHIF9-3WRLeNqkABe-VKZ57tGFee8kpwFBO8RTtSIrHyz9UKtC17clitqsw2")
+		//				//						.setAccountName("Zach Zender")
+		//				//						.setRefreshToken("HB68Z3aeNjQxpA8ebcNijfMGv9wfkcn-dkcy5qchW88Pe0ackWDHCy2yr5RrY_ERE4aKNCsR-J2a_-V_tS2sV_21HMTYcIKQ-QJHhz6GugotFfrdRcl6nsVjEuxOay5c7t-0tFu2diGy-2cF9y4qYCJ53da5slsLjNBWiIvUTxP7PUOQIs0y23_LhMPku1O1AXZsKG383NOLYQTCFL6vrVjThKJKXX9xRqm2rsRoe7xA_hyV0PiSmxjclUl9XzYULQEpVi_yl65jw8Xhn88bADOcsjeh4dAIyW2U5_b5GOf7KfKTLf2JzpIWP6jtcJreMD6L228hYYGrG-F0tQxPp1pEhQjVwS0KepHSJV-o4s9-tEfDRfhTd5FtvJm_pNwbbyVEdtzoU81L834jZz9c5U3gxhRMvTfT5dp8ZiF8TbqLTAYnyL6QICqOU7uSSVV59hFtZF7lbZOFnWpis-2_4YsUXMzdgfW-dMFAjPlE-bGCvEF3tteFPhbSWj24JJQ1sfbVCdXQ6WEEsM5DJoeo_hdW-_nsORIaI3Q3hjOWC_Wb9ucF3465IqzuFFJEhL2m3zpX_V4gk0_9ARU8XaT7GTrkCpbq-Ds-q0bTmz5zh1w1")
+		//				//						.store();
+		//				credential = new Credential(92223647)
+		//						.setAccessToken("Su9nYs3_qDQBHB2utYKQyZVfDy1l4ScMo81rtiDmDTDpRKV4yIln_cxfXDQaAR81wj1oBu8S1Hjxbf7VcJavaA2")
+		//						.setAccountName("Beth Ripley")
+		//						.setRefreshToken("NyjPkFKg1nr1nBK1e8bSaezKENbLZKtXOu0hkvnbK1LyghAHim-shdiXjMXZ8z8uQwCxUGPmow-BnSF5BX--zvbKI_bEQ5tGE6jiCZNKv0EoUrM205wRtq7QEWt-I0E51_YzMMHW05YWAG7ds4I72fsKJMtA0HZmfrtRQtf6q_tCoGErf0cpwuwHtNxeTg87UkEqEXicWHAdRRXTHONtDqrWiZbzOL48BQNXcgV3goL-hMzzi0V6sY1JolAxQ47MDKzJf6Fri7Zk2am4qwv2dZioVsGQ4j-U-COZhiyPphWyBUVWVpmuMqhwlYVrxah0n503rl3-dUEn05agnumHRu-KA22M8z6CHwtGx3ta2v_p63iy6n4DGjXjXI9efFKPEa3h-gmT9qRF4QQUNQ8tvJGB62a6YvkHCAsFy7FeVX7c7Bgb73w88ToGo5AH5kn4aBhx-kOnBQEyW11hi1xc1uZIHZOX4jn5OmrOYnJcYhYSnSBKtkpFgsgqiYrcO4zcRK__5XhoX1Owb2d0yj3B_y0m4FZ2-fYmgNlSGyQjbB-o1l_Fy7056bxoC28JLGkGPa-3c2jTfAhx7kltvW6q4oqGHqX7i2YXUulamfIe7I81")
+		//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
+		//						.setScope(ESINetworkManager.getStringScopes())
+		//						.store();
+		//				//				credential = new Credential(93813310)
+		//				//						.setAccessToken("_WWshtZkjlNwXLRmvs3T0ZUaKAVo4QEl6JFwzIVIyNmdgjfqHhb41uY7ambYFDmjZsFZyLBjtH-90ONWu1E1sA2")
+		//				//						.setAccountName("Perico Tuerto")
+		//				//						.setRefreshToken("_rOthuCEPyRdKjNv6XyX84dguFmSkK4byrP3tTOj0Kv_3F_8GBvxsrUhrFZoRQPCjXXgzn5n0a5gdLeWA_hlS8Uv0LsK6upwKz2kfyG3mlANsAxfIDa2iGaGKq1pmFpe2w3lYuHl8cKGCItzL9uW4LL8gc8Uznqi9_jFNYC3Z-AXAPKNwN7hwQxcV7Znn2aprUC5BjaKrhBin-ptEPyVnNYvqBRBdXHYQcc-m4aaPu-4qD4lK4PXbcZanxrfDP_m2Tjd0EZNHMktlJgfVAwOMF7lBXxua6uXols7OKDYbJSadBeIa0Xrt9woLtbwQ7ZrKZMiXWOxbBH1QVbSbPkE-D5gNoR5Yl57D8ph4Q66w2CCWmYtQwdKR1Bx8hwPNtISfGQoTKHjrCIhtHL4ydBiRp_5V-4A1jJ2joJbc5rxfB2P9IRh-Qo42hO70BS5NCZMl1U3VMvmYkgauGGKSAKR_ckSbKDheE_Bv4yGKv2fW1HaLdNk59cD_PcHPX9Gb1DUA6BI_nUv9TG3SwcbEnqvKNnh3SzSD1tpn2IbxOzbwlyUz9rHcdqDbM9eh8oiXGxJCW3-FEPYwBnkI7I5DrARu0hthD-wtn6iKrPdeURCXGQ1")
+		//				//						.store();
+		//				credential = new Credential(92002067)
+		//						.setAccessToken("D8KEMVvY2zcbRXMh6B7ldShWWM2rnoqMomH-PbPegPZH00vfC9yeMXMWo-Nl94LBDQwcl76LOgoDdl2F3qQfZA2")
+		//						.setAccountName("Adam Antinoo")
+		//						.setRefreshToken("veGsthIl6AWifDZHEjqmZFBrxwu0ZGOEPgLtfrAnzKJxrbD9HEAploBalAS40AgJeM5siWM1oEQu-At790COHTSpSzITYLJoN_BFpe337bGEU3r9HPDFtka5_rKRvFlG1kF1GawXQOgL0pZ6lxC6CsDEscUGLwSaxe1KG9cJbWK1KDC024fyoTmYZeVyUZMnNV3AX064E4eak7jOfPiijEPc2jKMefI0zJwZl_g3nhE1pVzJA_Cexlb-YEnh1zl0xsiLhPCfjdLs3blFoX-Y1IeVLV9iordxd_llrc54z2-Rvz2R8atpM1tN2NI7GIuKX21HEp2fVP6m4TRy854oFz1Bw1StaLzS2XprLEzPjIc1gHTlaC5GysdQROxY57VHyyEQqCtxsBDzbJZ3k4WaaO-QuWEE-by3V_N_I0vX6LdxFwfhw15eSUbHE2Zm2uOvgdJrwotks7kXmKWL9erOGxcBK1Q7W-ckpRgYCY3yClGG9ptEq9fTEhvDupcgbaff70yTtYX_VAqysbD35KKdpFpnVu76EuVkrdyqWD1CAJbZgUhbZe_CYk5lbBQfjziQ6GYRSdt_6AVjrxN08_oTqbXdzH8f5Vtn6BRUKr0DtVw1")
+		//						.setDataSource(GlobalDataManager.SERVER_DATASOURCE)
+		//						.setScope(ESINetworkManager.getStringScopes())
+		//						.store();
+		//			}
+		//		} catch (SQLException sqle) {
+		//			logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
+		//			sqle.printStackTrace();
+		//		} catch (RuntimeException rtex) {
+		//			logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
+		//			rtex.printStackTrace();
+		//		}
 
 		//		try {
 		//			//--- P R O P E R T I E S
@@ -390,7 +380,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<DatabaseVersion, String> getVersionDao () throws SQLException {
+	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
 		if ( null == versionDao ) {
 			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
 		}
@@ -398,7 +388,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<TimeStamp, String> getTimeStampDao () throws SQLException {
+	public Dao<TimeStamp, String> getTimeStampDao() throws SQLException {
 		if ( null == timeStampDao ) {
 			timeStampDao = DaoManager.createDao(this.getConnectionSource(), TimeStamp.class);
 		}
@@ -406,7 +396,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<Credential, String> getCredentialDao () throws SQLException {
+	public Dao<Credential, String> getCredentialDao() throws SQLException {
 		if ( null == credentialDao ) {
 			credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
 		}
@@ -414,7 +404,71 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<Colony, String> getColonyDao () throws SQLException {
+	public Dao<EveLocation, String> getLocationDao() throws SQLException {
+		if ( null == locationDao ) {
+			locationDao = DaoManager.createDao(this.getConnectionSource(), EveLocation.class);
+		}
+		return locationDao;
+	}
+
+	@Override
+	public Dao<Property, String> getPropertyDao() throws SQLException {
+		if ( null == propertyDao ) {
+			propertyDao = DaoManager.createDao(this.getConnectionSource(), Property.class);
+		}
+		return propertyDao;
+	}
+
+	@Override
+	public Dao<NeoComAsset, String> getAssetDao() throws SQLException {
+		if ( null == assetDao ) {
+			assetDao = DaoManager.createDao(this.getConnectionSource(), NeoComAsset.class);
+		}
+		return assetDao;
+	}
+
+	@Override
+	public Dao<NeoComBlueprint, String> getBlueprintDao() throws SQLException {
+		if ( null == blueprintDao ) {
+			blueprintDao = DaoManager.createDao(this.getConnectionSource(), NeoComBlueprint.class);
+		}
+		return blueprintDao;
+	}
+
+	@Override
+	public Dao<Job, String> getJobDao() throws SQLException {
+		if ( null == jobDao ) {
+			jobDao = DaoManager.createDao(this.getConnectionSource(), Job.class);
+		}
+		return jobDao;
+	}
+
+	@Override
+	public Dao<MarketOrder, String> getMarketOrderDao() throws SQLException {
+		if ( null == marketOrderDao ) {
+			marketOrderDao = DaoManager.createDao(this.getConnectionSource(), MarketOrder.class);
+		}
+		return marketOrderDao;
+	}
+
+	@Override
+	public Dao<FittingRequest, String> getFittingRequestDao() throws SQLException {
+		if ( null == fittingRequestDao ) {
+			fittingRequestDao = DaoManager.createDao(this.getConnectionSource(), FittingRequest.class);
+		}
+		return fittingRequestDao;
+	}
+
+	@Override
+	public Dao<MiningExtraction, String> getMiningExtractionDao() throws SQLException {
+		if ( null == miningExtractionDao ) {
+			miningExtractionDao = DaoManager.createDao(this.getConnectionSource(), MiningExtraction.class);
+		}
+		return miningExtractionDao;
+	}
+
+	@Override
+	public Dao<Colony, String> getColonyDao() throws SQLException {
 		if ( null == colonyDao ) {
 			colonyDao = DaoManager.createDao(this.getConnectionSource(), Colony.class);
 		}
@@ -436,85 +490,35 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	//		return colonySerializedDao;
 	//	}
 
-	public Dao<NeoComAsset, String> getAssetDao () throws SQLException {
-		if ( null == assetDao ) {
-			assetDao = DaoManager.createDao(this.getConnectionSource(), NeoComAsset.class);
-		}
-		return assetDao;
-	}
-
-	public Dao<EveLocation, String> getLocationDao () throws SQLException {
-		if ( null == locationDao ) {
-			locationDao = DaoManager.createDao(this.getConnectionSource(), EveLocation.class);
-		}
-		return locationDao;
-	}
-
-	public Dao<Property, String> getPropertyDao () throws SQLException {
-		if ( null == propertyDao ) {
-			propertyDao = DaoManager.createDao(this.getConnectionSource(), Property.class);
-		}
-		return propertyDao;
-	}
-
-	public Dao<NeoComBlueprint, String> getBlueprintDao () throws SQLException {
-		if ( null == blueprintDao ) {
-			blueprintDao = DaoManager.createDao(this.getConnectionSource(), NeoComBlueprint.class);
-		}
-		return blueprintDao;
-	}
-
-	public Dao<Job, String> getJobDao () throws SQLException {
-		if ( null == jobDao ) {
-			jobDao = DaoManager.createDao(this.getConnectionSource(), Job.class);
-		}
-		return jobDao;
-	}
-
-	public Dao<MarketOrder, String> getMarketOrderDao () throws SQLException {
-		if ( null == marketOrderDao ) {
-			marketOrderDao = DaoManager.createDao(this.getConnectionSource(), MarketOrder.class);
-		}
-		return marketOrderDao;
-	}
-
-	public Dao<FittingRequest, String> getFittingRequestDao () throws SQLException {
-		if ( null == fittingRequestDao ) {
-			fittingRequestDao = DaoManager.createDao(this.getConnectionSource(), FittingRequest.class);
-		}
-		return fittingRequestDao;
-	}
-
 	// --- PUBLIC CONNECTION SPECIFIC ACTIONS
-
 	/**
 	 * removes from the application database any asset and blueprint that contains the special -1 code as the
 	 * owner identifier. Those records are from older downloads and have to be removed to avoid merging with the
 	 * new download.
 	 */
-	public synchronized void clearInvalidRecords (final long pilotid) {
+	public synchronized void clearInvalidRecords( final long pilotid ) {
 		logger.info(">> [NeoComAndroidDBHelper.clearInvalidRecords]> pilotid", pilotid);
 		synchronized (connectionSource) {
 			try {
 				TransactionManager.callInTransaction(connectionSource, new Callable<Void>() {
-					public Void call () throws Exception {
+					public Void call() throws Exception {
 						// Remove all assets that do not have a valid owner.
 						final DeleteBuilder<NeoComAsset, String> deleteBuilder = getAssetDao().deleteBuilder();
-						deleteBuilder.where().eq("ownerID", (pilotid * -1));
+						deleteBuilder.where().eq("ownerId", (pilotid * -1));
 						int count = deleteBuilder.delete();
-						logger.info("-- [NeoComAndroidDBHelper.clearInvalidAssets]> Invalid assets cleared for owner {}: {}", (pilotid * -1), count);
+						logger.info("-- [NeoComAndroidDBHelper.clearInvalidRecords]> Invalid assets cleared for owner {}: {}", (pilotid * -1), count);
 
-						//						// Remove all blueprints that do not have a valid owner.
-						//						final DeleteBuilder<NeoComBlueprint, String> deleteBuilderBlueprint = getBlueprintDao().deleteBuilder();
-						//						deleteBuilderBlueprint.where().eq("ownerID", (pilotid * -1));
-						//						count = deleteBuilderBlueprint.delete();
-						//						logger.info("-- [NeoComAndroidDBHelper.clearInvalidAssets]> Invalid blueprints cleared for owner {}: {}", (pilotid * -1),
-						//								count);
+						// Remove all blueprints that do not have a valid owner.
+						final DeleteBuilder<NeoComBlueprint, String> deleteBuilderBlueprint = getBlueprintDao().deleteBuilder();
+						deleteBuilderBlueprint.where().eq("ownerId", (pilotid * -1));
+						count = deleteBuilderBlueprint.delete();
+						logger.info("-- [NeoComAndroidDBHelper.clearInvalidRecords]> Invalid blueprints cleared for owner {}: {}", (pilotid * -1),
+								count);
 						return null;
 					}
 				});
 			} catch (final SQLException ex) {
-				logger.warn("W> [NeoComAndroidDBHelper.clearInvalidAssets]> Problem clearing invalid records. " + ex.getMessage());
+				logger.warn("W> [NeoComAndroidDBHelper.clearInvalidRecords]> Problem clearing invalid records. " + ex.getMessage());
 			} finally {
 				logger.info("<< [NeoComAndroidDBHelper.clearInvalidRecords]");
 			}
@@ -526,22 +530,22 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	 * completes the download and the assignment of the resources to the character without interrupting the
 	 * processing of data by the application.
 	 */
-	public synchronized void replaceAssets (final long pilotid) {
-		logger.info(">> [NeoComAndroidDBHelper.clearInvalidRecords]> pilotid", pilotid);
+	public synchronized void replaceAssets( final long pilotid ) {
+		logger.info(">> [NeoComAndroidDBHelper.clearInvalidRecords]> pilotid: {}", pilotid);
 		synchronized (connectionSource) {
 			try {
 				TransactionManager.callInTransaction(connectionSource, new Callable<Void>() {
-					public Void call () throws Exception {
+					public Void call() throws Exception {
 						// Remove all assets from this owner before adding the new set.
 						final DeleteBuilder<NeoComAsset, String> deleteBuilder = getAssetDao().deleteBuilder();
-						deleteBuilder.where().eq("ownerID", pilotid);
+						deleteBuilder.where().eq("ownerId", pilotid);
 						int count = deleteBuilder.delete();
-						logger.info("-- [NeoComAndroidDBHelper.clearInvalidAssets]> Invalid assets cleared for owner {}: {}", pilotid, count);
+						logger.info("-- [NeoComAndroidDBHelper.replaceAssets]> Invalid assets cleared for owner {}: {}", pilotid, count);
 
 						// Replace the owner to vake the assets valid.
 						final UpdateBuilder<NeoComAsset, String> updateBuilder = getAssetDao().updateBuilder();
-						updateBuilder.updateColumnValue("ownerID", pilotid)
-						             .where().eq("ownerID", (pilotid * -1));
+						updateBuilder.updateColumnValue("ownerId", pilotid)
+						             .where().eq("ownerId", (pilotid * -1));
 						count = updateBuilder.update();
 						logger.info("-- [NeoComAndroidDBHelper.replaceAssets]> Replace owner {} for assets: {}", pilotid, count);
 						return null;
@@ -555,81 +559,36 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		}
 	}
 
-	public synchronized void replaceBlueprints (final long pilotid) {
-		logger.info(">> [NeoComAndroidDBHelper.replaceBlueprints]> pilotid", pilotid);
-		//		synchronized (connectionSource) {
-		//			try {
-		//				TransactionManager.callInTransaction(connectionSource, new Callable<Void>() {
-		//					public Void call() throws Exception {
-		//						// Remove all assets that do not have a valid owner.
-		//						final UpdateBuilder<NeoComBlueprint, String> updateBuilder = getBlueprintDao().updateBuilder();
-		//						updateBuilder.updateColumnValue( "ownerID", pilotid)
-		//								.where().eq("ownerID", (pilotid * -1));
-		//						int count = updateBuilder.update();
-		//						logger.info("-- [NeoComAndroidDBHelper.replaceBlueprints]> Replace owner {} for assets: {}", pilotid, count);
-		//						return null;
-		//					}
-		//				});
-		//			} catch (final SQLException ex) {
-		//				logger.warn("W> [NeoComAndroidDBHelper.replaceBlueprints]> Problem replacing records. " + ex.getMessage());
-		//			} finally {
-		//				logger.info("<< [NeoComAndroidDBHelper.replaceBlueprints]");
-		//			}
-		//		}
+	public synchronized void replaceBlueprints( final long pilotid ) {
+		logger.info(">> [NeoComAndroidDBHelper.replaceBlueprints]> pilotid: {}", pilotid);
+		synchronized (connectionSource) {
+			try {
+				TransactionManager.callInTransaction(connectionSource, new Callable<Void>() {
+					public Void call() throws Exception {
+						// Remove all assets that do not have a valid owner.
+						final UpdateBuilder<NeoComBlueprint, String> updateBuilder = getBlueprintDao().updateBuilder();
+						updateBuilder.updateColumnValue( "ownerId", pilotid)
+						             .where().eq("ownerId", (pilotid * -1));
+						int count = updateBuilder.update();
+						logger.info("-- [NeoComAndroidDBHelper.replaceBlueprints]> Replace owner {} for blueprints: {}", pilotid, count);
+						return null;
+					}
+				});
+			} catch (final SQLException ex) {
+				logger.warn("W> [NeoComAndroidDBHelper.replaceBlueprints]> Problem replacing records. " + ex.getMessage());
+			} finally {
+				logger.info("<< [NeoComAndroidDBHelper.replaceBlueprints]");
+			}
+		}
 	}
-
-	//	/**
-	//	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
-	//	 * services. Being a pooled connection it can create as many connections as required to do requests in
-	//	 * parallel to the database instance. This only is effective for MySql databases.
-	//	 *
-	//	 * @return
-	//	 */
-	//	private boolean openNeoComDB () {
-	//		logger.info(">> [NeoComAndroidDBHelper.openNeoComDB]");
-	//		if ( !isOpen ) if ( null == connectionSource ) {
-	//			// Open and configure the connection datasource for DAO queries.
-	//			try {
-	//				final String localConnectionDescriptor = hostName + "/" + databaseName;
-	//				createConnectionSource();
-	//				logger.info("-- [NeoComAndroidDBHelper.openNeoComDB]> Opened database " + localConnectionDescriptor + " successfully with version "
-	//						+ databaseVersion + ".");
-	//				isOpen = true;
-	//			} catch (Exception sqle) {
-	//				logger.error("E> [NeoComAndroidDBHelper.openNeoComDB]> " + sqle.getClass().getName() + ": " + sqle.getMessage());
-	//			}
-	//		}
-	//		logger.info("<< [NeoComAndroidDBHelper.openNeoComDB]");
-	//		return isOpen;
-	//	}
-
-	//	/**
-	//	 * Creates and configures the connection datasource to the database.
-	//	 *
-	//	 * @throws SQLException
-	//	 */
-	//	private void createConnectionSource () throws SQLException {
-	//		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser
-	//				+ "&password=" + databasePassword + databaseOptions;
-	//		if ( databaseValid ) connectionSource = new JdbcPooledConnectionSource(localConnectionDescriptor);
-	//		else connectionSource = new JdbcPooledConnectionSource(DEFAULT_CONNECTION_DESCRIPTOR);
-	//		// only keep the connections open for 5 minutes
-	//		connectionSource.setMaxConnectionAgeMillis(TimeUnit.MINUTES.toMillis(5));
-	//		// change the check-every milliseconds from 30 seconds to 60
-	//		connectionSource.setCheckConnectionsEveryMillis(TimeUnit.SECONDS.toMillis(60));
-	//		// for extra protection, enable the testing of connections
-	//		// right before they are handed to the user
-	//		connectionSource.setTestBeforeGet(true);
-	//	}
-
-	private int readDatabaseVersion () {
+	private int readDatabaseVersion() {
 		// Access the version object persistent on the database.
 		try {
 			Dao<DatabaseVersion, String> versionDao = this.getVersionDao();
 			QueryBuilder<DatabaseVersion, String> queryBuilder = versionDao.queryBuilder();
 			PreparedQuery<DatabaseVersion> preparedQuery = queryBuilder.prepare();
 			List<DatabaseVersion> versionList = versionDao.query(preparedQuery);
-			if ( versionList.size() > 0 ) {
+			if (versionList.size() > 0) {
 				DatabaseVersion version = versionList.get(0);
 				return version.getVersionNumber();
 			} else
@@ -641,7 +600,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public String toString () {
+	public String toString() {
 		StringBuffer buffer = new StringBuffer("NeoComAndroidDBHelper [");
 		//		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser + "&password=" + databasePassword;
 		buffer.append("Descriptor: ").append(storageLocation);
@@ -657,29 +616,27 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		private int databaseVersion = 0;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public NeoComAndroidDBHelperBuilder () {
+		public NeoComAndroidDBHelperBuilder() {
 		}
 
 		// --- B U I L D   S E C T I O N
-		public NeoComAndroidDBHelperBuilder setDatabaseLocation (final String location) {
+		public NeoComAndroidDBHelperBuilder setDatabaseLocation( final String location ) {
 			this.storageLocation = location;
 			return this;
 		}
 
-		public NeoComAndroidDBHelperBuilder setDatabaseName (final String instanceName) {
+		public NeoComAndroidDBHelperBuilder setDatabaseName( final String instanceName ) {
 			this.databaseName = instanceName;
 			return this;
 		}
 
-		public NeoComAndroidDBHelperBuilder setDatabaseVersion (final int newVersion) {
+		public NeoComAndroidDBHelperBuilder setDatabaseVersion( final int newVersion ) {
 			this.databaseVersion = newVersion;
 			return this;
 		}
 
-		public NeoComAndroidDBHelper build () throws SQLException {
+		public NeoComAndroidDBHelper build() throws SQLException {
 			// Compose the global database name.
-			//			final String dbName = AndroidGlobalDataManager.accessAppStorageFile(databaseName).getAbsolutePath();
-			//					+ storageLocation + "/"+databaseName;
 			return new NeoComAndroidDBHelper(AndroidGlobalDataManager.getAppContext()
 					, AndroidGlobalDataManager.accessResource4Path(databaseName)
 					, databaseVersion);
