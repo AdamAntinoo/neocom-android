@@ -51,7 +51,7 @@ import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
 	public enum EExtras {
-		FIRE_AUTHORIZATION_FLOW
+		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................

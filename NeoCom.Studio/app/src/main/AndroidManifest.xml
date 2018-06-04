@@ -37,6 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- A C T I V I T I E S -->
         <activity
             android:name=".activity.AuthorizationFlowActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -44,28 +46,22 @@
             android:parentActivityName=".activity.AppDashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="esiauthentication"
                     android:scheme="eveauth-neocom" />
             </intent-filter>
         </activity>
-
-        <!-- A C T I V I T I E S -->
-        <!--<activity-->
-        <!--android:name=".activity.SearchAssetsActivity"-->
-        <!--android:label="Asset Filter"-->
-        <!--android:screenOrientation="portrait">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.SEARCH" />-->
-        <!--</intent-filter>-->
-        <!--<meta-data-->
-        <!--android:name="android.app.searchable"-->
-        <!--android:resource="@xml/searchable" />-->
-        <!--</activity>-->
-
+        <activity
+            android:name=".activity.MiningLedgerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Mining Ledger"
+            android:icon="@drawable/miningledger"
+            android:screenOrientation="portrait"></activity>
 
         <!--         Section where to add the new Activities to match the new model presentation. -->
         <!--         <activity -->
