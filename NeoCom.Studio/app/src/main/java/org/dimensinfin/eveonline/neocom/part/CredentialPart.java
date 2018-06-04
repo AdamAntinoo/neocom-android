@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
@@ -202,7 +204,7 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 
 		// - L A Y O U T   F I E L D S
 		private ViewGroup nodeIconBlock = null;
-		//		private ImageView targetIcon = null;
+		private ImageView targetIcon = null;
 		//		private ImageView botrightDecorator = null;
 		//		private ImageView botleftDecorator = null;
 		//		private ViewGroup rightBlock = null;
@@ -227,7 +229,7 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 			//			super.initializeViews();
 			// Layout decorator items.
 			nodeIconBlock = (ViewGroup) _convertView.findViewById(R.id.nodeIconBlock);
-			//			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 			//			botrightDecorator = (ImageView) _convertView.findViewById(R.id.botrightDecorator);
 			//			botleftDecorator = (ImageView) _convertView.findViewById(R.id.botleftDecorator);
 			//			rightBlock = (ViewGroup) _convertView.findViewById(R.id.rightBlock);
@@ -277,8 +279,16 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 			final String walletAmount = getPart().getTWalletAmount();
 			final String assetcount = getPart().getTAssetsCount();
 			final String racename = getPart().getTRaceName();
+			accountBalance.setText(walletAmount);
+			assetsCount.setText(assetcount);
+			race.setText(racename);
+			final String link = getPart().getURLForAvatar();
+			if ( null != link ) {
+				if ( null != targetIcon ) {
+					Picasso.get().load(link).into(targetIcon);
+				}
+			}
 			// TODO - Review the access to other elements.
-			//				final String link = getPart().getURLForAvatar();
 			//				getContext().runOnUiThread(() -> {
 			//							try {
 			//								accountBalance.setText(walletAmount);
@@ -314,6 +324,34 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 			//			}
 
 			//		logger.info("<< [CredentialRender.updateContent]");
+		}
+
+		protected void loadEveIcon( final ImageView targetIcon, final int typeId ) {
+			this.loadEveIcon(targetIcon, typeId, false);
+		}
+
+		/**
+		 * Downloads and caches the item icon from the CCP server. The new implementation check for special cases
+		 * such as locations. Stations on locations have an image that can be downloaded from the same place.
+		 */
+		protected void loadEveIcon( final ImageView targetIcon, final int typeId, final boolean station ) {
+			// Check if the layout has the icon placeholder.
+			if ( null != targetIcon ) {
+				// If the flag signals an station change the code.
+				String link = AndroidGlobalDataManager.getURLForItem(typeId);
+				if ( station ) {
+					link = AndroidGlobalDataManager.getURLForStation(typeId);
+				}
+				Picasso.get().load(link).into(targetIcon);
+				//			try {
+				//			final Future<Drawable> draw = AndroidGlobalDataManager.getCacheDrawable(link, targetIcon, getContext());
+				//				targetIcon.setImageDrawable(draw.get());
+				//			} catch (InterruptedException e) {
+				//				e.printStackTrace();
+				//			} catch (ExecutionException e) {
+				//				e.printStackTrace();
+				//			}
+			}
 		}
 
 		@Override
