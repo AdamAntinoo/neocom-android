@@ -51,12 +51,16 @@ public class FileSystemAndroidImplementation implements IFileSystem {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public InputStream openResource4Input( final String filePath ) throws IOException {
-		return new FileInputStream(new File(applicationFolder + "/" + filePath));
+		return new FileInputStream(new File(
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath)
+		);
 	}
 
 	@Override
 	public OutputStream openResource4Output( final String filePath ) throws IOException {
-		return new FileOutputStream(new File(applicationFolder + "/" + filePath));
+		return new FileOutputStream(new File(
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath)
+		);
 	}
 
 	@Override

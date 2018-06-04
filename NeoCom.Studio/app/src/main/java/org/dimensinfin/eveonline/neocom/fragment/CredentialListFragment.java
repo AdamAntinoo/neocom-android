@@ -111,11 +111,6 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				                                                  .setRenderMode(this.getVariant());
 				return part;
 			}
-			if ( node instanceof Separator ) {
-				IPart part = new SeparatorPart((Separator) node).setFactory(this)
-				                                                .setRenderMode(this.getVariant());
-				return part;
-			}
 			return super.createPart(node);
 		}
 	}

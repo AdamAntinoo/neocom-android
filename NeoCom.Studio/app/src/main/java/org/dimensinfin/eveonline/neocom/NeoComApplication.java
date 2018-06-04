@@ -67,6 +67,7 @@ public class NeoComApplication extends Application {
 	public static void runTimer() {
 		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
 	}
+
 	public static void runTicker() {
 		timedService.timeTick();
 	}
@@ -216,9 +217,9 @@ public class NeoComApplication extends Application {
 				+ "/" + AndroidGlobalDataManager.getResourceString("R.cache.directorypath"));
 		//				+ AndroidGlobalDataManager.getResourceString("R.cache.cachefoldername"));
 		cachedir.mkdir();
-		File alternatedir = new File(cachedir
-				, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.drawablecachefoldername));
-		alternatedir.mkdir();
+		//		File alternatedir = new File(cachedir
+		//				, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.drawablecachefoldername));
+		//		alternatedir.mkdir();
 		//		alternatedir = new File(cachedir,
 		//				NeoComAppConnector.getSingleton().getResourceString(R.string.marketdatacachefoldername));
 		//		alternatedir.mkdir();

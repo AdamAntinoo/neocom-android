@@ -26,11 +26,9 @@ import android.os.Bundle;
 import android.provider.Browser;
 import android.support.annotation.WorkerThread;
 import android.util.Base64;
-import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
@@ -81,13 +79,12 @@ public class AuthorizationFlowActivity extends Activity {
 	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
-	 * Initiates a call to the CCP authentication platform. If the autorization is accepted by CCP the return event will be converted
+	 * Initiates a call to the CCP authentication platform. If the authorization is accepted by CCP the return event will be converted
 	 * into another intent to this activity.
+	 * This firing should be launched only if we come from the <code>NewLoginPart</code> part.
 	 */
 	protected void onFireAuth() {
-		//		super.onStart();
 		this.runOnUiThread(() -> {
-			//		service = createService();
 			final Uri url = Uri.parse(AndroidGlobalDataManager.getAuthorizationUrl());
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
 			intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
@@ -170,9 +167,9 @@ public class AuthorizationFlowActivity extends Activity {
 					          .store();
 					// Once the credential is stored we go back to the Dashboard Activity.
 					this.runOnUiThread(() -> {
-//						final Intent intent = new Intent(this, AppDashboardActivity.class);
-//						this.startActivity(intent);
-//						finish();
+						//						final Intent intent = new Intent(this, AppDashboardActivity.class);
+						//						this.startActivity(intent);
+						finish();
 					});
 				} else {
 					Toast.makeText(getApplicationContext(), "Character verification failed. " + verificationResponse.message(),
@@ -194,38 +191,11 @@ public class AuthorizationFlowActivity extends Activity {
 			logger.info("<< [AuthorizationFlowActivity.registerInBackground]");
 		}
 	}
-	// --- A C T I V I T Y   L I F E C Y C L E
 
 	/**
-	 * Create a default Activity that shows the authorization progress while we wait for the ESI CCP callback or while we do the rest of the
-	 * authorization cycle until finally complete a new Credential.
+	 * Performs the actions after the creation of the Activity. It will locate the UI elements, setup their contents ans start the spinner.
 	 */
-	@Override
-	protected void onCreate( final Bundle savedInstanceState ) {
-		logger.info(">> [AuthorizationFlowActivity.onCreate]");
-		super.onCreate(savedInstanceState);
-		// Detect if we are receiving this intent from the action button of from the flow.
-		final Intent intent = getIntent();
-		if ( null != intent )
-			if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
-//				final Bundle bun = intent.getBundleExtra(Browser.EXTRA_APPLICATION_ID);
-				if ( null == intent.getData() ) {
-				} else {
-					// Get the state and verify we are the caller.
-					final Uri urlData = intent.getData();
-					final String state = urlData.getQueryParameter("state");
-					if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
-						final String authCode = urlData.getQueryParameter("code");
-						if ( StringUtils.isNotBlank(authCode) ) {
-							// Fire the conversion to the authenticated Credential but do it on background.
-							AndroidGlobalDataManager.submitJob2ui(() -> {
-								this.registerInBackground(authCode);
-							});
-						}
-					}
-				}
-			}
-
+	protected void connectUI() {
 		// If we are not receiving the code from CCP we should then create the Activity contents.
 		try {
 			// Set the layout to the core activity that defines the background, the indicator and the fragment container.
@@ -242,16 +212,55 @@ public class AuthorizationFlowActivity extends Activity {
 			Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_rotation);
 			rotation.setRepeatCount(Animation.INFINITE);
 			spinner.startAnimation(rotation);
-
-			// Fire the credential authorization flow on a background task.
-			AndroidGlobalDataManager.submitJob2ui(() -> {
-				onFireAuth();
-			});
 		} catch (final RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AuthorizationFlowActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 		}
+	}
+	// --- A C T I V I T Y   L I F E C Y C L E
+
+	/**
+	 * Create a default Activity that shows the authorization progress while we wait for the ESI CCP callback or while we do the rest of the
+	 * authorization cycle until finally complete a new Credential.
+	 * Do the firing only when the extras have the right data configuration.
+	 */
+	@Override
+	protected void onCreate( final Bundle savedInstanceState ) {
+		logger.info(">> [AuthorizationFlowActivity.onCreate]");
+		super.onCreate(savedInstanceState);
+		// Detect if we are receiving this intent from the action button of from the flow.
+		final Intent intent = getIntent();
+		if ( null != intent ) {
+			final Bundle extras = this.getIntent().getExtras();
+			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
+			final String tag = extras.getString(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name());
+			if ( (null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART")) ) {
+				// Fire the credential authorization flow on a background task.
+				AndroidGlobalDataManager.submitJob2ui(() -> {
+					onFireAuth();
+				});
+			} else {
+				if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
+					if ( null == intent.getData() ) {
+					} else {
+						// Get the state and verify we are the caller.
+						final Uri urlData = intent.getData();
+						final String state = urlData.getQueryParameter("state");
+						if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
+							final String authCode = urlData.getQueryParameter("code");
+							if ( StringUtils.isNotBlank(authCode) ) {
+								// Fire the conversion to the authenticated Credential but do it on background.
+								AndroidGlobalDataManager.submitJob2ui(() -> {
+									this.registerInBackground(authCode);
+								});
+							}
+						}
+					}
+				}
+			}
+		}
+		connectUI();
 		logger.info("<< [AuthorizationFlowActivity.onCreate]"); //$NON-NLS-1$
 	}
 
@@ -266,16 +275,23 @@ public class AuthorizationFlowActivity extends Activity {
 	protected void onNewIntent( final Intent intent ) {
 		logger.info(">> [AuthorizationFlowActivity.onNewIntent]");
 		super.onNewIntent(intent);
-		if ( null != intent )
-			if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
-				final Bundle bun = intent.getBundleExtra(Browser.EXTRA_APPLICATION_ID);
-				if ( null == intent.getData() ) {
-				} else {
-					// Get the state and verify we are the caller.
-					final Uri urlData = intent.getData();
-					final String state = urlData.getQueryParameter("state");
-					if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
-						if ( urlData.getScheme().equals("eveauth-neotest") ) {
+		if ( null != intent ) {
+			final Bundle extras = this.getIntent().getExtras();
+			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
+			final String tag = extras.getString(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name());
+			if ( tag.equalsIgnoreCase("NEW-LOGIN-PART") ) {
+				// Fire the credential authorization flow on a background task.
+				AndroidGlobalDataManager.submitJob2ui(() -> {
+					onFireAuth();
+				});
+			} else {
+				if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
+					if ( null == intent.getData() ) {
+					} else {
+						// Get the state and verify we are the caller.
+						final Uri urlData = intent.getData();
+						final String state = urlData.getQueryParameter("state");
+						if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
 							final String authCode = urlData.getQueryParameter("code");
 							if ( StringUtils.isNotBlank(authCode) ) {
 								// Fire the conversion to the authenticated Credential but do it on background.
@@ -287,6 +303,9 @@ public class AuthorizationFlowActivity extends Activity {
 					}
 				}
 			}
+		}
+		connectUI();
+		logger.info("<< [AuthorizationFlowActivity.onNewIntent]");
 	}
 
 	public interface VerifyCharacter {

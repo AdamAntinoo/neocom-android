@@ -35,6 +35,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
+import org.dimensinfin.eveonline.neocom.fragment.EveOnlineNotificationsFragment;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
@@ -134,6 +135,7 @@ public class AppDashboardActivity extends Activity {
 
 			// Create and add the fragment to the layout container.
 			this.addLinear(new AppDashboardFragment());
+			this.addLinear(new EveOnlineNotificationsFragment());
 			this.addLinear(new CredentialListFragment());
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AppDashboardActivity.onCreate"
