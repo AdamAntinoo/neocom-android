@@ -137,7 +137,12 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 				try {
 					// Add the panel title up front of the Credential list.
 					this.addModelContents(new PanelTitle("MINING LEDGER"));
-					for (MiningExtraction extraction : AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(credential)) {
+					List<MiningExtraction> extractions = new ArrayList<>();
+					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()) )
+						extractions = AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(credential);
+					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) )
+						extractions = AndroidGlobalDataManager.accessMiningExtractions4Pilot(credential);
+					for (MiningExtraction extraction : extractions) {
 						this.addModelContents(extraction);
 						logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
 								, extraction.getResourceName());

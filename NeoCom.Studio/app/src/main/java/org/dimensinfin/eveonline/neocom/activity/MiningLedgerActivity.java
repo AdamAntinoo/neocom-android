@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
@@ -54,7 +55,8 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 				pilotIdentifier = _extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
 			}
 			if ( pilotIdentifier > 0 ) {
-				this.addPage(new MiningLedgerFragment());
+				this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+				this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
 				this.addPage(new MineralResourcesFragment().setPilotIdentifier(pilotIdentifier));
 			}
 		} catch (RuntimeException rtex) {
