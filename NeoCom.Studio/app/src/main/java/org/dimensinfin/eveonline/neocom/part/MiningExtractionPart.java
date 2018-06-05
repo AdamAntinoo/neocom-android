@@ -16,6 +16,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
@@ -43,6 +45,10 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public MiningExtraction getCastedModel() {
+		return (MiningExtraction) this.getModel();
+	}
+
 	@Override
 	public long getModelId() {
 		return 0;
@@ -50,7 +56,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 	@Override
 	public AbstractRender selectRenderer() {
-		return new MiningExtractionRender(this,this.getActivity());
+		return new MiningExtractionRender(this, this.getActivity());
 	}
 
 	@Override
@@ -65,6 +71,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class MiningExtractionRender extends AbstractRender {
 		// - F I E L D - S E C T I O N ............................................................................
+		private TextView resourceName = null;
+		private TextView quantity = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningExtractionRender( final AbstractPart newPart, final Activity context ) {
@@ -73,18 +81,25 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public void initializeViews() {
+		public MiningExtractionPart getPart() {
+			return (MiningExtractionPart) super.getPart();
+		}
 
+		@Override
+		public void initializeViews() {
+			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
+			quantity = (TextView) _convertView.findViewById(R.id.quantity);
 		}
 
 		@Override
 		public void updateContent() {
-
+			resourceName.setText(this.getPart().getCastedModel().getResourceName());
+			quantity.setText(Long.valueOf(this.getPart().getCastedModel().getQuantity()).toString());
 		}
 
 		@Override
 		public int accessLayoutReference() {
-			return R.id.applicationName;
+			return R.layout.miningextractions4list;
 		}
 	}
 }

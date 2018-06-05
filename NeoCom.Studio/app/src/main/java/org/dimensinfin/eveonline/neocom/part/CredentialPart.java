@@ -18,6 +18,7 @@ package org.dimensinfin.eveonline.neocom.part;
 import java.beans.PropertyChangeEvent;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.annotation.WorkerThread;
@@ -30,7 +31,9 @@ import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
@@ -39,7 +42,7 @@ import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandablePart implements INamedPart, View.OnClickListener */ {
+public class CredentialPart extends NeoComAbstractPart implements View.OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 2985342150508204740L;
 
@@ -160,17 +163,17 @@ public class CredentialPart extends NeoComAbstractPart/*extends NeoComExpandable
 	 */
 	public void onClick( final View view ) {
 		logger.info(">> [CredentialPart.onClick]");
-		//		// Set the pilot selected on the context and then go to the Pilot Dashboard.
-		//		final Object pilotPart = view.getTag();
-		//		if ( pilotPart instanceof CredentialPart ) {
-		//			// With the new implementation get just the identifier for the Credential.
-		//			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
-		//			NeoComModelStore.activateCredential(identifier);
-		//			final Intent intent = new Intent(this.getActivity(), AssetsManagerActivity.class);
-		//			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-		//			intent.putExtra(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), identifier);
-		//			getActivity().startActivity(intent);
-		//		}
+		// Set the pilot selected on the context and then go to the Pilot Dashboard.
+		final Object pilotPart = view.getTag();
+		if ( pilotPart instanceof CredentialPart ) {
+			// With the new implementation get just the identifier for the Credential.
+			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
+			//					NeoComModelStore.activateCredential(identifier);
+			final Intent intent = new Intent(this.getActivity(), MiningLedgerActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
+			intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+			getActivity().startActivity(intent);
+		}
 		logger.info("<< [CredentialPart.onClick]");
 	}
 
