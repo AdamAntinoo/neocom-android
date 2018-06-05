@@ -22,7 +22,9 @@ import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.part.MiningExtractionPart;
+import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 
 /**
  * @author Adam Antinoo
@@ -47,6 +49,11 @@ public class IndustryPartFactory extends PartFactory {
 		if ( node instanceof MiningExtraction ) {
 			IPart part = new MiningExtractionPart((MiningExtraction) node).setFactory(this)
 			                                                              .setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof PanelTitle ) {
+			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
+			                                                  .setRenderMode(this.getVariant());
 			return part;
 		}
 		return super.createPart(node);

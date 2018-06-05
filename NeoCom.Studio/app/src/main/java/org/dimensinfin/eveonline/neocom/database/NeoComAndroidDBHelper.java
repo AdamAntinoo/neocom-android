@@ -224,7 +224,8 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 	@Override
 	public void onUpgrade( final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
-		logger.info(">> [NeoComAndroidDBHelper.onUpgrade]");
+		logger.info(">> [NeoComAndroidDBHelper.onUpgrade] to: {}> From: {}"
+				, oldVersion, newVersion);
 		// Execute different actions depending on the new version.
 		if ( oldVersion < 109 ) {
 			try {
@@ -272,6 +273,23 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
 				logger.error("E> Error dropping table on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		if ( oldVersion < 110 ) {
+			try {
+				// Drop all the tables to force a new update from the latest SQLite version.
+				TableUtils.dropTable(databaseConnection, MiningExtraction.class, true);
+				try {
+					TableUtils.createTableIfNotExists(databaseConnection, MiningExtraction.class);
+				} catch (SQLException sqle) {
+					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+				}
+			} catch (RuntimeException rtex) {
+				logger.error("E> Error dropping table MiningExtraction on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				logger.error("E> Error dropping table MiningExtraction on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -491,6 +509,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	//	}
 
 	// --- PUBLIC CONNECTION SPECIFIC ACTIONS
+
 	/**
 	 * removes from the application database any asset and blueprint that contains the special -1 code as the
 	 * owner identifier. Those records are from older downloads and have to be removed to avoid merging with the
@@ -567,7 +586,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 					public Void call() throws Exception {
 						// Remove all assets that do not have a valid owner.
 						final UpdateBuilder<NeoComBlueprint, String> updateBuilder = getBlueprintDao().updateBuilder();
-						updateBuilder.updateColumnValue( "ownerId", pilotid)
+						updateBuilder.updateColumnValue("ownerId", pilotid)
 						             .where().eq("ownerId", (pilotid * -1));
 						int count = updateBuilder.update();
 						logger.info("-- [NeoComAndroidDBHelper.replaceBlueprints]> Replace owner {} for blueprints: {}", pilotid, count);
@@ -581,6 +600,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			}
 		}
 	}
+
 	private int readDatabaseVersion() {
 		// Access the version object persistent on the database.
 		try {
@@ -588,7 +608,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			QueryBuilder<DatabaseVersion, String> queryBuilder = versionDao.queryBuilder();
 			PreparedQuery<DatabaseVersion> preparedQuery = queryBuilder.prepare();
 			List<DatabaseVersion> versionList = versionDao.query(preparedQuery);
-			if (versionList.size() > 0) {
+			if ( versionList.size() > 0 ) {
 				DatabaseVersion version = versionList.get(0);
 				return version.getVersionNumber();
 			} else

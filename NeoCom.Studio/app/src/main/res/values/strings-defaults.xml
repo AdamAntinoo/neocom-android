@@ -3,6 +3,7 @@
     <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
     <string name="default_version">v0.12.0</string>
     <string name="default_paneltitle">-Panel Title-</string>
+    <string name="default_typeid">[#12345]</string>
 
     <string name="imageview_defaultcontent">ImageView Content Description</string>
     <string name="default_description">ImageView Content Description</string>

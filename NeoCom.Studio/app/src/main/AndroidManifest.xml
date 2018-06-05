@@ -28,7 +28,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/splash_icon"
             android:label="@string/appnameversion"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/AppTheme.NoActionBar">
@@ -59,8 +58,8 @@
         <activity
             android:name=".activity.MiningLedgerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Mining Ledger"
             android:icon="@drawable/miningledger"
+            android:label="Mining Ledger"
             android:screenOrientation="portrait"></activity>
 
         <!--         Section where to add the new Activities to match the new model presentation. -->

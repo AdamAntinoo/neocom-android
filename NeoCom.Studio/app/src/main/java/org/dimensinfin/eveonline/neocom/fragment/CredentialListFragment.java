@@ -74,7 +74,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				, getVariant()
 				, createFactory()
 				, getExtras())
-				.setCacheable(true)
+				.setCacheable(false)
 				.setVariant(getVariant());
 	}
 
@@ -139,6 +139,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 			// Check if the data is already on the cache so we should not have to process again the model generation.
 			if ( !isCached() ) {
 				try {
+					cleanup();
 					// Add the panel title up front of the Credential list.
 					this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
 					for (Credential credential : AndroidGlobalDataManager.accessAllCredentials()) {

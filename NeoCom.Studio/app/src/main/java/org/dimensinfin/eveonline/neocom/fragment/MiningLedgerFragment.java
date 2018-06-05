@@ -80,7 +80,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 					, getVariant()
 					, createFactory()
 					, getExtras())
-					.setCacheable(true)
+					.setCacheable(false)
 					.setVariant(getVariant());
 		} catch (NeoComException neoe) {
 			neoe.printStackTrace();
@@ -134,6 +134,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 			logger.info(">> [MiningLedgerDataSource.collaborate2Model]");
 			// Check if the data is already on the cache so we should not have to process again the model generation.
 			if ( !isCached() ) {
+				cleanup();
 				try {
 					// Add the panel title up front of the Credential list.
 					this.addModelContents(new PanelTitle("MINING LEDGER"));

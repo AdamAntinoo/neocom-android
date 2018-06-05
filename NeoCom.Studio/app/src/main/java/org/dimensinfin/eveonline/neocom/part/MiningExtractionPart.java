@@ -15,8 +15,13 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +31,8 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
@@ -38,15 +45,34 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	private static Logger logger = LoggerFactory.getLogger("MiningExtractionPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private EveItem item = new EveItem();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MiningExtractionPart( final ICollaboration model ) {
 		super(model);
+		item = new AndroidGlobalDataManager().searchItem4Id(getCastedModel().getTypeId());
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public MiningExtraction getCastedModel() {
 		return (MiningExtraction) this.getModel();
+	}
+
+	public String getTExtractionValue() {
+		if ( null != item )
+			try {
+				return generatePriceString(item.getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity(), true, true);
+			} catch (ExecutionException ee) {
+				return "- ISK";
+			} catch (InterruptedException ie) {
+				return "- ISK";
+			}
+		else return "- ISK";
+
+	}
+
+	public String getTQuantity() {
+		return qtyFormatter.format(getCastedModel().getQuantity());
 	}
 
 	@Override
@@ -71,8 +97,14 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class MiningExtractionRender extends AbstractRender {
 		// - F I E L D - S E C T I O N ............................................................................
+		private ImageView targetIcon = null;
+
 		private TextView resourceName = null;
+		private TextView nodeClass = null;
+		private TextView extractionSystemName = null;
+		private TextView extractionDate = null;
 		private TextView quantity = null;
+		private TextView value = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningExtractionRender( final AbstractPart newPart, final Activity context ) {
@@ -87,14 +119,25 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		@Override
 		public void initializeViews() {
+			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
+			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
+			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
+			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
 			quantity = (TextView) _convertView.findViewById(R.id.quantity);
+			value = (TextView) _convertView.findViewById(R.id.value);
 		}
 
 		@Override
 		public void updateContent() {
+			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
-			quantity.setText(Long.valueOf(this.getPart().getCastedModel().getQuantity()).toString());
+			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
+			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
+			quantity.setText(this.getPart().getTQuantity());
+			value.setText(this.getPart().getTExtractionValue());
 		}
 
 		@Override

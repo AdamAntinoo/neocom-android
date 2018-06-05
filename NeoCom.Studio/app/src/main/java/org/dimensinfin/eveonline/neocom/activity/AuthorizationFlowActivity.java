@@ -167,9 +167,9 @@ public class AuthorizationFlowActivity extends Activity {
 					          .store();
 					// Once the credential is stored we go back to the Dashboard Activity.
 					this.runOnUiThread(() -> {
-						//						final Intent intent = new Intent(this, AppDashboardActivity.class);
-						//						this.startActivity(intent);
-						finish();
+												final Intent intent = new Intent(this, AppDashboardActivity.class);
+												this.startActivity(intent);
+//						finish();
 					});
 				} else {
 					Toast.makeText(getApplicationContext(), "Character verification failed. " + verificationResponse.message(),
