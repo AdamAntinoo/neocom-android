@@ -9,8 +9,11 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.render;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -20,24 +23,18 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalAndroidDataManager;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComRender extends AbstractRender {
@@ -45,6 +42,16 @@ public abstract class NeoComRender extends AbstractRender {
 	static {
 		Picasso.get().setIndicatorsEnabled(true);
 	}
+
+	// - C H A R A C T E R S
+	public static final String FLOW_ARROW_RIGHT = " ► ";
+	public static final String FLOW_ARROW_LEFT = " ◄ ";
+	public static final String FLOW_ARROW_UP = " ▲ ";
+	public static final String FLOW_ARROW_DOWN = " ▼ ";
+	public static final String INFINITY = " ∞ ";
+	public static final String HOME = " ⌂ ";
+	public static final String DELTA = " ∆ ";
+
 	protected static final long ONEMINUTE = TimeUnit.MINUTES.toMillis(1);
 	protected static final long ONEHOUR = TimeUnit.HOURS.toMillis(1);
 	protected static final long ONEDAY = TimeUnit.DAYS.toMillis(1);
@@ -77,20 +84,20 @@ public abstract class NeoComRender extends AbstractRender {
 		NeoComRender.securityLevels.put(0, "#F00000");
 	}
 
-//	public static Typeface daysFace = Typeface
-//			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
+	//	public static Typeface daysFace = Typeface
+	//			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected ImageView _rightArrow = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComRender (final AbstractAndroidPart target, final Activity context) {
+	public NeoComRender( final AbstractAndroidPart target, final Activity context ) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
-	public void initializeViews () {
+	public void initializeViews() {
 		// Get the view of the rightArrow if found.
 		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 	}
@@ -100,8 +107,8 @@ public abstract class NeoComRender extends AbstractRender {
 	 * with a new <code>updateContent()</code>.
 	 */
 	@Override
-	public void updateContent () {
-		super.updateContent();
+	public void updateContent() {
+		//		super.updateContent();
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = getPart().getModel();
 		if ( null != _rightArrow ) {
@@ -127,11 +134,11 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-//	public Typeface getThemeTextFont () {
-//		return NeoComRender.daysFace;
-//	}
+	//	public Typeface getThemeTextFont () {
+	//		return NeoComRender.daysFace;
+	//	}
 
-	protected Spanned colorFormat (final String data, final String color, final String suffix) {
+	protected Spanned colorFormat( final String data, final String color, final String suffix ) {
 		final StringBuffer htmlFragment = new StringBuffer();
 		htmlFragment.append("<font color='").append(color).append("'>");
 		htmlFragment.append(data);
@@ -142,7 +149,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return Html.fromHtml(htmlFragment.toString());
 	}
 
-	protected Spanned colorFormatLocation (final EveLocation location) {
+	protected Spanned colorFormatLocation( final EveLocation location ) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, NeoComRender.securityFormatter.format(security)));
@@ -150,16 +157,16 @@ public abstract class NeoComRender extends AbstractRender {
 		return Html.fromHtml(htmlLocation.toString());
 	}
 
-	@Override
-	abstract protected void createView ();
+	//	@Override
+	//	abstract protected void createView ();
 
 	/**
 	 * The price of the manufacture cost on the output is not tinted with the right color. Use red for cero or
 	 * negative costs, orange for less than 10% and white for higher (or maybe green for higher). This code can
 	 * be refactored to use ever the same generation code.
 	 */
-	protected Spanned displayManufactureCost (final double cost, final double price, final boolean compress,
-																						final boolean suffix) {
+	protected Spanned displayManufactureCost( final double cost, final double price, final boolean compress,
+	                                          final boolean suffix ) {
 		final StringBuffer htmlFragmentWithColor = new StringBuffer();
 		final String priceString = this.generatePriceString(cost, compress, suffix);
 		String color = "#FFFFFF";
@@ -173,7 +180,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return Html.fromHtml(htmlFragmentWithColor.toString());
 	}
 
-	protected String generateDateString (final long millis) {
+	protected String generateDateString( final long millis ) {
 		try {
 			final DateTimeFormatterBuilder dateFormatter = new DateTimeFormatterBuilder();
 			dateFormatter.appendYear(4, 4).appendLiteral(".");
@@ -187,7 +194,7 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-	protected String generateDurationString (final long millis, final boolean withSeconds) {
+	protected String generateDurationString( final long millis, final boolean withSeconds ) {
 		long timeToConvert = millis;
 		final StringBuffer buffer = new StringBuffer();
 		if ( timeToConvert > NeoComRender.ONEDAY ) {
@@ -212,7 +219,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return buffer.toString();
 	}
 
-	protected String generateDurationString2 (final long millis) {
+	protected String generateDurationString2( final long millis ) {
 		final DateTimeFormatterBuilder timeLeftCountdown = new DateTimeFormatterBuilder();
 		if ( millis > NeoComRender.ONEDAY ) {
 			timeLeftCountdown.appendDayOfYear(1).appendLiteral("D ");
@@ -226,7 +233,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
 	}
 
-	protected String generatePriceString (final double price, final boolean compress, final boolean addSuffix) {
+	protected String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
 		// Generate different formats depending on the quantity and the compress
 		// flag.
 		// Get rid of negative numbers.
@@ -246,7 +253,7 @@ public abstract class NeoComRender extends AbstractRender {
 			return NeoComRender.priceFormatter.format(price);
 	}
 
-	protected String generateSecurityColor (double sec, final String data) {
+	protected String generateSecurityColor( double sec, final String data ) {
 		final StringBuffer htmlFragmentWithColor = new StringBuffer();
 		String secColor = "#F00000";
 		// Get the color from the table.
@@ -262,7 +269,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return htmlFragmentWithColor.toString();
 	}
 
-	protected String generateTimeString (final long millis) {
+	protected String generateTimeString( final long millis ) {
 		try {
 			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
 			if ( millis > NeoComRender.ONEDAY ) {
@@ -280,7 +287,7 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-	protected void loadEveIcon (final ImageView targetIcon, final int typeId) {
+	protected void loadEveIcon( final ImageView targetIcon, final int typeId ) {
 		this.loadEveIcon(targetIcon, typeId, false);
 	}
 
@@ -288,27 +295,27 @@ public abstract class NeoComRender extends AbstractRender {
 	 * Downloads and caches the item icon from the CCP server. The new implementation check for special cases
 	 * such as locations. Stations on locations have an image that can be downloaded from the same place.
 	 */
-	protected void loadEveIcon (final ImageView targetIcon, final int typeId, final boolean station) {
+	protected void loadEveIcon( final ImageView targetIcon, final int typeId, final boolean station ) {
 		// Check if the layout has the icon placeholder.
 		if ( null != targetIcon ) {
 			// If the flag signals an station change the code.
-			String link = GlobalAndroidDataManager.getURLForItem(typeId);
+			String link = AndroidGlobalDataManager.getURLForItem(typeId);
 			if ( station ) {
-				link = GlobalAndroidDataManager.getURLForStation(typeId);
+				link = AndroidGlobalDataManager.getURLForStation(typeId);
 			}
 			Picasso.get().load(link).into(targetIcon);
-//			try {
-//			final Future<Drawable> draw = AndroidGlobalDataManager.getCacheDrawable(link, targetIcon, getContext());
-//				targetIcon.setImageDrawable(draw.get());
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			} catch (ExecutionException e) {
-//				e.printStackTrace();
-//			}
+			//			try {
+			//			final Future<Drawable> draw = AndroidGlobalDataManager.getCacheDrawable(link, targetIcon, getContext());
+			//				targetIcon.setImageDrawable(draw.get());
+			//			} catch (InterruptedException e) {
+			//				e.printStackTrace();
+			//			} catch (ExecutionException e) {
+			//				e.printStackTrace();
+			//			}
 		}
 	}
 
-	protected Spanned regionSystemLocation (final EveLocation loc) {
+	protected Spanned regionSystemLocation( final EveLocation loc ) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		// EveLocation loc =
 		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
@@ -318,10 +325,10 @@ public abstract class NeoComRender extends AbstractRender {
 			secColor = "#2FEFEF";
 		}
 		// Append the Region -> system
-		htmlLocation.append(loc.getRegion()).append(AppWideConstants.FLOW_ARROW_RIGHT).append(loc.getConstellation())
-		            .append(AppWideConstants.FLOW_ARROW_RIGHT);
+		htmlLocation.append(loc.getRegion()).append(FLOW_ARROW_RIGHT).append(loc.getConstellation())
+		            .append(FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-								.append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+		            .append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}

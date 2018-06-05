@@ -108,7 +108,7 @@
             android:gravity="right"
             android:text="MINING"
             android:textColor="@color/appblue"
-            android:textSize="11sp" />
+            android:textSize="10sp" />
 
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/quantity"
@@ -123,6 +123,13 @@
             android:text="125 items"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/quantityLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="QUANTITY" />
 
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/value"

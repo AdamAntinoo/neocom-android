@@ -46,6 +46,15 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	private static final long serialVersionUID = -2988276062110424930L;
 	protected static Logger logger = Logger.getLogger("NeoComAbstractPart");
 
+	// - C H A R A C T E R S
+	public static final String FLOW_ARROW_RIGHT = " ► ";
+	public static final String FLOW_ARROW_LEFT = " ◄ ";
+	public static final String FLOW_ARROW_UP = " ▲ ";
+	public static final String FLOW_ARROW_DOWN = " ▼ ";
+	public static final String INFINITY = " ∞ ";
+	public static final String HOME = " ⌂ ";
+	public static final String DELTA = " ∆ ";
+
 	private static final long ONEMINUTE = 60 * 1000;
 	private static final long ONEHOUR = 60 * NeoComAbstractPart.ONEMINUTE;
 	private static final long ONEDAY = 24 * NeoComAbstractPart.ONEHOUR;

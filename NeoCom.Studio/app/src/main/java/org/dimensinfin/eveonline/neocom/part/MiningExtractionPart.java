@@ -100,6 +100,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		private ImageView targetIcon = null;
 
 		private TextView resourceName = null;
+		private TextView resourceTypeId=null;
 		private TextView nodeClass = null;
 		private TextView extractionSystemName = null;
 		private TextView extractionDate = null;
@@ -122,6 +123,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
+			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
 			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
 			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
 			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
@@ -134,6 +136,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
 			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
+			resourceTypeId.setText("[#"+this.getPart().getCastedModel().getTypeId()+"]");
 			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
 			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
 			quantity.setText(this.getPart().getTQuantity());

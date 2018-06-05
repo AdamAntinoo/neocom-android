@@ -118,8 +118,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 				// We have not found the credential. Fire another exception.
 				if ( null == credential )
 					throw new NeoComException("X> [MiningLedgerDataSource.<constructor>]> Data source has not located a valid Credential " +
-							"por " +
-							"identifier " + pilotIdentifier + ".");
+							"for identifier " + pilotIdentifier + ".");
 			}
 		}
 
