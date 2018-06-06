@@ -50,13 +50,16 @@ android {
 //        }
 //    }
     sourceSets {
-//        main.java.srcDirs += 'src/main/java-planetary'
+        main.java{
+            srcDirs += 'src/main/java-industry'
+        }
 //        main.java.srcDirs += 'src/main/java-newrelease'
 //        main.java.srcDirs += 'src/main/java-eveesiandroid'
 //        main.res.srcDirs += 'src/main/res-planetary'
 //        main.res.srcDirs += 'src/main/res-definitions'
 //        main.res.srcDirs += 'src/main/res-final'
         main.res {
+            srcDirs += 'src/main/res-industry'
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-sde'
             srcDirs += 'src/main/res-ui'

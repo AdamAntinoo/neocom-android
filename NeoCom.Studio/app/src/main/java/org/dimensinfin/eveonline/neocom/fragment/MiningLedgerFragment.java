@@ -38,6 +38,8 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
+import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
+import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 
 /**
@@ -138,14 +140,36 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 					// Add the panel title up front of the Credential list.
 					this.addModelContents(new PanelTitle("MINING LEDGER"));
 					List<MiningExtraction> extractions = new ArrayList<>();
-					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()) )
+					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()) ) {
 						extractions = AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(credential);
-					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) )
+						if ( extractions.size() < 1 ) {
+							// The list ofr today is empty. Put a label to report that case.
+							this.addModelContents(new InformationPanel("There are no Mining Extractions Today."));
+						}
+						for (MiningExtraction extraction : extractions) {
+							this.addModelContents(extraction);
+							logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
+									, extraction.getResourceName());
+						}
+					}
+					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) ) {
 						extractions = AndroidGlobalDataManager.accessMiningExtractions4Pilot(credential);
-					for (MiningExtraction extraction : extractions) {
-						this.addModelContents(extraction);
-						logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-								, extraction.getResourceName());
+
+						// Aggregate the extractions by date and system so that information can be removed from the extractions panel.
+						String processingDate = "";
+						DateFacetedMiningExtractionContainer dateAggregator = null;
+						for (MiningExtraction extraction : extractions) {
+							// Get the extraction date.
+							final String recordDate = extraction.getExtractionDate().split(":")[0];
+							// Create a new aggregator if the dates do not match.
+							if ( !recordDate.equalsIgnoreCase(processingDate) ) {
+								// Create a new aggregator and use it to get the rest of the extractors inside.
+								dateAggregator = new DateFacetedMiningExtractionContainer(recordDate);
+								this.addModelContents(dateAggregator);
+								processingDate=recordDate;
+							}
+							dateAggregator.addMiningExtraction(extraction);
+						}
 					}
 				} catch (SQLException sqle) {
 					AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
@@ -160,7 +184,6 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 			logger.info("<< [MiningLedgerDataSource.collaborate2Model]");
 		}
 	}
-	//...........................................................................................................
 }
 // - UNUSED CODE ............................................................................................
 //[01]

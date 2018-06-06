@@ -93,13 +93,13 @@
         <item name="android:gravity">right</item>
         <item name="android:textSize">9sp</item>
     </style>
-    <style name="AppTheme.Label">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">7sp</item>
-    </style>
+    <!--<style name="AppTheme.Label">-->
+        <!--<item name="android:layout_width">wrap_content</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:ellipsize">marquee</item>-->
+        <!--<item name="android:singleLine">true</item>-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+        <!--<item name="android:textSize">7sp</item>-->
+    <!--</style>-->
 
 </resources>

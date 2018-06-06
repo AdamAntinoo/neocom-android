@@ -39,9 +39,9 @@ import org.dimensinfin.eveonline.neocom.model.EveLocation;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	static {
-		Picasso.get().setIndicatorsEnabled(true);
-	}
+//	static {
+//		Picasso.get().setIndicatorsEnabled(true);
+//	}
 
 	// - C H A R A C T E R S
 	public static final String FLOW_ARROW_RIGHT = " ► ";

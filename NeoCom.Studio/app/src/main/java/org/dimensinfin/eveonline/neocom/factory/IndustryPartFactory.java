@@ -22,7 +22,12 @@ import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
+import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.part.AssetPart;
+import org.dimensinfin.eveonline.neocom.part.DateFacetedMiningExtractionContainerPart;
 import org.dimensinfin.eveonline.neocom.part.MiningExtractionPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 
@@ -51,7 +56,22 @@ public class IndustryPartFactory extends PartFactory {
 			                                                              .setRenderMode(this.getVariant());
 			return part;
 		}
+		if ( node instanceof NeoComAsset ) {
+			IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+			                                              .setRenderMode(this.getVariant());
+			return part;
+		}
 		if ( node instanceof PanelTitle ) {
+			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
+			                                                  .setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof DateFacetedMiningExtractionContainer ) {
+			IPart part = new DateFacetedMiningExtractionContainerPart((DateFacetedMiningExtractionContainer) node).setFactory(this)
+			                                                                                                      .setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof InformationPanel ) {
 			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
 			                                                  .setRenderMode(this.getVariant());
 			return part;

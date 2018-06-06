@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
@@ -80,9 +81,16 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		return 0;
 	}
 
+	/**
+	 * Return a rendered depending on where we are located. The actions under the DateFaceted containers should not display some of the
+	 * fields so we can use a more compact panel.
+	 * @return
+	 */
 	@Override
 	public AbstractRender selectRenderer() {
-		return new MiningExtractionRender(this, this.getActivity());
+		if ( getRenderMode().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) )
+			return new MiningExtractionPackedRender(this, this.getActivity());
+		else return new MiningExtractionRender(this, this.getActivity());
 	}
 
 	@Override
@@ -100,7 +108,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		private ImageView targetIcon = null;
 
 		private TextView resourceName = null;
-		private TextView resourceTypeId=null;
+		private TextView resourceTypeId = null;
 		private TextView nodeClass = null;
 		private TextView extractionSystemName = null;
 		private TextView extractionDate = null;
@@ -136,7 +144,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
 			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
-			resourceTypeId.setText("[#"+this.getPart().getCastedModel().getTypeId()+"]");
+			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
 			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
 			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
 			quantity.setText(this.getPart().getTQuantity());
@@ -146,6 +154,63 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		@Override
 		public int accessLayoutReference() {
 			return R.layout.miningextractions4list;
+		}
+	}
+
+	// - CLASS IMPLEMENTATION ...................................................................................
+	public static class MiningExtractionPackedRender extends AbstractRender {
+		// - F I E L D - S E C T I O N ............................................................................
+		private ImageView targetIcon = null;
+
+		private TextView resourceName = null;
+		private TextView resourceTypeId = null;
+//		private TextView nodeClass = null;
+//		private TextView extractionSystemName = null;
+//		private TextView extractionDate = null;
+		private TextView quantity = null;
+		private TextView value = null;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public MiningExtractionPackedRender( final AbstractPart newPart, final Activity context ) {
+			super(newPart, context);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		@Override
+		public MiningExtractionPart getPart() {
+			return (MiningExtractionPart) super.getPart();
+		}
+
+		@Override
+		public void initializeViews() {
+//			super.initializeViews();
+			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+
+			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
+			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
+//			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
+//			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
+//			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
+			quantity = (TextView) _convertView.findViewById(R.id.quantity);
+			value = (TextView) _convertView.findViewById(R.id.value);
+		}
+
+		@Override
+		public void updateContent() {
+//			super.updateContent();
+			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+			Picasso.get().load(link).into(targetIcon);
+			resourceName.setText(this.getPart().getCastedModel().getResourceName());
+			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
+//			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
+//			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
+			quantity.setText(this.getPart().getTQuantity());
+			value.setText(this.getPart().getTExtractionValue());
+		}
+
+		@Override
+		public int accessLayoutReference() {
+			return R.layout.miningextractions4datefacet;
 		}
 	}
 }
