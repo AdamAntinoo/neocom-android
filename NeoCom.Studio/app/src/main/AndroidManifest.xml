@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.dimensinfin.eveonline.neocom">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +21,8 @@
         android:logo="@drawable/neocom_icon"
         android:roundIcon="@drawable/neocom_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:replace="android:label">
 
         <!-- S T A R T U P    A C T I V I T Y -->
         <activity

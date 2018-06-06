@@ -47,7 +47,7 @@ import org.dimensinfin.eveonline.neocom.model.PanelTitle;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MineralResourcesFragment extends AbstractPagerFragment {
+public class MineralResourcesFragment extends MiningLedgerFragment{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MineralResourcesFragment");
 

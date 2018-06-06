@@ -146,6 +146,9 @@ dependencies {
     implementation "org.slf4j:slf4j-android:1.7.12"
     implementation "joda-time:joda-time:$jodaTimeVersion"
 
+    // G R A P H S   &   C H A R T S
+    compile 'com.github.AnyChart:AnyChart-Android:0.2.1'
+
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
 

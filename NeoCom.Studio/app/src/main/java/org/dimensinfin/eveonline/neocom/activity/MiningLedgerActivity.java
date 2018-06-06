@@ -23,8 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.core.NeoComException;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
 
@@ -33,6 +35,10 @@ import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
  * differentiation and we generate delta records to report the increase of mining ore during time and not only by date aggregation.
  *
  * We need some input data to identify the Pilot or Corporation from where to get that mining records.
+ *
+ * Activities are the key data repository for the rest of the objects. If the extras do not convey the required information the Activity
+ * should stop and display the appropiate message for the user. All checks should be made at this level and during the complete lifecycle
+ * . Once control goes to Fragments or DataSources we understand that all checks are validated and that the required data is available.
  * @author Adam Antinoo
  */
 
@@ -42,7 +48,10 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	private static Logger logger = LoggerFactory.getLogger("MiningLedgerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
 	private int pilotIdentifier = 0;
+	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
+	private Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
@@ -51,20 +60,49 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 		logger.info(">> [MiningLedgerActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		try {
-			if ( null != _extras ) {
-				pilotIdentifier = _extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
-			}
-			if ( pilotIdentifier > 0 ) {
-				this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
-				this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
-				this.addPage(new MineralResourcesFragment().setPilotIdentifier(pilotIdentifier));
+			// Get the pilot identifier. This is a mandatory parameter and should be validated.
+			if ( null != extras ) {
+				pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+				if ( pilotIdentifier > 0 ) {
+					// Validate the pointer Credential that should be made available to this Activity fragments.
+					credential = searchCredential(pilotIdentifier);
+					if ( null != credential ) {
+
+						this.addPage(new MiningLedgerFragment().setCredential(credential)
+						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name()));
+						this.addPage(new MiningLedgerFragment().setCredential(credential)
+						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+						this.addPage(new MiningLedgerFragment().setCredential(credential)
+						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
+						this.addPage(new MineralResourcesFragment().setCredential(credential));
+					} else {
+						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+										+ " not fount on the list of credentials.")
+								, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+						this.addPage(new ApplicationExceptionReportFragment());
+					}
+				}
+			} else {
+				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+						, new NeoComException("[MiningLedgerActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
+						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+				this.addPage(new ApplicationExceptionReportFragment());
 			}
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
+			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [MiningLedgerActivity.onCreate]");
+	}
+
+	protected Credential searchCredential( final int identifier ) {
+		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+			if ( cred.getAccountId() == identifier ) return cred;
+		}
+		return null;
 	}
 }
 // - UNUSED CODE ............................................................................................

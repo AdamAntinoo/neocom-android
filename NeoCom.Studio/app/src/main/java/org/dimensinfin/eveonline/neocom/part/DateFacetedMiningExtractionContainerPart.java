@@ -15,6 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
@@ -70,6 +73,11 @@ public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPar
 		buffer.append("]");
 //		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	@Override
+	public List<IPart> runPolicies( final List<IPart> targets ) {
+		return super.runPolicies(targets);
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
