@@ -74,7 +74,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
-						this.addPage(new MineralResourcesFragment().setCredential(credential));
+//						this.addPage(new MineralResourcesFragment().setCredential(credential));
 					} else {
 						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
@@ -96,6 +96,24 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [MiningLedgerActivity.onCreate]");
+	}
+
+	@Override
+	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	/**
+	 * Save the extra parameters information to be able to restore the page to their same state. There is no
+	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
+	 * reconstruct the AppModel state.
+	 */
+	@Override
+	protected void onSaveInstanceState (final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// Save the extra parameters information to be able to restore the page to their same state.
+		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 	}
 
 	protected Credential searchCredential( final int identifier ) {

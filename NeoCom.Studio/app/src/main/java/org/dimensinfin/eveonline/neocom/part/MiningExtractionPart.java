@@ -69,7 +69,30 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 				return "- ISK";
 			}
 		else return "- ISK";
+	}
 
+	public String getTResourcePrice() {
+		if ( null != item ) {
+			try {
+				return generatePriceString(item.getHighestBuyerPrice().getPrice(), false, true);
+			} catch (ExecutionException ee) {
+				return "- ISK";
+			} catch (InterruptedException ie) {
+				return "- ISK";
+			}
+		} else return "- ISK";
+	}
+
+	public String getTValueIndex() {
+		if ( null != item ) {
+			try {
+				return Double.valueOf(Math.round((item.getHighestBuyerPrice().getPrice() / item.getVolume()) * 10.0)).toString();
+			} catch (ExecutionException ee) {
+				return "00";
+			} catch (InterruptedException ie) {
+				return "00";
+			}
+		} else return "00";
 	}
 
 	public String getTQuantity() {
@@ -114,6 +137,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		private TextView extractionDate = null;
 		private TextView quantity = null;
 		private TextView value = null;
+		private TextView unitPrice = null;
+		private TextView valueIndex = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningExtractionRender( final AbstractPart newPart, final Activity context ) {
@@ -137,6 +162,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
 			quantity = (TextView) _convertView.findViewById(R.id.quantity);
 			value = (TextView) _convertView.findViewById(R.id.value);
+			unitPrice = (TextView) _convertView.findViewById(R.id.unitPrice);
+			valueIndex = (TextView) _convertView.findViewById(R.id.valueIndex);
 		}
 
 		@Override
@@ -149,6 +176,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
 			quantity.setText(this.getPart().getTQuantity());
 			value.setText(this.getPart().getTExtractionValue());
+			unitPrice.setText(this.getPart().getTResourcePrice());
+			valueIndex.setText(this.getPart().getTValueIndex());
 		}
 
 		@Override
@@ -164,9 +193,9 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		private TextView resourceName = null;
 		private TextView resourceTypeId = null;
-//		private TextView nodeClass = null;
-//		private TextView extractionSystemName = null;
-//		private TextView extractionDate = null;
+		//		private TextView nodeClass = null;
+		//		private TextView extractionSystemName = null;
+		//		private TextView extractionDate = null;
 		private TextView quantity = null;
 		private TextView value = null;
 
@@ -183,27 +212,27 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		@Override
 		public void initializeViews() {
-//			super.initializeViews();
+			//			super.initializeViews();
 			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
 			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
-//			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
-//			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
-//			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
+			//			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
+			//			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
+			//			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
 			quantity = (TextView) _convertView.findViewById(R.id.quantity);
 			value = (TextView) _convertView.findViewById(R.id.value);
 		}
 
 		@Override
 		public void updateContent() {
-//			super.updateContent();
+			//			super.updateContent();
 			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
 			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
-//			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
-//			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
+			//			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
+			//			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
 			quantity.setText(this.getPart().getTQuantity());
 			value.setText(this.getPart().getTExtractionValue());
 		}

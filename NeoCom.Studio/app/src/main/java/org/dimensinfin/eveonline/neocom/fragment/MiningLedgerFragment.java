@@ -17,12 +17,15 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.os.Bundle;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,6 +210,58 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
 					}
 					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()) ) {
+						// Add the panel title up front of the Credential list.
+						final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS [-]");
+					int	extractionCount = 0;
+						this.addModelContents(title);
+
+						extractions = AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(credential);
+						if ( extractions.size() < 1 ) {
+							// The list ofr today is empty. Put a label to report that case.
+							this.addModelContents(new InformationPanel("There are no Mining Extractions Today."));
+						}
+
+						// Create a map of all the record ids
+						Map<String, MiningExtraction> ids = new HashMap();
+						for (MiningExtraction extraction : extractions) {
+							ids.put(extraction.getRecordId(), extraction);
+						}
+						// Process the records in order. Aggregate by system.
+						int processingSystem = -1;
+						DateFacetedMiningExtractionContainer systemAggregator = null;
+						for (MiningExtraction extraction : extractions) {
+							// Get the extraction date and the hour.
+							final String recordDate = extraction.getExtractionDate().split(":")[0];
+							final int hour = extraction.getExtractionHour();
+							final int system = extraction.getSolarSystemId();
+
+							// Search on the ids if this record should have a previous hour record. This is the current id less 1.
+							final String searchId = MiningExtraction.generateRecordId(recordDate, hour-1
+									, extraction.getTypeId(), system, extraction.getOwnerId());
+							// Check if the id exists.
+							if ( ids.keySet().contains(searchId) ) {
+								// Get the previous record and perform the update before adding the record.
+								final MiningExtraction previous = ids.get(searchId);
+								long delta = extraction.getQuantity() - previous.getQuantity();
+								// Skip if there is no change during the period.
+								if ( delta <= 0 ) continue;
+								else extraction.setQuantity(delta);
+							}
+
+							// Add the record but aggregate by system.
+							if(processingSystem!=system){
+								// Create a new aggregator and use it to get the rest of the extractors inside.
+								systemAggregator = new DateFacetedMiningExtractionContainer(extraction.getSystemName());
+								this.addModelContents(systemAggregator);
+								processingSystem = extraction.getSolarSystemId();
+							}
+							systemAggregator.addMiningExtraction(extraction);
+							extractionCount++;
+						}
+						// Update the number of extractions.
+						title.setTitle("TODAY MINING EXTRACTIONS [" + extractionCount + "]");
+					}
+					if ( getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_VERIFICATION.name()) ) {
 						// Add the panel title up front of the Credential list.
 						final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS [-]");
 						this.addModelContents(title);

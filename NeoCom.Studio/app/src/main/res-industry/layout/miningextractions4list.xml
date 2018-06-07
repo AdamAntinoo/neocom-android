@@ -90,6 +90,34 @@
                 android:gravity="right"
                 android:text="EXTRACTION DATE" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/indexesBlock"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/unitPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="@string/default_system"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/valueIndex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_paiddate"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout

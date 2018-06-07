@@ -54,7 +54,7 @@ public class NeoComApplication extends Application {
 		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER
 	}
 public enum EVariants{
-		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL, MINING_EXTRACTIONS_TEST
+		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL, MINING_EXTRACTIONS_TEST, MINING_EXTRACTIONS_VERIFICATION
 }
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComApplication");
