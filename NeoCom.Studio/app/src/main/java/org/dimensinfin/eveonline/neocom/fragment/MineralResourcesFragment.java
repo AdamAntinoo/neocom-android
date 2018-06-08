@@ -15,17 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.os.Bundle;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
@@ -33,37 +24,40 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MineralResourcesFragment extends MiningLedgerFragment{
+public class MineralResourcesFragment extends MiningLedgerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MineralResourcesFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private int pilotIdentifier = -1;
+	/** Credential to be used on all database requests and data retrievals. */
+	protected Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public int getPilotIdentifier() {
-		return pilotIdentifier;
-	}
-
-	public MineralResourcesFragment setPilotIdentifier( final int pilotIdentifier ) {
-		this.pilotIdentifier = pilotIdentifier;
+	public MiningLedgerFragment setCredential( final Credential credential ) {
+		this.credential = credential;
 		return this;
 	}
 
+	// --- P A G E R F R A G M E N T   O V E R R I D E S
 	@Override
 	public IPartFactory createFactory() {
 		return new IndustryPartFactory(getVariant());
@@ -76,31 +70,29 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 
 	@Override
 	public String getTitle() {
-		return "Pilot";
+		if (null != credential) return credential.getAccountName();
+		else return "-";
 	}
 
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
-		return new ArrayList<>();
+		List<ICollaboration> headerList = new ArrayList<>();
+		headerList.add(new PanelTitle("MINERALS BY LOCATION"));
+		return headerList;
 	}
 
 	@Override
 	protected IDataSource registerDataSource() {
 		logger.info(">< [MineralResourcesFragment.registerDataSource]");
-		if ( pilotIdentifier < 0 ) {
-			// Return the default exceptional data source to display the exception message.
-			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
-					, new PartFactory(getVariant()), getExtras())
-					.registerException(new NeoComException("[MineralResourcesFragment.registerDataSource]> Pilot identifier is not valid."));
-		}
+		final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINERAL-RESOURCES")
+				.addIdentifier(getVariant())
+				.addIdentifier(credential.getAccountId());
 		try {
-			return new MineralResourcesDataSource(new DataSourceLocator()
-					.addIdentifier("MINERAL-RESOURCES")
-					.addIdentifier(getVariant())
-					.addIdentifier(pilotIdentifier)
+			return new MineralResourcesDataSource(identifier
 					, getVariant()
 					, createFactory()
 					, getExtras())
+					.setCredential(credential)
 					.setCacheable(true)
 					.setVariant(getVariant());
 		} catch (NeoComException neoe) {
@@ -109,6 +101,12 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
 					, new PartFactory(getVariant()), getExtras())
 					.registerException(neoe);
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();
+			// Return the default exceptional data source to display the exception message.
+			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
+					, new PartFactory(getVariant()), getExtras())
+					.registerException(rte);
 		}
 	}
 
@@ -117,8 +115,8 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private int pilotIdentifier = -1;
-		private Credential credential = null;
+		/** Credential to be used on all database requests and data retrievals. */
+		protected Credential credential = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MineralResourcesDataSource( final DataSourceLocator locator
@@ -126,24 +124,15 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 				, final IPartFactory factory
 				, final Bundle extras ) throws NeoComException {
 			super(locator, variant, factory, extras);
-			// Extract the pilot identifier from the extras.
-			pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), -1);
-			if ( pilotIdentifier < 0 )
-				throw new NeoComException("X> [MineralResourcesDataSource.<constructor>]> Data source has not received the Pilot Identifier mandatory parameter.");
-			else {
-				// Search the matching credential.
-				final List<Credential> credentials = AndroidGlobalDataManager.accessAllCredentials();
-				for (Credential cred : credentials) {
-					if ( cred.getAccountId() == pilotIdentifier ) credential = cred;
-				}
-				// We have not found the credential. Fire another exception.
-				if ( null == credential )
-					throw new NeoComException("X> [MineralResourcesDataSource.<constructor>]> Data source has not located a valid Credential " +
-							"for identifier " + pilotIdentifier + ".");
-			}
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
+
+		public MineralResourcesDataSource setCredential( final Credential credential ) {
+			this.credential = credential;
+			return this;
+		}
+		// --- I D A T A S O U R C E   I N T E R F A C E
 
 		/**
 		 * This is the method that creates the model nodes represent the list of current registered credentials. In addition to this list
@@ -153,10 +142,10 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 		public void collaborate2Model() {
 			logger.info(">> [MineralResourcesDataSource.collaborate2Model]");
 			// Check if the data is already on the cache so we should not have to process again the model generation.
-			if ( !isCached() ) {
+			if (!isCached()) {
 				try {
 					// Add the panel title up front of the Credential list.
-					this.addModelContents(new PanelTitle("MINERALS BY LOCATION"));
+					//					this.addModelContents(new PanelTitle("MINERALS BY LOCATION"));
 
 					// Get the list of assets of Mineral type.
 					HashMap<String, Object> where = new HashMap<String, Object>();
@@ -164,15 +153,15 @@ public class MineralResourcesFragment extends MiningLedgerFragment{
 					where.put("category", "Material");
 					where.put("groupName", "Mineral");
 					final List<NeoComAsset> miningResources = new AndroidGlobalDataManager().getNeocomDBHelper().getAssetDao()
-					                                                                              .queryForFieldValues(where);
+							.queryForFieldValues(where);
 					// Get the list of assets of Ore type.
 					where = new HashMap<String, Object>();
 					where.put("ownerId", credential.getAccountId());
 					where.put("category", "Asteroid");
 					miningResources.addAll(new AndroidGlobalDataManager().getNeocomDBHelper().getAssetDao()
-					                                                           .queryForFieldValues(where));
+							.queryForFieldValues(where));
 					// Get ell the Mineral resources and classify them by location.
-	// TODO - Copy in the classification code. Now I will display the complete list.
+					// TODO - Copy in the classification code. Now I will display the complete list.
 					for (NeoComAsset asset : miningResources) {
 						this.addModelContents(asset);
 						logger.info("-- [MineralResourcesDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"

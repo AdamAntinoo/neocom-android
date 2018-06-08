@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderyellow">
+
+    <include layout="@layout/nodeicon4asset" />
+
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+        android:id="@+id/assetName"
+        style="@style/AppTheme.NeoComText.Orange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/default_bponame"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+        android:id="@+id/typeId"
+        style="@style/AppTheme.TextView"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/assetName"
+        android:text="@string/default_typeid"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+        android:id="@+id/assetCategory"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/assetName"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Mineral - Asteroid"
+        android:textColor="@color/appwhite"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rightPanelBlock"
+        android:layout_toRightOf="@+id/nodeIconBlock">
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/itemPrice"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="left"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:text="123,456.65 ISK"
+            android:textColor="@color/appwhite"
+            android:layout_alignBaseline="@+id/value"
+            android:textSize="12sp"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/marketPriceLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:layout_below="@+id/itemPrice"
+            android:text="MARKET PRICE"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/stackValue"
+            style="@style/AppTheme.StockCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="-4px"
+            android:ellipsize="marquee"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/default_isk"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/stackValueLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/stackValue"
+            android:gravity="right"
+            android:text="STACK VALUE"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rightPanelBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/nodeClass"
+            style="@style/AppTheme.NodeClass"
+            android:layout_marginRight="@dimen/standardmargin"
+            android:gravity="right"
+            android:text="MINING"
+            android:textColor="@color/appblue"
+            android:textSize="9sp" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/quantity"
+            style="@style/AppTheme.StockCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:ellipsize="marquee"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/default_biginteger"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/quantityLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="QUANTITY"
+            android:visibility="visible" />
+    </LinearLayout>
+</RelativeLayout>

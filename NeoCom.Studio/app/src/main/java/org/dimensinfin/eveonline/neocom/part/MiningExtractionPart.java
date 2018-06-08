@@ -16,6 +16,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		return (MiningExtraction) this.getModel();
 	}
 
+	// --- M O D E L   D A T A   T R A N S F O R M A T I O N
 	public String getTExtractionValue() {
 		if (null != item)
 			try {
@@ -104,11 +106,16 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		} else return "00m3";
 	}
 
-	@Override
-	public long getModelId() {
-		return 0;
+	public String getTDelta() {
+		return qtyFormatter.format(getCastedModel().getDelta());
 	}
 
+
+	// --- I A N D R O I D P A R T   I N T E R F A C E
+	@Override
+	public long getModelId() {
+		return getCastedModel().getRecordId().hashCode();
+	}
 	/**
 	 * Return a rendered depending on where we are located. The actions under the DateFaceted containers should not display some of the
 	 * fields so we can use a more compact panel.
@@ -139,6 +146,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		private TextView value = null;
 		private TextView unitPrice = null;
 		private TextView valueIndex = null;
+		private TextView delta = null;
+		private TextView separatorLabel = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningExtractionRender( final AbstractPart newPart, final Activity context ) {
@@ -158,15 +167,25 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
 			unitPrice = (TextView) _convertView.findViewById(R.id.unitPrice);
 			valueIndex = (TextView) _convertView.findViewById(R.id.valueIndex);
+			delta = (TextView) _convertView.findViewById(R.id.delta);
+			separatorLabel = (TextView) _convertView.findViewById(R.id.separatorLabel);
 		}
 
 		@Override
 		public void updateContent() {
 			super.updateContent();
 			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
-			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
+			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate()
+					+":"+this.getPart().getCastedModel().getExtractionHour());
 			unitPrice.setText(this.getPart().getTResourcePrice());
 			valueIndex.setText(this.getPart().getTValueIndex());
+			delta.setText(this.getPart().getTDelta());
+
+			// Hide some elements if the delta os ZERO
+			if( this.getPart().getCastedModel().getDelta()<1){
+				delta.setVisibility(View.INVISIBLE);
+				separatorLabel.setVisibility(View.INVISIBLE);
+			}
 		}
 
 		@Override

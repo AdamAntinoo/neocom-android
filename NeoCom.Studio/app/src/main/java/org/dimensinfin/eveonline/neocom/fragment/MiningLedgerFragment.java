@@ -108,19 +108,25 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
 					, new PartFactory(getVariant()), getExtras())
 					.registerException(neoe);
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();
+			// Return the default exceptional data source to display the exception message.
+			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
+					, new PartFactory(getVariant()), getExtras())
+					.registerException(rte);
 		}
 	}
 
-	@Override
-	public void onActivityCreated( Bundle savedInstanceState ) {
-		super.onActivityCreated(savedInstanceState);
-		//    ...
-		//		if (savedInstanceState != null) {
-		//			//Restore the fragment's state here
-		//		}
-		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-		//		super.onRestoreInstanceState(savedInstanceState);
-	}
+//	@Override
+//	public void onActivityCreated( Bundle savedInstanceState ) {
+//		super.onActivityCreated(savedInstanceState);
+//		//    ...
+//		//		if (savedInstanceState != null) {
+//		//			//Restore the fragment's state here
+//		//		}
+//		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+//		//		super.onRestoreInstanceState(savedInstanceState);
+//	}
 	//...
 	//	@Override
 	//	public void onSaveInstanceState(Bundle outState) {
@@ -144,11 +150,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 				, final IPartFactory factory
 				, final Bundle extras ) throws NeoComException {
 			super(locator, variant, factory, extras);
-			//			// Check the required parameters. They are the Credential.
-			//			if(null== credential)
-			//				throw new NeoComException("[MiningLedgerDataSource.<constructor>]> Data source has not received the Credential mandatory " +
-			//						"parameter.");
-		}
+			}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		public MiningLedgerDataSource setCredential( final Credential credential ) {
@@ -206,7 +208,8 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						Runnable delayedTask = new Runnable() {
 							@Override
 							public void run() {
-								collaborate2Model();
+								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
+										, null, null));
 							}
 						};
 						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));
@@ -246,7 +249,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 								final MiningExtraction previous = ids.get(searchId);
 								long delta = extraction.getQuantity() - previous.getQuantity();
 								// Skip if there is no change during the period.
-								if (delta > 0) continue;
+								if (delta <= 0) continue;
 								else {
 									extraction.setDelta(delta);
 									extraction.store();
@@ -274,7 +277,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 										, null, null));
 							}
 						};
-						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));
+						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(1));
 					}
 
 					// --- A L L   E X T R A C T I O N S
@@ -306,7 +309,8 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						Runnable delayedTask = new Runnable() {
 							@Override
 							public void run() {
-								collaborate2Model();
+								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
+										, null, null));
 							}
 						};
 						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));

@@ -144,19 +144,57 @@
             android:textColor="@color/appblue"
             android:textSize="10sp" />
 
-        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-            android:id="@+id/quantity"
-            style="@style/AppTheme.StockCounter"
+        <LinearLayout
+            android:id="@+id/quantityBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="-4px"
-            android:ellipsize="marquee"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/rightBlock"
             android:gravity="right"
-            android:singleLine="true"
-            android:text="125 items"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/delta"
+                style="@style/AppTheme.StockCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-4px"
+                android:layout_marginRight="2dp"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_biginteger"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="14sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/separatorLabel"
+                style="@style/AppTheme.StockCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-4px"
+                android:layout_marginRight="2dp"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="/"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/quantity"
+                style="@style/AppTheme.StockCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="-4px"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_biginteger"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/quantityLabel"

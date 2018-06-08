@@ -3,7 +3,8 @@
 
     <!-- Android Common UI dimensions. Icon and Grapical components -->
     <dimen name="nodeiconsize">36dp</dimen>
-    <dimen name="halfnodeiconsize">18dp</dimen>
+    <dimen name="nodeiconsizesmall">18dp</dimen>
+    <dimen name="nodeiconsizebig">72dp</dimen>
     <dimen name="arrowsize">28dp</dimen>
 
     <!-- Android Common UI dimensions. Separators -->

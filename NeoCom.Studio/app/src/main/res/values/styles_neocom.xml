@@ -31,6 +31,18 @@
         <item name="android:background">@color/appgreydark</item>
     </style>
 
+    <style name="AppTheme.ActionBarActivityIcon">
+        <item name="android:layout_width">@dimen/nodeiconsize</item>
+        <item name="android:layout_height">@dimen/nodeiconsize</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
+         <item name="android:layout_marginRight">@dimen/standardmargin</item>
+        <item name="android:layout_marginLeft">@dimen/standardmargin</item>
+        <item name="android:layout_marginBottom">@dimen/standardmargin</item>
+        <item name="android:layout_marginTop">@dimen/standardmargin</item>
+        <item name="android:background">#00000000</item>
+    </style>
+
     <style name="AppTheme.PilotAvatar">
         <item name="android:layout_width">@dimen/pilotavatarsize</item>
         <item name="android:layout_height">@dimen/pilotavatarsize</item>

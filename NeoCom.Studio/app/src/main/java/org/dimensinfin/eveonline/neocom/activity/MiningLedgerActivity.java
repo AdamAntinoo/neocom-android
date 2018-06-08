@@ -15,26 +15,29 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
+import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This activity will display the list of Mining Extractions. On the NeoCom implementation we detect the incoming of new data by quantity
  * differentiation and we generate delta records to report the increase of mining ore during time and not only by date aggregation.
- *
+ * <p>
  * We need some input data to identify the Pilot or Corporation from where to get that mining records.
- *
+ * <p>
  * Activities are the key data repository for the rest of the objects. If the extras do not convey the required information the Activity
  * should stop and display the appropiate message for the user. All checks should be made at this level and during the complete lifecycle
  * . Once control goes to Fragments or DataSources we understand that all checks are validated and that the required data is available.
@@ -52,27 +55,55 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
 	private Credential credential = null;
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- U I   F I E L D S
+	private ActionBar actionbar = null;
 
+	// - M E T H O D - S E C T I O N ..........................................................................
+	private void setupActionBar() {
+		logger.info(">> [MiningLedgerActivity.setupActionBar]");
+		actionbar = getActionBar();
+		if (null != actionbar) {
+			actionbar.show();
+			actionbar.setDisplayHomeAsUpEnabled(true);
+			// Activate the custom ActionBar
+			this.getActionBar().setDisplayShowCustomEnabled(true);
+			this.getActionBar().setDisplayShowTitleEnabled(false);
+
+			// Create a new Action Bar view from the layout.
+			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
+					.setActivityIcon(R.drawable.miningledger)
+					.setIconTop(credential.getAccountId())
+					.setTitleLeft(credential.getAccountName());
+			this.getActionBar().setCustomView(neocomActionBarView.getView());
+
+			//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
+			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+		}
+	}
+
+	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [MiningLedgerActivity.onCreate]");
 		super.onCreate(savedInstanceState);
+		// Configure the new custom Action Bar
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
-			if ( null != extras ) {
+			if (null != extras) {
 				pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
-				if ( pilotIdentifier > 0 ) {
+				if (pilotIdentifier > 0) {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
-					if ( null != credential ) {
+					if (null != credential) {
+						//						this.addPage(new MiningLedgerFragment().setCredential(credential)
+						//								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name()));
+						setupActionBar();
+
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
-						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name()));
+								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
-						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
-						this.addPage(new MiningLedgerFragment().setCredential(credential)
-						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
-						//						this.addPage(new MineralResourcesFragment().setCredential(credential));
+								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
+						this.addPage(new MineralResourcesFragment().setCredential(credential));
 					} else {
 						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
@@ -100,7 +131,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 		credential = searchCredential(pilotIdentifier);
-		if ( null == credential ) {
+		if (null == credential) {
 			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
 							+ " not fount on the list of credentials.")
@@ -124,7 +155,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 
 	protected Credential searchCredential( final int identifier ) {
 		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
-			if ( cred.getAccountId() == identifier ) return cred;
+			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;
 	}
