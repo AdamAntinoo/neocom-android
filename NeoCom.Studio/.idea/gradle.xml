@@ -10,7 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC-3.0.x/AndroidMVCLibrary" />
+            <option value="$PROJECT_DIR$/../../../../Libraries Android/AndroidMVC/AndroidMVC-2.1.x/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt-0.12.x/ESI.SwaggerApi" />
             <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt-0.12.x/NeoCom.DataManagement" />
             <option value="$PROJECT_DIR$/../../../../Libraries Base/NeoCom-DM/NeoCom-DataMngmt-0.12.x/NeoCom.Model" />

@@ -15,16 +15,11 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.concurrent.ExecutionException;
-
 import android.app.Activity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -35,6 +30,10 @@ import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Adam Antinoo
@@ -60,7 +59,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	}
 
 	public String getTExtractionValue() {
-		if ( null != item )
+		if (null != item)
 			try {
 				return generatePriceString(item.getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity(), true, true);
 			} catch (ExecutionException ee) {
@@ -72,7 +71,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	}
 
 	public String getTResourcePrice() {
-		if ( null != item ) {
+		if (null != item) {
 			try {
 				return generatePriceString(item.getHighestBuyerPrice().getPrice(), false, true);
 			} catch (ExecutionException ee) {
@@ -84,7 +83,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	}
 
 	public String getTValueIndex() {
-		if ( null != item ) {
+		if (null != item) {
 			try {
 				return Double.valueOf(Math.round((item.getHighestBuyerPrice().getPrice() / item.getVolume()) * 10.0)).toString();
 			} catch (ExecutionException ee) {
@@ -99,6 +98,12 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		return qtyFormatter.format(getCastedModel().getQuantity());
 	}
 
+	public String getTStackVolume() {
+		if (null != item) {
+			return qtyFormatter.format(getCastedModel().getQuantity() * item.getVolume()) + "m3";
+		} else return "00m3";
+	}
+
 	@Override
 	public long getModelId() {
 		return 0;
@@ -111,7 +116,7 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	 */
 	@Override
 	public AbstractRender selectRenderer() {
-		if ( getRenderMode().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) )
+		if (getRenderMode().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()))
 			return new MiningExtractionPackedRender(this, this.getActivity());
 		else return new MiningExtractionRender(this, this.getActivity());
 	}
@@ -126,13 +131,8 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class MiningExtractionRender extends AbstractRender {
+	public static class MiningExtractionRender extends MiningExtractionPackedRender {
 		// - F I E L D - S E C T I O N ............................................................................
-		private ImageView targetIcon = null;
-
-		private TextView resourceName = null;
-		private TextView resourceTypeId = null;
-		private TextView nodeClass = null;
 		private TextView extractionSystemName = null;
 		private TextView extractionDate = null;
 		private TextView quantity = null;
@@ -153,29 +153,18 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		@Override
 		public void initializeViews() {
-			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
-
-			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
-			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
-			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
+			super.initializeViews();
 			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
 			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
-			quantity = (TextView) _convertView.findViewById(R.id.quantity);
-			value = (TextView) _convertView.findViewById(R.id.value);
 			unitPrice = (TextView) _convertView.findViewById(R.id.unitPrice);
 			valueIndex = (TextView) _convertView.findViewById(R.id.valueIndex);
 		}
 
 		@Override
 		public void updateContent() {
-			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-			Picasso.get().load(link).into(targetIcon);
-			resourceName.setText(this.getPart().getCastedModel().getResourceName());
-			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
+			super.updateContent();
 			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
 			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
-			quantity.setText(this.getPart().getTQuantity());
-			value.setText(this.getPart().getTExtractionValue());
 			unitPrice.setText(this.getPart().getTResourcePrice());
 			valueIndex.setText(this.getPart().getTValueIndex());
 		}
@@ -193,11 +182,9 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		private TextView resourceName = null;
 		private TextView resourceTypeId = null;
-		//		private TextView nodeClass = null;
-		//		private TextView extractionSystemName = null;
-		//		private TextView extractionDate = null;
 		private TextView quantity = null;
 		private TextView value = null;
+		private TextView volume = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningExtractionPackedRender( final AbstractPart newPart, final Activity context ) {
@@ -212,29 +199,24 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 
 		@Override
 		public void initializeViews() {
-			//			super.initializeViews();
 			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
 			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
-			//			nodeClass = (TextView) _convertView.findViewById(R.id.nodeClass);
-			//			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
-			//			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
 			quantity = (TextView) _convertView.findViewById(R.id.quantity);
 			value = (TextView) _convertView.findViewById(R.id.value);
+			volume = (TextView) _convertView.findViewById(R.id.volume);
 		}
 
 		@Override
 		public void updateContent() {
-			//			super.updateContent();
 			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
 			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
-			//			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
-			//			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate());
 			quantity.setText(this.getPart().getTQuantity());
 			value.setText(this.getPart().getTExtractionValue());
+			volume.setText(this.getPart().getTStackVolume());
 		}
 
 		@Override

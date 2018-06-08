@@ -26,9 +26,8 @@ import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
-import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 
 /**
  * This activity will display the list of Mining Extractions. On the NeoCom implementation we detect the incoming of new data by quantity
@@ -67,14 +66,13 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
 					if ( null != credential ) {
-
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name()));
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 						                                       .setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
-//						this.addPage(new MineralResourcesFragment().setCredential(credential));
+						//						this.addPage(new MineralResourcesFragment().setCredential(credential));
 					} else {
 						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
@@ -99,8 +97,16 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	}
 
 	@Override
-	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		credential = searchCredential(pilotIdentifier);
+		if ( null == credential ) {
+			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+							+ " not fount on the list of credentials.")
+					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			this.addPage(new ApplicationExceptionReportFragment());
+		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -110,7 +116,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	 * reconstruct the AppModel state.
 	 */
 	@Override
-	protected void onSaveInstanceState (final Bundle outState) {
+	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
 		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);

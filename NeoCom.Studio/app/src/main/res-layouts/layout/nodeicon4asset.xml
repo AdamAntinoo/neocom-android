@@ -46,7 +46,7 @@
 
         <ImageView
             android:id="@+id/separator"
-            android:layout_width="3dp"
+            android:layout_width="@dimen/standardmargin"
             android:layout_height="match_parent"
             android:src="@android:color/transparent"
             android:visibility="visible" />

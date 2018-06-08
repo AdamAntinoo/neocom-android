@@ -80,7 +80,6 @@
         </XML>
         <codeStyleSettings language="JAVA">
           <option name="RIGHT_MARGIN" value="140" />
-          <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
           <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />
           <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
           <option name="SPACE_WITHIN_IF_PARENTHESES" value="true" />
@@ -316,6 +315,13 @@
               <section>
                 <rule>
                   <match>
+                    <ENUM>true</ENUM>
+                  </match>
+                </rule>
+              </section>
+              <section>
+                <rule>
+                  <match>
                     <CONSTRUCTOR>true</CONSTRUCTOR>
                   </match>
                 </rule>
@@ -324,13 +330,6 @@
                 <rule>
                   <match>
                     <METHOD>true</METHOD>
-                  </match>
-                </rule>
-              </section>
-              <section>
-                <rule>
-                  <match>
-                    <ENUM>true</ENUM>
                   </match>
                 </rule>
               </section>
@@ -520,6 +519,6 @@
         </codeStyleSettings>
       </value>
     </option>
-    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
   </component>
 </project>

@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 111
+        versionCode 113
         versionName "0.12.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
@@ -115,7 +115,7 @@ task copyResources(type: Copy) {
     }
 }
 //--- D E P E N D E N C Y   V E R S I O N S
-ext.supportLibraryVersion = '27.1.0'
+ext.supportLibraryVersion = '27.1.1'
 ext.jodaTimeVersion = '2.3'
 ext.fasterxmlJackson = '2.8.6'
 
@@ -127,6 +127,8 @@ dependencies {
     implementation "com.android.support:support-core-utils:$supportLibraryVersion"
     implementation "com.android.support:support-v4:$supportLibraryVersion"
     implementation "com.android.support:support-v13:$supportLibraryVersion"
+    implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
+    implementation "com.android.support:exifinterface:$supportLibraryVersion"
 //    implementation 'com.android.support:support-annotations:$supportLibraryVersion'
 //    implementation 'com.android.support:recyclerview-v7:$supportLibraryVersion'
 
@@ -139,7 +141,7 @@ dependencies {
     // L O C A L    L I B R A R I E S
     implementation files('libs/CoreBase.core-2.0.3.jar')
 //    implementation files('libs/viewpagerindicator-release.aar')
-//    implementation files('libs/AndroidMVC-3.0.0.aar')
+//    implementation files('libs/AndroidMVC-2.1.0.aar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E
@@ -147,7 +149,7 @@ dependencies {
     implementation "joda-time:joda-time:$jodaTimeVersion"
 
     // G R A P H S   &   C H A R T S
-    compile 'com.github.AnyChart:AnyChart-Android:0.2.1'
+    implementation 'com.github.AnyChart:AnyChart-Android:0.2.1'
 
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'

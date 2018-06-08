@@ -74,7 +74,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			NeoComApplication.runTicker();
 			// Write down cached data.
 			NeoComApplication.mdServer.writeMarketDataCacheToStorage();
-			AndroidGlobalDataManager.writeLocationsDatacache();
+//			AndroidGlobalDataManager.writeLocationsDatacache();
 		}
 		logger.info("<< [TimeTickReceiver.onReceive]> [{}]", countdown);
 	}

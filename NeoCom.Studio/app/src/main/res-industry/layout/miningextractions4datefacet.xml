@@ -22,14 +22,42 @@
         android:layout_toRightOf="@+id/resourceName"
         android:text="@string/default_typeid"
         android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/volume"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+android:layout_below="@+id/resourceName"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/default_volume"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/quantity"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="-4px"
+        android:layout_toLeftOf="@id/rightBlock"
+        android:ellipsize="marquee"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="125 items"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
     <org.dimensinfin.android.mvc.fonts.PrototypeTextView
         android:id="@+id/value"
         style="@style/AppTheme.StockCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/resourceName"
-        android:layout_marginBottom="-4px"
+        android:layout_toLeftOf="@id/rightBlock"
         android:ellipsize="marquee"
         android:gravity="right"
         android:singleLine="true"
@@ -37,96 +65,4 @@
         android:textColor="@android:color/white"
         android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/extractionInformationBlock"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/resourceName"
-        android:layout_marginRight="@dimen/standardmargin"
-        android:layout_toLeftOf="@+id/rightBlock"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:orientation="vertical">
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/secondaryDataBlock"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-
-        <!--</RelativeLayout>-->
-
-        <RelativeLayout
-            android:id="@+id/secondaryLabelBlock"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/systemNameLabel"
-                style="@style/AppTheme.Label.TopLine"
-                android:layout_alignParentLeft="true"
-                android:gravity="left"
-                android:visibility="gone"
-                android:text="VALUE" />
-
-            <!--<TextView-->
-            <!--android:id="@+id/extractionDateLabel"-->
-            <!--style="@style/AppTheme.Label"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@+id/systemNameLabel"-->
-            <!--android:text="EXTRACTION DATE" />-->
-
-            <TextView
-                android:id="@+id/extractionQuantityLabel"
-                style="@style/AppTheme.Label"
-                android:layout_alignParentRight="true"
-                android:visibility="gone"
-                android:gravity="right"
-                android:text="EXTRACTION DATE" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/rightBlock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="right"
-        android:orientation="vertical">
-
-        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
-            android:id="@+id/nodeClass"
-            style="@style/AppTheme.NodeClass"
-            android:layout_marginRight="@dimen/standardmargin"
-            android:gravity="right"
-            android:text="MINING"
-            android:visibility="gone"
-            android:textColor="@color/appblue"
-            android:textSize="10sp" />
-
-        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-            android:id="@+id/quantity"
-            style="@style/AppTheme.StockCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="-4px"
-            android:ellipsize="marquee"
-            android:gravity="right"
-            android:singleLine="true"
-            android:text="125 items"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/quantityLabel"
-            style="@style/AppTheme.Label"
-            android:layout_alignParentLeft="true"
-            android:gravity="right"
-            android:visibility="gone"
-            android:text="QUANTITY" />
-
-
-    </LinearLayout>
 </RelativeLayout>
