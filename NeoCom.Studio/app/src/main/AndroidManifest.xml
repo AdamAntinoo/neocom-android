@@ -62,7 +62,17 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/miningledger"
             android:label="Mining Ledger"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.RefiningDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:icon="@drawable/miningledger"
+            android:label="Mining Ledger"
+            android:screenOrientation="landscape">
+
+        </activity>
 
         <!--         Section where to add the new Activities to match the new model presentation. -->
         <!--         <activity -->

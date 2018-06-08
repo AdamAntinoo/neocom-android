@@ -52,6 +52,7 @@ import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 public class NeoComApplication extends Application {
 	public enum EExtras {
 		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER
+		, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER
 	}
 public enum EVariants{
 		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL, MINING_EXTRACTIONS_TEST, MINING_EXTRACTIONS_VERIFICATION

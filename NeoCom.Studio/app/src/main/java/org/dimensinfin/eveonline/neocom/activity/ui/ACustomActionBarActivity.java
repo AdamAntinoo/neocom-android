@@ -1,0 +1,69 @@
+//  PROJECT:     NeoCom.Android (NEOC.A)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API22.
+//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
+//               the game data to help capsuleers organize and prioritize activities. The strong points are
+//               help at the Industry level tracking and calculating costs and benefits. Also the market
+//               information update service will help to identify best prices and locations.
+//               Planetary Interaction and Ship fittings are point under development.
+//               ESI authorization is a new addition that will give continuity and allow download game data
+//               from the new CCP data services.
+//               This is the Android application version but shares libraries and code with other application
+//               designed for Spring Boot Angular 4 platform.
+//               The model management is shown using a generic Model View Controller that allows make the
+//               rendering of the model data similar on all the platforms used.
+package org.dimensinfin.eveonline.neocom.activity.ui;
+
+import android.app.ActionBar;
+
+import java.util.Hashtable;
+import java.util.Hashtable;
+import java.util.Hashtable;
+
+import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * @author Adam Antinoo
+ */
+
+// - CLASS IMPLEMENTATION ...................................................................................
+public class ACustomActionBarActivity extends AbstractPagerActivity {
+	// - S T A T I C - S E C T I O N ..........................................................................
+	private static Logger logger = LoggerFactory.getLogger("ACustomActionBarActivity");
+
+	// - F I E L D - S E C T I O N ............................................................................
+	// --- U I   F I E L D S
+	private ActionBar actionbar = null;
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	protected void setupActionBar(final Credential credential) {
+		logger.info(">> [MiningLedgerActivity.setupActionBar]");
+		actionbar = getActionBar();
+		if (null != actionbar) {
+			actionbar.show();
+			actionbar.setDisplayHomeAsUpEnabled(true);
+			// Activate the custom ActionBar
+			this.getActionBar().setDisplayShowCustomEnabled(true);
+			this.getActionBar().setDisplayShowTitleEnabled(false);
+
+			// Create a new Action Bar view from the layout.
+			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
+					.setActivityIcon(R.drawable.miningledger)
+					.setIconTop(credential.getAccountId())
+					.setTitleLeft(credential.getAccountName());
+			this.getActionBar().setCustomView(neocomActionBarView.getView());
+
+			//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
+			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+		}
+	}
+}
+// - UNUSED CODE ............................................................................................
+//[01]

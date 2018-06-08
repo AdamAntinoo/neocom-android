@@ -16,6 +16,7 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.activity.RefiningDetailActivity;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -41,7 +44,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningExtractionPart extends NeoComAbstractPart {
+public class MiningExtractionPart extends NeoComAbstractPart implements View.OnLongClickListener{
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MiningExtractionPart");
 
@@ -128,6 +131,25 @@ public class MiningExtractionPart extends NeoComAbstractPart {
 		else return new MiningExtractionRender(this, this.getActivity());
 	}
 
+	// --- O N L O N G C L I C K L I S T E N E R   I N T E R F A C E
+	@Override
+	public boolean onLongClick( View view) {
+		logger.info(">> [CredentialPart.onClick]");
+		// Set the pilot selected on the context and then go to the Pilot Dashboard.
+		final Object resourcePart = view.getTag();
+		if ( resourcePart instanceof MiningExtractionPart ) {
+			// With the new implementation get just the identifier for the Credential.
+			final int identifier = ((MiningExtractionPart) resourcePart).getCastedModel().getTypeId();
+			final Intent intent = new Intent(this.getActivity(), RefiningDetailActivity.class);
+			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
+			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), identifier);
+			intent.putExtra(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name()
+					, ((MiningExtractionPart) resourcePart).getCastedModel().getSolarSystemId());
+			getActivity().startActivity(intent);
+		}
+		logger.info("<< [CredentialPart.onClick]");
+		return true;
+	}
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("MiningExtractionPart [ ");

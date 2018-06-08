@@ -86,7 +86,9 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
-		return new ArrayList<>();
+		List<ICollaboration> headerContents = new ArrayList<>();
+		headerContents.add(new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]"));
+		return headerContents;
 	}
 
 	@Override
@@ -117,16 +119,16 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 		}
 	}
 
-//	@Override
-//	public void onActivityCreated( Bundle savedInstanceState ) {
-//		super.onActivityCreated(savedInstanceState);
-//		//    ...
-//		//		if (savedInstanceState != null) {
-//		//			//Restore the fragment's state here
-//		//		}
-//		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-//		//		super.onRestoreInstanceState(savedInstanceState);
-//	}
+	//	@Override
+	//	public void onActivityCreated( Bundle savedInstanceState ) {
+	//		super.onActivityCreated(savedInstanceState);
+	//		//    ...
+	//		//		if (savedInstanceState != null) {
+	//		//			//Restore the fragment's state here
+	//		//		}
+	//		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+	//		//		super.onRestoreInstanceState(savedInstanceState);
+	//	}
 	//...
 	//	@Override
 	//	public void onSaveInstanceState(Bundle outState) {
@@ -150,7 +152,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 				, final IPartFactory factory
 				, final Bundle extras ) throws NeoComException {
 			super(locator, variant, factory, extras);
-			}
+		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		public MiningLedgerDataSource setCredential( final Credential credential ) {

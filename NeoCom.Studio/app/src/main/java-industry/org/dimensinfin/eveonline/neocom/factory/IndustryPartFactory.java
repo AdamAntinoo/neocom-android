@@ -15,6 +15,9 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.factory;
 
+import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
+import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
+import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +76,12 @@ public class IndustryPartFactory extends PartFactory {
 		}
 		if ( node instanceof InformationPanel ) {
 			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
-			                                                  .setRenderMode(this.getVariant());
+					.setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof RefiningDetailReport) {
+			IPart part = new RefiningDetailPart((RefiningDetailReport) node).setFactory(this)
+					.setRenderMode(this.getVariant());
 			return part;
 		}
 		return super.createPart(node);

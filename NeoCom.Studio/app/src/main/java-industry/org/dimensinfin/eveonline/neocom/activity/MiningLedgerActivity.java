@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.ui.ACustomActionBarActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
@@ -45,7 +46,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningLedgerActivity extends AbstractPagerActivity {
+public class MiningLedgerActivity extends ACustomActionBarActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MiningLedgerActivity");
 
@@ -55,38 +56,12 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
 	private Credential credential = null;
 
-	// --- U I   F I E L D S
-	private ActionBar actionbar = null;
-
 	// - M E T H O D - S E C T I O N ..........................................................................
-	private void setupActionBar() {
-		logger.info(">> [MiningLedgerActivity.setupActionBar]");
-		actionbar = getActionBar();
-		if (null != actionbar) {
-			actionbar.show();
-			actionbar.setDisplayHomeAsUpEnabled(true);
-			// Activate the custom ActionBar
-			this.getActionBar().setDisplayShowCustomEnabled(true);
-			this.getActionBar().setDisplayShowTitleEnabled(false);
-
-			// Create a new Action Bar view from the layout.
-			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
-					.setActivityIcon(R.drawable.miningledger)
-					.setIconTop(credential.getAccountId())
-					.setTitleLeft(credential.getAccountName());
-			this.getActionBar().setCustomView(neocomActionBarView.getView());
-
-			//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
-			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
-		}
-	}
-
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [MiningLedgerActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		// Configure the new custom Action Bar
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
 			if (null != extras) {
@@ -95,9 +70,8 @@ public class MiningLedgerActivity extends AbstractPagerActivity {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
 					if (null != credential) {
-						//						this.addPage(new MiningLedgerFragment().setCredential(credential)
-						//								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name()));
-						setupActionBar();
+						// Configure the new custom Action Bar
+						setupActionBar(credential);
 
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
