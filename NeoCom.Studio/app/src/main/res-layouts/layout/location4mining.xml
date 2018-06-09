@@ -2,17 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderorange">
+    android:background="@drawable/uipanelborderorange">
 
     <include layout="@layout/nodebase4expand" />
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/locationRegion"
-        style="@style/AppTheme.NeoComText.Orange"
+        style="@style/AppTheme.TextView"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="2dp"
         android:gravity="right"
+        android:textColor="@color/appbluepurple"
         android:text="@string/default_region"
         android:textSize="12sp" />
 
@@ -24,7 +25,7 @@
         android:layout_toLeftOf="@+id/rightArrow"
         android:layout_toRightOf="@+id/nodeIcon">
 
-        <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
             android:id="@+id/locationSystem"
             style="@style/AppTheme.NeoComText.Orange"
             android:layout_alignParentLeft="true"
@@ -32,7 +33,7 @@
             android:text="Tash-Murkon - Moon 22"
             android:textSize="14sp" />
 
-        <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
             android:id="@+id/locationIdentifier"
             style="@style/AppTheme.TextView"
             android:layout_alignBaseline="@+id/locationSystem"
@@ -50,15 +51,22 @@
             android:layout_below="@+id/locationSystem">
 
             <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/locationSecurity"
+                style="@style/AppTheme.Location"
+                android:layout_alignBaseline="@+id/contentsCount"
+                android:layout_alignParentLeft="true"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/childCount"
+                android:text="@string/default_security" />
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
                 android:id="@+id/locationStation"
                 style="@style/AppTheme.Location"
-                android:layout_alignBaseline="@+id/childCount"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/childCount"
+                android:layout_toLeftOf="@+id/contentsCount"
                 android:text="@string/default_location" />
 
-            <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
-                android:id="@+id/childCount"
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+                android:id="@+id/contentsCount"
                 style="@style/AppTheme.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,7 +107,7 @@
 
             <TextView
                 android:id="@+id/role"
-                style="@style/AppTheme.Location.Role"
+                style="@style/AppTheme.TextView"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@+id/functionLabel"
                 android:gravity="right"
@@ -134,7 +142,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
                     android:id="@+id/locationItemsValueLabel"
                     style="@style/AppTheme.TextView"
                     android:gravity="left"
@@ -142,7 +150,7 @@
                     android:textSize="10sp"
                     android:visibility="visible" />
 
-                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
                     android:id="@+id/locationItemsVolumeLabel"
                     style="@style/AppTheme.TextView"
                     android:gravity="left"
@@ -161,7 +169,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
                     android:id="@+id/locationItemsValue"
                     style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"
@@ -171,7 +179,7 @@
                     android:textSize="12sp"
                     android:visibility="visible" />
 
-                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
                     android:id="@+id/locationItemsVolume"
                     style="@style/AppTheme.TextView"
                     android:layout_width="fill_parent"

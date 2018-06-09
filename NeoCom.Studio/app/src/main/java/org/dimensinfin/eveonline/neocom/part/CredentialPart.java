@@ -15,8 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.beans.PropertyChangeEvent;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build.VERSION;
@@ -40,6 +38,8 @@ import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+
+import java.beans.PropertyChangeEvent;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class CredentialPart extends NeoComAbstractPart implements View.OnClickListener {
@@ -94,7 +94,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 	public String getTWalletAmount() {
 		// Get access to the matching character using the credential as index.
 		//		 pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
-		if ( null != pilot ) return generatePriceString(pilot.getAccountBalance(), false, true);
+		if (null != pilot) return generatePriceString(pilot.getAccountBalance(), false, true);
 		else return "- ISK";
 	}
 
@@ -106,7 +106,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 	public String getTAssetsCount() {
 		// Get access to the AssetsManager for the current character to get this value
 		//		manager = ManagerStore.getAssetsManager(getCastedModel().getAccountId());
-		if ( null != pilot ) {
+		if (null != pilot) {
 			final long totalAssets = this.pilot.getTotalAssetsNumber();
 			return qtyFormatter.format(totalAssets);
 		} else return "-";
@@ -115,14 +115,14 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 	@WorkerThread
 	public String getTRaceName() {
 		//		pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
-		if ( null != pilot ) return upperCaseFirst(pilot.getRace().getName().toLowerCase());
+		if (null != pilot) return upperCaseFirst(pilot.getRace().getName().toLowerCase());
 		else return "-";
 	}
 
 	@WorkerThread
 	public String getURLForAvatar() {
 		//		pilot = ModelFactory.getPilotV1(getCastedModel().getAccountId());
-		if ( null != pilot ) return pilot.getUrlforAvatar();
+		if (null != pilot) return pilot.getUrlforAvatar();
 		else return "http://image.eveonline.com/character/1_256.jpg";
 	}
 
@@ -149,7 +149,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 			neore.printStackTrace();
 		} finally {
 			logger.info("<< [CredentialPart.runDependencies]");
-			if ( null == pilot ) return false;
+			if (null == pilot) return false;
 			else return true;
 		}
 	}
@@ -165,7 +165,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 		logger.info(">> [CredentialPart.onClick]");
 		// Set the pilot selected on the context and then go to the Pilot Dashboard.
 		final Object pilotPart = view.getTag();
-		if ( pilotPart instanceof CredentialPart ) {
+		if (pilotPart instanceof CredentialPart) {
 			// With the new implementation get just the identifier for the Credential.
 			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
 			//					NeoComModelStore.activateCredential(identifier);
@@ -178,7 +178,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 	}
 
 	public void propertyChange( final PropertyChangeEvent evt ) {
-		if ( evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()) ) {
+		if (evt.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name())) {
 			fireStructureChange(SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), this, this);
 		}
 	}
@@ -259,7 +259,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 			//			rightArrow.setVisibility(View.GONE);
 			//			if ( null != _rightArrow ) _rightArrow.setVisibility(View.GONE);
 			//			if ( null != separator ) separator.setVisibility(View.VISIBLE);
-			if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
+			if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
 				_convertView.setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose, getContext().getTheme()));
 			else _convertView.setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose));
 			nodeClass.setText("CREDENTIAL");
@@ -286,8 +286,8 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 			assetsCount.setText(assetcount);
 			race.setText(racename);
 			final String link = getPart().getURLForAvatar();
-			if ( null != link ) {
-				if ( null != targetIcon ) {
+			if (null != link) {
+				if (null != targetIcon) {
 					Picasso.get().load(link).into(targetIcon);
 				}
 			}
@@ -339,10 +339,10 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 		 */
 		protected void loadEveIcon( final ImageView targetIcon, final int typeId, final boolean station ) {
 			// Check if the layout has the icon placeholder.
-			if ( null != targetIcon ) {
+			if (null != targetIcon) {
 				// If the flag signals an station change the code.
 				String link = AndroidGlobalDataManager.getURLForItem(typeId);
-				if ( station ) {
+				if (station) {
 					link = AndroidGlobalDataManager.getURLForStation(typeId);
 				}
 				Picasso.get().load(link).into(targetIcon);

@@ -107,7 +107,7 @@
             style="@style/AppTheme.NodeClass"
             android:layout_marginRight="@dimen/standardmargin"
             android:gravity="right"
-            android:text="MINING"
+            android:text="MINING RESOURCE"
             android:textColor="@color/appblue"
             android:textSize="9sp" />
 
