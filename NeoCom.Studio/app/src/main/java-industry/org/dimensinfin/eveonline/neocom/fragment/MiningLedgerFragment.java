@@ -275,6 +275,8 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						Runnable delayedTask = new Runnable() {
 							@Override
 							public void run() {
+								logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
+								collaborate2Model();
 								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
 										, null, null));
 							}
@@ -311,8 +313,10 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						Runnable delayedTask = new Runnable() {
 							@Override
 							public void run() {
+								logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
 								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
 										, null, null));
+								collaborate2Model();
 							}
 						};
 						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));

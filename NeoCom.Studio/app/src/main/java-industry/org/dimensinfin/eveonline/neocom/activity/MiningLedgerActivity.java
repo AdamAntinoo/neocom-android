@@ -75,9 +75,9 @@ public class MiningLedgerActivity extends ACustomActionBarActivity {
 
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+						this.addPage(new MineralResourcesFragment().setCredential(credential));
 						this.addPage(new MiningLedgerFragment().setCredential(credential)
 								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
-						this.addPage(new MineralResourcesFragment().setCredential(credential));
 					} else {
 						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier

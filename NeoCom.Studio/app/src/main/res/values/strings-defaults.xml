@@ -6,6 +6,11 @@
     <string name="default_typeid">[#12345]</string>
     <string name="default_volume">1.234,54 m3</string>
     <string name="default_biginteger">32.814</string>
+    <string name="default_itemprice">68.32 ISK</string>
+    <string name="default_refinepercentage">58.20%</string>
+    <string name="default_quantity">91,077</string>
+    <string name="default_mineralname">Tritanium</string>
+
 
     <string name="imageview_defaultcontent">ImageView Content Description</string>
     <string name="default_description">ImageView Content Description</string>

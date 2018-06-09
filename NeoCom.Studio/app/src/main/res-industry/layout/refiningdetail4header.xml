@@ -4,155 +4,176 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderrose">
 
-    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-        android:id="@+id/resourceMarketSystem"
-        style="@style/AppTheme.NeoComText.Green"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="@string/default_location"
-        android:textSize="12sp" />
-
-    <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
-        android:id="@+id/resourceTypeId"
-        style="@style/AppTheme.TextView"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/standardmargin"
-        android:layout_toRightOf="@+id/resourceName"
-        android:text="@string/default_typeid"
-        android:textSize="12sp" />
-
     <LinearLayout
-        android:id="@+id/extractionInformationBlock"
-        android:layout_width="fill_parent"
+        android:id="@+id/inputDataBlock"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/resourceName"
-        android:layout_marginRight="@dimen/standardmargin"
-        android:layout_toLeftOf="@+id/rightPanelBlock"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/standardmargin"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/uipanelborderwhite"
+        android:orientation="vertical"
+        android:padding="@dimen/standardmargin"
+        android:visibility="visible">
 
-        <RelativeLayout
-            android:id="@+id/secondaryDataBlock"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+            android:id="@+id/inputDataLabel"
+            style="@style/AppTheme.TextView"
+            android:text="INPUT DATA"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/inpuResourceBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/marketInputIcon"
+                style="@style/AppTheme.NodeIcon.NoBorder"
+                android:layout_width="@dimen/nodeiconsizesmall"
+                android:layout_height="@dimen/nodeiconsizesmall"
+                android:src="@drawable/market"
+                android:visibility="visible" />
 
             <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/extractionSystemName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:ellipsize="marquee"
-                android:singleLine="true"
+                android:id="@+id/inputResourceMarketSystem"
+                style="@style/AppTheme.TextView"
+                android:layout_marginTop="4dp"
                 android:text="@string/default_system"
-                android:textColor="@android:color/white"
                 android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputResourceIdentificationBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/inputResourceIconA"
+                style="@style/AppTheme.NodeIcon"
+                android:layout_width="@dimen/nodeiconsizesmall"
+                android:layout_height="@dimen/nodeiconsizesmall"
+                android:src="@drawable/defaulticonplaceholder"
+                android:visibility="visible" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+                android:id="@+id/inputResourceName"
+                style="@style/AppTheme.TextView"
+                android:layout_marginTop="4dp"
+                android:text="@string/default_itemname"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/extractionDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:ellipsize="marquee"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/default_paiddate"
-                android:textColor="@android:color/white"
+                android:id="@+id/inputResourceMarketPrice"
+                style="@style/AppTheme.TextView"
+                android:layout_marginLeft="@dimen/uirighttextmargin"
+                android:layout_marginTop="4dp"
+                android:text="@string/default_itemprice"
                 android:textSize="12sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/secondaryLabelBlock"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/systemNameLabel"
-                style="@style/AppTheme.Label.TopLine"
-                android:layout_alignParentLeft="true"
-                android:gravity="left"
-                android:text="EXTRACTION SYSTEM" />
-
-            <TextView
-                android:id="@+id/extractionQuantityLabel"
-                style="@style/AppTheme.Label"
-                android:layout_alignParentRight="true"
-                android:gravity="right"
-                android:text="EXTRACTION DATE" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/indexesBlock"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/valueIndex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:text="@string/default_index"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-
-            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/volume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/unitPrice"
-                android:ellipsize="marquee"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/default_volume"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-
-            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/unitPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:ellipsize="marquee"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/default_isk"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/rightPanelBlock"
+    <RelativeLayout
+        android:id="@+id/processorBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rightBlock"
-        android:gravity="right"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/standardmargin"
+        android:layout_marginTop="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/inputDataBlock"
+        android:background="@drawable/uipanelborderdarkblue"
+        android:padding="@dimen/standardmargin"
+        android:visibility="visible">
 
-        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
-            android:id="@+id/nodeClass"
-            style="@style/AppTheme.NodeClass"
-            android:layout_marginRight="@dimen/standardmargin"
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+            android:id="@+id/refiningProcessLabel"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="REFINE PROCESS"
+            android:textSize="12sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/refiningStationName"
+            style="@style/AppTheme.TextView"
+            android:singleLine="false"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/refiningProcessLabel"
+            android:text="@string/default_system"
+            android:textSize="12sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/refiningRate"
+            style="@style/AppTheme.TextView"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/refiningStationName"
+            android:text="@string/default_refinepercentage"
+            android:textSize="12sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/refiningQuantity"
+            style="@style/AppTheme.TextView"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/refiningRate"
+            android:text="@string/default_quantity"
+            android:textSize="12sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/refiningPacks"
+            style="@style/AppTheme.TextView"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/refiningQuantity"
+            android:text="@string/default_smallnumber"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/outputBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/processorBlock"
+        android:background="@drawable/uipanelbordergreen"
+        android:padding="@dimen/standardmargin"
+        android:visibility="visible">
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+            android:id="@+id/outputLabel"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:gravity="right"
-            android:text="MINING"
-            android:textColor="@color/appblue"
-            android:textSize="10sp" />
+            android:text="OUTPUTS"
+            android:textSize="12sp" />
 
         <LinearLayout
-            android:id="@+id/quantityBlock"
+            android:id="@+id/mineral1OutputBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/outputLabel"
             android:gravity="right"
             android:orientation="horizontal">
 
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+                android:id="@+id/mineralPrice1"
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/default_isk"
+                android:textSize="12sp" />
+
             <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                android:id="@+id/delta"
+                android:id="@+id/mineralName1"
                 style="@style/AppTheme.StockCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,60 +182,139 @@
                 android:ellipsize="marquee"
                 android:gravity="right"
                 android:singleLine="true"
-                android:text="@string/default_biginteger"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="14sp" />
-
-            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                android:id="@+id/separatorLabel"
-                style="@style/AppTheme.StockCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-4px"
-                android:layout_marginRight="2dp"
-                android:ellipsize="marquee"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="/"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                android:id="@+id/quantity"
-                style="@style/AppTheme.StockCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="-4px"
-                android:ellipsize="marquee"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/default_biginteger"
+                android:text="@string/default_mineralname"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/quantityLabel"
-            style="@style/AppTheme.Label"
-            android:layout_alignParentLeft="true"
-            android:gravity="right"
-            android:text="QUANTITY"
-            android:visibility="gone" />
-
-        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-            android:id="@+id/value"
-            style="@style/AppTheme.StockCounter"
+        <LinearLayout
+            android:id="@+id/mineral2OutputBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="-4px"
-            android:ellipsize="marquee"
+            android:layout_below="@+id/mineral1OutputBlock"
             android:gravity="right"
-            android:singleLine="true"
-            android:text="@string/default_isk"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
 
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+                android:id="@+id/mineralPrice2"
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_isk"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/mineralName2"
+                style="@style/AppTheme.StockCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-4px"
+                android:layout_marginRight="2dp"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_mineralname"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mineral3OutputBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/mineral2OutputBlock"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+                android:id="@+id/mineralPrice3"
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_isk"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/mineralName3"
+                style="@style/AppTheme.StockCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-4px"
+                android:layout_marginRight="2dp"
+                android:ellipsize="marquee"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/default_mineralname"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/processingResultsBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/processorBlock"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/uipanelborderdarkblue"
+        android:orientation="vertical"
+        android:padding="@dimen/standardmargin">
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+            android:id="@+id/processingResultsLabel"
+            style="@style/AppTheme.TextView"
+            android:text="PROCESSING RESULTS"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/inputResourceIcon"
+                style="@style/AppTheme.NodeIcon"
+                android:layout_width="@dimen/nodeiconsizesmall"
+                android:layout_height="@dimen/nodeiconsizesmall"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/defaulticonplaceholder"
+                android:visibility="visible" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/processingInputResourceName"
+                style="@style/AppTheme.TextView"
+                android:layout_toRightOf="@+id/inputResourceIcon"
+                android:text="@string/default_mineralname"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/processingInputValue"
+                style="@style/AppTheme.TextView"
+                android:layout_toRightOf="@+id/processingInputResourceName"
+                android:text="@string/default_isk"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                android:id="@+id/processingOutputValue"
+                style="@style/AppTheme.TextView"
+                android:layout_marginRight="@dimen/uirighttextmargin"
+                android:layout_toLeftOf="@+id/processingOutputResourceName"
+                android:text="@string/default_isk"
+                android:textSize="12sp" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/processingOutputResourceName"
+                style="@style/AppTheme.TextView"
+                android:layout_alignParentRight="true"
+                android:text="MINERALS"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

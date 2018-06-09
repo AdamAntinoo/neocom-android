@@ -61,8 +61,7 @@
             android:name=".activity.MiningLedgerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/miningledger"
-            android:label="Mining Ledger"
-            android:screenOrientation="portrait">
+            android:label="Mining Ledger">
 
         </activity>
         <activity
