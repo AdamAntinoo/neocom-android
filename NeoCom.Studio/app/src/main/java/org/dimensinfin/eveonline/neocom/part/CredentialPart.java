@@ -198,6 +198,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 		// - F I E L D - S E C T I O N ............................................................................
 		// - U I   F I E L D S
 		private TextView pilotName = null;
+		private TextView pilotIdentifier = null;
 		private TextView accountBalance = null;
 		private TextView assetsCount = null;
 		private TextView race = null;
@@ -243,6 +244,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 
 			// Content layout fields.
 			pilotName = (TextView) _convertView.findViewById(R.id.pilotName);
+			pilotIdentifier = (TextView) _convertView.findViewById(R.id.pilotIdentifier);
 			accountBalance = (TextView) _convertView.findViewById(R.id.accountBalance);
 			assetsCount = (TextView) _convertView.findViewById(R.id.assetsCount);
 			race = (TextView) _convertView.findViewById(R.id.race);
@@ -266,13 +268,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 
 			// Set content fields values.
 			pilotName.setText(this.getPart().getName());
-			//		if ( VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP )
-			//			targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot, getContext().getTheme()));
-			//		else targetIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.nopilot));
-			//		if ( null != targetIcon ) {
-			//			if ( getPart().checkPilot() ) {
-			//			}
-			//		}
+			pilotIdentifier.setText(Integer.valueOf(this.getPart().getCastedModel().getAccountId()).toString());
 			accountBalance.setText("- ISK"); // This is the default value.
 			assetsCount.setText("-"); // Set a default value while we get the real from the database.
 			race.setText("-"); // Set a default value while we get an update from the Character.

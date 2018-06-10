@@ -22,13 +22,16 @@ import android.support.annotation.Nullable;
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.ui.ACustomActionBarActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
+import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
+import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +49,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningLedgerActivity extends ACustomActionBarActivity {
+public class MiningLedgerActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MiningLedgerActivity");
 
@@ -55,8 +58,44 @@ public class MiningLedgerActivity extends ACustomActionBarActivity {
 	private int pilotIdentifier = 0;
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
 	private Credential credential = null;
+	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
+	private PilotV2 pilot = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	protected void setupActionBar( final Credential credential ) {
+		logger.info(">> [MiningLedgerActivity.setupActionBar]");
+		ActionBar actionbar = getActionBar();
+		if (null != actionbar) {
+			actionbar.show();
+			actionbar.setDisplayHomeAsUpEnabled(true);
+			// Activate the custom ActionBar
+			this.getActionBar().setDisplayShowCustomEnabled(true);
+			this.getActionBar().setDisplayShowTitleEnabled(false);
+
+			// Create a new Action Bar view from the layout.
+			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
+					//					.setActivityIcon(R.drawable.miningledger)
+					.setIconTop(credential.getAccountId())
+					.setTitleLeft(credential.getAccountName());
+			this.getActionBar().setCustomView(neocomActionBarView.getView());
+
+			//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
+			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+		}
+	}
+
+	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
+	@Override
+	public Credential getCredential() {
+		return this.credential;
+	}
+
+	// --- I P I L O T   I N T E R F A C E
+	@Override
+	public PilotV2 getPilot() {
+		return this.pilot;
+	}
+
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
@@ -70,6 +109,8 @@ public class MiningLedgerActivity extends ACustomActionBarActivity {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
 					if (null != credential) {
+						// Get access tot the Pilot information and store a reference on the Activity.
+						pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
 						// Configure the new custom Action Bar
 						setupActionBar(credential);
 
@@ -97,6 +138,11 @@ public class MiningLedgerActivity extends ACustomActionBarActivity {
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 			this.addPage(new ApplicationExceptionReportFragment());
+		} catch (NeoComRegisteredException neoe) {
+			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+					, neoe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			neoe.printStackTrace();
+			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [MiningLedgerActivity.onCreate]");
 	}
@@ -105,7 +151,17 @@ public class MiningLedgerActivity extends ACustomActionBarActivity {
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 		credential = searchCredential(pilotIdentifier);
-		if (null == credential) {
+		if (null != credential) {
+			// Get access tot the Pilot information and store a reference on the Activity.
+			try {
+				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+			} catch (NeoComRegisteredException neoe) {
+				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+						, neoe
+						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+				this.addPage(new ApplicationExceptionReportFragment());
+			}
+		} else {
 			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
 							+ " not fount on the list of credentials.")

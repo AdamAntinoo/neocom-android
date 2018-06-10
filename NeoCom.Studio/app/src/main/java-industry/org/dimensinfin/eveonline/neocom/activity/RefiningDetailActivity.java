@@ -22,6 +22,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.activity.ui.ACustomActionBarActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
 import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
@@ -47,6 +48,10 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 	 * can achieve from that place.
 	 */
 	private long refiningLocationId = -1;
+	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
+	private int pilotIdentifier = 0;
+	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
+	private Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- A C T I V I T Y   L I F E C Y C L E
@@ -59,11 +64,24 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 			if (null != extras) {
 				resourceTypeId = extras.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), 1230);
 				if (resourceTypeId > 0) {
-						// Configure the new custom Action Bar
-//						setupActionBar();
+					pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+					if (pilotIdentifier > 0) {
+						// Validate the pointer Credential that should be made available to this Activity fragments.
+						credential = searchCredential(pilotIdentifier);
+						if (null != credential) {
+							// Configure the new custom Action Bar
+							setupActionBar(credential);
 
-						this.addPage(new RefiningDetailFragment().setResourceTypeId(resourceTypeId)
-								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+							this.addPage(new RefiningDetailFragment().setResourceTypeId(resourceTypeId)
+									.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+						} else {
+							AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+									, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+											+ " not fount on the list of credentials.")
+									, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+							this.addPage(new ApplicationExceptionReportFragment());
+						}
+					}
 				}
 			} else {
 				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
@@ -84,6 +102,15 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		resourceTypeId = savedInstanceState.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name());
 		refiningLocationId = savedInstanceState.getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name());
+		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		credential = searchCredential(pilotIdentifier);
+		if (null == credential) {
+			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+							+ " not fount on the list of credentials.")
+					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			this.addPage(new ApplicationExceptionReportFragment());
+		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -96,8 +123,15 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
+		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 		outState.putInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
 		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
+	}
+	protected Credential searchCredential( final int identifier ) {
+		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+			if (cred.getAccountId() == identifier) return cred;
+		}
+		return null;
 	}
 }
 // - UNUSED CODE ............................................................................................

@@ -88,7 +88,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 	protected List<ICollaboration> registerHeaderSource() {
 		List<ICollaboration> headerContents = new ArrayList<>();
 		headerContents.add(new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]"));
-		return headerContents;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -276,8 +276,8 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 							@Override
 							public void run() {
 								logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
-								collaborate2Model();
-								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
+//								collaborate2Model();
+								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA.name()
 										, null, null));
 							}
 						};

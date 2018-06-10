@@ -55,7 +55,7 @@ public class ACustomActionBarActivity extends AbstractPagerActivity {
 
 			// Create a new Action Bar view from the layout.
 			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
-					.setActivityIcon(R.drawable.miningledger)
+//					.setActivityIcon(R.drawable.miningledger)
 					.setIconTop(credential.getAccountId())
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());

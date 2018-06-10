@@ -18,13 +18,24 @@ package org.dimensinfin.eveonline.neocom.part;
 import android.app.Activity;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.constant.ModelWideConstants;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
@@ -36,7 +47,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class Location4MiningPart extends NeoComAbstractExpandablePart {
+public class Location4MiningPart extends NeoComAbstractExpandablePart implements IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
 
@@ -98,6 +109,37 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart {
 		buffer.append("]");
 		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	// --- I M E N U A C T I O N T A R G E T   I N T E R F A C E
+	@Override
+	public boolean onContextItemSelected( MenuItem item ) {
+		logger.info(">> [Location4MiningPart.onContextItemSelected]");
+		try {
+			final int menuItemIndex = item.getItemId();
+			final String menuItemName = _contextMenu[menuItemIndex];
+			final EveLocation theSelectedLocation = getCastedModel();
+			// Check for the role clearing.
+			if (menuItemName.equalsIgnoreCase("-CLEAR-")) {
+				getPilot().clearLocationRoles(theSelectedLocation);
+			} else {
+				getPilot().addLocationRole(theSelectedLocation, menuItemName);
+			}
+			invalidate();
+			fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONMODIFYDATA.name(), this, this);
+		}finally {
+			logger.info(">> [Location4MiningPart.onContextItemSelected]");
+			return true;
+		}
+	}
+
+	@Override
+	public void onCreateContextMenu( ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo ) {
+				logger.info(">> [Location4MiningPart.onCreateContextMenu]");
+				// Initialize the contextual menu each time.
+				MenuInflater inflater = new MenuInflater(AndroidGlobalDataManager.getAppContext());
+				inflater.inflate(R.menu.context_location4assets, menu);
+				logger.info("<< [Location4MiningPart.onCreateContextMenu]");
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................

@@ -15,9 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -26,16 +23,18 @@ import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.fragment.EveOnlineNotificationsFragment;
+import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
@@ -61,7 +60,7 @@ public class AppDashboardActivity extends Activity {
 		logger.info(">> [AppDashboardActivity.addLinear]");
 		// Before checking if we have already this fragment we should get its unique identifier.
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
-		if ( null == frag ) {
+		if (null == frag) {
 			_linearAdapter.addLinear(newFrag);
 			// Now add the configured fragment to the activity container layout.
 			// Begin the transaction
@@ -70,13 +69,10 @@ public class AppDashboardActivity extends Activity {
 			ft.add(R.id.fragmentContainer, newFrag);
 			ft.commit();
 		} else {
-			if ( frag instanceof AbstractPagerFragment ) {
+			if (frag instanceof AbstractPagerFragment) {
 				// Reuse a previous created Fragment. But watch some of the fields have been removed.
 				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
 				newFrag = (AbstractPagerFragment) frag;
-				// TODO Check next run so see if there are more fields to be initialized.
-//				 todo - If the fragment exists problably it should not be added again to the container.
-//				_linearAdapter.addLinear(newFrag);
 			} else
 				throw new RuntimeException("RTEX [AppDashboardActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		}
@@ -88,10 +84,11 @@ public class AppDashboardActivity extends Activity {
 	}
 
 	// --- A C T I V I T Y   L I F E C Y C L E
+
 	/**
 	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation code
 	 * for an Activity and the only code to integrate it into the MVC.
-	 *
+	 * <p>
 	 * This Activity structure is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
 	 * Fragments are added in order and usually should not change. In that case we should add an external storage structure to store the
 	 * list of fragments and use it to recreate the layout contents on any content change event.
@@ -104,7 +101,7 @@ public class AppDashboardActivity extends Activity {
 		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			if ( null != savedInstanceState ) {
+			if (null != savedInstanceState) {
 				_extras = savedInstanceState;
 			} else {
 				_extras = this.getIntent().getExtras();
@@ -123,15 +120,35 @@ public class AppDashboardActivity extends Activity {
 			background = (ImageView) this.findViewById(R.id.backgroundFrame);
 			//		_indicator = (CirclePageIndicator) this.findViewById(org.dimensinfin.android.mvc.R.id.indicator);
 			// Check page structure.
-			if ( null == _fragmentContainer ) {
+			if (null == _fragmentContainer) {
 				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
 			}
-			if ( null == background ) {
+			if (null == background) {
 				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
 			}
 
 			// Add the adapter for the page switching.
 			_linearAdapter = new FragmentDataContainer(_fragmentContainer.getId());
+
+			if (null != this.getActionBar()) {
+				// Create and configure the Custom Action Bar for this activity. It will show the application version and the server status
+				// Activate the custom ActionBar
+				this.getActionBar().show();
+				this.getActionBar().setDisplayHomeAsUpEnabled(true);
+				this.getActionBar().setDisplayShowCustomEnabled(true);
+				this.getActionBar().setDisplayShowTitleEnabled(false);
+
+				// Create a new Action Bar view from the layout.
+				NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
+						//					.setActivityIcon(R.drawable.miningledger)
+						.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
+						.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname))
+						.setSubtitle(AndroidGlobalDataManager.serverStatus());
+				this.getActionBar().setCustomView(neocomActionBarView.getView());
+
+				//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
+				logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+			}
 
 			// Create and add the fragment to the layout container.
 			this.addLinear(new AppDashboardFragment());
@@ -145,16 +162,16 @@ public class AppDashboardActivity extends Activity {
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 
-	/**
-	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
-	 * then should be provided by the Activity itself.
-	 */
-	@Override
-	protected void onStart() {
-		super.onStart();
-		// Set the title and subtitle
-		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
-	}
+//	/**
+//	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
+//	 * then should be provided by the Activity itself.
+//	 */
+//	@Override
+//	protected void onStart() {
+//		super.onStart();
+//		// Set the title and subtitle
+//		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
+//	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class FragmentDataContainer {
@@ -164,7 +181,7 @@ public class AppDashboardActivity extends Activity {
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public FragmentDataContainer( final int layoutId ) {
-			this._pagerid=layoutId;
+			this._pagerid = layoutId;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
@@ -189,7 +206,7 @@ public class AppDashboardActivity extends Activity {
 		 * @param fragNew new fragment to all to the list of pages.
 		 */
 		public void addLinear( final Fragment fragNew ) {
-			if ( null != fragNew ) {
+			if (null != fragNew) {
 				_fragments.add(fragNew);
 			}
 			//			this.notifyDataSetChanged();

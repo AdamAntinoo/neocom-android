@@ -62,7 +62,26 @@ public class NeoComActionBar {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- G E T T E R S   &   S E T T E R S
 	public NeoComActionBar setTitleLeft( final String title ) {
-		titleTopLeft.setText(title);
+		if (null != title) {
+			this.titleTopLeft.setText(title);
+			this.titleTopLeft.setVisibility(View.VISIBLE);
+		}
+		return this;
+	}
+
+	public NeoComActionBar setTitleRight( final String title ) {
+		if (null != title) {
+			this.titleTopRight.setText(title);
+			this.titleTopRight.setVisibility(View.VISIBLE);
+		}
+		return this;
+	}
+
+	public NeoComActionBar setSubtitle( final String subtitle ) {
+		if (null != subtitle) {
+			this.subtitle.setText(subtitle);
+			this.subtitle.setVisibility(View.VISIBLE);
+		}
 		return this;
 	}
 
@@ -78,6 +97,12 @@ public class NeoComActionBar {
 		upperIcon.setVisibility(View.VISIBLE);
 		return this;
 	}
+	public NeoComActionBar setIconBottom( final int iconReference ) {
+		final String link = "http://image.eveonline.com/character/" + iconReference + "_256.jpg";
+		Picasso.get().load(link).into(lowerIcon);
+		lowerIcon.setVisibility(View.VISIBLE);
+		return this;
+	}
 
 	public void initializeViews() {
 		createView();
@@ -88,13 +113,16 @@ public class NeoComActionBar {
 		titleTopRight = (TextView) _convertView.findViewById(R.id.toolBarTitleRight);
 		subtitle = (TextView) _convertView.findViewById(R.id.toolBarSubTitle);
 	}
-	public void updateViews(){
+
+	public void updateViews() {
 		activityIcon.setVisibility(View.GONE);
 		upperIcon.setVisibility(View.GONE);
 		lowerIcon.setVisibility(View.GONE);
+		titleTopRight.setVisibility(View.VISIBLE); // At least the main title should be visible.
 		titleTopRight.setVisibility(View.GONE);
 		subtitle.setVisibility(View.GONE);
 	}
+
 	public View getView() {
 		return _convertView;
 	}
@@ -116,14 +144,14 @@ public class NeoComActionBar {
 		_convertView.setTag(this);
 	}
 
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("NeoComActionBar [ ");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
-	}
+	//	@Override
+	//	public String toString() {
+	//		StringBuffer buffer = new StringBuffer("NeoComActionBar [ ");
+	//		buffer.append("name: ").append(0);
+	//		buffer.append("]");
+	//		buffer.append("->").append(super.toString());
+	//		return buffer.toString();
+	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

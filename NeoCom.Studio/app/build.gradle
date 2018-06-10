@@ -139,7 +139,7 @@ dependencies {
     implementation project(path: ':NeoCom.Model')
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/CoreBase.core-2.0.3.jar')
+    implementation files('libs/CoreBase.core-2.1.0.jar')
 //    implementation files('libs/viewpagerindicator-release.aar')
 //    implementation files('libs/AndroidMVC-2.1.0.aar')
 
