@@ -69,7 +69,9 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
 		List<ICollaboration> headerContents = new ArrayList<>();
-		headerContents.add(new RefiningDetailReport(resourceTypeId));
+		headerContents.add(new RefiningDetailReport(resourceTypeId)
+//		.setCredential(getAppContext().getCre)
+		);
 		return headerContents;
 	}
 

@@ -55,7 +55,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 
 		// TODO - testing code to check if this can be equivalent to the runDependencies call.
 		try {
-			pilot = AndroidGlobalDataManager.requestPilotV2(node);
+			pilot = AndroidGlobalDataManager.fastRequestPilotV2(node);
 		} catch (NeoComRegisteredException neore) {
 			AndroidGlobalDataManager.registerException("CredentialPart.<constructor>"
 					, neore, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);

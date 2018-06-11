@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningLedgerActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
+public class MiningLedgerActivity extends AbstractPagerActivity implements ICredentialActivity/*, IPilotActivity*/ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MiningLedgerActivity");
 
@@ -59,7 +59,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
 	private Credential credential = null;
 	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
-	private PilotV2 pilot = null;
+//	private PilotV2 pilot = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void setupActionBar( final Credential credential ) {
@@ -91,10 +91,10 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 	}
 
 	// --- I P I L O T   I N T E R F A C E
-	@Override
-	public PilotV2 getPilot() {
-		return this.pilot;
-	}
+//	@Override
+//	public PilotV2 getPilot() {
+//		return this.pilot;
+//	}
 
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
@@ -109,16 +109,14 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
 					if (null != credential) {
-						// Get access tot the Pilot information and store a reference on the Activity.
-						pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+//						// Get access tot the Pilot information and store a reference on the Activity.
+//						pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
 						// Configure the new custom Action Bar
 						setupActionBar(credential);
 
-						this.addPage(new MiningLedgerFragment().setCredential(credential)
-								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+						this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
 						this.addPage(new MineralResourcesFragment().setCredential(credential));
-						this.addPage(new MiningLedgerFragment().setCredential(credential)
-								.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
+						this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
 					} else {
 						AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 								, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
@@ -138,11 +136,11 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 			this.addPage(new ApplicationExceptionReportFragment());
-		} catch (NeoComRegisteredException neoe) {
-			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-					, neoe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			neoe.printStackTrace();
-			this.addPage(new ApplicationExceptionReportFragment());
+//		} catch (NeoComRegisteredException neoe) {
+//			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+//					, neoe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			neoe.printStackTrace();
+//			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [MiningLedgerActivity.onCreate]");
 	}
@@ -153,14 +151,14 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 		credential = searchCredential(pilotIdentifier);
 		if (null != credential) {
 			// Get access tot the Pilot information and store a reference on the Activity.
-			try {
-				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
-			} catch (NeoComRegisteredException neoe) {
-				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-						, neoe
-						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-				this.addPage(new ApplicationExceptionReportFragment());
-			}
+//			try {
+//				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+//			} catch (NeoComRegisteredException neoe) {
+//				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+//						, neoe
+//						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//				this.addPage(new ApplicationExceptionReportFragment());
+//			}
 		} else {
 			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier

@@ -10,6 +10,7 @@
     <string name="default_refinepercentage">58.20%</string>
     <string name="default_quantity">91,077</string>
     <string name="default_mineralname">Tritanium</string>
+    <string name="default_extractionhour">HOUR: 09</string>
 
 
     <string name="imageview_defaultcontent">ImageView Content Description</string>

@@ -18,16 +18,13 @@ package org.dimensinfin.eveonline.neocom.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.activity.ui.ACustomActionBarActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.fragment.MineralResourcesFragment;
-import org.dimensinfin.eveonline.neocom.fragment.MiningLedgerFragment;
 import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class RefiningDetailActivity extends ACustomActionBarActivity {
+public class RefiningDetailActivity extends ABaseFirstLevelActivity implements ICredentialActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("RefiningDetailActivity");
 
@@ -54,6 +51,12 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 	private Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
+	@Override
+	public Credential getCredential() {
+		return this.credential;
+	}
+
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
@@ -127,6 +130,7 @@ public class RefiningDetailActivity extends ACustomActionBarActivity {
 		outState.putInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
 		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
 	}
+
 	protected Credential searchCredential( final int identifier ) {
 		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
 			if (cred.getAccountId() == identifier) return cred;

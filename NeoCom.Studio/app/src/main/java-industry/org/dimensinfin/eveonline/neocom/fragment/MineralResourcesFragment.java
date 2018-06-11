@@ -183,7 +183,7 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 							}
 
 							//--- L O C A T I O N
-							// Check if this Location is already present on this Region.
+							// Check if this Location is already present the cache.
 							LocationFacetedAssetsContainer locationHit = locations.get(loc.getID());
 							if (null == locationHit) {
 								locationHit = new LocationFacetedAssetsContainer(loc);

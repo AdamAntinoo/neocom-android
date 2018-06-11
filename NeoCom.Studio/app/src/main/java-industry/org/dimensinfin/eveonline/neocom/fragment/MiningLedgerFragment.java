@@ -35,9 +35,11 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.model.SystemFacetedMiningExtractionContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,15 +61,8 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 	private static Logger logger = LoggerFactory.getLogger("MiningLedgerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	/** Credential to be used on all database requests and data retrievals. */
-	protected Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public MiningLedgerFragment setCredential( final Credential credential ) {
-		this.credential = credential;
-		return this;
-	}
-
 	// --- P A G E R F R A G M E N T   O V E R R I D E S
 	@Override
 	public IPartFactory createFactory() {
@@ -95,15 +90,23 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 	protected IDataSource registerDataSource() {
 		logger.info(">< [MiningLedgerFragment.registerDataSource]");
 		try {
-			final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINING-LEDGER")
-					.addIdentifier(getVariant())
-					.addIdentifier(credential.getAccountId());
-			return new MiningLedgerDataSource(identifier
-					, getVariant()
-					, createFactory()
-					, getExtras())
-					.setCredential(credential)
-					.setCacheable(false);
+			if (this.getAppContext() instanceof ICredentialActivity) {
+				final int pilotIdentifier = ((ICredentialActivity) this.getAppContext()).getCredential().getAccountId();
+				final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINING-LEDGER")
+						.addIdentifier(getVariant())
+						.addIdentifier(pilotIdentifier);
+				return new MiningLedgerDataSource(identifier
+						, getVariant()
+						, createFactory()
+						, getExtras())
+						.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
+						.setRefreshTime(1)
+						.setCacheable(false);
+			} else
+				return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
+						, new PartFactory(getVariant()), getExtras())
+						.registerException(new NeoComException("[MiningLedgerFragment.registerDataSource]> Parent Activity has not declared " +
+								"Credential."));
 		} catch (NeoComException neoe) {
 			neoe.printStackTrace();
 			// Return the default exceptional data source to display the exception message.
@@ -118,24 +121,6 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 					.registerException(rte);
 		}
 	}
-
-	//	@Override
-	//	public void onActivityCreated( Bundle savedInstanceState ) {
-	//		super.onActivityCreated(savedInstanceState);
-	//		//    ...
-	//		//		if (savedInstanceState != null) {
-	//		//			//Restore the fragment's state here
-	//		//		}
-	//		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-	//		//		super.onRestoreInstanceState(savedInstanceState);
-	//	}
-	//...
-	//	@Override
-	//	public void onSaveInstanceState(Bundle outState) {
-	//		super.onSaveInstanceState(outState);
-	//
-	//		//Save the fragment's state here
-	//	}
 	//..........................................................................................................
 
 	//- CLASS IMPLEMENTATION ...................................................................................
@@ -145,6 +130,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 		// - F I E L D - S E C T I O N ............................................................................
 		/** Credential to be used on all database requests and data retrievals. */
 		protected Credential credential = null;
+		protected int refreshTime = 1;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public MiningLedgerDataSource( final DataSourceLocator locator
@@ -157,6 +143,11 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 		// - M E T H O D - S E C T I O N ..........................................................................
 		public MiningLedgerDataSource setCredential( final Credential credential ) {
 			this.credential = credential;
+			return this;
+		}
+
+		public MiningLedgerDataSource setRefreshTime( final int time ) {
+			this.refreshTime = time;
 			return this;
 		}
 		// --- I D A T A S O U R C E   I N T E R F A C E
@@ -187,35 +178,6 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 					List<MiningExtraction> extractions = new ArrayList<>();
 
 					// --- E X T R A C T I O N S   T O D A Y
-					if (getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TEST.name())) {
-						// Add the panel title up front of the Credential list.
-						final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS [-]");
-						this.addModelContents(title);
-
-						extractions = AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(credential);
-						if (extractions.size() < 1) {
-							// The list ofr today is empty. Put a label to report that case.
-							this.addModelContents(new InformationPanel("There are no Mining Extractions Today."));
-						}
-
-						for (MiningExtraction extraction : extractions) {
-							this.addModelContents(extraction);
-							logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-									, extraction.getResourceName());
-						}
-						// Update the number of extractions.
-						title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
-						// Schedule an event in 5 minutes to update this datasource and then the view.
-						final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-						Runnable delayedTask = new Runnable() {
-							@Override
-							public void run() {
-								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
-										, null, null));
-							}
-						};
-						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));
-					}
 					if (getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name())) {
 						// Add the panel title up front of the Credential list.
 						final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
@@ -261,7 +223,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 							// Add the record but aggregate by system.
 							if (processingSystem != system) {
 								// Create a new aggregator and use it to get the rest of the extractors inside.
-								systemAggregator = new DateFacetedMiningExtractionContainer(extraction.getSystemName());
+								systemAggregator = new SystemFacetedMiningExtractionContainer(extraction.getSystemName());
 								this.addModelContents(systemAggregator);
 								processingSystem = extraction.getSolarSystemId();
 							}
@@ -270,18 +232,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						}
 						// Update the number of extractions.
 						title.setTitle("TODAY MINING EXTRACTIONS [" + extractionCount + "]");
-						// Schedule an event in 5 minutes to update this datasource and then the view.
-						final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-						Runnable delayedTask = new Runnable() {
-							@Override
-							public void run() {
-								logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
-//								collaborate2Model();
-								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA.name()
-										, null, null));
-							}
-						};
-						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(1));
+						scheduleRefresh(this.refreshTime);
 					}
 
 					// --- A L L   E X T R A C T I O N S
@@ -308,18 +259,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 							// Only aggregate extractions marked as hour 24 because the others are daily or redundant data.
 							if (extraction.getExtractionHour() == 24) dateAggregator.addMiningExtraction(extraction);
 						}
-						// Schedule an event in 5 minutes to update this datasource and then the view.
-						final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-						Runnable delayedTask = new Runnable() {
-							@Override
-							public void run() {
-								logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
-								propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name()
-										, null, null));
-								collaborate2Model();
-							}
-						};
-						mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(5));
+						scheduleRefresh(this.refreshTime);
 					}
 				} catch (SQLException sqle) {
 					AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
@@ -332,6 +272,20 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 				}
 			}
 			logger.info("<< [MiningLedgerDataSource.collaborate2Model]");
+		}
+
+		private void scheduleRefresh( final int time ) {
+			// Schedule an event in 5 minutes to update this datasource and then the view.
+			final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+			Runnable delayedTask = new Runnable() {
+				@Override
+				public void run() {
+					logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
+					propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA.name()
+							, null, null));
+				}
+			};
+			mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(time));
 		}
 	}
 }

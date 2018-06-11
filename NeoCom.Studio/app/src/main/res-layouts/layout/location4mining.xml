@@ -13,8 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="2dp"
         android:gravity="right"
-        android:textColor="@color/appbluepurple"
         android:text="@string/default_region"
+        android:textColor="@color/appbluepurple"
         android:textSize="12sp" />
 
     <RelativeLayout
@@ -55,9 +55,10 @@
                 style="@style/AppTheme.Location"
                 android:layout_alignBaseline="@+id/contentsCount"
                 android:layout_alignParentLeft="true"
-                android:visibility="gone"
                 android:layout_toLeftOf="@+id/childCount"
-                android:text="@string/default_security" />
+                android:text="@string/default_security"
+                android:visibility="gone" />
+
             <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
                 android:id="@+id/locationStation"
                 style="@style/AppTheme.Location"
@@ -76,6 +77,45 @@
                 android:textColor="@color/appwhite"
                 android:textSize="16sp" />
         </RelativeLayout>
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/locationItemsValue"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/stationBlock"
+            android:gravity="right"
+            android:text="@string/default_isk"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/locationItemsVolume"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/stationBlock"
+            android:gravity="right"
+            android:text="@string/default_volume"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/locationItemsValueLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/locationItemsValue"
+            android:text="CONTENTS MARKET VALUE"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/locationItemsVolumeLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/locationItemsValue"
+            android:text="CONTENTS VOLUME" />
 
         <RelativeLayout
             android:id="@+id/stationLabelBlock"
@@ -130,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/functionBlock">
+            android:layout_below="@+id/stationLabelBlock">
 
             <LinearLayout
                 android:id="@+id/valueLabelBlock"
@@ -142,22 +182,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                    android:id="@+id/locationItemsValueLabel"
-                    style="@style/AppTheme.TextView"
-                    android:gravity="left"
-                    android:text="ISK"
-                    android:textSize="10sp"
-                    android:visibility="visible" />
-
-                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                    android:id="@+id/locationItemsVolumeLabel"
-                    style="@style/AppTheme.TextView"
-                    android:gravity="left"
-                    android:text="m3"
-                    android:textSize="10sp"
-                    android:visibility="visible" />
-            </LinearLayout>
+                android:visibility="visible" /></LinearLayout>
 
             <LinearLayout
                 android:id="@+id/valueDataBlock"
@@ -169,26 +194,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                    android:id="@+id/locationItemsValue"
-                    style="@style/AppTheme.TextView"
-                    android:layout_width="fill_parent"
-                    android:layout_marginRight="3dp"
-                    android:gravity="right"
-                    android:text="-"
-                    android:textSize="12sp"
-                    android:visibility="visible" />
 
-                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-                    android:id="@+id/locationItemsVolume"
-                    style="@style/AppTheme.TextView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:gravity="right"
-                    android:text="-"
-                    android:textSize="12sp"
-                    android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

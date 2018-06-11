@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.RefiningDetailActivity;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.interfaces.ICredentialAvailableApplication;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.slf4j.Logger;
@@ -144,8 +144,8 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 			final Intent intent = new Intent(this.getActivity(), RefiningDetailActivity.class);
 
 			// Go to the Activity and get back the pilot identifier.
-			if (this.getActivity() instanceof ICredentialAvailableApplication) {
-				int pilotIdentifier = ((ICredentialAvailableApplication) this.getActivity()).getPilotIdentifier();
+			if (this.getActivity() instanceof ICredentialActivity) {
+				int pilotIdentifier = ((ICredentialActivity) this.getActivity()).getCredential().getAccountId();
 				intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 			}
 			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), identifier);
@@ -170,7 +170,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	public static class MiningExtractionRender extends MiningExtractionPackedRender {
 		// - F I E L D - S E C T I O N ............................................................................
 		private TextView extractionSystemName = null;
-		private TextView extractionDate = null;
+		private TextView extractionHour = null;
 		private TextView quantity = null;
 		private TextView value = null;
 		private TextView unitPrice = null;
@@ -193,7 +193,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		public void initializeViews() {
 			super.initializeViews();
 			extractionSystemName = (TextView) _convertView.findViewById(R.id.extractionSystemName);
-			extractionDate = (TextView) _convertView.findViewById(R.id.extractionDate);
+			extractionHour = (TextView) _convertView.findViewById(R.id.extractionHour);
 			unitPrice = (TextView) _convertView.findViewById(R.id.unitPrice);
 			valueIndex = (TextView) _convertView.findViewById(R.id.valueIndex);
 			delta = (TextView) _convertView.findViewById(R.id.delta);
@@ -204,8 +204,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		public void updateContent() {
 			super.updateContent();
 			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
-			extractionDate.setText(this.getPart().getCastedModel().getExtractionDate()
-					+ ":" + this.getPart().getCastedModel().getExtractionHour());
+			extractionHour.setText("HOUR: " + this.getPart().getCastedModel().getExtractionHour());
 			unitPrice.setText(this.getPart().getTResourcePrice());
 			valueIndex.setText(this.getPart().getTValueIndex());
 			delta.setText(this.getPart().getTDelta());
@@ -219,7 +218,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.miningextractions4list;
+			return R.layout.miningextractions4today;
 		}
 	}
 
