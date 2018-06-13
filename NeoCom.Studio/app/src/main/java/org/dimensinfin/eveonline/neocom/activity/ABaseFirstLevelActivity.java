@@ -30,15 +30,19 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * This special class contains the common code for all the Activities that have access to the Credential. The code will store the
+ * needed data on pausing and recover the same Credential on recover. Only in the case the database was cleared during that two
+ * events we should have an exception. The destination in such cases should be the rendering ot the ExceptiomManagementFragment.
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-abstract class ABaseFirstLevelActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
+public abstract class ABaseFirstLevelActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("ABaseFirstLevelActivity");
 
@@ -112,12 +116,9 @@ abstract class ABaseFirstLevelActivity extends AbstractPagerActivity implements 
 
 			// Create a new Action Bar view from the layout.
 			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
-					//					.setActivityIcon(R.drawable.miningledger)
-					.setIconTop(credential.getAccountId())
+					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
-
-			//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
 			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
 		}
 	}

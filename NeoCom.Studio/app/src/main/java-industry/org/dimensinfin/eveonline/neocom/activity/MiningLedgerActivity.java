@@ -33,6 +33,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,7 @@ public class MiningLedgerActivity extends AbstractPagerActivity implements ICred
 			// Create a new Action Bar view from the layout.
 			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
 					//					.setActivityIcon(R.drawable.miningledger)
-					.setIconTop(credential.getAccountId())
+					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
 

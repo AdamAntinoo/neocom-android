@@ -45,17 +45,17 @@ public class RefiningDetailActivity extends ABaseFirstLevelActivity implements I
 	 * can achieve from that place.
 	 */
 	private long refiningLocationId = -1;
-	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
-	private int pilotIdentifier = 0;
-	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
-	private Credential credential = null;
+//	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
+//	private int pilotIdentifier = 0;
+//	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
+//	private Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
-	@Override
-	public Credential getCredential() {
-		return this.credential;
-	}
+//	@Override
+//	public Credential getCredential() {
+//		return this.credential;
+//	}
 
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
@@ -105,15 +105,15 @@ public class RefiningDetailActivity extends ABaseFirstLevelActivity implements I
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		resourceTypeId = savedInstanceState.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name());
 		refiningLocationId = savedInstanceState.getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name());
-		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-		credential = searchCredential(pilotIdentifier);
-		if (null == credential) {
-			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
-							+ " not fount on the list of credentials.")
-					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			this.addPage(new ApplicationExceptionReportFragment());
-		}
+//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+//		credential = searchCredential(pilotIdentifier);
+//		if (null == credential) {
+//			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+//					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+//							+ " not fount on the list of credentials.")
+//					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			this.addPage(new ApplicationExceptionReportFragment());
+//		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -126,17 +126,17 @@ public class RefiningDetailActivity extends ABaseFirstLevelActivity implements I
 	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
+//		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 		outState.putInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
 		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
 	}
 
-	protected Credential searchCredential( final int identifier ) {
-		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
-			if (cred.getAccountId() == identifier) return cred;
-		}
-		return null;
-	}
+//	protected Credential searchCredential( final int identifier ) {
+//		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+//			if (cred.getAccountId() == identifier) return cred;
+//		}
+//		return null;
+//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

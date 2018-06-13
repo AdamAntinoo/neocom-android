@@ -16,6 +16,7 @@
 package org.dimensinfin.eveonline.neocom.ui;
 
 import android.app.Activity;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,22 +88,39 @@ public class NeoComActionBar {
 		return this;
 	}
 
+	public NeoComActionBar setSubtitleSpanned( Spanned subtitleSpanned ) {
+		if (null != subtitle) {
+			this.subtitle.setText(subtitleSpanned);
+			this.subtitle.setVisibility(View.VISIBLE);
+		}
+		return this;
+	}
+
 	public NeoComActionBar setActivityIcon( final int iconReference ) {
 		activityIcon.setImageResource(iconReference);
 		activityIcon.setVisibility(View.VISIBLE);
 		return this;
 	}
 
-	public NeoComActionBar setIconTop( final int iconReference ) {
-		final String link = "http://image.eveonline.com/character/" + iconReference + "_256.jpg";
-		Picasso.get().load(link).into(upperIcon);
-		upperIcon.setVisibility(View.VISIBLE);
+	public NeoComActionBar setIconTop( final IURLIconProvider provider ) {
+		try {
+			final String link = provider.getIconUrlLocation();
+			Picasso.get().load(link).into(upperIcon);
+			upperIcon.setVisibility(View.VISIBLE);
+		} catch (NeoComException e) {
+			upperIcon.setImageResource(R.drawable.nopilot);
+		}
 		return this;
 	}
-	public NeoComActionBar setIconBottom( final int iconReference ) {
-		final String link = "http://image.eveonline.com/character/" + iconReference + "_256.jpg";
-		Picasso.get().load(link).into(lowerIcon);
-		lowerIcon.setVisibility(View.VISIBLE);
+
+	public NeoComActionBar setIconBottom( final IURLIconProvider provider ) {
+		try {
+			final String link = provider.getIconUrlLocation();
+			Picasso.get().load(link).into(lowerIcon);
+			lowerIcon.setVisibility(View.VISIBLE);
+		} catch (NeoComException e) {
+			lowerIcon.setImageResource(R.drawable.nopilot);
+		}
 		return this;
 	}
 

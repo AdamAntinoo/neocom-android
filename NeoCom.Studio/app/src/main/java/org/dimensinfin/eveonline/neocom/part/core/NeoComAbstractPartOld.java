@@ -138,53 +138,53 @@ public abstract class NeoComAbstractPartOld extends AbstractAndroidPart {
 	 * <li>Separator Red</li>
 	 * </ul>
 	 */
-	@Deprecated
-	@Override
-	public List<IPart> collaborate2View() {
-		ArrayList<IPart> result = new ArrayList<IPart>();
-		// If the node is expanded then give the children the opportunity to also be added.
-		if (this.isExpanded()) {
-			if (this.isEmpty()) {
-				if (this.isRenderWhenEmpty()) {
-					// The region is surrounded with the Red Separator at the beginning and at the end.
-					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
-							.setRenderMode(this.getRenderMode()));
-					result.add(this);
-					// This region is empty of contents. Add the Empty Separator and complete.
-					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
-							.setRenderMode(this.getRenderMode()));
-					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
-							.setRenderMode(this.getRenderMode()));
-				}
-			} else {
-				// Generate the list of Parts that should be collaborated to the ListView.
-				// The region is surrounded with the Red Separator at the beginning and at the end.
-				result.add(
-						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
-				result.add(this);
-				// --- This is the section where we get the Contents and then we apply the customized Part policies.
-				List<IPart> childParts = this.runPolicies(this.getChildren());
-				// --- End of policies
-				for (IPart part : childParts) {
-					// For each of the children that are registered to this part and that have a model recursively search for collaborations.
-					final List<IPart> collaboration = part.collaborate2View();
-					//					if ( !part.isNewImplemented() ) {
-					//						result.add(part);
-					//					}
-					result.addAll(collaboration);
-				}
-				result.add(
-						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
-			}
-		} else {
-			// Check for items that will not shown when empty and not expanded.
-			if (this.isRenderWhenEmpty()) {
-				runDependencies();
-				result.add(this);
-			}
-		}
-		return result;
-	}
+//	@Deprecated
+//	@Override
+//	public List<IPart> collaborate2View() {
+//		ArrayList<IPart> result = new ArrayList<IPart>();
+//		// If the node is expanded then give the children the opportunity to also be added.
+//		if (this.isExpanded()) {
+//			if (this.isEmpty()) {
+//				if (this.isRenderWhenEmpty()) {
+//					// The region is surrounded with the Red Separator at the beginning and at the end.
+//					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
+//							.setRenderMode(this.getRenderMode()));
+//					result.add(this);
+//					// This region is empty of contents. Add the Empty Separator and complete.
+//					result.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
+//							.setRenderMode(this.getRenderMode()));
+//					result.add(new SeparatorPart(new Separator().setType(getThemeColor()))
+//							.setRenderMode(this.getRenderMode()));
+//				}
+//			} else {
+//				// Generate the list of Parts that should be collaborated to the ListView.
+//				// The region is surrounded with the Red Separator at the beginning and at the end.
+//				result.add(
+//						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
+//				result.add(this);
+//				// --- This is the section where we get the Contents and then we apply the customized Part policies.
+//				List<IPart> childParts = this.runPolicies(this.getChildren());
+//				// --- End of policies
+//				for (IPart part : childParts) {
+//					// For each of the children that are registered to this part and that have a model recursively search for collaborations.
+//					final List<IPart> collaboration = part.collaborate2View();
+//					//					if ( !part.isNewImplemented() ) {
+//					//						result.add(part);
+//					//					}
+//					result.addAll(collaboration);
+//				}
+//				result.add(
+//						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
+//			}
+//		} else {
+//			// Check for items that will not shown when empty and not expanded.
+//			if (this.isRenderWhenEmpty()) {
+//				runDependencies();
+//				result.add(this);
+//			}
+//		}
+//		return result;
+//	}
 
 	/**
 	 * New implementation for the collaboration to the view for all NeoCom parts using a Part collector that allows to
@@ -322,14 +322,6 @@ public abstract class NeoComAbstractPartOld extends AbstractAndroidPart {
 	//		return NeoComModelStore.getSingleton().getPilot();
 	//	}
 
-	public String upperCaseFirst( String value ) {
-		// Convert String to char array.
-		char[] array = value.toCharArray();
-		// Modify first element in array.
-		array[0] = Character.toUpperCase(array[0]);
-		// Return string.
-		return new String(array);
-	}
 	//	@Override
 	//	public AbstractRender selectRenderer () {
 	//		return new DefaultRender(this, _activity);

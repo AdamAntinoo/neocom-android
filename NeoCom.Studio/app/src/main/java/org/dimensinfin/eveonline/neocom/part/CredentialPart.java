@@ -32,12 +32,14 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
 
 import java.beans.PropertyChangeEvent;
 
@@ -142,7 +144,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 		logger.info(">> [CredentialPart.runDependencies]");
 		try {
 			// Make access to the rendering dependencies during this preparation phase.
-			pilot = AndroidGlobalDataManager.requestPilotV2(getCastedModel());
+			pilot = AndroidGlobalDataManager.fastRequestPilotV2(getCastedModel());
 		} catch (NeoComRegisteredException neore) {
 			AndroidGlobalDataManager.registerException("CredentialPart.runDependencies", neore
 					, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
@@ -169,7 +171,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 			// With the new implementation get just the identifier for the Credential.
 			final int identifier = ((CredentialPart) pilotPart).getCastedModel().getAccountId();
 			//					NeoComModelStore.activateCredential(identifier);
-			final Intent intent = new Intent(this.getActivity(), MiningLedgerActivity.class);
+			final Intent intent = new Intent(this.getActivity(), PilotDashboardActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
 			intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
 			getActivity().startActivity(intent);

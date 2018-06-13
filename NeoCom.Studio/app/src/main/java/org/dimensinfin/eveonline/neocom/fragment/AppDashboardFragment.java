@@ -111,7 +111,7 @@ public class AppDashboardFragment extends AbstractPagerFragment {
 		 */
 		@Override
 		public IPart createPart( final ICollaboration node ) {
-			logger.info("-- [AppDashboardFactory.createPart]> Node class: {}"+ node.getClass().getSimpleName());
+			logger.info("-- [AppDashboardFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 			if ( node instanceof AppVersion ) {
 				IPart part = new AppVersionPart((AppVersion) node).setFactory(this)
 				                                                  .setRenderMode(this.getVariant());

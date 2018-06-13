@@ -38,7 +38,8 @@ import java.util.List;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
- * them, this special page should put the fragments one below the previous one composing a list of panels. Initially this code belongs to
+ * them, this special page should put the fragments one below the previous one composing a list of panels. Initially this code belongs
+ * to
  * the NeoCom project but is the code can be made generic it should add to the functionalities found on the MVC.
  * @author Adam Antinoo
  */
@@ -86,7 +87,8 @@ public class AppDashboardActivity extends Activity {
 	// --- A C T I V I T Y   L I F E C Y C L E
 
 	/**
-	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation code
+	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation
+	 * code
 	 * for an Activity and the only code to integrate it into the MVC.
 	 * <p>
 	 * This Activity structure is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
@@ -139,15 +141,13 @@ public class AppDashboardActivity extends Activity {
 				this.getActionBar().setDisplayShowTitleEnabled(false);
 
 				// Create a new Action Bar view from the layout.
+				final String serverState = AndroidGlobalDataManager.serverStatus().getServer()
+						+ ": " + AndroidGlobalDataManager.serverStatus().getPlayers() + " capsuleers";
 				NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
-						//					.setActivityIcon(R.drawable.miningledger)
 						.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 						.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname))
-						.setSubtitle(AndroidGlobalDataManager.serverStatus());
+						.setSubtitle(serverState);
 				this.getActionBar().setCustomView(neocomActionBarView.getView());
-
-				//	getActionBar().setIcon(getResources().getDrawable(R.drawable.hamburger_icon_white));
-				logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
 			}
 
 			// Create and add the fragment to the layout container.
@@ -162,16 +162,16 @@ public class AppDashboardActivity extends Activity {
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 
-//	/**
-//	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
-//	 * then should be provided by the Activity itself.
-//	 */
-//	@Override
-//	protected void onStart() {
-//		super.onStart();
-//		// Set the title and subtitle
-//		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
-//	}
+	//	/**
+	//	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
+	//	 * then should be provided by the Activity itself.
+	//	 */
+	//	@Override
+	//	protected void onStart() {
+	//		super.onStart();
+	//		// Set the title and subtitle
+	//		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
+	//	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class FragmentDataContainer {

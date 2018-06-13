@@ -18,17 +18,12 @@ package org.dimensinfin.eveonline.neocom.part.core;
 import android.text.Html;
 import android.text.Spanned;
 
-import java.text.DecimalFormat;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPartOld;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.DecimalFormat;
 
 /**
  * @author Adam Antinoo
@@ -47,35 +42,44 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	public static String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
 		// Generate different formats depending on the quantity and the compress flag.
 		// Get rid of negative numbers.
-		if ( compress ) {
-			if ( Math.abs(price) > 1200000000.0 ) if ( addSuffix )
+		if (compress) {
+			if (Math.abs(price) > 1200000000.0) if (addSuffix)
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
 			else
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
-			if ( Math.abs(price) > 12000000.0 ) if ( addSuffix )
+			if (Math.abs(price) > 12000000.0) if (addSuffix)
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
 			else
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
 		}
-		if ( addSuffix )
+		if (addSuffix)
 			return NeoComAbstractPart.priceFormatter.format(price) + " ISK";
 		else
 			return NeoComAbstractPart.priceFormatter.format(price);
 	}
+
 	public static String generateSecurityColor( double sec, final String data ) {
 		StringBuffer htmlFragmentWithColor = new StringBuffer();
 		String secColor = "#F00000";
 		// Get the color from the table.
-		if ( sec < 0.0 ) {
+		if (sec < 0.0) {
 			sec = 0.0;
 		}
-		if ( sec > 1.0 ) {
+		if (sec > 1.0) {
 			sec = 1.0;
 		}
 		long secAdjust = Long.valueOf(Math.round(sec * 10.0)).intValue();
 		secColor = NeoComAbstractPart.securityLevels.get(Long.valueOf(secAdjust).intValue());
 		htmlFragmentWithColor.append("<font color='").append(secColor).append("'>").append(data).append("</font>");
 		return htmlFragmentWithColor.toString();
+	}
+	public static String upperCaseFirst( String value ) {
+		// Convert String to char array.
+		char[] array = value.toCharArray();
+		// Modify first element in array.
+		array[0] = Character.toUpperCase(array[0]);
+		// Return string.
+		return new String(array);
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -94,14 +98,14 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 		htmlLocation.append(" ").append(location.getRegion()).append("-").append(location.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
-//	@Override
-//	public String toString() {
-//		StringBuffer buffer = new StringBuffer("NeoComAbstractPart [ ");
-//		buffer.append("name: ").append(0);
-//		buffer.append("]");
-//		buffer.append("->").append(super.toString());
-//		return buffer.toString();
-//	}
+	//	@Override
+	//	public String toString() {
+	//		StringBuffer buffer = new StringBuffer("NeoComAbstractPart [ ");
+	//		buffer.append("name: ").append(0);
+	//		buffer.append("]");
+	//		buffer.append("->").append(super.toString());
+	//		return buffer.toString();
+	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

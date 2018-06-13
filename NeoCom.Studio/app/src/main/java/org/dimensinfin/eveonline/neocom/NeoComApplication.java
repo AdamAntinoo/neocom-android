@@ -15,21 +15,11 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.SQLException;
-
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
@@ -43,20 +33,32 @@ import org.dimensinfin.eveonline.neocom.datamngmt.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
 
 /**
+ * The application object only has the code to complete the initialization and the connection of all the modules used for running.
+ *
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
 	public enum EExtras {
-		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER
-		, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER
+		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER
 	}
-public enum EVariants{
+
+	public enum EVariants {
 		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL, MINING_EXTRACTIONS_TEST, MINING_EXTRACTIONS_VERIFICATION
-}
+	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComApplication");
 
@@ -90,7 +92,7 @@ public enum EVariants{
 	 * separate async tasks.
 	 */
 	public void startTimer() {
-		if ( null == timeTickReceiver ) {
+		if (null == timeTickReceiver) {
 			timeTickReceiver = new TimeTickReceiver(this);
 			timedService = new TimedUpdater();
 			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
@@ -135,8 +137,8 @@ public enum EVariants{
 		copyPreloadFiles();
 
 		// Check if the SDE database file is at the right place. If not copy it.
-		if ( !AndroidGlobalDataManager.checkAppFile(
-				AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename")) ) {
+		if (!AndroidGlobalDataManager.checkAppFile(
+				AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))) {
 			// TODO The CCP database is not distributed with the application. If not available then close the App
 			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"));
 		}
@@ -207,7 +209,7 @@ public enum EVariants{
 		final File sdcarddir = new File(Environment.getExternalStorageDirectory()
 				, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname));
 		final boolean existence = sdcarddir.exists();
-		if ( !sdcarddir.exists() ) {
+		if (!sdcarddir.exists()) {
 			sdcarddir.mkdir();
 		}
 		return !existence;
@@ -254,10 +256,10 @@ public enum EVariants{
 			logger.error("E> [NeoComApp.copyFromAssets] Failed to copy resource: " + sourceFileName);
 		} finally {
 			try {
-				if ( ostream != null ) {
+				if (ostream != null) {
 					ostream.close();
 				}
-				if ( istream != null ) {
+				if (istream != null) {
 					istream.close();
 				}
 			} catch (final IOException e) {

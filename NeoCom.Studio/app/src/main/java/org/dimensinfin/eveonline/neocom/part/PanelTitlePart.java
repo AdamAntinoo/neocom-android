@@ -92,13 +92,11 @@ public class PanelTitlePart extends NeoComAbstractPart {
 		// --- I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
-			//			super.initializeViews();
 			this.title = (TextView) this._convertView.findViewById(R.id.title);
 		}
 
 		@Override
 		public void updateContent() {
-			//			super.updateContent();
 			this.title.setText(getPart().getCastedModel().getTitle());
 		}
 
