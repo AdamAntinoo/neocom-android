@@ -26,6 +26,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +92,7 @@ public class PilotDashboardFragment extends AbstractPagerFragment {
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
 		public IPart createPart( final ICollaboration node ) {
-			logger.info("-- [IndustryPartFactory.createPart]> Node class: {}" + node.getClass().getSimpleName());
+			logger.info("-- [DashboardFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 			if (node instanceof PilotV2) {
 				IPart part = new PilotDashbordPart((PilotV2) node).setFactory(this)
 						.setRenderMode(this.getVariant());

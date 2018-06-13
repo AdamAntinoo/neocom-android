@@ -55,7 +55,7 @@ public class IndustryPartFactory extends PartFactory {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public IPart createPart( final ICollaboration node ) {
-		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}" + node.getClass().getSimpleName());
+		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 		if ( node instanceof MiningExtraction ) {
 			IPart part = new MiningExtractionPart((MiningExtraction) node).setFactory(this)
 			                                                              .setRenderMode(this.getVariant());

@@ -69,15 +69,13 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
 		List<ICollaboration> headerContents = new ArrayList<>();
-		headerContents.add(new RefiningDetailReport(resourceTypeId)
-//		.setCredential(getAppContext().getCre)
-		);
+		headerContents.add(new RefiningDetailReport(resourceTypeId));
 		return headerContents;
 	}
 
 	@Override
 	protected IDataSource registerDataSource() {
-		return new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"),getVariant(),getFactory(),getExtras());
+		return new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getVariant(), getFactory(), getExtras());
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................

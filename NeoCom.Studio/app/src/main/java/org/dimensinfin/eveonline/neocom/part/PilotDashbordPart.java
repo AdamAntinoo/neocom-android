@@ -157,7 +157,7 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 			AllianceV1 alliance = this.getPart().getCastedModel().getAlliance();
 
 			this.pilotName.setText(getPart().getCastedModel().getName());
-			this.pilotIdentifier.setText(getPart().getCastedModel().getCharacterId());
+			this.pilotIdentifier.setText(Integer.valueOf(this.getPart().getCastedModel().getCharacterId()).toString());
 			this.accountBalance.setText(this.getPart().getTWalletAmount());
 			this.nodeClass.setText("CREDENTIAL");
 			this.race.setText(this.getPart().getTRaceName());

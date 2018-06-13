@@ -65,6 +65,7 @@ public class AppDashboardActivity extends Activity {
 			_linearAdapter.addLinear(newFrag);
 			// Now add the configured fragment to the activity container layout.
 			// Begin the transaction
+			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: "+newFrag.getClass().getSimpleName());
 			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 			// Add the fragment to the container with the new fragment.
 			ft.add(R.id.fragmentContainer, newFrag);
@@ -209,7 +210,6 @@ public class AppDashboardActivity extends Activity {
 			if (null != fragNew) {
 				_fragments.add(fragNew);
 			}
-			//			this.notifyDataSetChanged();
 		}
 	}
 }
