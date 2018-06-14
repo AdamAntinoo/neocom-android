@@ -12,6 +12,7 @@
     <dimen name="separatorradius">2dp</dimen>
     <dimen name="standardleftseparation">3dp</dimen>
     <dimen name="standardmargin">2dp</dimen>
+    <dimen name="bottomline_correction">-3dp</dimen>
 
     <!-- Android Common UI dimensions. Progress Bar -->
     <dimen name="progressbarsize">48dp</dimen>

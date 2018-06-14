@@ -109,8 +109,8 @@
         android:id="@+id/pilotWalletDataBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/nodeIconBlock"
         android:orientation="vertical">
 
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
@@ -120,6 +120,7 @@
             android:layout_alignBaseline="@+id/assetsCount"
             android:layout_alignParentLeft="true"
             android:ellipsize="marquee"
+            android:layout_marginBottom="@dimen/bottomline_correction"
             android:singleLine="true"
             android:text="123,345,556.98 ISK"
             android:textColor="@android:color/white"
@@ -134,31 +135,35 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/secondaryLabelBlock"
+    <RelativeLayout
+        android:id="@+id/pilotSkillPointsBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:orientation="vertical">
+        android:layout_below="@+id/nodeIconBlock">
 
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/skillPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
+            android:layout_alignParentTop="true"
             android:gravity="right"
+            android:layout_marginBottom="@dimen/bottomline_correction"
+            android:layout_alignParentRight="true"
             android:singleLine="true"
-            android:text="123,345,556.98 ISK"
+            android:text="@string/default_skillpoints"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/assetsCountLabel"
-            style="@style/AppTheme.Label"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/skillPoints"
             android:gravity="right"
-            android:text="ASSETS" />
-    </LinearLayout>
+            android:text="SKILL POINTS" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/pilotRaceBlock"
