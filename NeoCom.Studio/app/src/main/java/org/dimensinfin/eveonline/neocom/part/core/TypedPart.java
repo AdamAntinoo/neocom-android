@@ -21,6 +21,7 @@ import java.util.Hashtable;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,12 @@ public abstract class TypedPart<T extends ICollaboration> extends AbstractAndroi
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 //	public abstract T getPart();
-	public abstract T getCastedModel();
-//	@Override
+//	public abstract T getCastedModel();
+	public T getCastedModel() {
+		return (T) this.getModel();
+	}
+
+	//	@Override
 //	public String toString() {
 //		StringBuffer buffer = new StringBuffer("TypedPart [ ");
 //		buffer.append("name: ").append(0);

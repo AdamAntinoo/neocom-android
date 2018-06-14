@@ -39,8 +39,7 @@ import java.util.List;
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
  * them, this special page should put the fragments one below the previous one composing a list of panels. Initially this code belongs
- * to
- * the NeoCom project but is the code can be made generic it should add to the functionalities found on the MVC.
+ * to the NeoCom project but is the code can be made generic it should add to the functionality found on the MVC.
  * @author Adam Antinoo
  */
 
@@ -163,22 +162,25 @@ public class AppDashboardActivity extends Activity {
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 
-	//	/**
-	//	 * Because this Activity is not the standard pager fragment activity, the title and subtitle are not setup by the fragment selected and
-	//	 * then should be provided by the Activity itself.
-	//	 */
-	//	@Override
-	//	protected void onStart() {
-	//		super.onStart();
-	//		// Set the title and subtitle
-	//		getActionBar().setTitle(AndroidGlobalDataManager.getResourceString(R.string.appnameversion));
-	//	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		// Remove fragments from the manager.
+		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+		// Remove the fragment for cleanup.
+		for (Fragment frag : _linearAdapter.getFragments())
+			ft.remove(frag);
+		ft.commit();
+
+		logger.info(">< [AppDashboardActivity.onDestroy]");
+	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class FragmentDataContainer {
 		// - F I E L D - S E C T I O N ............................................................................
 		private int _pagerid = R.id.fragmentContainer;
 		protected List<Fragment> _fragments = new ArrayList();
+		private Iterable<? extends Fragment> fragments;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public FragmentDataContainer( final int layoutId ) {
@@ -210,6 +212,10 @@ public class AppDashboardActivity extends Activity {
 			if (null != fragNew) {
 				_fragments.add(fragNew);
 			}
+		}
+
+		public Iterable<? extends Fragment> getFragments() {
+			return fragments;
 		}
 	}
 }

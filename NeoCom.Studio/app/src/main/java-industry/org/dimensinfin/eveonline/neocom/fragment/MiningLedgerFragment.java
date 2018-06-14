@@ -178,7 +178,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 					List<MiningExtraction> extractions = new ArrayList<>();
 
 					// --- E X T R A C T I O N S   T O D A Y
-					if (getVariant().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name())) {
+					if (getVariant()==NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()) {
 						// Add the panel title up front of the Credential list.
 						final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
 						int extractionCount = 0;

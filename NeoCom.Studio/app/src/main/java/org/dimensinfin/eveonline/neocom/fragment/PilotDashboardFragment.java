@@ -27,7 +27,9 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
+import org.dimensinfin.eveonline.neocom.part.NeoComMenuBarPart;
 import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
+import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,6 +70,7 @@ public class PilotDashboardFragment extends AbstractPagerFragment {
 			List<ICollaboration> headerContents = new ArrayList<>();
 			try {
 				headerContents.add(AndroidGlobalDataManager.fastRequestPilotV2(((ICredentialActivity) this.getAppContext()).getCredential()));
+				headerContents.add(new NeoComMenuBar(((ICredentialActivity) this.getAppContext()).getCredential()));
 			} catch (NeoComRegisteredException neoe) {
 				neoe.printStackTrace();
 			}
@@ -95,6 +98,11 @@ public class PilotDashboardFragment extends AbstractPagerFragment {
 			logger.info("-- [DashboardFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 			if (node instanceof PilotV2) {
 				IPart part = new PilotDashbordPart((PilotV2) node).setFactory(this)
+						.setRenderMode(this.getVariant());
+				return part;
+			}
+			if (node instanceof NeoComMenuBar) {
+				IPart part = new NeoComMenuBarPart((NeoComMenuBar) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
 			}

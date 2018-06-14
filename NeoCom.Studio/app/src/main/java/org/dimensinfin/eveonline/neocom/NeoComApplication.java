@@ -29,8 +29,8 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.FileSystemAndroidImplementation;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
-import org.dimensinfin.eveonline.neocom.datamngmt.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
+import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.slf4j.Logger;
@@ -52,11 +52,12 @@ import java.sql.SQLException;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
 	public enum EExtras {
-		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER
+		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER, ASSETFILTER_DEFINITION
 	}
 
 	public enum EVariants {
-		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL, MINING_EXTRACTIONS_TEST, MINING_EXTRACTIONS_VERIFICATION
+		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
+		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................

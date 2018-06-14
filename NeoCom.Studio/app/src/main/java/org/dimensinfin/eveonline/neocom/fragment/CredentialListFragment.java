@@ -78,6 +78,18 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				.setVariant(getVariant());
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		logger.info(">< [CredentialListFragment.onDetach]");
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		logger.info(">< [CredentialListFragment.onDestroy]");
+	}
+
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class CredentialPartFactory extends PartFactory {
 		// - F I E L D - S E C T I O N ............................................................................

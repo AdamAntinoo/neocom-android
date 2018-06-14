@@ -51,6 +51,7 @@ android {
 //    }
     sourceSets {
         main.java{
+            srcDirs += 'src/main/java-buildup'
             srcDirs += 'src/main/java-industry'
         }
 //        main.java.srcDirs += 'src/main/java-newrelease'

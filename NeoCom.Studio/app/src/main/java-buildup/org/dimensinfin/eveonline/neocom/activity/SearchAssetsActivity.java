@@ -19,62 +19,60 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.activity.core.BaseManagerActivity;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.activity.core.ACredentialPublicActivity;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 
+/**
+ * The search Activity can accept intents from the application of from the Android core. We then implement the code at the
+ * <code>handleIntent</code> method to allow reception of intents from creation of from moving the Activity to the front when it is
+ * already crated.
+ *
+ * P A R A M E T E R S
+ * This Activity requires the <b>CAPSULEER_IDENTIFIER</b> to be able to locate the current active pilot's assets.
+ * @author Adam Antinoo
+ */
 //- CLASS IMPLEMENTATION ...................................................................................
-public class SearchAssetsActivity extends BaseManagerActivity {
+public class SearchAssetsActivity extends ACredentialPublicActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	public String getName () {
-//		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_title_AssetsManagerActivity);
-//	}
-
+	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
-	protected void onCreate (final Bundle savedInstanceState) {
+	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
 		handleIntent(getIntent());
 	}
 
 	@Override
-	protected void onNewIntent (Intent intent) {
+	protected void onNewIntent( Intent intent ) {
 		setIntent(intent);
 		handleIntent(intent);
 	}
 
-	private void handleIntent (Intent intent) {
-		if ( Intent.ACTION_SEARCH.equals(intent.getAction()) ) {
+	private void handleIntent( Intent intent ) {
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
 			createFilterFragment(query);
 		}
 	}
 
-	protected void createFilterFragment (final String filter) {
-		logger.info(">> [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
-		//		super.onCreate(savedInstanceState);
+	protected void createFilterFragment( final String filter ) {
+		logger.info(">> [SearchAssetsActivity.onCreate]");
 		try {
-//			int page = 0;
-			// Create the pages that form this Activity. Each page implemented by a Fragment.
-			extras.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), 92223647);
-			extras.putString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name(), filter);
-			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_SEARCH.name()).setExtras(extras));
-			//			this.addPage(new AssetsFragment().setVariant(ENeoComVariants.ASSETS_BYCATEGORY.name()).setExtras(extras),
-			// page++);
+			this.addPage(new AssetsFragment().setVariant(NeoComApplication.EVariants.ASSETS_SEARCH.name()));
 		} catch (RuntimeException rtex) {
-			SearchAssetsActivity.logger.warning("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage());
+			AndroidGlobalDataManager.registerRuntimeException("SearchAssetsActivity.onCreate"
+					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
-//			this.stopActivity(new RuntimeException("RTEX [AssetsManagerActivity.onCreate]> " + rtex.getMessage()));
+			this.addPage(new ApplicationExceptionReportFragment());
 		}
-		// Reinitialize the tile and subtitle from the first page.
-		//		this.updateInitialTitle();
-		logger.info("<< [AssetsManagerActivity.onCreate]"); //$NON-NLS-1$
+		logger.info("<< [SearchAssetsActivity.onCreate]");
 	}
 }
 //- UNUSED CODE ............................................................................................

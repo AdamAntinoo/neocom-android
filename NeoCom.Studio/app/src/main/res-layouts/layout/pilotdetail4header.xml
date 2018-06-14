@@ -119,8 +119,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/assetsCount"
             android:layout_alignParentLeft="true"
-            android:ellipsize="marquee"
             android:layout_marginBottom="@dimen/bottomline_correction"
+            android:ellipsize="marquee"
             android:singleLine="true"
             android:text="123,345,556.98 ISK"
             android:textColor="@android:color/white"
@@ -146,11 +146,11 @@
             android:id="@+id/skillPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:layout_alignParentTop="true"
-            android:gravity="right"
-            android:layout_marginBottom="@dimen/bottomline_correction"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/bottomline_correction"
+            android:ellipsize="marquee"
+            android:gravity="right"
             android:singleLine="true"
             android:text="@string/default_skillpoints"
             android:textColor="@android:color/white"
@@ -215,5 +215,4 @@
             android:textSize="10sp"
             android:visibility="gone" />
     </LinearLayout>
-
 </RelativeLayout>

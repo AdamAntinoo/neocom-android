@@ -18,16 +18,10 @@ package org.dimensinfin.eveonline.neocom.factory;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
-import org.dimensinfin.eveonline.neocom.part.RegionPart;
 
 import java.util.logging.Logger;
 
@@ -53,16 +47,16 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart (final ICollaboration node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
-			if ( node instanceof Region ) {
-				IPart part = new RegionPart((Region) node).setFactory(this)
-				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-				return part;
-			}
-			if ( node instanceof EveLocation ) {
-				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
-				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-				return part;
-			}
+//			if ( node instanceof Region ) {
+//				IPart part = new RegionPart((Region) node).setFactory(this)
+//				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+//				return part;
+//			}
+//			if ( node instanceof EveLocation ) {
+//				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
+//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+//				return part;
+//			}
 //			if ( node instanceof SpaceContainer ) {
 //				IPart part = new ContainerPart((SpaceContainer) node).setFactory(this)
 //				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
@@ -80,7 +74,7 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 //					return part;
 //				}
 //			}
-			if ( node instanceof NeoComAsset ) {
+			if ( node instanceof NeoComAsset) {
 				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
 				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
@@ -104,10 +98,10 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 //			}
 //		}
 
-		if ( node instanceof Separator ) {
-			IPart part = new SeparatorPart((Separator) node).setFactory(this);
-			return part;
-		}
+//		if ( node instanceof Separator ) {
+//			IPart part = new SeparatorPart((Separator) node).setFactory(this);
+//			return part;
+//		}
 
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);

@@ -28,36 +28,6 @@
     <string name="title_activity_DirectorsBoard">Activity Selection</string>
     <string name="title_activity_AssetsDirector">Assets Inventory</string>
 
-    <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
-    <string name="default_number">50.32</string>
-    <string name="default_stocknumber">84</string>
-    <string name="default_paiddate">2017.01.12 20:30</string>
-    <string name="default_apikeynumber">1084582</string>
-    <string name="default_multiplier">x2.-</string>
-    <string name="default_category">Module</string>
-    <string name="default_index">01-</string>
-    <string name="default_runs">03-</string>
-    <string name="default_jobs">05</string>
-    <string name="default_isk">345,897.-- ISK</string>
-    <string name="default_location">-0.1 Paye IX - Moon 1 - TransStellar Shipping Storage</string>
-    <string name="default_system">Dodixie</string>
-    <string name="default_region">The Forge</string>
-    <string name="default_market">The Forge - Jita</string>
-    <string name="default_security">0.9</string>
-    <string name="default_itemname">Nanofiber Internal Structure II</string>
-    <string name="default_bponame">Nanofiber Internal Structure I Blueprint</string>
-    <string name="default_loginname">CatptainHaddock</string>
-    <string name="default_managername">Assets Manager</string>
-    <string name="default_shipname">Epithal - Industrial</string>
-    <string name="default_grouptitle">SCHEDULED SELL</string>
-    <string name="default_regionname">Tash-Murkon - Moon 22</string>
-    <string name="default_fittingname">HCBC Impact 1.0</string>
-    <string name="default_fittingclass">Combat Battlecruiser >> Harbinger</string>
-    <string name="default_label">-LABEL-</string>
-    <string name="default_actionablearrow">Arrow button to expand/collapse a group item.</string>
-    <string name="default_nodeicon">EveOnline icon for the representing item.</string>
-    <string name="default_locationitems">25 items</string>
-
     <!-- CONTEXT MENU VALUES -->
     <string-array name="assetActions">
         <item>MOVE</item>

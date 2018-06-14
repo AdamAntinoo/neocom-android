@@ -13,10 +13,12 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.activity;
+package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
@@ -28,11 +30,10 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
+import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This special class contains the common code for all the Activities that have access to the Credential. The code will store the
@@ -42,9 +43,9 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class ABaseFirstLevelActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
+public abstract class ACredentialPublicActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("ABaseFirstLevelActivity");
+	//	private static Logger logger = LoggerFactory.getLogger("ACredentialPublicActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
@@ -53,57 +54,10 @@ public abstract class ABaseFirstLevelActivity extends AbstractPagerActivity impl
 	protected Credential credential = null;
 	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
 	protected PilotV2 pilot = null;
+	protected NeoComActionBar neocomActionBarView = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
-	@Override
-	public Credential getCredential() {
-		return this.credential;
-	}
-
-	// --- I P I L O T   I N T E R F A C E
-	@Override
-	public PilotV2 getPilot() {
-		return this.pilot;
-	}
-
-	@Override
-	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
-		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-		credential = searchCredential(pilotIdentifier);
-		if (null != credential) {
-			// Get access tot the Pilot information and store a reference on the Activity.
-			try {
-				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
-			} catch (NeoComRegisteredException neoe) {
-				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-						, neoe
-						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-				this.addPage(new ApplicationExceptionReportFragment());
-			}
-		} else {
-			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
-							+ " not fount on the list of credentials.")
-					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			this.addPage(new ApplicationExceptionReportFragment());
-		}
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	/**
-	 * Save the extra parameters information to be able to restore the page to their same state. There is no
-	 * more need to save the AppModel state because in case of resucitation we can follow the data chain and
-	 * reconstruct the AppModel state.
-	 */
-	@Override
-	protected void onSaveInstanceState( final Bundle outState ) {
-		super.onSaveInstanceState(outState);
-		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
-	}
-
 	protected void setupActionBar( final Credential credential ) {
 		logger.info(">> [MiningLedgerActivity.setupActionBar]");
 		ActionBar actionbar = getActionBar();
@@ -115,7 +69,7 @@ public abstract class ABaseFirstLevelActivity extends AbstractPagerActivity impl
 			this.getActionBar().setDisplayShowTitleEnabled(false);
 
 			// Create a new Action Bar view from the layout.
-			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_miningledger)
+			neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)
 					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
@@ -128,6 +82,121 @@ public abstract class ABaseFirstLevelActivity extends AbstractPagerActivity impl
 			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;
+	}
+
+	// --- D E L E G A T E D   M E T H O D S - N E O C O M A C T I O N B A R
+	public NeoComActionBar setTitleLeft( String title ) {
+		return neocomActionBarView.setTitleLeft(title);
+	}
+
+	public NeoComActionBar setTitleRight( String title ) {
+		return neocomActionBarView.setTitleRight(title);
+	}
+
+	public NeoComActionBar setSubtitle( String subtitle ) {
+		return neocomActionBarView.setSubtitle(subtitle);
+	}
+
+	public NeoComActionBar setSubtitleSpanned( Spanned subtitleSpanned ) {
+		return neocomActionBarView.setSubtitleSpanned(subtitleSpanned);
+	}
+
+	public NeoComActionBar setActivityIcon( int iconReference ) {
+		return neocomActionBarView.setActivityIcon(iconReference);
+	}
+
+	public NeoComActionBar setIconTop( IURLIconProvider provider ) {
+		return neocomActionBarView.setIconTop(provider);
+	}
+
+	public NeoComActionBar setIconBottom( IURLIconProvider provider ) {
+		return neocomActionBarView.setIconBottom(provider);
+	}
+
+	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
+	@Override
+	public Credential getCredential() {
+		return this.credential;
+	}
+
+	// --- I P I L O T   I N T E R F A C E
+	@Override
+	public PilotV2 getPilot() {
+		return this.pilot;
+	}
+
+	// --- A C T I V I T Y   L I F E C Y C L E
+	@Override
+	public void onCreate( @Nullable final Bundle savedInstanceState ) {
+		logger.info(">> [ACredentialPublicActivity.onCreate]");
+		super.onCreate(savedInstanceState);
+		try {
+			// Get the pilot identifier. This is a mandatory parameter and should be validated.
+			if (null != extras) {
+				pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+				if (pilotIdentifier > 0) {
+					// Validate the pointer Credential that should be made available to this Activity fragments.
+					credential = searchCredential(pilotIdentifier);
+					if (null != credential) {
+						// Configure the new custom Action Bar
+						setupActionBar(credential);
+					} else {
+						AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
+								, new NeoComException("[ACredentialPublicActivity.onCreate]> Credential id " + pilotIdentifier
+										+ " not fount on the list of credentials.")
+								, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+						this.addPage(new ApplicationExceptionReportFragment());
+					}
+				}
+			} else {
+				AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
+						, new NeoComException("[ACredentialPublicActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
+						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+				this.addPage(new ApplicationExceptionReportFragment());
+			}
+		} catch (RuntimeException rtex) {
+			AndroidGlobalDataManager.registerRuntimeException("ACredentialPublicActivity.onCreate"
+					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			rtex.printStackTrace();
+			this.addPage(new ApplicationExceptionReportFragment());
+		}
+		logger.info("<< [ACredentialPublicActivity.onCreate]");
+	}
+
+	@Override
+	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
+		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		credential = searchCredential(pilotIdentifier);
+		if (null != credential) {
+			// Get access tot the Pilot information and store a reference on the Activity.
+			try {
+				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+			} catch (NeoComRegisteredException neoe) {
+				AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
+						, neoe
+						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+				this.addPage(new ApplicationExceptionReportFragment());
+			}
+		} else {
+			AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
+					, new NeoComException("[ACredentialPublicActivity.onCreate]> Credential id " + pilotIdentifier
+							+ " not fount on the list of credentials.")
+					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			this.addPage(new ApplicationExceptionReportFragment());
+		}
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	/**
+	 * Save the extra parameters information to be able to restore the page to their same state. There is no
+	 * more need to save the AppModel state because in case of reactivation we can follow the data chain and
+	 * reconstruct the AppModel state.
+	 */
+	@Override
+	protected void onSaveInstanceState( final Bundle outState ) {
+		super.onSaveInstanceState(outState);
+		// Save the extra parameters information to be able to restore the page to their same state.
+		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 	}
 }
 // - UNUSED CODE ............................................................................................

@@ -22,10 +22,10 @@ import android.text.Spanned;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.core.ACredentialPublicActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
-import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.model.ServerStatus;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotDashboardActivity extends ABaseFirstLevelActivity {
+public class PilotDashboardActivity extends ACredentialPublicActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("PilotDashboardActivity");
 

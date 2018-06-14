@@ -63,6 +63,11 @@
             android:label="Pilot Dashboard">
         </activity>
         <activity
+            android:name=".activity.AssetsManagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Assets Manager">
+        </activity>
+        <activity
             android:name=".activity.MiningLedgerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/miningledger"
