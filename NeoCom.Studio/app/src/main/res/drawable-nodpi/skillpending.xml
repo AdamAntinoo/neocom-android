@@ -6,7 +6,7 @@
         android:width="1px"
         android:color="@android:color/white" />
 
-    <solid android:color="@color/redPrice" />
+    <solid android:color="@color/appred" />
 
     <padding
         android:bottom="2px"

@@ -32,6 +32,7 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
@@ -108,8 +109,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
 			// Adapter.
 			return new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
-					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
 					.setAssetsManager(((IAssetsManagerOwner) this.getAppContext()).accessAssetsManager())
+					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
 					.setCacheable(true);
 		}
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_SEARCH.name()) {
@@ -131,12 +132,10 @@ public class AssetsFragment extends AbstractPagerFragment {
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
-	public static class AssetsByLocationDataSource extends MVCDataSource {
+	public static class AssetsByLocationDataSource extends ACredentialEnabledDS {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		/** Credential to be used on all database requests and data retrievals. */
-		protected Credential credential = null;
 		protected AssetsManager assetsManager = null;
 		protected String filter = null;
 
@@ -181,12 +180,6 @@ public class AssetsFragment extends AbstractPagerFragment {
 			//					if ( cred.getAccountId() == characterid ) credential = cred;
 			//				}
 			//			}
-		}
-
-		// - M E T H O D - S E C T I O N ..........................................................................
-		public AssetsByLocationDataSource setCredential( final Credential credential ) {
-			this.credential = credential;
-			return this;
 		}
 
 		public AssetsByLocationDataSource setFilter( final String filter ) {

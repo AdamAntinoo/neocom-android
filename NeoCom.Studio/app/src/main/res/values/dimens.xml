@@ -6,7 +6,7 @@
     <dimen name="nodeiconsizesmall">18dp</dimen>
     <dimen name="nodeiconsizebig">72dp</dimen>
     <dimen name="arrowsize">28dp</dimen>
-    <dimen name="neocommenusize">28dp</dimen>
+    <dimen name="neocommenusize">32dp</dimen>
 
     <!-- Android Common UI dimensions. Separators -->
     <dimen name="separatorwidth">2dp</dimen>

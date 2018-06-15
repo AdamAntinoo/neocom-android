@@ -80,14 +80,13 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class EmptyDataSource extends MVCDataSource {
-
 		public EmptyDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
 		}
 
 		@Override
 		public void collaborate2Model() {
-			this.addModelContents(new PanelTitle("EOR"));
+			cleanup();
 		}
 	}
 }

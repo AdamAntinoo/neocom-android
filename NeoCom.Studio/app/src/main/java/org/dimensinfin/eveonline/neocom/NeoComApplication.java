@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
@@ -45,7 +46,6 @@ import java.sql.SQLException;
 
 /**
  * The application object only has the code to complete the initialization and the connection of all the modules used for running.
- *
  * @author Adam Antinoo
  */
 
@@ -57,7 +57,8 @@ public class NeoComApplication extends Application {
 
 	public enum EVariants {
 		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
-		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH
+		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
+		SKILLS_QUEUE, SKILLS_TRAINED
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
@@ -121,9 +122,12 @@ public class NeoComApplication extends Application {
 				AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname)
 		));
 
-		// Connect the Configuration manager. Dothis after the file system because it reads configuration files.
+		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
 		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties"));
+
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
+		AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
 
 		// Initialize the Model with the current global instance.
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");

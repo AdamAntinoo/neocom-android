@@ -6,7 +6,7 @@
         android:width="1px"
         android:color="@android:color/white" />
 
-    <solid android:color="@color/blueBrightLine" />
+    <solid android:color="@color/appwhite" />
 
     <padding
         android:bottom="2px"

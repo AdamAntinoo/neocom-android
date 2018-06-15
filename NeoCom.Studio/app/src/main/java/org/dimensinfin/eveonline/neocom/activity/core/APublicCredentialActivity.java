@@ -15,12 +15,11 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.text.Spanned;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
@@ -43,7 +42,7 @@ import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class APublicCredentialActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
+public abstract class APublicCredentialActivity extends ANeoComPublicMenuActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("APublicCredentialActivity");
 
@@ -60,13 +59,14 @@ public abstract class APublicCredentialActivity extends AbstractPagerActivity im
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void setupActionBar( final Credential credential ) {
 		logger.info(">> [MiningLedgerActivity.setupActionBar]");
-		ActionBar actionbar = getActionBar();
+		ActionBar actionbar = getSupportActionBar();
 		if (null != actionbar) {
 			actionbar.show();
 			actionbar.setDisplayHomeAsUpEnabled(true);
 			// Activate the custom ActionBar
-			this.getActionBar().setDisplayShowCustomEnabled(true);
-			this.getActionBar().setDisplayShowTitleEnabled(false);
+			actionbar.setDisplayShowCustomEnabled(true);
+			actionbar.setDisplayShowTitleEnabled(false);
+//			setSupportActionBar(actionbar);
 
 			// Create a new Action Bar view from the layout.
 			neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)

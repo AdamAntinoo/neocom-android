@@ -4,39 +4,53 @@
         android:key="category_Development"
         android:title="@string/pref_category_Development"
         android:widgetLayout="@style/AppTheme.PrefCatStyle">
+        <!--<CheckBoxPreference-->
+            <!--style="@style/AppTheme.PrefCatStyle"-->
+            <!--android:background="@color/appgreydark"-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="prefkey_BlockBackgroundTimer"-->
+            <!--android:summary="Block the activation of the background timer service. A change to this property requires restart to make active the new value."-->
+            <!--android:title="Block Timer" />-->
         <CheckBoxPreference
-            style="@style/AppTheme.PrefCatStyle"
-            android:background="@color/appgreydark"
-            android:defaultValue="false"
-            android:key="prefkey_BlockBackgroundTimer"
-            android:summary="Block the activation of the background timer service."
-            android:title="Block Timer" />
+            android:defaultValue="true"
+            android:key="prefkey_BlockDownloads"
+            android:summary="Block the download of any data obtained from the background event receiver."
+            android:title="Block Downloads" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="prefkey_BlockMarket"
             android:summary="Block the download of market data. Use to remove debug clutter."
             android:title="Block Market" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefkey_BlockDownloads"
-            android:summary="Block the download of character data updates and market data. Use to remove debug clutter."
-            android:title="Block Downloads" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
+         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="prefkey_BlockCharacterUpdate"
             android:summary="Block the download of Character data exclusively. Rest of jobs are allowed."
             android:title="Block Character Update" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="prefkey_BlockAssetsUpdate"
             android:summary="Block the download of Assets data exclusively. Rest of jobs are allowed."
             android:title="Block Assets Update" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="prefkey_BlockColonyUpdate"
             android:summary="Block the download of Colony data exclusively. Rest of jobs are allowed."
             android:title="Block Colony Update" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefkey_BlockSkillsUpdate"
+            android:summary="Block the download of Skills data exclusively. Rest of jobs are allowed."
+            android:title="Block Skills Update" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefkey_BlockIndustryUpdate"
+            android:summary="Block the download of Industry Jobs and Mining data exclusively. Rest of jobs are allowed."
+            android:title="Block Industry and Mining Update" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefkey_BlockMarketOrdersUpdate"
+            android:summary="Block the download of Market Orders data exclusively. Rest of jobs are allowed."
+            android:title="Block Market Orders Update" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_Industry"
