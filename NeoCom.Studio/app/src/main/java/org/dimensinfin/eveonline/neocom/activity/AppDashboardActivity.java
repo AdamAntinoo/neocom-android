@@ -182,12 +182,13 @@ public class AppDashboardActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		// Remove fragments from the manager.
-		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-		// Remove the fragment for cleanup.
-		for (Fragment frag : _linearAdapter.getFragments())
-			ft.remove(frag);
-		ft.commit();
+//		// Remove fragments from the manager.
+//		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+//		// Remove the fragment for cleanup.
+//		if (null != _linearAdapter)
+//			for (Fragment frag : _linearAdapter.getFragments())
+//				if (null != frag) ft.remove(frag);
+//		ft.commit();
 
 		logger.info(">< [AppDashboardActivity.onDestroy]");
 	}
@@ -197,7 +198,7 @@ public class AppDashboardActivity extends Activity {
 		// - F I E L D - S E C T I O N ............................................................................
 		private int _pagerid = R.id.fragmentContainer;
 		protected List<Fragment> _fragments = new ArrayList();
-		private Iterable<? extends Fragment> fragments;
+//		private Iterable<? extends Fragment> fragments;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public FragmentDataContainer( final int layoutId ) {
@@ -231,8 +232,8 @@ public class AppDashboardActivity extends Activity {
 			}
 		}
 
-		public Iterable<? extends Fragment> getFragments() {
-			return fragments;
+		public List<Fragment> getFragments() {
+			return _fragments;
 		}
 	}
 }
