@@ -20,12 +20,16 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.fragment.EveOnlineNotificationsFragment;
@@ -48,6 +52,18 @@ public class AppDashboardActivity extends Activity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("AppDashboardActivity");
 
+	@WorkerThread
+	public static Spanned serverStatus4Actionbar() {
+		GetStatusOk serverStatus = AndroidGlobalDataManager.serverStatus();
+		final StringBuffer serverStatusMessage = new StringBuffer()
+				.append("<font color='#27AE60'>")
+				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
+				.append("</font>")
+				.append(" : ")
+				.append(serverStatus.getPlayers()).append(" capsuleers");
+		return Html.fromHtml(serverStatusMessage.toString());
+	}
+
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Bundle _extras = null;
 	private ViewGroup _fragmentContainer = null;
@@ -64,7 +80,7 @@ public class AppDashboardActivity extends Activity {
 			_linearAdapter.addLinear(newFrag);
 			// Now add the configured fragment to the activity container layout.
 			// Begin the transaction
-			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: "+newFrag.getClass().getSimpleName());
+			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: " + newFrag.getClass().getSimpleName());
 			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 			// Add the fragment to the container with the new fragment.
 			ft.add(R.id.fragmentContainer, newFrag);
@@ -136,17 +152,18 @@ public class AppDashboardActivity extends Activity {
 				// Create and configure the Custom Action Bar for this activity. It will show the application version and the server status
 				// Activate the custom ActionBar
 				this.getActionBar().show();
-				this.getActionBar().setDisplayHomeAsUpEnabled(true);
+				this.getActionBar().setDisplayHomeAsUpEnabled(false);
 				this.getActionBar().setDisplayShowCustomEnabled(true);
 				this.getActionBar().setDisplayShowTitleEnabled(false);
 
 				// Create a new Action Bar view from the layout.
-				final String serverState = AndroidGlobalDataManager.serverStatus().getServer()
-						+ ": " + AndroidGlobalDataManager.serverStatus().getPlayers() + " capsuleers";
 				NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
 						.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
-						.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname))
-						.setSubtitle(serverState);
+						.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
+				// Server status has network access so it has to be executed on a background thread.
+				AndroidGlobalDataManager.submitJob2ui(() -> {
+					neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
+				});
 				this.getActionBar().setCustomView(neocomActionBarView.getView());
 			}
 

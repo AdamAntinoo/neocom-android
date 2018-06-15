@@ -17,8 +17,6 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Html;
-import android.text.Spanned;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
@@ -27,7 +25,6 @@ import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
-import org.dimensinfin.eveonline.neocom.model.ServerStatus;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +68,7 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 							NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
 									.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 									.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname))
-									.setSubtitleSpanned(serverStatus4Actionbar());
+									.setSubtitleSpanned(AppDashboardActivity.serverStatus4Actionbar());
 							this.getActionBar().setCustomView(neocomActionBarView.getView());
 						}
 
@@ -92,17 +89,6 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [PilotDashboardActivity.onCreate]");
-	}
-
-	protected Spanned serverStatus4Actionbar() {
-		ServerStatus serverStatus = AndroidGlobalDataManager.serverStatus();
-		final StringBuffer serverStatusMessage = new StringBuffer()
-				.append("<font color='#27AE60'>")
-				.append(serverStatus.getServer().toUpperCase())
-				.append("</font>")
-				.append(" : ")
-				.append(serverStatus.getPlayers()).append(" capsuleers");
-		return Html.fromHtml(serverStatusMessage.toString());
 	}
 }
 // - UNUSED CODE ............................................................................................

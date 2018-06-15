@@ -27,6 +27,7 @@ import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.activity.SkillsManagerActivity;
 import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.slf4j.Logger;
@@ -118,6 +119,12 @@ public class NeoComMenuBarPart extends TypedPart<NeoComMenuBar> {
 			skillsButton.setOnClickListener(( View v ) -> {
 						Toast.makeText(getContext(),
 								"skillsButton Clicked!", Toast.LENGTH_LONG).show();
+						// With the new implementation get just the identifier for the Credential.
+						final int identifier = this.getPart().getCastedModel().getCredential().getAccountId();
+						final Intent intent = new Intent(this.getContext(), SkillsManagerActivity.class);
+						// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
+						intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+						this.getContext().startActivity(intent);
 					}
 			);
 		}
