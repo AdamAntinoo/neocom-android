@@ -20,9 +20,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.activity.core.ACredentialPublicActivity;
+import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 
@@ -36,7 +35,7 @@ import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReport
  * @author Adam Antinoo
  */
 //- CLASS IMPLEMENTATION ...................................................................................
-public class SearchAssetsActivity extends ACredentialPublicActivity {
+public class SearchAssetsActivity extends APublicCredentialActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................

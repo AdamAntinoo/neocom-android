@@ -62,11 +62,40 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Pilot Dashboard">
         </activity>
+
+
         <activity
             android:name=".activity.AssetsManagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Assets Manager">
+            android:label="Assets Manager"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".activity.SearchAssetsActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+
+
+        <!--<activity-->
+            <!--android:name=".activity.AssetsManagerActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:label="Assets Manager">-->
+        <!--</activity>-->
+        <!--<activity-->
+        <!--android:name=".activity.SearchAssetsActivity"-->
+        <!--android:label="Asset Filter"-->
+        <!--android:screenOrientation="portrait">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEARCH" />-->
+        <!--</intent-filter>-->
+        <!--<meta-data-->
+        <!--android:name="android.app.searchable"-->
+        <!--android:resource="@xml/searchable" />-->
+        <!--</activity>-->
         <activity
             android:name=".activity.MiningLedgerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -80,6 +109,11 @@
             android:label="Mining Ledger"
             android:screenOrientation="landscape">
 
+        </activity>
+        <activity
+            android:name=".activity.SkillsManagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Skills Manager">
         </activity>
 
         <!--         Section where to add the new Activities to match the new model presentation. -->

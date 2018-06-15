@@ -24,9 +24,8 @@ import android.widget.SearchView;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.core.ACredentialPublicActivity;
+import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
@@ -43,23 +42,23 @@ import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
  * @author Adam Antinoo
  */
 //- CLASS IMPLEMENTATION ...................................................................................
-public class AssetsManagerActivity extends ACredentialPublicActivity implements IAssetsManagerOwner {
+public class AssetsManagerActivity extends APublicCredentialActivity implements IAssetsManagerOwner {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private AssetsManager assetsManager = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	public boolean onCreateOptionsMenu( Menu menu ) {
-//		final MenuInflater inflater = this.getMenuInflater();
-//		inflater.inflate(R.menu.neocom_menu, menu);
-//
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//		return super.onCreateOptionsMenu(menu);
-//	}
+	public boolean onCreateOptionsMenu( Menu menu ) {
+		final MenuInflater inflater = this.getMenuInflater();
+		inflater.inflate(R.menu.neocom_menu, menu);
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	// --- I A S S E T S M A N A G E R O W N E R   I N T E R F A C E
 	public AssetsManager accessAssetsManager() {

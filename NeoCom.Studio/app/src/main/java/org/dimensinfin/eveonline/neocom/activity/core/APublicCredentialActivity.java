@@ -43,9 +43,9 @@ import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class ACredentialPublicActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
+public abstract class APublicCredentialActivity extends AbstractPagerActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("ACredentialPublicActivity");
+	//	private static Logger logger = LoggerFactory.getLogger("APublicCredentialActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
@@ -128,7 +128,7 @@ public abstract class ACredentialPublicActivity extends AbstractPagerActivity im
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
-		logger.info(">> [ACredentialPublicActivity.onCreate]");
+		logger.info(">> [APublicCredentialActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
@@ -141,26 +141,26 @@ public abstract class ACredentialPublicActivity extends AbstractPagerActivity im
 						// Configure the new custom Action Bar
 						setupActionBar(credential);
 					} else {
-						AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
-								, new NeoComException("[ACredentialPublicActivity.onCreate]> Credential id " + pilotIdentifier
+						AndroidGlobalDataManager.registerException("APublicCredentialActivity.onCreate"
+								, new NeoComException("[APublicCredentialActivity.onCreate]> Credential id " + pilotIdentifier
 										+ " not fount on the list of credentials.")
 								, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 						this.addPage(new ApplicationExceptionReportFragment());
 					}
 				}
 			} else {
-				AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
-						, new NeoComException("[ACredentialPublicActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
+				AndroidGlobalDataManager.registerException("APublicCredentialActivity.onCreate"
+						, new NeoComException("[APublicCredentialActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
 						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 				this.addPage(new ApplicationExceptionReportFragment());
 			}
 		} catch (RuntimeException rtex) {
-			AndroidGlobalDataManager.registerRuntimeException("ACredentialPublicActivity.onCreate"
+			AndroidGlobalDataManager.registerRuntimeException("APublicCredentialActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 			this.addPage(new ApplicationExceptionReportFragment());
 		}
-		logger.info("<< [ACredentialPublicActivity.onCreate]");
+		logger.info("<< [APublicCredentialActivity.onCreate]");
 	}
 
 	@Override
@@ -172,14 +172,14 @@ public abstract class ACredentialPublicActivity extends AbstractPagerActivity im
 			try {
 				pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
 			} catch (NeoComRegisteredException neoe) {
-				AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
+				AndroidGlobalDataManager.registerException("APublicCredentialActivity.onCreate"
 						, neoe
 						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 				this.addPage(new ApplicationExceptionReportFragment());
 			}
 		} else {
-			AndroidGlobalDataManager.registerException("ACredentialPublicActivity.onCreate"
-					, new NeoComException("[ACredentialPublicActivity.onCreate]> Credential id " + pilotIdentifier
+			AndroidGlobalDataManager.registerException("APublicCredentialActivity.onCreate"
+					, new NeoComException("[APublicCredentialActivity.onCreate]> Credential id " + pilotIdentifier
 							+ " not fount on the list of credentials.")
 					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			this.addPage(new ApplicationExceptionReportFragment());
