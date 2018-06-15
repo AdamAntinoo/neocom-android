@@ -37,6 +37,7 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	// --- F O R M A T T E R S
 	public static DecimalFormat qtyFormatter = new DecimalFormat("###,##0");
 	public static DecimalFormat securityFormatter = new DecimalFormat("0.0");
+	public static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// --- S T A T I C   M O D E L   D A T A   T R A N S F O R M E R S
 	public static String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
@@ -73,6 +74,7 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 		htmlFragmentWithColor.append("<font color='").append(secColor).append("'>").append(data).append("</font>");
 		return htmlFragmentWithColor.toString();
 	}
+
 	public static String upperCaseFirst( String value ) {
 		// Convert String to char array.
 		char[] array = value.toCharArray();

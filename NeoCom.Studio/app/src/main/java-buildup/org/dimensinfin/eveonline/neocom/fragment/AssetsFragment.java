@@ -40,6 +40,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
+import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,7 +222,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 					// Initialize the data structures to be used for classification.
 					final HashMap<Long, Region> regions = new HashMap<>();
-					final HashMap<Long, ExtendedLocation> locations = new HashMap<>();
+					final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
 					final HashMap<Long, IAssetContainer> containers = new HashMap<>();
 					final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
 
@@ -305,12 +306,12 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 						//--- L O C A T I O N
 						// Check if this Location is already present on this Region.
-						ExtendedLocation locationHit = locations.get(loc.getID());
+						LocationFacetedAssetsContainer locationHit = locations.get(loc.getID());
 						if (null == locationHit) {
 							// This is a new location. Add it to the Region and check if this affects the UI.
 							// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
-							locationHit = new ExtendedLocation(this.credential.getAccountId(), loc);
-							locationHit.setContentManager(new StandardContentManager(locationHit));
+							locationHit = new LocationFacetedAssetsContainer( loc);
+//							locationHit.setContentManager(new StandardContentManager(locationHit));
 							if (filtering) locationHit.expand();
 							locations.put(loc.getID(), locationHit);
 							regionHit.addLocation(locationHit);
@@ -322,7 +323,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 						//--- A S S E T
 						// The Region and the Location were already registered. Add the asset to the Location and check if this
 						// affects the UI.
-						locationHit.addContent(asset);
+						locationHit.addAsset(asset);
 						if (locationHit.isExpanded())
 							firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 					}

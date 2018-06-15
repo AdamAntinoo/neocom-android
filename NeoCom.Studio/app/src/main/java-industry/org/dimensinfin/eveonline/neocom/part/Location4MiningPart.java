@@ -62,7 +62,7 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 	public Spanned getTStationName() {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = this.getCastedModel().getSecurityValue();
-		htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
+		htmlLocation.append(NeoComAbstractPart.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
 		htmlLocation.append(" ").append(this.getCastedModel().getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}

@@ -43,7 +43,7 @@ public class AppVersionPart extends NeoComAbstractPart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AppVersionPart( final AppVersion node ) {
 		super(node);
-		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
+//		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

@@ -44,7 +44,7 @@ public class PanelTitlePart extends NeoComAbstractPart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public PanelTitlePart( final PanelTitle node ) {
 		super(node);
-		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
+//		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

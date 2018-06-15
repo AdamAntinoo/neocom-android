@@ -21,7 +21,11 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
+import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
+import org.dimensinfin.eveonline.neocom.part.Location4MiningPart;
+import org.dimensinfin.eveonline.neocom.part.RegionPart;
 
 import java.util.logging.Logger;
 
@@ -47,11 +51,11 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	public IPart createPart (final ICollaboration node) {
 		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
-//			if ( node instanceof Region ) {
-//				IPart part = new RegionPart((Region) node).setFactory(this)
-//				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
+			if ( node instanceof Region ) {
+				IPart part = new RegionPart((Region) node).setFactory(this)
+				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
 //			if ( node instanceof EveLocation ) {
 //				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
 //				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
@@ -74,6 +78,11 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 //					return part;
 //				}
 //			}
+			if ( node instanceof LocationFacetedAssetsContainer) {
+				IPart part = new Location4MiningPart((LocationFacetedAssetsContainer) node).setFactory(this)
+						.setRenderMode(this.getVariant());
+				return part;
+			}
 			if ( node instanceof NeoComAsset) {
 				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
 				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
