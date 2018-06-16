@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPartFactory extends PartFactory implements IPartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("AssetPartFactory");
+//	private static Logger logger = Logger.getLogger("AssetPartFactory");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -49,7 +49,7 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	 */
 	@Override
 	public IPart createPart (final ICollaboration node) {
-		AssetPartFactory.logger.info("-- [AssetPartFactory.createPart]> Node class: " + node.getClass().getName());
+		logger.info("-- [AssetPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
 		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
 			if ( node instanceof Region ) {
 				IPart part = new RegionPart((Region) node).setFactory(this)

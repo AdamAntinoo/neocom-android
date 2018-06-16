@@ -114,6 +114,7 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 		private ImageView toprightDecorator = null;
 		private ImageView allianceIcon = null;
 		private ImageView corporationIcon = null;
+		private ImageView raceIcon=null;
 
 		private TextView pilotName = null;
 		private TextView pilotIdentifier = null;
@@ -138,6 +139,7 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 			this.toprightDecorator = (ImageView) this._convertView.findViewById(R.id.toprightDecorator);
 			this.allianceIcon = (ImageView) this._convertView.findViewById(R.id.allianceIcon);
 			this.corporationIcon = (ImageView) this._convertView.findViewById(R.id.corporationIcon);
+			this.raceIcon = (ImageView) this._convertView.findViewById(R.id.raceIcon);
 
 			this.pilotName = (TextView) this._convertView.findViewById(R.id.pilotName);
 			this.pilotIdentifier = (TextView) this._convertView.findViewById(R.id.pilotIdentifier);

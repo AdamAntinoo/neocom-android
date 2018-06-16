@@ -75,6 +75,14 @@
         android:layout_toRightOf="@+id/nodeIconBlock"
         android:src="@drawable/defaulticonplaceholder" />
 
+    <ImageView
+        android:id="@+id/raceIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_below="@+id/corporationIcon"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
+
     <LinearLayout
         android:id="@+id/pilotInformationBlock"
         android:layout_width="fill_parent"

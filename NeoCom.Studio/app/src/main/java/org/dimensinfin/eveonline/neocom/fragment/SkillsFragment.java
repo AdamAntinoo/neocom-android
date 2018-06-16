@@ -20,6 +20,7 @@ import android.os.Bundle;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -28,8 +29,10 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
+import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.Skill;
+import org.dimensinfin.eveonline.neocom.part.SkillPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,12 +97,34 @@ public class SkillsFragment extends AbstractPagerFragment {
 				, getVariant(), getFactory(), getExtras());
 	}
 
+	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class SkillsPartFactory extends PartFactory {
-		public SkillsPartFactory( String selectedVariant ) {
-			super(selectedVariant);
+		// - F I E L D - S E C T I O N ............................................................................
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public SkillsPartFactory( final String variantSelected ) {
+			super(variantSelected);
+		}
+		// - M E T H O D - S E C T I O N ..........................................................................
+
+		/**
+		 * The method should create the matching part for the model received but there is no other place where we
+		 * should create the next levels of the hierarchy. So we will create the part transformations here.
+		 */
+		@Override
+		public IPart createPart( final ICollaboration node ) {
+			logger.info("-- [SkillsPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
+			if (node instanceof Skill) {
+				IPart part = new SkillPart((Skill) node).setFactory(this)
+						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			// If no part is trapped then call the parent chain until one is found.
+			return super.createPart(node);
 		}
 	}
 
+	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class SkillsOnQueueDataSource extends ACredentialEnabledDS {
 		public SkillsOnQueueDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
