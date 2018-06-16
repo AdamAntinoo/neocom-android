@@ -41,6 +41,11 @@
 
         <!-- A C T I V I T I E S -->
         <activity
+            android:name=".activity.core.SettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Settings">
+        </activity>
+        <activity
             android:name=".activity.AuthorizationFlowActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Authorization ESI Flow"
@@ -62,13 +67,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Pilot Dashboard">
         </activity>
-
-
         <activity
             android:name=".activity.AssetsManagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Assets Manager"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="Assets Manager">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".activity.SearchAssetsActivity" />
@@ -76,6 +78,23 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MiningLedgerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Mining Ledger">
+        </activity>
+        <activity
+            android:name=".activity.RefiningDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Mining Ledger"
+            android:screenOrientation="landscape">
+
+        </activity>
+        <activity
+            android:name=".activity.SkillsManagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Skills Manager">
         </activity>
 
 
@@ -96,25 +115,6 @@
         <!--android:name="android.app.searchable"-->
         <!--android:resource="@xml/searchable" />-->
         <!--</activity>-->
-        <activity
-            android:name=".activity.MiningLedgerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/miningledger"
-            android:label="Mining Ledger">
-        </activity>
-        <activity
-            android:name=".activity.RefiningDetailActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/miningledger"
-            android:label="Mining Ledger"
-            android:screenOrientation="landscape">
-
-        </activity>
-        <activity
-            android:name=".activity.SkillsManagerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Skills Manager">
-        </activity>
 
         <!--         Section where to add the new Activities to match the new model presentation. -->
         <!--         <activity -->

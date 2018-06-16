@@ -16,9 +16,11 @@
 package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.support.annotation.WorkerThread;
-import android.support.v7.app.ActionBar;
+import android.support.v4.view.ViewPager;
+import android.app.ActionBar;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
 
 import java.util.Hashtable;
 import java.util.Hashtable;
@@ -61,7 +63,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void setupActionBar( final Credential credential ) {
 		logger.info(">> [MiningLedgerActivity.setupActionBar]");
-		ActionBar actionbar = getSupportActionBar();
+		ActionBar actionbar = getActionBar();
 		if (null != actionbar) {
 			actionbar.show();
 			actionbar.setDisplayHomeAsUpEnabled(true);
@@ -75,6 +77,60 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
 			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+		}
+	}
+
+	/**
+	 * Replace the update of the title and subtitle by this new that access the custom bar. This modifies the standard behavior of the
+	 * AbstractPagerActivity to make it compatible with the Custom Action Bar.
+	 */
+	@Override
+	protected void activateIndicator () {
+		// If the Indicator is active then set the listener.
+		if ( null != _indicator ) {
+			_indicator.setVisibility(View.VISIBLE);
+			_indicator.setViewPager(_pageContainer);
+			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				}
+
+				public void onPageScrollStateChanged ( final int arg0 ) {
+				}
+
+				public void onPageSelected ( final int position ) {
+					if ( null != _actionBar ) {
+						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
+						// Clear empty subtitles.
+						if ( "" == _pageAdapter.getSubTitle(position) ) {
+							neocomActionBarView.setSubtitle("");
+						} else {
+							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
+						}
+					}
+				}
+			});
+		} else {
+			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				}
+
+				public void onPageScrollStateChanged ( final int arg0 ) {
+				}
+
+				public void onPageSelected ( final int position ) {
+					if ( null != _actionBar ) {
+						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
+						// Clear empty subtitles.
+						if ( "" == _pageAdapter.getSubTitle(position) ) {
+							neocomActionBarView.setSubtitle("");
+						} else {
+							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
+						}
+					}
+				}
+			});
 		}
 	}
 

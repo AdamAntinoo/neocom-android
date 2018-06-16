@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LocationFacetedAssetsContainer extends EveLocation implements IAssetContainer, IExpandable {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("LocationFacetedAssetsContainer");
+//	private static Logger logger = LoggerFactory.getLogger("LocationFacetedAssetsContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected boolean _expanded = false;
@@ -60,18 +60,6 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public int getContentsCount() {
-		return this.contents.size();
-	}
-
-	public double getTotalValue() {
-		return this.totalValue;
-	}
-
-	public double getTotalVolume() {
-		return this.totalVolume;
-	}
-
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("LocationFacetedAssetsContainer [ ");
@@ -98,9 +86,9 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 		this.contents.add(asset);
 		try {
 			totalValue += asset.getQuantity() * asset.getItem().getHighestBuyerPrice().getPrice();
-		} catch (ExecutionException e) {
+		} catch (ExecutionException ee) {
 			totalValue += asset.getQuantity() * asset.getItem().getPrice();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ie) {
 			totalValue += asset.getQuantity() * asset.getItem().getPrice();
 		}
 		totalVolume += asset.getQuantity() * asset.getItem().getVolume();
@@ -110,6 +98,21 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 	@Override
 	public List<NeoComAsset> getAssets() {
 		return this.contents;
+	}
+
+	@Override
+	public int getContentSize() {
+		return this.contents.size();
+	}
+
+	@Override
+	public double getTotalValue() {
+		return this.totalValue;
+	}
+
+	@Override
+	public double getTotalVolume() {
+		return this.totalVolume;
 	}
 
 	// --- I E X P A N D A B L E   I N T E R F A C E

@@ -68,7 +68,7 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 	}
 
 	public String getTContentsCount() {
-		int locationAssets = getCastedModel().getContentsCount();
+		int locationAssets = getCastedModel().getContentSize();
 		String countString = null;
 		if (locationAssets > 1) {
 			countString = NeoComAbstractPart.qtyFormatter.format(locationAssets) + " items";

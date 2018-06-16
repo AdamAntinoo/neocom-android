@@ -45,16 +45,15 @@ public class GlobalAndroidPreferencesProvider implements IGlobalPreferencesManag
 	public boolean getBooleanPreference( final String preferenceName ) {
 		return getBooleanPreference(preferenceName, false);
 	}
-	// TODO - Temporarily get the preferences from the external configuration file until I manage to activate the menu.
-	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
-		return GlobalDataManager.getResourceBoolean(preferenceName, defaultValue);
-	}
-
+//	// TODO - Temporarily get the preferences from the external configuration file until I manage to activate the menu.
 //	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
-//		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(AndroidGlobalDataManager.getAppContext());
-//		String preference = settings.getString(preferenceName, Boolean.valueOf(defaultValue).toString());
-//		return BooleanUtils.toBoolean(preference);
+//		return GlobalDataManager.getResourceBoolean(preferenceName, defaultValue);
 //	}
+
+	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AndroidGlobalDataManager.getAppContext());
+		return preferences.getBoolean(preferenceName, defaultValue);
+	}
 }
 
 // - UNUSED CODE ............................................................................................

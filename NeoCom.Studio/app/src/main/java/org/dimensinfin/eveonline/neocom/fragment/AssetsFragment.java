@@ -17,49 +17,37 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.contentmngmt.StandardContentManager;
 import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
+import org.dimensinfin.eveonline.neocom.fragment.core.AActionBarFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
+import org.dimensinfin.eveonline.neocom.model.ContainerFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.ExtendedLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.model.ShipFacetedAssetsContainer;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AssetsFragment extends AbstractPagerFragment {
+public class AssetsFragment extends AActionBarFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("AssetsFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -83,7 +71,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle() {
-		return "";
+		return "ASSETS MANAGER";
 	}
 
 	@Override
@@ -99,6 +87,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 	@Override
 	public IDataSource registerDataSource() {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
+		IDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_BYLOCATION.name()) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
@@ -108,7 +97,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					.addIdentifier("ASSETS-MANAGER");
 			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
 			// Adapter.
-			return new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
+			ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
 					.setAssetsManager(((IAssetsManagerOwner) this.getAppContext()).accessAssetsManager())
 					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
 					.setCacheable(true);
@@ -122,13 +111,13 @@ public class AssetsFragment extends AbstractPagerFragment {
 					.addIdentifier("ASSETS-MANAGER");
 			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
 			// Adapter.
-			AssetsByLocationDataSource ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras());
-			ds.setVariant(this.getVariant());
-			ds.setFilter(filter);
-			return ds;
+			ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
+					.setFilter(filter)
+					.setVariant(this.getVariant());
+			//			return ds;
 		}
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
-		return null;
+		return ds;
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
@@ -143,43 +132,6 @@ public class AssetsFragment extends AbstractPagerFragment {
 		public AssetsByLocationDataSource( final DataSourceLocator locator, final String variant
 				, final IPartFactory factory, final Bundle extras ) {
 			super(locator, variant, factory, extras);
-			//			characterid = extras.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
-			//			filter = extras.getString(AppWideConstants.EExtras.EXTRA_ASSETFILTER.name());
-			//
-			//			// Get the Credential for the pilot identifier.
-			//			if ( GlobalAndroidDataManager.getResourceBoolean("R.runtime.mockdata", false) ) {
-			//				List<Credential> credentialList = null;
-			//				try {
-			//					final String inFileName = GlobalDataManager.getResourceString("R.runtime.mockdata.location")
-			//							+ "accessAllCredentials.data";
-			//					final InputStream inFile = GlobalAndroidDataManager.openAsset4Input(inFileName);
-			//					try {
-			//						final BufferedInputStream buffer = new BufferedInputStream(inFile);
-			//						final ObjectInputStream input = new ObjectInputStream(buffer);
-			//						try {
-			//							credentialList = (List<Credential>) input.readObject();
-			//							logger.info("-- [AssetsByLocationDataSource.<constructor>]> Restored credential list: {} entries."
-			//									, credentialList.size());
-			//						} finally {
-			//							input.close();
-			//							buffer.close();
-			//						}
-			//					} catch (final ClassNotFoundException ex) {
-			//						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> ClassNotFoundException."); //$NON-NLS-1$
-			//					} catch (final FileNotFoundException fnfe) {
-			//						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> FileNotFoundException."); //$NON-NLS-1$
-			//					} catch (final IOException ex) {
-			//						logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> IOException."); //$NON-NLS-1$
-			//					} catch (final RuntimeException rex) {
-			//						rex.printStackTrace();
-			//					}
-			//				} catch (IOException e) {
-			//					e.printStackTrace();
-			//				}
-			//				for (Credential cred : credentialList) {
-			//					if ( cred.getAccountId() == characterid ) credential = cred;
-			//				}
-			//			}
 		}
 
 		public AssetsByLocationDataSource setFilter( final String filter ) {
@@ -194,17 +146,19 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 		/**
 		 * This adapter should generate the model for all the assets aggregated by Location. We are going to process all
-		 * the list of assets and during the processing we will aggregate them into their containers and them into
-		 * locations and them into regions. So all the assets levels will be used and processed. Because this is a
-		 * lengthy operation we will add the root Region nodes as soon as they are discovered so the use can start to
+		 * the list of assets and during the processing we will aggregate them into their locations as registered on their final
+		 * location. We skip all the assets that are located into containers  to be processed on a second phase.
+		 *
+		 * During the second phase we can be sure that the containers are already on the container list and also linked to their
+		 * location if this is a real location. If not a location the asset will be also on the unprocessed list.
+		 *
+		 * Because this is a lengthy operation we will add the root Region nodes as soon as they are discovered so the use can start to
 		 * expand and play with the already classified items once they are on place.
 		 */
 		public void collaborate2Model() {
 			logger.info(">> [AssetsByLocationDataSource.collaborate2Model]");
 			// Check if we should use the cached version.
 			if (!isCached()) {
-				// We expect the contents empty so we have not to do anything before starting.
-				//				_dataModelRoot.clean();
 				// Get the complete list of assets.
 				try {
 					// Check that required parameters are not null.
@@ -220,41 +174,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
 
 					// Get the asset list for the database.
-					List<NeoComAsset> assetList = new ArrayList<>();
-//					if (AndroidGlobalDataManager.getResourceBoolean("R.runtime.mockdata", false)) {
-//						try {
-//							final String inFileName = GlobalDataManager.getResourceString("R.runtime.mockdata.location")
-//									+ "accessAllAssets4Credential-" + this.credential.getAccountId() + ".data";
-//							final InputStream inFile = AndroidGlobalDataManager.openAsset4Input(inFileName);
-//							try {
-//								final BufferedInputStream buffer = new BufferedInputStream(inFile);
-//								final ObjectInputStream input = new ObjectInputStream(buffer);
-//								try {
-//									assetList = (List<NeoComAsset>) input.readObject();
-//									logger.info("-- [AssetsByLocationDataSource.<constructor>]> Restored asset list: {} entries."
-//											, assetList.size());
-//								} finally {
-//									input.close();
-//									buffer.close();
-//								}
-//							} catch (final ClassNotFoundException ex) {
-//								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> ClassNotFoundException."); //$NON-NLS-1$
-//							} catch (final FileNotFoundException fnfe) {
-//								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> FileNotFoundException."); //$NON-NLS-1$
-//							} catch (final IOException ex) {
-//								logger.warn("W> [MarketDataServer.readMarketDataCacheFromStorage]> IOException."); //$NON-NLS-1$
-//							} catch (final RuntimeException rex) {
-//								rex.printStackTrace();
-//							}
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
-//					} else {
-						assetList = new AndroidGlobalDataManager()
-								.getNeocomDBHelper()
-								.getAssetDao()
-								.queryForEq("ownerId", Integer.valueOf(this.credential.getAccountId()).toString());
-//					}
+					List<NeoComAsset> assetList = this.assetsManager.getFullAssetList();
 
 					// Process each asset received classifying them by location. The ones with locations not in the SDE get
 					// processed last because can be stored into containers.
@@ -262,7 +182,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 					boolean filtering = false;
 					if (null != filter) filtering = true;
 
-					//--- L O O P   S T A R T
+					// --- L O O P   S T A R T
 					for (NeoComAsset asset : assetList) {
 						// Filter the assets by name.
 						if (filtering) {
@@ -274,11 +194,21 @@ public class AssetsFragment extends AbstractPagerFragment {
 						final EveLocation loc = asset.getLocation();
 						if (loc.getTypeId() == ELocationType.UNKNOWN) {
 							unprocessedAssets.put(asset.getAssetId(), asset);
+							// If this is a container we have to add it to the container list.
+							if (asset.isContainer())
+								containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
+							if (asset.isShip())
+								containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
 							continue;
 						}
 						// If the assets has a parent then also process it later when we have all the containers in place.
 						if (asset.getParentContainerId() > 0) {
 							unprocessedAssets.put(asset.getAssetId(), asset);
+							// If this is a container we have to add it to the container list.
+							if (asset.isContainer())
+								containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
+							if (asset.isShip())
+								containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
 							continue;
 						}
 
@@ -303,8 +233,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 						if (null == locationHit) {
 							// This is a new location. Add it to the Region and check if this affects the UI.
 							// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
-							locationHit = new LocationFacetedAssetsContainer( loc);
-//							locationHit.setContentManager(new StandardContentManager(locationHit));
+							locationHit = new LocationFacetedAssetsContainer(loc);
+							//							locationHit.setContentManager(new StandardContentManager(locationHit));
 							if (filtering) locationHit.expand();
 							locations.put(loc.getID(), locationHit);
 							regionHit.addLocation(locationHit);
@@ -312,6 +242,13 @@ public class AssetsFragment extends AbstractPagerFragment {
 							if (regionHit.isExpanded())
 								firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 						}
+
+						//--- C O N T A I N E R
+						// If this is a container we have to add it to the container list.
+						if (asset.isContainer())
+							containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
+						if (asset.isShip())
+							containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
 
 						//--- A S S E T
 						// The Region and the Location were already registered. Add the asset to the Location and check if this
@@ -321,18 +258,16 @@ public class AssetsFragment extends AbstractPagerFragment {
 							firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 					}
 
-					// Pending the processing for the orphaned nodes that are contained.
-					//					final List<Long> processedIdList = new Vector<>();
-					//					for (Long assetId : unprocessedAssets.keySet()) {
-					//						// Check if the asset has already been processed.
-					//						if ( processedIdList.contains(assetId) ) continue;
-					//						else {
-					//							//							final NeoComAsset asset = unprocessedAssets.get(assetId);
-					//							//							final long parentId = asset.getParentContainerId();
-					//							//							if ( parentId > 0 )
-					//							processAsset2Location(assetId, unprocessedAssets);
-					//						}
-					//					}
+					// Add orphaned assets to their parent containers if they exist.
+					for (NeoComAsset asset : unprocessedAssets.values()) {
+						// Search the parent in the current list of containers.
+						final long parentId = asset.getParentContainerId();
+						final IAssetContainer hit = containers.get(parentId);
+						if (null != hit) {
+							// Connect to the parent.
+							hit.addAsset(asset);
+						}
+					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();
 				}
