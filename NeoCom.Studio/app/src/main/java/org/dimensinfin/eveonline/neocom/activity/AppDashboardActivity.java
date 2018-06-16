@@ -15,30 +15,18 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
-import android.text.Html;
-import android.text.Spanned;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.core.ALinearActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
-import org.dimensinfin.eveonline.neocom.fragment.EveOnlineNotificationsFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
@@ -48,28 +36,11 @@ import java.util.List;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AppDashboardActivity extends Activity {
+public class AppDashboardActivity extends ALinearActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("AppDashboardActivity");
-
-	@WorkerThread
-	public static Spanned serverStatus4Actionbar() {
-		GetStatusOk serverStatus = AndroidGlobalDataManager.serverStatus();
-		final StringBuffer serverStatusMessage = new StringBuffer()
-				.append("<font color='#27AE60'>")
-				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
-				.append("</font>")
-				.append(" : ")
-				.append(serverStatus.getPlayers()).append(" capsuleers");
-		return Html.fromHtml(serverStatusMessage.toString());
-	}
+	//	private static Logger logger = LoggerFactory.getLogger("AppDashboardActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected Bundle _extras = null;
-	private ViewGroup _fragmentContainer = null;
-	private FragmentDataContainer _linearAdapter = null;
-	/** Image reference to the background layout item that can be replaced by the application implementation. */
-	protected ImageView background = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public void addLinear( AbstractPagerFragment newFrag ) {
@@ -96,7 +67,7 @@ public class AppDashboardActivity extends Activity {
 		// Be sure the Fragment activity points to a valid activity.
 		newFrag.setAppContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
-		newFrag.setExtras(_extras);
+		newFrag.setExtras(extras);
 		logger.info("<< [AppDashboardActivity.addLinear]"); //$NON-NLS-1$
 	}
 
@@ -104,9 +75,8 @@ public class AppDashboardActivity extends Activity {
 
 	/**
 	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation
-	 * code
-	 * for an Activity and the only code to integrate it into the MVC.
-	 * <p>
+	 * code for an Activity and the only code to integrate it into the MVC.
+	 *
 	 * This Activity structure is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
 	 * Fragments are added in order and usually should not change. In that case we should add an external storage structure to store the
 	 * list of fragments and use it to recreate the layout contents on any content change event.
@@ -116,125 +86,45 @@ public class AppDashboardActivity extends Activity {
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [AppDashboardActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		// Process the extras received by the intent so they can be shared to all the Fragments
-		try {
-			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			if (null != savedInstanceState) {
-				_extras = savedInstanceState;
-			} else {
-				_extras = this.getIntent().getExtras();
-			}
-		} catch (RuntimeException rtex) {
-			logger.warn("RTEX [AppDashboardActivity.onCreate]> " + rtex.getMessage());
+
+		if (null != this.getActionBar()) {
+			// Create and configure the Custom Action Bar for this activity. It will show the application version and the server status
+			// Activate the custom ActionBar
+			this.getActionBar().show();
+			this.getActionBar().setDisplayHomeAsUpEnabled(false);
+			this.getActionBar().setDisplayShowCustomEnabled(true);
+			this.getActionBar().setDisplayShowTitleEnabled(false);
+
+			// Create a new Action Bar view from the layout.
+			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
+					.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
+					.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
+			// Server status has network access so it has to be executed on a background thread.
+			AndroidGlobalDataManager.submitJob2ui(() -> {
+				neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
+			});
+			this.getActionBar().setCustomView(neocomActionBarView.getView());
 		}
 
-		// Set the layout to the core activity that defines the background and the fragment container, this time one on top of another and
-		// not in different pages.
-		try {
-			this.setContentView(R.layout.activity_linear);
-
-			// Locate the elements of the page and store in global data.
-			_fragmentContainer = (ViewGroup) this.findViewById(R.id.fragmentContainer);
-			background = (ImageView) this.findViewById(R.id.backgroundFrame);
-			//		_indicator = (CirclePageIndicator) this.findViewById(org.dimensinfin.android.mvc.R.id.indicator);
-			// Check page structure.
-			if (null == _fragmentContainer) {
-				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
-			}
-			if (null == background) {
-				throw new RuntimeException("RTEX [AppDashboardActivity.onCreate]> Expected UI element not found.");
-			}
-
-			// Add the adapter for the page switching.
-			_linearAdapter = new FragmentDataContainer(_fragmentContainer.getId());
-
-			if (null != this.getActionBar()) {
-				// Create and configure the Custom Action Bar for this activity. It will show the application version and the server status
-				// Activate the custom ActionBar
-				this.getActionBar().show();
-				this.getActionBar().setDisplayHomeAsUpEnabled(false);
-				this.getActionBar().setDisplayShowCustomEnabled(true);
-				this.getActionBar().setDisplayShowTitleEnabled(false);
-
-				// Create a new Action Bar view from the layout.
-				NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
-						.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
-						.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
-				// Server status has network access so it has to be executed on a background thread.
-				AndroidGlobalDataManager.submitJob2ui(() -> {
-					neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
-				});
-				this.getActionBar().setCustomView(neocomActionBarView.getView());
-			}
-
-			// Create and add the fragment to the layout container.
-			this.addLinear(new AppDashboardFragment());
-			this.addLinear(new EveOnlineNotificationsFragment());
-			this.addLinear(new CredentialListFragment());
-		} catch (RuntimeException rtex) {
-			AndroidGlobalDataManager.registerRuntimeException("AppDashboardActivity.onCreate"
-					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			rtex.printStackTrace();
-		}
+		// Create and add the fragment to the layout container.
+		this.addLinear(new AppDashboardFragment());
+		//			this.addLinear(new EveOnlineNotificationsFragment());
+		this.addLinear(new CredentialListFragment());
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		// Remove fragments from the manager.
-//		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-//		// Remove the fragment for cleanup.
-//		if (null != _linearAdapter)
-//			for (Fragment frag : _linearAdapter.getFragments())
-//				if (null != frag) ft.remove(frag);
-//		ft.commit();
+		//		// Remove fragments from the manager.
+		//		FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+		//		// Remove the fragment for cleanup.
+		//		if (null != _linearAdapter)
+		//			for (Fragment frag : _linearAdapter.getFragments())
+		//				if (null != frag) ft.remove(frag);
+		//		ft.commit();
 
 		logger.info(">< [AppDashboardActivity.onDestroy]");
-	}
-
-	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class FragmentDataContainer {
-		// - F I E L D - S E C T I O N ............................................................................
-		private int _pagerid = R.id.fragmentContainer;
-		protected List<Fragment> _fragments = new ArrayList();
-//		private Iterable<? extends Fragment> fragments;
-
-		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public FragmentDataContainer( final int layoutId ) {
-			this._pagerid = layoutId;
-		}
-
-		// - M E T H O D - S E C T I O N ..........................................................................
-
-		/**
-		 * Return the fragment internal identifier generated by the FragmentPager. This is a composed string from
-		 * some fields that have to be informed to this adapter.
-		 * @param position the page position identifier we are going to use for this Fragment. This has not to match the real
-		 *                 position of the instance on the Fragment internal list, it is only a numeric unique identifier.
-		 * @return internal Fragment Manager fragment identifier string.
-		 */
-		public String getFragmentId( final int position ) {
-			return "android:switcher:" + _pagerid + ":" + position;
-		}
-
-		public int getNextPosition() {
-			return _fragments.size();
-		}
-
-		/**
-		 * Add a new fragment at the end of the list of already managed fragments.
-		 * @param fragNew new fragment to all to the list of pages.
-		 */
-		public void addLinear( final Fragment fragNew ) {
-			if (null != fragNew) {
-				_fragments.add(fragNew);
-			}
-		}
-
-		public List<Fragment> getFragments() {
-			return _fragments;
-		}
 	}
 }
 // - UNUSED CODE ............................................................................................

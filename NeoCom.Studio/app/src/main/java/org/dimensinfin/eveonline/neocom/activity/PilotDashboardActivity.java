@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.core.APublicActionBarActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
@@ -70,7 +71,7 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 									.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
 							// Server status has network access so it has to be executed on a background thread.
 							AndroidGlobalDataManager.submitJob2ui(() -> {
-								neocomActionBarView.setSubtitleSpanned(AppDashboardActivity.serverStatus4Actionbar());
+								neocomActionBarView.setSubtitleSpanned(APublicActionBarActivity.serverStatus4Actionbar());
 							});
 							this.getActionBar().setCustomView(neocomActionBarView.getView());
 						}

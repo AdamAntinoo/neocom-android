@@ -42,9 +42,8 @@ import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class APublicCredentialActivity extends ANeoComPublicMenuActivity implements ICredentialActivity, IPilotActivity {
+public abstract class APublicCredentialActivity extends APublicMenuActivity implements ICredentialActivity, IPilotActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("APublicCredentialActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
@@ -53,64 +52,13 @@ public abstract class APublicCredentialActivity extends ANeoComPublicMenuActivit
 	protected Credential credential = null;
 	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
 	protected PilotV2 pilot = null;
-	protected NeoComActionBar neocomActionBarView = null;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	// - M E T H O D - S E C T I O N ..........................................................................
-	protected void setupActionBar( final Credential credential ) {
-		logger.info(">> [MiningLedgerActivity.setupActionBar]");
-		ActionBar actionbar = getSupportActionBar();
-		if (null != actionbar) {
-			actionbar.show();
-			actionbar.setDisplayHomeAsUpEnabled(true);
-			// Activate the custom ActionBar
-			actionbar.setDisplayShowCustomEnabled(true);
-			actionbar.setDisplayShowTitleEnabled(false);
-//			setSupportActionBar(actionbar);
-
-			// Create a new Action Bar view from the layout.
-			neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)
-					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
-					.setTitleLeft(credential.getAccountName());
-			this.getActionBar().setCustomView(neocomActionBarView.getView());
-			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
-		}
-	}
-
 	protected Credential searchCredential( final int identifier ) {
 		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
 			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;
-	}
-
-	// --- D E L E G A T E D   M E T H O D S - N E O C O M A C T I O N B A R
-	public NeoComActionBar setTitleLeft( String title ) {
-		return neocomActionBarView.setTitleLeft(title);
-	}
-
-	public NeoComActionBar setTitleRight( String title ) {
-		return neocomActionBarView.setTitleRight(title);
-	}
-
-	public NeoComActionBar setSubtitle( String subtitle ) {
-		return neocomActionBarView.setSubtitle(subtitle);
-	}
-
-	public NeoComActionBar setSubtitleSpanned( Spanned subtitleSpanned ) {
-		return neocomActionBarView.setSubtitleSpanned(subtitleSpanned);
-	}
-
-	public NeoComActionBar setActivityIcon( int iconReference ) {
-		return neocomActionBarView.setActivityIcon(iconReference);
-	}
-
-	public NeoComActionBar setIconTop( IURLIconProvider provider ) {
-		return neocomActionBarView.setIconTop(provider);
-	}
-
-	public NeoComActionBar setIconBottom( IURLIconProvider provider ) {
-		return neocomActionBarView.setIconBottom(provider);
 	}
 
 	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
