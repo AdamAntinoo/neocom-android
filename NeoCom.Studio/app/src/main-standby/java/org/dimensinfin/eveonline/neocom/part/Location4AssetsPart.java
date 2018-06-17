@@ -174,7 +174,7 @@ public class Location4AssetsPart extends LocationPart {
 	//		if ( container.isShip() ) {
 	//			newpart = (AssetPart) new ShipPart(container).setRenderMode(this.getRenderMode());
 	//		} else if ( container.isContainer() ) {
-	//			newpart = (AssetPart) new ContainerPart(container).setRenderMode(this.getRenderMode());
+	//			newpart = (AssetPart) new Container4AssetsPart(container).setRenderMode(this.getRenderMode());
 	//		} else {
 	//			newpart = (AssetPart) new AssetPart(container).setRenderMode(this.getRenderMode());
 	//		}

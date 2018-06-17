@@ -21,23 +21,23 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.model.ContainerFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.Location4MiningPart;
+import org.dimensinfin.eveonline.neocom.part.Container4AssetsPart;
+import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.RegionPart;
-
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPartFactory extends PartFactory implements IPartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = Logger.getLogger("AssetPartFactory");
+	//	private static Logger logger = Logger.getLogger("AssetPartFactory");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AssetPartFactory (final String variantSelected) {
+	public AssetPartFactory( final String variantSelected ) {
 		super(variantSelected);
 	}
 
@@ -48,69 +48,74 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 	 * should create the next levels of the hierarchy. So we will create the part transformations here.
 	 */
 	@Override
-	public IPart createPart (final ICollaboration node) {
+	public IPart createPart( final ICollaboration node ) {
 		logger.info("-- [AssetPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
-		if ( this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name() ) {
-			if ( node instanceof Region ) {
+		if (this.getVariant() == ENeoComVariants.ASSETS_BYLOCATION.name()) {
+			if (node instanceof Region) {
 				IPart part = new RegionPart((Region) node).setFactory(this)
-				                                          .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 				return part;
 			}
-//			if ( node instanceof EveLocation ) {
-//				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
-//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
-//			if ( node instanceof SpaceContainer ) {
-//				IPart part = new ContainerPart((SpaceContainer) node).setFactory(this)
-//				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
-//			if ( node instanceof Ship ) {
-//				// There are two renders for Ship. Fitted that are ShipParts and packaged that are AssetParts.
-//				if ( ((Ship) node).isPackaged() ) {
-//					IPart part = new ShipPart((Ship) node).setFactory(this)
-//					                                      .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//					return part;
-//				} else {
-//					IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
-//					                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//					return part;
-//				}
-//			}
-			if ( node instanceof LocationFacetedAssetsContainer) {
-				IPart part = new Location4MiningPart((LocationFacetedAssetsContainer) node).setFactory(this)
+			if (node instanceof LocationFacetedAssetsContainer) {
+				IPart part = new Location4AssetsPart((LocationFacetedAssetsContainer) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
 			}
-			if ( node instanceof NeoComAsset) {
-				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
-				                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			if (node instanceof ContainerFacetedAssetsContainer) {
+				IPart part = new Container4AssetsPart((ContainerFacetedAssetsContainer) node).setFactory(this)
+						.setRenderMode(this.getVariant());
 				return part;
 			}
-//			if ( node instanceof Ship.ShipAssetGroup ) {
-//				IPart part = new AssetGroupPart((Ship.ShipAssetGroup) node).setFactory(this)
-//				                                                           .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
+			if (node instanceof NeoComAsset) {
+				IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+				return part;
+			}
+			//			if ( node instanceof EveLocation ) {
+			//				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
+			//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			//				return part;
+			//			}
+			//			if ( node instanceof SpaceContainer ) {
+			//				IPart part = new Container4AssetsPart((SpaceContainer) node).setFactory(this)
+			//				                                                  .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			//				return part;
+			//			}
+			//			if ( node instanceof Ship ) {
+			//				// There are two renders for Ship. Fitted that are ShipParts and packaged that are AssetParts.
+			//				if ( ((Ship) node).isPackaged() ) {
+			//					IPart part = new ShipPart((Ship) node).setFactory(this)
+			//					                                      .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			//					return part;
+			//				} else {
+			//					IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+			//					                                              .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			//					return part;
+			//				}
+			//			}
+			//			if ( node instanceof Ship.ShipAssetGroup ) {
+			//				IPart part = new AssetGroupPart((Ship.ShipAssetGroup) node).setFactory(this)
+			//				                                                           .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			//				return part;
+			//			}
 		}
-//		if ( this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name() ) {
-//			if ( node instanceof AssetCategory ) {
-//				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
-//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
-//			if ( node instanceof NeoComSimpleAsset ) {
-//				IPart part = new NeoComSimpleAssetPart((NeoComSimpleAsset) node).setFactory(this)
-//				                                                                .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
-//				return part;
-//			}
-//		}
+		//		if ( this.getVariant() == ENeoComVariants.ASSETS_BYCATEGORY.name() ) {
+		//			if ( node instanceof AssetCategory ) {
+		//				IPart part = new AssetCategoryPart((AssetCategory) node).setFactory(this)
+		//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+		//				return part;
+		//			}
+		//			if ( node instanceof NeoComSimpleAsset ) {
+		//				IPart part = new NeoComSimpleAssetPart((NeoComSimpleAsset) node).setFactory(this)
+		//				                                                                .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+		//				return part;
+		//			}
+		//		}
 
-//		if ( node instanceof Separator ) {
-//			IPart part = new SeparatorPart((Separator) node).setFactory(this);
-//			return part;
-//		}
+		//		if ( node instanceof Separator ) {
+		//			IPart part = new SeparatorPart((Separator) node).setFactory(this);
+		//			return part;
+		//		}
 
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createPart(node);

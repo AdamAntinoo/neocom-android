@@ -14,7 +14,7 @@
     <string name="default_isk">234,567,809.52 ISK</string>
     <string name="default_skillpoints">5,872,567</string>
     <string name="default_number">50.32</string>
-    <string name="default_stocknumber">84</string>
+    <string name="default_stocknumber">1,684</string>
     <string name="default_paiddate">2017.01.12 20:30</string>
     <string name="default_apikeynumber">1084582</string>
     <string name="default_multiplier">x2.-</string>
@@ -40,6 +40,8 @@
     <string name="default_actionablearrow">Arrow button to expand/collapse a group item.</string>
     <string name="default_nodeicon">EveOnline icon for the representing item.</string>
     <string name="default_locationitems">25 items</string>
+    <string name="default_groupcategory">Mining Laser/Module</string>
+    <string name="default_assetidentifier">1003457663</string>
 
 
 

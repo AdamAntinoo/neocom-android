@@ -16,3 +16,4 @@ NeoCom.Studio/app/libs/
 NeoCom.Studio/app/src/main/assets/resources/cache/ESINetworkManager.cache.store/0562fd32aeb19b9dbee2a49c0555c3bd.0
 NeoCom.Studio/app/src/main/assets/resources/cache/
 *.store
+*.ods#

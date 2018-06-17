@@ -340,7 +340,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	//						if (left instanceof ShipPart) {
 	//							leftField = 200;
 	//						}
-	//						if (left instanceof ContainerPart) {
+	//						if (left instanceof Container4AssetsPart) {
 	//							leftField = -300;
 	//						}
 	//
@@ -351,7 +351,7 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	//						if (right instanceof ShipPart) {
 	//							rightField = 200;
 	//						}
-	//						if (right instanceof ContainerPart) {
+	//						if (right instanceof Container4AssetsPart) {
 	//							rightField = -300;
 	//						}
 	//

@@ -19,8 +19,6 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ import java.util.concurrent.ExecutionException;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class LocationFacetedAssetsContainer extends EveLocation implements IAssetContainer, IExpandable {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = LoggerFactory.getLogger("LocationFacetedAssetsContainer");
+	//	private static Logger logger = LoggerFactory.getLogger("LocationFacetedAssetsContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected boolean _expanded = false;
@@ -46,6 +44,11 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public LocationFacetedAssetsContainer( final EveLocation loc ) {
 		super();
+		this.copyFrom(loc);
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	public LocationFacetedAssetsContainer copyFrom( final EveLocation loc ) {
 		// Copy the EveLocation fields to this instance fields;
 		this.setConstellation(loc.getConstellation());
 		this.setConstellationId(loc.getConstellationId());
@@ -57,9 +60,9 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 		this.setSystemId(loc.getSystemId());
 		this.setSecurity(loc.getSecurity());
 		this.setTypeId(loc.getTypeId());
+		return this;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("LocationFacetedAssetsContainer [ ");
@@ -70,7 +73,6 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 	}
 
 	// --- I C O L L A B O R A T I O N   I N T E R F A C E
-
 	@Override
 	public List<ICollaboration> collaborate2Model( String variant ) {
 		final List<ICollaboration> collaboration = new ArrayList<>();

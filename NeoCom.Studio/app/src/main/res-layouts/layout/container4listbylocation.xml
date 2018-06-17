@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderyellow">
+
+    <include layout="@layout/nodebase_decoratedicon_rightblock" />
+    <include layout="@layout/merge_assetidentification" />
+
+    <RelativeLayout
+        android:id="@+id/stackValueBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rightPanelBlock"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:visibility="gone">
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/itemPrice"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/value"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ellipsize="marquee"
+            android:gravity="left"
+            android:text="123,456.65 ISK"
+            android:textColor="@color/appwhite"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/marketPriceLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/itemPrice"
+            android:gravity="right"
+            android:text="MARKET PRICE"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/stackValue"
+            style="@style/AppTheme.StockCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="-4px"
+            android:ellipsize="marquee"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/default_isk"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/stackValueLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/stackValue"
+            android:gravity="right"
+            android:text="STACK VALUE"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dataAggregationBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/assetIdentifier"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/nodeIconBlock">
+
+        <TextView
+            android:id="@+id/contentValue"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/functionLabel"
+            android:gravity="left"
+            android:text="@string/default_isk" />
+
+        <TextView
+            android:id="@+id/contentVolume"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:gravity="right"
+            android:text="@string/default_volume" />
+
+        <TextView
+            android:id="@+id/contentsValueLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/contentValue"
+            android:text="CONTENTS MARKET VALUE"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/contentsVolumeLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/contentValue"
+            android:text="CONTENTS VOLUME" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rightPanelBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/nodeClass"
+            style="@style/AppTheme.NodeClass.NeoCom"
+            android:text="CONTAINER" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/count"
+            style="@style/AppTheme.StockCounter"
+            android:layout_alignParentRight="true"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/quantityLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="QUANTITY" />
+    </LinearLayout>
+</RelativeLayout>

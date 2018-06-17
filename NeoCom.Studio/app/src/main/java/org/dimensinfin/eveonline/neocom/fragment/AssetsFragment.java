@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -30,6 +31,7 @@ import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.fragment.core.AActionBarFragment;
+import org.dimensinfin.eveonline.neocom.fragment.core.APublicCredentialFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
@@ -46,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class AssetsFragment extends AActionBarFragment {
+public class AssetsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -90,10 +92,11 @@ public class AssetsFragment extends AActionBarFragment {
 		IDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_BYLOCATION.name()) {
-			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-			DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
-					.addIdentifier(characterid)
+			DataSourceLocator locator = new DataSourceLocator()
+					.addIdentifier(this.getVariant())
+					.addIdentifier(pilotIdentifier)
 					.addIdentifier("ASSETS-MANAGER");
 			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
 			// Adapter.
@@ -172,6 +175,12 @@ public class AssetsFragment extends AActionBarFragment {
 					final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
 					final HashMap<Long, IAssetContainer> containers = new HashMap<>();
 					final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
+
+					// Add the collector Location for orphaned assets.
+					final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
+							new EveLocation().setSystem("UNKWNOWN DEEP SPACE")
+					);
+					this.addModelContents(collectorLocation);
 
 					// Get the asset list for the database.
 					List<NeoComAsset> assetList = this.assetsManager.getFullAssetList();
@@ -266,7 +275,7 @@ public class AssetsFragment extends AActionBarFragment {
 						if (null != hit) {
 							// Connect to the parent.
 							hit.addAsset(asset);
-						}
+						} else collectorLocation.addAsset(asset);
 					}
 				} catch (SQLException sqle) {
 					sqle.printStackTrace();

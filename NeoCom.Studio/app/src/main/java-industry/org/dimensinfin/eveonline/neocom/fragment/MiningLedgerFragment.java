@@ -35,6 +35,7 @@ import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
+import org.dimensinfin.eveonline.neocom.fragment.core.APublicCredentialFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
@@ -91,10 +92,11 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 		logger.info(">< [MiningLedgerFragment.registerDataSource]");
 		try {
 			if (this.getAppContext() instanceof ICredentialActivity) {
-				final int pilotIdentifier = ((ICredentialActivity) this.getAppContext()).getCredential().getAccountId();
-				final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINING-LEDGER")
+				int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+				final DataSourceLocator identifier = new DataSourceLocator()
 						.addIdentifier(getVariant())
-						.addIdentifier(pilotIdentifier);
+						.addIdentifier(pilotIdentifier)
+						.addIdentifier("MINING-LEDGER");
 				return new MiningLedgerDataSource(identifier
 						, getVariant()
 						, createFactory()
