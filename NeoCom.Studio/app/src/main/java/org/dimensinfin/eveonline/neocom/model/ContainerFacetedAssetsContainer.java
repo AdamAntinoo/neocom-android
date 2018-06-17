@@ -15,6 +15,7 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
@@ -91,6 +92,16 @@ public class ContainerFacetedAssetsContainer extends NeoComAsset implements IAss
 		buffer.append("]");
 		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	// --- I C O L L A B O R A T I O N   I N T E R F A C E
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variant ) {
+		final List<ICollaboration> collaboration = new ArrayList<>();
+		for (ICollaboration node : this.contents) {
+			collaboration.add(node);
+		}
+		return collaboration;
 	}
 
 	// --- I A S S E T C O N T A I N E R   I N T E R F A C E

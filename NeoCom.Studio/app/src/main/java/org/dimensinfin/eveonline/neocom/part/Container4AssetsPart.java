@@ -16,25 +16,26 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.view.View;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.ContainerFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.AAssetIdentifierRender;
 
 import java.util.Collections;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class Container4AssetsPart extends AssetPart {
+public class Container4AssetsPart extends AssetPart implements View.OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -2462731579059844711L;
 
@@ -43,6 +44,7 @@ public class Container4AssetsPart extends AssetPart {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public Container4AssetsPart( final ContainerFacetedAssetsContainer node ) {
 		super(node);
+//		this.set
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -62,32 +64,36 @@ public class Container4AssetsPart extends AssetPart {
 		return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getTotalVolume()) + " m3";
 	}
 
-	//	public long getModelId() {
-//		return getCastedModel().getAssetId();
-//	}
-//
-//	/**
-//	 * Container may be user named so check if the user label is defined and then return that value.
-//	 */
-//	public String getTAssetName() {
-//		String userName = this.getCastedModel().getUserLabel();
-//		if (null == userName)
-//			return "#" + this.getCastedModel().getAssetId();
-//		else
-//			return userName;
-//	}
-//
-//	public String getTContentCount() {
-//		return NeoComAbstractPart.qtyFormatter.format(this.getCastedModel().getContentSize());
-//	}
-//
-//	public String getTContainerCategory() {
-//		return this.getCastedModel().getItem().getName();
-//	}
-//
-//	public int getTypeID() {
-//		return this.getCastedModel().getTypeId();
-//	}
+	public void onClick( final View view ) {
+		logger.info(">> [AbstractExpandablePart.onClick]");
+		// Signal the action may take some time and launch it on the background.
+		activateClick();
+		// Force the update of the view by eliminating it form the Part cache. This forces a redraw and updates the model.
+		invalidate();
+
+		new Handler().postDelayed(new OneShotTask<Container4AssetsPart>(this) {
+			public void run() {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+						Chrono chrono = new Chrono();
+						getTarget().toggleExpanded();
+						getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
+						completeClick();
+						getTarget().invalidate();
+						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed
+								(Chrono.ChronoOptions.SHOWMILLIS));
+					}
+				});
+			}
+		}, TimeUnit.MICROSECONDS.toMillis(500));
+		logger.info("<< [NeoComExpandablePart.onClick]");
+	}
+
+	private Container4AssetsPart getTarget() {
+		return this;
+	}
 
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. Sort the container
@@ -144,11 +150,11 @@ public class Container4AssetsPart extends AssetPart {
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-			Picasso.get().load(link).into(nodeIcon);
+			//			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+			//			Picasso.get().load(link).into(nodeIcon);
 
 			contentValue.setText(this.getPart().getTContentsValue());
-			contentValue.setText(this.getPart().getTContentsVolume());
+			contentVolume.setText(this.getPart().getTContentsVolume());
 			nodeClass.setText("CONTAINER");
 			count.setText(this.getPart().getTContentsCount());
 		}

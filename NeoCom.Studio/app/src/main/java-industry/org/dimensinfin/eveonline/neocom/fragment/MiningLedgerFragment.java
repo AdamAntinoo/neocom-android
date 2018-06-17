@@ -72,12 +72,18 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getSubtitle() {
-		return "Mining Ledger";
+		if(this.getVariant()== NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name())
+			return "TODAY MINING EXTRACTIONS DELTA";
+		if(this.getVariant()== NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name())
+			return "ALL MINING EXTRACTIONS BY DATE";
+		return "-";
 	}
 
 	@Override
 	public String getTitle() {
-		return "Pilot";
+		final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
+		if (null != credential) return credential.getAccountName();
+		else return "-";
 	}
 
 	@Override

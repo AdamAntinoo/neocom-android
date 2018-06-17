@@ -30,8 +30,6 @@ import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
-import org.dimensinfin.eveonline.neocom.fragment.core.AActionBarFragment;
-import org.dimensinfin.eveonline.neocom.fragment.core.APublicCredentialFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
@@ -115,9 +113,10 @@ public class AssetsFragment extends AbstractPagerFragment {
 			// On this test we are not going to use Generators but directly the DataSource to ease the connection to the
 			// Adapter.
 			ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
+					.setAssetsManager(((IAssetsManagerOwner) this.getAppContext()).accessAssetsManager())
 					.setFilter(filter)
-					.setVariant(this.getVariant());
-			//			return ds;
+					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
+					.setCacheable(false);
 		}
 		AssetsFragment.logger.info("<< [AssetsFragment.registerDataSource]");
 		return ds;
@@ -193,31 +192,41 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 					// --- L O O P   S T A R T
 					for (NeoComAsset asset : assetList) {
+						// Create a placeholder where to store the asset being processed.
+						NeoComAsset processingAsset = asset;
 						// Filter the assets by name.
 						if (filtering) {
-							final String name = asset.getName();
+							final String name = processingAsset.getName();
 							final boolean check = name.toLowerCase().contains(filter.toLowerCase());
 							if (!check) continue;
 						}
 						// Check the asset location. If of type UNKNOWN then it should be processed later.
-						final EveLocation loc = asset.getLocation();
+						final EveLocation loc = processingAsset.getLocation();
 						if (loc.getTypeId() == ELocationType.UNKNOWN) {
-							unprocessedAssets.put(asset.getAssetId(), asset);
+							unprocessedAssets.put(processingAsset.getAssetId(), processingAsset);
 							// If this is a container we have to add it to the container list.
-							if (asset.isContainer())
-								containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
-							if (asset.isShip())
-								containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
+							if (processingAsset.isContainer()) {
+								processingAsset = new ContainerFacetedAssetsContainer(asset);
+								containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+							}
+							if (processingAsset.isShip()) {
+								processingAsset = new ContainerFacetedAssetsContainer(asset);
+								containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+							}
 							continue;
 						}
 						// If the assets has a parent then also process it later when we have all the containers in place.
-						if (asset.getParentContainerId() > 0) {
-							unprocessedAssets.put(asset.getAssetId(), asset);
+						if (processingAsset.getParentContainerId() > 0) {
+							unprocessedAssets.put(processingAsset.getAssetId(), processingAsset);
 							// If this is a container we have to add it to the container list.
-							if (asset.isContainer())
-								containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
-							if (asset.isShip())
-								containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
+							if (processingAsset.isContainer()) {
+								processingAsset = new ContainerFacetedAssetsContainer(asset);
+								containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+							}
+							if (processingAsset.isShip()) {
+								processingAsset = new ContainerFacetedAssetsContainer(asset);
+								containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+							}
 							continue;
 						}
 
@@ -254,15 +263,19 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 						//--- C O N T A I N E R
 						// If this is a container we have to add it to the container list.
-						if (asset.isContainer())
-							containers.put(asset.getAssetId(), new ContainerFacetedAssetsContainer(asset));
-						if (asset.isShip())
-							containers.put(asset.getAssetId(), new ShipFacetedAssetsContainer(asset));
+						if (processingAsset.isContainer()) {
+							processingAsset = new ContainerFacetedAssetsContainer(asset);
+							containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+						}
+						if (processingAsset.isShip()) {
+							processingAsset = new ShipFacetedAssetsContainer(asset);
+							containers.put(processingAsset.getAssetId(), (IAssetContainer) processingAsset);
+						}
 
 						//--- A S S E T
 						// The Region and the Location were already registered. Add the asset to the Location and check if this
 						// affects the UI.
-						locationHit.addAsset(asset);
+						locationHit.addAsset(processingAsset);
 						if (locationHit.isExpanded())
 							firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 					}

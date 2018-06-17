@@ -20,19 +20,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.Container4AssetsPart;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -41,13 +32,13 @@ import org.slf4j.LoggerFactory;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AAssetIdentifierRender extends ANodeBase4ExpandRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = LoggerFactory.getLogger("AAssetIdentifierRender");
+	//	private static Logger logger = LoggerFactory.getLogger("AAssetIdentifierRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
-protected TextView assetName =null;
-	protected TextView typeId=null;
-	protected TextView assetCategory=null;
-	protected TextView assetIdentifier=null;
+	protected TextView assetName = null;
+	protected TextView typeId = null;
+	protected TextView assetCategory = null;
+	protected TextView assetIdentifier = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AAssetIdentifierRender( final AssetPart target, final Activity context ) {
@@ -59,6 +50,7 @@ protected TextView assetName =null;
 	public AssetPart getPart() {
 		return (AssetPart) super.getPart();
 	}
+
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
@@ -67,6 +59,7 @@ protected TextView assetName =null;
 		assetCategory = (TextView) _convertView.findViewById(R.id.assetCategory);
 		assetIdentifier = (TextView) _convertView.findViewById(R.id.assetIdentifier);
 	}
+
 	@Override
 	public void updateContent() {
 		super.updateContent();
@@ -76,7 +69,7 @@ protected TextView assetName =null;
 		this.assetName.setText(this.getPart().getTAssetName());
 		this.typeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
 		this.assetCategory.setText(this.getPart().getTItemCategory());
-		this.assetIdentifier.setText("[" +this.getPart().getCastedModel().getAssetId()+ "]");
+		this.assetIdentifier.setText("[" + this.getPart().getCastedModel().getAssetId() + "]");
 	}
 }
 // - UNUSED CODE ............................................................................................

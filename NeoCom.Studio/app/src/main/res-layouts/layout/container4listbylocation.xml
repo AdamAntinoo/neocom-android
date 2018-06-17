@@ -69,9 +69,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/assetIdentifier"
         android:layout_marginRight="@dimen/standardmargin"
+        android:layout_toLeftOf="@id/rightBlock"
         android:layout_toRightOf="@+id/nodeIconBlock">
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/contentValue"
             style="@style/AppTheme.TextView"
             android:layout_width="wrap_content"
@@ -80,7 +81,7 @@
             android:gravity="left"
             android:text="@string/default_isk" />
 
-        <TextView
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/contentVolume"
             style="@style/AppTheme.TextView"
             android:layout_width="wrap_content"
