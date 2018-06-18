@@ -38,7 +38,6 @@ import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AppDashboardActivity extends ALinearActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("AppDashboardActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -51,7 +50,7 @@ public class AppDashboardActivity extends ALinearActivity {
 			_linearAdapter.addLinear(newFrag);
 			// Now add the configured fragment to the activity container layout.
 			// Begin the transaction
-			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: " + newFrag.getClass().getSimpleName());
+			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: {}", newFrag.getClass().getSimpleName());
 			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
 			// Add the fragment to the container with the new fragment.
 			ft.add(R.id.fragmentContainer, newFrag);
@@ -68,7 +67,7 @@ public class AppDashboardActivity extends ALinearActivity {
 		newFrag.setAppContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(extras);
-		logger.info("<< [AppDashboardActivity.addLinear]"); //$NON-NLS-1$
+		logger.info("<< [AppDashboardActivity.addLinear]");
 	}
 
 	// --- A C T I V I T Y   L I F E C Y C L E
@@ -105,6 +104,8 @@ public class AppDashboardActivity extends ALinearActivity {
 			});
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
 		}
+		// Cleanup previous fragments from the view container if any.
+		_fragmentContainer.removeAllViews();
 
 		// Create and add the fragment to the layout container.
 		this.addLinear(new AppDashboardFragment());

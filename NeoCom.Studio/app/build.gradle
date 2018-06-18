@@ -41,7 +41,13 @@ android {
             resValue "string", "appdatabasefilename", "neocom.db"
         }
     }
-//    signingConfigs {
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${android.defaultConfig.project.archivesBaseName}-${android.defaultConfig.versionName}.apk"
+        }
+    }
+
+    //    signingConfigs {
 //        release {
 //            storeFile file("my-release-key.jks")
 //            storePassword "password"
