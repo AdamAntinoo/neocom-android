@@ -46,8 +46,6 @@ public class SkillsManagerActivity extends APublicCredentialActivity {
 		super.onCreate(savedInstanceState);
 		// Initialization performed on superclass. We just can be centered on the creation of the fragments.
 		try {
-			// Initialize this Activity assets manager to get access to all the data.
-//			this.assetsManager = new AssetsManager(this.credential);
 			this.addPage(new SkillsFragment().setVariant(NeoComApplication.EVariants.SKILLS_QUEUE.name()));
 			this.addPage(new SkillsFragment().setVariant(NeoComApplication.EVariants.SKILLS_TRAINED.name()));
 		} catch (RuntimeException rtex) {

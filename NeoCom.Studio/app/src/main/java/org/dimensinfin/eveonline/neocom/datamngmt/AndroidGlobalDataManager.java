@@ -56,6 +56,11 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 		application = app;
 	}
 
+	// --- N E T W O R K   S T A T U S
+	public static boolean getNetworkStatus(){
+		return checkNetworkAccess();
+	}
+
 	// --- G L O B A L   A N D R O I D   D A T A   A C C E S S
 	// TODO - Call the android api to solve this check.
 	public static boolean sdcardAvailable() {

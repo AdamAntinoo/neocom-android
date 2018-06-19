@@ -19,24 +19,36 @@ import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
-import org.dimensinfin.eveonline.neocom.enums.ENeoComVariants;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOkSkills;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.model.Skill;
+import org.dimensinfin.eveonline.neocom.model.NameFacetedNodeContainer;
+import org.dimensinfin.eveonline.neocom.model.SkillGroupContainer;
+import org.dimensinfin.eveonline.neocom.model.SkillInTraining;
+import org.dimensinfin.eveonline.neocom.model.SkillTrained;
+import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
+import org.dimensinfin.eveonline.neocom.part.SkillGroupContainerPart;
 import org.dimensinfin.eveonline.neocom.part.SkillPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.part.SkillTrainedPart;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,11 +58,11 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SkillsFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("SkillsFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- O V E R I D E D   A B S T R A C T P A G E R F R A G M E N T
 	@Override
 	public IPartFactory createFactory() {
 		return new SkillsPartFactory(this.getVariant());
@@ -59,18 +71,18 @@ public class SkillsFragment extends AbstractPagerFragment {
 	@Override
 	public String getSubtitle() {
 		String subtitle = "";
-		if (this.getVariant() == NeoComApplication.EVariants.ASSETS_BYLOCATION.name()) {
-			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_AssetsByLocation);
+		if (this.getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name()) {
+			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsQueue);
 		}
 		if (this.getVariant() == NeoComApplication.EVariants.ASSETS_BYCATEGORY.name()) {
-			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_AssetsByCategory);
+			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsTrained);
 		}
 		return subtitle;
 	}
 
 	@Override
 	public String getTitle() {
-		return "";
+		return ((ICredentialActivity) this.getAppContext()).getCredential().getAccountName();
 	}
 
 	@Override
@@ -81,20 +93,32 @@ public class SkillsFragment extends AbstractPagerFragment {
 	@Override
 	protected IDataSource registerDataSource() {
 		logger.info(">> [SkillsFragment.registerDataSource]");
+		IDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if (getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name()) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
-			DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
+			DataSourceLocator locator = new DataSourceLocator()
+					.addIdentifier(this.getVariant())
 					.addIdentifier(characterid)
-					.addIdentifier("ASSETS-MANAGER");
-			return new SkillsOnQueueDataSource(locator, getVariant(), getFactory(), getExtras())
+					.addIdentifier("SKILLS-MANAGER");
+			ds = new SkillsOnQueueDataSource(locator, getVariant(), getFactory(), getExtras())
+					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
+					.setCacheable(true);
+		}
+		if (getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name()) {
+			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
+			DataSourceLocator locator = new DataSourceLocator()
+					.addIdentifier(this.getVariant())
+					.addIdentifier(characterid)
+					.addIdentifier("SKILLS-MANAGER");
+			ds = new SkillsTrainedDataSource(locator, getVariant(), getFactory(), getExtras())
 					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
 					.setCacheable(true);
 		}
 		logger.info("<< [SkillsFragment.registerDataSource]");
-		return new RefiningDetailFragment.EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY")
-				, getVariant(), getFactory(), getExtras());
+		return ds;
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
@@ -114,9 +138,19 @@ public class SkillsFragment extends AbstractPagerFragment {
 		@Override
 		public IPart createPart( final ICollaboration node ) {
 			logger.info("-- [SkillsPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
-			if (node instanceof Skill) {
-				IPart part = new SkillPart((Skill) node).setFactory(this)
-						.setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
+			if (node instanceof SkillInTraining) {
+				IPart part = new SkillPart((SkillInTraining) node).setFactory(this)
+						.setRenderMode(this.getVariant());
+				return part;
+			}
+			if (node instanceof SkillTrained) {
+				IPart part = new SkillTrainedPart((SkillTrained) node).setFactory(this)
+						.setRenderMode(this.getVariant());
+				return part;
+			}
+			if (node instanceof SkillGroupContainer) {
+				IPart part = new SkillGroupContainerPart((SkillGroupContainer) node).setFactory(this)
+						.setRenderMode(this.getVariant());
 				return part;
 			}
 			// If no part is trapped then call the parent chain until one is found.
@@ -140,12 +174,104 @@ public class SkillsFragment extends AbstractPagerFragment {
 					throw new NeoComRuntimeException("[SkillsOnQueueDataSource.collaborate2Model]> Required Credential not available.");
 
 				// Get the skill queue and insert it into the model container.
-				List<Skill> skillQueue = AndroidGlobalDataManager.downloadSkillQueue4Credential(credential);
-				for (Skill skill : skillQueue) {
+				List<SkillInTraining> skillQueue = AndroidGlobalDataManager.downloadSkillQueue4Credential(credential);
+				for (SkillInTraining skill : skillQueue) {
 					this.addModelContents(skill);
 				}
 			}
 			logger.info("<< [SkillsOnQueueDataSource.collaborate2Model]");
+		}
+	}
+
+	// - CLASS IMPLEMENTATION ...................................................................................
+	public static class SkillsTrainedDataSource extends ACredentialEnabledDS {
+		public SkillsTrainedDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
+			super(locator, variant, factory, extras);
+		}
+
+		@Override
+		public void collaborate2Model() {
+			logger.info(">> [SkillsTrainedDataSource.collaborate2Model]");
+			// Check if we should use the cached version.
+			if (!isCached()) {
+				// Check that required parameters are not null.
+				if (null == this.credential)
+					throw new NeoComRuntimeException("[SkillsTrainedDataSource.collaborate2Model]> Required Credential not available.");
+
+				final HashMap<Integer, SkillGroupContainer> groups = new HashMap<>();
+				// Get the skills trained and group them on skill groups before rendering.
+				final GetCharactersCharacterIdSkillsOk pilotSkillsData = AndroidGlobalDataManager.downloadSkillsTrained4Credential(credential);
+				for (GetCharactersCharacterIdSkillsOkSkills skillOk : pilotSkillsData.getSkills()) {
+					final SkillTrained newskill = AndroidGlobalDataManager.modelMapper.map(skillOk, SkillTrained.class);
+					int groupId = newskill.getGroupId();
+					SkillGroupContainer hit = groups.get(groupId);
+					if (null == hit) {
+						// New group.
+						hit = new SkillGroupContainer(newskill.getGroupName());
+						groups.put(groupId, hit);
+						this.addModelContents(hit);
+					}
+					hit.addSkill(newskill);
+				}
+			}
+			logger.info("<< [SkillsTrainedDataSource.collaborate2Model]");
+		}
+
+		@Override
+		public IRootPart createRootPart() {
+			return new NameOrderedRootPart(this.getRootModel(), getFactory()).setAscending(true);
+		}
+	}
+
+	public static class NameOrderedRootPart extends RootPart {
+		private Comparator<IPart> nodeNameComparator =null;
+
+		private boolean ascending = true;
+
+		public NameOrderedRootPart( final RootNode node, final IPartFactory factory ) {
+			super(node, factory);
+			// Set the default comparator to ascending.
+			nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+				String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
+				String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
+
+				//ascending order
+				return partName1.compareTo(partName2);
+			};
+		}
+
+		public boolean isAscending() {
+			return ascending;
+		}
+
+		public NameOrderedRootPart setAscending( final boolean ascending ) {
+			this.ascending = ascending;
+			if(this.ascending){
+				nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+					String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
+					String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
+
+					//ascending order
+					return partName1.compareTo(partName2);
+				};
+			}
+			else{
+				nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+					String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
+					String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
+
+					//descending order
+					return partName1.compareTo(partName2);
+				};
+			}
+			return this;
+		}
+
+		@Override
+		public List<IPart> runPolicies( List<IPart> targets ) {
+			// Sort contents alphabetically by the asset name.
+			Collections.sort(targets, nodeNameComparator);
+			return super.runPolicies(targets);
 		}
 	}
 }

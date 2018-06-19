@@ -32,7 +32,7 @@
         <item name="android:layout_height">@dimen/nodeiconsize</item>
         <item name="android:contentDescription">@string/default_content_description</item>
         <item name="android:src">@drawable/defaulticonplaceholder</item>
-         <item name="android:layout_marginRight">@dimen/standardmargin</item>
+        <item name="android:layout_marginRight">@dimen/standardmargin</item>
         <item name="android:layout_marginLeft">@dimen/standardmargin</item>
         <item name="android:layout_marginBottom">@dimen/standardmargin</item>
         <item name="android:layout_marginTop">@dimen/standardmargin</item>
@@ -55,18 +55,25 @@
     </style>
 
     <!--V I S U A L   R E I N F O R C E M E N T   T E X T V I E W-->
-    <style name="AppTheme.NeoComText.Click" parent="AppTheme.TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/appgreen</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-    <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText" parent="AppTheme.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/appwhite</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="AppTheme.NeoComText.Click" parent="AppTheme.TextView">
+        <item name="android:textColor">@color/appgreen</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.Hover" parent="AppTheme.TextView">
+        <item name="android:textColor">@color/appbluepurple</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.TextView">
+        <item name="android:textColor">@color/appwhite</item>
+    </style>
+
     <style name="AppTheme.NeoComText.Category" parent="AppTheme.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -76,6 +83,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:text">@string/default_groupcategory</item>
     </style>
+
     <style name="AppTheme.NeoComText.Identifier" parent="AppTheme.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -85,6 +93,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:text">@string/default_assetidentifier</item>
     </style>
+
     <style name="AppTheme.NodeClass.NeoCom">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -92,6 +101,7 @@
         <item name="android:gravity">right</item>
         <item name="android:textSize">9sp</item>
     </style>
+
     <style name="AppTheme.StockCounter" parent="AppTheme.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -102,7 +112,24 @@
         <item name="android:text">@string/default_stocknumber</item>
     </style>
 
-
+    <!--S K I L L   L E V E L   M A R K E R S-->
+    <style name="AppTheme.SkillBlock">
+        <item name="android:layout_width">@dimen/skillblock_width</item>
+        <item name="android:layout_height">@dimen/skillblock_height</item>
+        <item name="android:layout_marginBottom">@dimen/skillblock_verticalmargin</item>
+        <item name="android:layout_marginLeft">@dimen/skillblock_lateralmargin</item>
+        <item name="android:layout_marginRight">@dimen/skillblock_lateralmargin</item>
+        <item name="android:layout_marginTop">@dimen/skillblock_verticalmargin</item>
+    </style>
+    <style name="AppTheme.SkillLevel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 
     <!--D E P R E C A T E D-->
@@ -130,28 +157,22 @@
     </style>
 
     <!--<style name="AppTheme.Location.Role">-->
-        <!--<item name="android:background">@drawable/blueroundedbox</item>-->
-        <!--<item name="android:ellipsize">marquee</item>-->
-        <!--<item name="android:paddingLeft">5dp</item>-->
-        <!--<item name="android:paddingRight">5dp</item>-->
-        <!--<item name="android:singleLine">true</item>-->
-        <!--<item name="android:textSize">10sp</item>-->
+    <!--<item name="android:background">@drawable/blueroundedbox</item>-->
+    <!--<item name="android:ellipsize">marquee</item>-->
+    <!--<item name="android:paddingLeft">5dp</item>-->
+    <!--<item name="android:paddingRight">5dp</item>-->
+    <!--<item name="android:singleLine">true</item>-->
+    <!--<item name="android:textSize">10sp</item>-->
     <!--</style>-->
 
-     <style name="Widget.ProgressBar.Vertical">
+    <style name="Widget.ProgressBar.Vertical">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/vertical_progressbar</item>
-        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
         <item name="android:minWidth">1dip</item>
         <item name="android:maxWidth">12dip</item>
-    </style>
-    <style name="AppTheme.SkillBlock">
-        <item name="android:layout_width">10dp</item>
-        <item name="android:layout_height">7dp</item>
-        <item name="android:layout_marginBottom">1dp</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginRight">1dp</item>
-        <item name="android:layout_marginTop">1dp</item>
     </style>
     <!--D E P R E C A T E D-->
 

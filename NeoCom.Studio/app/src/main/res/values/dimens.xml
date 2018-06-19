@@ -35,4 +35,10 @@
     <dimen name="uilefttextmargin">3dp</dimen>
     <dimen name="uirighttextmargin">3dp</dimen>
 
+    <!-- Android Common UI dimensions. Skills -->
+    <dimen name="skillblock_height">7dp</dimen>
+    <dimen name="skillblock_width">13dp</dimen>
+    <dimen name="skillblock_lateralmargin">1dp</dimen>
+    <dimen name="skillblock_verticalmargin">2dp</dimen>
+
 </resources>

@@ -70,5 +70,5 @@
         android:maxLines="1"
         android:text="Tranquility: 23.056 capsuleers    ONLINE"
         android:textColor="@color/appgreylight"
-        android:textSize="10dp" />
+        android:textSize="11dp" />
 </RelativeLayout>

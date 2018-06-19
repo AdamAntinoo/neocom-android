@@ -15,16 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part.core;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -33,30 +25,18 @@ import org.slf4j.LoggerFactory;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class TypedPart<T extends ICollaboration> extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("TypedPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public TypedPart(final T model) {
+	public TypedPart( final T model ) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	public abstract T getPart();
-//	public abstract T getCastedModel();
 	public T getCastedModel() {
 		return (T) this.getModel();
 	}
-
-	//	@Override
-//	public String toString() {
-//		StringBuffer buffer = new StringBuffer("TypedPart [ ");
-//		buffer.append("name: ").append(0);
-//		buffer.append("]");
-//		buffer.append("->").append(super.toString());
-//		return buffer.toString();
-//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]
