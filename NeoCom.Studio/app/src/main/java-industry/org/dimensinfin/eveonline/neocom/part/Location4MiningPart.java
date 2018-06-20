@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -129,59 +131,62 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 		logger.info("<< [Location4MiningPart.onCreateContextMenu]");
 	}
 
-//	// - CLASS IMPLEMENTATION ...................................................................................
-//	public static class Location4MiningRender extends ANodeBase4ExpandRender {
-//		// - F I E L D - S E C T I O N ............................................................................
-//		private TextView locationRegion = null;
-//		private TextView locationSystem = null;
-//		private TextView locationIdentifier = null;
-//		private TextView locationStation = null;
-//		private TextView contentsCount = null;
-//		private TextView locationItemsValue = null;
-//		private TextView locationItemsVolume = null;
-//
-//
-//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-//		public Location4MiningRender( AbstractAndroidPart newPart, Activity context ) {
-//			super(newPart, context);
-//		}
-//
-//		// - M E T H O D - S E C T I O N ..........................................................................
-//		@Override
-//		public Location4MiningPart getPart() {
-//			return (Location4MiningPart) super.getPart();
-//		}
-//
-//		// --- A B S T R A C T R E N D E R   O V E R R I D E S
-//		@Override
-//		public void initializeViews() {
-//			super.initializeViews();
-//			locationRegion = (TextView) _convertView.findViewById(R.id.locationRegion);
-//			locationSystem = (TextView) _convertView.findViewById(R.id.locationSystem);
-//			locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
-//			locationStation = (TextView) _convertView.findViewById(R.id.locationStation);
-//			contentsCount = (TextView) _convertView.findViewById(R.id.contentsCount);
-//			locationItemsValue = (TextView) _convertView.findViewById(R.id.locationItemsValue);
-//			locationItemsVolume = (TextView) _convertView.findViewById(R.id.locationItemsVolume);
-//		}
-//
-//		@Override
-//		public void updateContent() {
-//			super.updateContent();
-//			locationRegion.setText(this.getPart().getCastedModel().getRegion());
-//			locationSystem.setText(this.getPart().getCastedModel().getSystem());
-//			locationIdentifier.setText("[" + this.getPart().getCastedModel().getID() + "]");
-//			locationStation.setText(this.getPart().getTStationName());
-//			contentsCount.setText(this.getPart().getTContentsCount());
-//			locationItemsValue.setText(this.getPart().getTContentsValue());
-//			locationItemsVolume.setText(this.getPart().getTContentsVolume());
-//		}
-//
-//		@Override
-//		public int accessLayoutReference() {
-//			return R.layout.location4mining;
-//		}
-//	}
+	// - CLASS IMPLEMENTATION ...................................................................................
+	public static class Location4MiningRender extends ANodeBase4ExpandRender {
+		// - F I E L D - S E C T I O N ............................................................................
+		private TextView locationRegion = null;
+		private TextView locationSystem = null;
+		private TextView locationIdentifier = null;
+		private TextView locationStation = null;
+		private TextView contentsCount = null;
+		private TextView locationItemsValue = null;
+		private TextView locationItemsVolume = null;
+
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public Location4MiningRender( AbstractAndroidPart newPart, Activity context ) {
+			super(newPart, context);
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		@Override
+		public Location4MiningPart getPart() {
+			return (Location4MiningPart) super.getPart();
+		}
+
+		// --- A B S T R A C T R E N D E R   O V E R R I D E S
+		@Override
+		public void initializeViews() {
+			super.initializeViews();
+			locationRegion = (TextView) _convertView.findViewById(R.id.locationRegion);
+			locationSystem = (TextView) _convertView.findViewById(R.id.locationSystem);
+			locationIdentifier = (TextView) _convertView.findViewById(R.id.locationIdentifier);
+			locationStation = (TextView) _convertView.findViewById(R.id.locationStation);
+			contentsCount = (TextView) _convertView.findViewById(R.id.contentsCount);
+			locationItemsValue = (TextView) _convertView.findViewById(R.id.locationItemsValue);
+			locationItemsVolume = (TextView) _convertView.findViewById(R.id.locationItemsVolume);
+		}
+
+		@Override
+		public void updateContent() {
+			super.updateContent();
+			final String link = getPart().getCastedModel().getUrlLocationIcon();
+			if( (null != link) && (null != nodeIcon))
+				Picasso.get().load(link).into(nodeIcon);
+			locationRegion.setText(this.getPart().getCastedModel().getRegion());
+			locationSystem.setText(this.getPart().getCastedModel().getSystem());
+			locationIdentifier.setText("[" + this.getPart().getCastedModel().getID() + "]");
+			locationStation.setText(this.getPart().getTStationName());
+			contentsCount.setText(this.getPart().getTContentsCount());
+			locationItemsValue.setText(this.getPart().getTContentsValue());
+			locationItemsVolume.setText(this.getPart().getTContentsVolume());
+		}
+
+		@Override
+		public int accessLayoutReference() {
+			return R.layout.location4mining;
+		}
+	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

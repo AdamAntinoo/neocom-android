@@ -49,16 +49,16 @@ public class AssetsManagerActivity extends APublicCredentialActivity implements 
 	private AssetsManager assetsManager = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public boolean onCreateOptionsMenu( Menu menu ) {
-		final MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.neocom_menu, menu);
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu( Menu menu ) {
+//		final MenuInflater inflater = this.getMenuInflater();
+//		inflater.inflate(R.menu.neocom_menu, menu);
+//
+//		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//		return super.onCreateOptionsMenu(menu);
+//	}
 
 	// --- I A S S E T S M A N A G E R O W N E R   I N T E R F A C E
 	public AssetsManager accessAssetsManager() {
