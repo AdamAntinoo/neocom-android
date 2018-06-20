@@ -65,28 +65,31 @@ public abstract class NeoComAbstractExpandablePart extends AbstractExpandablePar
 	 * @param contentCollector
 	 * @return
 	 */
-	@Deprecated
 	public void collaborate2View( List<IAndroidPart> contentCollector ) {
 		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.isExpanded()) {
 			if (this.isEmpty()) {
 				if (this.isRenderWhenEmpty()) {
-					// The region is surrounded with the Red Separator at the beginning and at the end.
-					contentCollector.add(new SeparatorPart(new Separator().setType(getThemeColor()))
+					// The node is surrounded with a Separator at the beginning and at the end.
+					contentCollector.add(new SeparatorPart(new Separator()
+							.setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 					contentCollector.add(this);
-					// This region is empty of contents. Add the Empty Separator and complete.
-					contentCollector.add(new SeparatorPart(new Separator().setType(Separator.ESeparatorType.EMPTY_SIGNAL))
+
+					contentCollector.add(new SeparatorPart(new Separator()
+							.setType(Separator.ESeparatorType.EMPTY_SIGNAL))
 							.setRenderMode(this.getRenderMode()));
-					contentCollector.add(new SeparatorPart(new Separator().setType(getThemeColor()))
+					contentCollector.add(new SeparatorPart(new Separator()
+							.setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 				}
 			} else {
 				// Generate the list of Parts that should be collaborated to the ListView.
 				// The region is surrounded with the Red Separator at the beginning and at the end.
-				contentCollector.add(
-						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
+				contentCollector.add(new SeparatorPart(new Separator()
+						.setType(getThemeColor()))
+						.setRenderMode(this.getRenderMode()));
 				contentCollector.add(this);
 				// --- This is the section where we get the Contents and then we apply the customized Part policies.
 				List<IPart> childParts = this.runPolicies(this.getChildren());
@@ -95,13 +98,10 @@ public abstract class NeoComAbstractExpandablePart extends AbstractExpandablePar
 					if (part instanceof IAndroidPart)
 						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
 						((IAndroidPart) part).collaborate2View(contentCollector);
-					//					if ( !part.isNewImplemented() ) {
-					//						result.add(part);
-					//					}
-					//				contentCollector.addAll(collaboration);
 				}
-				contentCollector.add(
-						new SeparatorPart(new Separator().setType(getThemeColor())).setRenderMode(this.getRenderMode()));
+				contentCollector.add(new SeparatorPart(new Separator()
+						.setType(getThemeColor()))
+						.setRenderMode(this.getRenderMode()));
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
@@ -110,7 +110,6 @@ public abstract class NeoComAbstractExpandablePart extends AbstractExpandablePar
 				contentCollector.add(this);
 			}
 		}
-		//		return contentCollector;
 	}
 }
 // - UNUSED CODE ............................................................................................

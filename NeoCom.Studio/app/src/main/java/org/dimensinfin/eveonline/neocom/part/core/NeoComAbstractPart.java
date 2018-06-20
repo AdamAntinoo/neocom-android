@@ -18,7 +18,9 @@ package org.dimensinfin.eveonline.neocom.part.core;
 import android.text.Html;
 import android.text.Spanned;
 
+import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	public static DecimalFormat qtyFormatter = new DecimalFormat("###,##0");
 	public static DecimalFormat securityFormatter = new DecimalFormat("0.0");
 	public static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
+	public static DecimalFormat percentageZeroFormat = new DecimalFormat("#0%");
 
 	// --- S T A T I C   M O D E L   D A T A   T R A N S F O R M E R S
 	public static String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
@@ -85,6 +88,7 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private Separator.ESeparatorType _themeColor = Separator.ESeparatorType.LINE_WHITE;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComAbstractPart( ICollaboration model ) {
@@ -92,6 +96,15 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- P A N E L   C O L O R   T H E M E
+	public Separator.ESeparatorType getThemeColor() {
+		return _themeColor;
+	}
+
+	public IAndroidPart setThemeColor( final Separator.ESeparatorType themeColor ) {
+		this._themeColor = themeColor;
+		return this;
+	}
 	@Deprecated
 	protected Spanned colorFormatLocation( final EveLocation location ) {
 		StringBuffer htmlLocation = new StringBuffer();

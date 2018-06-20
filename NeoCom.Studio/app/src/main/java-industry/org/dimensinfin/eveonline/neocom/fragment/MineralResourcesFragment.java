@@ -152,7 +152,7 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 						// Initialize the data structures to be used for classification.
 						final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
 						final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
-								new EveLocation().setSystem("Other Inaccessible Locations")
+								new EveLocation().setSystem("UNKWNOWN DEEP SPACE")
 						);
 						this.addModelContents(collectorLocation);
 						logger.info("-- [MineralResourcesDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"

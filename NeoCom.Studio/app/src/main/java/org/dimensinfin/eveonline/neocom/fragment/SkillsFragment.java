@@ -16,8 +16,11 @@
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -36,20 +39,20 @@ import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOkSkills;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.model.NameFacetedNodeContainer;
 import org.dimensinfin.eveonline.neocom.model.SkillGroupContainer;
 import org.dimensinfin.eveonline.neocom.model.SkillInTraining;
 import org.dimensinfin.eveonline.neocom.model.SkillTrained;
-import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 import org.dimensinfin.eveonline.neocom.part.SkillGroupContainerPart;
-import org.dimensinfin.eveonline.neocom.part.SkillPart;
+import org.dimensinfin.eveonline.neocom.part.SkillInTrainingPart;
 import org.dimensinfin.eveonline.neocom.part.SkillTrainedPart;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -74,7 +77,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 		if (this.getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name()) {
 			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsQueue);
 		}
-		if (this.getVariant() == NeoComApplication.EVariants.ASSETS_BYCATEGORY.name()) {
+		if (this.getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name()) {
 			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsTrained);
 		}
 		return subtitle;
@@ -104,6 +107,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					.addIdentifier("SKILLS-MANAGER");
 			ds = new SkillsOnQueueDataSource(locator, getVariant(), getFactory(), getExtras())
 					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
+					.setRefreshTime(1)
 					.setCacheable(true);
 		}
 		if (getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name()) {
@@ -115,6 +119,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					.addIdentifier("SKILLS-MANAGER");
 			ds = new SkillsTrainedDataSource(locator, getVariant(), getFactory(), getExtras())
 					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
+					.setRefreshTime(1)
 					.setCacheable(true);
 		}
 		logger.info("<< [SkillsFragment.registerDataSource]");
@@ -139,7 +144,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 		public IPart createPart( final ICollaboration node ) {
 			logger.info("-- [SkillsPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
 			if (node instanceof SkillInTraining) {
-				IPart part = new SkillPart((SkillInTraining) node).setFactory(this)
+				IPart part = new SkillInTrainingPart((SkillInTraining) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
 			}
@@ -160,8 +165,15 @@ public class SkillsFragment extends AbstractPagerFragment {
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class SkillsOnQueueDataSource extends ACredentialEnabledDS {
+		protected int refreshTime = 1;
+
 		public SkillsOnQueueDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
+		}
+
+		public SkillsOnQueueDataSource setRefreshTime( final int time ) {
+			this.refreshTime = time;
+			return this;
 		}
 
 		@Override
@@ -179,14 +191,36 @@ public class SkillsFragment extends AbstractPagerFragment {
 					this.addModelContents(skill);
 				}
 			}
+			scheduleRefresh(this.refreshTime);
 			logger.info("<< [SkillsOnQueueDataSource.collaborate2Model]");
+		}
+
+		protected void scheduleRefresh( final int time ) {
+			// Schedule an event in 5 minutes to update this datasource and then the view.
+			final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+			Runnable delayedTask = new Runnable() {
+				@Override
+				public void run() {
+					logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
+					propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA.name()
+							, null, null));
+				}
+			};
+			mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(time));
 		}
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class SkillsTrainedDataSource extends ACredentialEnabledDS {
+		protected int refreshTime = 1;
+
 		public SkillsTrainedDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
+		}
+
+		public SkillsTrainedDataSource setRefreshTime( final int time ) {
+			this.refreshTime = time;
+			return this;
 		}
 
 		@Override
@@ -214,6 +248,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					hit.addSkill(newskill);
 				}
 			}
+			scheduleRefresh(this.refreshTime);
 			logger.info("<< [SkillsTrainedDataSource.collaborate2Model]");
 		}
 
@@ -221,17 +256,31 @@ public class SkillsFragment extends AbstractPagerFragment {
 		public IRootPart createRootPart() {
 			return new NameOrderedRootPart(this.getRootModel(), getFactory()).setAscending(true);
 		}
+
+		protected void scheduleRefresh( final int time ) {
+			// Schedule an event in 5 minutes to update this datasource and then the view.
+			final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+			Runnable delayedTask = new Runnable() {
+				@Override
+				public void run() {
+					logger.info("-- [MiningLedgerDataSource.collaborate2Model]> Firing data source refresh process.");
+					propertyChange(new PropertyChangeEvent(this, SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA.name()
+							, null, null));
+				}
+			};
+			mainThreadHandler.postDelayed(delayedTask, TimeUnit.MINUTES.toMillis(time));
+		}
 	}
 
 	public static class NameOrderedRootPart extends RootPart {
-		private Comparator<IPart> nodeNameComparator =null;
+		private Comparator<IPart> nodeNameComparator = null;
 
 		private boolean ascending = true;
 
 		public NameOrderedRootPart( final RootNode node, final IPartFactory factory ) {
 			super(node, factory);
 			// Set the default comparator to ascending.
-			nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+			nodeNameComparator = ( IPart part1, IPart part2 ) -> {
 				String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
 				String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
 
@@ -246,17 +295,16 @@ public class SkillsFragment extends AbstractPagerFragment {
 
 		public NameOrderedRootPart setAscending( final boolean ascending ) {
 			this.ascending = ascending;
-			if(this.ascending){
-				nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+			if (this.ascending) {
+				nodeNameComparator = ( IPart part1, IPart part2 ) -> {
 					String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
 					String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
 
 					//ascending order
 					return partName1.compareTo(partName2);
 				};
-			}
-			else{
-				nodeNameComparator=		( IPart part1, IPart part2 ) -> {
+			} else {
+				nodeNameComparator = ( IPart part1, IPart part2 ) -> {
 					String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
 					String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();
 

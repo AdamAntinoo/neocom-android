@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelbordergreen">
 
-    <include layout="@layout/nodebase_decoratedicon_small" />
+    <include layout="@layout/nodebase_decoratedsmall" />
 
     <LinearLayout
         android:id="@+id/inTrainingProgressBlock"
@@ -14,11 +14,11 @@
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
         android:layout_toLeftOf="@+id/rightBlock"
         android:background="@drawable/whiteborderbox"
         android:orientation="horizontal"
-        android:padding="1dp">
+        android:padding="1dp"
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/trainedProgress"
@@ -34,18 +34,17 @@
         android:id="@+id/skillName"
         style="@style/AppTheme.NeoComText.Hover"
         android:layout_alignParentTop="true"
-        android:textSize="16sp"
-        android:ellipsize="marquee"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/nodeIconBlock"
+        android:ellipsize="marquee"
         android:text="@string/default_itemname" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
         android:id="@+id/currentLevel"
         style="@style/AppTheme.SkillLevel"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/uirighttextmargin"
         android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/uirighttextmargin"
         android:layout_marginTop="1dp"
         android:layout_toLeftOf="@+id/skillLevelsGroup"
         android:text="Level 3"
@@ -67,11 +66,11 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/standardmargin"
-        android:visibility="visible"
         android:layout_toLeftOf="@+id/rightBlock"
         android:background="@drawable/whiteborderbox"
         android:orientation="horizontal"
-        android:padding="1dp">
+        android:padding="1dp"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/skillLevel1"

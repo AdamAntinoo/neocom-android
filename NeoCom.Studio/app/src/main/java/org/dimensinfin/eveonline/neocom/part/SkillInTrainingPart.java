@@ -22,10 +22,11 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.SkillInTraining;
+import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
-import org.dimensinfin.eveonline.neocom.render.ATypedRender;
 
 import static org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart.percentageZeroFormat;
 
@@ -34,20 +35,20 @@ import static org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart.perc
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SkillPart extends TypedPart<SkillInTraining> {
+public class SkillInTrainingPart extends AColorThemedPart<SkillInTraining> {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("SkillPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SkillPart( final SkillInTraining model ) {
+	public SkillInTrainingPart( final SkillInTraining model ) {
 		super(model);
+		this.setThemeColor(Separator.ESeparatorType.LINE_DARKBLUE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String getTPctDone() {
-		return percentageZeroFormat.format(getCastedModel().getPctDone()) + " done";
+		return percentageZeroFormat.format((100-this.getCastedModel().getPctDone())/100.0) + " done";
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class SkillPart extends TypedPart<SkillInTraining> {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("SkillPart [ ");
+		StringBuffer buffer = new StringBuffer("SkillInTrainingPart [ ");
 		buffer.append(this.getCastedModel().toString());
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
@@ -86,14 +87,14 @@ public class SkillPart extends TypedPart<SkillInTraining> {
 		protected ImageView skillLevel5 = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public SkillRender( final SkillPart target, final Activity context ) {
+		public SkillRender( final SkillInTrainingPart target, final Activity context ) {
 			super(target, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public SkillPart getPart() {
-			return (SkillPart) super.getPart();
+		public SkillInTrainingPart getPart() {
+			return (SkillInTrainingPart) super.getPart();
 		}
 
 		@Override
@@ -117,8 +118,10 @@ public class SkillPart extends TypedPart<SkillInTraining> {
 			currentLevel.setText("Level " + Integer.valueOf(this.getPart().getCastedModel().getFinishedLevel()).toString());
 			trainingCompleted.setText(this.getPart().getTPctDone());
 			trainedProgress.setMax(100);
-			trainedProgress.setProgress(Double.valueOf(this.getPart().getCastedModel().getPctDone()).intValue());
+			trainedProgress.setProgress(Double.valueOf(100.0-this.getPart().getCastedModel().getPctDone()).intValue());
+			trainedProgress.setScaleY(3f);
 
+			// TODO - This part needs to locate the current trained skill to get the start level to mark as completed.
 			int training = getPart().getCastedModel().getFinishedLevel();
 			int current = training - 1;
 			int requested = current;
@@ -132,7 +135,7 @@ public class SkillPart extends TypedPart<SkillInTraining> {
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.skillcompleted4list;
+			return R.layout.skillintraining4list;
 		}
 
 		private int calculateColor4( final int i, final int requested, final int current, final int training ) {

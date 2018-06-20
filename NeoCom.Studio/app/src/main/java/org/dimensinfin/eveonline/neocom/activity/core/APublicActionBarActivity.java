@@ -15,18 +15,16 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.support.annotation.WorkerThread;
 import android.support.v4.view.ViewPager;
-import android.app.ActionBar;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
@@ -34,9 +32,6 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -64,7 +59,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	protected void setupActionBar( final Credential credential ) {
 		logger.info(">> [MiningLedgerActivity.setupActionBar]");
 		ActionBar actionbar = getActionBar();
-		if (null != actionbar) {
+		if ( null != actionbar ) {
 			actionbar.show();
 			actionbar.setDisplayHomeAsUpEnabled(true);
 			// Activate the custom ActionBar
@@ -85,20 +80,20 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	 * AbstractPagerActivity to make it compatible with the Custom Action Bar.
 	 */
 	@Override
-	protected void activateIndicator () {
+	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
 		if ( null != _indicator ) {
 			_indicator.setVisibility(View.VISIBLE);
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged ( final int arg0 ) {
+				public void onPageScrollStateChanged( final int arg0 ) {
 				}
 
-				public void onPageSelected ( final int position ) {
+				public void onPageSelected( final int position ) {
 					if ( null != _actionBar ) {
 						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
@@ -113,13 +108,13 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 		} else {
 			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged ( final int arg0 ) {
+				public void onPageScrollStateChanged( final int arg0 ) {
 				}
 
-				public void onPageSelected ( final int position ) {
+				public void onPageSelected( final int position ) {
 					if ( null != _actionBar ) {
 						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
@@ -131,6 +126,23 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 					}
 				}
 			});
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Update the menu for the first page.
+		updateInitialTitle();
+	}
+	private void updateInitialTitle() {
+		if ( null != neocomActionBarView ) {
+			Fragment firstFragment = _pageAdapter.getInitialPage();
+			// REFACTOR This IF can be removed once this code works.
+			if ( firstFragment instanceof AbstractPagerFragment ) {
+				neocomActionBarView.setTitleLeft(((AbstractPagerFragment) firstFragment).getTitle());
+				neocomActionBarView.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
+			}
 		}
 	}
 

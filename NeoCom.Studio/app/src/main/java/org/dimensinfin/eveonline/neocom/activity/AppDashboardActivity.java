@@ -98,10 +98,6 @@ public class AppDashboardActivity extends ALinearActivity {
 			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
 					.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 					.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
-			// Server status has network access so it has to be executed on a background thread.
-			AndroidGlobalDataManager.submitJob2ui(() -> {
-				neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
-			});
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
 		}
 		// Cleanup previous fragments from the view container if any.
@@ -112,6 +108,16 @@ public class AppDashboardActivity extends ALinearActivity {
 		//			this.addLinear(new EveOnlineNotificationsFragment());
 		this.addLinear(new CredentialListFragment());
 		logger.info("<< [AppDashboardActivity.onCreate]");
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Server status has network access so it has to be executed on a background thread.
+		AndroidGlobalDataManager.submitJob2ui(() -> {
+			neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
+			neocomActionBarView.getView().invalidate();
+		});
 	}
 
 	@Override

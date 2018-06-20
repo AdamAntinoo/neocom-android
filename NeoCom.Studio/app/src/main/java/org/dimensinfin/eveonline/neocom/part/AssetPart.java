@@ -43,23 +43,23 @@ import java.util.concurrent.ExecutionException;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPart extends NeoComAbstractPart {
-	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
-		public int compare( final IPart left, final IPart right ) {
-			String leftField = null;
-			String rightField = null;
-			if (left instanceof INamedPart) {
-				leftField = ((INamedPart) left).getName();
-			}
-			if (right instanceof INamedPart) {
-				rightField = ((INamedPart) right).getName();
-			}
-			if (null == leftField) return 1;
-			if (null == rightField) return -1;
-			if ("" == leftField) return 1;
-			if ("" == rightField) return -1;
-			return leftField.compareTo(rightField);
-		}
-	};
+//	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
+//		public int compare( final IPart left, final IPart right ) {
+//			String leftField = null;
+//			String rightField = null;
+//			if (left instanceof INamedPart) {
+//				leftField = ((INamedPart) left).getName();
+//			}
+//			if (right instanceof INamedPart) {
+//				rightField = ((INamedPart) right).getName();
+//			}
+//			if (null == leftField) return 1;
+//			if (null == rightField) return -1;
+//			if ("" == leftField) return 1;
+//			if ("" == rightField) return -1;
+//			return leftField.compareTo(rightField);
+//		}
+//	};
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8910031270706432316L;

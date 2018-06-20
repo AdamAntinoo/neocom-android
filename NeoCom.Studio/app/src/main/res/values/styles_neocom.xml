@@ -38,6 +38,17 @@
         <item name="android:layout_marginTop">@dimen/standardmargin</item>
         <item name="android:background">#00000000</item>
     </style>
+    <style name="AppTheme.ActionBarComplementaryIcon">
+        <item name="android:layout_width">@dimen/nodeiconsizesmall</item>
+        <item name="android:layout_height">@dimen/nodeiconsizesmall</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
+        <item name="android:layout_marginRight">@dimen/standardmargin</item>
+        <item name="android:layout_marginLeft">@dimen/standardmargin</item>
+        <item name="android:layout_marginBottom">@dimen/standardmargin</item>
+        <item name="android:layout_marginTop">@dimen/standardmargin</item>
+        <item name="android:background">@drawable/whiteborderbox</item>
+    </style>
 
     <!--A V A T A R   D E F I N I T I O N-->
     <style name="AppTheme.PilotAvatar">
@@ -62,19 +73,19 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="AppTheme.NeoComText.Click" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText.Click" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appgreen</item>
     </style>
 
-    <style name="AppTheme.NeoComText.Hover" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText.Hover" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appbluepurple</item>
     </style>
 
-    <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appwhite</item>
     </style>
 
-    <style name="AppTheme.NeoComText.Category" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText.Category" parent="AppTheme.NeoComText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/appwhite</item>
@@ -84,7 +95,7 @@
         <item name="android:text">@string/default_groupcategory</item>
     </style>
 
-    <style name="AppTheme.NeoComText.Identifier" parent="AppTheme.TextView">
+    <style name="AppTheme.NeoComText.Identifier" parent="AppTheme.NeoComText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/appwhite</item>

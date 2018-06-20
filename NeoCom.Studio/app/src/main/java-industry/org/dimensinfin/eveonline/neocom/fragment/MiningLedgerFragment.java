@@ -282,7 +282,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 			logger.info("<< [MiningLedgerDataSource.collaborate2Model]");
 		}
 
-		private void scheduleRefresh( final int time ) {
+		protected void scheduleRefresh( final int time ) {
 			// Schedule an event in 5 minutes to update this datasource and then the view.
 			final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 			Runnable delayedTask = new Runnable() {

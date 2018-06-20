@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/uipanelbordergreen">
+    android:background="@drawable/uipanelborderdarkblue">
 
-    <include layout="@layout/nodebase_decoratedicon" />
+    <include layout="@layout/nodebase_decorated" />
 
     <LinearLayout
         android:id="@+id/inTrainingProgressBlock"
@@ -25,16 +25,24 @@
             android:layout_width="74dp"
             android:layout_height="6dp"
             android:layout_margin="1dp"
-            android:progressDrawable="@color/blueDarkProgress"
+            android:indeterminate="false"
+            android:max="100"
+            android:minHeight="6dp"
+            android:maxHeight="6dp"
+            android:progress="20"
+            android:progressTint="@color/blueDarkProgress"
             android:visibility="visible" />
     </LinearLayout>
 
-    <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/skillName"
         style="@style/AppTheme.NeoComText.Hover"
         android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="@string/default_itemname" />
+        android:ellipsize="marquee"
+        android:text="@string/default_itemname"
+        android:textSize="15sp" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
         android:id="@+id/currentLevel"
@@ -50,6 +58,7 @@
         style="@style/AppTheme.SkillLevel"
         android:layout_below="@+id/currentLevel"
         android:layout_marginRight="@dimen/standardmargin"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/inTrainingProgressBlock"
         android:text="0% done"
         android:textSize="12sp"

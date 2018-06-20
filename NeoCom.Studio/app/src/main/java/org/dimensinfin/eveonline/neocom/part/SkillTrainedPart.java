@@ -22,8 +22,10 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.SkillTrained;
+import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
 
 /**
@@ -31,7 +33,7 @@ import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SkillTrainedPart extends TypedPart<SkillTrained> {
+public class SkillTrainedPart extends AColorThemedPart<SkillTrained> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -39,6 +41,7 @@ public class SkillTrainedPart extends TypedPart<SkillTrained> {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public SkillTrainedPart( final SkillTrained model ) {
 		super(model);
+		this.setThemeColor(Separator.ESeparatorType.LINE_GREEN);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
