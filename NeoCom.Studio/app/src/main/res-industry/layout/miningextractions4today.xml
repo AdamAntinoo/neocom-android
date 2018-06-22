@@ -4,24 +4,22 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderrose">
 
-    <include layout="@layout/nodeicon4asset" />
+    <include layout="@layout/nodebase_decorated" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/resourceName"
-        style="@style/AppTheme.NeoComText.Green"
+        style="@style/AppTheme.NeoComText.LongClick"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="@string/default_itemname"
-        android:textSize="12sp" />
+        android:text="@string/default_itemname" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
         android:id="@+id/resourceTypeId"
-        style="@style/AppTheme.TextView"
+        style="@style/AppTheme.NeoComText.ItemType"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/standardmargin"
-        android:layout_toRightOf="@+id/resourceName"
-        android:text="@string/default_typeid"
-        android:textSize="12sp" />
+        android:layout_toRightOf="@+id/resourceName" />
+
     <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
         android:id="@+id/extractionHour"
         android:layout_width="wrap_content"
@@ -41,16 +39,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/resourceName"
         android:layout_marginRight="@dimen/standardmargin"
-        android:visibility="visible"
         android:layout_toLeftOf="@+id/rightPanelBlock"
         android:layout_toRightOf="@+id/nodeIconBlock"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/secondaryDataBlock"
             android:layout_width="fill_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
                 android:id="@+id/extractionSystemName"
@@ -62,15 +60,13 @@
                 android:text="@string/default_system"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
-
-
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/secondaryLabelBlock"
             android:layout_width="fill_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/systemNameLabel"
@@ -127,23 +123,25 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/indexDataLabelBlock"
             android:layout_width="fill_parent"
-            android:visibility="visible"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/refiningIndexLabel"
                 style="@style/AppTheme.Label.TopLine"
                 android:layout_gravity="center_vertical|left"
-                 android:text="REFINING INDEX" />
+                android:text="REFINING INDEX" />
 
             <TextView
                 android:id="@+id/extractionVolumeLabel"
                 style="@style/AppTheme.Label"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:text="EXTRACTION VOLUME" />
+
             <TextView
                 android:id="@+id/itemMarketPriceLabel"
                 style="@style/AppTheme.Label"
@@ -203,7 +201,7 @@
                 android:ellipsize="marquee"
                 android:gravity="right"
                 android:singleLine="true"
-                android:text="/"
+                android:text=" / "
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
@@ -243,6 +241,7 @@
             android:text="@string/default_isk"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/totalExtractionValueLabel"
             style="@style/AppTheme.Label"

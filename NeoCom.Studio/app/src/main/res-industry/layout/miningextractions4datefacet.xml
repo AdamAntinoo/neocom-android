@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderrose">
 
-    <include layout="@layout/nodeicon4asset" />
+    <include layout="@layout/nodebase_decorated" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/resourceName"

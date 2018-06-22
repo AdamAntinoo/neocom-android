@@ -15,26 +15,24 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.factory;
 
-import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
-import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
-import org.dimensinfin.eveonline.neocom.part.Location4MiningPart;
-import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
+import org.dimensinfin.eveonline.neocom.model.NameFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
+import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.DateFacetedMiningExtractionContainerPart;
+import org.dimensinfin.eveonline.neocom.part.NameFacetedMiningExtractionContainerPart;
+import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.MiningExtractionPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
+import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -58,22 +56,22 @@ public class IndustryPartFactory extends PartFactory {
 		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 		if ( node instanceof MiningExtraction ) {
 			IPart part = new MiningExtractionPart((MiningExtraction) node).setFactory(this)
-			                                                              .setRenderMode(this.getVariant());
+					.setRenderMode(this.getVariant());
 			return part;
 		}
 		if ( node instanceof NeoComAsset ) {
 			IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
-			                                              .setRenderMode(this.getVariant());
+					.setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof NameFacetedMiningExtractionContainer ) {
+			IPart part = new NameFacetedMiningExtractionContainerPart((NameFacetedMiningExtractionContainer) node).setFactory(this)
+					.setRenderMode(this.getVariant());
 			return part;
 		}
 		if ( node instanceof PanelTitle ) {
 			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
-			                                                  .setRenderMode(this.getVariant());
-			return part;
-		}
-		if ( node instanceof DateFacetedMiningExtractionContainer ) {
-			IPart part = new DateFacetedMiningExtractionContainerPart((DateFacetedMiningExtractionContainer) node).setFactory(this)
-			                                                                                                      .setRenderMode(this.getVariant());
+					.setRenderMode(this.getVariant());
 			return part;
 		}
 		if ( node instanceof InformationPanel ) {
@@ -81,13 +79,13 @@ public class IndustryPartFactory extends PartFactory {
 					.setRenderMode(this.getVariant());
 			return part;
 		}
-		if ( node instanceof RefiningDetailReport) {
+		if ( node instanceof RefiningDetailReport ) {
 			IPart part = new RefiningDetailPart((RefiningDetailReport) node).setFactory(this)
 					.setRenderMode(this.getVariant());
 			return part;
 		}
-		if ( node instanceof LocationFacetedAssetsContainer) {
-			IPart part = new Location4MiningPart((LocationFacetedAssetsContainer) node).setFactory(this)
+		if ( node instanceof LocationFacetedAssetsContainer ) {
+			IPart part = new Location4AssetsPart((LocationFacetedAssetsContainer) node).setFactory(this)
 					.setRenderMode(this.getVariant());
 			return part;
 		}

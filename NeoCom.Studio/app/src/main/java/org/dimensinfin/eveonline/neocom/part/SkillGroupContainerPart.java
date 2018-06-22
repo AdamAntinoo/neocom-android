@@ -55,7 +55,7 @@ public class SkillGroupContainerPart extends AColorThemedPart<SkillGroupContaine
 	// --- I N A M E D P A R T   I N T E R F A C E
 	@Override
 	public String getDelegatedName() {
-		return getCastedModel().getTitle();
+		return getCastedModel().getName();
 	}
 
 	// --- I A N D R O I D P A R T   I N T E R F A C E
@@ -98,7 +98,7 @@ public class SkillGroupContainerPart extends AColorThemedPart<SkillGroupContaine
 
 		@Override
 		public void updateContent() {
-			this.name.setText(getPart().getCastedModel().getTitle());
+			this.name.setText(getPart().getCastedModel().getName());
 			this.completedSkills.setText(getPart().getTCompletedSkills());
 			this.totalSkillPoints.setText(getPart().getTTotalSkillPoints());
 		}

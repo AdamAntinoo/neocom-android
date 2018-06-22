@@ -15,19 +15,23 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import android.os.Bundle;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.Property;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +43,7 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class RefiningDetailFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("RefiningDetailFragment");
+	//	private static Logger logger = LoggerFactory.getLogger("RefiningDetailFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private int resourceTypeId = 1230;
@@ -58,24 +62,76 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getSubtitle() {
-		return "-";
+		final EveItem item = new AndroidGlobalDataManager().searchItem4Id(this.resourceTypeId);
+		if (null != item)
+			return item.getName();
+		else return "-";
 	}
 
 	@Override
 	public String getTitle() {
-		return "Refining Detail";
+		return "REFINING ADVICE";
 	}
 
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
+		logger.info(">> [RefiningDetailFragment.registerHeaderSource]");
 		List<ICollaboration> headerContents = new ArrayList<>();
-		headerContents.add(new RefiningDetailReport(resourceTypeId));
+
+		// Create the report. To complete this add the Credential for the owner of the resource, the current location and the
+		// preferred refining location from the location roles for the Pilot.
+		if (this.getAppContext() instanceof ICredentialActivity) {
+			long refiningLocationId = this.getExtras().getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), 34);
+			try {
+				final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
+				final PilotV2 pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+				final List<Property> locationRoles = pilot.getLocationRoles();
+//				final locationId =searchClosestRefiningStation(refiningLocationId, locationRoles);
+				// TODO - Continue with the development
+				final RefiningDetailReport report = new RefiningDetailReport(resourceTypeId)
+						.setCredential(credential);
+//						.setResourceLocation(refiningLocationId)
+//						.setRefiningLocations(locationRoles);
+				headerContents.add(report);
+			} catch (NeoComRegisteredException e) {
+				e.printStackTrace();
+			}
+		}
 		return headerContents;
 	}
 
 	@Override
 	protected IDataSource registerDataSource() {
 		return new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getVariant(), getFactory(), getExtras());
+	}
+
+	/**
+	 * Starting at the location where the pilot has mined the resource, we scan all the locations that have roles as REFINING. We
+	 * calculate the jump distance and we get the closest to the mining location. This should also get the refining result percentage
+	 * we can get from the ore.
+	 *
+	 * If there are no REFINING locations or they are farther that a configured jump distance we return the resource location and
+	 * expect a refining result of the 35%.
+	 * @param resourceLocation
+	 * @return
+	 */
+	protected RefiningLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
+		long refiningTarget = -1;
+		for (Property role : locationRoles) {
+			if (role.getPropertyType() == EPropertyTypes.LOCATIONROLE) {
+				if (role.getStringValue().equalsIgnoreCase("REFINING")) {
+					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getAppContext()).getCredential()
+							, resourceLocation, Double.valueOf(role.getNumericValue()).intValue());
+				}
+			}
+		}
+		return new RefiningLocation(resourceLocation);
+	}
+
+	public static class RefiningLocation extends EveLocation {
+		public RefiningLocation( final int resourceLocation ) {
+
+		}
 	}
 }
 // - UNUSED CODE ............................................................................................

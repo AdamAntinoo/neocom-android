@@ -61,7 +61,7 @@ public class MiningLedgerActivity extends APublicCredentialActivity {
 		super.onCreate(savedInstanceState);
 		try {
 			this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
-			this.addPage(new MineralResourcesFragment().setCredential(credential));
+			this.addPage(new MineralResourcesFragment());
 			this.addPage(new MiningLedgerFragment().setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()));
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerActivity.onCreate"

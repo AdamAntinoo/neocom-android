@@ -24,18 +24,15 @@ import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
-import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class RefiningDetailActivity extends APublicCredentialActivity implements ICredentialActivity {
+public class RefiningDetailActivity extends APublicCredentialActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("RefiningDetailActivity");
+	//	private static Logger logger = LoggerFactory.getLogger("RefiningDetailActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** The type identifier of the resource to refine. */
@@ -44,19 +41,9 @@ public class RefiningDetailActivity extends APublicCredentialActivity implements
 	 * If available the location identifier of the refining place. I should search on the locations database and get the refining rate I
 	 * can achieve from that place.
 	 */
-	private long refiningLocationId = -1;
-//	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
-//	private int pilotIdentifier = 0;
-//	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
-//	private Credential credential = null;
+//	private long refiningLocationId = -1;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- I C R E D E N T I A L A C T I V I T Y   I N T E R F A C E
-//	@Override
-//	public Credential getCredential() {
-//		return this.credential;
-//	}
-
 	// --- A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
@@ -64,34 +51,53 @@ public class RefiningDetailActivity extends APublicCredentialActivity implements
 		super.onCreate(savedInstanceState);
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
-			if (null != extras) {
-				resourceTypeId = extras.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), 1230);
-				if (resourceTypeId > 0) {
-					pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
-					if (pilotIdentifier > 0) {
-						// Validate the pointer Credential that should be made available to this Activity fragments.
-						credential = searchCredential(pilotIdentifier);
-						if (null != credential) {
-							// Configure the new custom Action Bar
-							setupActionBar(credential);
+			if (null == extras)
+				throw new NeoComException("[MiningLedgerActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.");
+			resourceTypeId = extras.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), 1230);
+//			refiningLocationId=extras.getInt(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(),34);
 
-							this.addPage(new RefiningDetailFragment().setResourceTypeId(resourceTypeId)
-									.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
-						} else {
-							AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-									, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
-											+ " not fount on the list of credentials.")
-									, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-							this.addPage(new ApplicationExceptionReportFragment());
-						}
-					}
-				}
-			} else {
-				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-						, new NeoComException("[MiningLedgerActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
-						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-				this.addPage(new ApplicationExceptionReportFragment());
-			}
+			// Validate the reception of mandatory valid parameters.
+			if (resourceTypeId <= 1)
+				throw new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+						+ " not fount on the list of credentials.");
+//			if (pilotIdentifier <= 1)
+//				throw new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+//						+ " not fount on the list of credentials.");
+
+			// TODO - The credential was already validated. So the pilot identifier.
+//			// Validate the pointer Credential that should be made available to this Activity fragments.
+//			credential = searchCredential(pilotIdentifier);
+//			if (null == credential)
+//				throw new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+//						+ " not fount on the list of credentials.");
+
+			// Configure the new custom Action Bar
+			setupActionBar(credential);
+
+			this.addPage(new RefiningDetailFragment()
+					.setResourceTypeId(resourceTypeId)
+					.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+			//			} else {
+			//				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+			//						, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+			//								+ " not fount on the list of credentials.")
+			//						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//				this.addPage(new ApplicationExceptionReportFragment());
+			//			}
+			//				}
+			//			}
+			//			}
+			//			else {
+			//				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+			//						, new NeoComException("[MiningLedgerActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.")
+			//						, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//				this.addPage(new ApplicationExceptionReportFragment());
+			//			}
+		} catch (NeoComException neoe) {
+			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+					, neoe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			neoe.printStackTrace();
+			this.addPage(new ApplicationExceptionReportFragment());
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
@@ -104,16 +110,16 @@ public class RefiningDetailActivity extends APublicCredentialActivity implements
 	@Override
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		resourceTypeId = savedInstanceState.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name());
-		refiningLocationId = savedInstanceState.getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name());
-//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-//		credential = searchCredential(pilotIdentifier);
-//		if (null == credential) {
-//			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
-//					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
-//							+ " not fount on the list of credentials.")
-//					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-//			this.addPage(new ApplicationExceptionReportFragment());
-//		}
+//		refiningLocationId = savedInstanceState.getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name());
+		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		//		credential = searchCredential(pilotIdentifier);
+		//		if (null == credential) {
+		//			AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
+		//					, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
+		//							+ " not fount on the list of credentials.")
+		//					, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+		//			this.addPage(new ApplicationExceptionReportFragment());
+		//		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -126,17 +132,17 @@ public class RefiningDetailActivity extends APublicCredentialActivity implements
 	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-//		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
+		//		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 		outState.putInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
-		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
+//		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
 	}
 
-//	protected Credential searchCredential( final int identifier ) {
-//		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
-//			if (cred.getAccountId() == identifier) return cred;
-//		}
-//		return null;
-//	}
+	//	protected Credential searchCredential( final int identifier ) {
+	//		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+	//			if (cred.getAccountId() == identifier) return cred;
+	//		}
+	//		return null;
+	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

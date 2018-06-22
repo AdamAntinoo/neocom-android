@@ -57,7 +57,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void setupActionBar( final Credential credential ) {
-		logger.info(">> [MiningLedgerActivity.setupActionBar]");
+		logger.info(">> [APublicActionBarActivity.setupActionBar]");
 		ActionBar actionbar = getActionBar();
 		if ( null != actionbar ) {
 			actionbar.show();
@@ -71,7 +71,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
 					.setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
-			logger.info("<<>>>> [MiningLedgerActivity.setupActionBar]");
+			logger.info("<< [APublicActionBarActivity.setupActionBar]");
 		}
 	}
 

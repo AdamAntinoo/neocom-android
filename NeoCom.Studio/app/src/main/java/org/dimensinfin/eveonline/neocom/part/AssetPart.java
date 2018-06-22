@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -243,12 +244,12 @@ public class AssetPart extends NeoComAbstractPart {
 }
 
 // - CLASS IMPLEMENTATION ...................................................................................
-final class AssetRender extends NeoComRender {
+final class AssetRender extends ANodeBase4ExpandRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger			logger					= Logger.getLogger("AssetRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private ImageView targetIcon = null;
+//	private ImageView targetIcon = null;
 
 	protected TextView assetName = null;
 	protected TextView typeId = null;
@@ -272,7 +273,7 @@ final class AssetRender extends NeoComRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+//		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 		this.assetName = (TextView) this._convertView.findViewById(R.id.assetName);
 		this.typeId = (TextView) this._convertView.findViewById(R.id.typeId);
@@ -293,8 +294,8 @@ final class AssetRender extends NeoComRender {
 		this.itemPrice.setText(getPart().getTItemPrice());
 				this.stackValue.setText(getPart().getTStackValue());
 				this.quantity.setText(getPart().getTQuantity());
-		String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-		Picasso.get().load(link).into(targetIcon);
+//		String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+//		Picasso.get().load(link).into(targetIcon);
 
 		// If asset inside a container or ship then set a white margin at the left.
 //		if (getPart().getCastedModel().hasParent()) {

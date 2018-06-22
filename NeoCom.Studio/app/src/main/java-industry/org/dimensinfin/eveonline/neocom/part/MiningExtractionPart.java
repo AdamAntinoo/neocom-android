@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -140,7 +142,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		final Object resourcePart = view.getTag();
 		if (resourcePart instanceof MiningExtractionPart) {
 			// With the new implementation get just the identifier for the Credential.
-			final int identifier = ((MiningExtractionPart) resourcePart).getCastedModel().getTypeId();
+			final int resourceTypeId = ((MiningExtractionPart) resourcePart).getCastedModel().getTypeId();
 			final Intent intent = new Intent(this.getActivity(), RefiningDetailActivity.class);
 
 			// Go to the Activity and get back the pilot identifier.
@@ -148,7 +150,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 				int pilotIdentifier = ((ICredentialActivity) this.getActivity()).getCredential().getAccountId();
 				intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 			}
-			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), identifier);
+			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
 			intent.putExtra(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name()
 					, ((MiningExtractionPart) resourcePart).getCastedModel().getSolarSystemId());
 			getActivity().startActivity(intent);
@@ -179,7 +181,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		private TextView separatorLabel = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionRender( final AbstractPart newPart, final Activity context ) {
+		public MiningExtractionRender( final AbstractAndroidPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -223,9 +225,9 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class MiningExtractionPackedRender extends AbstractRender {
+	public static class MiningExtractionPackedRender extends ANodeBase4ExpandRender {
 		// - F I E L D - S E C T I O N ............................................................................
-		private ImageView targetIcon = null;
+//		private ImageView targetIcon = null;
 
 		private TextView resourceName = null;
 		private TextView resourceTypeId = null;
@@ -234,7 +236,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		private TextView volume = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionPackedRender( final AbstractPart newPart, final Activity context ) {
+		public MiningExtractionPackedRender( final AbstractAndroidPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -246,7 +248,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 
 		@Override
 		public void initializeViews() {
-			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+//			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
 			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
@@ -257,8 +259,8 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 
 		@Override
 		public void updateContent() {
-			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-			Picasso.get().load(link).into(targetIcon);
+//			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+//			Picasso.get().load(link).into(targetIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
 			quantity.setText(this.getPart().getTQuantity());

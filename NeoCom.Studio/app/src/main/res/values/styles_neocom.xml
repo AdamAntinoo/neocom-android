@@ -38,6 +38,7 @@
         <item name="android:layout_marginTop">@dimen/standardmargin</item>
         <item name="android:background">#00000000</item>
     </style>
+
     <style name="AppTheme.ActionBarComplementaryIcon">
         <item name="android:layout_width">@dimen/nodeiconsizesmall</item>
         <item name="android:layout_height">@dimen/nodeiconsizesmall</item>
@@ -77,12 +78,17 @@
         <item name="android:textColor">@color/appgreen</item>
     </style>
 
+    <style name="AppTheme.NeoComText.LongClick" parent="AppTheme.NeoComText">
+        <item name="android:textColor">@color/apporange</item>
+    </style>
+
     <style name="AppTheme.NeoComText.Hover" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appbluepurple</item>
     </style>
 
     <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appwhite</item>
+        <item name="android:text">@string/default_typeid</item>
     </style>
 
     <style name="AppTheme.NeoComText.Category" parent="AppTheme.NeoComText">
@@ -132,6 +138,7 @@
         <item name="android:layout_marginRight">@dimen/skillblock_lateralmargin</item>
         <item name="android:layout_marginTop">@dimen/skillblock_verticalmargin</item>
     </style>
+
     <style name="AppTheme.SkillLevel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

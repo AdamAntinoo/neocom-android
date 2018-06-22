@@ -30,12 +30,11 @@ import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.factory.IndustryPartFactory;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,18 +48,19 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class MineralResourcesFragment extends MiningLedgerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("MineralResourcesFragment");
+	//	private static Logger logger = LoggerFactory.getLogger("MineralResourcesFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
+
 	/** Credential to be used on all database requests and data retrievals. */
-	protected Credential credential = null;
+	//	protected Credential credential = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public MiningLedgerFragment setCredential( final Credential credential ) {
-		this.credential = credential;
-		return this;
-	}
-
+	//	public MiningLedgerFragment setCredential( final Credential credential ) {
+	//		this.credential = credential;
+	//		return this;
+	//	}
+	//
 	// --- P A G E R F R A G M E N T   O V E R R I D E S
 	@Override
 	public IPartFactory createFactory() {
@@ -74,7 +74,9 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 
 	@Override
 	public String getTitle() {
-		if (null != credential) return credential.getAccountName();
+		final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
+		if (null != credential)
+			return credential.getAccountName();
 		else return "-";
 	}
 
@@ -90,13 +92,13 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 		logger.info(">< [MineralResourcesFragment.registerDataSource]");
 		final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINERAL-RESOURCES")
 				.addIdentifier(getVariant())
-				.addIdentifier(credential.getAccountId());
+				.addIdentifier(((ICredentialActivity) this.getAppContext()).getCredential().getAccountId());
 		try {
 			return new MineralResourcesDataSource(identifier
 					, getVariant()
 					, createFactory()
 					, getExtras())
-					.setCredential(credential)
+					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
 					.setCacheable(true)
 					.setVariant(getVariant());
 		} catch (NeoComException neoe) {

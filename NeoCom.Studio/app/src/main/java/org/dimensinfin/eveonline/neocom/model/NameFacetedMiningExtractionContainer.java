@@ -15,42 +15,47 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.interfaces.IMiningExtractionContainer;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DateFacetedMiningExtractionContainer extends NeoComExpandableNode {
+public class NameFacetedMiningExtractionContainer extends PanelTitle implements IMiningExtractionContainer, IExpandable {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DateFacetedMiningExtractionContainer");
+	//	private static Logger logger = LoggerFactory.getLogger("NameFacetedMiningExtractionContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private String containerTitle = "-TITLE-";
+	protected boolean _expanded = false;
+	protected boolean _renderIfEmpty = true;
+
 	private List<MiningExtraction> contents = new ArrayList<>();
+	private double totalValue = 0.0;
+	private double totalVolume = 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DateFacetedMiningExtractionContainer( final String date ) {
-		super();
-		this.containerTitle = date;
+	public NameFacetedMiningExtractionContainer( final String name ) {
+		super(name);
 		// Force this not to be expanded at all times.
 		this.expand();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- I E X P A N D A B L E   I N T E R F A C E
 	@Override
-	public boolean isEmpty() {
-		if ( this.contents.size() > 0 ) return true;
-		else return false;
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("NameFacetedMiningExtractionContainer [ ");
+		buffer.append("contentsSize: ").append(this.getContentSize()).append(" ");
+		buffer.append("]");
+		buffer.append("->").append(super.toString());
+		return buffer.toString();
 	}
 
 	// --- I C O L L A B O R A T I O N   I N T E R F A C E
@@ -63,32 +68,72 @@ public class DateFacetedMiningExtractionContainer extends NeoComExpandableNode {
 		return collaboration;
 	}
 
-	// --- G E T T E R S   &   S E T T E R S
-	public String getContainerTitle() {
-		return containerTitle;
+	// --- I M I N I N G E X T R A C T I O N C O N T A I N E R   I N T E R F A C E
+	public List<MiningExtraction> getExtractions() {
+		return this.contents;
 	}
 
-	public List<MiningExtraction> getContents() {
-		return contents;
-	}
-
-	public int addMiningExtraction( final MiningExtraction miningOperation ) {
+	public int addExtraction( final MiningExtraction miningOperation ) {
 		this.contents.add(miningOperation);
+		try {
+			totalValue += miningOperation.getQuantity() * miningOperation.getHighestBuyerPrice().getPrice();
+		} catch (ExecutionException ee) {
+			totalValue += miningOperation.getQuantity() * miningOperation.getPrice();
+		} catch (InterruptedException ie) {
+			totalValue += miningOperation.getQuantity() * miningOperation.getPrice();
+		}
+		totalVolume += miningOperation.getQuantity() * miningOperation.getVolume();
 		return contents.size();
 	}
 
-	public DateFacetedMiningExtractionContainer setContainerTitle( final String containerTitle ) {
-		this.containerTitle = containerTitle;
-		return this;
+	@Override
+	public int getContentSize() {
+		return this.contents.size();
 	}
 
 	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("DateFacetedMiningExtractionContainer [ ");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+	public double getTotalValue() {
+		return this.totalValue;
+	}
+
+	@Override
+	public double getTotalVolume() {
+		return this.totalVolume;
+	}
+
+	// --- I E X P A N D A B L E   I N T E R F A C E
+	@Override
+	public boolean collapse() {
+		_expanded = false;
+		return _expanded;
+	}
+
+	@Override
+	public boolean expand() {
+		_expanded = true;
+		return _expanded;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		if ( this.contents.size() > 0 ) return false;
+		else return true;
+	}
+
+	@Override
+	public boolean isExpanded() {
+		return true;
+	}
+
+	@Override
+	public boolean isRenderWhenEmpty() {
+		return false;
+	}
+
+	@Override
+	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
+		_renderIfEmpty = renderWhenEmpty;
+		return this;
 	}
 }
 // - UNUSED CODE ............................................................................................

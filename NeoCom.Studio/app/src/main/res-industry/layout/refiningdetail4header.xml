@@ -41,7 +41,7 @@
                 android:id="@+id/inputResourceMarketSystem"
                 style="@style/AppTheme.TextView"
                 android:layout_marginTop="4dp"
-                android:text="@string/default_system"
+                android:text="@string/default_market"
                 android:textSize="12sp" />
         </LinearLayout>
 

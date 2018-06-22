@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NameFacetedNodeContainer extends PanelTitle implements INodeContainer, IExpandable {
+public class NameFacetedNodeContainer extends NeoComNode implements INodeContainer, IExpandable {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -39,8 +39,8 @@ public class NameFacetedNodeContainer extends PanelTitle implements INodeContain
 
 	private String name = "-";
 	private List<NeoComNode> contents = new ArrayList<>();
-	private double totalValue = 0.0;
-	private double totalVolume = 0.0;
+//	private double totalValue = 0.0;
+//	private double totalVolume = 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 //	public NameFacetedNodeContainer() {
@@ -48,52 +48,27 @@ public class NameFacetedNodeContainer extends PanelTitle implements INodeContain
 //	}
 
 	public NameFacetedNodeContainer( final String name ) {
-		super(name);
+		super();
 		this.name = name;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-
-//	/**
-//	 * Even this object inherits from the asset structure, it is a new instance of the object and we should copy
-//	 * the data from the original reference to this instance instead using delegates that will not work when
-//	 * accessing directly to fields.
-//	 * @return this same instance updated with the reference data.
-//	 */
-//	public NameFacetedNodeContainer copyFrom( final NeoComAsset asset ) {
-//		this.id = asset.getDAOID();
-//
-//		this.setAssetId(asset.getAssetId());
-//		this.setTypeId(asset.getTypeId());
-//		this.setQuantity(asset.getQuantity());
-//		this.setLocationId(asset.getLocationId());
-//		this.setLocationType(asset.getLocationType());
-//		this.setLocationFlag(asset.getFlag());
-//		this.setSingleton(asset.isPackaged());
-//		this.setParentId(asset.getParentContainerId());
-//
-//		//- D E R I V E D   F I E L D S
-//		this.setOwnerId(asset.getOwnerId());
-//		this.setName(asset.getName());
-//		this.setCategory(asset.getCategoryName());
-//		this.setGroupName(asset.getGroupName());
-//		this.setTech(asset.getTech());
-//		// blueprintFlag there is no method to copy this field but for containers it is false.
-//		this.setUserLabel(asset.getUserLabel());
-//		this.setShip(asset.isShip());
-//		this.setContainer(asset.isContainer());
-//		this.setIskValue(asset.getIskValue());
-//		return this;
-//	}
-
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("ContainerFacetedAssetsContainer [ ");
+		StringBuffer buffer = new StringBuffer("NameFacetedNodeContainer [ ");
 		buffer.append("name: ").append(this.name).append(" ");
 		buffer.append("contentSize: ").append(this.contents.size()).append(" ");
 		buffer.append("]");
-//		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public NameFacetedNodeContainer setName( final String name ) {
+		this.name = name;
+		return this;
 	}
 
 	// --- I C O L L A B O R A T I O N   I N T E R F A C E

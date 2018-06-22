@@ -15,21 +15,13 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.database.entity.Property;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
-import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Adam Antinoo
@@ -42,33 +34,39 @@ public class RefiningDetailReport extends EveItem {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private int resourceTypeId = 1230;
+	private long resourceLocation = -1; // This is the location where this resource was mined out.
 	private Credential credential = null;
 
 	private transient EveItem item = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public RefiningDetailReport() {
-//		super();
-//	}
-
 	public RefiningDetailReport( int resourceTypeId ) /*throws NeoComRegisteredException*/ {
 		super();
 		this.resourceTypeId = resourceTypeId;
-		item= new AndroidGlobalDataManager().searchItem4Id(resourceTypeId);
+		item = new AndroidGlobalDataManager().searchItem4Id(resourceTypeId);
 
 		// Locate the nearest refining location to the current Pilot location.
-//		final PilotV2 pilotv2 = AndroidGlobalDataManager.requestPilotV2(getCredential());
-//		final List<Property> roles = pilotv2.getLocationRoles();
-//		// Search for the role of the refining locations
-//		for (Property locrole : roles) {
-//			// Filter out all the roles not related to the type of role. Searching for refining.
-//			if (locrole.getPropertyType()== EPropertyTypes.LOCATIONROLE) {
-//			}
-//		}
+		//		final PilotV2 pilotv2 = AndroidGlobalDataManager.requestPilotV2(getCredential());
+		//		final List<Property> roles = pilotv2.getLocationRoles();
+		//		// Search for the role of the refining locations
+		//		for (Property locrole : roles) {
+		//			// Filter out all the roles not related to the type of role. Searching for refining.
+		//			if (locrole.getPropertyType()== EPropertyTypes.LOCATIONROLE) {
+		//			}
+		//		}
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public void refineResource() {
+		if (null == item)
+			this.item = new AndroidGlobalDataManager().searchItem4Id(this.resourceTypeId);
+		// Get the target refining station and from it get the refining percentage.
 
+		// Start the refining process and store the refining results.
+
+	}
+
+	// --- G E T T E R S   &   S E T T E R S
 	public Credential getCredential() {
 		return credential;
 	}
@@ -78,6 +76,10 @@ public class RefiningDetailReport extends EveItem {
 		return this;
 	}
 
+	public RefiningDetailReport setResourceLocation( final int locationIdentifier ) {
+		this.resourceLocation = locationIdentifier;
+		return this;
+	}
 	// --- D E L E G A T E D   M E T H O D S
 
 	@Override
@@ -130,7 +132,7 @@ public class RefiningDetailReport extends EveItem {
 		StringBuffer buffer = new StringBuffer("RefiningDetailReport [ ");
 		buffer.append("resourceTypeId: ").append(resourceTypeId);
 		buffer.append(" ]");
-//		buffer.append("->").append(super.toString());
+		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
 }
