@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderorange">
 
-    <include layout="@layout/nodebase4expand" />
+    <include layout="@layout/nodebase_decorated" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/locationRegion"
@@ -22,8 +22,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:layout_toRightOf="@+id/nodeIcon">
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:layout_toRightOf="@+id/nodeIconBlock">
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
             android:id="@+id/locationSystem"

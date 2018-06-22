@@ -39,9 +39,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.NameFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
-import org.dimensinfin.eveonline.neocom.model.SystemFacetedMiningExtractionContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.model.TodayMiningTimeLimitedMinigExtractionContainer;
 
 import java.beans.PropertyChangeEvent;
 import java.sql.SQLException;
@@ -58,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class MiningLedgerFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = LoggerFactory.getLogger("MiningLedgerFragment");
+	//	private static Logger logger = LoggerFactory.getLogger("MiningLedgerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -232,7 +230,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 							// Add the record but aggregate by system.
 							if (processingSystem != system) {
 								// Create a new aggregator and use it to get the rest of the extractors inside.
-								systemAggregator = new SystemFacetedMiningExtractionContainer(extraction.getSystemName());
+								systemAggregator = new TodayMiningTimeLimitedMinigExtractionContainer(extraction.getSystemName());
 								this.addModelContents(systemAggregator);
 								processingSystem = extraction.getSolarSystemId();
 							}

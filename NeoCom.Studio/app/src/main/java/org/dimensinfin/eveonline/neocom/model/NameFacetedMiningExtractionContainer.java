@@ -37,9 +37,9 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 	protected boolean _expanded = false;
 	protected boolean _renderIfEmpty = true;
 
-	private List<MiningExtraction> contents = new ArrayList<>();
-	private double totalValue = 0.0;
-	private double totalVolume = 0.0;
+	protected List<MiningExtraction> contents = new ArrayList<>();
+	protected double totalValue = 0.0;
+	protected double totalVolume = 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NameFacetedMiningExtractionContainer( final String name ) {

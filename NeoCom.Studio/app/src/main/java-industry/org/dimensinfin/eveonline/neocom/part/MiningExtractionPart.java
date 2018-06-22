@@ -18,16 +18,11 @@ package org.dimensinfin.eveonline.neocom.part;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.RefiningDetailActivity;
@@ -35,9 +30,9 @@ import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
 
 import java.util.concurrent.ExecutionException;
 
@@ -46,15 +41,15 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningExtractionPart extends NeoComAbstractPart implements View.OnLongClickListener {
+public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> implements View.OnLongClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("MiningExtractionPart");
+	//	private static Logger logger = LoggerFactory.getLogger("MiningExtractionPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private EveItem item = new EveItem();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MiningExtractionPart( final ICollaboration model ) {
+	public MiningExtractionPart( final MiningExtraction model ) {
 		super(model);
 		item = new AndroidGlobalDataManager().searchItem4Id(getCastedModel().getTypeId());
 	}
@@ -68,7 +63,8 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	public String getTExtractionValue() {
 		if (null != item)
 			try {
-				return generatePriceString(item.getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity(), true, true);
+				return NeoComAbstractPart.generatePriceString(item.getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity(), true,
+						true);
 			} catch (ExecutionException ee) {
 				return "- ISK";
 			} catch (InterruptedException ie) {
@@ -80,7 +76,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	public String getTResourcePrice() {
 		if (null != item) {
 			try {
-				return generatePriceString(item.getHighestBuyerPrice().getPrice(), false, true);
+				return NeoComAbstractPart.generatePriceString(item.getHighestBuyerPrice().getPrice(), false, true);
 			} catch (ExecutionException ee) {
 				return "- ISK";
 			} catch (InterruptedException ie) {
@@ -102,17 +98,17 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	}
 
 	public String getTQuantity() {
-		return qtyFormatter.format(getCastedModel().getQuantity());
+		return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getQuantity());
 	}
 
 	public String getTStackVolume() {
 		if (null != item) {
-			return qtyFormatter.format(getCastedModel().getQuantity() * item.getVolume()) + "m3";
+			return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getQuantity() * item.getVolume()) + "m3";
 		} else return "00m3";
 	}
 
 	public String getTDelta() {
-		return qtyFormatter.format(getCastedModel().getDelta());
+		return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getDelta());
 	}
 
 
@@ -181,7 +177,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		private TextView separatorLabel = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionRender( final AbstractAndroidPart newPart, final Activity context ) {
+		public MiningExtractionRender( final AColorThemedPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -225,10 +221,8 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class MiningExtractionPackedRender extends ANodeBase4ExpandRender {
+	public static class MiningExtractionPackedRender extends ANodeBaseDecoratedRender {
 		// - F I E L D - S E C T I O N ............................................................................
-//		private ImageView targetIcon = null;
-
 		private TextView resourceName = null;
 		private TextView resourceTypeId = null;
 		private TextView quantity = null;
@@ -236,7 +230,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 		private TextView volume = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionPackedRender( final AbstractAndroidPart newPart, final Activity context ) {
+		public MiningExtractionPackedRender( final AColorThemedPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -248,8 +242,7 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 
 		@Override
 		public void initializeViews() {
-//			targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
-
+			super.initializeViews();
 			resourceName = (TextView) _convertView.findViewById(R.id.resourceName);
 			resourceTypeId = (TextView) _convertView.findViewById(R.id.resourceTypeId);
 			quantity = (TextView) _convertView.findViewById(R.id.quantity);
@@ -259,8 +252,10 @@ public class MiningExtractionPart extends NeoComAbstractPart implements View.OnL
 
 		@Override
 		public void updateContent() {
-//			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-//			Picasso.get().load(link).into(targetIcon);
+			super.updateContent();
+			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+			if ((null != link) && (null != nodeIcon))
+				Picasso.get().load(link).into(nodeIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
 			quantity.setText(this.getPart().getTQuantity());

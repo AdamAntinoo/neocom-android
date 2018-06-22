@@ -13,7 +13,12 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.model;
+package org.dimensinfin.eveonline.neocom.ui;
+
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.text.TextPaint;
+import android.text.style.TypefaceSpan;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,25 +28,49 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SystemFacetedMiningExtractionContainer extends NameFacetedMiningExtractionContainer {
+public class CustomTypefaceSpan extends TypefaceSpan {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("SystemFacetedMiningExtractionContainer");
+	private static Logger logger = LoggerFactory.getLogger("CustomTypefaceSpan");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private final Typeface newType;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SystemFacetedMiningExtractionContainer( String date ) {
-		super(date);
+	public CustomTypefaceSpan( String family, Typeface type ) {
+		super(family);
+		newType = type;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("SystemFacetedMiningExtractionContainer [ ");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+	public void updateDrawState( TextPaint ds ) {
+		applyCustomTypeFace(ds, newType);
+	}
+
+	@Override
+	public void updateMeasureState( TextPaint paint ) {
+		applyCustomTypeFace(paint, newType);
+	}
+
+	private static void applyCustomTypeFace( Paint paint, Typeface tf ) {
+		int oldStyle;
+		Typeface old = paint.getTypeface();
+		if (old == null) {
+			oldStyle = 0;
+		} else {
+			oldStyle = old.getStyle();
+		}
+
+		int fake = oldStyle & ~tf.getStyle();
+		if ((fake & Typeface.BOLD) != 0) {
+			paint.setFakeBoldText(true);
+		}
+
+		if ((fake & Typeface.ITALIC) != 0) {
+			paint.setTextSkewX(-0.25f);
+		}
+
+		paint.setTypeface(tf);
 	}
 }
 // - UNUSED CODE ............................................................................................

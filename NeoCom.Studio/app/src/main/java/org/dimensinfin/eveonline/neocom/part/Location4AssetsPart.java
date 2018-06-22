@@ -16,11 +16,19 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.AttributeSet;
 import android.view.ContextMenu;
+import android.view.InflateException;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,13 +42,12 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
+import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,7 +60,7 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class Location4AssetsPart extends NeoComAbstractExpandablePart implements IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
+	//	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
 
 	protected static Comparator<IPart> assetNameComparator = ( IPart part1, IPart part2 ) -> {
 		String partName1 = ((AssetPart) part1).getTAssetName().toUpperCase();
@@ -119,7 +126,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 	}
 
 	@Override
-	public List<IPart> runPolicies(  List<IPart> targets ) {
+	public List<IPart> runPolicies( List<IPart> targets ) {
 		// Sort contents alphabetically by the asset name.
 		Collections.sort(targets, assetNameComparator);
 		return super.runPolicies(targets);
@@ -145,8 +152,49 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 		// Initialize the contextual menu each time.
 		MenuInflater inflater = new MenuInflater(AndroidGlobalDataManager.getAppContext());
 		inflater.inflate(R.menu.context_location4assets, menu);
+
+		// Change the style for the application menu. This changes the text font and the background.
+		// - B A C K G R O U N D - By intercepting the creation of the manu view.
+//		this.getActivity().getLayoutInflater().setFactory(( String name, Context context, AttributeSet attrs ) -> {
+//			if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
+//				try {
+//					// Create the view and replace the desired attributes before releasing.
+//					final View menuView = this.getActivity().getLayoutInflater().createView(name, null, attrs);
+//					new Handler().post(() -> {
+//						// Set the background drawable
+//						menuView.setBackgroundResource(R.drawable.blacktraslucent80);
+//					});
+//					return menuView;
+//				} catch (InflateException e) {
+//				} catch (ClassNotFoundException e) {
+//				}
+//			}
+//			return null;
+//		});
+		// - F O N T - By replacing this property on each menu item found.
+		for (int i = 0; i < menu.size(); i++) {
+			MenuItem mi = menu.getItem(i);
+
+			//for applying a font to subMenu ...
+			SubMenu subMenu = mi.getSubMenu();
+			if (subMenu != null && subMenu.size() > 0) {
+				for (int j = 0; j < subMenu.size(); j++) {
+					MenuItem subMenuItem = subMenu.getItem(j);
+					applyFontToMenuItem(subMenuItem);
+				}
+			}
+			applyFontToMenuItem(mi);
+		}
 		logger.info("<< [Location4MiningPart.onCreateContextMenu]");
 	}
+
+	protected void applyFontToMenuItem( MenuItem mi ) {
+		Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/Proxima Nova Thin.ttf");
+		SpannableString mNewTitle = new SpannableString(mi.getTitle());
+		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		mi.setTitle(mNewTitle);
+	}
+
 
 	@Override
 	public String toString() {
@@ -158,7 +206,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class Location4MiningRender extends ANodeBase4ExpandRender {
+	public static class Location4MiningRender extends ANodeBaseDecoratedRender {
 		// - F I E L D - S E C T I O N ............................................................................
 		private TextView locationRegion = null;
 		private TextView locationSystem = null;
@@ -170,7 +218,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public Location4MiningRender( AbstractAndroidPart newPart, Activity context ) {
+		public Location4MiningRender( NeoComAbstractExpandablePart newPart, Activity context ) {
 			super(newPart, context);
 		}
 
@@ -197,7 +245,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 		public void updateContent() {
 			super.updateContent();
 			final String link = getPart().getCastedModel().getUrlLocationIcon();
-			if( (null != link) && (null != nodeIcon))
+			if ((null != link) && (null != nodeIcon))
 				Picasso.get().load(link).into(nodeIcon);
 			locationRegion.setText(this.getPart().getCastedModel().getRegion());
 			locationSystem.setText(this.getPart().getCastedModel().getSystem());

@@ -15,50 +15,53 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.widget.TextView;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.model.DateFacetedMiningExtractionContainer;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.model.NameFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+
+import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPart {
-	  // - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DateFacetedMiningExtractionContainerPart");
+public class NameFacetedMiningExtractionContainerPart extends AbstractAndroidPart {
+	// - S T A T I C - S E C T I O N ..........................................................................
+	//	private static Logger logger = LoggerFactory.getLogger("NameFacetedMiningExtractionContainerPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DateFacetedMiningExtractionContainerPart( final DateFacetedMiningExtractionContainer node ) {
+	public NameFacetedMiningExtractionContainerPart( final NameFacetedMiningExtractionContainer node ) {
 		super(node);
-//		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
+		//		this.setThemeColor(Separator.ESeparatorType.LINE_WHITE);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public DateFacetedMiningExtractionContainer getCastedModel() {
-		return (DateFacetedMiningExtractionContainer) this.getModel();
+	public NameFacetedMiningExtractionContainer getCastedModel() {
+		return (NameFacetedMiningExtractionContainer) this.getModel();
+	}
+
+	public String getTContentsValue() {
+		return NeoComAbstractPart.generatePriceString(getCastedModel().getTotalValue(), true, true);
+	}
+
+	public String getTContentsVolume() {
+		return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getTotalVolume()) + " m3";
 	}
 
 	// --- I A N D R O I D P A R T   I N T E R F A C E
 	@Override
 	public long getModelId() {
-		return getCastedModel().getContainerTitle().hashCode();
+		return getCastedModel().getTitle().hashCode();
 	}
 
 	@Override
@@ -69,9 +72,9 @@ public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPar
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("PanelTitlePart [ ");
-		buffer.append("title: ").append(getCastedModel().getContainerTitle());
+		buffer.append("title: ").append(getCastedModel().getTitle());
 		buffer.append("]");
-//		buffer.append("->").append(super.toString());
+		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
 
@@ -85,6 +88,8 @@ public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPar
 		// - F I E L D - S E C T I O N ............................................................................
 		// - U I   F I E L D S
 		protected TextView title = null;
+		protected TextView contentsVolume = null;
+		protected TextView contentsValue = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public DateFacetedMiningExtractionContainerRender( final AbstractPart newPart, final Activity context ) {
@@ -93,8 +98,8 @@ public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPar
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DateFacetedMiningExtractionContainerPart getPart() {
-			return (DateFacetedMiningExtractionContainerPart) super.getPart();
+		public NameFacetedMiningExtractionContainerPart getPart() {
+			return (NameFacetedMiningExtractionContainerPart) super.getPart();
 		}
 
 		// --- I R E N D E R   I N T E R F A C E
@@ -102,17 +107,21 @@ public class DateFacetedMiningExtractionContainerPart extends AbstractAndroidPar
 		public void initializeViews() {
 			//			super.initializeViews();
 			this.title = (TextView) this._convertView.findViewById(R.id.title);
+			this.contentsVolume = (TextView) this._convertView.findViewById(R.id.contentsVolume);
+			this.contentsValue = (TextView) this._convertView.findViewById(R.id.contentsValue);
 		}
 
 		@Override
 		public void updateContent() {
 			//			super.updateContent();
-			this.title.setText(getPart().getCastedModel().getContainerTitle());
+			this.title.setText(this.getPart().getCastedModel().getTitle());
+			this.contentsVolume.setText(this.getPart().getTContentsVolume());
+			this.contentsValue.setText(this.getPart().getTContentsValue());
 		}
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.datefaceted4list;
+			return R.layout.namefaceted4group;
 		}
 	}
 	//...........................................................................................................

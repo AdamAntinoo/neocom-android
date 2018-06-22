@@ -15,25 +15,31 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Handler;
-import android.support.v7.view.menu.ListMenuItemView;
-import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v4.app.NavUtils;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.services.UpdateJobManager;
+import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
 
 /**
  * @author Adam Antinoo
@@ -53,72 +59,59 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 		inflater.inflate(R.menu.neocom_menu, menu);
 		activityMenu = menu;
 
-		getLayoutInflater().setFactory(new LayoutInflater.Factory() {
-			@Override
-			public View onCreateView( String name, Context context,
-			                          AttributeSet attrs ) {
-
-				if (name.startsWith("com.android.internal.view.menu2")) {
-					try {
-						LayoutInflater f = getLayoutInflater();
-						final View view = f.createView(name, null, attrs);
-
-						new Handler().post(new Runnable() {
-							public void run() {
-
-								// set the background drawable
-								view.setBackgroundResource(R.drawable.blacktraslucent80);
-
-								// set the text color
-								//								((TextView) view).setTextColor(Color.WHITE);
-								//								final Typeface typefaceName = Typeface.createFromAsset(AndroidGlobalDataManager.getAppContext().getAssets()
-								//										, "fonts/Proxima Nova Bold.ttf");
-								//								((TextView) view).setTypeface(typefaceName);
-							}
-						});
-						return view;
-					} catch (InflateException e) {
-					} catch (ClassNotFoundException e) {
-					}
-				}
+		// Change the style for the application menu. This changes the text font and the background.
+		// - B A C K G R O U N D - By intercepting the creation of the manu view.
+		getLayoutInflater().setFactory((String name, Context context,AttributeSet attrs)->{
 				if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
 					try {
 						// Create the view and replace the desired attributes before releasing.
-						LayoutInflater f = getLayoutInflater();
-						final View view = f.createView(name, null, attrs);
+						final View view = getLayoutInflater().createView(name, null, attrs);
 						new Handler().post(() -> {
 							// Set the background drawable
 							view.setBackgroundResource(R.drawable.blacktraslucent80);
-//							@SuppressLint("RestrictedApi") final MenuItemImpl itemData = view.getItemData();
-//							@SuppressLint("RestrictedApi") final View action = itemData.getActionView();
-
-							// set the text color
-							//								((TextView) view).setTextColor(Color.WHITE);
-							//								final Typeface typefaceName = Typeface.createFromAsset(AndroidGlobalDataManager.getAppContext().getAssets()
-							//										, "fonts/Proxima Nova Bold.ttf");
-							//								((TextView) view).setTypeface(typefaceName);
 						});
 						return view;
-					} catch (InflateException e) {
-					} catch (ClassNotFoundException e) {
+					} catch (InflateException ie) {
+						ie.printStackTrace();
+					} catch (ClassNotFoundException cnfe) {
+						cnfe.printStackTrace();
 					}
 				}
 				return null;
-			}
 		});
+		// - F O N T - By replacing this property on each menu item found.
+		for (int i = 0; i < menu.size(); i++) {
+			MenuItem mi = menu.getItem(i);
+
+			//for applying a font to subMenu ...
+			SubMenu subMenu = mi.getSubMenu();
+			if (subMenu != null && subMenu.size() > 0) {
+				for (int j = 0; j < subMenu.size(); j++) {
+					MenuItem subMenuItem = subMenu.getItem(j);
+					applyFontToMenuItem(subMenuItem);
+				}
+			}
+			applyFontToMenuItem(mi);
+		}
 		return super.onCreateOptionsMenu(menu);
+	}
+	protected void applyFontToMenuItem( MenuItem mi ) {
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Proxima Nova Thin.ttf");
+		SpannableString mNewTitle = new SpannableString(mi.getTitle());
+		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		mi.setTitle(mNewTitle);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected( final MenuItem item ) {
 		switch (item.getItemId()) {
-			//			case android.R.id.home:
-			//				// This ID represents the Home or Up button. In the case of this activity, the Up button is shown. Use NavUtils to allow users
-			//				// to navigate up one level in the application structure. For more details, see the Navigation pattern on Android Design:
-			//				//
-			//				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//				NavUtils.navigateUpFromSameTask(this);
-			//				return true;
+			case android.R.id.home:
+				// This ID represents the Home or Up button. In the case of this activity, the Up button is shown. Use NavUtils to allow users
+				// to navigate up one level in the application structure. For more details, see the Navigation pattern on Android Design:
+				//
+				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
 			case R.id.action_settings:
 				final Intent intent = new Intent(this, SettingsActivity.class);
 				this.startActivity(intent);

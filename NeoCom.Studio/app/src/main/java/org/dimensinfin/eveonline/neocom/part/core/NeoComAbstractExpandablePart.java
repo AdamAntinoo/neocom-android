@@ -26,6 +26,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NeoComAbstractExpandablePart extends AbstractExpandablePart {
+public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoComNode> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 //	private static Logger logger = LoggerFactory.getLogger("NeoComAbstractExpandablePart");
 
@@ -43,7 +44,7 @@ public abstract class NeoComAbstractExpandablePart extends AbstractExpandablePar
 	private Separator.ESeparatorType _themeColor = Separator.ESeparatorType.LINE_WHITE;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComAbstractExpandablePart( ICollaboration model ) {
+	public NeoComAbstractExpandablePart( NeoComNode model ) {
 		super(model);
 	}
 
