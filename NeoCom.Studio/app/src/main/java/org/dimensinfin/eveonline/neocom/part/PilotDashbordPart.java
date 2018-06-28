@@ -28,14 +28,13 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.AllianceV1;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PilotDashbordPart extends TypedPart<PilotV2> {
+public class PilotDashbordPart extends NeoComAbstractPart<PilotV2> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("PilotDashbordPart");
 
@@ -114,7 +113,7 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 		private ImageView toprightDecorator = null;
 		private ImageView allianceIcon = null;
 		private ImageView corporationIcon = null;
-		private ImageView raceIcon=null;
+		private ImageView raceIcon = null;
 
 		private TextView pilotName = null;
 		private TextView pilotIdentifier = null;
@@ -152,8 +151,8 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 		@Override
 		public void updateContent() {
 			final String link = getPart().getURLForAvatar();
-			if( (null != link) && (null != targetIcon))
-					Picasso.get().load(link).into(targetIcon);
+			if ( (null != link) && (null != targetIcon) )
+				Picasso.get().load(link).into(targetIcon);
 			toprightDecorator.setImageResource(R.drawable.omega);
 			toprightDecorator.setVisibility(View.VISIBLE);
 			AllianceV1 alliance = this.getPart().getCastedModel().getAlliance();
@@ -163,7 +162,7 @@ public class PilotDashbordPart extends TypedPart<PilotV2> {
 			this.accountBalance.setText(this.getPart().getTWalletAmount());
 			this.nodeClass.setText("CREDENTIAL");
 			this.race.setText(this.getPart().getTRaceName());
-//			this.cloneType.setText(this.getPart().getTRaceName());
+			//			this.cloneType.setText(this.getPart().getTRaceName());
 		}
 
 		@Override

@@ -16,39 +16,41 @@
 package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.util.AttributeSet;
 import android.view.ContextMenu;
-import android.view.InflateException;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.Property;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
+import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
+import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
 import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -60,20 +62,24 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class Location4AssetsPart extends NeoComAbstractExpandablePart implements IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
-
-	protected static Comparator<IPart> assetNameComparator = ( IPart part1, IPart part2 ) -> {
+	protected static Comparator<IPart> assetNameAscendingComparator = ( IPart part1, IPart part2 ) -> {
 		String partName1 = ((AssetPart) part1).getTAssetName().toUpperCase();
 		String partName2 = ((AssetPart) part2).getTAssetName().toUpperCase();
 
 		//ascending order
 		return partName1.compareTo(partName2);
+	};
+	protected static Comparator<IPart> assetNameDescendingComparator = ( IPart part1, IPart part2 ) -> {
+		String partName1 = ((AssetPart) part1).getTAssetName().toUpperCase();
+		String partName2 = ((AssetPart) part2).getTAssetName().toUpperCase();
 
-		//descending order
-		//return fruitName2.compareTo(fruitName1);
+		//ascending order
+		return partName2.compareTo(partName1);
 	};
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private PilotV2 pilot = null;
+	private List<Property> roles = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public Location4AssetsPart( final LocationFacetedAssetsContainer model ) {
@@ -128,8 +134,27 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 	@Override
 	public List<IPart> runPolicies( List<IPart> targets ) {
 		// Sort contents alphabetically by the asset name.
-		Collections.sort(targets, assetNameComparator);
+		Collections.sort(targets, assetNameAscendingComparator);
 		return super.runPolicies(targets);
+	}
+
+	@Override
+	public boolean runDependencies() {
+		// Collect the location roles references.
+		try {
+			if (this.getActivity() instanceof ICredentialActivity) {
+				final Credential credential = ((ICredentialActivity) this.getActivity()).getCredential();
+				if (null != credential) {
+					pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
+					if (null != pilot) {
+						roles = pilot.getLocationRoles();
+					} else Toast.makeText(getActivity(), "EX: Pilot not located!!", Toast.LENGTH_SHORT).show();
+				} else Toast.makeText(getActivity(), "EX: Credential not located!!", Toast.LENGTH_SHORT).show();
+			} else Toast.makeText(getActivity(), "EX: Activity not Credential aware!!", Toast.LENGTH_SHORT).show();
+		} catch (NeoComRegisteredException neoe) {
+			neoe.printStackTrace();
+		}
+		return true;
 	}
 
 	// --- I M E N U A C T I O N T A R G E T   I N T E R F A C E
@@ -138,10 +163,23 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 		logger.info(">> [Location4MiningPart.onContextItemSelected]");
 		try {
 			final int menuItemIndex = item.getItemId();
+			final int itemSelected = item.getItemId();
+			final CharSequence menuItemTitle = item.getTitle();
+			final EveLocation theSelectedLocation = getCastedModel();
+			if (null != pilot) {
+				if (null != roles) {
+					if (menuItemIndex == R.id.context_locationrole_clear)
+						pilot.clearLocationRoles(theSelectedLocation);
+					else {
+						final Property role = pilot.addLocationRole(theSelectedLocation, menuItemTitle.toString());
+						roles.add(role);
+					}
+				}
+			}
 			invalidate();
 			fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONMODIFYDATA.name(), this, this);
 		} finally {
-			logger.info(">> [Location4MiningPart.onContextItemSelected]");
+			logger.info("<< [Location4MiningPart.onContextItemSelected]");
 			return true;
 		}
 	}
@@ -155,22 +193,22 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 
 		// Change the style for the application menu. This changes the text font and the background.
 		// - B A C K G R O U N D - By intercepting the creation of the manu view.
-//		this.getActivity().getLayoutInflater().setFactory(( String name, Context context, AttributeSet attrs ) -> {
-//			if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
-//				try {
-//					// Create the view and replace the desired attributes before releasing.
-//					final View menuView = this.getActivity().getLayoutInflater().createView(name, null, attrs);
-//					new Handler().post(() -> {
-//						// Set the background drawable
-//						menuView.setBackgroundResource(R.drawable.blacktraslucent80);
-//					});
-//					return menuView;
-//				} catch (InflateException e) {
-//				} catch (ClassNotFoundException e) {
-//				}
-//			}
-//			return null;
-//		});
+		//		this.getActivity().getLayoutInflater().setFactory(( String name, Context context, AttributeSet attrs ) -> {
+		//			if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
+		//				try {
+		//					// Create the view and replace the desired attributes before releasing.
+		//					final View menuView = this.getActivity().getLayoutInflater().createView(name, null, attrs);
+		//					new Handler().post(() -> {
+		//						// Set the background drawable
+		//						menuView.setBackgroundResource(R.drawable.blacktraslucent80);
+		//					});
+		//					return menuView;
+		//				} catch (InflateException e) {
+		//				} catch (ClassNotFoundException e) {
+		//				}
+		//			}
+		//			return null;
+		//		});
 		// - F O N T - By replacing this property on each menu item found.
 		for (int i = 0; i < menu.size(); i++) {
 			MenuItem mi = menu.getItem(i);
@@ -183,9 +221,28 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 					applyFontToMenuItem(subMenuItem);
 				}
 			}
-			applyFontToMenuItem(mi);
+			// If the role is active then use the Bold font. Otherwise the standard one.
+			final String menuTitle = mi.getTitle().toString();
+			if (roleActive(menuTitle))
+				applyBoldFontToMenuItem(mi);
+			else
+				applyFontToMenuItem(mi);
 		}
 		logger.info("<< [Location4MiningPart.onCreateContextMenu]");
+	}
+
+	protected boolean roleActive( final String roleName ) {
+		for (Property prop : roles) {
+			if (prop.getStringValue().equalsIgnoreCase(roleName)) return true;
+		}
+		return false;
+	}
+
+	protected void applyBoldFontToMenuItem( MenuItem mi ) {
+		Typeface font = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/Proxima Nova Bold.ttf");
+		SpannableString mNewTitle = new SpannableString(mi.getTitle());
+		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		mi.setTitle(mNewTitle);
 	}
 
 	protected void applyFontToMenuItem( MenuItem mi ) {
@@ -194,7 +251,6 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		mi.setTitle(mNewTitle);
 	}
-
 
 	@Override
 	public String toString() {

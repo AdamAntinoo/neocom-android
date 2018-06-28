@@ -25,15 +25,14 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.SkillTrained;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
-import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SkillTrainedPart extends AColorThemedPart<SkillTrained> {
+public class SkillTrainedPart extends NeoComAbstractPart<SkillTrained> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -129,8 +128,8 @@ public class SkillTrainedPart extends AColorThemedPart<SkillTrained> {
 
 		private int calculateColor4( final int i, final int requested, final int active, final int trained ) {
 			int color = R.drawable.skillempty;
-			if (i <= active) color = R.drawable.skilldisallowed;
-			if (i <= trained) color = R.drawable.skillcompleted;
+			if ( i <= active ) color = R.drawable.skilldisallowed;
+			if ( i <= trained ) color = R.drawable.skillcompleted;
 			return color;
 		}
 	}

@@ -74,10 +74,10 @@ public class SkillsFragment extends AbstractPagerFragment {
 	@Override
 	public String getSubtitle() {
 		String subtitle = "";
-		if (this.getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name()) {
+		if ( this.getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name() ) {
 			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsQueue);
 		}
-		if (this.getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name()) {
+		if ( this.getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name() ) {
 			subtitle = getAppContext().getResources().getString(R.string.activity_subtitle_SkillsTrained);
 		}
 		return subtitle;
@@ -98,7 +98,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 		logger.info(">> [SkillsFragment.registerDataSource]");
 		IDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
-		if (getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name()) {
+		if ( getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name() ) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
@@ -110,7 +110,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					.setRefreshTime(1)
 					.setCacheable(true);
 		}
-		if (getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name()) {
+		if ( getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name() ) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
@@ -143,17 +143,17 @@ public class SkillsFragment extends AbstractPagerFragment {
 		@Override
 		public IPart createPart( final ICollaboration node ) {
 			logger.info("-- [SkillsPartFactory.createPart]> Node class: ", node.getClass().getSimpleName());
-			if (node instanceof SkillInTraining) {
+			if ( node instanceof SkillInTraining ) {
 				IPart part = new SkillInTrainingPart((SkillInTraining) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
 			}
-			if (node instanceof SkillTrained) {
+			if ( node instanceof SkillTrained ) {
 				IPart part = new SkillTrainedPart((SkillTrained) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
 			}
-			if (node instanceof SkillGroupContainer) {
+			if ( node instanceof SkillGroupContainer ) {
 				IPart part = new SkillGroupContainerPart((SkillGroupContainer) node).setFactory(this)
 						.setRenderMode(this.getVariant());
 				return part;
@@ -180,9 +180,9 @@ public class SkillsFragment extends AbstractPagerFragment {
 		public void collaborate2Model() {
 			logger.info(">> [SkillsOnQueueDataSource.collaborate2Model]");
 			// Check if we should use the cached version.
-			if (!isCached()) {
+			if ( !isCached() ) {
 				// Check that required parameters are not null.
-				if (null == this.credential)
+				if ( null == this.credential )
 					throw new NeoComRuntimeException("[SkillsOnQueueDataSource.collaborate2Model]> Required Credential not available.");
 
 				// Get the skill queue and insert it into the model container.
@@ -227,9 +227,9 @@ public class SkillsFragment extends AbstractPagerFragment {
 		public void collaborate2Model() {
 			logger.info(">> [SkillsTrainedDataSource.collaborate2Model]");
 			// Check if we should use the cached version.
-			if (!isCached()) {
+			if ( !isCached() ) {
 				// Check that required parameters are not null.
-				if (null == this.credential)
+				if ( null == this.credential )
 					throw new NeoComRuntimeException("[SkillsTrainedDataSource.collaborate2Model]> Required Credential not available.");
 
 				final HashMap<Integer, SkillGroupContainer> groups = new HashMap<>();
@@ -239,7 +239,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					final SkillTrained newskill = AndroidGlobalDataManager.modelMapper.map(skillOk, SkillTrained.class);
 					int groupId = newskill.getGroupId();
 					SkillGroupContainer hit = groups.get(groupId);
-					if (null == hit) {
+					if ( null == hit ) {
 						// New group.
 						hit = new SkillGroupContainer(newskill.getGroupName());
 						groups.put(groupId, hit);
@@ -295,7 +295,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 
 		public NameOrderedRootPart setAscending( final boolean ascending ) {
 			this.ascending = ascending;
-			if (this.ascending) {
+			if ( this.ascending ) {
 				nodeNameComparator = ( IPart part1, IPart part2 ) -> {
 					String partName1 = ((INamedPart) part1).getDelegatedName().toUpperCase();
 					String partName2 = ((INamedPart) part2).getDelegatedName().toUpperCase();

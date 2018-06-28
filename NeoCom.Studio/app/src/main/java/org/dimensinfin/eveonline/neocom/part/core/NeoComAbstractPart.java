@@ -20,9 +20,9 @@ import android.text.Spanned;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ import java.util.HashMap;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NeoComAbstractPart extends AbstractAndroidPart {
+public abstract class NeoComAbstractPart<T extends NeoComNode> extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger logger = LoggerFactory.getLogger("NeoComAbstractPart");
 
@@ -64,17 +64,17 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	public static String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
 		// Generate different formats depending on the quantity and the compress flag.
 		// Get rid of negative numbers.
-		if (compress) {
-			if (Math.abs(price) > 1200000000.0) if (addSuffix)
+		if ( compress ) {
+			if ( Math.abs(price) > 1200000000.0 ) if ( addSuffix )
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
 			else
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
-			if (Math.abs(price) > 12000000.0) if (addSuffix)
+			if ( Math.abs(price) > 12000000.0 ) if ( addSuffix )
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
 			else
 				return NeoComAbstractPart.priceFormatter.format(price / 1000.0 / 1000.0);
 		}
-		if (addSuffix)
+		if ( addSuffix )
 			return NeoComAbstractPart.priceFormatter.format(price) + " ISK";
 		else
 			return NeoComAbstractPart.priceFormatter.format(price);
@@ -84,10 +84,10 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		StringBuffer htmlFragmentWithColor = new StringBuffer();
 		String secColor = "#F00000";
 		// Get the color from the table.
-		if (sec < 0.0) {
+		if ( sec < 0.0 ) {
 			sec = 0.0;
 		}
-		if (sec > 1.0) {
+		if ( sec > 1.0 ) {
 			sec = 1.0;
 		}
 		long secAdjust = Long.valueOf(Math.round(sec * 10.0)).intValue();
@@ -109,11 +109,15 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	private Separator.ESeparatorType _themeColor = Separator.ESeparatorType.LINE_WHITE;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NeoComAbstractPart( ICollaboration model ) {
+	public NeoComAbstractPart( NeoComNode model ) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public T getCastedModel() {
+		return (T) this.getModel();
+	}
+
 	// --- P A N E L   C O L O R   T H E M E
 	public Separator.ESeparatorType getThemeColor() {
 		return _themeColor;
@@ -124,11 +128,6 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		return this;
 	}
 
-//	@Override
-//	public boolean runDependencies() {
-//		return false;
-//	}
-
 	@Deprecated
 	protected Spanned colorFormatLocation( final EveLocation location ) {
 		StringBuffer htmlLocation = new StringBuffer();
@@ -137,14 +136,6 @@ public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 		htmlLocation.append(" ").append(location.getRegion()).append("-").append(location.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
-	//	@Override
-	//	public String toString() {
-	//		StringBuffer buffer = new StringBuffer("NeoComAbstractPart [ ");
-	//		buffer.append("name: ").append(0);
-	//		buffer.append("]");
-	//		buffer.append("->").append(super.toString());
-	//		return buffer.toString();
-	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

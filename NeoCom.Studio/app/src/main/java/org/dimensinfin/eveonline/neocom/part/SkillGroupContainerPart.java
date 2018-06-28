@@ -23,7 +23,6 @@ import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.SkillGroupContainer;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
@@ -31,7 +30,7 @@ import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SkillGroupContainerPart extends AColorThemedPart<SkillGroupContainer> implements INamedPart {
+public class SkillGroupContainerPart extends NeoComAbstractPart<SkillGroupContainer> implements INamedPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("AppVersionPart");
 

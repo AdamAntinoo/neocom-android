@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.activity.SkillsManagerActivity;
-import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class NeoComMenuBarPart extends TypedPart<NeoComMenuBar> {
+public class NeoComMenuBarPart extends NeoComAbstractPart<NeoComMenuBar> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("NeoComMenuBarPart");
 

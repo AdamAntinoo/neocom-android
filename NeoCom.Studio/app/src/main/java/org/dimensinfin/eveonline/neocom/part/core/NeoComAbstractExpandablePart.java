@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoComNode> implements View.OnClickListener {
+public abstract class NeoComAbstractExpandablePart extends NeoComAbstractPart<NeoComNode> implements View.OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("NeoComAbstractExpandablePart");
 

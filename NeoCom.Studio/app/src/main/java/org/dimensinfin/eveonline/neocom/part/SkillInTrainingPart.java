@@ -25,17 +25,14 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.SkillInTraining;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
-import org.dimensinfin.eveonline.neocom.part.core.TypedPart;
-
-import static org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart.percentageZeroFormat;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SkillInTrainingPart extends AColorThemedPart<SkillInTraining> {
+public class SkillInTrainingPart extends NeoComAbstractPart<SkillInTraining> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -48,7 +45,7 @@ public class SkillInTrainingPart extends AColorThemedPart<SkillInTraining> {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public String getTPctDone() {
-		return percentageZeroFormat.format((100-this.getCastedModel().getPctDone())/100.0) + " done";
+		return percentageZeroFormat.format((100 - this.getCastedModel().getPctDone()) / 100.0) + " done";
 	}
 
 	@Override
@@ -118,7 +115,7 @@ public class SkillInTrainingPart extends AColorThemedPart<SkillInTraining> {
 			currentLevel.setText("Level " + Integer.valueOf(this.getPart().getCastedModel().getFinishedLevel()).toString());
 			trainingCompleted.setText(this.getPart().getTPctDone());
 			trainedProgress.setMax(100);
-			trainedProgress.setProgress(Double.valueOf(100.0-this.getPart().getCastedModel().getPctDone()).intValue());
+			trainedProgress.setProgress(Double.valueOf(100.0 - this.getPart().getCastedModel().getPctDone()).intValue());
 			trainedProgress.setScaleY(3f);
 
 			// TODO - This part needs to locate the current trained skill to get the start level to mark as completed.
@@ -140,9 +137,9 @@ public class SkillInTrainingPart extends AColorThemedPart<SkillInTraining> {
 
 		private int calculateColor4( final int i, final int requested, final int current, final int training ) {
 			int color = R.drawable.skillempty;
-			if (i <= training) color = R.drawable.skilltraining;
-			if (requested >= i) color = R.drawable.skillpending;
-			if (current >= i) color = R.drawable.skillcompleted;
+			if ( i <= training ) color = R.drawable.skilltraining;
+			if ( requested >= i ) color = R.drawable.skillpending;
+			if ( current >= i ) color = R.drawable.skillcompleted;
 			return color;
 		}
 	}

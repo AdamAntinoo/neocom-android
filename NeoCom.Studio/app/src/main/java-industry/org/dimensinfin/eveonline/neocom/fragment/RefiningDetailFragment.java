@@ -15,6 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
+import android.support.annotation.WorkerThread;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -63,7 +65,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	@Override
 	public String getSubtitle() {
 		final EveItem item = new AndroidGlobalDataManager().searchItem4Id(this.resourceTypeId);
-		if (null != item)
+		if ( null != item )
 			return item.getName();
 		else return "-";
 	}
@@ -73,30 +75,34 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		return "REFINING ADVICE";
 	}
 
+	@WorkerThread
 	@Override
 	protected List<ICollaboration> registerHeaderSource() {
 		logger.info(">> [RefiningDetailFragment.registerHeaderSource]");
 		List<ICollaboration> headerContents = new ArrayList<>();
 
+		// Code should be run on other thread than the main. Dispatch it to the executor.
+		//		AndroidGlobalDataManager.submitJob2ui(() -> {
 		// Create the report. To complete this add the Credential for the owner of the resource, the current location and the
 		// preferred refining location from the location roles for the Pilot.
-		if (this.getAppContext() instanceof ICredentialActivity) {
-			long refiningLocationId = this.getExtras().getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), 34);
+		if ( this.getAppContext() instanceof ICredentialActivity ) {
+			int resourceSystemId = this.getExtras().getInt(NeoComApplication.EExtras.RESOURCESYSTEM_IDENTIFIER.name(), 34);
 			try {
 				final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
 				final PilotV2 pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
 				final List<Property> locationRoles = pilot.getLocationRoles();
-//				final locationId =searchClosestRefiningStation(refiningLocationId, locationRoles);
+				final EveLocation closestRefiningLocation = searchClosestRefiningStation(resourceSystemId, locationRoles);
 				// TODO - Continue with the development
 				final RefiningDetailReport report = new RefiningDetailReport(resourceTypeId)
-						.setCredential(credential);
-//						.setResourceLocation(refiningLocationId)
-//						.setRefiningLocations(locationRoles);
+						.setCredential(credential)
+						.setResourceLocation(resourceSystemId)
+						.setClosestRefiningLocation(closestRefiningLocation);
 				headerContents.add(report);
 			} catch (NeoComRegisteredException e) {
 				e.printStackTrace();
 			}
 		}
+		//		});
 		return headerContents;
 	}
 
@@ -115,24 +121,33 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	 * @param resourceLocation
 	 * @return
 	 */
-	protected RefiningLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
-		long refiningTarget = -1;
+	protected EveLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
+		// Initialize the searcher to the resource location;
+		int refiningTarget = resourceLocation;
+		int minJumps = 999;
 		for (Property role : locationRoles) {
-			if (role.getPropertyType() == EPropertyTypes.LOCATIONROLE) {
-				if (role.getStringValue().equalsIgnoreCase("REFINING")) {
-					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getAppContext()).getCredential()
-							, resourceLocation, Double.valueOf(role.getNumericValue()).intValue());
+			if ( role.getPropertyType() == EPropertyTypes.LOCATIONROLE ) {
+				if ( role.getStringValue().equalsIgnoreCase("REFINING") ) {
+//					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getAppContext()).getCredential()
+//							, resourceLocation, Double.valueOf(role.getNumericValue()).intValue());
+					int jumps = 1;
+					if ( jumps < minJumps ) {
+						minJumps = jumps;
+						refiningTarget = Double.valueOf(role.getNumericValue()).intValue();
+					}
 				}
 			}
 		}
-		return new RefiningLocation(resourceLocation);
+		return new AndroidGlobalDataManager().searchLocation4Id(refiningTarget);
 	}
 
-	public static class RefiningLocation extends EveLocation {
-		public RefiningLocation( final int resourceLocation ) {
-
-		}
-	}
+	//	public static class RefiningLocation extends EveLocation {
+	//		private int locationId = -1;
+	//
+	//		public RefiningLocation( final int resourceLocation ) {
+	//			this.locationId = resourceLocation;
+	//		}
+	//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

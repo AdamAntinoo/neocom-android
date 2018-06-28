@@ -20,17 +20,17 @@
         <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
             android:id="@+id/inputDataLabel"
             style="@style/AppTheme.TextView"
-            android:text="INPUT DATA"
+            android:text="INPUT RESOURCE"
             android:textSize="12sp" />
 
         <LinearLayout
-            android:id="@+id/inpuResourceBlock"
+            android:id="@+id/closestMarketBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/marketInputIcon"
+                android:id="@+id/inputClosestMarketIcon"
                 style="@style/AppTheme.NodeIcon.NoBorder"
                 android:layout_width="@dimen/nodeiconsizesmall"
                 android:layout_height="@dimen/nodeiconsizesmall"
@@ -38,12 +38,44 @@
                 android:visibility="visible" />
 
             <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-                android:id="@+id/inputResourceMarketSystem"
+                android:id="@+id/inputClosestMarketSystem"
                 style="@style/AppTheme.TextView"
                 android:layout_marginTop="4dp"
                 android:text="@string/default_market"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/closestMarketLabel"
+            style="@style/AppTheme.Label"
+            android:text="CLOSEST MARKET" />
+
+        <LinearLayout
+            android:id="@+id/bestMarketBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/bestMarketInputIcon"
+                style="@style/AppTheme.NodeIcon.NoBorder"
+                android:layout_width="@dimen/nodeiconsizesmall"
+                android:layout_height="@dimen/nodeiconsizesmall"
+                android:src="@drawable/market"
+                android:visibility="visible" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/inputBestMarketSystem"
+                style="@style/AppTheme.TextView"
+                android:layout_marginTop="4dp"
+                android:text="@string/default_market"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/bestMarketLabel"
+            style="@style/AppTheme.Label"
+            android:text="BEST MARKET" />
 
         <LinearLayout
             android:id="@+id/inputResourceIdentificationBlock"
@@ -99,35 +131,43 @@
             android:textSize="12sp" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/refiningSystemName"
+            style="@style/AppTheme.TextView"
+            android:layout_below="@+id/refiningProcessLabel"
+            android:layout_centerInParent="true"
+            android:singleLine="false"
+            android:text="@string/default_system"
+            android:textSize="12sp" />
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
             android:id="@+id/refiningStationName"
             style="@style/AppTheme.TextView"
-            android:singleLine="false"
+            android:layout_below="@+id/refiningSystemName"
             android:layout_centerInParent="true"
-            android:layout_below="@+id/refiningProcessLabel"
+            android:singleLine="false"
             android:text="@string/default_system"
             android:textSize="12sp" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
-            android:id="@+id/refiningRate"
+            android:id="@+id/refiningRatio"
             style="@style/AppTheme.TextView"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/refiningStationName"
+            android:layout_centerInParent="true"
             android:text="@string/default_refinepercentage"
             android:textSize="12sp" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
             android:id="@+id/refiningQuantity"
             style="@style/AppTheme.TextView"
+            android:layout_below="@+id/refiningRatio"
             android:layout_centerInParent="true"
-            android:layout_below="@+id/refiningRate"
             android:text="@string/default_quantity"
             android:textSize="12sp" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
             android:id="@+id/refiningPacks"
             style="@style/AppTheme.TextView"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/refiningQuantity"
+            android:layout_centerInParent="true"
             android:text="@string/default_smallnumber"
             android:textSize="12sp" />
 
@@ -260,8 +300,10 @@
         android:id="@+id/processingResultsBlock"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/processorBlock"
-        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/inputDataBlock"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:layout_marginBottom="@dimen/standardmargin"
         android:background="@drawable/uipanelborderdarkblue"
         android:orientation="vertical"
         android:padding="@dimen/standardmargin">

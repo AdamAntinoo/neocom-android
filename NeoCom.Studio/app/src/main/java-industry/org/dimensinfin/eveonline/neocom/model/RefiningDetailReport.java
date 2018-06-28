@@ -16,11 +16,14 @@
 package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+import org.dimensinfin.eveonline.neocom.database.entity.RefiningData;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -34,8 +37,11 @@ public class RefiningDetailReport extends EveItem {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private int resourceTypeId = 1230;
-	private long resourceLocation = -1; // This is the location where this resource was mined out.
 	private Credential credential = null;
+	private int resourceLocation = -1; // This is the location where this resource was mined out.
+	private EveLocation closestRefiningLocation = null; // This is the user marked REFINING location closer
+	private int refiningLocationIdentifier = -1;
+	private float refiningRatio = 30.0f;
 
 	private transient EveItem item = null;
 
@@ -58,7 +64,7 @@ public class RefiningDetailReport extends EveItem {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public void refineResource() {
-		if (null == item)
+		if ( null == item )
 			this.item = new AndroidGlobalDataManager().searchItem4Id(this.resourceTypeId);
 		// Get the target refining station and from it get the refining percentage.
 
@@ -71,15 +77,59 @@ public class RefiningDetailReport extends EveItem {
 		return credential;
 	}
 
+	public int getResourceLocation() {
+		return resourceLocation;
+	}
+
+	public EveLocation getClosestRefiningLocation() {
+		return closestRefiningLocation;
+	}
+
+	public float getRefiningRatio() {
+		return refiningRatio;
+	}
+
+	public RefiningDetailReport setRefiningRatio( final float refiningRatio ) {
+		this.refiningRatio = refiningRatio;
+		return this;
+	}
+
+	public RefiningDetailReport setResourceLocation( final int resourceLocation ) {
+		this.resourceLocation = resourceLocation;
+		this.refiningLocationIdentifier = resourceLocation;
+//		this.refiningRatio = AndroidGlobalDataManager.getResourceFloat("prefkey_DefaultRefiningRatio");
+		return this;
+	}
+
+	/**
+	 * This sets the closest role marked location set by the user to REFINING. If there is no role location marked the result will be
+	 * the resource system and the refining ration will be searched using that identifier. If no refining ratio data is found I will
+	 * default to a property data value.
+	 * @param closestRefiningLocation
+	 * @return
+	 */
+	public RefiningDetailReport setClosestRefiningLocation( final EveLocation closestRefiningLocation ) {
+		this.closestRefiningLocation = closestRefiningLocation;
+		// Search the location identifier on the refining ratio table to see if we have that information.
+		try {
+			final List<RefiningData> refiningData = accessGlobal().getNeocomDBHelper().getRefiningDataDao().queryForEq("locationIdentifier"
+					, closestRefiningLocation.getID());
+			if ( refiningData.size() > 0 ) {
+				this.refiningLocationIdentifier = refiningData.get(0).getLocationIdentifier();
+				this.refiningRatio = refiningData.get(0).getRefiningRatio();
+			}
+		} catch (SQLException sqle) {
+			this.refiningLocationIdentifier = this.resourceLocation;
+		}
+		// If no data found then set the default refining ratio property value.
+		return this;
+	}
+
 	public RefiningDetailReport setCredential( Credential credential ) {
 		this.credential = credential;
 		return this;
 	}
 
-	public RefiningDetailReport setResourceLocation( final int locationIdentifier ) {
-		this.resourceLocation = locationIdentifier;
-		return this;
-	}
 	// --- D E L E G A T E D   M E T H O D S
 
 	@Override

@@ -30,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
 
@@ -41,7 +40,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> implements View.OnLongClickListener {
+public class MiningExtractionPart extends NeoComAbstractPart<MiningExtraction> implements View.OnLongClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("MiningExtractionPart");
 
@@ -61,7 +60,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 
 	// --- M O D E L   D A T A   T R A N S F O R M A T I O N
 	public String getTExtractionValue() {
-		if (null != item)
+		if ( null != item )
 			try {
 				return NeoComAbstractPart.generatePriceString(item.getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity(), true,
 						true);
@@ -74,7 +73,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 	}
 
 	public String getTResourcePrice() {
-		if (null != item) {
+		if ( null != item ) {
 			try {
 				return NeoComAbstractPart.generatePriceString(item.getHighestBuyerPrice().getPrice(), false, true);
 			} catch (ExecutionException ee) {
@@ -86,7 +85,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 	}
 
 	public String getTValueIndex() {
-		if (null != item) {
+		if ( null != item ) {
 			try {
 				return Double.valueOf(Math.round((item.getHighestBuyerPrice().getPrice() / item.getVolume()) * 10.0)).toString();
 			} catch (ExecutionException ee) {
@@ -102,7 +101,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 	}
 
 	public String getTStackVolume() {
-		if (null != item) {
+		if ( null != item ) {
 			return NeoComAbstractPart.qtyFormatter.format(getCastedModel().getQuantity() * item.getVolume()) + "m3";
 		} else return "00m3";
 	}
@@ -125,7 +124,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 	 */
 	@Override
 	public AbstractRender selectRenderer() {
-		if (getRenderMode().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()))
+		if ( getRenderMode().equalsIgnoreCase(NeoComApplication.EVariants.MINING_EXTRACTIONS_ALL.name()) )
 			return new MiningExtractionPackedRender(this, this.getActivity());
 		else return new MiningExtractionRender(this, this.getActivity());
 	}
@@ -136,13 +135,13 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 		logger.info(">> [CredentialPart.onClick]");
 		// Set the pilot selected on the context and then go to the Pilot Dashboard.
 		final Object resourcePart = view.getTag();
-		if (resourcePart instanceof MiningExtractionPart) {
+		if ( resourcePart instanceof MiningExtractionPart ) {
 			// With the new implementation get just the identifier for the Credential.
 			final int resourceTypeId = ((MiningExtractionPart) resourcePart).getCastedModel().getTypeId();
 			final Intent intent = new Intent(this.getActivity(), RefiningDetailActivity.class);
 
 			// Go to the Activity and get back the pilot identifier.
-			if (this.getActivity() instanceof ICredentialActivity) {
+			if ( this.getActivity() instanceof ICredentialActivity ) {
 				int pilotIdentifier = ((ICredentialActivity) this.getActivity()).getCredential().getAccountId();
 				intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 			}
@@ -177,7 +176,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 		private TextView separatorLabel = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionRender( final AColorThemedPart newPart, final Activity context ) {
+		public MiningExtractionRender( final NeoComAbstractPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -208,7 +207,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 			delta.setText(this.getPart().getTDelta());
 
 			// Hide some elements if the delta os ZERO
-			if (this.getPart().getCastedModel().getDelta() < 1) {
+			if ( this.getPart().getCastedModel().getDelta() < 1 ) {
 				delta.setVisibility(View.INVISIBLE);
 				separatorLabel.setVisibility(View.INVISIBLE);
 			}
@@ -230,7 +229,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 		private TextView volume = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public MiningExtractionPackedRender( final AColorThemedPart newPart, final Activity context ) {
+		public MiningExtractionPackedRender( final NeoComAbstractPart newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
@@ -254,7 +253,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 		public void updateContent() {
 			super.updateContent();
 			String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-			if ((null != link) && (null != nodeIcon))
+			if ( (null != link) && (null != nodeIcon) )
 				Picasso.get().load(link).into(nodeIcon);
 			resourceName.setText(this.getPart().getCastedModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
