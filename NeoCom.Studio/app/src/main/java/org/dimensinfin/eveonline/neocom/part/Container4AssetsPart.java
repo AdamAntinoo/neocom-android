@@ -101,7 +101,7 @@ public class Container4AssetsPart extends AssetPart implements View.OnClickListe
 	 */
 	public Vector<IPart> runPolicies( final Vector<IPart> targets ) {
 		// Order the contents by alphabetical name.
-		Collections.sort(targets, Location4AssetsPart.assetNameComparator);
+		Collections.sort(targets, Location4AssetsPart.assetNameAscendingComparator);
 		return targets;
 	}
 

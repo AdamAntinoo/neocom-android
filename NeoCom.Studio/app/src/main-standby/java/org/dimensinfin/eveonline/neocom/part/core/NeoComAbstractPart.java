@@ -57,27 +57,12 @@ public abstract class NeoComAbstractPartOld extends AbstractAndroidPart {
 	//	private static final long ONEHOUR = 60 * NeoComAbstractPart.ONEMINUTE;
 	//	private static final long ONEDAY = 24 * NeoComAbstractPart.ONEHOUR;
 	protected static DecimalFormat keyFormatter = new DecimalFormat("0000000");
-	protected static DecimalFormat priceFormatter = new DecimalFormat("###,###.00");
 	protected static DecimalFormat moduleIndexFormatter = new DecimalFormat("000");
 	protected static DecimalFormat moduleMultiplierFormatter = new DecimalFormat("x##0.0");
 	protected static DecimalFormat iskFormatter = new DecimalFormat("###,##0.0# MISK");
 	protected static DecimalFormat volumeFormatter = new DecimalFormat("###,##0.0");
 	protected static DecimalFormat percentageFormat = new DecimalFormat("#0.00");
-	protected static HashMap<Integer, String> securityLevels = new HashMap<Integer, String>();
 
-	static {
-		NeoComAbstractPart.securityLevels.put(10, "#2FEFEF");
-		NeoComAbstractPart.securityLevels.put(9, "#48F0C0");
-		NeoComAbstractPart.securityLevels.put(8, "#00EF47");
-		NeoComAbstractPart.securityLevels.put(7, "#00F000");
-		NeoComAbstractPart.securityLevels.put(6, "#8FEF2F");
-		NeoComAbstractPart.securityLevels.put(5, "#EFEF00");
-		NeoComAbstractPart.securityLevels.put(4, "#D77700");
-		NeoComAbstractPart.securityLevels.put(3, "#F06000");
-		NeoComAbstractPart.securityLevels.put(2, "#F04800");
-		NeoComAbstractPart.securityLevels.put(1, "#D73000");
-		NeoComAbstractPart.securityLevels.put(0, "#F00000");
-	}
 
 	protected static final DateTimeFormatter timePointFormatter = DateTimeFormat.forPattern("YYYY.MM.dd HH:mm");
 

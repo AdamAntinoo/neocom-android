@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 113
+        versionCode 114
         versionName "0.12.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
@@ -66,6 +66,7 @@ android {
 //        main.res.srcDirs += 'src/main/res-definitions'
 //        main.res.srcDirs += 'src/main/res-final'
         main.res {
+            srcDirs += 'src/main/res-fitting'
             srcDirs += 'src/main/res-industry'
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-sde'
@@ -148,7 +149,7 @@ dependencies {
     // L O C A L    L I B R A R I E S
     implementation files('libs/CoreBase.core-2.1.0.jar')
 //    implementation files('libs/viewpagerindicator-release.aar')
-//    implementation files('libs/AndroidMVC-2.1.0.aar')
+//    implementation files('libs/AndroidMVC-3.1.0.aar')
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E

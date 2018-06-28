@@ -15,10 +15,16 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
@@ -95,7 +101,7 @@ public class AppDashboardActivity extends ALinearActivity {
 			this.getActionBar().setDisplayShowTitleEnabled(false);
 
 			// Create a new Action Bar view from the layout.
-			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
+			NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)
 					.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 					.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
@@ -118,6 +124,7 @@ public class AppDashboardActivity extends ALinearActivity {
 			neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
 			neocomActionBarView.getView().invalidate();
 		});
+		startProgress(0);
 	}
 
 	@Override

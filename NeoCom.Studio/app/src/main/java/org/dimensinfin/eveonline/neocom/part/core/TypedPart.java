@@ -37,6 +37,11 @@ public abstract class TypedPart<T extends ICollaboration> extends AbstractAndroi
 	public T getCastedModel() {
 		return (T) this.getModel();
 	}
+
+//	@Override
+//	public boolean runDependencies() {
+//		return false;
+//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

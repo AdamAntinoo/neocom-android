@@ -5,12 +5,12 @@
         android:title="@string/pref_category_Development"
         android:widgetLayout="@style/AppTheme.PrefCatStyle">
         <!--<CheckBoxPreference-->
-            <!--style="@style/AppTheme.PrefCatStyle"-->
-            <!--android:background="@color/appgreydark"-->
-            <!--android:defaultValue="true"-->
-            <!--android:key="prefkey_BlockBackgroundTimer"-->
-            <!--android:summary="Block the activation of the background timer service. A change to this property requires restart to make active the new value."-->
-            <!--android:title="Block Timer" />-->
+        <!--style="@style/AppTheme.PrefCatStyle"-->
+        <!--android:background="@color/appgreydark"-->
+        <!--android:defaultValue="true"-->
+        <!--android:key="prefkey_BlockBackgroundTimer"-->
+        <!--android:summary="Block the activation of the background timer service. A change to this property requires restart to make active the new value."-->
+        <!--android:title="Block Timer" />-->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="prefkey_BlockDownloads"
@@ -21,7 +21,7 @@
             android:key="prefkey_BlockMarket"
             android:summary="Block the download of market data. Use to remove debug clutter."
             android:title="Block Market" />
-         <CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="prefkey_BlockCharacterUpdate"
             android:summary="Block the download of Character data exclusively. Rest of jobs are allowed."
@@ -61,6 +61,14 @@
             android:key="prefkey_AllowMoveRequests"
             android:summary="Analyzes the availability of resources outside the current location to fulfill manufacture requests. If disabled then outside resources are not used."
             android:title="Use Remote Resources" />
+        <EditTextPreference
+            android:key="prefkey_DefaultRefiningRatio"
+            android:defaultValue="30.0"
+            android:enabled="true"
+            android:numeric="integer"
+            android:persistent="true"
+            android:summary="Defines the refining ratio for a default refining location. Other locations marked as REFINING can have real game values set by the user."
+            android:title="Default Refining Ratio" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_Assets"

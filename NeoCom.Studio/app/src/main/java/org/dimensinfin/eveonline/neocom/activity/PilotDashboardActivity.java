@@ -66,7 +66,7 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 							this.getActionBar().setDisplayShowTitleEnabled(false);
 
 							// Create a new Action Bar view from the layout.
-							NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_appdashboard)
+							NeoComActionBar neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)
 									.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 									.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
 							// Server status has network access so it has to be executed on a background thread.

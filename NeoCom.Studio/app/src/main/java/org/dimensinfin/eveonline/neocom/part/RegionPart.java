@@ -20,10 +20,13 @@ import android.app.Activity;
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.render.ANodeBaseCountableRender;
+import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,7 +56,7 @@ public class RegionPart extends NeoComAbstractExpandablePart {
 	public RegionPart( final Region region ) {
 		super(region);
 		// Set the part color theme.
-		//		setThemeColor(Separator.ESeparatorType.LINE_RED);
+				setThemeColor(Separator.ESeparatorType.LINE_RED);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -99,53 +102,50 @@ public class RegionPart extends NeoComAbstractExpandablePart {
 		buffer.append(" ]");
 		return buffer.toString();
 	}
-}
+	// - CLASS IMPLEMENTATION ...................................................................................
+	/**
+	 * Defines the contents for a Region node. It uses a generic Expandable node that already defines the right arrow,
+	 * the expand collapse functionality, the panel type, the expandable node content count and a label to identify the
+	 * content count meaning.
+	 * It also has a reference for the panel background so it can be changed to the Part theme selected.
+	 */
+	public static class RegionRender extends ANodeBaseCountableRender {
+		// - S T A T I C - S E C T I O N ..........................................................................
 
-// - CLASS IMPLEMENTATION ...................................................................................
+		// - F I E L D - S E C T I O N ............................................................................
 
-/**
- * Defines the contents for a Region node. It uses a generic Expandable node that already defines the right arrow,
- * the expand collapse functionality, the panel type, the expandable node content count and a label to identify the
- * content count meaning.
- * It also has a reference for the panel background so it can be changed to the Part theme selected.
- */
-final class RegionRender extends AbstractExpandableRender {
-	// - S T A T I C - S E C T I O N ..........................................................................
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public RegionRender( final RegionPart target, final Activity context ) {
+			super(target, context);
+		}
 
-	// - F I E L D - S E C T I O N ............................................................................
+		// - M E T H O D - S E C T I O N ..........................................................................
+		// --- N E O C O M   R E N D E R   R E Q U I R E M E N T S
+		@Override
+		public RegionPart getPart() {
+			return (RegionPart) super.getPart();
+		}
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public RegionRender( final RegionPart target, final Activity context ) {
-		super(target, context);
-	}
+		//	@Override
+		//	public void initializeViews () {
+		//	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- N E O C O M   R E N D E R   R E Q U I R E M E N T S
-	@Override
-	public RegionPart getPart() {
-		return (RegionPart) super.getPart();
-	}
+		@Override
+		public void updateContent() {
+//			logger.info(">> [RegionRender.updateContent]");
+			super.updateContent();
+			nodeIcon.setImageDrawable(getDrawable(R.drawable.map));
+			name.setText(this.getPart().getTName());
+			childCount.setText(this.getPart().getTContentCount());
 
-	//	@Override
-	//	public void initializeViews () {
-	//	}
-
-	@Override
-	public void updateContent() {
-		logger.info(">> [RegionRender.updateContent]");
-		super.updateContent();
-		nodeIcon.setImageDrawable(getDrawable(R.drawable.map));
-		name.setText(this.getPart().getTName());
-		childCount.setText(this.getPart().getTContentCount());
-
-		// Set this variant labels
-		classLabel.setText("REGION");
-		categoryLabel.setText("LOCATIONS");
-		setPanelBorderColor(getPart().getThemeColor());
-		_convertView.invalidate();
-		logger.info("<< [RegionRender.updateContent]");
+			// Set this variant labels
+			classLabel.setText("REGION");
+			categoryLabel.setText("LOCATIONS");
+			setPanelBorderColor(getPart().getThemeColor());
+			_convertView.invalidate();
+//			logger.info("<< [RegionRender.updateContent]");
+		}
 	}
 }
-
 // - UNUSED CODE ............................................................................................
 //[01]

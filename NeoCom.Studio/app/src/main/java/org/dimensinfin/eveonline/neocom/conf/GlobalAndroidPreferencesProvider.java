@@ -15,14 +15,12 @@ package org.dimensinfin.eveonline.neocom.conf;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 
 /**
  * This class is specific for the Data Management and the pure java instances. It will replicate the Preferences interface
  * found in Android so the code should be compatible with the Preferences Manager implemented in Android platform.
- * <p>
+ *
  * The java and Spring Boot implementation for the preferences will export all the data found at the Properties so it would not
  * need another data source for exporting the information.
  * @author Adam Antinoo
@@ -45,14 +43,19 @@ public class GlobalAndroidPreferencesProvider implements IGlobalPreferencesManag
 	public boolean getBooleanPreference( final String preferenceName ) {
 		return getBooleanPreference(preferenceName, false);
 	}
-//	// TODO - Temporarily get the preferences from the external configuration file until I manage to activate the menu.
-//	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
-//		return GlobalDataManager.getResourceBoolean(preferenceName, defaultValue);
-//	}
+	//	// TODO - Temporarily get the preferences from the external configuration file until I manage to activate the menu.
+	//	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
+	//		return GlobalDataManager.getResourceBoolean(preferenceName, defaultValue);
+	//	}
 
 	public boolean getBooleanPreference( final String preferenceName, final boolean defaultValue ) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AndroidGlobalDataManager.getAppContext());
 		return preferences.getBoolean(preferenceName, defaultValue);
+	}
+
+	public float getFloatPreference( final String preferenceName, final float defaultValue ) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AndroidGlobalDataManager.getAppContext());
+		return preferences.getFloat(preferenceName, defaultValue);
 	}
 }
 

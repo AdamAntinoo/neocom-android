@@ -18,6 +18,7 @@ package org.dimensinfin.eveonline.neocom.part.core;
 import android.text.Html;
 import android.text.Spanned;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
@@ -26,13 +27,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
+public abstract class NeoComAbstractPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static Logger logger = LoggerFactory.getLogger("NeoComAbstractPart");
 
@@ -41,6 +43,22 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 	public static DecimalFormat securityFormatter = new DecimalFormat("0.0");
 	public static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 	public static DecimalFormat percentageZeroFormat = new DecimalFormat("#0%");
+	public static DecimalFormat priceFormatter = new DecimalFormat("###,###.00");
+	public static HashMap<Integer, String> securityLevels = new HashMap<Integer, String>();
+
+	static {
+		NeoComAbstractPart.securityLevels.put(10, "#2FEFEF");
+		NeoComAbstractPart.securityLevels.put(9, "#48F0C0");
+		NeoComAbstractPart.securityLevels.put(8, "#00EF47");
+		NeoComAbstractPart.securityLevels.put(7, "#00F000");
+		NeoComAbstractPart.securityLevels.put(6, "#8FEF2F");
+		NeoComAbstractPart.securityLevels.put(5, "#EFEF00");
+		NeoComAbstractPart.securityLevels.put(4, "#D77700");
+		NeoComAbstractPart.securityLevels.put(3, "#F06000");
+		NeoComAbstractPart.securityLevels.put(2, "#F04800");
+		NeoComAbstractPart.securityLevels.put(1, "#D73000");
+		NeoComAbstractPart.securityLevels.put(0, "#F00000");
+	}
 
 	// --- S T A T I C   M O D E L   D A T A   T R A N S F O R M E R S
 	public static String generatePriceString( final double price, final boolean compress, final boolean addSuffix ) {
@@ -105,6 +123,12 @@ public abstract class NeoComAbstractPart extends NeoComAbstractPartOld {
 		this._themeColor = themeColor;
 		return this;
 	}
+
+//	@Override
+//	public boolean runDependencies() {
+//		return false;
+//	}
+
 	@Deprecated
 	protected Spanned colorFormatLocation( final EveLocation location ) {
 		StringBuffer htmlLocation = new StringBuffer();

@@ -101,7 +101,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 			ds = new AssetsByLocationDataSource(locator, getVariant(), getFactory(), getExtras())
 					.setAssetsManager(((IAssetsManagerOwner) this.getAppContext()).accessAssetsManager())
 					.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
-					.setCacheable(true);
+					.setCacheable(false);
 		}
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_SEARCH.name()) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());

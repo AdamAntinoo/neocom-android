@@ -147,7 +147,7 @@ public class MiningExtractionPart extends AColorThemedPart<MiningExtraction> imp
 				intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 			}
 			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
-			intent.putExtra(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name()
+			intent.putExtra(NeoComApplication.EExtras.RESOURCESYSTEM_IDENTIFIER.name()
 					, ((MiningExtractionPart) resourcePart).getCastedModel().getSolarSystemId());
 			getActivity().startActivity(intent);
 		}

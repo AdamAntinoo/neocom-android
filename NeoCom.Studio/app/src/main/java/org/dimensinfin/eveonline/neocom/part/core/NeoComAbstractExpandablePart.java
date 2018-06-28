@@ -15,30 +15,30 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part.core;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.List;
+import android.os.Handler;
+import android.view.View;
 
-import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.core.util.Chrono;
+import org.dimensinfin.eveonline.neocom.interfaces.IShipContainer;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoComNode> {
+public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoComNode> implements View.OnClickListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = LoggerFactory.getLogger("NeoComAbstractExpandablePart");
+	//	private static Logger logger = LoggerFactory.getLogger("NeoComAbstractExpandablePart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Separator.ESeparatorType _themeColor = Separator.ESeparatorType.LINE_WHITE;
@@ -58,6 +58,38 @@ public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoC
 		this._themeColor = themeColor;
 		return this;
 	}
+
+	public void onClick( final View view ) {
+		logger.info(">> [AbstractExpandablePart.onClick]");
+		// Signal the action may take some time and launch it on the background.
+		activateClick();
+		// Force the update of the view by eliminating it form the Part cache. This forces a redraw and updates the model.
+		invalidate();
+
+		new Handler().postDelayed(new OneShotTask<NeoComAbstractExpandablePart>(this) {
+			public void run() {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
+						Chrono chrono = new Chrono();
+						getTarget().toggleExpanded();
+						getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
+						completeClick();
+						getTarget().invalidate();
+						logger.info("<< [NeoComExpandablePart.onClick.OneShotTask.run]> Time Elapsed: " + chrono.printElapsed
+								(Chrono.ChronoOptions.SHOWMILLIS));
+					}
+				});
+			}
+		}, TimeUnit.MICROSECONDS.toMillis(500));
+		logger.info("<< [NeoComExpandablePart.onClick]");
+	}
+
+	private NeoComAbstractExpandablePart getTarget() {
+		return this;
+	}
+
 	/**
 	 * New implementation for the collaboration to the view for all NeoCom parts using a Part collector that allows to
 	 * use a single final list so no more copies and memory use to keep all the changes on the flow. This is a full
@@ -69,15 +101,14 @@ public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoC
 	public void collaborate2View( List<IAndroidPart> contentCollector ) {
 		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
-		if (this.isExpanded()) {
-			if (this.isEmpty()) {
-				if (this.isRenderWhenEmpty()) {
+		if ( this.isExpanded() ) {
+			if ( this.isEmpty() ) {
+				if ( this.isRenderWhenEmpty() ) {
 					// The node is surrounded with a Separator at the beginning and at the end.
 					contentCollector.add(new SeparatorPart(new Separator()
 							.setType(getThemeColor()))
 							.setRenderMode(this.getRenderMode()));
 					contentCollector.add(this);
-
 					contentCollector.add(new SeparatorPart(new Separator()
 							.setType(Separator.ESeparatorType.EMPTY_SIGNAL))
 							.setRenderMode(this.getRenderMode()));
@@ -96,7 +127,7 @@ public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoC
 				List<IPart> childParts = this.runPolicies(this.getChildren());
 				// --- End of policies
 				for (IPart part : childParts) {
-					if (part instanceof IAndroidPart)
+					if ( part instanceof IAndroidPart )
 						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
 						((IAndroidPart) part).collaborate2View(contentCollector);
 				}
@@ -106,9 +137,19 @@ public abstract class NeoComAbstractExpandablePart extends AColorThemedPart<NeoC
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
-			if (this.isRenderWhenEmpty()) {
-				//				runDependencies();
+			if ( this.isRenderWhenEmpty() ) {
 				contentCollector.add(this);
+			}
+			// There are items that not being expandible can contain other objects. Expand them.
+			if ( this.getModel() instanceof IShipContainer ) {
+				// --- This is the section where we get the Contents and then we apply the customized Part policies.
+				List<IPart> childParts = this.runPolicies(this.getChildren());
+				// --- End of policies
+				for (IPart part : childParts) {
+					if ( part instanceof IAndroidPart )
+						// For each of the children that are registered to this part and that have a model recursively search for collaborations.
+						((IAndroidPart) part).collaborate2View(contentCollector);
+				}
 			}
 		}
 	}

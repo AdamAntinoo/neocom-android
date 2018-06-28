@@ -52,13 +52,14 @@ import java.sql.SQLException;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class NeoComApplication extends Application {
 	public enum EExtras {
-		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, REFININGLOCATION_IDENTIFIER, ASSETFILTER_DEFINITION
+		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, RESOURCESYSTEM_IDENTIFIER, ASSETFILTER_DEFINITION
 	}
 
 	public enum EVariants {
 		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
 		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
-		SKILLS_QUEUE, SKILLS_TRAINED
+		SKILLS_QUEUE, SKILLS_TRAINED,
+		SHIPS_BYTYPE
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................

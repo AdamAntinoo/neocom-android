@@ -105,7 +105,7 @@ public class MiningLedgerFragment extends AbstractPagerFragment {
 						, createFactory()
 						, getExtras())
 						.setCredential(((ICredentialActivity) this.getAppContext()).getCredential())
-						.setRefreshTime(1)
+						.setRefreshTime(5)
 						.setCacheable(false);
 			} else
 				return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
