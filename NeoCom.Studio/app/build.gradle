@@ -1,6 +1,16 @@
+//--- P L U G I N S
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android'
 apply plugin: 'project-report'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    google()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
 
 android {
     compileSdkVersion 27
@@ -109,19 +119,19 @@ android {
 //    delete 'src/main/resources/yaml'
 //}
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
-task copyResources(type: Copy) {
-    copy {
-        // NeoCom.Model Properties
-        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
-        from project(':NeoCom.Model').file('src/main/resources')
-        into file('src/main/assets')
-    }
-    copy {
-        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
-        from project(':NeoCom.DataManagement').file('src/main/resources')
-        into file('src/main/assets')
-    }
-}
+//task copyResources(type: Copy) {
+//    copy {
+//        // NeoCom.Model Properties
+//        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.Model').file('src/main/resources')
+//        into file('src/main/assets')
+//    }
+//    copy {
+//        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.DataManagement').file('src/main/resources')
+//        into file('src/main/assets')
+//    }
+//}
 //--- D E P E N D E N C Y   V E R S I O N S
 ext.supportLibraryVersion = '27.1.1'
 ext.jodaTimeVersion = '2.3'
@@ -142,14 +152,24 @@ dependencies {
 
     // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':AndroidMVCLibrary')
-    implementation project(path: ':ESI.SwaggerApi')
-    implementation project(path: ':NeoCom.DataManagement')
-    implementation project(path: ':NeoCom.Model')
+//    implementation project(path: ':ESI.SwaggerApi')
+//    implementation project(path: ':NeoCom.DataManagement')
+//    implementation project(path: ':NeoCom.Model')
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/CoreBase.core-2.1.0.jar')
+    implementation files('libs/CoreBase.core-2.2.0.jar')
 //    implementation files('libs/viewpagerindicator-release.aar')
-//    implementation files('libs/AndroidMVC-3.1.0.aar')
+//<<<<<<< Updated upstream
+    implementation files('libs/AndroidMVC-3.1.0.aar')
+//=======
+//    implementation files('libs/AndroidMVC-2.1.0.aar')
+    implementation files('libs/ESI.SwaggerApi-2.0.0.jar')
+//    implementation files('libs/NeoCom.DataManagement-0.13.POC.jar')
+//    implementation files('libs/NeoCom.Model-0.13.POC.jar')
+//    implementation 'com.dimensinfin:CoreBase.core:2.2.0'
+//    implementation 'com.dimensinfin:NeoCom.DataManagement:0.13.POC'
+//    implementation 'com.dimensinfin:NeoCom.Model:0.13.POC'
+//>>>>>>> Stashed changes
 
     // M O D U L E    D E P E N D E N C I E S
     // C O R E
@@ -235,4 +255,7 @@ dependencies {
     //SQLite -> Chrome (debug)
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+    compile project(path: ':NeoCom.Model')
+    compile project(path: ':NeoCom.DataManagement')
+    compile project(path: ':NeoCom.DataManagement')
 }

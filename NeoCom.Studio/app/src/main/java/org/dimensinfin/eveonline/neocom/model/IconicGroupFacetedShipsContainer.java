@@ -15,45 +15,43 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.interfaces.IShipContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class IconicGroupFacetedShipsContainer extends IconicGroup implements IShipContainer/*, IExpandable */{
+public class DateFacetedMiningExtractionContainer extends NeoComExpandableNode {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("IconicGroupFacetedShipsContainer");
+	private static Logger logger = LoggerFactory.getLogger("DateFacetedMiningExtractionContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected boolean _expanded = false;
-	protected boolean _renderIfEmpty = true;
-
-	private List<Ship> contents = new ArrayList<>();
-	private double cargoValue = 0.0;
-	private double cargoVolume = 0.0;
+	private String containerTitle = "-TITLE-";
+	private List<MiningExtraction> contents = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public IconicGroupFacetedShipsContainer( final String title ) {
-		super(title);
+	public DateFacetedMiningExtractionContainer( final String date ) {
+		super();
+		this.containerTitle = date;
+		// Force this not to be expanded at all times.
+		this.expand();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	// --- I E X P A N D A B L E   I N T E R F A C E
 	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("IconicGroupFacetedShipsContainer [ ");
-		buffer.append("contentSize: ").append(this.getContentSize()).append(" ");
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+	public boolean isEmpty() {
+		if ( this.contents.size() > 0 ) return true;
+		else return false;
 	}
 
 	// --- I C O L L A B O R A T I O N   I N T E R F A C E
@@ -66,66 +64,33 @@ public class IconicGroupFacetedShipsContainer extends IconicGroup implements ISh
 		return collaboration;
 	}
 
-	// --- I S H I P C O N T A I N E R
-	@Override
-	public int addShip( final Ship node ) {
-		this.contents.add(node);
-		return this.contents.size();
+	// --- G E T T E R S   &   S E T T E R S
+	public String getContainerTitle() {
+		return containerTitle;
+	}
+
+	public List<MiningExtraction> getContents() {
+		return contents;
+	}
+
+	public int addMiningExtraction( final MiningExtraction miningOperation ) {
+		this.contents.add(miningOperation);
+		return contents.size();
+	}
+
+	public DateFacetedMiningExtractionContainer setContainerTitle( final String containerTitle ) {
+		this.containerTitle = containerTitle;
+		return this;
 	}
 
 	@Override
-	public List<Ship> getShips() {
-		return this.contents;
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("DateFacetedMiningExtractionContainer [ ");
+		buffer.append("name: ").append(0);
+		buffer.append("]");
+		buffer.append("->").append(super.toString());
+		return buffer.toString();
 	}
-
-	@Override
-	public int getContentSize() {
-		return this.contents.size();
-	}
-
-	//	@Override
-	//	public double getCargoValue(){
-	//		return this.cargoValue;
-	//	}
-	//	@Override
-	//	public double getCargoVolume(){
-	//		return this.cargoVolume;
-	//	}
-
-	// --- I E X P A N D A B L E   I N T E R F A C E
-//	@Override
-	public boolean collapse() {
-		_expanded = false;
-		return _expanded;
-	}
-
-//	@Override
-	public boolean expand() {
-		_expanded = true;
-		return _expanded;
-	}
-
-//	@Override
-	public boolean isEmpty() {
-		if ( this.contents.size() > 0 ) return false;
-		else return true;
-	}
-
-//	@Override
-	public boolean isExpanded() {
-		return true;
-	}
-
-//	@Override
-	public boolean isRenderWhenEmpty() {
-		return false;
-	}
-
-//	@Override
-//	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
-//		_renderIfEmpty = renderWhenEmpty;
-//		return this;
-//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

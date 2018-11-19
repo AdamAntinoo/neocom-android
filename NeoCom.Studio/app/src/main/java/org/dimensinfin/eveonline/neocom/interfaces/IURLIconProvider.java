@@ -15,7 +15,9 @@
 //                 rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.interfaces;
 
-import org.dimensinfin.eveonline.neocom.core.NeoComException;
+//import org.dimensinfin.eveonline.neocom.core.NeoComException;
+
+import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 
 /**
  * @author Adam Antinoo

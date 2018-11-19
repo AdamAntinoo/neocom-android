@@ -25,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.fragment.AssetsShipsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
+//import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
 
 /**
  * This activity collects tha pages related to the presentation and aggregation og pilot's assets. The different pages show the same

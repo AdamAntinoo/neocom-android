@@ -15,6 +15,10 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.database;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -29,29 +33,25 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entity.Colony;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.database.entity.DatabaseVersion;
-import org.dimensinfin.eveonline.neocom.database.entity.FittingRequest;
-import org.dimensinfin.eveonline.neocom.database.entity.Job;
-import org.dimensinfin.eveonline.neocom.database.entity.MarketOrder;
-import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComBlueprint;
-import org.dimensinfin.eveonline.neocom.database.entity.Property;
-import org.dimensinfin.eveonline.neocom.database.entity.RefiningData;
-import org.dimensinfin.eveonline.neocom.database.entity.TimeStamp;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.entities.Colony;
+import org.dimensinfin.eveonline.neocom.entities.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.entities.FittingRequest;
+import org.dimensinfin.eveonline.neocom.entities.Job;
+import org.dimensinfin.eveonline.neocom.entities.MarketOrder;
+import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.entities.NeoComBlueprint;
+import org.dimensinfin.eveonline.neocom.entities.Property;
+import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.Callable;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.exception.NeoComException;
+import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
 /**
  * NeoCom private database connector that will have the same api as the connector to be used on Android. This
@@ -84,7 +84,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<MarketOrder, String> marketOrderDao = null;
 	private Dao<FittingRequest, String> fittingRequestDao = null;
 	private Dao<MiningExtraction, String> miningExtractionDao = null;
-	private Dao<RefiningData, String> refiningDataDao = null;
 
 	private Dao<Colony, String> colonyDao = null;
 	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
@@ -196,11 +195,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		}
 		try {
 			TableUtils.createTableIfNotExists(databaseConnection, MiningExtraction.class);
-		} catch (SQLException sqle) {
-			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-		}
-		try {
-			TableUtils.createTableIfNotExists(databaseConnection, RefiningData.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
@@ -317,18 +311,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				sqle.printStackTrace();
 			}
 		}
-		if ( oldVersion < 114 ) {
-			try {
-				try {
-					TableUtils.createTableIfNotExists(databaseConnection, RefiningData.class);
-				} catch (SQLException sqle) {
-					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-				}
-			} catch (RuntimeException rtex) {
-				logger.error("E> Error dropping table MiningExtraction on Database new version.");
-				rtex.printStackTrace();
-			}
-		}
 		this.onCreate(databaseConnection);
 		logger.info("<< [NeoComAndroidDBHelper.onUpgrade]");
 	}
@@ -430,32 +412,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		//			logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
 		//			rtex.printStackTrace();
 		//		}
-				try {
-					//--- R E F I N I N G D A T A
-					logger.info("-- [NeoComAndroidDBHelper.loadSeedData]> Loading RefiningData");
-					final long records = this.getRefiningDataDao().countOf();
-					// If the table is empty then insert the seeded Properties
-					if (records < 1) {
-						RefiningData data = new RefiningData()
-								.setLocationIdentifier(30002068)
-								.setRefiningRatio(57.80f)
-								.store();
-						data = new RefiningData()
-								.setLocationIdentifier(30002068)
-								.setRefiningRatio(57.80f)
-								.store();
-						data = new RefiningData()
-								.setLocationIdentifier(60006040)
-								.setRefiningRatio(52.40f)
-								.store();
-					}
-				} catch (SQLException sqle) {
-					logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
-					sqle.printStackTrace();
-				} catch (RuntimeException rtex) {
-					logger.error("E [NeoComAndroidDBHelper.loadSeedData]> Error creating the initial table on the app database.");
-					rtex.printStackTrace();
-				}
 		logger.info("<< [NeoComAndroidDBHelper.loadSeedData]");
 	}
 
@@ -548,14 +504,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<RefiningData, String> getRefiningDataDao() throws SQLException {
-		if ( null == refiningDataDao ) {
-			refiningDataDao = DaoManager.createDao(this.getConnectionSource(), RefiningData.class);
-		}
-		return refiningDataDao;
-	}
-
-	@Override
 	public Dao<Colony, String> getColonyDao() throws SQLException {
 		if ( null == colonyDao ) {
 			colonyDao = DaoManager.createDao(this.getConnectionSource(), Colony.class);
@@ -634,7 +582,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 						// Replace the owner to vake the assets valid.
 						final UpdateBuilder<NeoComAsset, String> updateBuilder = getAssetDao().updateBuilder();
 						updateBuilder.updateColumnValue("ownerId", pilotid)
-								.where().eq("ownerId", (pilotid * -1));
+						             .where().eq("ownerId", (pilotid * -1));
 						count = updateBuilder.update();
 						logger.info("-- [NeoComAndroidDBHelper.replaceAssets]> Replace owner {} for assets: {}", pilotid, count);
 						return null;
@@ -657,7 +605,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 						// Remove all assets that do not have a valid owner.
 						final UpdateBuilder<NeoComBlueprint, String> updateBuilder = getBlueprintDao().updateBuilder();
 						updateBuilder.updateColumnValue("ownerId", pilotid)
-								.where().eq("ownerId", (pilotid * -1));
+						             .where().eq("ownerId", (pilotid * -1));
 						int count = updateBuilder.update();
 						logger.info("-- [NeoComAndroidDBHelper.replaceBlueprints]> Replace owner {} for blueprints: {}", pilotid, count);
 						return null;
