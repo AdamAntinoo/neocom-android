@@ -27,7 +27,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
+import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
  * This abstract render will manage all the ui elements on the generic <b>nodebase_decorated</b> layout. This layout has two
@@ -57,13 +57,13 @@ public abstract class ANodeBaseDecoratedRender extends AbstractRender {
 
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ANodeBaseDecoratedRender( final AColorThemedPart newPart, final Activity context ) {
+	public ANodeBaseDecoratedRender( final NeoComAbstractPart newPart, final Activity context ) {
 		super(newPart, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AColorThemedPart getPart() {
-		return (AColorThemedPart) _part;
+	public NeoComAbstractPart getPart() {
+		return (NeoComAbstractPart) _part;
 	}
 
 	// --- A B S T R A C T R E N D E R   O V E R R I D E S
@@ -88,28 +88,28 @@ public abstract class ANodeBaseDecoratedRender extends AbstractRender {
 		bottomrightDecorator.setVisibility(View.GONE);
 		bottomleftDecorator.setVisibility(View.GONE);
 
-		if (null != _rightArrow)
+		if ( null != _rightArrow )
 			_rightArrow.setVisibility(View.GONE);
-		if (null != _separator)
+		if ( null != _separator )
 			_separator.setVisibility(View.VISIBLE);
-		if (null != _menuIcon)
+		if ( null != _menuIcon )
 			_menuIcon.setVisibility(View.GONE);
 
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = getPart().getModel();
-		if (null != _rightArrow) {
-			if (targetModel instanceof IExpandable) {
+		if ( null != _rightArrow ) {
+			if ( targetModel instanceof IExpandable ) {
 				_rightArrow.setVisibility(View.VISIBLE);
 				_separator.setVisibility(View.GONE);
-				if (this.getPart().isExpanded()) {
+				if ( this.getPart().isExpanded() ) {
 					_rightArrow.setImageResource(org.dimensinfin.android.mvc.R.drawable.arrowdown);
 				} else {
 					_rightArrow.setImageResource(org.dimensinfin.android.mvc.R.drawable.arrowright);
 				}
 
 				// Check if the click is running and then replace the right arrow by an spinner.
-				if (getPart().clickRunning()) {
-					if (null != _rightArrow) {
+				if ( getPart().clickRunning() ) {
+					if ( null != _rightArrow ) {
 						logger.info("-- [ANodeBaseDecoratedRender.updateContent]> Activating spinner animation.");
 						// The spinner color depends on the Part color theme.
 						final Separator.ESeparatorType theme = this.getPart().getThemeColor();
@@ -130,8 +130,8 @@ public abstract class ANodeBaseDecoratedRender extends AbstractRender {
 				}
 			}
 		}
-		if (null != _menuIcon) {
-			if (this.getPart() instanceof IMenuActionTarget)
+		if ( null != _menuIcon ) {
+			if ( this.getPart() instanceof IMenuActionTarget )
 				_menuIcon.setVisibility(View.VISIBLE);
 		}
 	}

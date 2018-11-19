@@ -15,18 +15,13 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.SearchView;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.fragment.AssetsShipsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
@@ -49,16 +44,16 @@ public class AssetsManagerActivity extends APublicCredentialActivity implements 
 	private AssetsManager assetsManager = null;
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	@Override
-//	public boolean onCreateOptionsMenu( Menu menu ) {
-//		final MenuInflater inflater = this.getMenuInflater();
-//		inflater.inflate(R.menu.neocom_menu, menu);
-//
-//		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//		return super.onCreateOptionsMenu(menu);
-//	}
+	//	@Override
+	//	public boolean onCreateOptionsMenu( Menu menu ) {
+	//		final MenuInflater inflater = this.getMenuInflater();
+	//		inflater.inflate(R.menu.neocom_menu, menu);
+	//
+	//		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	//		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+	//		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	//		return super.onCreateOptionsMenu(menu);
+	//	}
 
 	// --- I A S S E T S M A N A G E R O W N E R   I N T E R F A C E
 	public AssetsManager accessAssetsManager() {
@@ -75,6 +70,7 @@ public class AssetsManagerActivity extends APublicCredentialActivity implements 
 			// Initialize this Activity assets manager to get access to all the data.
 			this.assetsManager = new AssetsManager(this.credential);
 			this.addPage(new AssetsFragment().setVariant(NeoComApplication.EVariants.ASSETS_BYLOCATION.name()));
+			this.addPage(new AssetsShipsFragment().setVariant(NeoComApplication.EVariants.SHIPS_BYTYPE.name()));
 		} catch (RuntimeException rtex) {
 			AndroidGlobalDataManager.registerRuntimeException("AssetsManagerActivity.onCreate"
 					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
@@ -82,6 +78,12 @@ public class AssetsManagerActivity extends APublicCredentialActivity implements 
 			this.addPage(new ApplicationExceptionReportFragment());
 		}
 		logger.info("<< [AssetsManagerActivity.onCreate]");
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		startProgress(0);
 	}
 }
 //- UNUSED CODE ............................................................................................

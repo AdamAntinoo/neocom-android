@@ -16,24 +16,10 @@
 package org.dimensinfin.eveonline.neocom.render;
 
 import android.app.Activity;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.part.core.AColorThemedPart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -53,14 +39,14 @@ public abstract class ANodeBaseCountableRender extends ANodeBaseDecoratedRender 
 	protected TextView categoryLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ANodeBaseCountableRender( final AColorThemedPart newPart, final Activity context ) {
+	public ANodeBaseCountableRender( final NeoComAbstractPart newPart, final Activity context ) {
 		super(newPart, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public void initializeViews () {
-				super.initializeViews();
+	public void initializeViews() {
+		super.initializeViews();
 		name = (TextView) _convertView.findViewById(org.dimensinfin.android.mvc.R.id.name);
 		childCount = (TextView) _convertView.findViewById(org.dimensinfin.android.mvc.R.id.childCount);
 
@@ -68,37 +54,37 @@ public abstract class ANodeBaseCountableRender extends ANodeBaseDecoratedRender 
 		categoryLabel = (TextView) _convertView.findViewById(org.dimensinfin.android.mvc.R.id.categoryLabel);
 	}
 
-//	/**
-//	 * Check if the expandable nodes have a click active. During the click show the spinner until the action finishes
-//	 * with a new <code>updateContent()</code>.
-//	 */
-//	@Override
-//	public void updateContent () {
-//				super.updateContent();
-//		// Set the initial setup.
-//		classLabel.setVisibility(View.GONE);
-//		categoryLabel.setVisibility(View.GONE);
-//
-//		// Check if the model is expandable to chow the contents counter.
-//			if ( this.getPart().getCastedModel() instanceof IExpandable) {
-//				// Show the counter of the expandable contents.
-//				childCount.setText(this.getPart()
-//
-//						NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getLocationCount());
-//
-//
-//				// Check if the click is running and then replace the right arrow by an spinner.
-//				if ( getPart().clickRunning() ) {
-//					if ( null != _rightArrow ) {
-//						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
-//						_rightArrow.setImageDrawable(getDrawable(org.dimensinfin.android.mvc.R.drawable.progress_spinner_orange));
-//						Animation rotation = AnimationUtils.loadAnimation(getContext(), org.dimensinfin.android.mvc.R.anim.clockwise_rotation);
-//						rotation.setRepeatCount(Animation.INFINITE);
-//						_rightArrow.startAnimation(rotation);
-//					}
-//				}
-//			} else _rightArrow.setVisibility(View.GONE);
-//	}
+	//	/**
+	//	 * Check if the expandable nodes have a click active. During the click show the spinner until the action finishes
+	//	 * with a new <code>updateContent()</code>.
+	//	 */
+	//	@Override
+	//	public void updateContent () {
+	//				super.updateContent();
+	//		// Set the initial setup.
+	//		classLabel.setVisibility(View.GONE);
+	//		categoryLabel.setVisibility(View.GONE);
+	//
+	//		// Check if the model is expandable to chow the contents counter.
+	//			if ( this.getPart().getCastedModel() instanceof IExpandable) {
+	//				// Show the counter of the expandable contents.
+	//				childCount.setText(this.getPart()
+	//
+	//						NeoComAbstractPart.itemCountFormatter.format(this.getCastedModel().getLocationCount());
+	//
+	//
+	//				// Check if the click is running and then replace the right arrow by an spinner.
+	//				if ( getPart().clickRunning() ) {
+	//					if ( null != _rightArrow ) {
+	//						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
+	//						_rightArrow.setImageDrawable(getDrawable(org.dimensinfin.android.mvc.R.drawable.progress_spinner_orange));
+	//						Animation rotation = AnimationUtils.loadAnimation(getContext(), org.dimensinfin.android.mvc.R.anim.clockwise_rotation);
+	//						rotation.setRepeatCount(Animation.INFINITE);
+	//						_rightArrow.startAnimation(rotation);
+	//					}
+	//				}
+	//			} else _rightArrow.setVisibility(View.GONE);
+	//	}
 	@Override
 	public int accessLayoutReference() {
 		return R.layout.nodebase_countable4expand;
