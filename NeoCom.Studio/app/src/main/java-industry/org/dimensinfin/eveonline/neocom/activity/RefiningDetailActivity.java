@@ -20,8 +20,9 @@ import android.support.annotation.Nullable;
 
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
-import org.dimensinfin.eveonline.neocom.core.NeoComException;
+//import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 

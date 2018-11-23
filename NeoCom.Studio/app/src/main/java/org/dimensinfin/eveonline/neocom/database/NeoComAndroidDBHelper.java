@@ -42,6 +42,7 @@ import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.entities.NeoComBlueprint;
 import org.dimensinfin.eveonline.neocom.entities.Property;
+import org.dimensinfin.eveonline.neocom.entities.RefiningData;
 import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +85,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<MarketOrder, String> marketOrderDao = null;
 	private Dao<FittingRequest, String> fittingRequestDao = null;
 	private Dao<MiningExtraction, String> miningExtractionDao = null;
+	private Dao<RefiningData, String> refiningDataDao = null;
 
 	private Dao<Colony, String> colonyDao = null;
 	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
@@ -225,7 +227,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 	@Override
 	public void onUpgrade( final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
-		logger.info(">> [NeoComAndroidDBHelper.onUpgrade] to: {}> From: {}"
+		logger.info(">> [NeoComAndroidDBHelper.onUpgrade]> From: {} -> To: {}"
 				, oldVersion, newVersion);
 		// Execute different actions depending on the new version.
 		if ( oldVersion < 109 ) {
@@ -308,6 +310,55 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
 				logger.error("E> Error dropping table MiningExtraction on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		if ( oldVersion < 116 ) {
+			try {
+				// Drop all the tables to force a new update from the latest SQLite version.
+				TableUtils.dropTable(databaseConnection, Credential.class, true);
+				try {
+					TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
+				} catch (SQLException sqle) {
+					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+				}
+			} catch (RuntimeException rtex) {
+				logger.error("E> Error dropping table Credential on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				logger.error("E> Error dropping table Credential on Database new version.");
+				sqle.printStackTrace();
+			}
+			try {
+				// Drop all the tables to force a new update from the latest SQLite version.
+				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
+				try {
+					TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+				} catch (SQLException sqle) {
+					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+				}
+			} catch (RuntimeException rtex) {
+				logger.error("E> Error dropping table EveLocation on Database new version.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				logger.error("E> Error dropping table EveLocation on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		if ( oldVersion < 118 ) {
+			try {
+				// Drop all the tables to force a new update from the latest SQLite version.
+				TableUtils.dropTable(databaseConnection, NeoComAsset.class, true);
+				try {
+					TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
+				} catch ( SQLException sqle ) {
+					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+				}
+			} catch ( RuntimeException rtex ) {
+				logger.error("E> Error dropping table NeoComAsset on Database new version.");
+				rtex.printStackTrace();
+			} catch ( SQLException sqle ) {
+				logger.error("E> Error dropping table NeoComAsset on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -501,6 +552,13 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			miningExtractionDao = DaoManager.createDao(this.getConnectionSource(), MiningExtraction.class);
 		}
 		return miningExtractionDao;
+	}
+	@Override
+	public Dao<RefiningData, String> getRefiningDataDao() throws SQLException {
+		if ( null == refiningDataDao ) {
+			refiningDataDao = DaoManager.createDao(this.getConnectionSource(), RefiningData.class);
+		}
+		return refiningDataDao;
 	}
 
 	@Override

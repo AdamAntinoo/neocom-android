@@ -25,10 +25,12 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
+//import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
+//import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
+import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
@@ -247,14 +249,14 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 						//--- L O C A T I O N
 						// Check if this Location is already present on this Region.
-						LocationFacetedAssetsContainer locationHit = locations.get(loc.getID());
+						LocationFacetedAssetsContainer locationHit = locations.get(loc.getId());
 						if (null == locationHit) {
 							// This is a new location. Add it to the Region and check if this affects the UI.
 							// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
 							locationHit = new LocationFacetedAssetsContainer(loc);
 							//							locationHit.setContentManager(new StandardContentManager(locationHit));
 							if (filtering) locationHit.expand();
-							locations.put(loc.getID(), locationHit);
+							locations.put(loc.getId(), locationHit);
 							regionHit.addLocation(locationHit);
 							// If the Region is expanded then we should regenerate the UI.
 							if (regionHit.isExpanded())

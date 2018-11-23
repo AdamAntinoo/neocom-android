@@ -154,7 +154,7 @@ public class AuthorizationFlowActivity extends Activity {
 				final Response<VerifyCharacterResponse> verificationResponse = verificationService.getVerification("Bearer " + accessToken).execute();
 
 				if ( verificationResponse.isSuccessful() ) {
-					logger.info("-- [LoginController.exchangeAuthorization]> Character verification OK.");
+					logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it on the application repository.
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential(newAccountIdentifier);
@@ -163,7 +163,7 @@ public class AuthorizationFlowActivity extends Activity {
 					          .setTokenType(token.getTokenType())
 					          .setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 					          .setRefreshToken(token.getRefreshToken())
-					          .setDataSource(GlobalDataManager.SERVER_DATASOURCE)
+					          .setDataSource(AndroidGlobalDataManager.TRANQUILITY_DATASOURCE)
 					          .setScope(ESINetworkManager.getStringScopes())
 					          .store();
 					// Once the credential is stored we go back to the Dashboard Activity.

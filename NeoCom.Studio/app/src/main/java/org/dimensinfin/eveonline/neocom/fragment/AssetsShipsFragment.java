@@ -24,9 +24,11 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
+//import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
+//import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
+import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
@@ -155,7 +157,7 @@ public class AssetsShipsFragment extends AbstractPagerFragment {
 					boolean filtering = false;
 					if ( null != filter ) filtering = true;
 
-					// TODO - Do not use the dynamic feture until it is fully operative.
+					// TODO - Do not use the dynamic feature until it is fully operative.
 					// --- L O O P   S T A R T
 					for (NeoComAsset asset : assetList) {
 						// Filter out all assets but ships.

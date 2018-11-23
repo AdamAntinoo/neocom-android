@@ -186,10 +186,10 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 
 							//--- L O C A T I O N
 							// Check if this Location is already present the cache.
-							LocationFacetedAssetsContainer locationHit = locations.get(loc.getID());
+							LocationFacetedAssetsContainer locationHit = locations.get(loc.getId());
 							if (null == locationHit) {
 								locationHit = new LocationFacetedAssetsContainer(loc);
-								locations.put(loc.getID(), locationHit);
+								locations.put(loc.getId(), locationHit);
 								this.addModelContents(locationHit);
 								logger.info("-- [MineralResourcesDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
 										, locationHit.getStation());

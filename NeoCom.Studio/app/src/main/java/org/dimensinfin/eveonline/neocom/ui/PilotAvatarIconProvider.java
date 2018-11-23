@@ -15,7 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.ui;
 
-import org.dimensinfin.eveonline.neocom.core.NeoComException;
+//import org.dimensinfin.eveonline.neocom.core.NeoComException;
+import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.slf4j.Logger;

@@ -15,31 +15,29 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DateFacetedMiningExtractionContainer extends NeoComExpandableNode {
+public class IconicGroupFacetedShipsContainer extends NeoComExpandableNode {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("DateFacetedMiningExtractionContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String containerTitle = "-TITLE-";
-	private List<MiningExtraction> contents = new ArrayList<>();
+	private List<Ship> contents = new ArrayList<>();
+	private int iconReference;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DateFacetedMiningExtractionContainer( final String date ) {
+	public IconicGroupFacetedShipsContainer( final String date ) {
 		super();
 		this.containerTitle = date;
 		// Force this not to be expanded at all times.
@@ -69,28 +67,36 @@ public class DateFacetedMiningExtractionContainer extends NeoComExpandableNode {
 		return containerTitle;
 	}
 
-	public List<MiningExtraction> getContents() {
+	public List<Ship> getContents() {
 		return contents;
 	}
 
-	public int addMiningExtraction( final MiningExtraction miningOperation ) {
-		this.contents.add(miningOperation);
+	//	public int addMiningExtraction( final MiningExtraction miningOperation ) {
+//		this.contents.add(miningOperation);
+//		return contents.size();
+//	}
+	public int addShip( final Ship newship ) {
+		this.contents.add(newship);
 		return contents.size();
 	}
 
-	public DateFacetedMiningExtractionContainer setContainerTitle( final String containerTitle ) {
+	public IconicGroupFacetedShipsContainer setContainerTitle( final String containerTitle ) {
 		this.containerTitle = containerTitle;
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("DateFacetedMiningExtractionContainer [ ");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+	public void setIconReference( final int iconReference ) {
+		this.iconReference = iconReference;
 	}
+
+//	@Override
+//	public String toString() {
+//		StringBuffer buffer = new StringBuffer("IconicGroupFacetedShipsContainer [ ");
+//		buffer.append("name: ").append(0);
+//		buffer.append("]");
+//		buffer.append("->").append(super.toString());
+//		return buffer.toString();
+//	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

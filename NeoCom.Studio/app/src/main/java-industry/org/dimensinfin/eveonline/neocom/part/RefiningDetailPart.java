@@ -27,8 +27,8 @@ import com.squareup.picasso.Picasso;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
@@ -77,20 +77,22 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 				//			MarketDataEntry closestHub = null;
 				for (MarketDataEntry entry : data.getDataOnMarketHub()) {
 					// Get the jump distance from the hub and the resource location.
-					final int hubSystemId = entry.getSystemId();
-					int jumps = AndroidGlobalDataManager.calculateRouteJumps(credential,
-							this.getCastedModel().getResourceLocation(),
-							hubSystemId
-					);
+					final int hubSystemId = entry.getLocation().getSystemId();
+//					int jumps = AndroidGlobalDataManager.calculateRouteJumps(credential,
+//							this.getCastedModel().getResourceLocation(),
+//							hubSystemId
+//					);
+					// TODO set jumpt to a single value because the resource has not location.
+					int jumps = 1;
 					if ( jumps < minJumps ) {
 						minJumps = jumps;
 						closestHub = entry;
 					}
 				}
 				this.jumps = minJumps;
-			} catch (ExecutionException ee) {
+			} catch ( ExecutionException ee ) {
 				ee.printStackTrace();
-			} catch (InterruptedException ie) {
+			} catch ( InterruptedException ie ) {
 				ie.printStackTrace();
 			}
 		});
@@ -124,7 +126,7 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 			htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)))
 					.append("[").append(closestHub.getPrice()).append(" ISK] ")
 					.append(" ").append(closestHub.getRegion())
-					.append(" - ").append(closestHub.getSystem())
+					.append(" - ").append(closestHub.getLocation().getSystem())
 					.append(" (").append(this.jumps).append(" jumps)");
 			//				} catch (ExecutionException e) {
 			//					return Html.fromHtml("0.9 The Forge - Jita");
@@ -149,10 +151,10 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 			double security = Double.valueOf(this.getCastedModel().getHighestBuyerPrice().getSecurity());
 			htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));
 			htmlLocation.append(" ").append(this.getCastedModel().getHighestBuyerPrice().getRegion());
-			htmlLocation.append(" - ").append(this.getCastedModel().getHighestBuyerPrice().getSystem());
-		} catch (ExecutionException e) {
+			htmlLocation.append(" - ").append(this.getCastedModel().getHighestBuyerPrice().getLocation().getSystem());
+		} catch ( ExecutionException e ) {
 			return Html.fromHtml("0.9 The Forge - Jita");
-		} catch (InterruptedException e) {
+		} catch ( InterruptedException e ) {
 			return Html.fromHtml("0.9 The Forge - Jita");
 		}
 		return Html.fromHtml(htmlLocation.toString());
@@ -161,24 +163,24 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 	public String getTMarketPrice() {
 		try {
 			return NeoComAbstractPart.generatePriceString(this.getCastedModel().getHighestBuyerPrice().getPrice(), false, true);
-		} catch (ExecutionException e) {
+		} catch ( ExecutionException e ) {
 			return "- ISK";
-		} catch (InterruptedException e) {
+		} catch ( InterruptedException e ) {
 			return "- ISK";
 		}
 	}
 
-	public String getRefiningFacilityName() {
-		return this.getCastedModel().getClosestRefiningLocation().getName();
-	}
-
-	public String getTRefiningSystem() {
-		return this.getCastedModel().getClosestRefiningLocation().getName();
-	}
-
-	public String getTRefiningStation() {
-		return this.getCastedModel().getClosestRefiningLocation().getStation();
-	}
+//	public String getRefiningFacilityName() {
+//		return this.getCastedModel().getClosestRefiningLocation().getName();
+//	}
+//
+//	public String getTRefiningSystem() {
+//		return this.getCastedModel().getClosestRefiningLocation().getName();
+//	}
+//
+//	public String getTRefiningStation() {
+//		return this.getCastedModel().getClosestRefiningLocation().getStation();
+//	}
 
 	// --- I A N D R O I D P A R T   I N T E R F A C E
 	@Override
@@ -280,8 +282,8 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 			// Set the data for the input market sources.
 			inputClosestMarketSystem.setText(this.getPart().getTClosestMarketLocation());
 			inputBestMarketSystem.setText(this.getPart().getTBestMarketLocation());
-			refiningSystemName.setText(this.getPart().getTRefiningSystem());
-			refiningStationName.setText(this.getPart().getTRefiningStation());
+//			refiningSystemName.setText(this.getPart().getTRefiningSystem());
+//			refiningStationName.setText(this.getPart().getTRefiningStation());
 
 
 			//			inputClosestMarketSystem.setText("-");
@@ -289,8 +291,8 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 
 			inputResourceName.setText(this.getPart().getCastedModel().getName());
 			inputResourceMarketPrice.setText(this.getPart().getTMarketPrice());
-			refiningStationName.setText(this.getPart().getRefiningFacilityName());
-			refiningRate.setText(NeoComAbstractPart.qtyFormatter.format(this.getPart().getCastedModel().getRefiningRatio()));
+//			refiningStationName.setText(this.getPart().getRefiningFacilityName());
+//			refiningRate.setText(NeoComAbstractPart.qtyFormatter.format(this.getPart().getCastedModel().getRefiningRatio()));
 			refiningQuantity.setText("100");
 			refiningPacks.setText("1");
 			//			resourceMarketSystem.setText(this.getPart().getTMarketLocation());

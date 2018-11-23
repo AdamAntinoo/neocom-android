@@ -15,13 +15,9 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
-import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +35,8 @@ public class RefiningDetailReport extends EveItem {
 	// - F I E L D - S E C T I O N ............................................................................
 	private int resourceTypeId = 1230;
 	private Credential credential = null;
+	private int resourceLocation;
+	private EveLocation closestRefiningLocation;
 
 	private transient EveItem item = null;
 
@@ -50,7 +48,7 @@ public class RefiningDetailReport extends EveItem {
 	public RefiningDetailReport( int resourceTypeId ) /*throws NeoComRegisteredException*/ {
 		super();
 		this.resourceTypeId = resourceTypeId;
-		item= new AndroidGlobalDataManager().searchItem4Id(resourceTypeId);
+		item = new AndroidGlobalDataManager().searchItem4Id(resourceTypeId);
 
 		// Locate the nearest refining location to the current Pilot location.
 //		final PilotV2 pilotv2 = AndroidGlobalDataManager.requestPilotV2(getCredential());
@@ -128,6 +126,16 @@ public class RefiningDetailReport extends EveItem {
 		buffer.append(" ]");
 //		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	public RefiningDetailReport setResourceLocation( final int resourceLocation ) {
+		this.resourceLocation = resourceLocation;
+		return this;
+	}
+
+	public RefiningDetailReport setClosestRefiningLocation( final EveLocation closestRefiningLocation ) {
+		this.closestRefiningLocation = closestRefiningLocation;
+		return this;
 	}
 }
 // - UNUSED CODE ............................................................................................

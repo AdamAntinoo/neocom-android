@@ -15,7 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+//import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.joda.time.DateTime;
 
 import java.util.concurrent.ExecutionException;

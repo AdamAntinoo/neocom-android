@@ -37,9 +37,11 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-import org.dimensinfin.eveonline.neocom.database.entity.Property;
+//import org.dimensinfin.eveonline.neocom.entity.Credential;
+//import org.dimensinfin.eveonline.neocom.entity.Property;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
@@ -123,7 +125,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 	// --- I A N D R O I D P A R T   I N T E R F A C E
 	@Override
 	public long getModelId() {
-		return this.getCastedModel().getID();
+		return this.getCastedModel().getId();
 	}
 
 	@Override
@@ -305,7 +307,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 				Picasso.get().load(link).into(nodeIcon);
 			locationRegion.setText(this.getPart().getCastedModel().getRegion());
 			locationSystem.setText(this.getPart().getCastedModel().getSystem());
-			locationIdentifier.setText("[" + this.getPart().getCastedModel().getID() + "]");
+			locationIdentifier.setText("[" + this.getPart().getCastedModel().getId() + "]");
 			locationStation.setText(this.getPart().getTStationName());
 			contentsCount.setText(this.getPart().getTContentsCount());
 			locationItemsValue.setText(this.getPart().getTContentsValue());

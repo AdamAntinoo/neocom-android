@@ -17,7 +17,8 @@ package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+//import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.interfaces.IMiningExtractionContainer;
 
 import java.util.ArrayList;

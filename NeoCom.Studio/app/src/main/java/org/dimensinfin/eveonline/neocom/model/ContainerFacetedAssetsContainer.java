@@ -62,14 +62,14 @@ public class ContainerFacetedAssetsContainer extends NeoComAsset implements IAss
 	 * @return this same instance updated with the reference data.
 	 */
 	public ContainerFacetedAssetsContainer copyFrom( final NeoComAsset asset ) {
-		this.id = asset.getDAOID();
+		this.id = asset.getDAOId();
 
 		this.setAssetId(asset.getAssetId());
 		this.setTypeId(asset.getTypeId());
 		this.setQuantity(asset.getQuantity());
 		this.setLocationId(asset.getLocationId());
 		this.setLocationType(asset.getLocationType());
-		this.setLocationFlag(asset.getFlag());
+		this.setLocationFlag(asset.getLocationFlag());
 		this.setSingleton(asset.isPackaged());
 		this.setParentId(asset.getParentContainerId());
 

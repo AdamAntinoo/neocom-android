@@ -47,7 +47,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 		GetStatusOk serverStatus = AndroidGlobalDataManager.serverStatus();
 		final StringBuffer serverStatusMessage = new StringBuffer()
 				.append("<font color='#27AE60'>")
-				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
+//				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
 				.append("</font>")
 				.append(" : ")
 				.append(serverStatus.getPlayers()).append(" capsuleers");

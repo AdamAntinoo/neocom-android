@@ -20,6 +20,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.dimensinfin.eveonline.neocom.dataservice.MiningLedgerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,7 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	}
 
 	// --- N E T W O R K   S T A T U S
-	public static boolean getNetworkStatus(){
+	public static boolean getNetworkStatus() {
 		return checkNetworkAccess();
 	}
 
@@ -87,10 +88,17 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) AndroidGlobalDataManager.getAppContext()
-		                                                                             .getSystemService(Context.CONNECTIVITY_SERVICE);
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if ( (netInfo != null) && netInfo.isConnectedOrConnecting() ) return true;
 		return false;
+	}
+
+	// --- D A T A   S E R V I C E S
+	private static MiningLedgerService miningLedgerService = new MiningLedgerService();
+
+	public static MiningLedgerService getMiningLedgerService() {
+		return miningLedgerService;
 	}
 }
 // - UNUSED CODE ............................................................................................

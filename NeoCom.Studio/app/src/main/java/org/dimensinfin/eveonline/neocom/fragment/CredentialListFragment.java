@@ -32,8 +32,10 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+//import org.dimensinfin.eveonline.neocom.database.entity.Credential;
+//import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
@@ -144,12 +146,13 @@ public class CredentialListFragment extends AbstractPagerFragment {
 		/**
 		 * This is the method that creates the model nodes represent the list of current registered credentials. In addition to this list
 		 * there is another item that is the actuator button to initiate the process to register a new credential.
+		 * This Datasource should never be cached because if cached then new credential do not show.
 		 */
 		@Override
 		public void collaborate2Model() {
 			logger.info(">> [CredentialListDataSource.collaborate2Model]");
 			// Check if the data is already on the cache so we should not have to process again the model generation.
-			if ( !isCached() ) {
+//			if ( !isCached() ) {
 				try {
 					cleanup();
 					// Add the panel title up front of the Credential list.
@@ -169,7 +172,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 							, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 					rtex.printStackTrace();
 				}
-			}
+//			}
 			logger.info("<< [CredentialListDataSource.collaborate2Model]");
 		}
 	}
