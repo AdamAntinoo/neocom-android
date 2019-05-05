@@ -13,8 +13,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
-//    buildToolsVersion "26.0.2"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         minSdkVersion 16
@@ -44,7 +43,7 @@ android {
         }
         release {
             debuggable false
-            shrinkResources true
+//            shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -108,7 +107,11 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
-    buildToolsVersion '28.0.2'
+
+
+    dynamicFeatures = [":mining_feature"]
+
+
 }
 
 //--- T A S K S   C O M P L E M E N T A R Y
@@ -133,7 +136,7 @@ task copyResources(type: Copy) {
     }
 }
 //--- D E P E N D E N C Y   V E R S I O N S
-ext.supportLibraryVersion = '27.1.1'
+ext.supportLibraryVersion = '28.0.0'
 ext.jodaTimeVersion = '2.3'
 ext.fasterxmlJackson = '2.8.6'
 
@@ -149,29 +152,18 @@ dependencies {
     implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
     implementation "com.android.support:exifinterface:$supportLibraryVersion"
 
-    //    implementation 'com.android.support:support-annotations:$supportLibraryVersion'
-
-    //    implementation 'com.android.support:recyclerview-v7:$supportLibraryVersion'
-
     // P R O J E C T    D E P E N D E N C I E S
-    implementation project(path: ':AndroidMVCLibrary')
-//    implementation project(path: ':ESI.SwaggerApi')
-    implementation project(path: ':NeoCom.DataManagement')
-    implementation project(path: ':NeoCom.Model')
+    implementation 'org.dimensinfin:CoreBase.core:2.2.0'
+//    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.0'
+//    implementation 'org.dimensinfin:NeoCom.Model:0.14.0'
+//    implementation 'org.dimensinfin:NeoCom.DataManagement:0.14.0'
 
-    // L O C A L    L I B R A R I E S
-    implementation files('libs/CoreBase.core-2.2.0.jar')
-//    implementation files('libs/viewpagerindicator-release.aar')
-//    implementation files('libs/AndroidMVC-3.1.0.aar')
-//    implementation files('libs/ESI.SwaggerApi-2.0.0.jar')
-    implementation files('libs/ESI.SwaggerApi-3.0.0.jar')
-    //    implementation files('libs/NeoCom.DataManagement-0.13.POC.jar')
-    //    implementation files('libs/NeoCom.Model-0.13.POC.jar')
-    //    implementation 'com.dimensinfin:CoreBase.core:2.2.0'
-    //    implementation 'com.dimensinfin:NeoCom.DataManagement:0.13.POC'
-    //    implementation 'com.dimensinfin:NeoCom.Model:0.13.POC'
+    implementation project (':ESI.SwaggerApi')
+    implementation project (':NeoCom.Model')
+    implementation project (':NeoCom.DataManagement')
 
-    //>>>>>>> Stashed changes
+    implementation files('libs/AndroidMVC-3.2.0.aar')
+    implementation files('libs/viewpagerindicator-release.aar')
 
     // M O D U L E    D E P E N D E N C I E S
 
@@ -184,7 +176,8 @@ dependencies {
 
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
-
+}
+dependencies {
     // N E O C O M . M O D E L
     implementation 'com.beimin:eveapi:6.0.6'
     implementation "com.fasterxml.jackson.core:jackson-annotations:$fasterxmlJackson"
@@ -211,18 +204,19 @@ dependencies {
     implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
+}
+dependencies {
     // T E S T I N G
 
     // C O R E
     testImplementation 'junit:junit:4.12'
 
     // A N D R O I D    S U P P O R T
-    androidTestImplementation 'com.android.support:appcompat-v7:27.0.2'
-    androidTestImplementation 'com.android.support:support-core-ui:27.0.2'
-    androidTestImplementation 'com.android.support:support-core-utils:27.0.2'
-    androidTestImplementation 'com.android.support:support-v4:27.0.2'
-    androidTestImplementation 'com.android.support:support-v13:27.0.2'
+    androidTestImplementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    androidTestImplementation "com.android.support:support-core-ui:$supportLibraryVersion"
+    androidTestImplementation "com.android.support:support-core-utils:$supportLibraryVersion"
+    androidTestImplementation "com.android.support:support-v4:$supportLibraryVersion"
+    androidTestImplementation "com.android.support:support-v13:$supportLibraryVersion"
 
     // A N D R O I D
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

@@ -23,9 +23,9 @@ import android.os.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;

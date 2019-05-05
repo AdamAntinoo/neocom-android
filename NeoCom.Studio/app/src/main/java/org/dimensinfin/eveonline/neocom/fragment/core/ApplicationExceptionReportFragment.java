@@ -25,7 +25,7 @@ import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;

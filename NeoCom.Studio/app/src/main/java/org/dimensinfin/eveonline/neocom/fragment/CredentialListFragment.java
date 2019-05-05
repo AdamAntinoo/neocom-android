@@ -20,20 +20,17 @@ import java.util.List;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
 import org.dimensinfin.eveonline.neocom.R;
-//import org.dimensinfin.eveonline.neocom.database.entity.Credential;
-//import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
@@ -153,25 +150,25 @@ public class CredentialListFragment extends AbstractPagerFragment {
 			logger.info(">> [CredentialListDataSource.collaborate2Model]");
 			// Check if the data is already on the cache so we should not have to process again the model generation.
 //			if ( !isCached() ) {
-				try {
-					cleanup();
-					// Add the panel title up front of the Credential list.
-					this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
-					for (Credential credential : AndroidGlobalDataManager.accessAllCredentials()) {
-						this.addModelContents(credential);
-						logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-								, credential.getAccountName());
-					}
-
-					// Add the node to display the new New Login Button.
-					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE));
-					this.addModelContents(new NewLoginAction());
-//					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE),true);
-				} catch (RuntimeException rtex) {
-					AndroidGlobalDataManager.registerRuntimeException("CredentialListDataSource.collaborate2Model"
-							, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-					rtex.printStackTrace();
+			try {
+				cleanup();
+				// Add the panel title up front of the Credential list.
+				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
+				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials()) {
+					this.addModelContents(credential);
+					logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
+							, credential.getAccountName());
 				}
+
+				// Add the node to display the new New Login Button.
+				this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE));
+				this.addModelContents(new NewLoginAction());
+//					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE),true);
+			} catch (RuntimeException rtex) {
+				AndroidGlobalDataManager.registerRuntimeException("CredentialListDataSource.collaborate2Model"
+						, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+				rtex.printStackTrace();
+			}
 //			}
 			logger.info("<< [CredentialListDataSource.collaborate2Model]");
 		}

@@ -19,7 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;

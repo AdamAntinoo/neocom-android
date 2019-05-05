@@ -17,16 +17,14 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-//import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
-//import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;

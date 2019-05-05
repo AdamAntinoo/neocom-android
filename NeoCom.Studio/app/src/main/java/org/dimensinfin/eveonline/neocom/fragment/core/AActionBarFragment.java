@@ -15,14 +15,7 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment.core;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 
 /**
  * @author Adam Antinoo

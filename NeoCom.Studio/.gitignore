@@ -2,11 +2,12 @@
 .gradle
 .DS_Store
 .externalNativeBuild
+
 /.idea/workspace.xml
+/.idea/modules.xml
 /.idea/libraries
+/.idea/caches
+
 /local.properties
 /build
 /captures
-/gradle
-gradlew
-gradlew.bat

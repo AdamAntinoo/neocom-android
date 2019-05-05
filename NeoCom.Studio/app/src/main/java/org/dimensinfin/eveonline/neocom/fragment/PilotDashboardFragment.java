@@ -15,8 +15,8 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -26,7 +26,6 @@ import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
-import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 import org.dimensinfin.eveonline.neocom.part.NeoComMenuBarPart;
 import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;

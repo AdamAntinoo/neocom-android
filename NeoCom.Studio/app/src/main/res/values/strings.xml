@@ -56,5 +56,6 @@
     <string name="security00">#F00000</string>
     <string name="fittingSpinnerLabel">Select fitting:</string>
     <string name="copiesSpinnerLabel">Select copies:</string>
+    <string name="title_mining_feature">MiningManagement</string>
 
 </resources>

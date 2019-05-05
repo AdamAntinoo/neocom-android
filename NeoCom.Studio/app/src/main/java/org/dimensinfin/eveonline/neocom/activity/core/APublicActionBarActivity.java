@@ -24,9 +24,8 @@ import android.text.Spanned;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
-//import org.dimensinfin.eveonline.neocom.database.entity.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.entities.Credential;

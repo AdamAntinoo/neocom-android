@@ -1,9 +1,9 @@
-include ':app'
-include ':AndroidMVCLibrary'
-project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC\\AndroidMVC-3.0.x\\AndroidMVCLibrary')
-//include ':ESI.SwaggerApi'
-//project(':ESI.SwaggerApi').projectDir = new File('D:\\Development\\NeoComProjects\\NeoComLibrary\\NeoCom-DataMngmt-0.14.x\\ESI.SwaggerApi')
+include ':app', ':mining_feature'
+//include ':AndroidMVCLibrary'
+//project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC\\AndroidMVC-3.0.x\\AndroidMVCLibrary')
+include ':ESI.SwaggerApi'
+project(':ESI.SwaggerApi').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/ESI.SwaggerApi')
 include ':NeoCom.DataManagement'
-project(':NeoCom.DataManagement').projectDir = new File('D:\\Development\\NeoComProjects\\NeoComLibrary\\NeoCom-DataMngmt-0.14.x\\NeoCom.DataManagement')
+project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
 include ':NeoCom.Model'
-project(':NeoCom.Model').projectDir = new File('D:\\Development\\NeoComProjects\\NeoComLibrary\\NeoCom-DataMngmt-0.14.x\\NeoCom.Model')
+project(':NeoCom.Model').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.Model')

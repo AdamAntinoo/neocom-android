@@ -26,7 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ALinearActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
