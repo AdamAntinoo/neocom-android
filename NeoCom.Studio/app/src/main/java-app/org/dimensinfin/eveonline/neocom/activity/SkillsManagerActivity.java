@@ -17,13 +17,12 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.SkillsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
-import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

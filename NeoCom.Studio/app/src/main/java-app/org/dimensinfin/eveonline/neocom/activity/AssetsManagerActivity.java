@@ -17,7 +17,7 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;

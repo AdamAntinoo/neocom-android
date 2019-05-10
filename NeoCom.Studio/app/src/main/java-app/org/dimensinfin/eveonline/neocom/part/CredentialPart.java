@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.eveonline.neocom.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDashboardActivity;
 //import org.dimensinfin.eveonline.neocom.database.entity.Credential;

@@ -17,23 +17,16 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.text.Spanned;
 
-import org.dimensinfin.eveonline.neocom.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
-import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
-import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
-import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
 
 /**
  * This special class contains the common code for all the Activities that have access to the Credential. The code will store the
