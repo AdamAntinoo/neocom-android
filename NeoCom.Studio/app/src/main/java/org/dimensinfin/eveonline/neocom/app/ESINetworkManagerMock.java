@@ -6,14 +6,20 @@ import java.util.List;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitHTTP;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerCache;
 import org.dimensinfin.eveonline.neocom.esiswagger.api.PlanetaryInteractionApi;
 import org.dimensinfin.eveonline.neocom.esiswagger.api.UniverseApi;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseAncestries200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseBloodlines200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSchematicIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -21,13 +27,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ESINetworkManagerMock extends ESINetworkManager {
-	protected static Retrofit mockRetrofit = null;
-	protected static Retrofit noOAuthRetrofit = null;
+	protected static Retrofit mockRetrofit;
+	protected static Retrofit noOAuthRetrofit;
 
-	static {
-		mockRetrofit = NeoComRetrofitMock.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
-		noOAuthRetrofit = NeoComRetrofitNoOAuthHTTP.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
-	}
+	//	static {
+	//		mockRetrofit = NeoComRetrofitMock.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
+	//		noOAuthRetrofit = NeoComRetrofitNoOAuthHTTP.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
+	//	}
 
 	// - U N I V E R S E
 	public static GetUniverseTypesTypeIdOk getUniverseTypeById( final String server, final int typeId ) {
@@ -52,6 +58,84 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 			runtime.printStackTrace();
 		} finally {
 			logger.info("<< [ESINetworkManager.getMarketsPrices]> [TIMING] Full elapsed: {}"
+					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+		}
+		return null;
+	}
+
+	public static List<GetUniverseAncestries200Ok> getUniverseAncestries( final String server ) {
+		logger.info(">> [ESINetworkManagerMock.getUniverseAncestries]");
+		final DateTime startTimePoint = DateTime.now();
+		try {
+			// Create the request to be returned so it can be called.
+			final Response<List<GetUniverseAncestries200Ok>> ancestriesResponse = noOAuthRetrofit
+					                                                                      .create(UniverseApi.class)
+					                                                                      .getUniverseAncestries("en-us"
+							                                                                      , server
+							                                                                      , null
+							                                                                      , null)
+					                                                                      .execute();
+			if (!ancestriesResponse.isSuccessful()) {
+				return null;
+			} else return ancestriesResponse.body();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RuntimeException runtime) {
+			runtime.printStackTrace();
+		} finally {
+			logger.info("<< [ESINetworkManager.getUniverseAncestries]> [TIMING] Full elapsed: {}"
+					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+		}
+		return null;
+	}
+
+	public static List<GetUniverseBloodlines200Ok> getUniverseBloodlines( final String server ) {
+		logger.info(">> [ESINetworkManagerMock.getUniverseBloodlines]");
+		final DateTime startTimePoint = DateTime.now();
+		try {
+			// Create the request to be returned so it can be called.
+			final Response<List<GetUniverseBloodlines200Ok>> bloodlinesResponse = noOAuthRetrofit
+					                                                                      .create(UniverseApi.class)
+					                                                                      .getUniverseBloodlines("en-us"
+							                                                                      , server
+							                                                                      , null
+							                                                                      , null)
+					                                                                      .execute();
+			if (!bloodlinesResponse.isSuccessful()) {
+				return null;
+			} else return bloodlinesResponse.body();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RuntimeException runtime) {
+			runtime.printStackTrace();
+		} finally {
+			logger.info("<< [ESINetworkManager.getUniverseBloodlines]> [TIMING] Full elapsed: {}"
+					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+		}
+		return null;
+	}
+
+	public static List<GetUniverseRaces200Ok> getUniverseRaces( final String server ) {
+		logger.info(">> [ESINetworkManagerMock.getUniverseRaces]");
+		final DateTime startTimePoint = DateTime.now();
+		try {
+			// Create the request to be returned so it can be called.
+			final Response<List<GetUniverseRaces200Ok>> racesResponse = noOAuthRetrofit
+					                                                            .create(UniverseApi.class)
+					                                                            .getUniverseRaces("en-us"
+							                                                            , server
+							                                                            , null
+							                                                            , null)
+					                                                            .execute();
+			if (!racesResponse.isSuccessful()) {
+				return null;
+			} else return racesResponse.body();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RuntimeException runtime) {
+			runtime.printStackTrace();
+		} finally {
+			logger.info("<< [ESINetworkManager.getUniverseRaces]> [TIMING] Full elapsed: {}"
 					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
 		}
 		return null;
@@ -168,32 +252,30 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 	//	public ESINetworkManagerMock() {
 	//	}
 
-	//	// - B U I L D E R
-	//	public static class Builder extends ESINetworkManagerZBase.Builder {
-	//		//		private ESINetworkManagerMock onConstructionInherithed;
-	//
-	//		public Builder( final IConfigurationProvider configurationProvider, final IFileSystem fileSystemAdapter ) {
-	//			super(configurationProvider, fileSystemAdapter);
-	//			//			this.onConstructionInherithed = new ESINetworkManagerMock(configurationProvider,  fileSystemAdapter);
-	//		}
-	//
-	//		public ESINetworkManagerMock build() {
-	//			return ESINetworkManagerMock.from(this.onConstruction);
-	//		}
-	//	}
-	//
-	//
-	//	//	public static class From {
-	//	//		public From( final ESINetworkManagerZBase onConstruction ) {
-	//	//			super();
-	//	//		}
-	//	////		public ESINetworkManagerMock build(){
-	//	////			return null;
-	//	////		}
-	//	//	}
-	//	public static ESINetworkManagerMock from( final ESINetworkManagerZBase source ) {
-	//		// Create new instance and copy the fields.
-	//		final ESINetworkManagerMock target = new ESINetworkManagerMock();
-	//		return target;
-	//	}
+	// - B U I L D E R
+	public static class Builder extends ESINetworkManagerZBase.Builder {
+		public Builder( final IConfigurationProvider configurationProvider, final IFileSystem fileSystemAdapter ) {
+			super(configurationProvider, fileSystemAdapter);
+		}
+
+		public ESINetworkManagerZBase build() {
+			final ESINetworkManagerZBase parent = super.build();
+			// Initialize retrofits.
+			mockRetrofit = new NeoComRetrofitMock.Builder(this.onConstruction.getConfigurationProvider())
+					               .withNeoComOAuth20(neocomAuth20)
+					               .withAgent(AGENT)
+					               .withCacheDataFile(cacheDataFile)
+					               .withCacheSize(cacheSize)
+					               .withTimeout(timeout)
+					               .build();
+			noOAuthRetrofit = new NeoComRetrofitNoOAuthHTTP.Builder(this.onConstruction.getConfigurationProvider())
+					                  .withNeoComOAuth20(neocomAuth20)
+					                  .withAgent(AGENT)
+					                  .withCacheDataFile(cacheDataFile)
+					                  .withCacheSize(cacheSize)
+					                  .withTimeout(timeout)
+					                  .build();
+			return parent;
+		}
+	}
 }

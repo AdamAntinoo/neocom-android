@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
+import org.dimensinfin.eveonline.neocom.datamngmt.SDEExternalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
@@ -113,7 +114,7 @@ public class NeoComApplication extends Application {
 				, this)
 				                                                     .build();
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
-		final ESINetworkManagerMock esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
+		final ESINetworkManagerZBase esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
 				                                          .build();
 		this.neocom = new NeoComAndroid.Builder()
 				              .withApplicationContext(this)
@@ -122,7 +123,6 @@ public class NeoComApplication extends Application {
 				              .withPreferencesProvider(preferencesProvider)
 				              .withESIAdapter(esiAdapter)
 				              .build();
-
 
 		// Connect the application to the global context to be able to use all the resources.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
@@ -157,6 +157,9 @@ public class NeoComApplication extends Application {
 		//			// TODO The CCP database is not distributed with the application. If not available then close the App
 		//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"));
 		//		}
+
+		// Load the SDE data
+//		SDEExternalDataManager.loadSDEData();
 
 		// Connect the SDE database.
 		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
