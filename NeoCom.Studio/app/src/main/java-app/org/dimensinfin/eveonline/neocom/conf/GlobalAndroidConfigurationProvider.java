@@ -20,6 +20,7 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 	public GlobalAndroidConfigurationProvider( final String propertiesFolder, final Application applicationContext ) {
 		super(propertiesFolder);
 		this.applicationContext = applicationContext;
+		initialize();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
