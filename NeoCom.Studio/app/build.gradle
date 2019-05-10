@@ -164,6 +164,7 @@ dependencies {
     implementation project (':NeoCom.DataManagement')
 
     implementation files('libs/AndroidMVC-3.2.0.aar')
+//    implementation files('libs/AndroidMVC-4.0.0.aar')
     implementation files('libs/viewpagerindicator-release.aar')
 
     // M O D U L E    D E P E N D E N C I E S

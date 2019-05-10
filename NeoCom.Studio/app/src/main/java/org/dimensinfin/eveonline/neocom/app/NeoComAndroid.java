@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.app;
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
@@ -14,7 +15,7 @@ public class NeoComAndroid {
 	private IFileSystem fileSystemAdapter;
 	private IConfigurationProvider configurationProvider;
 	private IGlobalPreferencesManager preferencesProvider;
-	private ESIAdapter esiAdapter;
+	private ESINetworkManagerZBase esiAdapter;
 
 	private static IFileSystem fsAdapter = null;
 
@@ -54,7 +55,7 @@ public class NeoComAndroid {
 			return this;
 		}
 
-		public Builder withESIAdapter( final ESIAdapter esiAdapter ) {
+		public Builder withESIAdapter( final ESINetworkManagerZBase esiAdapter ) {
 			this.onConstruction.esiAdapter = esiAdapter;
 			return this;
 		}

@@ -20,8 +20,7 @@ import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.FileSystemAndroidImplementation;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -107,15 +106,15 @@ public class NeoComApplication extends Application {
 		super.onCreate();
 
 		// Create the adapters specific for the Android implementation.
-		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname))
+		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
 				                                      .build();
 		final IConfigurationProvider configurationProvider = new GlobalAndroidConfigurationProvider.Builder(
 				this.getResources().getString(R.string.propertiesLocation)
-																	 ,this)
+				, this)
 				                                                     .build();
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
-		final ESIAdapter esiAdapter = new ESIAdapter.Builder(configurationProvider)
-				                              .build();
+		final ESINetworkManagerMock esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
+				                                          .build();
 		this.neocom = new NeoComAndroid.Builder()
 				              .withApplicationContext(this)
 				              .withFileSystemAdapter(fileSystemAdapter)
@@ -131,13 +130,11 @@ public class NeoComApplication extends Application {
 
 		// Connect the file system to be able to read the assets and other application resources stored externally.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
-		AndroidGlobalDataManager.installFileSystem(new FileSystemAndroidImplementation(
-				AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname)
-		));
+		AndroidGlobalDataManager.installFileSystem(fileSystemAdapter);
 
 		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties",this));
+		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties", this));
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
 		AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
@@ -147,7 +144,7 @@ public class NeoComApplication extends Application {
 		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager());
 
 		// Initializing the ESI api network controller.
-		ESINetworkManager.initialize();
+		//		ESINetworkManager.initialize();
 
 		// Check if the files and folders to run on Android are in place. If not create/copy them.
 		createAppDir();
@@ -155,11 +152,11 @@ public class NeoComApplication extends Application {
 		//		copyPreloadFiles();
 
 		// Check if the SDE database file is at the right place. If not copy it.
-		if (!AndroidGlobalDataManager.checkAppFile(
-				AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))) {
-			// TODO The CCP database is not distributed with the application. If not available then close the App
-			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"));
-		}
+		//		if (!AndroidGlobalDataManager.checkAppFile(
+		//				AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))) {
+		//			// TODO The CCP database is not distributed with the application. If not available then close the App
+		//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"));
+		//		}
 
 		// Connect the SDE database.
 		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
