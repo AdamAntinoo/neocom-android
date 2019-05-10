@@ -1,4 +1,5 @@
-include ':app', ':mining_feature'
+include ':app'
+//include ':mining_feature'
 //include ':AndroidMVCLibrary'
 //project(':AndroidMVCLibrary').projectDir = new File('D:\\Development\\Libraries Android\\AndroidMVC\\AndroidMVC-3.0.x\\AndroidMVCLibrary')
 include ':ESI.SwaggerApi'

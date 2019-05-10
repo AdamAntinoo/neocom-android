@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="NeoComApplication"
+        android:name=".app.NeoComApplication"
         android:allowBackup="true"
         android:description="@string/AppDescription"
         android:icon="@drawable/neocom_icon"

@@ -66,6 +66,7 @@ android {
     sourceSets {
         main.java {
 //            srcDirs += 'src/main/java-buildup'
+            srcDirs += 'src/main/java-app'
             srcDirs += 'src/main/java-industry'
         }
 //        main.java.srcDirs += 'src/main/java-newrelease'
@@ -109,7 +110,7 @@ android {
     }
 
 
-    dynamicFeatures = [":mining_feature"]
+//    dynamicFeatures = [":mining_feature"]
 
 
 }

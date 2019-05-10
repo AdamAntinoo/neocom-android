@@ -110,7 +110,8 @@ public class NeoComApplication extends Application {
 		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname))
 				                                      .build();
 		final IConfigurationProvider configurationProvider = new GlobalAndroidConfigurationProvider.Builder(
-				this.getResources().getString(R.string.propertiesLocation))
+				this.getResources().getString(R.string.propertiesLocation)
+																	 ,this)
 				                                                     .build();
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
 		final ESIAdapter esiAdapter = new ESIAdapter.Builder(configurationProvider)
@@ -136,7 +137,7 @@ public class NeoComApplication extends Application {
 
 		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties"));
+		AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties",this));
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
 		AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());

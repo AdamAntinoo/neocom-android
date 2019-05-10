@@ -57,5 +57,6 @@
     <string name="fittingSpinnerLabel">Select fitting:</string>
     <string name="copiesSpinnerLabel">Select copies:</string>
     <string name="title_mining_feature">MiningManagement</string>
+	<string name="propertiesLocation">properties</string>
 
 </resources>
