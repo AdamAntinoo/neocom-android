@@ -16,23 +16,23 @@
 package org.dimensinfin.eveonline.neocom.activity.core;
 
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.support.annotation.WorkerThread;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
+
+import androidx.annotation.WorkerThread;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @author Adam Antinoo
@@ -45,11 +45,11 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	public static Spanned serverStatus4Actionbar() {
 		GetStatusOk serverStatus = AndroidGlobalDataManager.serverStatus();
 		final StringBuffer serverStatusMessage = new StringBuffer()
-				.append("<font color='#27AE60'>")
-//				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
-				.append("</font>")
-				.append(" : ")
-				.append(serverStatus.getPlayers()).append(" capsuleers");
+				                                         .append("<font color='#27AE60'>")
+				                                         //				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())
+				                                         .append("</font>")
+				                                         .append(" : ")
+				                                         .append(serverStatus.getPlayers()).append(" capsuleers");
 		return Html.fromHtml(serverStatusMessage.toString());
 	}
 
@@ -60,7 +60,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	protected void setupActionBar( final Credential credential ) {
 		logger.info(">> [APublicActionBarActivity.setupActionBar]");
 		ActionBar actionbar = getActionBar();
-		if ( null != actionbar ) {
+		if (null != actionbar) {
 			actionbar.show();
 			actionbar.setDisplayHomeAsUpEnabled(true);
 			// Activate the custom ActionBar
@@ -69,8 +69,8 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 
 			// Create a new Action Bar view from the layout.
 			neocomActionBarView = new NeoComActionBar(R.layout.actionbar_neocombar)
-					.setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
-					.setTitleLeft(credential.getAccountName());
+					                      .setIconTop(new PilotAvatarIconProvider(credential.getAccountId()))
+					                      .setTitleLeft(credential.getAccountName());
 			this.getActionBar().setCustomView(neocomActionBarView.getView());
 			logger.info("<< [APublicActionBarActivity.setupActionBar]");
 		}
@@ -83,7 +83,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	@Override
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
-		if ( null != _indicator ) {
+		if (null != _indicator) {
 			_indicator.setVisibility(View.VISIBLE);
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -95,10 +95,10 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 				}
 
 				public void onPageSelected( final int position ) {
-					if ( null != _actionBar ) {
+					if (null != _actionBar) {
 						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
-						if ( "" == _pageAdapter.getSubTitle(position) ) {
+						if ("" == _pageAdapter.getSubTitle(position)) {
 							neocomActionBarView.setSubtitle("");
 						} else {
 							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -116,10 +116,10 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 				}
 
 				public void onPageSelected( final int position ) {
-					if ( null != _actionBar ) {
+					if (null != _actionBar) {
 						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
-						if ( "" == _pageAdapter.getSubTitle(position) ) {
+						if ("" == _pageAdapter.getSubTitle(position)) {
 							neocomActionBarView.setSubtitle("");
 						} else {
 							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -136,11 +136,12 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 		// Update the menu for the first page.
 		updateInitialTitle();
 	}
+
 	private void updateInitialTitle() {
-		if ( null != neocomActionBarView ) {
+		if (null != neocomActionBarView) {
 			Fragment firstFragment = _pageAdapter.getInitialPage();
 			// REFACTOR This IF can be removed once this code works.
-			if ( firstFragment instanceof AbstractPagerFragment ) {
+			if (firstFragment instanceof AbstractPagerFragment) {
 				neocomActionBarView.setTitleLeft(((AbstractPagerFragment) firstFragment).getTitle());
 				neocomActionBarView.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
 			}

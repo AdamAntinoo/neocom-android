@@ -8,6 +8,7 @@
         <option name="gradleHome" value="D:/Applications/gradle-4.5" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../../android-mvc/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/ESI.SwaggerApi" />

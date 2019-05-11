@@ -23,12 +23,13 @@ import android.os.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
@@ -83,7 +84,7 @@ public class AppDashboardFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected IPartsDataSource registerDataSource() {
 		return new AppDashboardDataSource(new DataSourceLocator().addIdentifier("APP-DASHBOARD")
 				, getVariant()
 				, createFactory()

@@ -17,8 +17,8 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.os.Bundle;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;

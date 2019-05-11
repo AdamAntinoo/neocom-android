@@ -15,7 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * @author Adam Antinoo

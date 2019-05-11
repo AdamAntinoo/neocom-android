@@ -25,11 +25,12 @@ import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
@@ -69,7 +70,7 @@ public class ApplicationExceptionReportFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected IPartsDataSource registerDataSource() {
 		logger.info(">< [ApplicationExceptionReportFragment.registerDataSource]");
 					// Return the default exceptional data source to display the exception message.
 			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()

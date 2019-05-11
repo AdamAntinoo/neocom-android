@@ -15,9 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -26,13 +23,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ALinearActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * This Activity has an special layout. Instead showing the different Fragments into adjacent pages that can de changed by sweeping
@@ -51,13 +51,13 @@ public class AppDashboardActivity extends ALinearActivity {
 	public void addLinear( AbstractPagerFragment newFrag ) {
 		logger.info(">> [AppDashboardActivity.addLinear]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
+		Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
 		if (null == frag) {
 			_linearAdapter.addLinear(newFrag);
 			// Now add the configured fragment to the activity container layout.
 			// Begin the transaction
 			logger.info("-- [AppDashboardActivity.addLinear]> Fragment: {}", newFrag.getClass().getSimpleName());
-			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+			FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 			// Add the fragment to the container with the new fragment.
 			ft.add(R.id.fragmentContainer, newFrag);
 			ft.commit();

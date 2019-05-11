@@ -15,7 +15,7 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment.core;
 
-import org.dimensinfin.android.mvc.fragment.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 
 /**
  * @author Adam Antinoo

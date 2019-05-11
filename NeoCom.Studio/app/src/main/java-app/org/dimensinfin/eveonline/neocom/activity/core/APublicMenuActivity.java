@@ -18,14 +18,10 @@ package org.dimensinfin.eveonline.neocom.activity.core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Handler;
-import android.support.v4.app.NavUtils;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -61,23 +57,23 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 
 		// Change the style for the application menu. This changes the text font and the background.
 		// - B A C K G R O U N D - By intercepting the creation of the manu view.
-		getLayoutInflater().setFactory((String name, Context context,AttributeSet attrs)->{
-				if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
-					try {
-						// Create the view and replace the desired attributes before releasing.
-						final View view = getLayoutInflater().createView(name, null, attrs);
-						new Handler().post(() -> {
-							// Set the background drawable
-							view.setBackgroundResource(R.drawable.blacktraslucent80);
-						});
-						return view;
-					} catch (InflateException ie) {
-						ie.printStackTrace();
-					} catch (ClassNotFoundException cnfe) {
-						cnfe.printStackTrace();
-					}
+		getLayoutInflater().setFactory(( String name, Context context, AttributeSet attrs ) -> {
+			if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
+				try {
+					// Create the view and replace the desired attributes before releasing.
+					final View view = getLayoutInflater().createView(name, null, attrs);
+					new Handler().post(() -> {
+						// Set the background drawable
+						view.setBackgroundResource(R.drawable.blacktraslucent80);
+					});
+					return view;
+				} catch (InflateException ie) {
+					ie.printStackTrace();
+				} catch (ClassNotFoundException cnfe) {
+					cnfe.printStackTrace();
 				}
-				return null;
+			}
+			return null;
 		});
 		// - F O N T - By replacing this property on each menu item found.
 		for (int i = 0; i < menu.size(); i++) {
@@ -95,6 +91,7 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
+
 	protected void applyFontToMenuItem( MenuItem mi ) {
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Proxima Nova Thin.ttf");
 		SpannableString mNewTitle = new SpannableString(mi.getTitle());
@@ -105,13 +102,13 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected( final MenuItem item ) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				// This ID represents the Home or Up button. In the case of this activity, the Up button is shown. Use NavUtils to allow users
-				// to navigate up one level in the application structure. For more details, see the Navigation pattern on Android Design:
-				//
-				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
+//			case android.R.id.home:
+//				// This ID represents the Home or Up button. In the case of this activity, the Up button is shown. Use NavUtils to allow users
+//				// to navigate up one level in the application structure. For more details, see the Navigation pattern on Android Design:
+//				//
+//				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+//				NavUtils.navigateUpFromSameTask(this);
+//				return true;
 			case R.id.action_settings:
 				final Intent intent = new Intent(this, SettingsActivity.class);
 				this.startActivity(intent);
@@ -165,7 +162,6 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 
 	/**
 	 * Gets the menu context and updates the background progress indicator with the counters.
-	 * @param countIndicator
 	 */
 	protected void startProgress( final double countIndicator ) {
 		// Activate menu icon of progress.
@@ -173,7 +169,7 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 		if (null != activityMenu) {
 			final MenuItem updatingItem = activityMenu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) AndroidGlobalDataManager.getAppContext()
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+					                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View actionView = mInflater.inflate(R.layout.actionbar_indeterminateprogress, null);
 			if (null != updatingItem) {
 				updatingItem.setVisible(true);
