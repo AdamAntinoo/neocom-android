@@ -152,11 +152,11 @@ public class NeoComApplication extends Application {
 		//		copyPreloadFiles();
 
 		// Check if the SDE database file is at the right place. If not copy it.
-		//		if (!AndroidGlobalDataManager.checkAppFile(
-		//				AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))) {
-		//			// TODO The CCP database is not distributed with the application. If not available then close the App
-		//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"));
-		//		}
+				if (!AndroidGlobalDataManager.checkAppFile(
+						configurationProvider.getResourceString("R.database.sdedatabase.databasename"))) {
+					// TODO The CCP database is not distributed with the application. If not available then close the App
+					this.copyFromAssets(configurationProvider.getResourceString("R.database.sdedatabase.databasename"));
+				}
 
 		// Load the SDE data
 //		SDEExternalDataManager.loadSDEData();
