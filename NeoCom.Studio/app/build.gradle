@@ -1,16 +1,9 @@
-//--- P L U G I N S
+// - P L U G I N S
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    google()
-    jcenter()
-    maven { url 'https://jitpack.io' }
-}
 
 android {
     compileSdkVersion 28
@@ -50,6 +43,24 @@ android {
             resValue "string", "appdatabasefilename", "neocom.db"
         }
     }
+    sourceSets {
+        main.java {
+            srcDirs += 'src/main/java-app'
+            srcDirs += 'src/main/java-industry'
+        }
+        main.res {
+            srcDirs += 'src/main/res-fitting'
+            srcDirs += 'src/main/res-industry'
+            srcDirs += 'src/main/res-layouts'
+            srcDirs += 'src/main/res-sde'
+            srcDirs += 'src/main/res-ui'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${android.defaultConfig.project.archivesBaseName}-${android.defaultConfig.versionName}.apk"
@@ -63,32 +74,6 @@ android {
 //            keyPassword "password"
 //        }
 //    }
-    sourceSets {
-        main.java {
-//            srcDirs += 'src/main/java-buildup'
-            srcDirs += 'src/main/java-app'
-            srcDirs += 'src/main/java-industry'
-        }
-//        main.java.srcDirs += 'src/main/java-newrelease'
-//        main.java.srcDirs += 'src/main/java-eveesiandroid'
-//        main.res.srcDirs += 'src/main/res-planetary'
-//        main.res.srcDirs += 'src/main/res-definitions'
-//        main.res.srcDirs += 'src/main/res-final'
-        main.res {
-            srcDirs += 'src/main/res-fitting'
-            srcDirs += 'src/main/res-industry'
-            srcDirs += 'src/main/res-layouts'
-            srcDirs += 'src/main/res-sde'
-            srcDirs += 'src/main/res-ui'
-        }
-//        main.res.srcDirs += 'src/main/res-newrelease'
-//        main.res.srcDirs += 'src/main/res-obsolete'
-//        main.res.srcDirs += 'src/main/res-production'
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     lintOptions {
         abortOnError false
         quiet true
@@ -136,15 +121,25 @@ task copyResources(type: Copy) {
         into file('src/main/assets')
     }
 }
-//--- D E P E N D E N C Y   V E R S I O N S
-ext.supportLibraryVersion = '28.0.0'
-ext.jodaTimeVersion = '2.3'
-ext.fasterxmlJackson = '2.8.6'
 
-//--- D E P E N D E N C I E S
+// - P R O D U C T   V E R S I O N S
+ext {
+    supportLibraryVersion = '28.0.0'
+    jodaTimeVersion = '2.3'
+    jacksonVersion = '2.9.4'
+    fasterxmlJackson = '2.9.4'
+    ormliteVersion = '4.48'
+    retrofitVersion = '2.3.0'
+}
+
+// - A N D R O I D    S U P P O R T
+//dependencies {
+//    implementation 'androidx.appcompat:appcompat:1.0.2'
+//    implementation 'androidx.fragment:fragment:1.0.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//}
 dependencies {
-
-    // A N D R O I D    S U P P O R T
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:support-core-ui:$supportLibraryVersion"
     implementation "com.android.support:support-core-utils:$supportLibraryVersion"
@@ -153,7 +148,11 @@ dependencies {
     implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
     implementation "com.android.support:exifinterface:$supportLibraryVersion"
 
-    // P R O J E C T    D E P E N D E N C I E S
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+// - P R O J E C T    D E P E N D E N C I E S
+dependencies {
     implementation 'org.dimensinfin:CoreBase.core:2.2.0'
 //    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.0'
 //    implementation 'org.dimensinfin:NeoCom.Model:0.14.0'
@@ -167,8 +166,6 @@ dependencies {
 //    implementation files('libs/AndroidMVC-4.0.0.aar')
     implementation files('libs/viewpagerindicator-release.aar')
 
-    // M O D U L E    D E P E N D E N C I E S
-
     // C O R E
     implementation 'org.slf4j:slf4j-android:1.7.12'
     implementation "joda-time:joda-time:$jodaTimeVersion"
@@ -178,7 +175,12 @@ dependencies {
 
     // A N D R O I D M V C L I B R A R Y
     implementation 'org.apache.commons:commons-lang3:3.7'
+
+    // D A T A B A S E
+    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 }
+
+// - L I B R A R Y   D E P E N D E N C I E S
 dependencies {
     // N E O C O M . M O D E L
     implementation 'com.beimin:eveapi:6.0.6'
@@ -190,7 +192,7 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:1.1.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.j256.ormlite:ormlite-core:4.48'
+//    implementation 'com.j256.ormlite:ormlite-core:4.48'
     implementation 'com.annimon:stream:1.1.9'
 
     // N E O C O M . D A T A M A N A G E M E N T
@@ -198,21 +200,36 @@ dependencies {
     implementation 'com.github.scribejava:scribejava-core:5.4.0'
     implementation 'com.annimon:stream:1.1.9'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    implementation 'com.j256.ormlite:ormlite-core:4.48'
-    implementation 'com.j256.ormlite:ormlite-jdbc:4.48'
+//    implementation 'com.j256.ormlite:ormlite-core:4.48'
+//    implementation 'com.j256.ormlite:ormlite-jdbc:4.48'
     implementation 'org.xerial:sqlite-jdbc:3.16.1'
 
     // N E O C O M
-    implementation 'com.j256.ormlite:ormlite-android:4.48'
+//    implementation 'com.j256.ormlite:ormlite-android:4.48'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
-dependencies {
-    // T E S T I N G
 
+// - D A G G E R 2
+dependencies {
+    implementation group: 'com.google.dagger', name: 'dagger-android', version: '2.22.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+}
+
+// - T E S T I N G
+dependencies {
     // C O R E
     testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
+    testImplementation 'joda-time:joda-time:2.9.9'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'org.apache.commons:commons-lang3:3.7'
+}
 
+// - A N D R O I D   T E S T I N G
+dependencies {
     // A N D R O I D    S U P P O R T
     androidTestImplementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     androidTestImplementation "com.android.support:support-core-ui:$supportLibraryVersion"
@@ -222,47 +239,4 @@ dependencies {
 
     // A N D R O I D
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
-
-    //    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-
-    //    androidTestImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
-
-    //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-    //    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
-
-    // A N D R O I D M V C L I B R A R Y
-    testImplementation 'org.apache.commons:commons-lang3:3.7'
-
-    // N E O C O M . M O D E L
-    testImplementation 'com.beimin:eveapi:6.0.6'
-    testImplementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.6'
-    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
-    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.6'
-    testImplementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.8.6'
-    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.8.6'
-    testImplementation 'org.modelmapper:modelmapper:1.1.0'
-    testImplementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
-    testImplementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    testImplementation 'com.j256.ormlite:ormlite-core:4.48'
-
-    // N E O C O M . D A T A M A N A G E M E N T
-    testImplementation 'org.htmlparser:htmlparser:2.1'
-    testImplementation 'com.github.scribejava:scribejava-core:5.4.0'
-    testImplementation 'com.annimon:stream:1.1.9'
-    testImplementation 'org.apache.commons:commons-lang3:3.7'
-    testImplementation 'com.j256.ormlite:ormlite-core:4.48'
-    testImplementation 'com.j256.ormlite:ormlite-jdbc:4.48'
-    testImplementation 'org.xerial:sqlite-jdbc:3.16.1'
-
-    // N E O C O M
-    testImplementation 'com.j256.ormlite:ormlite-android:4.48'
-    testImplementation 'com.jakewharton:disklrucache:2.0.2'
-    testImplementation 'com.squareup.picasso:picasso:2.71828'
-
-    //    testImplementation 'org.mockito:mockito-core:1.10.19'
-
-    //SQLite -> Chrome (debug)
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }

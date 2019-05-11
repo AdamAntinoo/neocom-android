@@ -1,7 +1,9 @@
 package org.dimensinfin.eveonline.neocom.app;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import org.dimensinfin.eveonline.neocom.auth.NeoComOAuth20;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitHTTP;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -124,9 +126,47 @@ public class NeoComRetrofitNoOAuthHTTP extends NeoComRetrofitHTTP {
 								                          .build())
 				                          .build();
 		return new Retrofit.Builder()
-				       .baseUrl(GlobalDataManager.getResourceString("R.esi.data.server.location"))
+				       .baseUrl(this.configurationProvider.getResourceString("R.esi.data.server.location"))
 				       .addConverterFactory(GSON_CONVERTER_FACTORY)
 				       .client(httpClient)
 				       .build();
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		protected NeoComRetrofitNoOAuthHTTP onConstruction;
+
+		public Builder( final IConfigurationProvider configurationProvider ) {
+			this.onConstruction = new NeoComRetrofitNoOAuthHTTP(configurationProvider);
+		}
+
+		public Builder withNeoComOAuth20( final NeoComOAuth20 neoComOAuth20 ) {
+			this.onConstruction.neoComOAuth20 = neoComOAuth20;
+			return this;
+		}
+
+		public Builder withAgent( final String agent ) {
+			this.onConstruction.agent = agent;
+			return this;
+		}
+
+		public Builder withCacheDataFile( final File cacheDataFile ) {
+			this.onConstruction.cacheDataFile = cacheDataFile;
+			return this;
+		}
+
+		public Builder withCacheSize( final long cacheSize ) {
+			this.onConstruction.cacheSize = cacheSize;
+			return this;
+		}
+
+		public Builder withTimeout( final long timeout ) {
+			this.onConstruction.timeout = timeout;
+			return this;
+		}
+
+		public Retrofit build() {
+			return this.onConstruction.build();
+		}
 	}
 }
