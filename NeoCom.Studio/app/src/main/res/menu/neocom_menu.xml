@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/action_settings"
-         android:orderInCategory="100"
+        android:orderInCategory="100"
         android:icon="@drawable/settings"
         android:title="@string/action_settingslabel"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <item
         android:id="@+id/action_launchUpdate"
         android:layout_width="32dp"
@@ -14,13 +14,13 @@
         android:icon="@drawable/progress70_orange"
         android:title="Download Data"
         android:visible="true"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/searchmarket"
         android:title="Search..."
-        app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always" />
+        android:actionViewClass="android.widget.SearchView"
+        android:showAsAction="always" />
     <!--<item-->
     <!--android:id="@+id/action_fullreload"-->
     <!--android:orderInCategory="300"-->

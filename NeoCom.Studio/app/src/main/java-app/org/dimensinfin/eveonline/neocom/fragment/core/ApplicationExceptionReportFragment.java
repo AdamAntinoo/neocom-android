@@ -16,25 +16,18 @@
 package org.dimensinfin.eveonline.neocom.fragment.core;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
 import java.util.List;
 
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 
 /**

@@ -18,7 +18,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import android.support.annotation.WorkerThread;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -107,7 +106,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		return new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getVariant(), getFactory(), getExtras());
 	}
 

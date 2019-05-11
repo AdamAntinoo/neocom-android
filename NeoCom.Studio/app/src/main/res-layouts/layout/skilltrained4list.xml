@@ -22,7 +22,7 @@
 
         <ProgressBar
             android:id="@+id/trainedProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="74dp"
             android:layout_height="6dp"
             android:layout_margin="1dp"

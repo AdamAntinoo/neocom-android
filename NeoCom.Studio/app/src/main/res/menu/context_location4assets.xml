@@ -7,7 +7,7 @@
         android:actionLayout="@layout/menu_location4context"
         android:icon="@drawable/planets"
         android:title="MANUFACTURE"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <item
         android:id="@+id/context_locationrole_refining"
         android:icon="@drawable/planets"

@@ -23,7 +23,6 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -94,9 +93,9 @@ public class SkillsFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		logger.info(">> [SkillsFragment.registerDataSource]");
-		IDataSource ds = null;
+		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if ( getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name() ) {
 			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());

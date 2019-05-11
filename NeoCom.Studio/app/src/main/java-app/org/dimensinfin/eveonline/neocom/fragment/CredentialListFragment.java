@@ -23,7 +23,6 @@ import android.os.Bundle;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
@@ -67,7 +66,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		logger.info(">< [CredentialListFragment.registerDataSource]");
 		return new CredentialListDataSource(new DataSourceLocator().addIdentifier("CREDENTIAL-LIST")
 				, getVariant()

@@ -19,7 +19,6 @@ import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -85,9 +84,9 @@ public class AssetsFragment extends AbstractPagerFragment {
 	 * the model and the rest of the objects are being generated.
 	 */
 	@Override
-	public IDataSource registerDataSource() {
+	public org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		AssetsFragment.logger.info(">> [AssetsFragment.registerDataSource]");
-		IDataSource ds = null;
+		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_BYLOCATION.name()) {
 			int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());

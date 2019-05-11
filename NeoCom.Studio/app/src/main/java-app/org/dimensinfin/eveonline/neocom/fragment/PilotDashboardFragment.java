@@ -17,7 +17,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
@@ -78,7 +77,7 @@ public class PilotDashboardFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		return new RefiningDetailFragment.EmptyDataSource(new DataSourceLocator().addIdentifier("PilotDashboardFragment")
 				, getVariant(), getFactory(), getExtras());
 	}

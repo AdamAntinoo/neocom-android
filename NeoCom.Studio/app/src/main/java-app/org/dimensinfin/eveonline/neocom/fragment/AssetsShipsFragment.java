@@ -18,7 +18,6 @@ package org.dimensinfin.eveonline.neocom.fragment;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -81,9 +80,9 @@ public class AssetsShipsFragment extends AbstractPagerFragment {
 	 * the model and the rest of the objects are being generated.
 	 */
 	@Override
-	public IDataSource registerDataSource() {
+	public org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		logger.info(">> [AssetsShipsFragment.registerDataSource]");
-		IDataSource ds = null;
+		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if ( getVariant() == NeoComApplication.EVariants.SHIPS_BYTYPE.name() ) {
 			int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
@@ -189,7 +188,7 @@ public class AssetsShipsFragment extends AbstractPagerFragment {
 		}
 
 		@Override
-		public IDataSource addModelContents( final ICollaboration newnode ) {
+		public org.dimensinfin.android.mvc.interfaces.IPartsDataSource addModelContents( final ICollaboration newnode ) {
 			this.dataContents.add(newnode);
 			return this;
 		}

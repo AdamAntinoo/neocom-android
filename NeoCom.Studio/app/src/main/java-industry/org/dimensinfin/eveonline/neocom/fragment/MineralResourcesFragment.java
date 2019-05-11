@@ -20,7 +20,6 @@ import android.os.Bundle;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -88,7 +87,7 @@ public class MineralResourcesFragment extends MiningLedgerFragment {
 	}
 
 	@Override
-	protected IDataSource registerDataSource() {
+	protected org.dimensinfin.android.mvc.interfaces.IPartsDataSource registerDataSource() {
 		logger.info(">< [MineralResourcesFragment.registerDataSource]");
 		final DataSourceLocator identifier = new DataSourceLocator().addIdentifier("MINERAL-RESOURCES")
 				.addIdentifier(getVariant())
