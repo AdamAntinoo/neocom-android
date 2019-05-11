@@ -35,6 +35,7 @@ public class SplashFragment extends MVCPagerFragment {
 		return new CredentialDatasource.Builder()
 				       .addIdentifier(this.getVariant())
 				       .addIdentifier(this.getTitle())
+				       .addIdentifier("SPLASH")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
@@ -61,7 +62,7 @@ public class SplashFragment extends MVCPagerFragment {
 
 		@Override
 		public void prepareModel() {
-
+			logger.info(">> [CredentialDatasource.prepareModel]");
 		}
 
 		@Override
@@ -93,9 +94,12 @@ public class SplashFragment extends MVCPagerFragment {
 
 		// - B U I L D E R
 		public static class Builder extends AMVCDataSource.BaseBuilder<CredentialDatasource, Builder> {
+			private CredentialDatasource onConstruction;
+
 			@Override
 			protected CredentialDatasource getActual() {
-				return new CredentialDatasource();
+				if (null == this.onConstruction) this.onConstruction = new CredentialDatasource();
+				return this.onConstruction;
 			}
 
 			@Override

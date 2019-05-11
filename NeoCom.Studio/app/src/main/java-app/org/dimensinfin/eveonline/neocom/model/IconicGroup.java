@@ -46,6 +46,10 @@ public class IconicGroup extends PanelTitle {
 		this.iconReference = iconRef;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public String toString() {

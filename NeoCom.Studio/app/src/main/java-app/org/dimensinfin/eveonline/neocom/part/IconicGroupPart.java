@@ -54,7 +54,7 @@ public class IconicGroupPart extends NeoComAbstractExpandablePart {
 	// --- I A N D R O I D P A R T   I N T E R F A C E
 	@Override
 	public long getModelId() {
-		return getCastedModel().getTitle().hashCode();
+		return getCastedModel().hashCode();
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class IconicGroupPart extends NeoComAbstractExpandablePart {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("IconicGroupPart [ ");
-		buffer.append("title: ").append(getCastedModel().getTitle());
+		buffer.append("title: ").append(getCastedModel().getLabel());
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
@@ -101,7 +101,7 @@ public class IconicGroupPart extends NeoComAbstractExpandablePart {
 		public void updateContent() {
 			super.updateContent();
 			this.nodeIcon.setImageResource(this.getPart().getCastedModel().getIconReference());
-			this.title.setText(this.getPart().getCastedModel().getTitle());
+			this.title.setText(this.getPart().getCastedModel().getLabel());
 			this.count.setText(this.getPart().getTContentCount());
 		}
 
