@@ -150,7 +150,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
 
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin:CoreBase.core:2.2.0'
+    implementation 'org.dimensinfin:CoreBase.core:3.0.1'
 //    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.0'
 //    implementation 'org.dimensinfin:NeoCom.Model:0.14.0'
 //    implementation 'org.dimensinfin:NeoCom.DataManagement:0.14.0'
@@ -159,6 +159,7 @@ dependencies {
     implementation project (':NeoCom.Model')
     implementation project (':NeoCom.DataManagement')
     implementation project (':AndroidMVCLibrary')
+//    implementation project (':CoreBase')
 
 
     // G R A P H S   &   C H A R T S

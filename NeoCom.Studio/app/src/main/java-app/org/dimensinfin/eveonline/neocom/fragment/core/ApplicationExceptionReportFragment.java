@@ -23,10 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.ExceptionDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 
@@ -66,7 +66,8 @@ public class ApplicationExceptionReportFragment extends AbstractPagerFragment {
 	protected IPartsDataSource registerDataSource() {
 		logger.info(">< [ApplicationExceptionReportFragment.registerDataSource]");
 					// Return the default exceptional data source to display the exception message.
-			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION"), getVariant()
+			return new ExceptionDataSource(new DataSourceLocator().addIdentifier("EXCEPTION")
+					, getVariant()
 					, createFactory(), getExtras())
 					.registerException(AndroidGlobalDataManager.getLastException());
 	}

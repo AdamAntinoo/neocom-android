@@ -22,10 +22,10 @@ import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.core.model.Separator.ESeparatorType;
@@ -155,7 +155,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				// Add the node to display the new New Login Button.
 				this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE));
 				this.addModelContents(new NewLoginAction());
-//					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE),true);
+				//					this.addModelContents(new Separator().setType(ESeparatorType.LINE_WHITE),true);
 			} catch (RuntimeException rtex) {
 				AndroidGlobalDataManager.registerRuntimeException("CredentialListDataSource.collaborate2Model"
 						, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
