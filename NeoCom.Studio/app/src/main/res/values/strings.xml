@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- A P P L I C A T I O N   C H A R A C T E R I S T I C S -->
-    <!--<string name="appname">NeoComTest</string>-->
-    <!--<string name="appversion">v0.10.3</string>-->
-    <!--<string name="appversionname">NeoComTest 0.10.3</string>-->
-    <!--<string name="appversionnumber">103</string>-->
-    <string name="AppDescription">"Application to get access to CCP api information and help manage industrial activities for characters and corporations at Eve Online. The set is composed of some projects with implementation for Android and for an AngularJS web interface based on REST services on Sprint Boot Cloud."</string>
-    <string name="action_settingslabel">Settings</string>
+	<!-- A P P L I C A T I O N   C H A R A C T E R I S T I C S -->
+	<!--<string name="appname">NeoComTest</string>-->
+	<!--<string name="appversion">v0.10.3</string>-->
+	<!--<string name="appversionname">NeoComTest 0.10.3</string>-->
+	<!--<string name="appversionnumber">103</string>-->
+	<string name="AppDescription">"Application to get access to CCP api information and help manage industrial activities for characters and corporations at Eve Online. The set is composed of some projects with implementation for Android and for an AngularJS web interface based on REST services on Sprint Boot Cloud."</string>
+	<string name="action_settingslabel">Settings</string>
 
-    <!-- A C T I V I T I E S    T I T L E S -->
-    <string name="activity_title_Settings">Settings</string>
-    <string name="activity_title_CredentialList">CAPSULEER SELECTION</string>
-    <string name="activity_title_PilotDetailsActivity">PILOT DETAILS</string>
-    <string name="activity_title_AssetsManagerActivity">ASSETS MANAGER</string>
-    <string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
-    <string name="activity_subtitle_AssetsByCategory">ASSETS - By Category</string>
-    <string name="activity_subtitle_SkillsQueue">SKILLS - On queue</string>
-    <string name="activity_subtitle_SkillsTrained">SKILLS - Trained</string>
+	<!-- A C T I V I T I E S    T I T L E S -->
+	<string name="activity_title_Settings">Settings</string>
+	<string name="activity_title_CredentialList">CAPSULEER SELECTION</string>
+	<string name="activity_title_PilotDetailsActivity">PILOT DETAILS</string>
+	<string name="activity_title_AssetsManagerActivity">ASSETS MANAGER</string>
+	<string name="activity_subtitle_AssetsByLocation">ASSETS - By Location</string>
+	<string name="activity_subtitle_AssetsByCategory">ASSETS - By Category</string>
+	<string name="activity_subtitle_SkillsQueue">SKILLS - On queue</string>
+	<string name="activity_subtitle_SkillsTrained">SKILLS - Trained</string>
 
 
-    <string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
-    <string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY RESOURCES</string>
-    <string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
-    <string name="activity_subtitle_ColonyActivity">COLONY STRUCTURE</string>
-    <string name="activity_title_IndustryManagerActivity">INDUSTRY MANAGER</string>
-    <string name="activity_subtitle_IndustryManagerActivity">Blueprint Management</string>
-    <string name="activity_subtitle_BlueprintsT2">T2 Blueprints</string>
+	<string name="activity_title_PlanetaryManagerActivity">-Current Character Name-</string>
+	<string name="activity_subtitle_PlanetaryManagerActivity">PLANETARY RESOURCES</string>
+	<string name="activity_subtitle_PlanetaryOptimizationActivity">PLANETARY OPTIMIZATION</string>
+	<string name="activity_subtitle_ColonyActivity">COLONY STRUCTURE</string>
+	<string name="activity_title_IndustryManagerActivity">INDUSTRY MANAGER</string>
+	<string name="activity_subtitle_IndustryManagerActivity">Blueprint Management</string>
+	<string name="activity_subtitle_BlueprintsT2">T2 Blueprints</string>
 
-    <string name="title_activity_PilotList">Pilot Roaster</string>
-    <string name="title_activity_DirectorsBoard">Activity Selection</string>
-    <string name="title_activity_AssetsDirector">Assets Inventory</string>
+	<string name="title_activity_PilotList">Pilot Roaster</string>
+	<string name="title_activity_DirectorsBoard">Activity Selection</string>
+	<string name="title_activity_AssetsDirector">Assets Inventory</string>
 
-    <!-- CONTEXT MENU VALUES -->
-    <string-array name="assetActions">
-        <item>MOVE</item>
-        <item>LOAD</item>
-        <item>UNLOAD</item>
-        <item>-CLEAR-</item>
-    </string-array>
+	<!-- CONTEXT MENU VALUES -->
+	<string-array name="assetActions">
+		<item>MOVE</item>
+		<item>LOAD</item>
+		<item>UNLOAD</item>
+		<item>-CLEAR-</item>
+	</string-array>
 
-    <string name="title_activity_mining_session">MiningSessionActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="security10">#2FEFEF</string>
-    <string name="security09">#48F0C0</string>
-    <string name="security08">#00EF47</string>
-    <string name="security07">#00F000</string>
-    <string name="security06">#8FEF2F</string>
-    <string name="security05">#EFEF00</string>
-    <string name="security04">#D77700</string>
-    <string name="security03">#F06000</string>
-    <string name="security02">#F04800</string>
-    <string name="security01">#D73000</string>
-    <string name="security00">#F00000</string>
-    <string name="fittingSpinnerLabel">Select fitting:</string>
-    <string name="copiesSpinnerLabel">Select copies:</string>
-    <string name="title_mining_feature">MiningManagement</string>
+	<string name="title_activity_mining_session">MiningSessionActivity</string>
+	<string name="action_settings">Settings</string>
+	<string name="hello_world">Hello world!</string>
+	<string name="security10">#2FEFEF</string>
+	<string name="security09">#48F0C0</string>
+	<string name="security08">#00EF47</string>
+	<string name="security07">#00F000</string>
+	<string name="security06">#8FEF2F</string>
+	<string name="security05">#EFEF00</string>
+	<string name="security04">#D77700</string>
+	<string name="security03">#F06000</string>
+	<string name="security02">#F04800</string>
+	<string name="security01">#D73000</string>
+	<string name="security00">#F00000</string>
+	<string name="fittingSpinnerLabel">Select fitting:</string>
+	<string name="copiesSpinnerLabel">Select copies:</string>
+	<string name="title_mining_feature">MiningManagement</string>
 	<string name="propertiesLocation">properties</string>
+	<string name="title_mining">NeoCom Mining</string>
+	<string name="title_shared">NeoCom shared</string>
 
 </resources>

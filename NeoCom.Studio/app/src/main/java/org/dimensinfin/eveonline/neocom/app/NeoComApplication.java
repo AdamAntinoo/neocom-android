@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 
+import org.dimensinfin.eveonline.neocom.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
@@ -122,6 +123,7 @@ public class NeoComApplication extends Application {
 				              .withConfigurationProvider(configurationProvider)
 				              .withPreferencesProvider(preferencesProvider)
 				              .withESIAdapter(esiAdapter)
+							  .withDataDownloaderService(new DataDownloaderService())
 				              .build();
 
 		// Connect the application to the global context to be able to use all the resources.

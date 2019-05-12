@@ -1,26 +1,37 @@
 package org.dimensinfin.eveonline.neocom.controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.app.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.main.PilotV3;
 import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
 
-import androidx.annotation.NonNull;
 import com.squareup.picasso.Picasso;
 
-public class CredentialController extends AAndroidController<Credential> {
+public class CredentialController extends AAndroidController<Credential> implements PropertyChangeListener, View.OnClickListener {
+	private Context context;
+
 	// - E X T E N D E D   M O D E L
 	private PilotV3 pilot;
 
@@ -28,16 +39,36 @@ public class CredentialController extends AAndroidController<Credential> {
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		this(new ControllerAdapter<>(model), factory);
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3();
+		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getDataDownloaderService()).build();
+		this.pilot.addPropertyChangeListener(this);
 	}
 
 	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
 		super(delegate, factory);
 	}
 
+	// - O N C L I C K L I S T E N E R   I N T E R F A C E
+
+	/**
+	 * If the Pilot is active the click has to change the current Activity to the Pilot Dashboard Activity. If the Pilot is not active
+	 * the
+	 * event should be discarded.
+	 * If this part is used on more places we should control the variant so the click can be active for ones and not active for others.
+	 */
+	public void onClick( final View view ) {
+		logger.info(">> [CredentialController.onClick]");
+		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name()
+				, this.getModel().getAccountId()); // Credential account identifier
+		view.getContext().startActivity(intent);
+		logger.info("<< [CredentialController.onClick]");
+	}
+
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {
+		this.context = context;
 		return new CredentialRender(this, context);
 	}
 
@@ -62,7 +93,8 @@ public class CredentialController extends AAndroidController<Credential> {
 	public long getPilotAssetsCount() {
 		return this.accessPilot().getTotalAssetsNumber();
 	}
-	public String getURLForPilotAvatar(){
+
+	public String getURLForPilotAvatar() {
 		return this.accessPilot().getUrlforAvatar();
 	}
 
@@ -71,6 +103,14 @@ public class CredentialController extends AAndroidController<Credential> {
 			logger.info(">> [CredentialController.accessPilot]");
 		}
 		return this.pilot;
+	}
+
+	// - P R O P E R T Y C H A N G E L I S T E N E R
+	@Override
+	public void propertyChange( final PropertyChangeEvent evt ) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+			this.notifyDataModelChange();
+		}
 	}
 
 	// - C R E D E N T I A L B U I L D E R
@@ -88,7 +128,7 @@ public class CredentialController extends AAndroidController<Credential> {
 		// - L A Y O U T   F I E L D S
 		private ViewGroup nodeIconBlock = null;
 		private ImageView targetIcon = null;
-//		private ImageView rightArrow = null;
+		//		private ImageView rightArrow = null;
 
 		// - C O N S T R U C T O R S
 		public CredentialRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -107,7 +147,7 @@ public class CredentialController extends AAndroidController<Credential> {
 			// Layout fields
 			nodeIconBlock = this.getView().findViewById(R.id.nodeIconBlock);
 			targetIcon = this.getView().findViewById(R.id.targetIcon);
-//			rightArrow = this.getView().findViewById(R.id.rightArrow);
+			//			rightArrow = this.getView().findViewById(R.id.rightArrow);
 
 			// Content  fields.
 			pilotName = this.getView().findViewById(R.id.pilotName);
@@ -136,12 +176,12 @@ public class CredentialController extends AAndroidController<Credential> {
 			assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
 			race.setText("-");
 			// Obtain the values to be set on the fiels. This second task should be done on the UI thread.
-//			final String walletAmount = getPart().getTWalletAmount();
-//			final String assetcount = getPart().getTAssetsCount();
-//			final String racename = getPart().getTRaceName();
-//			accountBalance.setText(walletAmount);
-//			assetsCount.setText(assetcount);
-//			race.setText(racename);
+			//			final String walletAmount = getPart().getTWalletAmount();
+			//			final String assetcount = getPart().getTAssetsCount();
+			//			final String racename = getPart().getTRaceName();
+			//			accountBalance.setText(walletAmount);
+			//			assetsCount.setText(assetcount);
+			//			race.setText(racename);
 			final String link = this.getController().getURLForPilotAvatar();
 			if (null != link) {
 				if (null != targetIcon) {

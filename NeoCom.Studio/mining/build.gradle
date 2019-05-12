@@ -1,0 +1,27 @@
+apply plugin: 'com.android.dynamic-feature'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.15.0"
+    }
+}
+
+// - P R O J E C T    D E P E N D E N C I E S
+dependencies {
+    // C O R E
+    implementation 'org.slf4j:slf4j-android:1.7.12'
+    implementation "joda-time:joda-time:$jodaTimeVersion"
+}
+
+dependencies {
+    implementation project (':ESI.SwaggerApi')
+    implementation project (':NeoCom.Model')
+    implementation project (':NeoCom.DataManagement')
+    implementation project (':AndroidMVCLibrary')
+
+    implementation project (':shared')
+}

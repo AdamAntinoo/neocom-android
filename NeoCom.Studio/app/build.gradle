@@ -93,14 +93,7 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
-//    jar {
-//        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    }
-
-
-//    dynamicFeatures = [":mining_feature"]
-
-
+    dynamicFeatures = [":mining", ":shared"]
 }
 
 //--- T A S K S   C O M P L E M E N T A R Y
@@ -155,10 +148,10 @@ dependencies {
 //    implementation 'org.dimensinfin:NeoCom.Model:0.14.0'
 //    implementation 'org.dimensinfin:NeoCom.DataManagement:0.14.0'
 
-    implementation project (':ESI.SwaggerApi')
-    implementation project (':NeoCom.Model')
-    implementation project (':NeoCom.DataManagement')
-    implementation project (':AndroidMVCLibrary')
+    implementation project(':ESI.SwaggerApi')
+    implementation project(':NeoCom.Model')
+    implementation project(':NeoCom.DataManagement')
+    implementation project(':AndroidMVCLibrary')
 //    implementation project (':CoreBase')
 
 

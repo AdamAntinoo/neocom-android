@@ -38,7 +38,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
         android:gravity="right"
-        android:text="(c) Dimensinfin Industries 2018"
+        android:text="(c) Dimensinfin Industries 2019"
         android:textColor="@color/appwhite"
         android:textSize="8sp" />
 </RelativeLayout>
