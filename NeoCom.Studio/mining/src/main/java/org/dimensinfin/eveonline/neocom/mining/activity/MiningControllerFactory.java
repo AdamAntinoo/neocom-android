@@ -20,14 +20,6 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.InformationPanel;
-import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
-import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
-import org.dimensinfin.eveonline.neocom.part.MiningExtractionPart;
-import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
-import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

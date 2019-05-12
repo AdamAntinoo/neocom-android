@@ -67,7 +67,7 @@ public abstract class APublicCredentialActivity extends APublicMenuActivity impl
 		return this.pilot;
 	}
 
-	// --- A C T I V I T Y   L I F E C Y C L E
+	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [APublicCredentialActivity.onCreate]");

@@ -1,0 +1,6 @@
+package org.dimensinfin.eveonline.neocom.sharedcode;
+
+public enum EExtras {
+	CAPSULEER_IDENTIFIER,
+	FIRE_AUTHORIZATION_FLOW, REFINETYPE_IDENTIFIER, RESOURCESYSTEM_IDENTIFIER, ASSETFILTER_DEFINITION
+}

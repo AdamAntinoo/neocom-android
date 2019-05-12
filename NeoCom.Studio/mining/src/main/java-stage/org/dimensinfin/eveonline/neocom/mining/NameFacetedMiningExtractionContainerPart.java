@@ -9,8 +9,6 @@ import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
  * @author Adam Antinoo

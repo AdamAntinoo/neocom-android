@@ -27,7 +27,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.SkillsManagerActivity;
-import org.dimensinfin.eveonline.neocom.mining.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.slf4j.Logger;

@@ -8,6 +8,16 @@ android {
         versionCode 1
         versionName "0.15.0"
     }
+    buildTypes {
+        debug {
+            debuggable true
+
+            resValue "string", "appname", "NeoCom"
+            resValue "string", "appversionnumber", android.defaultConfig.versionName
+            resValue "string", "appversionname", "v" + android.defaultConfig.versionName
+
+        }
+    }
 }
 
 // - A N D R O I D    S U P P O R T
@@ -29,4 +39,6 @@ dependencies {
     implementation project (':NeoCom.Model')
     implementation project (':NeoCom.DataManagement')
     implementation project (':AndroidMVCLibrary')
+
+    implementation project (':sharedcode')
 }
