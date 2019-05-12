@@ -29,6 +29,7 @@ import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.activity.SkillsManagerActivity;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +102,7 @@ public class NeoComMenuBarPart extends NeoComAbstractPart<NeoComMenuBar> {
 						final int identifier = this.getPart().getCastedModel().getCredential().getAccountId();
 						final Intent intent = new Intent(this.getContext(), AssetsManagerActivity.class);
 						// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-						intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+						intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
 						this.getContext().startActivity(intent);
 					}
 			);
@@ -112,7 +113,7 @@ public class NeoComMenuBarPart extends NeoComAbstractPart<NeoComMenuBar> {
 						final int identifier = this.getPart().getCastedModel().getCredential().getAccountId();
 						final Intent intent = new Intent(this.getContext(), MiningLedgerActivity.class);
 						// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-						intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+						intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
 						this.getContext().startActivity(intent);
 					}
 			);
@@ -123,7 +124,7 @@ public class NeoComMenuBarPart extends NeoComAbstractPart<NeoComMenuBar> {
 						final int identifier = this.getPart().getCastedModel().getCredential().getAccountId();
 						final Intent intent = new Intent(this.getContext(), SkillsManagerActivity.class);
 						// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-						intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+						intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
 						this.getContext().startActivity(intent);
 					}
 			);

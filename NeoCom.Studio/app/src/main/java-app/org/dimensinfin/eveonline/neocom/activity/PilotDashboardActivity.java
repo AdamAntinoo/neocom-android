@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicActionBarActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
@@ -51,7 +52,7 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
 			if (null != extras) {
-				pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+				pilotIdentifier = extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
 				if (pilotIdentifier > 0) {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);

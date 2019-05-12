@@ -32,6 +32,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOk;
@@ -98,7 +99,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if ( getVariant() == NeoComApplication.EVariants.SKILLS_QUEUE.name() ) {
-			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			int characterid = this.getExtras().getInt(EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
 					.addIdentifier(this.getVariant())
@@ -110,7 +111,7 @@ public class SkillsFragment extends AbstractPagerFragment {
 					.setCacheable(true);
 		}
 		if ( getVariant() == NeoComApplication.EVariants.SKILLS_TRAINED.name() ) {
-			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			int characterid = this.getExtras().getInt(EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
 					.addIdentifier(this.getVariant())

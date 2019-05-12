@@ -38,6 +38,7 @@ import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.model.ShipFacetedAssetsContainer;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_BYLOCATION.name()) {
-			int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			int pilotIdentifier = this.getExtras().getInt(EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
 					.addIdentifier(this.getVariant())
@@ -103,8 +104,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 					.setCacheable(false);
 		}
 		if (getVariant() == NeoComApplication.EVariants.ASSETS_SEARCH.name()) {
-			int characterid = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
-			String filter = this.getExtras().getString(NeoComApplication.EExtras.ASSETFILTER_DEFINITION.name());
+			int characterid = this.getExtras().getInt(EExtras.CAPSULEER_IDENTIFIER.name());
+			String filter = this.getExtras().getString(EExtras.ASSETFILTER_DEFINITION.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant())
 					.addIdentifier(characterid)

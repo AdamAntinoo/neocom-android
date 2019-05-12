@@ -30,6 +30,7 @@ import org.dimensinfin.eveonline.neocom.activity.AuthorizationFlowActivity;
 //import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 
 /**
  * This part will trigger an Activity change when the <b>OnClick</b> event is received. If will show a simple message to the user along
@@ -91,7 +92,7 @@ public class NewLoginActionPart extends AbstractAndroidPart implements View.OnCl
 		// Launch the Authorization Flow so the display is blocked while we authorize a new Credential.
 		final Intent intent = new Intent(this.getActivity(), AuthorizationFlowActivity.class);
 		// Tag this intent request with a flag to know we are firing it from the new login action part.
-		intent.putExtra(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name(), "NEW-LOGIN-PART");
+		intent.putExtra(EExtras.FIRE_AUTHORIZATION_FLOW.name(), "NEW-LOGIN-PART");
 		getActivity().startActivity(intent);
 		logger.info("<< [NewLoginActionPart.onClick]");
 	}

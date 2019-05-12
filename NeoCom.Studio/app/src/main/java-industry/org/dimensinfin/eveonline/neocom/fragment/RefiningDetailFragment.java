@@ -22,6 +22,7 @@ import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.entities.Property;
@@ -85,7 +86,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		// Create the report. To complete this add the Credential for the owner of the resource, the current location and the
 		// preferred refining location from the location roles for the Pilot.
 		if ( this.getAppContext() instanceof ICredentialActivity ) {
-			int resourceSystemId = this.getExtras().getInt(NeoComApplication.EExtras.RESOURCESYSTEM_IDENTIFIER.name(), 34);
+			int resourceSystemId = this.getExtras().getInt(EExtras.RESOURCESYSTEM_IDENTIFIER.name(), 34);
 			try {
 				final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
 				final PilotV2 pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);

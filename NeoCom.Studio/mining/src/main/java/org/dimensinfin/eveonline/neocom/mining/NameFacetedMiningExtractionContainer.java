@@ -83,6 +83,11 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 		return _expanded;
 	}
 
+	public boolean toggleExpand() {
+		this._expanded = !this._expanded;
+		return this._expanded;
+	}
+
 	@Override
 	public boolean isEmpty() {
 		if (this.contents.size() > 0) return false;

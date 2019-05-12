@@ -27,6 +27,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.RefiningDetailActivity;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -143,10 +144,10 @@ public class MiningExtractionPart extends NeoComAbstractPart<MiningExtraction> i
 			// Go to the Activity and get back the pilot identifier.
 			if ( this.getActivity() instanceof ICredentialActivity ) {
 				int pilotIdentifier = ((ICredentialActivity) this.getActivity()).getCredential().getAccountId();
-				intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
+				intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 			}
-			intent.putExtra(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
-			intent.putExtra(NeoComApplication.EExtras.RESOURCESYSTEM_IDENTIFIER.name()
+			intent.putExtra(EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
+			intent.putExtra(EExtras.RESOURCESYSTEM_IDENTIFIER.name()
 					, ((MiningExtractionPart) resourcePart).getCastedModel().getSolarSystemId());
 			getActivity().startActivity(intent);
 		}

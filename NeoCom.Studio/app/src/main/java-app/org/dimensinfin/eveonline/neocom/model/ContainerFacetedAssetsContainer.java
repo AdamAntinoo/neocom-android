@@ -15,16 +15,14 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
-import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
+import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 
 /**
  * @author Adam Antinoo
@@ -59,6 +57,7 @@ public class ContainerFacetedAssetsContainer extends NeoComAsset implements IAss
 	 * Even this object inherits from the asset structure, it is a new instance of the object and we should copy
 	 * the data from the original reference to this instance instead using delegates that will not work when
 	 * accessing directly to fields.
+	 *
 	 * @return this same instance updated with the reference data.
 	 */
 	public ContainerFacetedAssetsContainer copyFrom( final NeoComAsset asset ) {
@@ -152,6 +151,11 @@ public class ContainerFacetedAssetsContainer extends NeoComAsset implements IAss
 	public boolean expand() {
 		_expanded = true;
 		return _expanded;
+	}
+
+	public boolean toggleExpand() {
+		this._expanded = !this._expanded;
+		return this._expanded;
 	}
 
 	@Override

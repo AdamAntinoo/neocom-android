@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 //import org.dimensinfin.eveonline.neocom.core.NeoComException;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;
@@ -54,7 +55,7 @@ public class RefiningDetailActivity extends APublicCredentialActivity {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
 			if (null == extras)
 				throw new NeoComException("[MiningLedgerActivity.onCreate]> 'onCreate' event did not received a valid set of 'extras'.");
-			resourceTypeId = extras.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), 1230);
+			resourceTypeId = extras.getInt(EExtras.REFINETYPE_IDENTIFIER.name(), 1230);
 //			refiningLocationId=extras.getInt(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(),34);
 
 			// Validate the reception of mandatory valid parameters.
@@ -110,7 +111,7 @@ public class RefiningDetailActivity extends APublicCredentialActivity {
 
 	@Override
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
-		resourceTypeId = savedInstanceState.getInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name());
+		resourceTypeId = savedInstanceState.getInt(EExtras.REFINETYPE_IDENTIFIER.name());
 //		refiningLocationId = savedInstanceState.getLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name());
 		//		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
 		//		credential = searchCredential(pilotIdentifier);
@@ -134,7 +135,7 @@ public class RefiningDetailActivity extends APublicCredentialActivity {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
 		//		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
-		outState.putInt(NeoComApplication.EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
+		outState.putInt(EExtras.REFINETYPE_IDENTIFIER.name(), resourceTypeId);
 //		outState.putLong(NeoComApplication.EExtras.REFININGLOCATION_IDENTIFIER.name(), refiningLocationId);
 	}
 

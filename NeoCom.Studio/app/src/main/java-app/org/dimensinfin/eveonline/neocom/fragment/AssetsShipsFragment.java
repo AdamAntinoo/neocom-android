@@ -32,6 +32,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.IconicGroupFacetedShipsContainer;
 import org.dimensinfin.eveonline.neocom.model.Ship;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class AssetsShipsFragment extends AbstractPagerFragment {
 		org.dimensinfin.android.mvc.interfaces.IPartsDataSource ds = null;
 		// Get access to the parameters and reconstruct the data chain if required.
 		if ( getVariant() == NeoComApplication.EVariants.SHIPS_BYTYPE.name() ) {
-			int pilotIdentifier = this.getExtras().getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+			int pilotIdentifier = this.getExtras().getInt(EExtras.CAPSULEER_IDENTIFIER.name());
 			// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 			DataSourceLocator locator = new DataSourceLocator()
 					.addIdentifier(this.getVariant())

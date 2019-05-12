@@ -35,6 +35,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.controller.AppVersionController;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
@@ -179,7 +180,7 @@ public class CredentialPart extends NeoComAbstractPart implements View.OnClickLi
 			//					NeoComModelStore.activateCredential(identifier);
 			final Intent intent = new Intent(this.getActivity(), PilotDashboardActivity.class);
 			// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-			intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+			intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
 			getActivity().startActivity(intent);
 		}
 		logger.info("<< [CredentialPart.onClick]");

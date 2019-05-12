@@ -132,6 +132,11 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 		return _expanded;
 	}
 
+	public boolean toggleExpand() {
+		this._expanded = !this._expanded;
+		return this._expanded;
+	}
+
 	@Override
 	public boolean isEmpty() {
 		if (this.contents.size() < 1) return true;

@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
@@ -75,7 +76,7 @@ public abstract class APublicCredentialActivity extends APublicMenuActivity impl
 		try {
 			// Get the pilot identifier. This is a mandatory parameter and should be validated.
 			if (null != extras) {
-				pilotIdentifier = extras.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+				pilotIdentifier = extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
 				if (pilotIdentifier > 0) {
 					// Validate the pointer Credential that should be made available to this Activity fragments.
 					credential = searchCredential(pilotIdentifier);
@@ -107,7 +108,7 @@ public abstract class APublicCredentialActivity extends APublicMenuActivity impl
 
 	@Override
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
-		pilotIdentifier = savedInstanceState.getInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name());
+		pilotIdentifier = savedInstanceState.getInt(EExtras.CAPSULEER_IDENTIFIER.name());
 		credential = searchCredential(pilotIdentifier);
 		if (null != credential) {
 			// Get access tot the Pilot information and store a reference on the Activity.
@@ -138,7 +139,7 @@ public abstract class APublicCredentialActivity extends APublicMenuActivity impl
 	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putInt(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
+		outState.putInt(EExtras.CAPSULEER_IDENTIFIER.name(), pilotIdentifier);
 	}
 }
 // - UNUSED CODE ............................................................................................

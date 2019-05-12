@@ -42,6 +42,7 @@ import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
@@ -234,7 +235,7 @@ public class AuthorizationFlowActivity extends Activity {
 		if ( null != intent ) {
 			final Bundle extras = this.getIntent().getExtras();
 			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
-			final String tag = extras.getString(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name());
+			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if ( (null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART")) ) {
 				// Fire the credential authorization flow on a background task.
 				AndroidGlobalDataManager.submitJob2ui(() -> {
@@ -278,7 +279,7 @@ public class AuthorizationFlowActivity extends Activity {
 		if ( null != intent ) {
 			final Bundle extras = this.getIntent().getExtras();
 			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
-			final String tag = extras.getString(NeoComApplication.EExtras.FIRE_AUTHORIZATION_FLOW.name());
+			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if ( tag.equalsIgnoreCase("NEW-LOGIN-PART") ) {
 				// Fire the credential authorization flow on a background task.
 				AndroidGlobalDataManager.submitJob2ui(() -> {

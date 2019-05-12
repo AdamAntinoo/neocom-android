@@ -2,17 +2,11 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.controller.PanelTitleController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -24,45 +18,45 @@ public class MiningControllerFactory extends ControllerFactory {
 
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
-		if ( node instanceof PanelTitle) {
+		if (node instanceof PanelTitle) {
 			return new PanelTitleController.Builder((PanelTitle) node, this)
-					.withVariant(this.getVariant())
-					.build();
+					       .withVariant(this.getVariant())
+					       .build();
 		}
-		if ( node instanceof MiningExtraction ) {
+		if (node instanceof MiningExtraction) {
 			return new MiningExtractionController((MiningExtraction) node, this);
 		}
 		return super.createController(node);
 	}
-//
-//	@Override
-//	public IPart createPart( final ICollaboration node ) {
-//		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
-//		if ( node instanceof NeoComAsset ) {
-//			IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
-//					.setRenderMode(this.getVariant());
-//			return part;
-//		}
-//		if ( node instanceof NameFacetedMiningExtractionContainer ) {
-//			IPart part = new NameFacetedMiningExtractionContainerPart((NameFacetedMiningExtractionContainer) node).setFactory(this)
-//					.setRenderMode(this.getVariant());
-//			return part;
-//		}
-//		if ( node instanceof InformationPanel ) {
-//			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
-//					.setRenderMode(this.getVariant());
-//			return part;
-//		}
-//		if ( node instanceof RefiningDetailReport ) {
-//			IPart part = new RefiningDetailPart((RefiningDetailReport) node).setFactory(this)
-//					.setRenderMode(this.getVariant());
-//			return part;
-//		}
-//		if ( node instanceof LocationFacetedAssetsContainer ) {
-//			IPart part = new Location4AssetsPart((LocationFacetedAssetsContainer) node).setFactory(this)
-//					.setRenderMode(this.getVariant());
-//			return part;
-//		}
-//		return super.createPart(node);
-//	}
+	//
+	//	@Override
+	//	public IPart createPart( final ICollaboration node ) {
+	//		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
+	//		if ( node instanceof NeoComAsset ) {
+	//			IPart part = new AssetPart((NeoComAsset) node).setFactory(this)
+	//					.setRenderMode(this.getVariant());
+	//			return part;
+	//		}
+	//		if ( node instanceof NameFacetedMiningExtractionContainer ) {
+	//			IPart part = new NameFacetedMiningExtractionContainerPart((NameFacetedMiningExtractionContainer) node).setFactory(this)
+	//					.setRenderMode(this.getVariant());
+	//			return part;
+	//		}
+	//		if ( node instanceof InformationPanel ) {
+	//			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
+	//					.setRenderMode(this.getVariant());
+	//			return part;
+	//		}
+	//		if ( node instanceof RefiningDetailReport ) {
+	//			IPart part = new RefiningDetailPart((RefiningDetailReport) node).setFactory(this)
+	//					.setRenderMode(this.getVariant());
+	//			return part;
+	//		}
+	//		if ( node instanceof LocationFacetedAssetsContainer ) {
+	//			IPart part = new Location4AssetsPart((LocationFacetedAssetsContainer) node).setFactory(this)
+	//					.setRenderMode(this.getVariant());
+	//			return part;
+	//		}
+	//		return super.createPart(node);
+	//	}
 }
