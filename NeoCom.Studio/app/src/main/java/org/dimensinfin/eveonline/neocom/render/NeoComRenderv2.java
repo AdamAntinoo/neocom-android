@@ -15,7 +15,7 @@ import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
 import androidx.annotation.NonNull;

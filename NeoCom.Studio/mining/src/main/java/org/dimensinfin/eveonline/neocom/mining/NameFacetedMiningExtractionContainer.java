@@ -1,22 +1,18 @@
 package org.dimensinfin.eveonline.neocom.mining;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.shared.PanelTitle;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 /**
  * @author Adam Antinoo
  */
 public class NameFacetedMiningExtractionContainer extends PanelTitle implements IMiningExtractionContainer, IExpandable {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger logger = LoggerFactory.getLogger("NameFacetedMiningExtractionContainer");
-
-	// - F I E L D - S E C T I O N ............................................................................
 	protected boolean _expanded = false;
 	protected boolean _renderIfEmpty = true;
 
@@ -24,24 +20,14 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 	protected double totalValue = 0.0;
 	protected double totalVolume = 0.0;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R S
 	public NameFacetedMiningExtractionContainer( final String name ) {
 		super(name);
 		// Force this not to be expanded at all times.
 		this.expand();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("NameFacetedMiningExtractionContainer [ ");
-		buffer.append("contentsSize: ").append(this.getContentSize()).append(" ");
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
-	}
-
-	// --- I C O L L A B O R A T I O N   I N T E R F A C E
+	// - I C O L L A B O R A T I O N   I N T E R F A C E
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		final List<ICollaboration> collaboration = new ArrayList<>();
@@ -51,7 +37,7 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 		return collaboration;
 	}
 
-	// --- I M I N I N G E X T R A C T I O N C O N T A I N E R   I N T E R F A C E
+	// - I M I N I N G E X T R A C T I O N C O N T A I N E R   I N T E R F A C E
 	public List<MiningExtraction> getExtractions() {
 		return this.contents;
 	}
@@ -99,7 +85,7 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 
 	@Override
 	public boolean isEmpty() {
-		if ( this.contents.size() > 0 ) return false;
+		if (this.contents.size() > 0) return false;
 		else return true;
 	}
 
@@ -117,6 +103,16 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
 		_renderIfEmpty = renderWhenEmpty;
 		return this;
+	}
+
+	// - C O R E
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("NameFacetedMiningExtractionContainer [ ");
+		buffer.append("contentsSize: ").append(this.getContentSize()).append(" ");
+		buffer.append("]");
+		buffer.append("->").append(super.toString());
+		return buffer.toString();
 	}
 
 	@Override

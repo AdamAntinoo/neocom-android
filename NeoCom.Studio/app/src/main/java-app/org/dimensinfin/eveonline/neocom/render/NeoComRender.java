@@ -33,7 +33,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
 // - CLASS IMPLEMENTATION ...................................................................................

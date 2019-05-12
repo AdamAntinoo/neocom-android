@@ -23,7 +23,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicActionBarActivity;
 import org.dimensinfin.eveonline.neocom.activity.core.APublicCredentialActivity;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;

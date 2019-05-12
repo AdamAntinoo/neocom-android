@@ -13,14 +13,15 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.datamngmt;
+package org.dimensinfin.eveonline.neocom.sharedcode.dataservice;
 
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import org.dimensinfin.eveonline.neocom.dataservice.MiningLedgerService;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerFileSystem;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +84,7 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	}
 
 	public static boolean checkAppFile( final String resourceString ) {
-		return checkStorageResource(AndroidGlobalDataManager.accessAppStorage4Path(resourceString));
+		return GlobalDataManagerFileSystem.checkStorageResource(AndroidGlobalDataManager.accessAppStorage4Path(resourceString));
 	}
 
 	public static boolean checkNetworkAccess() {

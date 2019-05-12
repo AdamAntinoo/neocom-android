@@ -18,7 +18,7 @@ package org.dimensinfin.eveonline.neocom.model;
 import android.graphics.drawable.Drawable;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 import org.slf4j.Logger;

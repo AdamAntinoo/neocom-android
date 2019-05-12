@@ -26,6 +26,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.main.PilotV3;
 import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +60,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		logger.info(">> [CredentialController.onClick]");
 		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra(NeoComApplication.EExtras.CAPSULEER_IDENTIFIER.name()
+		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getAccountId()); // Credential account identifier
 		view.getContext().startActivity(intent);
 		logger.info("<< [CredentialController.onClick]");

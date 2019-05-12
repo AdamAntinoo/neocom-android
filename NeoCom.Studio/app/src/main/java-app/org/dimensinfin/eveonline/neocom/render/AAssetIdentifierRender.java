@@ -22,7 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
 
 /**

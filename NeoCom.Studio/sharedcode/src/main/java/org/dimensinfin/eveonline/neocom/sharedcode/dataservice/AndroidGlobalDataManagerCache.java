@@ -13,7 +13,7 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.datamngmt;
+package org.dimensinfin.eveonline.neocom.sharedcode.dataservice;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -26,6 +26,8 @@ import java.net.URLConnection;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.Future;
+
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 
 /**
  * @author Adam Antinoo

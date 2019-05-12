@@ -15,7 +15,7 @@ package org.dimensinfin.eveonline.neocom.conf;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 /**
  * This class is specific for the Data Management and the pure java instances. It will replicate the Preferences interface

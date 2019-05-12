@@ -17,16 +17,11 @@ package org.dimensinfin.eveonline.neocom.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.activity.core.ALinearActivity;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
