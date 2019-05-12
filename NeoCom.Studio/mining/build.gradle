@@ -1,4 +1,4 @@
-apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
@@ -25,8 +25,6 @@ dependencies {
 }
 
 dependencies {
-    implementation project (':app')
-
     implementation project (':ESI.SwaggerApi')
     implementation project (':NeoCom.Model')
     implementation project (':NeoCom.DataManagement')

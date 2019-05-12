@@ -18,21 +18,18 @@ package org.dimensinfin.eveonline.neocom.factory;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-//import org.dimensinfin.eveonline.neocom.database.entity.MiningExtraction;
-//import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.model.NameFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 import org.dimensinfin.eveonline.neocom.part.AssetPart;
-import org.dimensinfin.eveonline.neocom.part.NameFacetedMiningExtractionContainerPart;
 import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.MiningExtractionPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,12 +63,12 @@ public class IndustryPartFactory extends PartFactory {
 					.setRenderMode(this.getVariant());
 			return part;
 		}
-		if ( node instanceof NameFacetedMiningExtractionContainer ) {
-			IPart part = new NameFacetedMiningExtractionContainerPart((NameFacetedMiningExtractionContainer) node).setFactory(this)
-					.setRenderMode(this.getVariant());
-			return part;
-		}
-		if ( node instanceof PanelTitle ) {
+//		if ( node instanceof NameFacetedMiningExtractionContainer ) {
+//			IPart part = new NameFacetedMiningExtractionContainerPart((NameFacetedMiningExtractionContainer) node).setFactory(this)
+//					.setRenderMode(this.getVariant());
+//			return part;
+//		}
+		if ( node instanceof PanelTitle) {
 			IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
 					.setRenderMode(this.getVariant());
 			return part;
