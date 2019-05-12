@@ -15,9 +15,10 @@ import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.NameFacetedMiningExtractionContainer;
 import org.dimensinfin.eveonline.neocom.mining.TodayMiningTimeLimitedMinigExtractionContainer;
-import org.dimensinfin.eveonline.neocom.mining.persistence.MiningRepository;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class MiningLedgerFragment extends MVCPagerFragment {
 	private Credential credential;
@@ -38,7 +39,7 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 					       .withFactory(this.createFactory())
 					       .withCacheStatus(true)
 					       .withCredential(this.getCredential())
-						   .withMiningRepository(NeoComAndroid.)
+					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
 					       .build();
 		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
 	}
@@ -73,6 +74,11 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 			return this;
 		}
 
+		public MiningLedgerDataSource setMiningRepository( final MiningRepository miningRepository ) {
+			this.miningRepository = miningRepository;
+			return this;
+		}
+
 		@Override
 		public void prepareModel() {
 			try {
@@ -83,12 +89,12 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 					int extractionCount = 0;
 					this.addModelContents(title);
 
-					extractions = AndroidGlobalDataManager.accessTodayMiningExtractions4Pilot(this.credential);
+					extractions = miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
 					// TODO - Add the InformationPanel component.
-//					if (extractions.size() < 1) {
-//						// The list ofr today is empty. Put a label to report that case.
-//						this.addModelContents(new InformationPanel("There are no Mining Extractions Today."));
-//					}
+					//					if (extractions.size() < 1) {
+					//						// The list ofr today is empty. Put a label to report that case.
+					//						this.addModelContents(new InformationPanel("There are no Mining Extractions Today."));
+					//					}
 
 					// Create a map of all the record ids
 					Map<String, MiningExtraction> ids = new HashMap();
@@ -132,7 +138,7 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 					}
 					// Update the number of extractions.
 					title.setTitle("TODAY MINING EXTRACTIONS [" + extractionCount + "]");
-//					scheduleRefresh(this.refreshTime);
+					//					scheduleRefresh(this.refreshTime);
 				}
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();
@@ -163,8 +169,10 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 				this.getActual().setCredential(credential);
 				return this;
 			}
-			public Builder withMiningRepository ( final MiningRepository miningRepository){
-				this.onConstruction.miningRepository=miningRepository;
+
+			public Builder withMiningRepository( final MiningRepository miningRepository ) {
+				this.onConstruction.setMiningRepository(miningRepository);
+				return this;
 			}
 		}
 	}

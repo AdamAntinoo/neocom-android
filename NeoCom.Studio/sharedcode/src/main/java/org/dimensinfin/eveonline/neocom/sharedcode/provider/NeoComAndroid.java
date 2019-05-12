@@ -1,15 +1,16 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.sharedcode.provider;
 
 import java.util.Objects;
 
 import android.app.Application;
 
-import org.dimensinfin.eveonline.neocom.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
 
 /**
  * @author Adam Antinoo
@@ -24,16 +25,8 @@ public class NeoComAndroid {
 	private ESINetworkManagerZBase esiAdapter;
 
 	private DataDownloaderService downloaderService;
+	private MiningRepository miningRepository;
 
-	//	private static IFileSystem fsAdapter = null;
-
-	//	public static IFileSystem getFileSystemAdapter() {
-	//		return fsAdapter;
-	//	}
-	//
-	//	public NeoComAndroid() {
-	//		fsAdapter = null;
-	//	}
 	public static NeoComAndroid getSingleton() {
 		if (null == singleton)
 			throw new NeoComRuntimeException("NeoCom gloabl singleton is not instantiated. Please complete initilisation.");
@@ -44,12 +37,16 @@ public class NeoComAndroid {
 		return target;
 	}
 
-	public static DataDownloaderService getDataDownloaderService() {
-		return getSingleton().getDownloaderService();
-	}
+//	public static DataDownloaderService getDataDownloaderService() {
+//		return getSingleton().getDownloaderService();
+//	}
 
 	public DataDownloaderService getDownloaderService() {
 		return this.downloaderService;
+	}
+
+	public MiningRepository getMiningRepository() {
+		return this.miningRepository;
 	}
 
 	// - B U I L D E R
@@ -88,10 +85,15 @@ public class NeoComAndroid {
 			this.onConstruction.downloaderService = downloaderService;
 			return this;
 		}
+		public Builder withMiningRepository( final MiningRepository miningRepository ) {
+			this.onConstruction.miningRepository = miningRepository;
+			return this;
+		}
 
 		public NeoComAndroid build() {
 			singleton = this.onConstruction;
-			NeoComAndroid.assertNotNull(this.onConstruction.downloaderService);
+			Objects.requireNonNull(this.onConstruction.downloaderService);
+			Objects.requireNonNull(this.onConstruction.miningRepository);
 			return this.onConstruction;
 		}
 	}

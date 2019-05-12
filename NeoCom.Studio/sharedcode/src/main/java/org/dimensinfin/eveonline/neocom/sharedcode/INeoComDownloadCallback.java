@@ -1,7 +1,7 @@
-package org.dimensinfin.eveonline.neocom.main;
+package org.dimensinfin.eveonline.neocom.sharedcode;
 
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
+import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
 
 public interface INeoComDownloadCallback {
 	Credential getCredential();

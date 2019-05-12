@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.main;
+package org.dimensinfin.eveonline.neocom.sharedcode;
 
 import java.util.concurrent.TimeUnit;
 

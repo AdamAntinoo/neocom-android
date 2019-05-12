@@ -3,7 +3,9 @@ package org.dimensinfin.eveonline.neocom.main;
 import java.beans.PropertyChangeEvent;
 
 import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.eveonline.neocom.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.sharedcode.INeoComDownloadCallback;
+import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;

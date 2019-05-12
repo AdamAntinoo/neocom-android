@@ -1,12 +1,12 @@
-package org.dimensinfin.eveonline.neocom;
+package org.dimensinfin.eveonline.neocom.sharedcode.dataservice;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
-import org.dimensinfin.eveonline.neocom.main.INeoComDownloadCallback;
-import org.dimensinfin.eveonline.neocom.main.PilotDataSections;
+import org.dimensinfin.eveonline.neocom.sharedcode.INeoComDownloadCallback;
+import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
