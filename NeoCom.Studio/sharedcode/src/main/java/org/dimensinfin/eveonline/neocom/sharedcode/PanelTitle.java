@@ -1,9 +1,11 @@
-package org.dimensinfin.eveonline.neocom.model;
+package org.dimensinfin.eveonline.neocom.sharedcode;
+
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 /**
  * This class represents the titled label that is shown on top of panels. We can consider the panels as the current fragments. ON the
  * Angular platform it is more clear this distinction but on fragments we have no container drawing so the separation of concepts is a
- * little more diffise.
+ * little more diffuse.
  *
  * @author Adam Antinoo
  */

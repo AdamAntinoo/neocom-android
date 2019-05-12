@@ -10,6 +10,13 @@ android {
     }
 }
 
+// - A N D R O I D    S U P P O R T
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
 // - P R O J E C T    D E P E N D E N C I E S
 dependencies {
     // C O R E
@@ -18,10 +25,10 @@ dependencies {
 }
 
 dependencies {
+    implementation project (':app')
+
     implementation project (':ESI.SwaggerApi')
     implementation project (':NeoCom.Model')
     implementation project (':NeoCom.DataManagement')
     implementation project (':AndroidMVCLibrary')
-
-    implementation project (':shared')
 }

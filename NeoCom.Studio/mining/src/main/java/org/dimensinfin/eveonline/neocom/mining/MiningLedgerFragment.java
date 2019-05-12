@@ -13,7 +13,7 @@
 //               designed for Spring Boot Angular 4 platform.
 //               The model management is shown using a generic Model View Controller that allows make the
 //               rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.fragment;
+package org.dimensinfin.eveonline.neocom.mining;
 
 import android.os.Bundle;
 import android.os.Handler;

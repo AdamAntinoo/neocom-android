@@ -33,10 +33,10 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
 import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class CredentialListFragment extends AbstractPagerFragment {
@@ -116,7 +116,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				                                                          .setRenderMode(this.getVariant());
 				return part;
 			}
-			if ( node instanceof PanelTitle ) {
+			if ( node instanceof PanelTitle) {
 				IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
 				                                                  .setRenderMode(this.getVariant());
 				return part;

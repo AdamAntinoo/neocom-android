@@ -28,8 +28,8 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class EveOnlineNotificationsFragment extends AbstractPagerFragment {
@@ -87,7 +87,7 @@ public class EveOnlineNotificationsFragment extends AbstractPagerFragment {
 		@Override
 		public IPart createPart( final ICollaboration node ) {
 			logger.info("-- [AppDashboardFactory.createPart]> Node class: {}" + node.getClass().getSimpleName());
-			if ( node instanceof PanelTitle ) {
+			if ( node instanceof PanelTitle) {
 				IPart part = new PanelTitlePart((PanelTitle) node).setFactory(this)
 				                                                  .setRenderMode(this.getVariant());
 				return part;

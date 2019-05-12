@@ -82,7 +82,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".activity.MiningLedgerActivity"
+				android:name=".mining.MiningLedgerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Mining Ledger">
 		</activity>

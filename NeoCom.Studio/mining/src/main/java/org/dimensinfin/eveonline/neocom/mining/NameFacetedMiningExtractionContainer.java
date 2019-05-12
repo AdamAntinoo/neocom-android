@@ -118,6 +118,9 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 		_renderIfEmpty = renderWhenEmpty;
 		return this;
 	}
+
+	@Override
+	public int compareTo( final Object o ) {
+		return 0;
+	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

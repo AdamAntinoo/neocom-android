@@ -23,12 +23,9 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.model.AppVersion;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 /**
  * @author Adam Antinoo

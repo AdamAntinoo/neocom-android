@@ -11,7 +11,7 @@ import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.factory.CoreControllerFactory;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.model.PanelTitle;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 public class SplashFragment extends MVCPagerFragment {
 	// - O V E R R I D E S
