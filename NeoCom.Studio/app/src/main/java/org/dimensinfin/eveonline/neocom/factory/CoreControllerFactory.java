@@ -4,6 +4,8 @@ import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.controller.AppVersionController;
+import org.dimensinfin.eveonline.neocom.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 
 public class CoreControllerFactory extends ControllerFactory {
@@ -23,6 +25,9 @@ public class CoreControllerFactory extends ControllerFactory {
 		logger.info("-- [AppDashboardFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
+		}
+		if (node instanceof Credential) {
+			return new CredentialController((Credential) node, this);
 		}
 		return super.createController(node);
 	}

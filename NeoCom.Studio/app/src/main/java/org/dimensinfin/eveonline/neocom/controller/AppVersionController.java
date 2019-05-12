@@ -43,8 +43,8 @@ public class AppVersionController extends AAndroidController<AppVersion> {
 	// - A P P V E R S I O N R E N D E R
 	public static class AppVersionRender extends MVCRender {
 		// - U I   F I E L D S
-		protected TextView applicationName = null;
-		protected TextView applicationVersion = null;
+		protected TextView applicationName;
+		protected TextView applicationVersion;
 
 		public AppVersionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 			super(controller, context);
@@ -73,5 +73,4 @@ public class AppVersionController extends AAndroidController<AppVersion> {
 			this.applicationVersion.setText(this.getController().getModel().getVersion());
 		}
 	}
-
 }
