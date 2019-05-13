@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 
@@ -33,7 +32,7 @@ public class MiningRepository {
 	 * new hour will show the new ore totals and so on hour after hour.
 	 */
 	public List<MiningExtraction> accessTodayMiningExtractions4Pilot( final Credential credential ) throws SQLException {
-//		final Dao<MiningExtraction, String> miningExtractionDao = new GlobalDataManager().getNeocomDBHelper().getMiningExtractionDao();
+		//		final Dao<MiningExtraction, String> miningExtractionDao = new GlobalDataManager().getNeocomDBHelper().getMiningExtractionDao();
 		final QueryBuilder<MiningExtraction, String> builder = miningExtractionDao.queryBuilder();
 		builder.where().eq("ownerId", credential.getAccountId());
 		builder.orderBy("extractionDateName", true)

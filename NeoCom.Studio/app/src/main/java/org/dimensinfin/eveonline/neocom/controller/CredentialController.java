@@ -39,7 +39,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		this(new ControllerAdapter<>(model), factory);
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getDataDownloaderService()).build();
+		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getSingleton().getDownloaderService()).build();
 		this.pilot.addPropertyChangeListener(this);
 	}
 

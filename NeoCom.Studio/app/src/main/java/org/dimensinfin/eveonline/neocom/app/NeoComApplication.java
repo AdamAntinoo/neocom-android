@@ -89,9 +89,16 @@ public class NeoComApplication extends Application {
 	 * checking elements that should be updated because they are obsolete. New updates will be launched as
 	 * separate async tasks.
 	 */
-	public void startTimer() {
+	public void startTimer( final IConfigurationProvider configurationProvider ) {
 		if (null == timeTickReceiver) {
-			timeTickReceiver = new TimeTickReceiver(this);
+			timeTickReceiver = new TimeTickReceiver.Builder(this)
+					                   .withTickActivate(
+							                   Boolean.valueOf(configurationProvider.getResourceString("R.runtime.downloadTick.timer"
+									                   , "true")).booleanValue())
+					                   .withTickTime(
+							                   Integer.valueOf(configurationProvider.getResourceString("R.runtime.downloadTick.cycleTime"
+									                   , "5")).intValue())
+					                   .build();
 			timedService = new TimedUpdater();
 			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
@@ -119,7 +126,9 @@ public class NeoComApplication extends Application {
 		final ESINetworkManagerZBase esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
 				                                          .build();
 		try {
-			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.NeoComAndroidDBHelperBuilder()
+			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
+					                                             .withAppContext(this)
+					                                             .withFileSystem(fileSystemAdapter)
 					                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
 					                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
 					                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
@@ -214,7 +223,7 @@ public class NeoComApplication extends Application {
 
 		// Connect the Timed Upgrade scan.
 		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
-		startTimer();
+		startTimer(configurationProvider);
 		logger.info("<< [NeoComApp.onCreate]");
 	}
 

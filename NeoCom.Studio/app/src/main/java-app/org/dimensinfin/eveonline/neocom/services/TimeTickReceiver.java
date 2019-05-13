@@ -1,53 +1,40 @@
-//  PROJECT:     NeoCom.Android (NEOC.A)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
-//               the game data to help capsuleers organize and prioritize activities. The strong points are
-//               help at the Industry level tracking and calculating costs and benefits. Also the market
-//               information update service will help to identify best prices and locations.
-//               Planetary Interaction and Ship fittings are point under development.
-//               ESI authorization is a new addition that will give continuity and allow download game data
-//               from the new CCP data services.
-//               This is the Android application version but shares libraries and code with other application
-//               designed for Spring Boot Angular 4 platform.
-//               The model management is shown using a generic Model View Controller that allows make the
-//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.services;
+
+import java.util.Objects;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.PreferenceKeys;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-// - CLASS IMPLEMENTATION ...................................................................................
 
 /**
  * This class is a one minute timer activated at startup. It will search for data obsolete and fire the
  * services required to update that data by downloading from CCP servers using the required API calls.
+ *
  * @author Adam Antinoo
  */
 public class TimeTickReceiver extends BroadcastReceiver {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("TimeTickReceiver");
+	private static Logger logger = LoggerFactory.getLogger(TimeTickReceiver.class);
 
-	// - F I E L D - S E C T I O N ............................................................................
-	private Context _context = null;
+	// - F I E L D - S E C T I O N
+	private Context context = null;
+	private boolean activationState = true;
+	private int timer = 1;
+
 	private int countdown = 0;
 	private int countdownTarget = 1;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R S
 	public TimeTickReceiver( final Context context ) {
-		_context = context;
-		countdownTarget = AndroidGlobalDataManager.getResourceInt("R.runtime.downloadTick.cycleTime", 5);
+		this.context = context;
+//		countdownTarget = context.getResources().getInteger("R.runtime.downloadTick.cycleTime", 5);
 	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
 	 * Receive an intent on every minute tick.
@@ -85,10 +72,31 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	private boolean blockedDownload() {
 		// Read the flag values from the preferences.
 		boolean blockDownload = AndroidGlobalDataManager.getDefaultSharedPreferences()
-				.getBooleanPreference(PreferenceKeys.prefkey_BlockDownloads.name(), true);
+				                        .getBooleanPreference(PreferenceKeys.prefkey_BlockDownloads.name());
 		return blockDownload;
 	}
-}
 
-// - UNUSED CODE ............................................................................................
-//[01]
+	// - B U I L D E R
+	public static class Builder {
+		private TimeTickReceiver onConstruction;
+
+		public Builder( final Context context ) {
+			this.onConstruction = new TimeTickReceiver(context);
+		}
+
+		public Builder withTickActivate( final boolean activationState ) {
+			this.onConstruction.activationState = activationState;
+			return this;
+		}
+
+		public Builder withTickTime( final int timer ) {
+			this.onConstruction.timer = timer;
+			return this;
+		}
+
+		public TimeTickReceiver build() {
+			Objects.requireNonNull(this.onConstruction.context);
+			return this.onConstruction;
+		}
+	}
+}

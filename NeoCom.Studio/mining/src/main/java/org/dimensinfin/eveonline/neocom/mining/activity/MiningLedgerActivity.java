@@ -12,6 +12,8 @@ public class MiningLedgerActivity extends ACredentialActivity {
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-		this.addPage(new MiningLedgerFragment().setCredential(this.getCredential()));
+		this.addPage(new MiningLedgerFragment()
+				             .setCredential(this.getCredential())
+				             .setVariant(EMiningVariants.MINING_EXTRACTIONS_TODAY.name()));
 	}
 }

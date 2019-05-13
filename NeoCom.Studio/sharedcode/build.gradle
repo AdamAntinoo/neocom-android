@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-android:1.7.12'
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    // D A T A B A S E
+    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 }
 
 dependencies {
