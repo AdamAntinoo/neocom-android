@@ -23,12 +23,13 @@ import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ESINetworkManagerMock extends ESINetworkManager {
 	protected static Retrofit mockRetrofit;
-	protected static Retrofit noOAuthRetrofit;
+	//	protected static Retrofit noOAuthRetrofit;
 
 	//	static {
 	//		mockRetrofit = NeoComRetrofitMock.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
@@ -41,7 +42,7 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		final DateTime startTimePoint = DateTime.now();
 		try {
 			// Create the request to be returned so it can be called.
-			final Response<GetUniverseTypesTypeIdOk> itemListResponse = noOAuthRetrofit
+			final Response<GetUniverseTypesTypeIdOk> itemListResponse = neocomRetrofitNoAuth
 					                                                            .create(UniverseApi.class)
 					                                                            .getUniverseTypesTypeId(typeId
 							                                                            , "en-us"
@@ -68,7 +69,7 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		final DateTime startTimePoint = DateTime.now();
 		try {
 			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseAncestries200Ok>> ancestriesResponse = noOAuthRetrofit
+			final Response<List<GetUniverseAncestries200Ok>> ancestriesResponse = neocomRetrofitNoAuth
 					                                                                      .create(UniverseApi.class)
 					                                                                      .getUniverseAncestries("en-us"
 							                                                                      , server
@@ -94,7 +95,7 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		final DateTime startTimePoint = DateTime.now();
 		try {
 			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseBloodlines200Ok>> bloodlinesResponse = noOAuthRetrofit
+			final Response<List<GetUniverseBloodlines200Ok>> bloodlinesResponse = neocomRetrofitNoAuth
 					                                                                      .create(UniverseApi.class)
 					                                                                      .getUniverseBloodlines("en-us"
 							                                                                      , server
@@ -120,7 +121,7 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		final DateTime startTimePoint = DateTime.now();
 		try {
 			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseRaces200Ok>> racesResponse = noOAuthRetrofit
+			final Response<List<GetUniverseRaces200Ok>> racesResponse = neocomRetrofitNoAuth
 					                                                            .create(UniverseApi.class)
 					                                                            .getUniverseRaces("en-us"
 							                                                            , server
@@ -147,7 +148,7 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		final DateTime startTimePoint = DateTime.now();
 		try {
 			// Create the request to be returned so it can be called.
-			final Response<GetUniverseSchematicsSchematicIdOk> schematicistResponse = noOAuthRetrofit
+			final Response<GetUniverseSchematicsSchematicIdOk> schematicistResponse = neocomRetrofitNoAuth
 					                                                                          .create(PlanetaryInteractionApi.class)
 					                                                                          .getUniverseSchematicsSchematicId(schematicId
 							                                                                          , "en-us"
@@ -261,20 +262,15 @@ public class ESINetworkManagerMock extends ESINetworkManager {
 		public ESINetworkManagerZBase build() {
 			final ESINetworkManagerZBase parent = super.build();
 			// Initialize retrofits.
-			mockRetrofit = new NeoComRetrofitMock.Builder(this.onConstruction.getConfigurationProvider())
-					               .withNeoComOAuth20(neocomAuth20)
+			mockRetrofit = new NeoComRetrofitMock.Builder()
+					               .withNeoComOAuth20(singleton.getConfiguredOAuth("Tranquility"))
+					               .withEsiServerLocation(parent.configurationProvider.getResourceString("P.esi.data.server.location"
+							               , "https://esi.evetech.net/latest/"))
 					               .withAgent(AGENT)
 					               .withCacheDataFile(cacheDataFile)
-					               .withCacheSize(cacheSize)
-					               .withTimeout(timeout)
+					               .withCacheSize(CACHE_SIZE)
+					               .withTimeout(TIMEOUT)
 					               .build();
-			noOAuthRetrofit = new NeoComRetrofitNoOAuthHTTP.Builder(this.onConstruction.getConfigurationProvider())
-					                  .withNeoComOAuth20(neocomAuth20)
-					                  .withAgent(AGENT)
-					                  .withCacheDataFile(cacheDataFile)
-					                  .withCacheSize(cacheSize)
-					                  .withTimeout(timeout)
-					                  .build();
 			return parent;
 		}
 	}

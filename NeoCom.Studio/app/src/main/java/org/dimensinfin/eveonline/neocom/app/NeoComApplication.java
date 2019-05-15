@@ -14,7 +14,7 @@ import android.content.IntentFilter;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
@@ -46,10 +46,6 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class NeoComApplication extends Application {
-	//	public enum EExtras {
-	//		FIRE_AUTHORIZATION_FLOW, CAPSULEER_IDENTIFIER, REFINETYPE_IDENTIFIER, RESOURCESYSTEM_IDENTIFIER, ASSETFILTER_DEFINITION
-	//	}
-
 	public enum EVariants {
 		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
 		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
@@ -118,9 +114,9 @@ public class NeoComApplication extends Application {
 		// Create the adapters specific for the Android implementation.
 		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
 				                                      .build();
-		final IConfigurationProvider configurationProvider = new GlobalAndroidConfigurationProvider.Builder(
-				this.getResources().getString(R.string.propertiesLocation)
-				, this)
+		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
+				this.getResources().getString(R.string.propertiesLocation))
+				                                                     .withApplicationContext(this)
 				                                                     .build();
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
 		final ESINetworkManagerZBase esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
@@ -161,7 +157,9 @@ public class NeoComApplication extends Application {
 
 			// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 			logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-			AndroidGlobalDataManager.connectConfigurationManager(new GlobalAndroidConfigurationProvider("properties", this));
+			AndroidGlobalDataManager.connectConfigurationManager(new AndroidConfigurationProvider.Builder("properties")
+					                                                     .withApplicationContext(this)
+					                                                     .build());
 
 			logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
 			AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
@@ -180,9 +178,9 @@ public class NeoComApplication extends Application {
 
 			// Check if the SDE database file is at the right place. If not copy it.
 			if (!AndroidGlobalDataManager.checkAppFile(
-					configurationProvider.getResourceString("R.database.sdedatabase.databasename"))) {
+					configurationProvider.getResourceString("P.database.sdedatabase.database.name"))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(configurationProvider.getResourceString("R.database.sdedatabase.databasename"));
+				this.copyFromAssets(configurationProvider.getResourceString("P.database.sdedatabase.database.name"));
 			}
 
 			// Load the SDE data
@@ -192,9 +190,9 @@ public class NeoComApplication extends Application {
 			logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
 			try {
 				AndroidGlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
-						                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databaseschema"))
+						                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.databaseschema"))
 						                                               .setDatabasePath(AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname) + "/")
-						                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("R.database.sdedatabase.databasename"))
+						                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))
 						                                               .build()
 				);
 			} catch (SQLException sqle) {

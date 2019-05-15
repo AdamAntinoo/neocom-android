@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.conf;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 import android.app.Application;
@@ -12,39 +13,39 @@ import com.annimon.stream.Stream;
 /**
  * @author Adam Antinoo
  */
-public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvider {
+public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 	// - F I E L D - S E C T I O N
 	private Application applicationContext;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public GlobalAndroidConfigurationProvider( final String propertiesFolder, final Application applicationContext ) {
+	private AndroidConfigurationProvider( final String propertiesFolder/*, final Application applicationContext */ ) {
 		super(propertiesFolder);
-		this.applicationContext = applicationContext;
-		initialize();
+		//		this.applicationContext = applicationContext;
+		//		initialize();
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	protected void readAllProperties() throws IOException {
-		logger.info(">> [GlobalAndroidConfigurationProvider.readAllProperties]");
+	protected void readAllProperties() {
+		logger.info(">> [AndroidConfigurationProvider.readAllProperties]");
 		// Read all .properties files under the predefined path on the /assets folder.
 		final List<String> propertyFiles = getResourceFiles(getResourceLocation());
 		Stream.of(propertyFiles)
 				.sorted()
 				.forEach(( fileName ) -> {
-					logger.info("-- [GlobalAndroidConfigurationProvider.readAllProperties]> Processing file: {}", fileName);
+					logger.info("-- [AndroidConfigurationProvider.readAllProperties]> Processing file: {}", fileName);
 					try {
 						Properties properties = new Properties();
 						final String filePath = getResourceLocation() + "/" + fileName;
 						properties.load(this.applicationContext.getAssets().open(filePath));
 						// Copy properties to globals.
-						globalConfigurationProperties.putAll(properties);
+						configurationProperties.putAll(properties);
 					} catch (IOException ioe) {
-						logger.error("E [GlobalAndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
+						logger.error("E [AndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
 								fileName, ioe.getMessage());
 						ioe.printStackTrace();
 					}
 				});
-		logger.info("<< [GlobalAndroidConfigurationProvider.readAllProperties]> Total properties number: {}", contentCount());
+		logger.info("<< [AndroidConfigurationProvider.readAllProperties]> Total properties number: {}", contentCount());
 	}
 
 	/**
@@ -80,13 +81,21 @@ public class GlobalAndroidConfigurationProvider extends GlobalConfigurationProvi
 
 	// - B U I L D E R
 	public static class Builder {
-		private GlobalAndroidConfigurationProvider onConstruction;
+		private AndroidConfigurationProvider onConstruction;
 
-		public Builder( final String propertiesLocation, final Application applicationContext ) {
-			this.onConstruction = new GlobalAndroidConfigurationProvider(propertiesLocation, applicationContext);
+		public Builder( final String propertiesLocation/*, final Application applicationContext*/ ) {
+			this.onConstruction = new AndroidConfigurationProvider(propertiesLocation/*, applicationContext*/);
 		}
 
-		public GlobalAndroidConfigurationProvider build() {
+		public Builder withApplicationContext( final Application applicationContext ) {
+			this.onConstruction.applicationContext = applicationContext;
+			return this;
+		}
+
+		public AndroidConfigurationProvider build() {
+			Objects.requireNonNull(this.onConstruction.applicationContext);
+			// Initialisation should be done after all fields are setup.
+			this.onConstruction.initialize();
 			return this.onConstruction;
 		}
 	}

@@ -16,16 +16,19 @@ import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
  * @author Adam Antinoo
  */
 public class NeoComAndroid {
+	public static final String DEFAULT_ESI_SERVER = "Tranquility";
+
 	private static NeoComAndroid singleton;
+
+	private IConfigurationProvider configurationProvider;
+	private ESINetworkManagerZBase esiAdapter;
+	private DataDownloaderService downloaderService;
+	private MiningRepository miningRepository;
 
 	private Application applicationContext;
 	private IFileSystem fileSystemAdapter;
-	private IConfigurationProvider configurationProvider;
 	private IGlobalPreferencesManager preferencesProvider;
-	private ESINetworkManagerZBase esiAdapter;
 
-	private DataDownloaderService downloaderService;
-	private MiningRepository miningRepository;
 
 	public static NeoComAndroid getSingleton() {
 		if (null == singleton)
@@ -37,9 +40,13 @@ public class NeoComAndroid {
 		return target;
 	}
 
-//	public static DataDownloaderService getDataDownloaderService() {
-//		return getSingleton().getDownloaderService();
-//	}
+	public IConfigurationProvider getConfigurationProvider() {
+		return this.configurationProvider;
+	}
+
+	public ESINetworkManagerZBase getEsiAdapter() {
+		return esiAdapter;
+	}
 
 	public DataDownloaderService getDownloaderService() {
 		return this.downloaderService;
@@ -92,6 +99,8 @@ public class NeoComAndroid {
 
 		public NeoComAndroid build() {
 			singleton = this.onConstruction;
+			Objects.requireNonNull(this.onConstruction.configurationProvider);
+			Objects.requireNonNull(this.onConstruction.esiAdapter);
 			Objects.requireNonNull(this.onConstruction.downloaderService);
 			Objects.requireNonNull(this.onConstruction.miningRepository);
 			return this.onConstruction;
