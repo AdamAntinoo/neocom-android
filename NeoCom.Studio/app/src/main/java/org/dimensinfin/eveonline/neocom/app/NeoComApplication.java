@@ -256,7 +256,7 @@ public class NeoComApplication extends Application {
 		// Create additional cache folders.
 		File cachedir = new File(Environment.getExternalStorageDirectory()
 				, AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname)
-						  + "/" + AndroidGlobalDataManager.getResourceString("R.cache.directorypath"));
+						  + "/" + AndroidGlobalDataManager.getResourceString("P.cache.directory.path"));
 		//				+ AndroidGlobalDataManager.getResourceString("R.cache.cachefoldername"));
 		cachedir.mkdir();
 		//		File alternatedir = new File(cachedir
