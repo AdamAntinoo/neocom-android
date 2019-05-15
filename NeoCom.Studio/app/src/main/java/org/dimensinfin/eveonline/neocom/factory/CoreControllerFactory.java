@@ -5,8 +5,10 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
+import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 
 public class CoreControllerFactory extends ControllerFactory {
 	public CoreControllerFactory( final String selectedVariant ) {
@@ -28,6 +30,9 @@ public class CoreControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof Credential) {
 			return new CredentialController((Credential) node, this);
+		}
+		if (node instanceof NewLoginAction) {
+			return new NewLoginController((NewLoginAction) node, this);
 		}
 		return super.createController(node);
 	}

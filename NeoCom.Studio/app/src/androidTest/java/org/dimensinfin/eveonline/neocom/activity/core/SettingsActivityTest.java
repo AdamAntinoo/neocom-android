@@ -1,61 +1,30 @@
 package org.dimensinfin.eveonline.neocom.activity.core;
 
-import android.preference.Preference;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
-
-import org.dimensinfin.eveonline.neocom.R;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-//import static org.hamcrest.Matchers.allOf;
-//import static org.hamcrest.Matchers.instanceOf;
-//import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
+@SmallTest
 public class SettingsActivityTest {
 
-//	@Rule
-//	public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(
-//			SettingsActivity.class);
+	@Rule
+	public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(SettingsActivity.class);
 
 	@Test
-	public void onCreate() {
-		final boolean scenario = launchActivity<SettingsActivity> ();
-		onView(withId(R.id.finish_button)).perform(click())
+	public void readBooleanSetting() {
+		final SettingsActivity context = mActivityRule.getActivity();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		final boolean obtained = preferences.getBoolean("prefkey_BlockDownloads", true);
 
-		onView(withId(R.id.name_field)).perform(typeText("Steve"));
-		onView(withId(R.id.greet_button)).perform(click());
-		onView(withText("Hello Steve!")).check(matches(isDisplayed()));
-
-
-
-		//		onData(anything())
-		//				.inAdapterView(allOf(
-		//						isDescendantOfA(withId(R.id.preferences_xml)),
-		//						withId(R.id.DevelopmentBlockDownloads)))
-		//				.atPosition(1)
-		//				.check(matches(isDisplayed()));
-	}
-//	@Test
-	public void onCreate_add() {
-		onData(allOf(
-				is(instanceOf(Preference.class)),
-				withId(R.id.DevelopmentBlockDownloads)))
-				//				withSummary(R.string.summary_working_in_background_preference),
-				//				withTitle(R.string.title_working_in_background_preference)))
-				//				.onChildView(withText(title))
-				.check(matches(isCompletelyDisplayed()));
+		assertFalse(obtained);
 	}
 }
