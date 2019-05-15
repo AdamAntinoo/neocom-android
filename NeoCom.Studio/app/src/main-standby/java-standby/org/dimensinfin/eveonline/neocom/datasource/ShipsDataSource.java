@@ -250,7 +250,7 @@ public class ShipsDataSource extends SpecialDataSource {
 	//		if (null == _dataModelRoot) {
 	//			_dataModelRoot = new RootNode();
 	//		} else {
-	//			_dataModelRoot.clean();
+	//			_dataModelRoot.clear();
 	//		}
 	//		if (this.getVariant() == EVARIANT.SHIPS_BYLOCATION.name()) if (this.ifGroupLocations()) {
 	//			for (Region node : _regions.values()) {

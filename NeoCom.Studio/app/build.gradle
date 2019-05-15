@@ -9,7 +9,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 118
@@ -216,6 +216,8 @@ dependencies {
 // - A N D R O I D   T E S T I N G
 dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+//    androidTestImplementation 'org.hamcrest:hamcrest-core:2.1'
 
     androidTestImplementation 'org.mockito:mockito-android:2.21.0'
     androidTestImplementation 'org.mockito:mockito-core:2.22.0'
