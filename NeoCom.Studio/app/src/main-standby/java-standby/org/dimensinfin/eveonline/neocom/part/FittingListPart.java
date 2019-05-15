@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
-import org.dimensinfin.eveonline.neocom.activity.FittingActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.FittingActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.Fitting;
 import org.dimensinfin.eveonline.neocom.render.FittingListRender;

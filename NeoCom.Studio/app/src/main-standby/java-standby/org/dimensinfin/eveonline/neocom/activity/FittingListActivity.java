@@ -6,13 +6,13 @@
 //									for characters and corporations at Eve Online. The set is composed of some projects
 //									with implementation for Android and for an AngularJS web interface based on REST
 //									services on Sprint Boot Cloud.
-package org.dimensinfin.eveonline.neocom.activity;
+package org.dimensinfin.eveonline.neocom.app.activity;
 
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.core.PilotPagerActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.core.PilotPagerActivity;
 import org.dimensinfin.eveonline.neocom.fragment.FittingListFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.INeoComDirector;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;

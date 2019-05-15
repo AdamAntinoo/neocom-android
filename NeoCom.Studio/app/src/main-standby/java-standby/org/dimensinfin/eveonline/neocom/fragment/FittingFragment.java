@@ -22,7 +22,7 @@ import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.FittingDataSource;
-import org.dimensinfin.eveonline.neocom.factory.FittingPartFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.FittingPartFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 

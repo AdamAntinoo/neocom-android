@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom;
 
-import org.dimensinfin.eveonline.neocom.activity.core.SettingsActivityTest;
+import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivityTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

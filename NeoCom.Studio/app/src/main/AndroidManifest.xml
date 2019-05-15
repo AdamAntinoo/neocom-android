@@ -22,7 +22,7 @@
 
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
-				android:name=".activity.AppSplashActivity"
+				android:name=".app.activity.AppSplashActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Dashdoard"
 				android:theme="@style/AppTheme.NoActionBar">
@@ -34,7 +34,7 @@
 
 		<!-- A C T I V I T I E S -->
 		<activity
-				android:name=".activity.PilotDashboardActivity"
+				android:name=".app.activity.PilotDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Pilot Dashboard">
 		</activity>
@@ -44,15 +44,15 @@
 				android:label="Mining Ledger">
 		</activity>
 		<activity
-				android:name=".activity.core.SettingsActivity"
+				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">
 		</activity>
 		<activity
-				android:name=".activity.AuthorizationFlowActivity"
+				android:name=".app.activity.AuthorizationFlowActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Authorization ESI Flow"
-				android:parentActivityName=".activity.AppDashboardActivity">
+				android:parentActivityName=".app.activity.AppDashboardActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 
@@ -68,7 +68,7 @@
 
 		 <!--N O T   O P E R A T I V E-->
 		<activity
-				android:name=".activity.AppDashboardActivity"
+				android:name=".app.activity.AppDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:icon="@drawable/splash_icon"
 				android:label="@string/appnameversion"
@@ -78,7 +78,7 @@
 		</activity>
 
 		<activity
-				android:name=".activity.AssetsManagerActivity"
+				android:name=".app.activity.AssetsManagerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Assets Manager">
 			<meta-data
@@ -90,14 +90,14 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".activity.RefiningDetailActivity"
+				android:name=".app.activity.RefiningDetailActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Mining Ledger"
 				android:screenOrientation="landscape">
 
 		</activity>
 		<activity
-				android:name=".activity.SkillsManagerActivity"
+				android:name=".app.activity.SkillsManagerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Skills Manager">
 		</activity>
@@ -127,66 +127,66 @@
 		<!--             android:screenOrientation="portrait" > -->
 		<!--         </activity> -->
 		<!--         <activity -->
-		<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.NewVersionWarningActivity" -->
+		<!--             android:name="org.dimensinfin.eveonline.neocom.app.activity.core.NewVersionWarningActivity" -->
 		<!--             android:label="On Construction" -->
 		<!--             android:screenOrientation="portrait" > -->
 		<!--         </activity> -->
 		<!--         <activity -->
-		<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.StopNOSDActivity" -->
+		<!--             android:name="org.dimensinfin.eveonline.neocom.app.activity.core.StopNOSDActivity" -->
 		<!--             android:label="On Construction" -->
 		<!--             android:screenOrientation="portrait" > -->
 		<!--         </activity> -->
 		<!--         <activity -->
-		<!--             android:name="org.dimensinfin.eveonline.neocom.activity.core.AddNewAPIActivity" -->
+		<!--             android:name="org.dimensinfin.eveonline.neocom.app.activity.core.AddNewAPIActivity" -->
 		<!--             android:label="On Construction" -->
 		<!--             android:screenOrientation="portrait" > -->
 		<!--         </activity> -->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.DirectorsBoardActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.DirectorsBoardActivity"-->
 		<!--android:label="@string/title_activity_DirectorsBoard"-->
 		<!--android:screenOrientation="portrait" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.PilotListActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.PilotListActivity"-->
 		<!--android:label="@string/title_activity_PilotList" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.ShipDirectorActivity"-->
 		<!--android:label="Ships" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.IndustryDirectorActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.IndustryDirectorActivity"-->
 		<!--android:label="Industry Director" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.MarketDirectorActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.MarketDirectorActivity"-->
 		<!--android:label="Market Orders" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.IndustryT2Activity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.IndustryT2Activity"-->
 		<!--android:label="Industry T2 Manufacture"-->
 		<!--android:screenOrientation="portrait" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.ItemDetailsActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.ItemDetailsActivity"-->
 		<!--android:label="Item Details"-->
 		<!--android:screenOrientation="portrait" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.MiningSessionActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.MiningSessionActivity"-->
 		<!--android:label="Item Details"-->
 		<!--android:screenOrientation="portrait" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.JobDirectorActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.JobDirectorActivity"-->
 		<!--android:label="JOB Planned" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.FittingActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.FittingActivity"-->
 		<!--android:label="JOB Planned" >-->
 		<!--</activity>-->
 		<!--<activity-->
-		<!--android:name="org.dimensinfin.eveonline.neocom.activity.FittingListActivity"-->
+		<!--android:name="org.dimensinfin.eveonline.neocom.app.activity.FittingListActivity"-->
 		<!--android:label="Fitting List" >-->
 		<!--</activity>-->
 

@@ -23,10 +23,9 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
-import org.dimensinfin.eveonline.neocom.activity.SkillsManagerActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.AssetsManagerActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.SkillsManagerActivity;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;

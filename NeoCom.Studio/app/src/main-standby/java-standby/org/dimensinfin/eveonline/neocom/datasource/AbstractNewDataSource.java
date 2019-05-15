@@ -9,7 +9,7 @@ package org.dimensinfin.eveonline.neocom.datasource;
 import java.util.ArrayList;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.eveonline.neocom.factory.AbstractIndustryDataSource;
+import org.dimensinfin.eveonline.neocom.app.factory.AbstractIndustryDataSource;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
 //- CLASS IMPLEMENTATION ...................................................................................

@@ -19,7 +19,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 
-import org.dimensinfin.eveonline.neocom.activity.AssetsManagerActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;

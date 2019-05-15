@@ -6,7 +6,7 @@
 //									for characters and corporations at Eve Online. The set is composed of some projects
 //									with implementation for Android and for an AngularJS web interface based on REST
 //									services on Sprint Boot Cloud.
-package org.dimensinfin.eveonline.neocom.factory;
+package org.dimensinfin.eveonline.neocom.app.factory;
 
 // - IMPORT SECTION .........................................................................................
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
+import org.dimensinfin.eveonline.neocom.app.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComAsset;

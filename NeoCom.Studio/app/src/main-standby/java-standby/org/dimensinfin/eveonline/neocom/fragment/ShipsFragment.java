@@ -14,10 +14,10 @@ import org.dimensinfin.activity.AbstractPagerFragment;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.SpecialDataSource;
-import org.dimensinfin.eveonline.neocom.activity.ShipDirectorActivity.EShipsVariants;
+import org.dimensinfin.eveonline.neocom.app.activity.ShipDirectorActivity.EShipsVariants;
 import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
 import org.dimensinfin.eveonline.neocom.datasource.ShipsDataSource;
-import org.dimensinfin.eveonline.neocom.factory.ShipPartFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.ShipPartFactory;
 import org.dimensinfin.eveonline.neocom.model.NeoComCharacter;
 import org.dimensinfin.eveonline.neocom.storage.NeoComModelStore;
 
