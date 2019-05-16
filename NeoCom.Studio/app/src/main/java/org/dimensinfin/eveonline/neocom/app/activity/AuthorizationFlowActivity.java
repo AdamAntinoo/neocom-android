@@ -1,18 +1,3 @@
-//  PROJECT:     NeoCom.Android (NEOC.A)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API22.
-//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
-//               the game data to help capsuleers organize and prioritize activities. The strong points are
-//               help at the Industry level tracking and calculating costs and benefits. Also the market
-//               information update service will help to identify best prices and locations.
-//               Planetary Interaction and Ship fittings are point under development.
-//               ESI authorization is a new addition that will give continuity and allow download game data
-//               from the new CCP data services.
-//               This is the Android application version but shares libraries and code with other application
-//               designed for Spring Boot Angular 4 platform.
-//               The model management is shown using a generic Model View Controller that allows make the
-//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.app.activity;
 
 import java.io.IOException;
@@ -21,8 +6,10 @@ import java.util.concurrent.TimeUnit;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.support.annotation.WorkerThread;
 import android.util.Base64;
@@ -31,20 +18,25 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.ESIAdapter;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -65,18 +57,17 @@ import retrofit2.http.POST;
  * We enter this Activity at least from two points. One by a direct intent call from the <code>NewLoginPart</code> and the other when the
  * Oauth ESI authorization flow completes and the registered Developer Application redirects the browser to this activity. On that case
  * we should have a differentiate action verb that is signaled as <b>ACTION_VIEW</b>
+ *
  * @author Adam Antinoo
  */
-
-// - CLASS IMPLEMENTATION ...................................................................................
 public class AuthorizationFlowActivity extends Activity {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("AuthorizationFlowActivity");
+	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
+	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 
-	// - F I E L D - S E C T I O N ............................................................................
+	private SharedPreferences preferences;
+	private IConfigurationProvider configurationProvider;
+	private ESINetworkManagerZBase esiAdapter;
 	private ImageView spinner = null;
-
-	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
 	 * Initiates a call to the CCP authentication platform. If the authorization is accepted by CCP the return event will be converted
@@ -85,7 +76,9 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread(() -> {
-			final Uri url = Uri.parse(AndroidGlobalDataManager.getAuthorizationUrl());
+			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER);
+			this.esiAdapter.activateEsiServer(esiServer);
+			final Uri url = Uri.parse(this.esiAdapter.getAuthorizationUrl4Server(esiServer));
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
 			intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
 			startActivity(intent);
@@ -95,36 +88,40 @@ public class AuthorizationFlowActivity extends Activity {
 	/**
 	 * Registering by converting the one use authorization token into a usable token that will bet stored with the
 	 * credential.
+	 *
 	 * @param authCode the authorization code received from the Eve Online Developer Application site.
 	 */
 	@WorkerThread
 	private void registerInBackground( final String authCode ) {
 		logger.info(">> [AuthorizationFlowActivity.registerInBackground]");
 		logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating access token request.");
+		// Get from the properties the user selected esi source.
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComAndroid.DEFAULT_ESI_SERVER).toLowerCase();
 		try {
 			// Create a Retrofit request service to encapsulate the call.
 			final GetAccessToken serviceGetAccessToken = new Retrofit.Builder()
-					.baseUrl(GlobalDataManager.getResourceString("R.esi.authorization.authorizationserver"))
-					.addConverterFactory(JacksonConverterFactory.create())
-					.build()
-					.create(GetAccessToken.class);
+					                                             .baseUrl(this.configurationProvider.getResourceString("P.esi."
+							                                             +esiServer.toLowerCase()
+							                                                                                                   +".authorization.authorization.server"))
+					                                             .addConverterFactory(JacksonConverterFactory.create())
+					                                             .build()
+					                                             .create(GetAccessToken.class);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request body.");
-			final TokenRequestBody tokenRequestBody = new TokenRequestBody()
-					.setCode(authCode);
+			final TokenRequestBody tokenRequestBody = new TokenRequestBody().setCode(authCode);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request call.");
-			final String peckString = GlobalDataManager.getResourceString("R.esi.authorization.clientid")
-					+ ":"
-					+ GlobalDataManager.getResourceString("R.esi.authorization.secretkey");
+			final String peckString = this.configurationProvider.getResourceString("P.esi.authorization." + esiServer + ".clientid")
+					                          + ":"
+					                          + this.configurationProvider.getResourceString("P.esi.authorization." + esiServer + ".secretkey");
 			String peck = Base64.encodeToString(peckString.getBytes(), Base64.DEFAULT);
 			// Reprocess Android result to remove the \n characters.
 			peck = peck.replaceAll("\n", "");
 			final Call<TokenTranslationResponse> request = serviceGetAccessToken.getAccessToken("Basic " + peck
-					, GlobalDataManager.getResourceString("R.esi.authorization.contenttype")
+					, this.configurationProvider.getResourceString("P.esi.authorization..content.type")
 					, tokenRequestBody);
 
 			// Getting the request response to be stored if valid.
 			final Response<TokenTranslationResponse> response = request.execute();
-			if ( response.isSuccessful() ) {
+			if (response.isSuccessful()) {
 				logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Response is 200 OK.");
 				final TokenTranslationResponse token = response.body();
 				// Create a security verification instance.
@@ -138,38 +135,39 @@ public class AuthorizationFlowActivity extends Activity {
 												.build())
 								.addInterceptor(chain -> chain.proceed(
 										chain.request()
-										     .newBuilder()
-										     .addHeader("User-Agent", "org.dimensinfin")
-										     .build()));
+												.newBuilder()
+												.addHeader("User-Agent", "org.dimensinfin")
+												.build()));
 				// Verify the character authenticated and create the Credential.
 				logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating character verification.");
 				final VerifyCharacter verificationService = new Retrofit.Builder()
-						.baseUrl(GlobalDataManager.getResourceString("R.esi.authorization.authorizationserver"))
-						.addConverterFactory(JacksonConverterFactory.create())
-						.client(verifyClient.build())
-						.build()
-						.create(VerifyCharacter.class);
+						                                            .baseUrl(this.configurationProvider.getResourceString("P.esi."
+								                                         +esiServer.toLowerCase()
+								                                                                                                  +   ".authorization.authorization.server"))
+						                                            .addConverterFactory(JacksonConverterFactory.create())
+						                                            .client(verifyClient.build())
+						                                            .build()
+						                                            .create(VerifyCharacter.class);
 				final String accessToken = token.getAccessToken();
 				final Response<VerifyCharacterResponse> verificationResponse = verificationService.getVerification("Bearer " + accessToken).execute();
 
-				if ( verificationResponse.isSuccessful() ) {
+				if (verificationResponse.isSuccessful()) {
 					logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it on the application repository.
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential(newAccountIdentifier);
 					credential.setAccountName(verificationResponse.body().getCharacterName())
-					          .setAccessToken(token.getAccessToken())
-					          .setTokenType(token.getTokenType())
-					          .setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
-					          .setRefreshToken(token.getRefreshToken())
-					          .setDataSource(AndroidGlobalDataManager.TRANQUILITY_DATASOURCE)
-					          .setScope(ESINetworkManager.getStringScopes())
-					          .store();
+							.setAccessToken(token.getAccessToken())
+							.setTokenType(token.getTokenType())
+							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
+							.setRefreshToken(token.getRefreshToken())
+							.setDataSource(esiServer.toUpperCase())
+							.setScope(this.esiAdapter.getStringScopes())
+							.store();
 					// Once the credential is stored we go back to the Dashboard Activity.
 					this.runOnUiThread(() -> {
-												final Intent intent = new Intent(this, AppDashboardActivity.class);
-												this.startActivity(intent);
-//						finish();
+						final Intent intent = new Intent(this, AppDashboardActivity.class);
+						this.startActivity(intent);
 					});
 				} else {
 					Toast.makeText(getApplicationContext(), "Character verification failed. " + verificationResponse.message(),
@@ -180,13 +178,14 @@ public class AuthorizationFlowActivity extends Activity {
 						Toast.LENGTH_LONG).show();
 			}
 		} catch (IOException ioe) {
-			AndroidGlobalDataManager.registerException("AuthorizationFlowActivity.registerInBackground"
-					, ioe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			ioe.printStackTrace();
-		} catch (RuntimeException rtex) {
-			AndroidGlobalDataManager.registerRuntimeException("AuthorizationFlowActivity.registerInBackground"
-					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			rtex.printStackTrace();
+			//			AndroidGlobalDataManager.registerException("AuthorizationFlowActivity.registerInBackground"
+			//					, ioe, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//			ioe.printStackTrace();
+			throw new NeoComRuntimeException(ioe.getMessage());
+			//		} catch (RuntimeException rtex) {
+			//			AndroidGlobalDataManager.registerRuntimeException("AuthorizationFlowActivity.registerInBackground"
+			//					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//			rtex.printStackTrace();
 		} finally {
 			logger.info("<< [AuthorizationFlowActivity.registerInBackground]");
 		}
@@ -218,7 +217,7 @@ public class AuthorizationFlowActivity extends Activity {
 			rtex.printStackTrace();
 		}
 	}
-	// --- A C T I V I T Y   L I F E C Y C L E
+	// - A C T I V I T Y   L I F E C Y C L E
 
 	/**
 	 * Create a default Activity that shows the authorization progress while we wait for the ESI CCP callback or while we do the rest of the
@@ -229,27 +228,29 @@ public class AuthorizationFlowActivity extends Activity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		logger.info(">> [AuthorizationFlowActivity.onCreate]");
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
+		this.injectComponents(); // Inject components.
 		// Detect if we are receiving this intent from the action button of from the flow.
 		final Intent intent = getIntent();
-		if ( null != intent ) {
+		if (null != intent) {
 			final Bundle extras = this.getIntent().getExtras();
 			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
-			if ( (null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART")) ) {
+			if ((null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART"))) {
 				// Fire the credential authorization flow on a background task.
 				AndroidGlobalDataManager.submitJob2ui(() -> {
 					onFireAuth();
 				});
 			} else {
-				if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
-					if ( null == intent.getData() ) {
+				if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+					if (null == intent.getData()) {
 					} else {
 						// Get the state and verify we are the caller.
 						final Uri urlData = intent.getData();
 						final String state = urlData.getQueryParameter("state");
-						if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
+						if (state.equals("NEOCOM-VERIFICATION-STATE")) {
 							final String authCode = urlData.getQueryParameter("code");
-							if ( StringUtils.isNotBlank(authCode) ) {
+							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
 								AndroidGlobalDataManager.submitJob2ui(() -> {
 									this.registerInBackground(authCode);
@@ -275,25 +276,25 @@ public class AuthorizationFlowActivity extends Activity {
 	protected void onNewIntent( final Intent intent ) {
 		logger.info(">> [AuthorizationFlowActivity.onNewIntent]");
 		super.onNewIntent(intent);
-		if ( null != intent ) {
+		if (null != intent) {
 			final Bundle extras = this.getIntent().getExtras();
 			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
-			if ( tag.equalsIgnoreCase("NEW-LOGIN-PART") ) {
+			if (tag.equalsIgnoreCase("NEW-LOGIN-PART")) {
 				// Fire the credential authorization flow on a background task.
 				AndroidGlobalDataManager.submitJob2ui(() -> {
 					onFireAuth();
 				});
 			} else {
-				if ( Intent.ACTION_VIEW.equals(intent.getAction()) ) {
-					if ( null == intent.getData() ) {
+				if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+					if (null == intent.getData()) {
 					} else {
 						// Get the state and verify we are the caller.
 						final Uri urlData = intent.getData();
 						final String state = urlData.getQueryParameter("state");
-						if ( state.equals("NEOCOM-VERIFICATION-STATE") ) {
+						if (state.equals("NEOCOM-VERIFICATION-STATE")) {
 							final String authCode = urlData.getQueryParameter("code");
-							if ( StringUtils.isNotBlank(authCode) ) {
+							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
 								AndroidGlobalDataManager.submitJob2ui(() -> {
 									this.registerInBackground(authCode);
@@ -320,6 +321,10 @@ public class AuthorizationFlowActivity extends Activity {
 				, @Header("Content-Type") String contentType
 				, @Body TokenRequestBody body );
 	}
+
+	private void injectComponents() {
+		this.configurationProvider = NeoComAndroid.getSingleton().getConfigurationProvider();
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.esiAdapter = NeoComAndroid.getSingleton().getEsiAdapter();
+	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

@@ -52,7 +52,7 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 		// - I R E N D E R   I N T E R F A C E
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.actionbar_neocombar;
+			return R.layout.actionbar_splash;
 		}
 
 		@Override
@@ -68,7 +68,7 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 			appNameLabel.setText(this.getContext().getResources().getString(R.string.appname));
 			appVersion.setVisibility(View.VISIBLE);
 			appVersion.setText(this.getContext().getResources().getString(R.string.appversionname));
-			serverStatus.setVisibility(View.GONE);
+			serverStatus.setVisibility(View.VISIBLE);
 			serverStatus.setText(this.composeServerStatus());
 		}
 
