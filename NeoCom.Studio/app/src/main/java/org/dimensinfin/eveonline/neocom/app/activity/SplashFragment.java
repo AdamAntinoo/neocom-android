@@ -8,7 +8,7 @@ import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.app.factory.CoreControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
@@ -27,7 +27,7 @@ public class SplashFragment extends MVCPagerFragment {
 
 	@Override
 	public IControllerFactory createFactory() {
-		return new CoreControllerFactory(this.getVariant());
+		return new AppControllerFactory(this.getVariant());
 	}
 
 	@Override
