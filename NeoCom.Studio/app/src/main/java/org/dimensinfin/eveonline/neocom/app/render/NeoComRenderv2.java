@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.app.render;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -134,7 +134,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected Spanned colorFormatLocation( final EveLocation location ) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final double security = location.getSecurityValue();
-		htmlLocation.append(this.generateSecurityColor(security, NeoComRender.securityFormatter.format(security)));
+		htmlLocation.append(this.generateSecurityColor(security, securityFormatter.format(security)));
 		htmlLocation.append(" ").append(location.getRegion()).append("-").append(location.getName());
 		return Html.fromHtml(htmlLocation.toString());
 	}
@@ -179,20 +179,20 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected String generateDurationString( final long millis, final boolean withSeconds ) {
 		long timeToConvert = millis;
 		final StringBuffer buffer = new StringBuffer();
-		if (timeToConvert > NeoComRender.ONEDAY) {
-			final double day = Math.floor(timeToConvert / NeoComRender.ONEDAY);
+		if (timeToConvert > ONEDAY) {
+			final double day = Math.floor(timeToConvert / ONEDAY);
 			buffer.append(Double.valueOf(day).intValue()).append("D ");
-			timeToConvert -= day * NeoComRender.ONEDAY;
+			timeToConvert -= day * ONEDAY;
 		}
-		if (timeToConvert > NeoComRender.ONEHOUR) {
-			final double hour = Math.floor(timeToConvert / NeoComRender.ONEHOUR);
+		if (timeToConvert > ONEHOUR) {
+			final double hour = Math.floor(timeToConvert / ONEHOUR);
 			buffer.append(Double.valueOf(hour).intValue()).append("H ");
-			timeToConvert -= hour * NeoComRender.ONEHOUR;
+			timeToConvert -= hour * ONEHOUR;
 		}
-		if (timeToConvert > NeoComRender.ONEMINUTE) {
-			final double minute = Math.floor(timeToConvert / NeoComRender.ONEMINUTE);
+		if (timeToConvert > ONEMINUTE) {
+			final double minute = Math.floor(timeToConvert / ONEMINUTE);
 			buffer.append(Double.valueOf(minute).intValue()).append("M");
-			timeToConvert -= minute * NeoComRender.ONEMINUTE;
+			timeToConvert -= minute * ONEMINUTE;
 		}
 		if (withSeconds) {
 			final double second = Math.floor(timeToConvert / 1000.0);
@@ -203,13 +203,13 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 
 	protected String generateDurationString2( final long millis ) {
 		final DateTimeFormatterBuilder timeLeftCountdown = new DateTimeFormatterBuilder();
-		if (millis > NeoComRender.ONEDAY) {
+		if (millis > ONEDAY) {
 			timeLeftCountdown.appendDayOfYear(1).appendLiteral("D ");
 		}
-		if (millis > NeoComRender.ONEHOUR) {
+		if (millis > ONEHOUR) {
 			timeLeftCountdown.appendHourOfDay(2).appendLiteral("H ");
 		}
-		if (millis > NeoComRender.ONEMINUTE) {
+		if (millis > ONEMINUTE) {
 			timeLeftCountdown.appendMinuteOfHour(2).appendLiteral("M ").appendSecondOfMinute(2).appendLiteral('S');
 		}
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
@@ -224,18 +224,18 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		// Get rid of negative numbers.
 		if (compress) {
 			if (Math.abs(price) > 1200000000.0) if (addSuffix)
-				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
+				return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
 			else
-				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
+				return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
 			if (Math.abs(price) > 12000000.0) if (addSuffix)
-				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
+				return priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
 			else
-				return NeoComRender.priceFormatter.format(price / 1000.0 / 1000.0);
+				return priceFormatter.format(price / 1000.0 / 1000.0);
 		}
 		if (addSuffix)
-			return NeoComRender.priceFormatter.format(price) + " ISK";
+			return priceFormatter.format(price) + " ISK";
 		else
-			return NeoComRender.priceFormatter.format(price);
+			return priceFormatter.format(price);
 	}
 
 	protected String generateSecurityColor( double sec, final String data ) {
@@ -249,7 +249,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 			sec = 1.0;
 		}
 		final long secAdjust = Long.valueOf(Math.round(sec * 10.0)).intValue();
-		secColor = NeoComRender.securityLevels.get(Long.valueOf(secAdjust).intValue());
+		secColor = securityLevels.get(Long.valueOf(secAdjust).intValue());
 		htmlFragmentWithColor.append("<font color='").append(secColor).append("'>").append(data).append("</font>");
 		return htmlFragmentWithColor.toString();
 	}
@@ -257,13 +257,13 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected String generateTimeString( final long millis ) {
 		try {
 			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if (millis > NeoComRender.ONEDAY) {
+			if (millis > ONEDAY) {
 				timeFormatter.appendDayOfYear(1).appendLiteral("D ");
 			}
-			if (millis > NeoComRender.ONEHOUR) {
+			if (millis > ONEHOUR) {
 				timeFormatter.appendHourOfDay(2).appendLiteral(":");
 			}
-			if (millis > NeoComRender.ONEMINUTE) {
+			if (millis > ONEMINUTE) {
 				timeFormatter.appendMinuteOfHour(2).appendLiteral(":").appendSecondOfMinute(2);
 			}
 			return timeFormatter.toFormatter().print(new Instant(millis));
@@ -305,7 +305,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		// EveLocation loc =
 		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
 		final String security = loc.getSecurity();
-		String secColor = NeoComRender.securityLevels.get(security);
+		String secColor = securityLevels.get(security);
 		if (null == secColor) {
 			secColor = "#2FEFEF";
 		}
@@ -313,7 +313,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		htmlLocation.append(loc.getRegion()).append(FLOW_ARROW_RIGHT).append(loc.getConstellation())
 				.append(FLOW_ARROW_RIGHT);
 		htmlLocation.append("<font color='").append(secColor).append("'>")
-				.append(NeoComRender.securityFormatter.format(loc.getSecurityValue())).append("</font>");
+				.append(securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
 	}
