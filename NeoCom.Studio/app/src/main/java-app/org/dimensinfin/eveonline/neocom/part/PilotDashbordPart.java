@@ -89,7 +89,9 @@ public class PilotDashbordPart extends NeoComAbstractPart<PilotV2> {
 
 	@WorkerThread
 	public String getTRaceName() {
-		return NeoComAbstractPart.upperCaseFirst(this.getCastedModel().getRace().getName().toLowerCase());
+		return "-";
+		// TODO - Replace with the new data access
+//		return NeoComAbstractPart.upperCaseFirst(this.getCastedModel().getRace().getName().toLowerCase());
 	}
 
 	@WorkerThread

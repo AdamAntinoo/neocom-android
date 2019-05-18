@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "0.15.0"
@@ -18,6 +18,16 @@ android {
 
         }
     }
+}
+
+// - P R O D U C T   V E R S I O N S
+ext {
+    supportLibraryVersion = '28.0.0'
+    jodaTimeVersion = '2.3'
+    jacksonVersion = '2.9.4'
+    fasterxmlJackson = '2.9.4'
+    ormliteVersion = '4.48'
+    retrofitVersion = '2.3.0'
 }
 
 // - A N D R O I D    S U P P O R T

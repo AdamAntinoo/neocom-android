@@ -45,7 +45,7 @@ public class SplashActionBar implements ICollaboration {
 			this.onConstruction.preferences = preferences;
 			return this;
 		}
-		//		public Builder withEsiAdapter( final SharedPreferences preferences ) {
+		//		public Singletoner withEsiAdapter( final SharedPreferences preferences ) {
 		//			this.onConstruction.preferences = preferences;
 		//			return this;
 		//		}

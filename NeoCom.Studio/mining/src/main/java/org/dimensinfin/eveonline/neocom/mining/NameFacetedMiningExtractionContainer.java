@@ -10,6 +10,7 @@ import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 /**
+ * MiningExtractionAggregatorAsPanelTitle
  * @author Adam Antinoo
  */
 public class NameFacetedMiningExtractionContainer extends PanelTitle implements IMiningExtractionContainer, IExpandable {

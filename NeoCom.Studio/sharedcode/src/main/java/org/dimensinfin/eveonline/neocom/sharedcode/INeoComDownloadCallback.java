@@ -6,5 +6,5 @@ import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
 public interface INeoComDownloadCallback {
 	Credential getCredential();
 
-	void sendEvent( PilotDataSections section, Object publicData );
+	void signalCompletion( PilotDataSections section, Object publicData );
 }

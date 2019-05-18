@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +22,11 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.main.PilotV3;
 import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,15 +38,16 @@ public class CredentialController extends AAndroidController<Credential> impleme
 
 	// - C O N S T R U C T O R S
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
-		this(new ControllerAdapter<>(model), factory);
+		super(new ControllerAdapter<Credential>(model), factory);
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getSingleton().getDownloaderService()).build();
+		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getSingleton().getDownloaderService())
+				             .build();
 		this.pilot.addPropertyChangeListener(this);
 	}
 
-	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
-		super(delegate, factory);
-	}
+//	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
+//		super(delegate, factory);
+//	}
 
 	// - O N C L I C K L I S T E N E R   I N T E R F A C E
 

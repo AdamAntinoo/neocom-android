@@ -31,6 +31,7 @@ import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
@@ -104,7 +105,7 @@ public class NeoComApplication extends Application {
 
 	//	private TimedUpdater getTimedService() {
 	//		if (null == timedService)
-	//			timedService = new TimedUpdater.Builder()
+	//			timedService = new TimedUpdater.Singletoner()
 	//					               .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
 	//					               .build();
 	//		return timedService;
@@ -145,7 +146,7 @@ public class NeoComApplication extends Application {
 							                                             R.string.appdatabaseversion))
 					                                             )
 					                                             .build();
-			this.neocom = new NeoComAndroid.Builder()
+			this.neocom = new NeoComAndroid.Singletoner()
 					              .withApplicationContext(this)
 					              .withFileSystemAdapter(fileSystemAdapter)
 					              .withConfigurationProvider(configurationProvider)
@@ -156,10 +157,8 @@ public class NeoComApplication extends Application {
 							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
 							                                    .build()
 					              )
+								  .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
 					              .build();
-			//		} catch (SQLException sqle) {
-			//			sqle.printStackTrace();
-			//		}
 
 			// Connect the application to the global context to be able to use all the resources.
 			logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");

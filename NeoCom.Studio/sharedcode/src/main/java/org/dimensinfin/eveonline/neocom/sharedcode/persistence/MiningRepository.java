@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 
@@ -32,8 +33,7 @@ public class MiningRepository {
 	 * new hour will show the new ore totals and so on hour after hour.
 	 */
 	public List<MiningExtraction> accessTodayMiningExtractions4Pilot( final Credential credential ) throws SQLException {
-		//		final Dao<MiningExtraction, String> miningExtractionDao = new GlobalDataManager().getNeocomDBHelper().getMiningExtractionDao();
-		final QueryBuilder<MiningExtraction, String> builder = miningExtractionDao.queryBuilder();
+		final QueryBuilder<MiningExtraction, String> builder = this.miningExtractionDao.queryBuilder();
 		builder.where().eq("ownerId", credential.getAccountId());
 		builder.orderBy("extractionDateName", true)
 				.orderBy("extractionHour", true)
@@ -50,6 +50,24 @@ public class MiningRepository {
 		}
 		return results;
 	}
+
+	/**
+	 * Get the list of Mining Extractions that are registered on the database. This can be a lot of records that need sorting and also
+	 * grouping previously to rendering. This method can do the sorting but the grouping is not one of its features.
+	 * The mining operations for a single day aggregate all the ore for a single type, but have different records for different systems
+	 * and for different ores. So for a single day we can have around 6-8 records. The mining ledger information at the neocom database has
+	 * to expiration time so the number of days is still not predetermined.
+	 */
+	public static List<MiningExtraction> accessMiningExtractions4Pilot( final Credential credential ) throws SQLException {
+		final Dao<MiningExtraction, String> dao = new GlobalDataManager().getNeocomDBHelper().getMiningExtractionDao();
+		final QueryBuilder<MiningExtraction, String> builder = dao.queryBuilder();
+		builder.where().eq("ownerId", credential.getAccountId());
+		builder.orderBy("id", false);
+		final PreparedQuery<MiningExtraction> preparedQuery = builder.prepare();
+		return dao.query(preparedQuery);
+	}
+
+
 
 	// - B U I L D E R
 	public static class Builder {

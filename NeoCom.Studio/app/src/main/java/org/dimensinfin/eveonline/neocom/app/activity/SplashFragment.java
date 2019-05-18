@@ -130,7 +130,7 @@ public class SplashFragment extends MVCPagerFragment {
 				this.getActual().setVersion(version);
 				return this;
 			}
-			//			public Builder withCredentialRepository( final CredentialRepository credentialRepository){
+			//			public Singletoner withCredentialRepository( final CredentialRepository credentialRepository){
 			//				this.onConstruction.credentialRepository = credentialRepository;
 			//				return this;
 			//			}

@@ -24,6 +24,7 @@ public class NeoComAndroid {
 	private ESIGlobalAdapter esiAdapter;
 	private DataDownloaderService downloaderService;
 	private MiningRepository miningRepository;
+	private EveItemProvider eveItemProvider;
 
 	private Application applicationContext;
 	private IFileSystem fileSystemAdapter;
@@ -36,17 +37,12 @@ public class NeoComAndroid {
 		return singleton;
 	}
 
-	public static <T> T assertNotNull( final T target ) {
-		if (null == target) throw new NullPointerException("Target object is not valid. Found to be null.");
-		return target;
-	}
-
 	public IConfigurationProvider getConfigurationProvider() {
 		return this.configurationProvider;
 	}
 
 	public ESIGlobalAdapter getEsiAdapter() {
-		return esiAdapter;
+		return this.esiAdapter;
 	}
 
 	public DataDownloaderService getDownloaderService() {
@@ -57,46 +53,55 @@ public class NeoComAndroid {
 		return this.miningRepository;
 	}
 
+	public EveItemProvider getEveItemProvider() {
+		return this.eveItemProvider;
+	}
+
 	// - B U I L D E R
-	public static class Builder {
+	public static class Singletoner {
 		private NeoComAndroid onConstruction;
 
-		public Builder() {
+		public Singletoner() {
 			this.onConstruction = new NeoComAndroid();
 		}
 
-		public Builder withApplicationContext( final Application application ) {
+		public Singletoner withApplicationContext( final Application application ) {
 			this.onConstruction.applicationContext = application;
 			return this;
 		}
 
-		public Builder withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
+		public Singletoner withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
 			this.onConstruction.fileSystemAdapter = fileSystemAdapter;
 			return this;
 		}
 
-		public Builder withConfigurationProvider( final IConfigurationProvider configurationProvider ) {
+		public Singletoner withConfigurationProvider( final IConfigurationProvider configurationProvider ) {
 			this.onConstruction.configurationProvider = configurationProvider;
 			return this;
 		}
 
-		public Builder withPreferencesProvider( final IGlobalPreferencesManager preferencesProvider ) {
+		public Singletoner withPreferencesProvider( final IGlobalPreferencesManager preferencesProvider ) {
 			this.onConstruction.preferencesProvider = preferencesProvider;
 			return this;
 		}
 
-		public Builder withESIAdapter( final ESIGlobalAdapter esiAdapter ) {
+		public Singletoner withESIAdapter( final ESIGlobalAdapter esiAdapter ) {
 			this.onConstruction.esiAdapter = esiAdapter;
 			return this;
 		}
 
-		public Builder withDataDownloaderService( final DataDownloaderService downloaderService ) {
+		public Singletoner withDataDownloaderService( final DataDownloaderService downloaderService ) {
 			this.onConstruction.downloaderService = downloaderService;
 			return this;
 		}
 
-		public Builder withMiningRepository( final MiningRepository miningRepository ) {
+		public Singletoner withMiningRepository( final MiningRepository miningRepository ) {
 			this.onConstruction.miningRepository = miningRepository;
+			return this;
+		}
+
+		public Singletoner withEveItemProvider( final EveItemProvider eveItemProvider ) {
+			this.onConstruction.eveItemProvider = eveItemProvider;
 			return this;
 		}
 
@@ -106,6 +111,7 @@ public class NeoComAndroid {
 			Objects.requireNonNull(this.onConstruction.esiAdapter);
 			Objects.requireNonNull(this.onConstruction.downloaderService);
 			Objects.requireNonNull(this.onConstruction.miningRepository);
+			Objects.requireNonNull(this.onConstruction.eveItemProvider);
 			return this.onConstruction;
 		}
 	}
