@@ -1,8 +1,6 @@
-package org.dimensinfin.eveonline.neocom.app.main;
+package org.dimensinfin.eveonline.neocom.app.pilot;
 
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,7 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class PilotV3Test {
-	private static  PilotV3 pilot;
+	private static PilotV3 pilot;
 
 	@Before
 	public void setUp() throws Exception {

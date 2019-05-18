@@ -13,14 +13,9 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.AndroidFileSystemAdapter;
-import org.dimensinfin.eveonline.neocom.app.ESIAndroidAdapter;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.app.exception.NeoComError;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
@@ -29,12 +24,8 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class AppSplashFragment extends MVCPagerFragment {
@@ -109,22 +100,12 @@ public class AppSplashFragment extends MVCPagerFragment {
 		@Override
 		public void prepareModel() {
 			logger.info(">> [CredentialDatasource.prepareModel]");
-			// Create the model for the components initialisation. Keep this simple until mode functionality is added.
-			// - C O M P O N E N T S   C O R E
+			// [01]
+			// - D O W N L O A D - M A R K E T P R I C E S
 			initializationTasksList.add(() -> {
 				final List<NeoComError> exceptionList = new ArrayList<>();
 				try {
-					fileSystemAdapter = new AndroidFileSystemAdapter.Builder(
-							this.getApplicationContext().getResources().getString(R.string.appname)
-							, this.getApplicationContext())
-							                    .build();
-					configurationProvider = new AndroidConfigurationProvider.Builder(
-							this.getApplicationContext().getResources().getString(R.string.propertiesLocation))
-							                        .withApplicationContext(this.getApplicationContext())
-							                        .build();
-					preferencesProvider = new GlobalAndroidPreferencesProvider();
-					esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
-							             .build();
+					NeoComAndroid.getSingleton().getEsiAdapter().downloadItemPrices();
 				} catch (RuntimeException rtex) {
 					exceptionList.add(new NeoComError.Builder(rtex)
 							                  .withType(EErrorType.RUNTIME)
@@ -140,19 +121,11 @@ public class AppSplashFragment extends MVCPagerFragment {
 				}
 				return exceptionList;
 			});
-			// - N E O C O M D B H E L P E R
+			// - D O W N L O A D - P I L O T R A C E
 			initializationTasksList.add(() -> {
 				final List<NeoComError> exceptionList = new ArrayList<>();
 				try {
-					neocomDBHelper = new NeoComAndroidDBHelper.Builder()
-							                 .withAppContext(this.getApplicationContext())
-							                 .withFileSystem(fileSystemAdapter)
-							                 .setDatabaseLocation(this.getApplicationContext().getResources().getString(R.string.appname))
-							                 .setDatabaseName(this.getApplicationContext().getResources().getString(R.string.appdatabasefilename))
-							                 .setDatabaseVersion(Integer.valueOf(this.getApplicationContext().getResources().getString(
-									                 R.string.appdatabaseversion))
-							                 )
-							                 .build();
+					NeoComAndroid.getSingleton().getEsiAdapter().downloadPilotFamilyData();
 				} catch (RuntimeException rtex) {
 					exceptionList.add(new NeoComError.Builder(rtex)
 							                  .withType(EErrorType.RUNTIME)
@@ -168,63 +141,6 @@ public class AppSplashFragment extends MVCPagerFragment {
 				}
 				return exceptionList;
 			});
-			// - C O M P O N E N T   F A C T O R Y
-			initializationTasksList.add(() -> {
-				final List<NeoComError> exceptionList = new ArrayList<>();
-				try {
-					final NeoComAndroid neocom = new NeoComAndroid.Singletoner()
-							                             .withApplicationContext(this.getApplicationContext())
-							                             .withFileSystemAdapter(fileSystemAdapter)
-							                             .withConfigurationProvider(configurationProvider)
-							                             .withPreferencesProvider(preferencesProvider)
-							                             .withESIAdapter(esiAdapter)
-							                             .withDataDownloaderService(new DataDownloaderService())
-							                             .withMiningRepository(new MiningRepository.Builder()
-									                                                   .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
-									                                                   .build()
-							                             )
-							                             .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
-							                             .build();
-				} catch (RuntimeException rtex) {
-					exceptionList.add(new NeoComError.Builder(rtex)
-							                  .withType(EErrorType.RUNTIME)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
-							                  .build());
-				} catch (Exception ex) {
-					exceptionList.add(new NeoComError.Builder(ex)
-							                  .withType(EErrorType.EXCEPTION)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
-							                  .build());
-				}
-				return exceptionList;
-			});
-			// - T I M E D   S E R V I C E
-			initializationTasksList.add(() -> {
-				final List<NeoComError> exceptionList = new ArrayList<>();
-				try {
-					final TimedUpdater timedService = new TimedUpdater.Builder()
-							                                  .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
-							                                  .build();
-					// Send the timer to the application singleton.
-					NeoComApplication.setTimedUpdater(timedService);
-				} catch (RuntimeException rtex) {
-					exceptionList.add(new NeoComError.Builder(rtex)
-							                  .withType(EErrorType.RUNTIME)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
-							                  .build());
-				} catch (Exception ex) {
-					exceptionList.add(new NeoComError.Builder(ex)
-							                  .withType(EErrorType.EXCEPTION)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
-							                  .build());
-				}
-				return exceptionList;
-			});
-
 			logger.info("<< [CredentialDatasource.prepareModel]");
 		}
 
@@ -237,32 +153,9 @@ public class AppSplashFragment extends MVCPagerFragment {
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
 						                       .setVersion(this.version));
-				// Add the initialisation tasks read from the list.
-				Callable<List<NeoComError>> downloadPrices = () -> {
-					final List<NeoComError> exceptionList = new ArrayList<>();
-					try {
-						NeoComAndroid.getSingleton().getEsiAdapter().downloadItemPrices();
-					} catch (RuntimeException rtex) {
-						exceptionList.add(new NeoComError.Builder(rtex)
-								                  .withType(EErrorType.RUNTIME)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("CredentialDatasource.collaborate2Model")
-								                  .build());
-					} catch (Exception ex) {
-						exceptionList.add(new NeoComError.Builder(ex)
-								                  .withType(EErrorType.EXCEPTION)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("CredentialDatasource.collaborate2Model")
-								                  .build());
-					}
-					return exceptionList;
-				};
-				this.addHeaderContents(new InitialisationTask(downloadPrices));
-				//				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
-				//					this.addHeaderContents(new InitialisationTask.Builder()
-				//							                       .withTask(task)
-				//							                       .build());
-				//				}
+				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
+					this.addHeaderContents(new InitialisationTask(task).execute());
+				}
 				// - S E C T I O N   D A T A
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
@@ -325,3 +218,119 @@ public class AppSplashFragment extends MVCPagerFragment {
 		}
 	}
 }
+// [01]
+// Create the model for the components initialisation. Keep this simple until mode functionality is added.
+//			// - C O M P O N E N T S   C O R E
+//			initializationTasksList.add(() -> {
+//				final List<NeoComError> exceptionList = new ArrayList<>();
+//				try {
+//					fileSystemAdapter = new AndroidFileSystemAdapter.Builder(
+//							this.getApplicationContext().getResources().getString(R.string.appname)
+//							, this.getApplicationContext())
+//							                    .build();
+//					configurationProvider = new AndroidConfigurationProvider.Builder(
+//							this.getApplicationContext().getResources().getString(R.string.propertiesLocation))
+//							                        .withApplicationContext(this.getApplicationContext())
+//							                        .build();
+//					preferencesProvider = new GlobalAndroidPreferencesProvider();
+//					esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
+//							             .build();
+//				} catch (RuntimeException rtex) {
+//					exceptionList.add(new NeoComError.Builder(rtex)
+//							                  .withType(EErrorType.RUNTIME)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				} catch (Exception ex) {
+//					exceptionList.add(new NeoComError.Builder(ex)
+//							                  .withType(EErrorType.EXCEPTION)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				}
+//				return exceptionList;
+//			});
+//			// - N E O C O M D B H E L P E R
+//			initializationTasksList.add(() -> {
+//				final List<NeoComError> exceptionList = new ArrayList<>();
+//				try {
+//					neocomDBHelper = new NeoComAndroidDBHelper.Builder()
+//							                 .withAppContext(this.getApplicationContext())
+//							                 .withFileSystem(fileSystemAdapter)
+//							                 .setDatabaseLocation(this.getApplicationContext().getResources().getString(R.string.appname))
+//							                 .setDatabaseName(this.getApplicationContext().getResources().getString(R.string.appdatabasefilename))
+//							                 .setDatabaseVersion(Integer.valueOf(this.getApplicationContext().getResources().getString(
+//									                 R.string.appdatabaseversion))
+//							                 )
+//							                 .build();
+//				} catch (RuntimeException rtex) {
+//					exceptionList.add(new NeoComError.Builder(rtex)
+//							                  .withType(EErrorType.RUNTIME)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				} catch (Exception ex) {
+//					exceptionList.add(new NeoComError.Builder(ex)
+//							                  .withType(EErrorType.EXCEPTION)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				}
+//				return exceptionList;
+//			});
+//			// - C O M P O N E N T   F A C T O R Y
+//			initializationTasksList.add(() -> {
+//				final List<NeoComError> exceptionList = new ArrayList<>();
+//				try {
+//					final NeoComAndroid neocom = new NeoComAndroid.Singletoner()
+//							                             .withApplicationContext(this.getApplicationContext())
+//							                             .withFileSystemAdapter(fileSystemAdapter)
+//							                             .withConfigurationProvider(configurationProvider)
+//							                             .withPreferencesProvider(preferencesProvider)
+//							                             .withESIAdapter(esiAdapter)
+//							                             .withDataDownloaderService(new DataDownloaderService())
+//							                             .withMiningRepository(new MiningRepository.Builder()
+//									                                                   .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
+//									                                                   .build()
+//							                             )
+//							                             .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
+//							                             .build();
+//				} catch (RuntimeException rtex) {
+//					exceptionList.add(new NeoComError.Builder(rtex)
+//							                  .withType(EErrorType.RUNTIME)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				} catch (Exception ex) {
+//					exceptionList.add(new NeoComError.Builder(ex)
+//							                  .withType(EErrorType.EXCEPTION)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				}
+//				return exceptionList;
+//			});
+//			// - T I M E D   S E R V I C E
+//			initializationTasksList.add(() -> {
+//				final List<NeoComError> exceptionList = new ArrayList<>();
+//				try {
+//					final TimedUpdater timedService = new TimedUpdater.Builder()
+//							                                  .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+//							                                  .build();
+//					// Send the timer to the application singleton.
+//					NeoComApplication.setTimedUpdater(timedService);
+//				} catch (RuntimeException rtex) {
+//					exceptionList.add(new NeoComError.Builder(rtex)
+//							                  .withType(EErrorType.RUNTIME)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				} catch (Exception ex) {
+//					exceptionList.add(new NeoComError.Builder(ex)
+//							                  .withType(EErrorType.EXCEPTION)
+//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .build());
+//				}
+//				return exceptionList;
+//			});

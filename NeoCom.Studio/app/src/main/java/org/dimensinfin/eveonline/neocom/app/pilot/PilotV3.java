@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.main;
+package org.dimensinfin.eveonline.neocom.app.pilot;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Objects;
@@ -8,14 +8,12 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
-import org.dimensinfin.eveonline.neocom.sharedcode.INeoComDownloadCallback;
-import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 
 import org.joda.time.LocalDateTime;
 
-public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
+public class PilotV3 extends PilotV2 implements IPilotDataDownloadCallback {
 	private transient DataDownloaderService downloaderService;
 	private Credential credential;
 
@@ -42,6 +40,12 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 	@Override
 	public long getTotalAssetsNumber() {
 		return this.totalAssetsNumber;
+	}
+
+	@Override
+	public int getRaceId() {
+		if (null != this.publicData) return this.publicData.getRaceId();
+		else return 0;
 	}
 
 	/**
@@ -104,13 +108,19 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 	}
 
 	@Override
-	public void signalCompletion( final PilotDataSections section, final Object publicData ) {
+	public void signalCompletion( final PilotDataSections section, final Object completedData ) {
 		switch (section) {
 			case PILOT_PUBLICDATA:
-				this.setPublicData((GetCharactersCharacterIdOk) publicData);
+				this.setPublicData((GetCharactersCharacterIdOk) completedData);
 				this.firePropertyChange(new PropertyChangeEvent(this
 						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
-						, null, publicData));
+						, null, completedData));
+				break;
+			case PILOT_RACE:
+				this.setRace((GetUniverseRaces200Ok) completedData);
+				this.firePropertyChange(new PropertyChangeEvent(this
+						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
+						, null, completedData));
 				break;
 		}
 	}

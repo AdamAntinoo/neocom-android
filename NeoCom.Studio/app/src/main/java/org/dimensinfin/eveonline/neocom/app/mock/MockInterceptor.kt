@@ -49,6 +49,18 @@ const val getMockCharactersCharacterIdMining = """
 [
   {
     "date": "2019-05-18",
+    "quantity": 28000,
+    "solar_system_id": 30001647,
+    "type_id": 17471
+  },
+  {
+    "date": "2019-05-18",
+    "quantity": 2800,
+    "solar_system_id": 30001681,
+    "type_id": 45498
+  },
+ {
+    "date": "2019-05-18",
     "quantity": 17000,
     "solar_system_id": 30001647,
     "type_id": 17471

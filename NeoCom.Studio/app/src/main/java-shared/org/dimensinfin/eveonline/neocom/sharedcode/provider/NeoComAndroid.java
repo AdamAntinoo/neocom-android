@@ -2,7 +2,6 @@ package org.dimensinfin.eveonline.neocom.sharedcode.provider;
 
 import java.util.Objects;
 
-import android.app.Application;
 import android.content.Context;
 
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -10,7 +9,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.app.pilot.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
 
 /**

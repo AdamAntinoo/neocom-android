@@ -57,7 +57,7 @@ public class EveItemProvider {
 	 * @return the ESI market price or -1.0 if the price is not found.
 	 */
 	public double getPrice( final int typeId ) {
-		return this.esiAdapter.searchMarketPrice(typeId);
+		return this.esiAdapter.searchSDEMarketPrice(typeId);
 	}
 
 	// - B U I L D E R
