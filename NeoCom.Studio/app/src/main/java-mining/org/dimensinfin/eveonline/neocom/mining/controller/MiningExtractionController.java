@@ -11,8 +11,9 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.mining.R;
+import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
 
 public class MiningExtractionController extends AAndroidController<MiningExtraction> {
 	public MiningExtractionController( @NonNull final MiningExtraction model, @NonNull final IControllerFactory factory ) {
@@ -33,10 +34,11 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 	// - M I N I N G E X T R A C T I O N R E N D E R
 	public static class MiningExtractionRenderV5 extends NeoComRenderv2 {
 		// - U I    F I E L D S
-		private TextView resourceName = null;
-		private TextView resourceTypeId = null;
-		private TextView delta = null;
-		private TextView quantity = null;
+		private TextView resourceName;
+		private TextView resourceTypeId;
+		private TextView delta;
+		private TextView quantity;
+		private TextView separatorLabel;
 
 		// - C O N S T R U C T O R S
 		public MiningExtractionRenderV5( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -55,6 +57,7 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 			resourceTypeId = this.getView().findViewById(R.id.resourceTypeId);
 			delta = this.getView().findViewById(R.id.delta);
 			quantity = this.getView().findViewById(R.id.quantity);
+			separatorLabel = this.getView().findViewById(R.id.separatorLabel);
 		}
 
 		@Override
@@ -62,11 +65,10 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 			super.updateContent();
 			resourceName.setText(this.getController().getModel().getResourceName());
 			resourceTypeId.setText("[#" + this.getController().getModel().getTypeId() + "]");
-			delta.setText(this.getController().getModel().getDelta());
-			quantity.setText(this.getController().getModel().getTQuantity());
-
+			delta.setText(this.accessDelta());
+			quantity.setText(this.accessQuantity());
 			// Hide some elements if the delta os ZERO
-			if (this.getPart().getCastedModel().getDelta() < 1) {
+			if (this.getController().getModel().getDelta() < 1) {
 				delta.setVisibility(View.INVISIBLE);
 				separatorLabel.setVisibility(View.INVISIBLE);
 			}
@@ -74,11 +76,15 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.miningextractions4today;
+			return R.layout.miningextractions4todayv5;
 		}
-		private String formatdelta ( final double delta){
-			return qtyFormatter.format(getCastedModel().getDelta());
+
+		private String accessDelta() {
+			return qtyFormatter.format(this.getController().getModel().getDelta());
 		}
+
+		private String accessQuantity() {
+			return qtyFormatter.format(this.getController().getModel().getQuantity());
 		}
 	}
 
@@ -117,17 +123,17 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
-			extractionHour.setText("HOUR: " + this.getPart().getCastedModel().getExtractionHour());
-			unitPrice.setText(this.getPart().getTResourcePrice());
-			valueIndex.setText(this.getPart().getTValueIndex());
-			delta.setText(this.getPart().getTDelta());
-
-			// Hide some elements if the delta os ZERO
-			if (this.getPart().getCastedModel().getDelta() < 1) {
-				delta.setVisibility(View.INVISIBLE);
-				separatorLabel.setVisibility(View.INVISIBLE);
-			}
+			//		extractionSystemName.setText(this.getPart().getCastedModel().getSystemName());
+			//		extractionHour.setText("HOUR: " + this.getPart().getCastedModel().getExtractionHour());
+			//		unitPrice.setText(this.getPart().getTResourcePrice());
+			//		valueIndex.setText(this.getPart().getTValueIndex());
+			//		delta.setText(this.getPart().getTDelta());
+			//
+			//		// Hide some elements if the delta os ZERO
+			//		if (this.getPart().getCastedModel().getDelta() < 1) {
+			//			delta.setVisibility(View.INVISIBLE);
+			//			separatorLabel.setVisibility(View.INVISIBLE);
+			//		}
 		}
 
 		@Override
