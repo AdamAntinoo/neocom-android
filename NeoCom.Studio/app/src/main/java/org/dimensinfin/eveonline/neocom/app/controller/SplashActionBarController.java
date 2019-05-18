@@ -35,11 +35,11 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 
 	// - S P L A S H A C T I O N B A R R E N D E R
 	public static class SplashActionBarRender extends AMVCRender {
-//		private ImageView activityIcon = null;
 		private TextView appNameLabel;
 		private TextView appVersion;
 		private TextView serverStatus;
 
+		// - C O N S T R U C T O R S
 		public SplashActionBarRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 			super(controller, context);
 		}
