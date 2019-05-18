@@ -238,11 +238,31 @@ public class AppSplashFragment extends MVCPagerFragment {
 						                       .setName(this.name)
 						                       .setVersion(this.version));
 				// Add the initialisation tasks read from the list.
-				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
-					this.addHeaderContents(new InitialisationTask.Builder()
-							                       .withTask(task)
-							                       .build());
-				}
+				Callable<List<NeoComError>> downloadPrices = () -> {
+					final List<NeoComError> exceptionList = new ArrayList<>();
+					try {
+						NeoComAndroid.getSingleton().getEsiAdapter().downloadItemPrices();
+					} catch (RuntimeException rtex) {
+						exceptionList.add(new NeoComError.Builder(rtex)
+								                  .withType(EErrorType.RUNTIME)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("CredentialDatasource.collaborate2Model")
+								                  .build());
+					} catch (Exception ex) {
+						exceptionList.add(new NeoComError.Builder(ex)
+								                  .withType(EErrorType.EXCEPTION)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("CredentialDatasource.collaborate2Model")
+								                  .build());
+					}
+					return exceptionList;
+				};
+				this.addHeaderContents(new InitialisationTask(downloadPrices));
+				//				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
+				//					this.addHeaderContents(new InitialisationTask.Builder()
+				//							                       .withTask(task)
+				//							                       .build());
+				//				}
 				// - S E C T I O N   D A T A
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));

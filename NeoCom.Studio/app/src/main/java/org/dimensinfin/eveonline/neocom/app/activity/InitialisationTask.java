@@ -22,13 +22,14 @@ import org.dimensinfin.eveonline.neocom.app.exception.NeoComError;
  */
 public class InitialisationTask implements ICollaboration {
 	private Callable task;
-	private Context applicationContext;
+//	private Context applicationContext;
 	private List<NeoComError> exceptionReport = new ArrayList<>();
 	ExecutorService service =  Executors.newSingleThreadExecutor();
 
-//	public InitialisationTask( final Runnable task ) {
-//		this.task = task;
-//	}
+	// - C O N S T R U C T O R S
+	public InitialisationTask( final Callable task ) {
+		this.task = task;
+	}
 
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
@@ -41,38 +42,38 @@ public class InitialisationTask implements ICollaboration {
 	}
 
 	public void execute () {
-		Future<Integer> future = service.submit(task);
+		Future<List<NeoComError>> future = service.submit(task);
 		Integer result=0;
 		try {
-			result = future.get();
+			this.exceptionReport = future.get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
 	}
-	// - B U I L D E R
-	public static class Builder {
-		private InitialisationTask onConstruction;
-
-		public Builder() {
-			this.onConstruction = new InitialisationTask();
-		}
-
-		public Builder withApplicationContext( final Context applicationContext ) {
-			this.onConstruction.applicationContext = applicationContext;
-			return this;
-		}
-
-		public Builder withTask( final Callable task ) {
-			this.onConstruction.task = task;
-			return this;
-		}
-
-		public InitialisationTask build() {
-//			Objects.requireNonNull(this.onConstruction.applicationContext);
-			Objects.requireNonNull(this.onConstruction.task);
-			return this.onConstruction;
-		}
-	}
+//	// - B U I L D E R
+//	public static class Builder {
+//		private InitialisationTask onConstruction;
+//
+//		public Builder() {
+//			this.onConstruction = new InitialisationTask();
+//		}
+//
+////		public Builder withApplicationContext( final Context applicationContext ) {
+////			this.onConstruction.applicationContext = applicationContext;
+////			return this;
+////		}
+//
+//		public Builder withTask( final Callable task ) {
+//			this.onConstruction.task = task;
+//			return this;
+//		}
+//
+//		public InitialisationTask build() {
+////			Objects.requireNonNull(this.onConstruction.applicationContext);
+//			Objects.requireNonNull(this.onConstruction.task);
+//			return this.onConstruction;
+//		}
+//	}
 }

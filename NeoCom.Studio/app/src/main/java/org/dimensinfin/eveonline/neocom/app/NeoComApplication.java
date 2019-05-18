@@ -16,16 +16,22 @@ import android.os.Environment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
+import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
@@ -146,41 +152,41 @@ public class NeoComApplication extends Application {
 		Stetho.initializeWithDefaults(this);
 		this.oldInitialization();
 		// Create the adapters specific for the Android implementation.
-		//		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
-		//				                                      .build();
-		//		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
-		//				this.getResources().getString(R.string.propertiesLocation))
-		//				                                                     .withApplicationContext(this)
-		//				                                                     .build();
-		//		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
-		//		final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
-		//				                                    .build();
-		//		timedService = new TimedUpdater.Builder()
-		//				               .withESIAdapter(esiAdapter)
-		//				               .build();
+				final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
+						                                      .build();
+				final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
+						this.getResources().getString(R.string.propertiesLocation))
+						                                                     .withApplicationContext(this)
+						                                                     .build();
+				final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
+				final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
+						                                    .build();
+				timedService = new TimedUpdater.Builder()
+						               .withESIAdapter(esiAdapter)
+						               .build();
 		try {
-			//			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
-			//					                                             .withAppContext(this)
-			//					                                             .withFileSystem(fileSystemAdapter)
-			//					                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
-			//					                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
-			//					                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
-			//							                                             R.string.appdatabaseversion))
-			//					                                             )
-			//					                                             .build();
-			//			this.neocom = new NeoComAndroid.Singletoner()
-			//					              .withApplicationContext(this)
-			//					              .withFileSystemAdapter(fileSystemAdapter)
-			//					              .withConfigurationProvider(configurationProvider)
-			//					              .withPreferencesProvider(preferencesProvider)
-			//					              .withESIAdapter(esiAdapter)
-			//					              .withDataDownloaderService(new DataDownloaderService())
-			//					              .withMiningRepository(new MiningRepository.Builder()
-			//							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
-			//							                                    .build()
-			//					              )
-			//								  .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
-			//					              .build();
+						final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
+								                                             .withAppContext(this)
+								                                             .withFileSystem(fileSystemAdapter)
+								                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
+								                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
+								                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
+										                                             R.string.appdatabaseversion))
+								                                             )
+								                                             .build();
+			this.neocom = new NeoComAndroid.Singletoner()
+					              .withApplicationContext(this)
+					              .withFileSystemAdapter(fileSystemAdapter)
+					              .withConfigurationProvider(configurationProvider)
+					              .withPreferencesProvider(preferencesProvider)
+					              .withESIAdapter(esiAdapter)
+					              .withDataDownloaderService(new DataDownloaderService())
+					              .withMiningRepository(new MiningRepository.Builder()
+							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
+							                                    .build()
+					              )
+					              .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
+								              .build();
 
 			// Initializing the ESI api network controller.
 			//		ESINetworkManager.initialize();
