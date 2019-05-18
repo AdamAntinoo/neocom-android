@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.NeoComRenderv2;
 
 public class MiningExtractionController extends AAndroidController<MiningExtraction> {
 	public MiningExtractionController( @NonNull final MiningExtraction model, @NonNull final IControllerFactory factory ) {

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.annimon.stream.Stream;
 
@@ -15,7 +16,7 @@ import com.annimon.stream.Stream;
  */
 public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 	// - F I E L D - S E C T I O N
-	private Application applicationContext;
+	private Context applicationContext;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	private AndroidConfigurationProvider( final String propertiesFolder/*, final Application applicationContext */ ) {
@@ -87,7 +88,7 @@ public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 			this.onConstruction = new AndroidConfigurationProvider(propertiesLocation/*, applicationContext*/);
 		}
 
-		public Builder withApplicationContext( final Application applicationContext ) {
+		public Builder withApplicationContext( final Context applicationContext ) {
 			this.onConstruction.applicationContext = applicationContext;
 			return this;
 		}

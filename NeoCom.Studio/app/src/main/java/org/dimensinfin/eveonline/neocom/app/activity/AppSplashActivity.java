@@ -15,7 +15,7 @@ public class AppSplashActivity extends ANeoComActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
 		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
-		this.addPage(new SplashFragment());
+		this.addPage(new AppSplashFragment());
 	}
 
 	private View generateActionBar() {
@@ -26,7 +26,6 @@ public class AppSplashActivity extends ANeoComActivity {
 		// Get a controller from the model, then the view from the render.
 		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory("SPLASH")
 				                                                                         .createController(actionBar);
-
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();
 		return holder.getView();

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
@@ -19,10 +20,10 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	private static Logger logger = LoggerFactory.getLogger(AndroidFileSystemAdapter.class);
 
 	private String applicationFolder = "NeoCom";
-	private Application applicationContext;
+	private Context applicationContext;
 
 	// - C O N S T R U C T O R
-	private AndroidFileSystemAdapter( final String applicationStoreDirectory, final Application applicationContext ) {
+	private AndroidFileSystemAdapter( final String applicationStoreDirectory, final Context applicationContext ) {
 		logger.info(">< [AndroidFileSystemAdapter.constructor]> applicationStoreDirectory: {}", applicationStoreDirectory);
 		this.applicationFolder = applicationStoreDirectory;
 		this.applicationContext = applicationContext;
@@ -71,7 +72,7 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	public static class Builder {
 		private AndroidFileSystemAdapter onConstruction;
 
-		public Builder( final String applicationStoreDirectory, final Application applicationContext ) {
+		public Builder( final String applicationStoreDirectory, final Context applicationContext ) {
 			this.onConstruction = new AndroidFileSystemAdapter(applicationStoreDirectory, applicationContext);
 		}
 

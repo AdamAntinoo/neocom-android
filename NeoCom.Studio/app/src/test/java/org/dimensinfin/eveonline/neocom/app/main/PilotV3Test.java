@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.main;
+package org.dimensinfin.eveonline.neocom.app.main;
 
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;

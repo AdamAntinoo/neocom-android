@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.app.mock;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,8 +22,8 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.main.PilotV3;
-import org.dimensinfin.eveonline.neocom.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.main.PilotV3;
+import org.dimensinfin.eveonline.neocom.app.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 

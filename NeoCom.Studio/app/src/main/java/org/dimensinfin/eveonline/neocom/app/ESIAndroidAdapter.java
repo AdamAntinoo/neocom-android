@@ -2,6 +2,8 @@ package org.dimensinfin.eveonline.neocom.app;
 
 import java.util.Objects;
 
+import org.dimensinfin.eveonline.neocom.app.mock.ESINetworkManagerMock;
+import org.dimensinfin.eveonline.neocom.app.mock.NeoComRetrofitMock;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;

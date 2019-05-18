@@ -18,8 +18,6 @@ package org.dimensinfin.eveonline.neocom.render;
 import android.app.Activity;
 
 import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
 
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;

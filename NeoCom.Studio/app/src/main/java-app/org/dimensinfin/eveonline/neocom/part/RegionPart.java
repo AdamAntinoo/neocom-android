@@ -17,7 +17,6 @@ package org.dimensinfin.eveonline.neocom.part;
 
 import android.app.Activity;
 
-import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;

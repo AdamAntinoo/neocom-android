@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.sharedcode.provider;
 import java.util.Objects;
 
 import android.app.Application;
+import android.content.Context;
 
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
@@ -26,7 +27,7 @@ public class NeoComAndroid {
 	private MiningRepository miningRepository;
 	private EveItemProvider eveItemProvider;
 
-	private Application applicationContext;
+	private Context applicationContext;
 	private IFileSystem fileSystemAdapter;
 	private IGlobalPreferencesManager preferencesProvider;
 
@@ -65,7 +66,7 @@ public class NeoComAndroid {
 			this.onConstruction = new NeoComAndroid();
 		}
 
-		public Singletoner withApplicationContext( final Application application ) {
+		public Singletoner withApplicationContext( final Context application ) {
 			this.onConstruction.applicationContext = application;
 			return this;
 		}

@@ -38,8 +38,9 @@ import com.j256.ormlite.table.TableUtils;
 public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeoComDBHelper {
 	private static Logger logger = LoggerFactory.getLogger(NeoComAndroidDBHelper.class);
 	private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:mysql://localhost:3306/neocom?user=NEOCOMTEST&password=01.Alpha";
+	private static NeoComAndroidDBHelper singleton;
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private boolean databaseValid = false;
 	private boolean isOpen = false;
 	private String storageLocation = "";
@@ -714,13 +715,15 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		}
 
 		public NeoComAndroidDBHelper build() throws SQLException {
-			Objects.requireNonNull(this.appContext);
-			Objects.requireNonNull(this.fileSystem);
-			return new NeoComAndroidDBHelper(this.appContext
-					, this.fileSystem.accessResource4Path(databaseName)
-					, databaseVersion);
+			// Check and create only a singleton helper.
+			if (null == singleton) {
+				Objects.requireNonNull(this.appContext);
+				Objects.requireNonNull(this.fileSystem);
+				singleton = new NeoComAndroidDBHelper(this.appContext
+						, this.fileSystem.accessResource4Path(databaseName)
+						, databaseVersion);
+			}
+			return singleton;
 		}
 	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

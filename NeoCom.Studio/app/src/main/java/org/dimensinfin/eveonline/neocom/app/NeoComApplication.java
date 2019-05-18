@@ -16,22 +16,16 @@ import android.os.Environment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
-import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
@@ -69,8 +63,12 @@ public class NeoComApplication extends Application {
 		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
 	}
 
+	public static void setTimedUpdater( final TimedUpdater service ) {
+		timedService = service;
+	}
+
 	public static void runTicker() {
-		timedService.timeTick();
+		if (null != timedService) timedService.timeTick();
 	}
 
 	// - F I E L D - S E C T I O N
@@ -88,14 +86,14 @@ public class NeoComApplication extends Application {
 	 * checking elements that should be updated because they are obsolete. New updates will be launched as
 	 * separate async tasks.
 	 */
-	public void startTimer( final IConfigurationProvider configurationProvider ) {
+	public void startTimer( /*final IConfigurationProvider configurationProvider*/ ) {
 		if (null == timeTickReceiver) {
 			timeTickReceiver = new TimeTickReceiver.Builder(this)
 					                   .withTickActivate(
-							                   Boolean.valueOf(configurationProvider.getResourceString("R.runtime.downloadTick.timer"
+							                   Boolean.valueOf(AndroidGlobalDataManager.getResourceString("R.runtime.downloadTick.timer"
 									                   , "true")).booleanValue())
 					                   .withTickTime(
-							                   Integer.valueOf(configurationProvider.getResourceString("R.runtime.downloadTick.cycleTime"
+							                   Integer.valueOf(AndroidGlobalDataManager.getResourceString("R.runtime.downloadTick.cycleTime"
 									                   , "5")).intValue())
 					                   .build();
 			//			timedService = new TimedUpdater();
@@ -111,6 +109,30 @@ public class NeoComApplication extends Application {
 	//		return timedService;
 	//	}
 	// - A P P L I C A T I O N   L I F E   C Y C L E
+	private void oldInitialization() {
+		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
+				                                      .build();
+		// Connect the application to the global context to be able to use all the resources.
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
+		AndroidGlobalDataManager.setApplicationContext(this);
+
+		// Connect the file system to be able to read the assets and other application resources stored externally.
+		logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
+		AndroidGlobalDataManager.installFileSystem(fileSystemAdapter);
+
+		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
+		AndroidGlobalDataManager.connectConfigurationManager(new AndroidConfigurationProvider.Builder("properties")
+				                                                     .withApplicationContext(this)
+				                                                     .build());
+
+		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
+		AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
+
+		// Initialize the Model with the current global instance.
+		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
+		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager());
+	}
 
 	/**
 	 * This Application lifecycle event is only called when the application is started or completely removed from memory.
@@ -122,64 +144,43 @@ public class NeoComApplication extends Application {
 		logger.info(">> [NeoComApplication.onCreate]");
 		super.onCreate();
 		Stetho.initializeWithDefaults(this);
-
+		this.oldInitialization();
 		// Create the adapters specific for the Android implementation.
-		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
-				                                      .build();
-		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
-				this.getResources().getString(R.string.propertiesLocation))
-				                                                     .withApplicationContext(this)
-				                                                     .build();
-		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
-		final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
-				                                    .build();
-		timedService = new TimedUpdater.Builder()
-				               .withESIAdapter(esiAdapter)
-				               .build();
+		//		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
+		//				                                      .build();
+		//		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
+		//				this.getResources().getString(R.string.propertiesLocation))
+		//				                                                     .withApplicationContext(this)
+		//				                                                     .build();
+		//		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
+		//		final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
+		//				                                    .build();
+		//		timedService = new TimedUpdater.Builder()
+		//				               .withESIAdapter(esiAdapter)
+		//				               .build();
 		try {
-			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
-					                                             .withAppContext(this)
-					                                             .withFileSystem(fileSystemAdapter)
-					                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
-					                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
-					                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
-							                                             R.string.appdatabaseversion))
-					                                             )
-					                                             .build();
-			this.neocom = new NeoComAndroid.Singletoner()
-					              .withApplicationContext(this)
-					              .withFileSystemAdapter(fileSystemAdapter)
-					              .withConfigurationProvider(configurationProvider)
-					              .withPreferencesProvider(preferencesProvider)
-					              .withESIAdapter(esiAdapter)
-					              .withDataDownloaderService(new DataDownloaderService())
-					              .withMiningRepository(new MiningRepository.Builder()
-							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
-							                                    .build()
-					              )
-								  .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
-					              .build();
-
-			// Connect the application to the global context to be able to use all the resources.
-			logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
-			AndroidGlobalDataManager.setApplicationContext(this);
-
-			// Connect the file system to be able to read the assets and other application resources stored externally.
-			logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
-			AndroidGlobalDataManager.installFileSystem(fileSystemAdapter);
-
-			// Connect the Configuration manager. Do this after the file system because it reads configuration files.
-			logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-			AndroidGlobalDataManager.connectConfigurationManager(new AndroidConfigurationProvider.Builder("properties")
-					                                                     .withApplicationContext(this)
-					                                                     .build());
-
-			logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
-			AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
-
-			// Initialize the Model with the current global instance.
-			logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
-			ANeoComEntity.connectGlobal(new AndroidGlobalDataManager());
+			//			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
+			//					                                             .withAppContext(this)
+			//					                                             .withFileSystem(fileSystemAdapter)
+			//					                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
+			//					                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
+			//					                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
+			//							                                             R.string.appdatabaseversion))
+			//					                                             )
+			//					                                             .build();
+			//			this.neocom = new NeoComAndroid.Singletoner()
+			//					              .withApplicationContext(this)
+			//					              .withFileSystemAdapter(fileSystemAdapter)
+			//					              .withConfigurationProvider(configurationProvider)
+			//					              .withPreferencesProvider(preferencesProvider)
+			//					              .withESIAdapter(esiAdapter)
+			//					              .withDataDownloaderService(new DataDownloaderService())
+			//					              .withMiningRepository(new MiningRepository.Builder()
+			//							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
+			//							                                    .build()
+			//					              )
+			//								  .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
+			//					              .build();
 
 			// Initializing the ESI api network controller.
 			//		ESINetworkManager.initialize();
@@ -191,9 +192,9 @@ public class NeoComApplication extends Application {
 
 			// Check if the SDE database file is at the right place. If not copy it.
 			if (!AndroidGlobalDataManager.checkAppFile(
-					configurationProvider.getResourceString("P.database.sdedatabase.database.name"))) {
+					AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
 				// TODO The CCP database is not distributed with the application. If not available then close the App
-				this.copyFromAssets(configurationProvider.getResourceString("P.database.sdedatabase.database.name"));
+				this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
 			}
 
 			// Load the SDE data
@@ -217,7 +218,7 @@ public class NeoComApplication extends Application {
 			// Connect the NeoCom database.
 			logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
 			//		try {
-			AndroidGlobalDataManager.connectNeoComDBConnector(neocomDBHelper);
+			AndroidGlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.Builder().build());
 		} catch (SQLException sqle) {
 			AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 			sqle.printStackTrace();
@@ -232,9 +233,9 @@ public class NeoComApplication extends Application {
 		logger.info("-- [NeoComApp.onCreate]> Read Locations data cache...");
 		AndroidGlobalDataManager.readLocationsDataCache();
 
-		// Connect the Timed Upgrade scan.
+		// Connect the Timed Updater scan.
 		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
-		startTimer(configurationProvider);
+		startTimer(/*configurationProvider*/);
 		logger.info("<< [NeoComApp.onCreate]");
 	}
 

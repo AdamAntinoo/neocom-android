@@ -1,38 +1,45 @@
-package org.dimensinfin.eveonline.neocom.main;
+package org.dimensinfin.eveonline.neocom.app.main;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.eveonline.neocom.sharedcode.INeoComDownloadCallback;
-import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.sharedcode.INeoComDownloadCallback;
+import org.dimensinfin.eveonline.neocom.sharedcode.PilotDataSections;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.DataDownloaderService;
 
 import org.joda.time.LocalDateTime;
 
 public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
+	private transient DataDownloaderService downloaderService;
+	private Credential credential;
+
 	// - C O R E   D A T A
 	private LocalDateTime publicDataAccess;
 
-	private DataDownloaderService downloaderService;
-	private Credential credential;
-
-	public PilotV3( final Credential credential, final DataDownloaderService dowloaderService ) {
+	// -  C O N S T R U C T O R S
+	private PilotV3( final Credential credential, final DataDownloaderService dowloaderService ) {
 		this.credential = credential;
 		this.downloaderService = dowloaderService;
 	}
 
 	// - D A T A   A C C E S S O R S
+	@Override
 	public int getCharacterId() {
 		return this.credential.getAccountId();
 	}
 
+	@Override
 	public double getAccountBalance() {
 		return super.getAccountBalance();
 	}
 
+	@Override
 	public long getTotalAssetsNumber() {
 		return this.totalAssetsNumber;
 	}
@@ -58,22 +65,10 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 		// Start checking what data is missing or stale.
 		// PILOT PUBLIC DATA
 		if (this.checkDataStaleness(this.publicDataAccess, PilotDataSections.PILOT_PUBLICDATA))
-			this.downloaderService.accessPilotPublicData(
-					this
-					, PilotDataSections.PILOT_PUBLICDATA);
+			this.downloaderService.accessPilotPublicData(this, PilotDataSections.PILOT_PUBLICDATA);
 		// PILOT FAMILY CREDENTIALS
-		//		if (this.checkDataStaleness(this.corporation, PilotDataSections.PILOT_CORPORATION))
-		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
-		//					, this
-		//					, PilotDataSections.PILOT_CORPORATION);
-		//		if (this.checkDataStaleness(this.alliance, PilotDataSections.PILOT_ALLIANCE))
-		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
-		//					, this
-		//					, PilotDataSections.PILOT_ALLIANCE);
-		//		if (this.checkDataStaleness(this.race, PilotDataSections.PILOT_RACE))
-		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
-		//					, this
-		//					, PilotDataSections.PILOT_RACE);
+		if (this.checkDataStaleness(this.race, PilotDataSections.PILOT_RACE))
+			this.downloaderService.accessPilotRace(this, PilotDataSections.PILOT_RACE);
 		//		if (this.checkDataStaleness(this.bloodline, PilotDataSections.PILOT_BLOODLINE))
 		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
 		//					, this
@@ -82,13 +77,21 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
 		//					, this
 		//					, PilotDataSections.PILOT_ANCESTRY);
+		//		if (this.checkDataStaleness(this.corporation, PilotDataSections.PILOT_CORPORATION))
+		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
+		//					, this
+		//					, PilotDataSections.PILOT_CORPORATION);
+		//		if (this.checkDataStaleness(this.alliance, PilotDataSections.PILOT_ALLIANCE))
+		//			this.downloaderService.accessPilotPublicData(this.getCharacterId()
+		//					, this
+		//					, PilotDataSections.PILOT_ALLIANCE);
 	}
 
-	private boolean checkDataStaleness( final Object data, final PilotDataSections section ) {
-		return (null == data) ? true : false;
+	boolean checkDataStaleness( final Object data, final PilotDataSections section ) {
+		return (null == data);
 	}
 
-	private boolean checkDataStaleness( final LocalDateTime timestamp, final PilotDataSections section ) {
+	boolean checkDataStaleness( final LocalDateTime timestamp, final PilotDataSections section ) {
 		if (null == timestamp) return true;
 		if (timestamp.plusMillis(section.getCacheTime()).isBefore(new LocalDateTime())) return true;
 		return false;
@@ -101,7 +104,7 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 	}
 
 	@Override
-	public void sendEvent( final PilotDataSections section, final Object publicData ) {
+	public void signalCompletion( final PilotDataSections section, final Object publicData ) {
 		switch (section) {
 			case PILOT_PUBLICDATA:
 				this.setPublicData((GetCharactersCharacterIdOk) publicData);
@@ -116,7 +119,9 @@ public class PilotV3 extends PilotV2 implements INeoComDownloadCallback {
 	public static class Builder {
 		private PilotV3 onConstruction;
 
-		public Builder( final Credential credential, final DataDownloaderService dowloaderService ) {
+		public Builder( @NonNull final Credential credential, @NonNull final DataDownloaderService dowloaderService ) {
+			Objects.requireNonNull(credential);
+			Objects.requireNonNull(dowloaderService);
 			this.onConstruction = new PilotV3(credential, dowloaderService);
 		}
 

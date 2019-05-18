@@ -84,7 +84,7 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
-		return (List<ICollaboration>) this.contents;
+		return new ArrayList<>(this.contents);
 	}
 
 	// - C O R E

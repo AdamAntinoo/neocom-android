@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.render;
+package org.dimensinfin.eveonline.neocom.app;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -54,17 +54,17 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected static final HashMap<Integer, String> securityLevels = new HashMap<Integer, String>();
 
 	static {
-		NeoComRender.securityLevels.put(10, "#2FEFEF");
-		NeoComRender.securityLevels.put(9, "#48F0C0");
-		NeoComRender.securityLevels.put(8, "#00EF47");
-		NeoComRender.securityLevels.put(7, "#00F000");
-		NeoComRender.securityLevels.put(6, "#8FEF2F");
-		NeoComRender.securityLevels.put(5, "#EFEF00");
-		NeoComRender.securityLevels.put(4, "#D77700");
-		NeoComRender.securityLevels.put(3, "#F06000");
-		NeoComRender.securityLevels.put(2, "#F04800");
-		NeoComRender.securityLevels.put(1, "#D73000");
-		NeoComRender.securityLevels.put(0, "#F00000");
+		securityLevels.put(10, "#2FEFEF");
+		securityLevels.put(9, "#48F0C0");
+		securityLevels.put(8, "#00EF47");
+		securityLevels.put(7, "#00F000");
+		securityLevels.put(6, "#8FEF2F");
+		securityLevels.put(5, "#EFEF00");
+		securityLevels.put(4, "#D77700");
+		securityLevels.put(3, "#F06000");
+		securityLevels.put(2, "#F04800");
+		securityLevels.put(1, "#D73000");
+		securityLevels.put(0, "#F00000");
 	}
 
 	//	public static Typeface daysFace = Typeface
