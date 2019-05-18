@@ -2,15 +2,11 @@ package org.dimensinfin.eveonline.neocom.app;
 
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitMock;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.jetbrains.annotations.NotNull;
-
-import retrofit2.Retrofit;
 
 public class ESIAndroidAdapter extends ESINetworkManagerMock {
 	// - C O N S T R U C T O R S
@@ -18,13 +14,14 @@ public class ESIAndroidAdapter extends ESINetworkManagerMock {
 		this.configurationProvider = configurationProvider;
 		this.fileSystemAdapter = fileSystemAdapter;
 	}
-	public void initialise(){
+
+	public void initialise() {
 		super.initialise();
 		neocomRetrofitMock = new NeoComRetrofitMock.Builder()
-//				                     .withNeoComOAuth20(this.getConfiguredOAuth("Tranquility"))
+				                     //				                     .withNeoComOAuth20(this.getConfiguredOAuth("Tranquility"))
 				                     .withEsiServerLocation(this.configurationProvider.getResourceString("P.esi.data.server.location.mock"
 						                     , "http://localhost:9000/"))
-//				                     .withAgent(AGENT)
+				                     //				                     .withAgent(AGENT)
 				                     .withCacheDataFile(cacheDataFile)
 				                     .withCacheSize(CACHE_SIZE)
 				                     .withTimeout(TIMEOUT)

@@ -49,7 +49,7 @@ public abstract class APublicCredentialActivity extends APublicMenuActivity impl
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	protected Credential searchCredential( final int identifier ) {
-		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials("RE")) {
 			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;

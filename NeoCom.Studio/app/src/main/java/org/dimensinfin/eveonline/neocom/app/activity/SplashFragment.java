@@ -1,17 +1,20 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
+import android.content.SharedPreferences;
+
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class SplashFragment extends MVCPagerFragment {
 	// - O V E R R I D E S
@@ -47,8 +50,11 @@ public class SplashFragment extends MVCPagerFragment {
 
 	// - C R E D E N T I A L   D A T A S O U R C E
 	public static class CredentialDatasource extends AMVCDataSource {
+		private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 		private String name;
 		private String version;
+		//		private CredentialRepository credentialRepository;
+		private SharedPreferences preferences;
 
 		private CredentialDatasource setName( final String name ) {
 			this.name = name;
@@ -77,10 +83,13 @@ public class SplashFragment extends MVCPagerFragment {
 				// - S E C T I O N   D A T A
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
-				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials()) {
-					this.addModelContents(credential);
-					logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-							, credential.getAccountName());
+//				final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER).toUpperCase();
+				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials("ee")) {
+					if (this.validateCredential(credential)) { // Validate credentials so incomplete credentials are removed.
+						this.addModelContents(credential);
+						logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
+								, credential.getAccountName());
+					}
 				}
 				// Add the node to display the new New Login Button.
 				this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
@@ -90,6 +99,11 @@ public class SplashFragment extends MVCPagerFragment {
 			}
 			//			this.addModelContents(new ColonyMap());
 			logger.info("<< [CredentialDatasource.collaborate2Model]");
+		}
+
+		private boolean validateCredential( final Credential credential ) {
+			if (credential.getRefreshToken().equalsIgnoreCase("-TOKEN-")) return false;
+			return true;
 		}
 
 		// - B U I L D E R
@@ -116,6 +130,10 @@ public class SplashFragment extends MVCPagerFragment {
 				this.getActual().setVersion(version);
 				return this;
 			}
+			//			public Builder withCredentialRepository( final CredentialRepository credentialRepository){
+			//				this.onConstruction.credentialRepository = credentialRepository;
+			//				return this;
+			//			}
 		}
 	}
 }

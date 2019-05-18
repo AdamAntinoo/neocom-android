@@ -19,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -35,6 +35,8 @@ import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.facebook.stetho.Stetho;
 
 /**
  * This class is the android application instance. Their responsibility is to give access to the common adapters and data structures
@@ -59,7 +61,7 @@ public class NeoComApplication extends Application {
 	public static MarketDataServer mdServer = null;
 	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
 	private static BroadcastReceiver timeTickReceiver = null;
-	private static TimedUpdater timedService = null;
+	private static TimedUpdater timedService;
 
 	/** Direct entry point to fire a timer tick event . */
 	public static void runTimer() {
@@ -95,10 +97,18 @@ public class NeoComApplication extends Application {
 							                   Integer.valueOf(configurationProvider.getResourceString("R.runtime.downloadTick.cycleTime"
 									                   , "5")).intValue())
 					                   .build();
-			timedService = new TimedUpdater();
+			//			timedService = new TimedUpdater();
 			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
+
+	//	private TimedUpdater getTimedService() {
+	//		if (null == timedService)
+	//			timedService = new TimedUpdater.Builder()
+	//					               .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+	//					               .build();
+	//		return timedService;
+	//	}
 	// - A P P L I C A T I O N   L I F E   C Y C L E
 
 	/**
@@ -110,6 +120,7 @@ public class NeoComApplication extends Application {
 	public void onCreate() {
 		logger.info(">> [NeoComApplication.onCreate]");
 		super.onCreate();
+		Stetho.initializeWithDefaults(this);
 
 		// Create the adapters specific for the Android implementation.
 		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
@@ -119,8 +130,11 @@ public class NeoComApplication extends Application {
 				                                                     .withApplicationContext(this)
 				                                                     .build();
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
-		final ESINetworkManagerZBase esiAdapter = new ESINetworkManagerMock.Builder(configurationProvider, fileSystemAdapter)
-				                                          .build();
+		final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
+				                                    .build();
+		timedService = new TimedUpdater.Builder()
+				               .withESIAdapter(esiAdapter)
+				               .build();
 		try {
 			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
 					                                             .withAppContext(this)

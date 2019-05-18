@@ -146,7 +146,7 @@ public class CredentialListFragment extends AbstractPagerFragment {
 				cleanup();
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
-				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials()) {
+				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials("JJ")) {
 					this.addModelContents(credential);
 					logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
 							, credential.getAccountName());

@@ -25,7 +25,7 @@ public abstract class ACredentialActivity extends NeoComActionBarActivity {
 	protected PilotV2 pilot = null;
 
 	protected Credential searchCredential( final int identifier ) {
-		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials()) {
+		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials("tr")) {
 			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;

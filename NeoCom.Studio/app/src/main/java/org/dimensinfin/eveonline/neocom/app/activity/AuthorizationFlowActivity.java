@@ -23,14 +23,12 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.ESIAdapter;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +64,7 @@ public class AuthorizationFlowActivity extends Activity {
 
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
-	private ESINetworkManagerZBase esiAdapter;
+	private ESIGlobalAdapter esiAdapter;
 	private ImageView spinner = null;
 
 	/**
@@ -101,22 +99,22 @@ public class AuthorizationFlowActivity extends Activity {
 			// Create a Retrofit request service to encapsulate the call.
 			final GetAccessToken serviceGetAccessToken = new Retrofit.Builder()
 					                                             .baseUrl(this.configurationProvider.getResourceString("P.esi."
-							                                             +esiServer.toLowerCase()
-							                                                                                                   +".authorization.authorization.server"))
+							                                                                                                   + esiServer.toLowerCase()
+							                                                                                                   + ".authorization.server"))
 					                                             .addConverterFactory(JacksonConverterFactory.create())
 					                                             .build()
 					                                             .create(GetAccessToken.class);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request body.");
 			final TokenRequestBody tokenRequestBody = new TokenRequestBody().setCode(authCode);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request call.");
-			final String peckString = this.configurationProvider.getResourceString("P.esi.authorization." + esiServer + ".clientid")
+			final String peckString = this.configurationProvider.getResourceString("P.esi." + esiServer + ".authorization.clientid")
 					                          + ":"
-					                          + this.configurationProvider.getResourceString("P.esi.authorization." + esiServer + ".secretkey");
+					                          + this.configurationProvider.getResourceString("P.esi." + esiServer + ".authorization.secretkey");
 			String peck = Base64.encodeToString(peckString.getBytes(), Base64.DEFAULT);
 			// Reprocess Android result to remove the \n characters.
 			peck = peck.replaceAll("\n", "");
 			final Call<TokenTranslationResponse> request = serviceGetAccessToken.getAccessToken("Basic " + peck
-					, this.configurationProvider.getResourceString("P.esi.authorization..content.type")
+					, this.configurationProvider.getResourceString("P.esi.authorization.content.type")
 					, tokenRequestBody);
 
 			// Getting the request response to be stored if valid.
@@ -142,8 +140,8 @@ public class AuthorizationFlowActivity extends Activity {
 				logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating character verification.");
 				final VerifyCharacter verificationService = new Retrofit.Builder()
 						                                            .baseUrl(this.configurationProvider.getResourceString("P.esi."
-								                                         +esiServer.toLowerCase()
-								                                                                                                  +   ".authorization.authorization.server"))
+								                                                                                                  + esiServer.toLowerCase()
+								                                                                                                  + ".authorization.server"))
 						                                            .addConverterFactory(JacksonConverterFactory.create())
 						                                            .client(verifyClient.build())
 						                                            .build()
@@ -166,7 +164,7 @@ public class AuthorizationFlowActivity extends Activity {
 							.store();
 					// Once the credential is stored we go back to the Dashboard Activity.
 					this.runOnUiThread(() -> {
-						final Intent intent = new Intent(this, AppDashboardActivity.class);
+						final Intent intent = new Intent(this, AppSplashActivity.class);
 						this.startActivity(intent);
 					});
 				} else {
