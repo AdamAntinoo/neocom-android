@@ -27,6 +27,10 @@ class MockInterceptor : Interceptor {
             uri.contains("2483") -> getType2483
             else -> responseString
         }
+        responseString = when {
+            uri.contains("characters") && uri.contains("mining") -> getMockCharactersCharacterIdMining
+            else -> responseString
+        }
 
         return Response.Builder()
                 .request(chain.request())
@@ -40,6 +44,29 @@ class MockInterceptor : Interceptor {
     }
 
 }
+
+const val getMockCharactersCharacterIdMining = """
+[
+  {
+    "date": "2019-05-05",
+    "quantity": 31263,
+    "solar_system_id": 30001647,
+    "type_id": 17471
+  },
+  {
+    "date": "2019-05-05",
+    "quantity": 2105,
+    "solar_system_id": 30001647,
+    "type_id": 17460
+  },
+  {
+    "date": "2019-05-14",
+    "quantity": 834,
+    "solar_system_id": 30001681,
+    "type_id": 45498
+  }
+]
+"""
 
 const val getMockPlanets = """
 [

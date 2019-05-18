@@ -33,6 +33,8 @@ android {
 
             resValue "string", "appdatabasefilename", "neocomv0.12.0.db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+
+            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
         }
         release {
             debuggable false
@@ -133,6 +135,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+// - D E B U G   S T H E T O
+dependencies {
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 }
 
 // - P R O J E C T    D E P E N D E N C I E S

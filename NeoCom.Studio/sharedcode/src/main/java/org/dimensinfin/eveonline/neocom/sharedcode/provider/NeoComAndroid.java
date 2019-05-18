@@ -5,7 +5,7 @@ import java.util.Objects;
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManagerZBase;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
@@ -21,7 +21,7 @@ public class NeoComAndroid {
 	private static NeoComAndroid singleton;
 
 	private IConfigurationProvider configurationProvider;
-	private ESINetworkManagerZBase esiAdapter;
+	private ESIGlobalAdapter esiAdapter;
 	private DataDownloaderService downloaderService;
 	private MiningRepository miningRepository;
 
@@ -35,7 +35,8 @@ public class NeoComAndroid {
 			throw new NeoComRuntimeException("NeoCom gloabl singleton is not instantiated. Please complete initilisation.");
 		return singleton;
 	}
-	public static <T> T assertNotNull(final T target) {
+
+	public static <T> T assertNotNull( final T target ) {
 		if (null == target) throw new NullPointerException("Target object is not valid. Found to be null.");
 		return target;
 	}
@@ -44,7 +45,7 @@ public class NeoComAndroid {
 		return this.configurationProvider;
 	}
 
-	public ESINetworkManagerZBase getEsiAdapter() {
+	public ESIGlobalAdapter getEsiAdapter() {
 		return esiAdapter;
 	}
 
@@ -84,14 +85,16 @@ public class NeoComAndroid {
 			return this;
 		}
 
-		public Builder withESIAdapter( final ESINetworkManagerZBase esiAdapter ) {
+		public Builder withESIAdapter( final ESIGlobalAdapter esiAdapter ) {
 			this.onConstruction.esiAdapter = esiAdapter;
 			return this;
 		}
+
 		public Builder withDataDownloaderService( final DataDownloaderService downloaderService ) {
 			this.onConstruction.downloaderService = downloaderService;
 			return this;
 		}
+
 		public Builder withMiningRepository( final MiningRepository miningRepository ) {
 			this.onConstruction.miningRepository = miningRepository;
 			return this;

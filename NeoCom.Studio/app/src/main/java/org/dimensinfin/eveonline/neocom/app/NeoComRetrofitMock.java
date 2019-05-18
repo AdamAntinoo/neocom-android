@@ -1,9 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import org.dimensinfin.eveonline.neocom.auth.NeoComOAuth20;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitHTTP;
 import org.dimensinfin.eveonline.neocom.datamngmt.MockInterceptor;
 
@@ -34,12 +32,12 @@ public class NeoComRetrofitMock extends NeoComRetrofitHTTP {
 		}
 
 		OkHttpClient httpClient = retrofitClient
-				                          .certificatePinner(
-						                          new CertificatePinner.Builder()
-								                          .add("login.eveonline.com", "sha256/075pvb1KMqiPud6f347Lhzb0ALOY+dX5G7u+Yx+b8U4=")
-								                          .add("login.eveonline.com", "sha256/YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=")
-								                          .add("login.eveonline.com", "sha256/Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys=")
-								                          .build())
+//				                          .certificatePinner(
+//						                          new CertificatePinner.Builder()
+//								                          .add("login.eveonline.com", "sha256/075pvb1KMqiPud6f347Lhzb0ALOY+dX5G7u+Yx+b8U4=")
+//								                          .add("login.eveonline.com", "sha256/YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=")
+//								                          .add("login.eveonline.com", "sha256/Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys=")
+//								                          .build())
 				                          .build();
 		return new Retrofit.Builder()
 				       .baseUrl(this.esiDataServerLocation)
@@ -47,42 +45,4 @@ public class NeoComRetrofitMock extends NeoComRetrofitHTTP {
 				       .client(httpClient)
 				       .build();
 	}
-
-	// - B U I L D E R
-//	public static class Builder {
-//		protected NeoComRetrofitMock onConstruction;
-//
-//		public Builder() {
-//			this.onConstruction = new NeoComRetrofitMock();
-//		}
-//
-//		public Builder withNeoComOAuth20( final NeoComOAuth20 neoComOAuth20 ) {
-//			this.onConstruction.neoComOAuth20 = neoComOAuth20;
-//			return this;
-//		}
-//
-//		public Builder withAgent( final String agent ) {
-//			this.onConstruction.agent = agent;
-//			return this;
-//		}
-//
-//		public Builder withCacheDataFile( final File cacheDataFile ) {
-//			this.onConstruction.cacheDataFile = cacheDataFile;
-//			return this;
-//		}
-//
-//		public Builder withCacheSize( final long cacheSize ) {
-//			this.onConstruction.cacheSize = cacheSize;
-//			return this;
-//		}
-//
-//		public Builder withTimeout( final long timeout ) {
-//			this.onConstruction.timeout = timeout;
-//			return this;
-//		}
-//
-//		public Retrofit build() {
-//			return this.onConstruction.build();
-//		}
-//	}
 }
