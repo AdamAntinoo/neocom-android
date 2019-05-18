@@ -49,8 +49,12 @@ android {
         main.java {
             srcDirs += 'src/main/java-app'
             srcDirs += 'src/main/java-industry'
+            srcDirs += 'src/main/java-mining'
+            srcDirs += 'src/main/java-shared'
         }
         main.res {
+            srcDirs += 'src/main/res-shared'
+            srcDirs += 'src/main/res-mining'
             srcDirs += 'src/main/res-fitting'
             srcDirs += 'src/main/res-industry'
             srcDirs += 'src/main/res-layouts'
