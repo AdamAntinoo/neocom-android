@@ -10,8 +10,6 @@
             <option value="$PROJECT_DIR$/../../android-mvc/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/mining" />
-            <option value="$PROJECT_DIR$/sharedcode" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/ESI.SwaggerApi" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.Model" />

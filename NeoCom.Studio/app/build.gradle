@@ -160,8 +160,8 @@ dependencies {
     implementation project(':NeoCom.Model')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
-    implementation project(':sharedcode')
-    implementation project(':mining')
+//    implementation project(':sharedcode')
+//    implementation project(':mining')
 
     // G R A P H S   &   C H A R T S
 //    implementation 'com.github.AnyChart:AnyChart-Android:0.2.1'

@@ -1,6 +1,6 @@
 include ':app'
-include ':sharedcode'
-include ':mining'
+//include ':sharedcode'
+//include ':mining'
 include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('/Users/luisdediego/Personal/NeoCom/android-mvc/AndroidMVCLibrary')
 include ':ESI.SwaggerApi'
