@@ -70,7 +70,7 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 		AndroidGlobalDataManager.submitJob2ui(() -> {
 			try {
 				credential = ((ICredentialActivity) this.getActivity()).getCredential();
-				resource = new AndroidGlobalDataManager().searchItem4Id(this.getCastedModel().getTypeId());
+				resource = AndroidGlobalDataManager.getSingleton().searchItem4Id(this.getCastedModel().getTypeId());
 				// Get the buyer market data for the input resource and search for the closest hub market data.
 				final MarketDataSet data = resource.getBuyerMarketData();
 				int minJumps = 999;

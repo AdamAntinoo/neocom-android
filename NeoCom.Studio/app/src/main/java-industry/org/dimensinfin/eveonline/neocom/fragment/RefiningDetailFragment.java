@@ -63,7 +63,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getSubtitle() {
-		final EveItem item = new AndroidGlobalDataManager().searchItem4Id(this.resourceTypeId);
+		final EveItem item = AndroidGlobalDataManager.getSingleton().searchItem4Id(this.resourceTypeId);
 		if ( null != item )
 			return item.getName();
 		else return "-";
@@ -137,7 +137,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 				}
 			}
 		}
-		return new AndroidGlobalDataManager().searchLocation4Id(refiningTarget);
+		return AndroidGlobalDataManager.getSingleton().searchLocation4Id(refiningTarget);
 	}
 
 	//	public static class RefiningLocation extends EveLocation {

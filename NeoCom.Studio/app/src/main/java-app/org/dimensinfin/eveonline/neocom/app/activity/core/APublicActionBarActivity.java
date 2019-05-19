@@ -26,7 +26,7 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	// - S T A T I C - S E C T I O N
 	@WorkerThread
 	public static Spanned serverStatus4Actionbar() {
-		GetStatusOk serverStatus = AndroidGlobalDataManager.serverStatus();
+		GetStatusOk serverStatus = AndroidGlobalDataManager.getSingleton().serverStatus();
 		final StringBuffer serverStatusMessage = new StringBuffer()
 				                                         .append("<font color='#27AE60'>")
 				                                         //				.append(AndroidGlobalDataManager.SERVER_DATASOURCE.toUpperCase())

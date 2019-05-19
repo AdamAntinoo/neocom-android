@@ -151,13 +151,13 @@ public class MineralResourcesFragment extends AbstractPagerFragment {
 						where.put("ownerId", credential.getAccountId());
 						where.put("category", "Material");
 						where.put("groupName", "Mineral");
-						final List<NeoComAsset> miningResources = new AndroidGlobalDataManager().getNeocomDBHelper().getAssetDao()
+						final List<NeoComAsset> miningResources = AndroidGlobalDataManager.getSingleton().getNeocomDBHelper().getAssetDao()
 								.queryForFieldValues(where);
 						// Get the list of assets of Ore type.
 						where = new HashMap<String, Object>();
 						where.put("ownerId", credential.getAccountId());
 						where.put("category", "Asteroid");
-						miningResources.addAll(new AndroidGlobalDataManager().getNeocomDBHelper().getAssetDao()
+						miningResources.addAll(AndroidGlobalDataManager.getSingleton().getNeocomDBHelper().getAssetDao()
 								.queryForFieldValues(where));
 
 						//--- L O O P   S T A R T

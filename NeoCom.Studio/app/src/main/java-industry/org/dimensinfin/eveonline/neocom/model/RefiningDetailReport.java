@@ -48,7 +48,7 @@ public class RefiningDetailReport extends EveItem {
 	public RefiningDetailReport( int resourceTypeId ) /*throws NeoComRegisteredException*/ {
 		super();
 		this.resourceTypeId = resourceTypeId;
-		item = new AndroidGlobalDataManager().searchItem4Id(resourceTypeId);
+		item = AndroidGlobalDataManager.getSingleton().searchItem4Id(resourceTypeId);
 
 		// Locate the nearest refining location to the current Pilot location.
 //		final PilotV2 pilotv2 = AndroidGlobalDataManager.requestPilotV2(getCredential());

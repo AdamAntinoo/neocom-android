@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.pilot.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -29,7 +30,6 @@ import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.app.pilot.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
@@ -128,16 +128,22 @@ public class NeoComApplication extends Application {
 
 		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(new AndroidConfigurationProvider.Builder("properties")
+		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
+				this.getResources().getString(R.string.propertiesLocation))
 				                                                     .withApplicationContext(this)
-				                                                     .build());
+				                                                     .build();
+		AndroidGlobalDataManager.connectConfigurationManager(configurationProvider);
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
 		AndroidGlobalDataManager.connectPreferencesManager(new GlobalAndroidPreferencesProvider());
 
 		// Initialize the Model with the current global instance.
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
-		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager());
+		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(configurationProvider
+				, fileSystemAdapter
+				, new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
+						  .build())
+				                            .build());
 	}
 
 	/**
@@ -221,7 +227,7 @@ public class NeoComApplication extends Application {
 				AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 				sqle.printStackTrace();
 			}
-			ANeoComEntity.connectSDEHelper(new AndroidGlobalDataManager().getSDEDBHelper());
+			ANeoComEntity.connectSDEHelper( AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
 
 			// Connect the NeoCom database.
 			logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
@@ -235,7 +241,7 @@ public class NeoComApplication extends Application {
 		//		// Connect the MarketData service.
 		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
 		mdServer = new MarketDataServer().start();
-		GlobalDataManager.connectMarketDataManager(mdServer);
+		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
 
 		// Load the Locations cache to speed up the Citadel and Outpost search.
 		logger.info("-- [NeoComApp.onCreate]> Read Locations data cache...");

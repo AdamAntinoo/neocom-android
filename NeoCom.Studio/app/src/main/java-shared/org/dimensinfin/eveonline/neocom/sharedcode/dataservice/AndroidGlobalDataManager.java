@@ -20,7 +20,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerFileSystem;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +105,18 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	public static MiningLedgerService getMiningLedgerService() {
 		return miningLedgerService;
 	}
+
+	private AndroidGlobalDataManager() {
+	}
+
+	// - B U I L D E R
+	public static class Builder extends GlobalDataManager.Builder {
+
+		public Builder( final IConfigurationProvider configurationProvider, final IFileSystem fileSystemAdapter, final ESIGlobalAdapter esiAdapter ) {
+			super(configurationProvider, fileSystemAdapter, esiAdapter);
+		}
+		public GlobalDataManager build () {
+			return super.build();
+		}
+	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

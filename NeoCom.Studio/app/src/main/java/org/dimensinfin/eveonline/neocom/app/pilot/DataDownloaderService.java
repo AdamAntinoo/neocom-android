@@ -26,7 +26,7 @@ public class DataDownloaderService {
 		logger.info("-- [DataDownloaderService.accessPilotPublicData]> Posting request: {}", section.name());
 		downloaderExecutor.submit(() -> {
 			logger.info("-- [DataDownloaderService.accessPilotPublicData]> Downloading public data information...");
-			final GetCharactersCharacterIdOk publicData = ESINetworkManager.getCharactersCharacterId(
+			final GetCharactersCharacterIdOk publicData = this.esiAdapter.getCharactersCharacterId(
 					callbackDestination.getCredential().getAccountId()
 					, callbackDestination.getCredential().getRefreshToken()
 					, callbackDestination.getCredential().getDataSource());

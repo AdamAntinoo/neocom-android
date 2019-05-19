@@ -51,7 +51,7 @@ public class MiningExtractionPart extends NeoComAbstractPart<MiningExtraction> i
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MiningExtractionPart( final MiningExtraction model ) {
 		super(model);
-		item = new AndroidGlobalDataManager().searchItem4Id(getCastedModel().getTypeId());
+		item = AndroidGlobalDataManager.getSingleton().searchItem4Id(getCastedModel().getTypeId());
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

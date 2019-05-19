@@ -7,22 +7,14 @@ import java.util.List;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitHTTP;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerCache;
 import org.dimensinfin.eveonline.neocom.esiswagger.api.IndustryApi;
 import org.dimensinfin.eveonline.neocom.esiswagger.api.PlanetaryInteractionApi;
-import org.dimensinfin.eveonline.neocom.esiswagger.api.UniverseApi;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdMining200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseAncestries200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseBloodlines200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSchematicIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -31,111 +23,111 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ESINetworkManagerMock extends ESIGlobalAdapter {
-	// - U N I V E R S E
-	public static GetUniverseTypesTypeIdOk getUniverseTypeById( final String server, final int typeId ) {
-		logger.info(">> [ESINetworkManagerMock.getUniverseTypeById]");
-		final DateTime startTimePoint = DateTime.now();
-		try {
-			// Create the request to be returned so it can be called.
-			final Response<GetUniverseTypesTypeIdOk> itemListResponse = neocomRetrofitNoAuth
-					                                                            .create(UniverseApi.class)
-					                                                            .getUniverseTypesTypeId(typeId
-							                                                            , "en-us"
-							                                                            , server
-							                                                            , null
-							                                                            , null)
-					                                                            .execute();
-			if (!itemListResponse.isSuccessful()) {
-				return null;
-			} else return itemListResponse.body();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (RuntimeException runtime) {
-			runtime.printStackTrace();
-		} finally {
-			logger.info("<< [ESINetworkManager.getMarketsPrices]> [TIMING] Full elapsed: {}"
-					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
-		}
-		return null;
-	}
-
-	public static List<GetUniverseAncestries200Ok> getUniverseAncestries( final String server ) {
-		logger.info(">> [ESINetworkManagerMock.getUniverseAncestries]");
-		final DateTime startTimePoint = DateTime.now();
-		try {
-			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseAncestries200Ok>> ancestriesResponse = neocomRetrofitNoAuth
-					                                                                      .create(UniverseApi.class)
-					                                                                      .getUniverseAncestries("en-us"
-							                                                                      , server
-							                                                                      , null
-							                                                                      , null)
-					                                                                      .execute();
-			if (!ancestriesResponse.isSuccessful()) {
-				return null;
-			} else return ancestriesResponse.body();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (RuntimeException runtime) {
-			runtime.printStackTrace();
-		} finally {
-			logger.info("<< [ESINetworkManager.getUniverseAncestries]> [TIMING] Full elapsed: {}"
-					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
-		}
-		return null;
-	}
-
-	public static List<GetUniverseBloodlines200Ok> getUniverseBloodlines( final String server ) {
-		logger.info(">> [ESINetworkManagerMock.getUniverseBloodlines]");
-		final DateTime startTimePoint = DateTime.now();
-		try {
-			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseBloodlines200Ok>> bloodlinesResponse = neocomRetrofitNoAuth
-					                                                                      .create(UniverseApi.class)
-					                                                                      .getUniverseBloodlines("en-us"
-							                                                                      , server
-							                                                                      , null
-							                                                                      , null)
-					                                                                      .execute();
-			if (!bloodlinesResponse.isSuccessful()) {
-				return null;
-			} else return bloodlinesResponse.body();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (RuntimeException runtime) {
-			runtime.printStackTrace();
-		} finally {
-			logger.info("<< [ESINetworkManager.getUniverseBloodlines]> [TIMING] Full elapsed: {}"
-					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
-		}
-		return null;
-	}
-
-	public static List<GetUniverseRaces200Ok> getUniverseRaces( final String server ) {
-		logger.info(">> [ESINetworkManagerMock.getUniverseRaces]");
-		final DateTime startTimePoint = DateTime.now();
-		try {
-			// Create the request to be returned so it can be called.
-			final Response<List<GetUniverseRaces200Ok>> racesResponse = neocomRetrofitNoAuth
-					                                                            .create(UniverseApi.class)
-					                                                            .getUniverseRaces("en-us"
-							                                                            , server
-							                                                            , null
-							                                                            , null)
-					                                                            .execute();
-			if (!racesResponse.isSuccessful()) {
-				return null;
-			} else return racesResponse.body();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (RuntimeException runtime) {
-			runtime.printStackTrace();
-		} finally {
-			logger.info("<< [ESINetworkManager.getUniverseRaces]> [TIMING] Full elapsed: {}"
-					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
-		}
-		return null;
-	}
+	//	// - U N I V E R S E
+	//	public GetUniverseTypesTypeIdOk getUniverseTypeById( final String server, final int typeId ) {
+	//		logger.info(">> [ESINetworkManagerMock.getUniverseTypeById]");
+	//		final DateTime startTimePoint = DateTime.now();
+	//		try {
+	//			// Create the request to be returned so it can be called.
+	//			final Response<GetUniverseTypesTypeIdOk> itemListResponse = neocomRetrofitNoAuth
+	//					                                                            .create(UniverseApi.class)
+	//					                                                            .getUniverseTypesTypeId(typeId
+	//							                                                            , "en-us"
+	//							                                                            , server
+	//							                                                            , null
+	//							                                                            , null)
+	//					                                                            .execute();
+	//			if (!itemListResponse.isSuccessful()) {
+	//				return null;
+	//			} else return itemListResponse.body();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} catch (RuntimeException runtime) {
+	//			runtime.printStackTrace();
+	//		} finally {
+	//			logger.info("<< [ESINetworkManager.getMarketsPrices]> [TIMING] Full elapsed: {}"
+	//					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+	//		}
+	//		return null;
+	//	}
+	//
+	//	public List<GetUniverseAncestries200Ok> getUniverseAncestries( final String server ) {
+	//		logger.info(">> [ESINetworkManagerMock.getUniverseAncestries]");
+	//		final DateTime startTimePoint = DateTime.now();
+	//		try {
+	//			// Create the request to be returned so it can be called.
+	//			final Response<List<GetUniverseAncestries200Ok>> ancestriesResponse = neocomRetrofitNoAuth
+	//					                                                                      .create(UniverseApi.class)
+	//					                                                                      .getUniverseAncestries("en-us"
+	//							                                                                      , server
+	//							                                                                      , null
+	//							                                                                      , null)
+	//					                                                                      .execute();
+	//			if (!ancestriesResponse.isSuccessful()) {
+	//				return null;
+	//			} else return ancestriesResponse.body();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} catch (RuntimeException runtime) {
+	//			runtime.printStackTrace();
+	//		} finally {
+	//			logger.info("<< [ESINetworkManager.getUniverseAncestries]> [TIMING] Full elapsed: {}"
+	//					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+	//		}
+	//		return null;
+	//	}
+	//
+	//	public List<GetUniverseBloodlines200Ok> getUniverseBloodlines( final String server ) {
+	//		logger.info(">> [ESINetworkManagerMock.getUniverseBloodlines]");
+	//		final DateTime startTimePoint = DateTime.now();
+	//		try {
+	//			// Create the request to be returned so it can be called.
+	//			final Response<List<GetUniverseBloodlines200Ok>> bloodlinesResponse = neocomRetrofitNoAuth
+	//					                                                                      .create(UniverseApi.class)
+	//					                                                                      .getUniverseBloodlines("en-us"
+	//							                                                                      , server
+	//							                                                                      , null
+	//							                                                                      , null)
+	//					                                                                      .execute();
+	//			if (!bloodlinesResponse.isSuccessful()) {
+	//				return null;
+	//			} else return bloodlinesResponse.body();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} catch (RuntimeException runtime) {
+	//			runtime.printStackTrace();
+	//		} finally {
+	//			logger.info("<< [ESINetworkManager.getUniverseBloodlines]> [TIMING] Full elapsed: {}"
+	//					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+	//		}
+	//		return null;
+	//	}
+	//
+	//	public List<GetUniverseRaces200Ok> getUniverseRaces( final String server ) {
+	//		logger.info(">> [ESINetworkManagerMock.getUniverseRaces]");
+	//		final DateTime startTimePoint = DateTime.now();
+	//		try {
+	//			// Create the request to be returned so it can be called.
+	//			final Response<List<GetUniverseRaces200Ok>> racesResponse = neocomRetrofitNoAuth
+	//					                                                            .create(UniverseApi.class)
+	//					                                                            .getUniverseRaces("en-us"
+	//							                                                            , server
+	//							                                                            , null
+	//							                                                            , null)
+	//					                                                            .execute();
+	//			if (!racesResponse.isSuccessful()) {
+	//				return null;
+	//			} else return racesResponse.body();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} catch (RuntimeException runtime) {
+	//			runtime.printStackTrace();
+	//		} finally {
+	//			logger.info("<< [ESINetworkManager.getUniverseRaces]> [TIMING] Full elapsed: {}"
+	//					, new Duration(startTimePoint, DateTime.now()).getMillis() + "ms");
+	//		}
+	//		return null;
+	//	}
 
 	// - P L A N E T A R Y   I N T E R A C T I O N
 	public static GetUniverseSchematicsSchematicIdOk getUniversePlanetarySchematicsById( final String server, final int schematicId ) {
@@ -163,7 +155,7 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 		return null;
 	}
 
-	public static List<GetCharactersCharacterIdPlanets200Ok> getCharactersCharacterIdPlanets( final int identifier
+	public List<GetCharactersCharacterIdPlanets200Ok> getCharactersCharacterIdPlanets( final int identifier
 			, final String refreshToken, final String server ) {
 		logger.info(">> [ESINetworkManager.getCharactersCharacterIdPlanets]");
 		final Chrono accessFullTime = new Chrono();
@@ -202,7 +194,7 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 		//		} else return (List<GetCharactersCharacterIdPlanets200Ok>) okResponseCache.get(reference).body();
 	}
 
-	public static GetCharactersCharacterIdPlanetsPlanetIdOk getCharactersCharacterIdPlanetsPlanetId( final int identifier
+	public GetCharactersCharacterIdPlanetsPlanetIdOk getCharactersCharacterIdPlanetsPlanetId( final int identifier
 			, final int planetid, final String refreshToken, final String server ) {
 		logger.info(">> [ESINetworkManager.getCharactersCharacterIdPlanetsPlanetId]");
 		final Chrono accessFullTime = new Chrono();
@@ -252,7 +244,7 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 	 * @param server       the esi data server to use, tranquility or singularity.
 	 * @return the list of mining actions performed during the last 30 days.
 	 */
-	public static List<GetCharactersCharacterIdMining200Ok> getCharactersCharacterIdMining( final int identifier
+	public List<GetCharactersCharacterIdMining200Ok> getCharactersCharacterIdMining( final int identifier
 			, final String refreshToken
 			, final String server ) {
 		logger.info(">> [ESINetworkManager.getCharactersCharacterIdMining]");
@@ -260,7 +252,7 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 		List<GetCharactersCharacterIdMining200Ok> returnMiningList = new ArrayList<>(1000);
 		try {
 			// Set the refresh to be used during the request.
-//			NeoComRetrofitHTTP.setRefeshToken(refreshToken);
+			//			NeoComRetrofitHTTP.setRefeshToken(refreshToken);
 			String datasource = GlobalDataManager.TRANQUILITY_DATASOURCE;
 			if (null != server) datasource = server;
 			// This request is paged. There can be more pages than one. The size limit seems to be 1000 but test for error.

@@ -59,7 +59,7 @@ public class MiningRepository {
 	 * to expiration time so the number of days is still not predetermined.
 	 */
 	public static List<MiningExtraction> accessMiningExtractions4Pilot( final Credential credential ) throws SQLException {
-		final Dao<MiningExtraction, String> dao = new GlobalDataManager().getNeocomDBHelper().getMiningExtractionDao();
+		final Dao<MiningExtraction, String> dao = GlobalDataManager.getSingleton().getNeocomDBHelper().getMiningExtractionDao();
 		final QueryBuilder<MiningExtraction, String> builder = dao.queryBuilder();
 		builder.where().eq("ownerId", credential.getAccountId());
 		builder.orderBy("id", false);
