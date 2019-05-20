@@ -99,6 +99,10 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 
 	@Override
 	public int compareTo( final Object o ) {
+		if (o instanceof MiningExtractionAggregatorAsPanelTitle) {
+			final MiningExtractionAggregatorAsPanelTitle target = (MiningExtractionAggregatorAsPanelTitle) o;
+			return this.getTitle().compareTo(target.getTitle());
+		}
 		return 0;
 	}
 }

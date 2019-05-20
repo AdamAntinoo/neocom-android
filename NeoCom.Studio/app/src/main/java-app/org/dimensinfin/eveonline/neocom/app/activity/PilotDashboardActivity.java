@@ -70,7 +70,7 @@ public class PilotDashboardActivity extends APublicCredentialActivity {
 									.setTitleLeft(AndroidGlobalDataManager.getResourceString(R.string.appname))
 									.setTitleRight(AndroidGlobalDataManager.getResourceString(R.string.appversionname));
 							// Server status has network access so it has to be executed on a background thread.
-							AndroidGlobalDataManager.submitJob2ui(() -> {
+							AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 								neocomActionBarView.setSubtitleSpanned(APublicActionBarActivity.serverStatus4Actionbar());
 							});
 							this.getActionBar().setCustomView(neocomActionBarView.getView());

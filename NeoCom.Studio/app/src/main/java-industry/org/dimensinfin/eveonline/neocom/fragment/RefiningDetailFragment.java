@@ -81,7 +81,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		List<ICollaboration> headerContents = new ArrayList<>();
 
 		// Code should be run on other thread than the main. Dispatch it to the executor.
-		//		AndroidGlobalDataManager.submitJob2ui(() -> {
+		//		AndroidGlobalDataManager.submitJob(() -> {
 		// Create the report. To complete this add the Credential for the owner of the resource, the current location and the
 		// preferred refining location from the location roles for the Pilot.
 		if ( this.getAppContext() instanceof ICredentialActivity ) {

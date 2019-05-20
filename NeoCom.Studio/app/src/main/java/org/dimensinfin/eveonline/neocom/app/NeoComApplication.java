@@ -188,7 +188,7 @@ public class NeoComApplication extends Application {
 					              .withESIAdapter(esiAdapter)
 					              .withDataDownloaderService(new DataDownloaderService.Builder()
 							                                         .withEsiAdapter(esiAdapter)
-							                                         .builder())
+							                                         .build())
 					              .withMiningRepository(new MiningRepository.Builder()
 							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
 							                                    .build()

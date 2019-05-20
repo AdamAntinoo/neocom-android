@@ -11,6 +11,8 @@ import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.sharedcode.controller.PanelTitleController;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {
@@ -35,6 +37,11 @@ public class AppControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
+		}
+		if (node instanceof PanelTitle) {
+			return new PanelTitleController.Builder((PanelTitle) node, this)
+					       .withVariant(this.getVariant())
+					       .build();
 		}
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {

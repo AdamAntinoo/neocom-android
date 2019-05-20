@@ -236,7 +236,7 @@ public class AuthorizationFlowActivity extends Activity {
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if ((null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART"))) {
 				// Fire the credential authorization flow on a background task.
-				AndroidGlobalDataManager.submitJob2ui(() -> {
+				AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 					onFireAuth();
 				});
 			} else {
@@ -250,7 +250,7 @@ public class AuthorizationFlowActivity extends Activity {
 							final String authCode = urlData.getQueryParameter("code");
 							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
-								AndroidGlobalDataManager.submitJob2ui(() -> {
+								AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 									this.registerInBackground(authCode);
 								});
 							}
@@ -280,7 +280,7 @@ public class AuthorizationFlowActivity extends Activity {
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if (tag.equalsIgnoreCase("NEW-LOGIN-PART")) {
 				// Fire the credential authorization flow on a background task.
-				AndroidGlobalDataManager.submitJob2ui(() -> {
+				AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 					onFireAuth();
 				});
 			} else {
@@ -294,7 +294,7 @@ public class AuthorizationFlowActivity extends Activity {
 							final String authCode = urlData.getQueryParameter("code");
 							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
-								AndroidGlobalDataManager.submitJob2ui(() -> {
+								AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 									this.registerInBackground(authCode);
 								});
 							}

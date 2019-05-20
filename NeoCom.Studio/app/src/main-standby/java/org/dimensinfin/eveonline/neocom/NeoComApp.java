@@ -597,8 +597,8 @@ public class NeoComApp extends Application /*implements INeoComAppConnector*/ {
 	//		if ( null == stream ) return elementSingleton;
 	//		try {
 	//			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	//			final DocumentBuilder builder = factory.newDocumentBuilder();
-	//			final Document doc = builder.parse(stream);
+	//			final DocumentBuilder build = factory.newDocumentBuilder();
+	//			final Document doc = build.parse(stream);
 	//			elementSingleton = doc.getDocumentElement();
 	//		} catch (final MalformedURLException me) {
 	//			me.printStackTrace();

@@ -7,14 +7,14 @@ import java.util.concurrent.Callable;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.exception.EErrorType;
-import org.dimensinfin.eveonline.neocom.app.exception.NeoComError;
+import org.dimensinfin.eveonline.neocom.exception.EErrorType;
+import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
-public class AppSplashFragment extends MVCPagerFragment {
+public class AppSplashFragment extends AMVCPagerFragment {
 	// - O V E R R I D E S
 	@Override
 	public String getSubtitle() {

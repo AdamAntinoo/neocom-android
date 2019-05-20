@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class DataDownloaderService {
 	private static final Logger logger = LoggerFactory.getLogger(DataDownloaderService.class);
-	private static final ExecutorService downloaderExecutor = Executors.newSingleThreadExecutor();
+	private static final ExecutorService downloadExecutor = Executors.newSingleThreadExecutor();
 
 	private ESIGlobalAdapter esiAdapter;
 
@@ -24,7 +23,7 @@ public class DataDownloaderService {
 	// - P I L O T
 	public void accessPilotPublicData( final IPilotDataDownloadCallback callbackDestination, final PilotDataSections section ) {
 		logger.info("-- [DataDownloaderService.accessPilotPublicData]> Posting request: {}", section.name());
-		downloaderExecutor.submit(() -> {
+		downloadExecutor.submit(() -> {
 			logger.info("-- [DataDownloaderService.accessPilotPublicData]> Downloading public data information...");
 			final GetCharactersCharacterIdOk publicData = this.esiAdapter.getCharactersCharacterId(
 					callbackDestination.getCredential().getAccountId()
@@ -47,10 +46,12 @@ public class DataDownloaderService {
 	 */
 	public void accessPilotRace( final IPilotDataDownloadCallback callbackDestination, final PilotDataSections section ) {
 		logger.info("-- [DataDownloaderService.accessPilotRace]> Searching data: {}", section.name());
-		final GetUniverseRaces200Ok race = this.esiAdapter.searchSDERace(callbackDestination.getRaceId());
-		if (null != race) callbackDestination.signalCompletion(section, race);
-		else
-			logger.info("-- [DataDownloaderService.accessPilotRace]> Failed race data assign. Null contents.");
+		downloadExecutor.submit(() -> {
+			final GetUniverseRaces200Ok race = this.esiAdapter.searchSDERace(callbackDestination.getRaceId());
+			if (null != race) callbackDestination.signalCompletion(section, race);
+			else
+				logger.info("-- [DataDownloaderService.accessPilotRace]> Failed race data assign. Null contents.");
+		});
 	}
 
 	// - B U I L D E R
@@ -66,7 +67,7 @@ public class DataDownloaderService {
 			return this;
 		}
 
-		public DataDownloaderService builder() {
+		public DataDownloaderService build() {
 			Objects.requireNonNull(this.onConstruction.esiAdapter);
 			return this.onConstruction;
 		}

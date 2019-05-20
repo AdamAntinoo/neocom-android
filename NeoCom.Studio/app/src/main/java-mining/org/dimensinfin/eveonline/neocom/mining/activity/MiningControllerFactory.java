@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
@@ -11,18 +12,13 @@ import org.dimensinfin.eveonline.neocom.sharedcode.controller.PanelTitleControll
 /**
  * @author Adam Antinoo
  */
-public class MiningControllerFactory extends ControllerFactory {
+public class MiningControllerFactory extends AppControllerFactory {
 	public MiningControllerFactory( final String selectedVariant ) {
 		super(selectedVariant);
 	}
 
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
-		if (node instanceof PanelTitle) {
-			return new PanelTitleController.Builder((PanelTitle) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
 		if (node instanceof MiningExtraction) {
 			return new MiningExtractionController((MiningExtraction) node, this);
 		}

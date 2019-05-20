@@ -32,7 +32,7 @@ public class ItemPack implements IAggregableItem {
 
 	@Override
 	public double getPrice() {
-		return 0.0;
+		return this.price * this.quantity;
 	}
 
 	// - I C O L L A B O R A T I O N

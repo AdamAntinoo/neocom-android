@@ -115,7 +115,7 @@ public class AppDashboardActivity extends ALinearActivity {
 	protected void onStart() {
 		super.onStart();
 		// Server status has network access so it has to be executed on a background thread.
-		AndroidGlobalDataManager.submitJob2ui(() -> {
+		AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 			neocomActionBarView.setSubtitleSpanned(serverStatus4Actionbar());
 			neocomActionBarView.getView().invalidate();
 		});

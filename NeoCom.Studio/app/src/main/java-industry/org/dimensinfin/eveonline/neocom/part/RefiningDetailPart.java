@@ -67,7 +67,7 @@ public class RefiningDetailPart extends NeoComAbstractPart {
 	@Override
 	public boolean runDependencies() {
 		super.runDependencies();
-		AndroidGlobalDataManager.submitJob2ui(() -> {
+		AndroidGlobalDataManager.getSingleton().submitJob(() -> {
 			try {
 				credential = ((ICredentialActivity) this.getActivity()).getCredential();
 				resource = AndroidGlobalDataManager.getSingleton().searchItem4Id(this.getCastedModel().getTypeId());

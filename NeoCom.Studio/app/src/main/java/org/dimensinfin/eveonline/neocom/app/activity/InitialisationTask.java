@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.exception.NeoComError;
+import org.dimensinfin.eveonline.neocom.exception.NeoComError;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 /**
  * This class runs an initialisation task that is loaded as a lambda runnable at construction. When the right moment arrives
@@ -20,7 +18,6 @@ import org.dimensinfin.eveonline.neocom.app.exception.NeoComError;
 public class InitialisationTask implements ICollaboration {
 	private Callable task;
 	private List<NeoComError> exceptionReport = new ArrayList<>();
-//	ExecutorService service = Executors.newSingleThreadExecutor();
 
 	// - C O N S T R U C T O R S
 	public InitialisationTask( final Callable task ) {
@@ -38,7 +35,7 @@ public class InitialisationTask implements ICollaboration {
 	}
 
 	public InitialisationTask execute() {
-		Future<List<NeoComError>> future = AbstractPagerFragment._uiExecutor.submit(task);
+		Future<List<NeoComError>> future = AndroidGlobalDataManager.getSingleton().submitCall(task);
 		Integer result = 0;
 		try {
 			this.exceptionReport = future.get();

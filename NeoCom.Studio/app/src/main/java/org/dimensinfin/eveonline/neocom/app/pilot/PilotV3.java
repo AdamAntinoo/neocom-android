@@ -48,6 +48,11 @@ public class PilotV3 extends PilotV2 implements IPilotDataDownloadCallback {
 		else return 0;
 	}
 
+	public String getRaceName() {
+		if (null == this.race) return null;
+		else return this.race.getName();
+	}
+
 	/**
 	 * A pilot instance is a set of multiple blocks of data, some of then obtained form the CCP data services and other from the local
 	 * repository caches. Because the high quantity of data we cannot stop to update all them and then render the contents so we should separate

@@ -19,6 +19,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSc
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import com.facebook.stetho.common.ArrayListAccumulator;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -247,45 +248,33 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 	public List<GetCharactersCharacterIdMining200Ok> getCharactersCharacterIdMining( final int identifier
 			, final String refreshToken
 			, final String server ) {
+		logger.info("-- [MARKETORDERS]> Entering ESI");
 		logger.info(">> [ESINetworkManager.getCharactersCharacterIdMining]");
 		final Chrono accessFullTime = new Chrono();
-		List<GetCharactersCharacterIdMining200Ok> returnMiningList = new ArrayList<>(1000);
+		//		List<GetCharactersCharacterIdMining200Ok> returnMiningList = new ArrayList<>(1000);
 		try {
-			// Set the refresh to be used during the request.
-			//			NeoComRetrofitHTTP.setRefeshToken(refreshToken);
 			String datasource = GlobalDataManager.TRANQUILITY_DATASOURCE;
 			if (null != server) datasource = server;
-			// This request is paged. There can be more pages than one. The size limit seems to be 1000 but test for error.
-			boolean morePages = true;
-			int pageCounter = 1;
-			while (morePages) {
-				final Response<List<GetCharactersCharacterIdMining200Ok>> industryApiResponse = neocomRetrofitMock
-						                                                                                .create(IndustryApi.class)
-						                                                                                .getCharactersCharacterIdMining(identifier, datasource, null, pageCounter, null).execute();
-				if (!industryApiResponse.isSuccessful()) {
-					// Or error or we have reached the end of the list.
-					return returnMiningList;
-				} else {
-					// Copy the assets to the result list.
-					returnMiningList.addAll(industryApiResponse.body());
-					pageCounter++;
-					// Check for out of page running.
-					if (industryApiResponse.body().size() < 1) morePages = false;
-				}
-			}
+			int pageCounter = 0;
+			final Response<List<GetCharactersCharacterIdMining200Ok>> industryApiResponse = neocomRetrofitMock
+					                                                                                .create(IndustryApi.class)
+					                                                                                .getCharactersCharacterIdMining(identifier, datasource, null, pageCounter, null).execute();
+			logger.info("-- [MARKETORDERS]> Processing ESI data: {}", industryApiResponse.isSuccessful());
+			if (industryApiResponse.isSuccessful()) {
+				logger.info("-- [MARKETORDERS]> Processing ESI data records: {}", industryApiResponse.body().size());
+				return industryApiResponse.body();
+			} else return new ArrayList<>();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (RuntimeException rtex) {
 			// Check if the problem is a connection reset.
 			if (rtex.getMessage().toLowerCase().contains("connection reset")) {
-				// Recreate the retrofit.
 				logger.info("EX [ESINetworkManager.getCharactersCharacterIdMining]> Exception: {}", rtex.getMessage());
-				//				neocomRetrofit = NeoComRetrofitHTTP.build(neocomAuth20, AGENT, cacheDataFile, cacheSize, timeout);
 			}
 		} finally {
 			logger.info("<< [ESINetworkManager.getCharactersCharacterIdMining]> [TIMING] Full elapsed: {}", accessFullTime.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 		}
-		return returnMiningList;
+		return new ArrayList<>();
 	}
 
 	// - F I E L D S

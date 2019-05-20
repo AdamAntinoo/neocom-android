@@ -23,7 +23,7 @@ public class AndroidGlobalDataManagerCache extends GlobalDataManager {
 	public Future<Drawable> getCacheDrawable ( final String url, final ImageView targetImage, final Activity
 			context) {
 		// Download the image on a background task and send it to the target.
-		final Future<?> fut = AndroidGlobalDataManagerCache.submitJob2ui(() -> {
+		final Future<?> fut = AndroidGlobalDataManagerCache.getSingleton().submitJob(() -> {
 			//			ImageView targetImage = null;
 			//			Drawable source = null;
 			InputStream is = null;
