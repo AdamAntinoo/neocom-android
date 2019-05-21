@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.mining;
 
 import java.util.List;
 
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 
 /**
  * @author Adam Antinoo

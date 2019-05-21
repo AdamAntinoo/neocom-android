@@ -7,5 +7,5 @@ include ':ESI.SwaggerApi'
 project(':ESI.SwaggerApi').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/ESI.SwaggerApi')
 include ':NeoCom.DataManagement'
 project(':NeoCom.DataManagement').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
-include ':NeoCom.Model'
-project(':NeoCom.Model').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/NeoCom.Model')
+//include ':NeoCom.Model'
+//project(':NeoCom.Model').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/NeoCom.Model')

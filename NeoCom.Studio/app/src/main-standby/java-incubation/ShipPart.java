@@ -158,7 +158,7 @@ public class ShipPart extends NeoComExpandablePart /*implements OnClickListener,
 	//	public boolean onContextItemSelected(final MenuItem item) {
 	//		ShipPart.logger.info(">> [ShipPart.onContextItemSelected]");
 	//		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-	//		final int menuItemIndex = item.getItemId();
+	//		final int menuItemIndex = item.getTypeId();
 	//		// Process the command depending on the menu and the item selected
 	//		switch (menuItemIndex) {
 	//			case R.id.addshipasfitting:

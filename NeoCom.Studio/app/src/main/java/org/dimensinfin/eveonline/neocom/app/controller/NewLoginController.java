@@ -23,7 +23,7 @@ public class NewLoginController extends AAndroidController<NewLoginAction> imple
 	private Context context;
 
 	public NewLoginController( @NonNull final NewLoginAction model, @NonNull final IControllerFactory factory ) {
-		super(new ControllerAdapter<>(model), factory);
+		super(model, factory);
 	}
 
 	// - V I E W . O N C L I C K L I S T E N E R   I N T E R F A C E

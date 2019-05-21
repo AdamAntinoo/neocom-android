@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> extends PanelTitle implements IContainerAggregator<T> {
@@ -27,8 +28,8 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	@Override
 	public int addPack( final T itemPack ) {
 		this.contents.add(itemPack);
-		totalValue += itemPack.getPrice();
-		totalVolume += itemPack.getVolume();
+		totalValue += itemPack.getPrice() * itemPack.getQuantity();
+		totalVolume += itemPack.getVolume() * itemPack.getQuantity();
 		return contents.size();
 	}
 

@@ -20,7 +20,7 @@ public class PanelTitleController extends AAndroidController<PanelTitle> {
 	protected String variant;
 
 	protected PanelTitleController( @NonNull final PanelTitle model, @NonNull final IControllerFactory factory ) {
-		super(new ControllerAdapter<>(model), factory);
+		super(model, factory);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E

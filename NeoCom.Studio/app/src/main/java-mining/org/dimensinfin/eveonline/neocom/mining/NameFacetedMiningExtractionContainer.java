@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 
 /**
@@ -45,13 +45,13 @@ public class NameFacetedMiningExtractionContainer extends PanelTitle implements 
 
 	public int addExtraction( final MiningExtraction miningOperation ) {
 		this.contents.add(miningOperation);
-		try {
-			totalValue += miningOperation.getQuantity() * miningOperation.getHighestBuyerPrice().getPrice();
-		} catch (ExecutionException ee) {
+//		try {
+//			totalValue += miningOperation.getQuantity() * miningOperation.getHighestBuyerPrice().getPrice();
+//		} catch (ExecutionException ee) {
 			totalValue += miningOperation.getQuantity() * miningOperation.getPrice();
-		} catch (InterruptedException ie) {
-			totalValue += miningOperation.getQuantity() * miningOperation.getPrice();
-		}
+//		} catch (InterruptedException ie) {
+//			totalValue += miningOperation.getQuantity() * miningOperation.getPrice();
+//		}
 		totalVolume += miningOperation.getQuantity() * miningOperation.getVolume();
 		return contents.size();
 	}

@@ -48,6 +48,30 @@ class MockInterceptor : Interceptor {
 const val getMockCharactersCharacterIdMining = """
 [
   {
+    "date": "2019-05-21",
+    "quantity": 480000,
+    "solar_system_id": 30001647,
+    "type_id": 34
+  },
+  {
+    "date": "2019-05-21",
+    "quantity": 780000,
+    "solar_system_id": 30001647,
+    "type_id": 35
+  },
+  {
+    "date": "2019-05-21",
+    "quantity": 88000,
+    "solar_system_id": 30001647,
+    "type_id": 17471
+  },
+  {
+    "date": "2019-05-21",
+    "quantity": 7800,
+    "solar_system_id": 30001681,
+    "type_id": 45498
+  },
+  {
     "date": "2019-05-20",
     "quantity": 480000,
     "solar_system_id": 30001647,

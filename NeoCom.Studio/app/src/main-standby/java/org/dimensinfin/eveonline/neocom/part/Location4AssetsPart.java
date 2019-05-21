@@ -109,7 +109,7 @@ public class Location4AssetsPart extends LocationPart {
 
 	//	public boolean onContextItemSelected (final MenuItem item) {
 	//		LocationPart.logger.info(">> [LocationAssetsPart.onContextItemSelected]"); //$NON-NLS-1$
-	//		switch (item.getItemId()) {
+	//		switch (item.getTypeId()) {
 	//			case R.id.context_location_optimize:
 	//				// Managers have a reference to the Character linked when created.
 	//				final NeoComCharacter pilot = NeoComModelStore.getSingleton().getActiveCharacter();

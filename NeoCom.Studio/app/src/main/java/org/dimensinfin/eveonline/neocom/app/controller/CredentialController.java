@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +22,9 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
@@ -37,16 +38,16 @@ public class CredentialController extends AAndroidController<Credential> impleme
 
 	// - C O N S T R U C T O R S
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
-		super(new ControllerAdapter<Credential>(model), factory);
+		super(model, factory);
 		// Controller creation is the place where to request extended model data.
 		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getSingleton().getDownloaderService())
 				             .build();
 		this.pilot.addPropertyChangeListener(this);
 	}
 
-//	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
-//		super(delegate, factory);
-//	}
+	//	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
+	//		super(delegate, factory);
+	//	}
 
 	// - O N C L I C K L I S T E N E R   I N T E R F A C E
 
@@ -83,6 +84,12 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		return this.getModel().getName();
 	}
 
+	private String getPilotRaceName() {
+		final String raceName = this.accessPilot().getRaceName();
+		if (null == raceName) return "-";
+		else return raceName.toUpperCase();
+	}
+
 	public String getPilotIdentifier() {
 		return Integer.valueOf(this.getModel().getAccountId()).toString();
 	}
@@ -100,9 +107,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	}
 
 	private PilotV3 accessPilot() {
-		if (null == this.pilot) {
-			logger.info(">> [CredentialController.accessPilot]");
-		}
+		Objects.requireNonNull(this.pilot);
 		return this.pilot;
 	}
 
@@ -164,7 +169,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			logger.info(">> [CredentialRender.updateContent]");
+//			logger.info(">> [CredentialRender.updateContent]");
 			if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
 				this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose, getContext().getTheme()));
 			else this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose));
@@ -175,7 +180,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			pilotIdentifier.setText(this.getController().getPilotIdentifier());
 			accountBalance.setText(this.accessAccountBalance());
 			assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
-			race.setText("-");
+			cloneType.setText(this.getController().getPilotRaceName());
 			// Obtain the values to be set on the fiels. This second task should be done on the UI thread.
 			//			final String walletAmount = getPart().getTWalletAmount();
 			//			final String assetcount = getPart().getTAssetsCount();
@@ -243,5 +248,11 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			if (count < 0) return "-"; // This is the response while accessing the number of assets from backend.
 			else return this.qtyFormatter.format(count);
 		}
+
+//		private String accessRace() {
+//			final String raceName = this.getController().getModel().getRaceName();
+//			if (null == raceName) return "-";
+//			else return raceName.toUpperCase();
+//		}
 	}
 }

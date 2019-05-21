@@ -26,7 +26,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.RefiningDetailActivity;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;

@@ -17,12 +17,12 @@ import androidx.annotation.NonNull;
 public class AppVersionController extends AAndroidController<AppVersion> {
 	// - C O N S T R U C T O R S
 	public AppVersionController( @NonNull final AppVersion model, @NonNull final IControllerFactory factory ) {
-		this(new ControllerAdapter<>(model), factory);
+		super(model, factory);
 	}
 
-	protected AppVersionController( @NonNull final ControllerAdapter<AppVersion> delegate, @NonNull final IControllerFactory factory ) {
-		super(delegate, factory);
-	}
+//	protected AppVersionController( @NonNull final ControllerAdapter<AppVersion> delegate, @NonNull final IControllerFactory factory ) {
+//		super(delegate, factory);
+//	}
 
 	@Override
 	public boolean isVisible() {

@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 /**

@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/ESI.SwaggerApi" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
-            <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.Model" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

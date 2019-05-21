@@ -10,6 +10,9 @@ import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.domain.IPilotDataDownloadCallback;
+import org.dimensinfin.eveonline.neocom.domain.PilotDataSections;
+import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
 import org.joda.time.LocalDateTime;
 

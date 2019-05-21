@@ -18,7 +18,7 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
@@ -53,7 +53,7 @@ public class IndustryPartFactory extends PartFactory {
 	@Override
 	public IPart createPart( final ICollaboration node ) {
 		logger.info("-- [IndustryPartFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
-		if ( node instanceof MiningExtraction ) {
+		if ( node instanceof MiningExtraction) {
 			IPart part = new MiningExtractionPart((MiningExtraction) node).setFactory(this)
 					.setRenderMode(this.getVariant());
 			return part;

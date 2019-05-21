@@ -8,10 +8,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
-import org.dimensinfin.eveonline.neocom.mining.converters.MiningExtraction2ItemPackConverter;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
@@ -91,7 +90,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 					this.extractionsPanels.add(systemAggregator);
 					processingSystem = extraction.getSolarSystemId();
 				}
-				systemAggregator.addPack(MiningExtraction2ItemPackConverter.convert(extraction));
+				systemAggregator.addPack(extraction);
 				extractionCount++;
 			}
 			// Update the number of extractions.

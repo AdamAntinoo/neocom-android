@@ -14,7 +14,6 @@ import android.content.IntentFilter;
 import android.os.Environment;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.pilot.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -23,15 +22,17 @@ import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
+import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
+import org.dimensinfin.eveonline.neocom.provider.EveItemProvider;
+import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
@@ -170,6 +171,11 @@ public class NeoComApplication extends Application {
 		timedService = new TimedUpdater.Builder()
 				               .withESIAdapter(esiAdapter)
 				               .build();
+		final EveItemProvider eveItemProvider = new EveItemProvider.Builder(esiAdapter).build();
+		final DataDownloaderService downloaderSwervice = new DataDownloaderService.Builder(esiAdapter)
+				                                                 .withEsiAdapter(esiAdapter)
+																 .withEveItemProvider(eveItemProvider)
+				                                                 .build();
 		try {
 			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
 					                                             .withAppContext(this)
@@ -186,16 +192,16 @@ public class NeoComApplication extends Application {
 					              .withConfigurationProvider(configurationProvider)
 					              .withPreferencesProvider(preferencesProvider)
 					              .withESIAdapter(esiAdapter)
-					              .withDataDownloaderService(new DataDownloaderService.Builder()
-							                                         .withEsiAdapter(esiAdapter)
-							                                         .build())
+					              .withEveItemProvider(eveItemProvider)
+					              .withDataDownloaderService(downloaderSwervice)
 					              .withMiningRepository(new MiningRepository.Builder()
 							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
 							                                    .build()
 					              )
-					              .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
 					              .build();
-
+			// Do global injections
+			EsiItemV2.injectEveItemProvider(eveItemProvider);
+			EsiItemV2.injectDownloaderService(downloaderSwervice);
 			// Initializing the ESI api network controller.
 			//		ESINetworkManager.initialize();
 
@@ -227,7 +233,7 @@ public class NeoComApplication extends Application {
 				AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
 				sqle.printStackTrace();
 			}
-			ANeoComEntity.connectSDEHelper( AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
+			ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
 
 			// Connect the NeoCom database.
 			logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");

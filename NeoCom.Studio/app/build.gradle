@@ -110,19 +110,19 @@ android {
 //    delete 'src/main/resources/yaml'
 //}
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
-task copyResources(type: Copy) {
-    copy {
-        // NeoCom.Model Properties
-        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
-        from project(':NeoCom.Model').file('src/main/resources')
-        into file('src/main/assets')
-    }
-    copy {
-        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
-        from project(':NeoCom.DataManagement').file('src/main/resources')
-        into file('src/main/assets')
-    }
-}
+//task copyResources(type: Copy) {
+//    copy {
+//        // NeoCom.Model Properties
+//        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.Model').file('src/main/resources')
+//        into file('src/main/assets')
+//    }
+//    copy {
+//        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
+//        from project(':NeoCom.DataManagement').file('src/main/resources')
+//        into file('src/main/assets')
+//    }
+//}
 
 // - P R O D U C T   V E R S I O N S
 ext {
@@ -162,11 +162,9 @@ dependencies {
 //    implementation files('libs/AndroidMVCLibrary-4.2.1')
 
     implementation project(':ESI.SwaggerApi')
-    implementation project(':NeoCom.Model')
+//    implementation project(':NeoCom.Model')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
-//    implementation project(':sharedcode')
-//    implementation project(':mining')
 
     // G R A P H S   &   C H A R T S
 //    implementation 'com.github.AnyChart:AnyChart-Android:0.2.1'

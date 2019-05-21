@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.*;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;

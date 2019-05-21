@@ -19,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 
 public class SplashActionBarController extends AAndroidController<SplashActionBar> {
 	public SplashActionBarController( @NonNull final SplashActionBar model, @NonNull final IControllerFactory factory ) {
-		super(new ControllerAdapter<>(model), factory);
+		super(model, factory);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E

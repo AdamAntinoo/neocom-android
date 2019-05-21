@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.pilot;
 
 import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.PilotDataSections;
 
 import org.junit.Assert;
 import org.junit.Before;

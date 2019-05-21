@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.converters;
 
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.mining.ItemPack;
 
 public class MiningExtraction2ItemPackConverter {
