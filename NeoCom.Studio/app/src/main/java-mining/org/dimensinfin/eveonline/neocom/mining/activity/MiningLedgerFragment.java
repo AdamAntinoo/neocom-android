@@ -39,7 +39,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withVariant(this.getVariant())
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
-					       .withCacheStatus(true)
+					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
 					       .build();
@@ -50,7 +50,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withVariant(this.getVariant())
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
-					       .withCacheStatus(true)
+					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
 					       .build();

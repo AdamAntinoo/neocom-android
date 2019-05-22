@@ -10,6 +10,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -32,6 +33,34 @@ public class MiningRepository {
 	 * extractions until the 23 hours. The first extraction will add to the hour until the next hour starts. Then the accounting for this
 	 * new hour will show the new ore totals and so on hour after hour.
 	 */
+	private List<MiningExtraction> extractions4Test = new ArrayList<>();
+	public List<MiningExtraction> accessTodayMiningExtractions4PilotMock( final Credential credential ) throws SQLException {
+		this.generateExtractionsT1();
+		return extractions4Test;
+	}
+	private void generateExtractionsT1() {
+		extractions4Test.clear();
+		// Generate 5 different hours for today.
+		extractions4Test.addAll(this.extractionGenerator(34, 10000));
+		extractions4Test.addAll(this.extractionGenerator(45498, 10000));
+	}
+
+	private List<MiningExtraction> extractionGenerator( final int typeId, final int quantity ) {
+		final List<MiningExtraction> todayExtractions = new ArrayList<>();
+		// Generate 5 different hours for today.
+		for (int i = 5; i > 0; i--) {
+			final String date = DateTime.now().toString("YYYY/MM/dd");
+			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
+			todayExtractions.add(new MiningExtraction()
+					                     .setOwnerId(92223647)
+					                     .setSolarSystemId(30001647)
+					                     .setExtractionDate(new LocalDate())
+					                     .setTypeId(typeId)
+					                     .setQuantity(quantity + i * 100)
+					                     .create(id));
+		}
+		return todayExtractions;
+	}
 	public List<MiningExtraction> accessTodayMiningExtractions4Pilot( final Credential credential ) throws SQLException {
 		final QueryBuilder<MiningExtraction, String> builder = this.miningExtractionDao.queryBuilder();
 		builder.where().eq("ownerId", credential.getAccountId());

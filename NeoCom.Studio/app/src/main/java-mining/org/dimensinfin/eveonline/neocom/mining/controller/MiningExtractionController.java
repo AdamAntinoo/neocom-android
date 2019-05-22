@@ -6,7 +6,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -39,6 +38,8 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 		private TextView delta;
 		private TextView quantity;
 		private TextView separatorLabel;
+		private TextView extractionHour;
+		private TextView extractionValue;
 
 		// - C O N S T R U C T O R S
 		public MiningExtractionRenderV5( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -58,6 +59,8 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 			delta = this.getView().findViewById(R.id.delta);
 			quantity = this.getView().findViewById(R.id.quantity);
 			separatorLabel = this.getView().findViewById(R.id.separatorLabel);
+			extractionHour = this.getView().findViewById(R.id.extractionHour);
+			extractionValue = this.getView().findViewById(R.id.extractionValue);
 		}
 
 		@Override
@@ -72,6 +75,8 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 				delta.setVisibility(View.INVISIBLE);
 				separatorLabel.setVisibility(View.INVISIBLE);
 			}
+			extractionHour.setText(this.accessExtractionHour());
+			extractionValue.setText(this.accessExtractionValue());
 		}
 
 		@Override
@@ -85,6 +90,14 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 
 		private String accessQuantity() {
 			return qtyFormatter.format(this.getController().getModel().getQuantity());
+		}
+
+		private String accessExtractionHour() {
+			return qtyFormatter.format(this.getController().getModel().getExtractionHour());
+		}
+
+		private String accessExtractionValue() {
+			return this.generatePriceString(this.getController().getModel().getExtractionValue(), true, true);
 		}
 	}
 

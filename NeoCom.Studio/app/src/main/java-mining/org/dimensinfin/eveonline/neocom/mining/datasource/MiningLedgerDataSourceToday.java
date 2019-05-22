@@ -19,9 +19,12 @@ import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
 public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	private Credential credential;
 	private MiningRepository miningRepository;
-	//		private List<MiningExtraction> extractions = new ArrayList<>();
+	private PanelTitle sectionTitle;
 	private int extractionsCount = 0;
 	private List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
+
+	private MiningLedgerDataSourceToday() {
+	}
 
 	public MiningLedgerDataSourceToday setCredential( final Credential credential ) {
 		this.credential = credential;
@@ -47,14 +50,14 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 		logger.info(">> [MiningLedgerDataSource.prepareModel]");
 		try {
 			List<MiningExtraction> extractions = new ArrayList<>();
-			//				final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
+			//							final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
 			int extractionCount = 0;
 			//				this.addModelContents(title);
-			extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(credential);
+			extractions = this.miningRepository.accessTodayMiningExtractions4PilotMock(credential);
 			if (extractions.size() < 1)
-				this.addModelContents( // The list ofr today is empty. Put a label to report that case.
-						new PanelTitle("There are no Mining Extractions Today.")
-				);
+				//				this.addModelContents( // The list ofr today is empty. Put a label to report that case.
+				sectionTitle = new PanelTitle("There are no Mining Extractions Today.");
+			//				);
 			final Map<String, MiningExtraction> ids = new HashMap();
 			for (MiningExtraction extraction : extractions)  // Create a map of all the record ids
 				ids.put(extraction.getRecordId(), extraction);
@@ -69,20 +72,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 				final int system = extraction.getSolarSystemId();
 
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
-				final String searchId = MiningExtraction.generateRecordId(recordDate, hour - 1
-						, extraction.getTypeId(), system, extraction.getOwnerId());
-				if (ids.keySet().contains(searchId)) { // Check if the id exists.
-					// Get the previous record and perform the delta calculation, then update before adding the record.
-					final MiningExtraction previous = ids.get(searchId);
-					long delta = extraction.getQuantity() - previous.getQuantity();
-					// Skip if there is no change during the period.
-					if (delta <= 0) continue;
-					else {
-						extraction.setDelta(delta);
-						extraction.store();
-					}
-				}
-
+				//[01]
 				// Add the record but aggregate by system.
 				if (processingSystem != system) {
 					// Create a new aggregator and use it to get the rest of the extractors inside.
@@ -118,6 +108,23 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 		this.addModelContents(title);
 		for (MiningExtractionAggregatorAsPanelTitle panel : this.extractionsPanels)
 			this.addModelContents(panel);
+	}
+
+	private void search4PreviousHour() {
+//		final String searchId = MiningExtraction.generateRecordId(recordDate, hour - 1
+//				, extraction.getTypeId(), system, extraction.getOwnerId());
+//		if (ids.keySet().contains(searchId)) { // Check if the id exists.
+//			// Get the previous record and perform the delta calculation, then update before adding the record.
+//			final MiningExtraction previous = ids.get(searchId);
+//			long delta = extraction.getQuantity() - previous.getQuantity();
+//			// Skip if there is no change during the period.
+//			if (delta <= 0) continue;
+//			else {
+//				extraction.setDelta(delta);
+//				// TODO - activate back this line after the mock is completed.
+//				//						extraction.store();
+//			}
+//		}
 	}
 
 	// - B U I L D E R

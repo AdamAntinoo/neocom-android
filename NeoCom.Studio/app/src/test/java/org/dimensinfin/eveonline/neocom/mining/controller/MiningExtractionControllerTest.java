@@ -1,8 +1,7 @@
 package org.dimensinfin.eveonline.neocom.mining.controller;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.eveonline.neocom.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 
 import org.junit.Assert;
 import org.junit.Before;
