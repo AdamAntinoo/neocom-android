@@ -7,13 +7,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -161,6 +168,13 @@ public class NeoComApplication extends Application {
 		super.onCreate();
 		Stetho.initializeWithDefaults(this);
 		this.oldInitialization();
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+					10);
+		}
 		// Create the adapters specific for the Android implementation.
 		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
 				                                      .build();

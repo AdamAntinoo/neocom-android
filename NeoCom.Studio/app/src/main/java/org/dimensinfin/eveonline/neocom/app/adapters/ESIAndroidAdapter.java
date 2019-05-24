@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import java.util.Objects;
 

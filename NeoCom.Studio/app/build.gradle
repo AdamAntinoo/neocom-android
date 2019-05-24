@@ -71,13 +71,13 @@ android {
             srcDirs += 'src/main/java-shared'
             srcDirs += 'src/release/java-mining'
         }
-//        debug.java {
+        debug.java {
 ////            srcDirs += 'src/main/java-app'
 ////            srcDirs += 'src/main/java-industry'
 ////            srcDirs += 'src/main/java-mining'
-//            srcDirs += 'src/debug/java-mining'
+            srcDirs += 'src/debug/java-app'
 ////            srcDirs += 'src/main/java-shared'
-//        }
+        }
         release.java {
 //            srcDirs += 'src/main/java-app'
 //            srcDirs += 'src/main/java-industry'

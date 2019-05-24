@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 
