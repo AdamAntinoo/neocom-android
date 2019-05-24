@@ -1,14 +1,24 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
+import java.io.File;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class AppSplashActivity extends ANeoComActivity {
 	@Override
@@ -16,6 +26,14 @@ public class AppSplashActivity extends ANeoComActivity {
 		super.onCreate(savedInstanceState);
 		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
 		this.addPage(new AppSplashFragment());
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Check if the files and folders to run on Android are in place. If not create/copy them.
+		this.createAppDir();
+		this.createCacheDirectories();
 	}
 
 	private View generateActionBar() {
@@ -29,5 +47,27 @@ public class AppSplashActivity extends ANeoComActivity {
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();
 		return holder.getView();
+	}
+
+	/**
+	 * Creates the application directory if it already does not exist on the sdcard.
+	 */
+	private boolean createAppDir() {
+		// Create file application directory if it doesn't exist
+		final File sdcarddir = new File(Environment.getExternalStorageDirectory()
+				, this.getResources().getString(R.string.appname));
+		final boolean existence = sdcarddir.exists();
+		if (!sdcarddir.exists()) {
+			sdcarddir.mkdir();
+		}
+		return !existence;
+	}
+
+	private void createCacheDirectories() {
+		// Create additional cache folders.
+		File cachedir = new File(Environment.getExternalStorageDirectory()
+				, this.getResources().getString(R.string.appname)
+						  + "/" + NeoComAndroid.getSingleton().getConfigurationProvider().getResourceString("P.cache.directory.path"));
+		cachedir.mkdir();
 	}
 }

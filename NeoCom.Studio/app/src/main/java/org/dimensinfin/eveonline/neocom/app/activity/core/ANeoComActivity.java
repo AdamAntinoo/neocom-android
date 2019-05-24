@@ -1,8 +1,10 @@
 package org.dimensinfin.eveonline.neocom.app.activity.core;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Spannable;
@@ -15,6 +17,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
@@ -22,6 +27,12 @@ import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
 public class ANeoComActivity extends AMVCMultiPageActivity {
 	private static Menu activityMenu = null;
 	private View neocomActionBar;
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		this.validatePermissions();
+	}
 
 	public void setupActionBar( final View actionBarView ) {
 		logger.info(">> [ANeoComActivity.setupActionBar]");
@@ -148,5 +159,14 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 		SpannableString mNewTitle = new SpannableString(mi.getTitle());
 		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		mi.setTitle(mNewTitle);
+	}
+	protected void validatePermissions() {
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+					10);
+		}
 	}
 }
