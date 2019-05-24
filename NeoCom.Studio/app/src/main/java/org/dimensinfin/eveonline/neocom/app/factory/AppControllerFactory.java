@@ -5,8 +5,10 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
+import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
@@ -37,6 +39,9 @@ public class AppControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
+		}
+		if (node instanceof InitialisationTask) {
+			return new InitialisationTaskController((InitialisationTask) node, this);
 		}
 		if (node instanceof PanelTitle) {
 			return new PanelTitleController.Builder((PanelTitle) node, this)

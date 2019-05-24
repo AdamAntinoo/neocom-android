@@ -13,20 +13,16 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
-import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class AppSplashFragment extends AMVCPagerFragment {
 	// - O V E R R I D E S
@@ -47,7 +43,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		return new CredentialDatasource.Builder()
+		return new SplashActionsDatasource.Builder()
 				       .addIdentifier(this.getVariant())
 				       .addIdentifier(this.getTitle())
 				       .addIdentifier("SPLASH")
@@ -62,7 +58,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	}
 
 	// - C R E D E N T I A L   D A T A S O U R C E
-	public static class CredentialDatasource extends AMVCDataSource {
+	public static class SplashActionsDatasource extends AMVCDataSource {
 		private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 		private String name;
 		private String version;
@@ -70,20 +66,20 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		private SharedPreferences preferences;
 
 		// -  S H A R E D   C O M P O N E N T S
-		private IFileSystem fileSystemAdapter;
-		private IConfigurationProvider configurationProvider;
-		private IGlobalPreferencesManager preferencesProvider;
+//		private IFileSystem fileSystemAdapter;
+//		private IConfigurationProvider configurationProvider;
+//		private IGlobalPreferencesManager preferencesProvider;
 		private ESIGlobalAdapter esiAdapter;
-		private NeoComAndroidDBHelper neocomDBHelper;
+//		private NeoComAndroidDBHelper neocomDBHelper;
 
 		private List<Callable<List<NeoComError>>> initializationTasksList = new ArrayList<>();
 
-		private CredentialDatasource setName( final String name ) {
+		private SplashActionsDatasource setName( final String name ) {
 			this.name = name;
 			return this;
 		}
 
-		private CredentialDatasource setVersion( final String version ) {
+		private SplashActionsDatasource setVersion( final String version ) {
 			this.version = version;
 			return this;
 		}
@@ -92,69 +88,69 @@ public class AppSplashFragment extends AMVCPagerFragment {
 			return applicationContext;
 		}
 
-		public CredentialDatasource setApplicationContext( final Context applicationContext ) {
+		public SplashActionsDatasource setApplicationContext( final Context applicationContext ) {
 			this.applicationContext = applicationContext;
 			return this;
 		}
 
 		@Override
 		public void prepareModel() {
-			logger.info(">> [CredentialDatasource.prepareModel]");
+			logger.info(">> [SplashActionsDatasource.prepareModel]");
 			// [01]
 			// - D O W N L O A D - M A R K E T P R I C E S
 			initializationTasksList.add(() -> {
 				final List<NeoComError> exceptionList = new ArrayList<>();
 				try {
-					NeoComAndroid.getSingleton().getEsiAdapter().downloadItemPrices();
+					this.esiAdapter.downloadItemPrices();
 				} catch (RuntimeException rtex) {
 					exceptionList.add(new NeoComError.Builder(rtex)
 							                  .withType(EErrorType.RUNTIME)
 							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 							                  .build());
 				} catch (Exception ex) {
 					exceptionList.add(new NeoComError.Builder(ex)
 							                  .withType(EErrorType.EXCEPTION)
 							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 							                  .build());
 				}
 				return exceptionList;
 			});
-			// - D O W N L O A D - P I L O T R A C E
+			// - D O W N L O A D - P I L O T F A M I L Y
 			initializationTasksList.add(() -> {
 				final List<NeoComError> exceptionList = new ArrayList<>();
 				try {
-					NeoComAndroid.getSingleton().getEsiAdapter().downloadPilotFamilyData();
+					this.esiAdapter.downloadPilotFamilyData();
 				} catch (RuntimeException rtex) {
 					exceptionList.add(new NeoComError.Builder(rtex)
 							                  .withType(EErrorType.RUNTIME)
 							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 							                  .build());
 				} catch (Exception ex) {
 					exceptionList.add(new NeoComError.Builder(ex)
 							                  .withType(EErrorType.EXCEPTION)
 							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("CredentialDatasource.collaborate2Model")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 							                  .build());
 				}
 				return exceptionList;
 			});
-			logger.info("<< [CredentialDatasource.prepareModel]");
+			logger.info("<< [SplashActionsDatasource.prepareModel]");
 		}
 
 		@Override
 		public void collaborate2Model() {
 			try {
-				logger.info(">> [CredentialDatasource.collaborate2Model]");
+				logger.info(">> [SplashActionsDatasource.collaborate2Model]");
 				// - S E C T I O N   H E A D E R
-				logger.info("-- [CredentialDatasource.collaborate2Model]> Section Header");
+				logger.info("-- [SplashActionsDatasource.collaborate2Model]> Section Header");
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
 						                       .setVersion(this.version));
 				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
-					this.addHeaderContents(new InitialisationTask(task).execute());
+					this.addHeaderContents(new InitialisationTask(task).schedule());
 				}
 				// - S E C T I O N   D A T A
 				// Add the panel title up front of the Credential list.
@@ -174,7 +170,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				runtime.printStackTrace();
 			}
 			//			this.addModelContents(new ColonyMap());
-			logger.info("<< [CredentialDatasource.collaborate2Model]");
+			logger.info("<< [SplashActionsDatasource.collaborate2Model]");
 		}
 
 		private boolean validateCredential( final Credential credential ) {
@@ -183,12 +179,12 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		}
 
 		// - B U I L D E R
-		public static class Builder extends AMVCDataSource.BaseBuilder<CredentialDatasource, Builder> {
-			private CredentialDatasource onConstruction;
+		public static class Builder extends AMVCDataSource.BaseBuilder<SplashActionsDatasource, Builder> {
+			private SplashActionsDatasource onConstruction;
 
 			@Override
-			protected CredentialDatasource getActual() {
-				if (null == this.onConstruction) this.onConstruction = new CredentialDatasource();
+			protected SplashActionsDatasource getActual() {
+				if (null == this.onConstruction) this.onConstruction = new SplashActionsDatasource();
 				return this.onConstruction;
 			}
 
@@ -211,10 +207,10 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				this.getActual().setApplicationContext(applicationContext);
 				return this;
 			}
-			//			public Singletoner withCredentialRepository( final CredentialRepository credentialRepository){
-			//				this.onConstruction.credentialRepository = credentialRepository;
-			//				return this;
-			//			}
+			public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter){
+				this.onConstruction.esiAdapter = esiAdapter;
+				return this;
+			}
 		}
 	}
 }
@@ -239,13 +235,13 @@ public class AppSplashFragment extends AMVCPagerFragment {
 //					exceptionList.add(new NeoComError.Builder(rtex)
 //							                  .withType(EErrorType.RUNTIME)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				} catch (Exception ex) {
 //					exceptionList.add(new NeoComError.Builder(ex)
 //							                  .withType(EErrorType.EXCEPTION)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				}
 //				return exceptionList;
@@ -267,13 +263,13 @@ public class AppSplashFragment extends AMVCPagerFragment {
 //					exceptionList.add(new NeoComError.Builder(rtex)
 //							                  .withType(EErrorType.RUNTIME)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				} catch (Exception ex) {
 //					exceptionList.add(new NeoComError.Builder(ex)
 //							                  .withType(EErrorType.EXCEPTION)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				}
 //				return exceptionList;
@@ -299,13 +295,13 @@ public class AppSplashFragment extends AMVCPagerFragment {
 //					exceptionList.add(new NeoComError.Builder(rtex)
 //							                  .withType(EErrorType.RUNTIME)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				} catch (Exception ex) {
 //					exceptionList.add(new NeoComError.Builder(ex)
 //							                  .withType(EErrorType.EXCEPTION)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				}
 //				return exceptionList;
@@ -323,13 +319,13 @@ public class AppSplashFragment extends AMVCPagerFragment {
 //					exceptionList.add(new NeoComError.Builder(rtex)
 //							                  .withType(EErrorType.RUNTIME)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				} catch (Exception ex) {
 //					exceptionList.add(new NeoComError.Builder(ex)
 //							                  .withType(EErrorType.EXCEPTION)
 //							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("CredentialDatasource.collaborate2Model")
+//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
 //							                  .build());
 //				}
 //				return exceptionList;

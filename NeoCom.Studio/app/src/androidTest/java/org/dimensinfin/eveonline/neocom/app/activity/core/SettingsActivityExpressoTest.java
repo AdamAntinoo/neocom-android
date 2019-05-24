@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class SettingsActivityExpressoTest {

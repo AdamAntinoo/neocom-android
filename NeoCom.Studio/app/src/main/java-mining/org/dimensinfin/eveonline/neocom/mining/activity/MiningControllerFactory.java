@@ -4,7 +4,9 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
+import org.dimensinfin.eveonline.neocom.mining.controller.TableHeaderController;
 
 /**
  * @author Adam Antinoo
@@ -18,6 +20,9 @@ public class MiningControllerFactory extends AppControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof MiningExtraction) {
 			return new MiningExtractionController((MiningExtraction) node, this);
+		}
+		if (node instanceof TableHeader) {
+			return new TableHeaderController((TableHeader) node, this);
 		}
 		return super.createController(node);
 	}

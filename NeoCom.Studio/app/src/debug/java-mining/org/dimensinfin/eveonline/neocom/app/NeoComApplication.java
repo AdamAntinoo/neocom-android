@@ -19,6 +19,8 @@ import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
@@ -28,17 +30,18 @@ import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.facebook.stetho.Stetho;
+import com.j256.ormlite.dao.Dao;
 
 /**
  * This class is the android application instance. Their responsibility is to give access to the common adapters and data structures
@@ -168,13 +171,19 @@ public class NeoComApplication extends Application {
 		final IGlobalPreferencesManager preferencesProvider = new GlobalAndroidPreferencesProvider();
 		final ESIGlobalAdapter esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
 				                                    .build();
-		timedService = new TimedUpdater.Builder()
-				               .withESIAdapter(esiAdapter)
-				               .build();
+		//		final ESIDataPersistenceService persistenceService = new ESIDataPersistenceService.Builder()
+		//				                                                     .withEsiAdapter(esiAdapter)
+		//				                                                     .withMiningRepository(new MiningRepository.Builder()
+		//						                                                                           .withMiningExtractionDao()
+		//						                                                                           .build());
+		//		timedService = new TimedUpdater.Builder()
+		//				               .withESIAdapter(esiAdapter)
+		//				               .withESIDataPersistenceService(persistenceService)
+		//				               .build();
 		final EveItemProvider eveItemProvider = new EveItemProvider.Builder(esiAdapter).build();
-		final DataDownloaderService downloaderSwervice = new DataDownloaderService.Builder(esiAdapter)
+		final DataDownloaderService downloaderService = new DataDownloaderService.Builder(esiAdapter)
 				                                                 .withEsiAdapter(esiAdapter)
-																 .withEveItemProvider(eveItemProvider)
+				                                                 .withEveItemProvider(eveItemProvider)
 				                                                 .build();
 		try {
 			final NeoComAndroidDBHelper neocomDBHelper = new NeoComAndroidDBHelper.Builder()
@@ -183,9 +192,19 @@ public class NeoComApplication extends Application {
 					                                             .setDatabaseLocation(this.getResources().getString(R.string.appname))
 					                                             .setDatabaseName(this.getResources().getString(R.string.appdatabasefilename))
 					                                             .setDatabaseVersion(Integer.valueOf(this.getResources().getString(
-							                                             R.string.appdatabaseversion))
-					                                             )
+							                                             R.string.appdatabaseversion)))
 					                                             .build();
+			final Dao<MiningExtraction, String> miningExtractionDao = neocomDBHelper.getMiningExtractionDao();
+			final ESIDataPersistenceService persistenceService = new ESIDataPersistenceService.Builder()
+					                                                     .withEsiAdapter(esiAdapter)
+					                                                     .withMiningRepository(new MiningRepository.Builder()
+							                                                                           .withMiningExtractionDao(miningExtractionDao)
+							                                                                           .build())
+					                                                     .build();
+			timedService = new TimedUpdater.Builder()
+					               .withESIAdapter(esiAdapter)
+					               .withESIDataPersistenceService(persistenceService)
+					               .build();
 			this.neocom = new NeoComAndroid.Singletoner()
 					              .withApplicationContext(this)
 					              .withFileSystemAdapter(fileSystemAdapter)
@@ -193,7 +212,7 @@ public class NeoComApplication extends Application {
 					              .withPreferencesProvider(preferencesProvider)
 					              .withESIAdapter(esiAdapter)
 					              .withEveItemProvider(eveItemProvider)
-					              .withDataDownloaderService(downloaderSwervice)
+					              .withDataDownloaderService(downloaderService)
 					              .withMiningRepository(new MiningRepository.Builder()
 							                                    .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
 							                                    .build()
@@ -201,7 +220,7 @@ public class NeoComApplication extends Application {
 					              .build();
 			// Do global injections
 			EsiItemV2.injectEveItemProvider(eveItemProvider);
-			EsiItemV2.injectDownloaderService(downloaderSwervice);
+			EsiItemV2.injectDownloaderService(downloaderService);
 			// Initializing the ESI api network controller.
 			//		ESINetworkManager.initialize();
 

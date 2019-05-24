@@ -11,7 +11,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 
 /**
  * @author Adam Antinoo

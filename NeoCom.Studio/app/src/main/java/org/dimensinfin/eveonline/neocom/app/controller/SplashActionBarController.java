@@ -35,6 +35,7 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 
 	// - S P L A S H A C T I O N B A R R E N D E R
 	public static class SplashActionBarRender extends AMVCRender {
+		// - U I   F I E L D S
 		private TextView appNameLabel;
 		private TextView appVersion;
 		private TextView serverStatus;

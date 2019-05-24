@@ -1,10 +1,7 @@
 package org.dimensinfin.eveonline.neocom.mining.activity;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
@@ -14,12 +11,8 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
-import org.dimensinfin.eveonline.neocom.mining.converters.MiningExtraction2ItemPackConverter;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.persistence.MiningRepository;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
 
 public class MiningLedgerFragment extends AMVCPagerFragment {
