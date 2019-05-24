@@ -11,7 +11,7 @@
         android:layout_height="@dimen/nodeiconsize"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:src="@drawable/defaulticonplaceholder" />
 
     <ImageView
@@ -20,7 +20,7 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_alignParentTop="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_toRightOf="@+id/activityIcon"
         android:src="@drawable/defaulticonplaceholder" />
 
@@ -29,6 +29,7 @@
         style="@style/AppTheme.ActionBarComplementaryIcon"
         android:layout_width="18dp"
         android:layout_height="18dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/activityIcon"
         android:src="@drawable/defaulticonplaceholder" />

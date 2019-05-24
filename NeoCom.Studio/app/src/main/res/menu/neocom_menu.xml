@@ -13,7 +13,7 @@
         android:layout_height="32dp"
         android:icon="@drawable/progress70_orange"
         android:title="Download Data"
-        android:visible="true"
+        android:visible="false"
         android:showAsAction="always" />
     <item
         android:id="@+id/action_search"

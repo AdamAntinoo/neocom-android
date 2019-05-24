@@ -47,24 +47,24 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private String storageLocation = "";
 	private int databaseVersion = 0;
 
-	private Dao<DatabaseVersion, String> versionDao = null;
-	private Dao<TimeStamp, String> timeStampDao = null;
-	private Dao<Credential, String> credentialDao = null;
-	private Dao<EveLocation, String> locationDao = null;
-	private Dao<Property, String> propertyDao = null;
-	private Dao<NeoComAsset, String> assetDao = null;
-	private Dao<NeoComBlueprint, String> blueprintDao = null;
-	private Dao<Job, String> jobDao = null;
-	private Dao<MarketOrder, String> marketOrderDao = null;
-	private Dao<FittingRequest, String> fittingRequestDao = null;
-	private Dao<MiningExtraction, String> miningExtractionDao = null;
-	private Dao<RefiningData, String> refiningDataDao = null;
+	private Dao<DatabaseVersion, String> versionDao ;
+	private Dao<TimeStamp, String> timeStampDao ;
+	private Dao<Credential, String> credentialDao ;
+	private Dao<EveLocation, String> locationDao ;
+	private Dao<Property, String> propertyDao ;
+	private Dao<NeoComAsset, String> assetDao ;
+	private Dao<NeoComBlueprint, String> blueprintDao ;
+	private Dao<Job, String> jobDao ;
+	private Dao<MarketOrder, String> marketOrderDao ;
+	private Dao<FittingRequest, String> fittingRequestDao ;
+	private Dao<MiningExtraction, String> miningExtractionDao ;
+	private Dao<RefiningData, String> refiningDataDao ;
 
-	private Dao<Colony, String> colonyDao = null;
+	private Dao<Colony, String> colonyDao ;
 	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
 	//	private Dao<ColonySerialized, String> colonySerializedDao = null;
 
-	private DatabaseVersion storedVersion = null;
+	private DatabaseVersion storedVersion ;
 
 	// - C O N S T R U C T O R S
 	private NeoComAndroidDBHelper( final Context context, final String databaseName, final int databaseVersion ) {

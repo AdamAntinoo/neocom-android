@@ -15,13 +15,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +64,12 @@ public class NeoComApplication extends Application {
 		if (null == timedService) timedService = NeoComAndroid.getSingleton().getTimedService();
 		if (null != timedService) timedService.timeTick();
 	}
+
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComAndroid.getSingleton().getApplication()
 				                                                     .getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if ( (netInfo != null) && netInfo.isConnectedOrConnecting() ) return true;
+		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
 		return false;
 	}
 
@@ -132,6 +133,7 @@ public class NeoComApplication extends Application {
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
 		AndroidGlobalDataManager.connectPreferencesManager(NeoComAndroid.getSingleton().getPreferencesProvider());
+		AndroidGlobalDataManager.connectNeoComDBConnector(NeoComAndroid.getSingleton().getNeoComDBHelper());
 
 		// Initialize the Model with the current global instance.
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");

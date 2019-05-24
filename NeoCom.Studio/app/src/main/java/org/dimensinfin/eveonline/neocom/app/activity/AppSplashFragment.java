@@ -178,34 +178,35 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 		@Override
 		public void collaborate2Model() {
-			try {
-				logger.info(">> [SplashActionsDataSource.collaborate2Model]");
-				// - S E C T I O N   H E A D E R
-				logger.info("-- [SplashActionsDataSource.collaborate2Model]> Section Header");
-				this.addHeaderContents(new AppVersion()
-						                       .setName(this.name)
-						                       .setVersion(this.version));
-				for (Callable<List<NeoComError>> task : this.initializationTasksList) {
-					this.addHeaderContents(new InitialisationTask(task).schedule());
-				}
-				// - S E C T I O N   D A T A
-				// Add the panel title up front of the Credential list.
-				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
-				//				final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER).toUpperCase();
-				for (Credential credential : AndroidGlobalDataManager.accessAllCredentials("ee")) {
-					if (this.validateCredential(credential)) { // Validate credentials so incomplete credentials are removed.
-						this.addModelContents(credential);
-						logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-								, credential.getAccountName());
+			if (NeoComApplication.checkNetworkAccess()) {
+				try {
+					logger.info(">> [SplashActionsDataSource.collaborate2Model]");
+					// - S E C T I O N   H E A D E R
+					logger.info("-- [SplashActionsDataSource.collaborate2Model]> Section Header");
+					this.addHeaderContents(new AppVersion()
+							                       .setName(this.name)
+							                       .setVersion(this.version));
+					for (Callable<List<NeoComError>> task : this.initializationTasksList) {
+						this.addHeaderContents(new InitialisationTask(task).schedule());
 					}
+					// - S E C T I O N   D A T A
+					// Add the panel title up front of the Credential list.
+					this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
+					//				final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER).toUpperCase();
+					for (Credential credential : AndroidGlobalDataManager.accessAllCredentials("ee")) {
+						if (this.validateCredential(credential)) { // Validate credentials so incomplete credentials are removed.
+							this.addModelContents(credential);
+							logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
+									, credential.getAccountName());
+						}
+					}
+					// Add the node to display the new New Login Button.
+					this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
+					this.addModelContents(new NewLoginAction());
+				} catch (RuntimeException runtime) {
+					runtime.printStackTrace();
 				}
-				// Add the node to display the new New Login Button.
-				this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
-				this.addModelContents(new NewLoginAction());
-			} catch (RuntimeException runtime) {
-				runtime.printStackTrace();
 			}
-			//			this.addModelContents(new ColonyMap());
 			logger.info("<< [SplashActionsDataSource.collaborate2Model]");
 		}
 

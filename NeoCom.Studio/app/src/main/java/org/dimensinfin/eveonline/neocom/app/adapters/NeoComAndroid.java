@@ -11,6 +11,7 @@ import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -42,6 +43,7 @@ public class NeoComAndroid {
 	//	private EveItemProvider eveItemProvider;
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
+	private CredentialRepository credentialRepository;
 	private MiningRepository miningRepository;
 	private TimedUpdater timedService;
 
@@ -109,7 +111,9 @@ public class NeoComAndroid {
 		if (null == this.timedService) {
 			timedService = new TimedUpdater.Builder()
 					               .withESIAdapter(this.getEsiAdapter())
+								   .withPreferencesProvider(this.getPreferencesProvider())
 					               .withESIDataPersistenceService(this.getPersistenceService())
+								   .withCredentialRepository(this.getCredentialRepository())
 					               .build();
 
 		}
@@ -122,9 +126,7 @@ public class NeoComAndroid {
 				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
 				persistenceService = new ESIDataPersistenceService.Builder()
 						                     .withEsiAdapter(esiAdapter)
-						                     .withMiningRepository(new MiningRepository.Builder()
-								                                           .withMiningExtractionDao(miningExtractionDao)
-								                                           .build())
+						                     .withMiningRepository(this.getMiningRepository())
 						                     .build();
 			} catch (SQLException sqle) {
 				persistenceService = null;
@@ -132,6 +134,20 @@ public class NeoComAndroid {
 			}
 		}
 		return this.persistenceService;
+	}
+
+	public CredentialRepository getCredentialRepository() {
+		if (null == this.credentialRepository) {
+			try {
+				credentialRepository = new CredentialRepository.Builder()
+						                       .withCredentialDao(this.getNeoComDBHelper().getCredentialDao())
+						                       .build();
+			} catch (SQLException sqle) {
+				credentialRepository = null;
+				Objects.requireNonNull(credentialRepository);
+			}
+		}
+		return this.credentialRepository;
 	}
 
 	public MiningRepository getMiningRepository() {

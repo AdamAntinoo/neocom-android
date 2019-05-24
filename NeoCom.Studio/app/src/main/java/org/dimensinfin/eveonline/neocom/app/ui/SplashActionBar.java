@@ -45,11 +45,6 @@ public class SplashActionBar implements ICollaboration {
 			this.onConstruction.preferences = preferences;
 			return this;
 		}
-		//		public Singletoner withEsiAdapter( final SharedPreferences preferences ) {
-		//			this.onConstruction.preferences = preferences;
-		//			return this;
-		//		}
-
 		public SplashActionBar build() {
 			Objects.requireNonNull(this.onConstruction.preferences);
 			// Access the server to get the status and the number of pilots.
