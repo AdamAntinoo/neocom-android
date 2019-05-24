@@ -36,7 +36,7 @@ import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
 import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class CredentialListFragment extends AbstractPagerFragment {

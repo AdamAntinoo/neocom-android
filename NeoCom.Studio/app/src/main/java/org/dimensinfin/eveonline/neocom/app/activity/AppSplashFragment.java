@@ -21,7 +21,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 public class AppSplashFragment extends AMVCPagerFragment {
@@ -122,6 +122,26 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				final List<NeoComError> exceptionList = new ArrayList<>();
 				try {
 					this.esiAdapter.downloadPilotFamilyData();
+				} catch (RuntimeException rtex) {
+					exceptionList.add(new NeoComError.Builder(rtex)
+							                  .withType(EErrorType.RUNTIME)
+							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
+							                  .build());
+				} catch (Exception ex) {
+					exceptionList.add(new NeoComError.Builder(ex)
+							                  .withType(EErrorType.EXCEPTION)
+							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
+							                  .build());
+				}
+				return exceptionList;
+			});
+			// - D O W N L O A D - C I T A D E L S
+			initializationTasksList.add(() -> {
+				final List<NeoComError> exceptionList = new ArrayList<>();
+				try {
+					AndroidGlobalDataManager.readLocationsDataCache();
 				} catch (RuntimeException rtex) {
 					exceptionList.add(new NeoComError.Builder(rtex)
 							                  .withType(EErrorType.RUNTIME)

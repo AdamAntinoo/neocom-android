@@ -15,7 +15,7 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.model;
 
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

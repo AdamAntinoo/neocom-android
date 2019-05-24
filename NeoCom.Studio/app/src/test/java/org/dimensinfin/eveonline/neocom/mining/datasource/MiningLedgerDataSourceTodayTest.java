@@ -17,8 +17,8 @@ import org.dimensinfin.eveonline.neocom.mining.activity.MiningControllerFactory;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
-import org.dimensinfin.eveonline.neocom.sharedcode.controller.PanelTitleController;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;

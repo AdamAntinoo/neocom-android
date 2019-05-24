@@ -29,7 +29,7 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class EveOnlineNotificationsFragment extends AbstractPagerFragment {

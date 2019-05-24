@@ -1,119 +1,181 @@
 package org.dimensinfin.eveonline.neocom.sharedcode.provider;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
-import android.content.Context;
+import android.app.Application;
 
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
+import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
+import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.provider.EveItemProvider;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
+import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
+
+import com.j256.ormlite.dao.Dao;
 
 /**
+ * This is a singleton with global access that will contain application component references so they can be injected to other components. The creation
+ * of those components will be down internally on demand and with the knowledge of what components depend on other components.
+ *
  * @author Adam Antinoo
  */
 public class NeoComAndroid {
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 
 	private static NeoComAndroid singleton;
+	private static Application application;
 
 	private IConfigurationProvider configurationProvider;
-	private ESIGlobalAdapter esiAdapter;
-	private DataDownloaderService downloaderService;
-	private MiningRepository miningRepository;
-	private EveItemProvider eveItemProvider;
-
-	private Context applicationContext;
 	private IFileSystem fileSystemAdapter;
 	private IGlobalPreferencesManager preferencesProvider;
+	private ESIGlobalAdapter esiAdapter;
+	private DataDownloaderService downloaderService;
+	//	private EveItemProvider eveItemProvider;
+	private NeoComAndroidDBHelper neocomDBHelper;
+	private ESIDataPersistenceService persistenceService;
+	private MiningRepository miningRepository;
+	private TimedUpdater timedService;
 
+	public static NeoComAndroid initialiseSingleton( final Application newApplication ) {
+		application = newApplication;
+		if (null == singleton) singleton = new NeoComAndroid();
+		return singleton;
+	}
 
 	public static NeoComAndroid getSingleton() {
 		if (null == singleton)
-			throw new NeoComRuntimeException("NeoCom gloabl singleton is not instantiated. Please complete initilisation.");
+			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
 		return singleton;
 	}
 
 	public IConfigurationProvider getConfigurationProvider() {
+		if (null == this.configurationProvider) {
+			this.configurationProvider = new AndroidConfigurationProvider.Builder(
+					application.getResources().getString(R.string.propertiesLocation))
+					                             .withApplicationContext(application)
+					                             .build();
+		}
 		return this.configurationProvider;
 	}
 
+	public IGlobalPreferencesManager getPreferencesProvider() {
+		if (null == this.preferencesProvider) {
+			preferencesProvider = new GlobalAndroidPreferencesProvider();
+		}
+		return this.preferencesProvider;
+	}
+
+
+	public IFileSystem getFileSystemAdapter() {
+		if (null == this.fileSystemAdapter) {
+			fileSystemAdapter = new AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname), application)
+					                    .build();
+		}
+		return this.fileSystemAdapter;
+	}
+
 	public ESIGlobalAdapter getEsiAdapter() {
+		if (null == this.esiAdapter) {
+			esiAdapter = new ESIAndroidAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+					             .build();
+		}
 		return this.esiAdapter;
 	}
 
 	public DataDownloaderService getDownloaderService() {
+		if (null == this.downloaderService) {
+			downloaderService = new DataDownloaderService.Builder(this.getEsiAdapter())
+					                    .build();
+		}
 		return this.downloaderService;
+	}
+	public TimedUpdater getTimedService() {
+		if (null == this.timedService) {
+			timedService = new TimedUpdater.Builder()
+					               .withESIAdapter(this.getEsiAdapter())
+					               .withESIDataPersistenceService(this.getPersistenceService())
+					               .build();
+
+		}
+		return this.timedService;
+	}
+
+	public ESIDataPersistenceService getPersistenceService() {
+		if (null == this.persistenceService) {
+			try {
+				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
+				persistenceService = new ESIDataPersistenceService.Builder()
+						                     .withEsiAdapter(esiAdapter)
+						                     .withMiningRepository(new MiningRepository.Builder()
+								                                           .withMiningExtractionDao(miningExtractionDao)
+								                                           .build())
+						                     .build();
+			} catch (SQLException sqle) {
+				persistenceService = null;
+				Objects.requireNonNull(persistenceService);
+			}
+		}
+		return this.persistenceService;
 	}
 
 	public MiningRepository getMiningRepository() {
+		if (null == this.miningRepository) {
+			try {
+				miningRepository = new MiningRepository.Builder()
+						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
+						                   .build();
+			} catch (SQLException sqle) {
+				miningRepository = null;
+				Objects.requireNonNull(miningRepository);
+			}
+		}
 		return this.miningRepository;
 	}
 
-	public EveItemProvider getEveItemProvider() {
-		return this.eveItemProvider;
+	public NeoComAndroidDBHelper getNeoComDBHelper() {
+		if (null == this.neocomDBHelper) {
+			try {
+				neocomDBHelper = new NeoComAndroidDBHelper.Builder()
+						                 .withAppContext(application)
+						                 .withFileSystem(this.getFileSystemAdapter())
+						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
+						                 .setDatabaseName(application.getResources().getString(R.string.appdatabasefilename))
+						                 .setDatabaseVersion(Integer.valueOf(application.getResources().getString(
+								                 R.string.appdatabaseversion)))
+						                 .build();
+			} catch (SQLException sqle) {
+				neocomDBHelper = null;
+				Objects.requireNonNull(neocomDBHelper);
+			}
+		}
+		return this.neocomDBHelper;
 	}
 
-	// - B U I L D E R
-	public static class Singletoner {
-		private NeoComAndroid onConstruction;
+	public void SDE() {
 
-		public Singletoner() {
-			this.onConstruction = new NeoComAndroid();
-		}
-
-		public Singletoner withApplicationContext( final Context application ) {
-			this.onConstruction.applicationContext = application;
-			return this;
-		}
-
-		public Singletoner withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
-			this.onConstruction.fileSystemAdapter = fileSystemAdapter;
-			return this;
-		}
-
-		public Singletoner withConfigurationProvider( final IConfigurationProvider configurationProvider ) {
-			this.onConstruction.configurationProvider = configurationProvider;
-			return this;
-		}
-
-		public Singletoner withPreferencesProvider( final IGlobalPreferencesManager preferencesProvider ) {
-			this.onConstruction.preferencesProvider = preferencesProvider;
-			return this;
-		}
-
-		public Singletoner withESIAdapter( final ESIGlobalAdapter esiAdapter ) {
-			this.onConstruction.esiAdapter = esiAdapter;
-			return this;
-		}
-
-		public Singletoner withDataDownloaderService( final DataDownloaderService downloaderService ) {
-			this.onConstruction.downloaderService = downloaderService;
-			return this;
-		}
-
-		public Singletoner withMiningRepository( final MiningRepository miningRepository ) {
-			this.onConstruction.miningRepository = miningRepository;
-			return this;
-		}
-
-		public Singletoner withEveItemProvider( final EveItemProvider eveItemProvider ) {
-			this.onConstruction.eveItemProvider = eveItemProvider;
-			return this;
-		}
-
-		public NeoComAndroid build() {
-			singleton = this.onConstruction;
-			Objects.requireNonNull(this.onConstruction.configurationProvider);
-			Objects.requireNonNull(this.onConstruction.esiAdapter);
-			Objects.requireNonNull(this.onConstruction.downloaderService);
-			Objects.requireNonNull(this.onConstruction.miningRepository);
-			Objects.requireNonNull(this.onConstruction.eveItemProvider);
-			return this.onConstruction;
-		}
 	}
+
+	/*
+
+
+		// Load the SDE data
+		//		SDEExternalDataManager.loadSDEData();
+
+
+		// Connect the NeoCom database.
+		logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
+		//		try {
+		AndroidGlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.Builder().build());
+*/
 }

@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.part.AssetPart;
 import org.dimensinfin.eveonline.neocom.part.Location4AssetsPart;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 import org.dimensinfin.eveonline.neocom.part.RefiningDetailPart;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

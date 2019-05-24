@@ -19,7 +19,7 @@ import android.graphics.drawable.Drawable;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,24 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import org.dimensinfin.eveonline.neocom.core.EventEmitter;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 
 public class InitialisationTaskTest {
 	protected static Logger logger = LoggerFactory.getLogger(InitialisationTask.class);
@@ -48,9 +42,9 @@ public class InitialisationTaskTest {
 
 	@Test
 	public void execute_emptyTaskOk() throws InterruptedException {
-//		final EventEmitter emitter = Mockito.mock(EventEmitter.class);
+		//		final EventEmitter emitter = Mockito.mock(EventEmitter.class);
 		final InitialisationTask task = new InitialisationTask(runOkTask);
-//		Mockito.when(new EventEmitter()).thenReturn(emitter);
+		//		Mockito.when(new EventEmitter()).thenReturn(emitter);
 
 		Assert.assertEquals("The initial status should be WAITING.", InitialisationTask.ETaskStatus.WAITING, task.getStatus());
 		task.schedule();
@@ -65,7 +59,7 @@ public class InitialisationTaskTest {
 		logger.info("[COMPLETED WAIT]");
 		Assert.assertEquals("The status should be COMPLETED.", InitialisationTask.ETaskStatus.COMPLETED, task.getStatus());
 		// Check the event sent count
-//		Mockito.verify(emitter,times(3)).sendChangeEvent(any(String.class));
+		//		Mockito.verify(emitter,times(3)).sendChangeEvent(any(String.class));
 	}
 
 	@Test
@@ -85,6 +79,7 @@ public class InitialisationTaskTest {
 		logger.info("[COMPLETED WAIT]");
 		Assert.assertEquals("The status should be EXCEPTION.", InitialisationTask.ETaskStatus.EXCEPTION, task.getStatus());
 	}
+
 	@Test
 	public void execute_emptyTask_interrupted() throws InterruptedException, ExecutionException {
 		final ScheduledFuture future = Mockito.mock(ScheduledFuture.class);

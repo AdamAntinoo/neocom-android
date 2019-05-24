@@ -9,7 +9,6 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
-import org.dimensinfin.eveonline.neocom.mining.ItemPack;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
 public class TableHeaderController extends AAndroidController<TableHeader> {
