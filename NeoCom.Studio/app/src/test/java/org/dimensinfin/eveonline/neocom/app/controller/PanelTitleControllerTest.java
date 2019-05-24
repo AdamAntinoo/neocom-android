@@ -7,11 +7,17 @@ import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.render.PanelTitleRender;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PanelTitleRender.class)
 public class PanelTitleControllerTest {
 
 	@Test
@@ -33,7 +39,7 @@ public class PanelTitleControllerTest {
 				                                        .build();
 	}
 
-//	@Test
+	@Test
 	public void buildRender() throws Exception {
 		final Context context = Mockito.mock(Context.class);
 		final PanelTitle model = Mockito.mock(PanelTitle.class);

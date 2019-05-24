@@ -127,7 +127,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		for (Property role : locationRoles) {
 			if ( role.getPropertyType() == EPropertyTypes.LOCATIONROLE ) {
 				if ( role.getStringValue().equalsIgnoreCase("REFINING") ) {
-//					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getAppContext()).getCredential()
+//					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getActivityContext()).getCredential()
 //							, resourceLocation, Double.valueOf(role.getNumericValue()).intValue());
 					int jumps = 1;
 					if ( jumps < minJumps ) {

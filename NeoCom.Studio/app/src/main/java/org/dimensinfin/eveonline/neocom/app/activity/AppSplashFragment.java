@@ -33,7 +33,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 	@Override
 	public String getTitle() {
-		return this.getAppContext().getResources().getString(R.string.appname);
+		return this.getActivityContext().getResources().getString(R.string.appname);
 	}
 
 	@Override
@@ -50,10 +50,10 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
-				       .withCacheStatus(true)
-				       .withName(this.getAppContext().getResources().getString(R.string.appname))
-				       .withVersion(this.getAppContext().getResources().getString(R.string.appversionname))
-				       .withApplicationContext(this.getAppContext().getApplicationContext())
+//				       .withCacheStatus(true)
+				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
+				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
+				       .withApplicationContext(this.getActivityContext().getApplicationContext())
 				       .build();
 	}
 
