@@ -6,7 +6,7 @@ import java.util.Objects;
 import android.content.SharedPreferences;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 public class SplashActionBar implements ICollaboration {
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";

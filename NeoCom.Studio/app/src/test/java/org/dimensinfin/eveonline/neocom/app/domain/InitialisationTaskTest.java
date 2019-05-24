@@ -35,7 +35,7 @@ public class InitialisationTaskTest {
 		exceptionList.add(new NeoComError.Builder(new NeoComRuntimeException("Test Exception Text."))
 				                  .withType(EErrorType.RUNTIME)
 				                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-				                  .withOrigin("SplashActionsDatasource.collaborate2Model")
+				                  .withOrigin("SplashActionsDataSource.collaborate2Model")
 				                  .build());
 		return exceptionList;
 	};

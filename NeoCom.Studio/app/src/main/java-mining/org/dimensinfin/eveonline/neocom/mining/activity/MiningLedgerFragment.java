@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 public class MiningLedgerFragment extends AMVCPagerFragment {
 	private Credential credential;

@@ -29,7 +29,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.Instant;

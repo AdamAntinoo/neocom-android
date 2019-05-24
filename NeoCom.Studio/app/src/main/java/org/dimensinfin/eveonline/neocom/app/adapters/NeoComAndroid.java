@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.sharedcode.provider;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -6,8 +6,6 @@ import java.util.Objects;
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
-import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -59,6 +57,12 @@ public class NeoComAndroid {
 		return singleton;
 	}
 
+	public Application getApplication() {
+		if (null == application)
+			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
+		return application;
+	}
+
 	public IConfigurationProvider getConfigurationProvider() {
 		if (null == this.configurationProvider) {
 			this.configurationProvider = new AndroidConfigurationProvider.Builder(
@@ -100,6 +104,7 @@ public class NeoComAndroid {
 		}
 		return this.downloaderService;
 	}
+
 	public TimedUpdater getTimedService() {
 		if (null == this.timedService) {
 			timedService = new TimedUpdater.Builder()

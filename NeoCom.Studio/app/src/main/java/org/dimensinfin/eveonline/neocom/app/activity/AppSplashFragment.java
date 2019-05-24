@@ -13,15 +13,17 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
-import org.dimensinfin.eveonline.neocom.exception.EErrorType;
-import org.dimensinfin.eveonline.neocom.exception.NeoComError;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.exception.EErrorType;
+import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 public class AppSplashFragment extends AMVCPagerFragment {
@@ -43,22 +45,30 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		return new SplashActionsDatasource.Builder()
+		return new SplashActionsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
 				       .addIdentifier(this.getTitle())
 				       .addIdentifier("SPLASH")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
-//				       .withCacheStatus(true)
+				       //				       .withCacheStatus(true)
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
 				       .withApplicationContext(this.getActivityContext().getApplicationContext())
 				       .build();
 	}
 
+	/**
+	 * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
+	 * set is shown on the header and are the list of initialisation tasks and their current status.
+	 * The second set are the available credentials for the server selected, be it the production or the testing.
+	 *
+	 * Both sets of data require network access so I have to add a network detection and change the data source results depending on the
+	 * state of that detection.
+	 */
 	// - C R E D E N T I A L   D A T A S O U R C E
-	public static class SplashActionsDatasource extends AMVCDataSource {
+	public static class SplashActionsDataSource extends AMVCDataSource {
 		private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 		private String name;
 		private String version;
@@ -66,20 +76,16 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		private SharedPreferences preferences;
 
 		// -  S H A R E D   C O M P O N E N T S
-//		private IFileSystem fileSystemAdapter;
-//		private IConfigurationProvider configurationProvider;
-//		private IGlobalPreferencesManager preferencesProvider;
 		private ESIGlobalAdapter esiAdapter;
-//		private NeoComAndroidDBHelper neocomDBHelper;
 
 		private List<Callable<List<NeoComError>>> initializationTasksList = new ArrayList<>();
 
-		private SplashActionsDatasource setName( final String name ) {
+		private SplashActionsDataSource setName( final String name ) {
 			this.name = name;
 			return this;
 		}
 
-		private SplashActionsDatasource setVersion( final String version ) {
+		private SplashActionsDataSource setVersion( final String version ) {
 			this.version = version;
 			return this;
 		}
@@ -88,84 +94,94 @@ public class AppSplashFragment extends AMVCPagerFragment {
 			return applicationContext;
 		}
 
-		public SplashActionsDatasource setApplicationContext( final Context applicationContext ) {
+		public SplashActionsDataSource setApplicationContext( final Context applicationContext ) {
 			this.applicationContext = applicationContext;
 			return this;
 		}
 
 		@Override
 		public void prepareModel() {
-			logger.info(">> [SplashActionsDatasource.prepareModel]");
-			// [01]
-			// - D O W N L O A D - M A R K E T P R I C E S
-			initializationTasksList.add(() -> {
-				final List<NeoComError> exceptionList = new ArrayList<>();
-				try {
-					this.esiAdapter.downloadItemPrices();
-				} catch (RuntimeException rtex) {
-					exceptionList.add(new NeoComError.Builder(rtex)
-							                  .withType(EErrorType.RUNTIME)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				} catch (Exception ex) {
-					exceptionList.add(new NeoComError.Builder(ex)
-							                  .withType(EErrorType.EXCEPTION)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				}
-				return exceptionList;
-			});
-			// - D O W N L O A D - P I L O T F A M I L Y
-			initializationTasksList.add(() -> {
-				final List<NeoComError> exceptionList = new ArrayList<>();
-				try {
-					this.esiAdapter.downloadPilotFamilyData();
-				} catch (RuntimeException rtex) {
-					exceptionList.add(new NeoComError.Builder(rtex)
-							                  .withType(EErrorType.RUNTIME)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				} catch (Exception ex) {
-					exceptionList.add(new NeoComError.Builder(ex)
-							                  .withType(EErrorType.EXCEPTION)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				}
-				return exceptionList;
-			});
-			// - D O W N L O A D - C I T A D E L S
-			initializationTasksList.add(() -> {
-				final List<NeoComError> exceptionList = new ArrayList<>();
-				try {
-					AndroidGlobalDataManager.readLocationsDataCache();
-				} catch (RuntimeException rtex) {
-					exceptionList.add(new NeoComError.Builder(rtex)
-							                  .withType(EErrorType.RUNTIME)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				} catch (Exception ex) {
-					exceptionList.add(new NeoComError.Builder(ex)
-							                  .withType(EErrorType.EXCEPTION)
-							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-							                  .build());
-				}
-				return exceptionList;
-			});
-			logger.info("<< [SplashActionsDatasource.prepareModel]");
+			logger.info(">> [SplashActionsDataSource.prepareModel]");
+			// Change the contents depending on the network status
+			if (NeoComApplication.checkNetworkAccess()) {
+				// - D O W N L O A D - M A R K E T P R I C E S
+				initializationTasksList.add(() -> {
+					final List<NeoComError> exceptionList = new ArrayList<>();
+					try {
+						this.esiAdapter.downloadItemPrices();
+					} catch (RuntimeException rtex) {
+						exceptionList.add(new NeoComError.Builder(rtex)
+								                  .withType(EErrorType.RUNTIME)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					} catch (Exception ex) {
+						exceptionList.add(new NeoComError.Builder(ex)
+								                  .withType(EErrorType.EXCEPTION)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					}
+					return exceptionList;
+				});
+				// - D O W N L O A D - P I L O T F A M I L Y
+				initializationTasksList.add(() -> {
+					final List<NeoComError> exceptionList = new ArrayList<>();
+					try {
+						this.esiAdapter.downloadPilotFamilyData();
+					} catch (RuntimeException rtex) {
+						exceptionList.add(new NeoComError.Builder(rtex)
+								                  .withType(EErrorType.RUNTIME)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					} catch (Exception ex) {
+						exceptionList.add(new NeoComError.Builder(ex)
+								                  .withType(EErrorType.EXCEPTION)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					}
+					return exceptionList;
+				});
+				// - D O W N L O A D - C I T A D E L S
+				initializationTasksList.add(() -> {
+					final List<NeoComError> exceptionList = new ArrayList<>();
+					try {
+						AndroidGlobalDataManager.readLocationsDataCache();
+					} catch (RuntimeException rtex) {
+						exceptionList.add(new NeoComError.Builder(rtex)
+								                  .withType(EErrorType.RUNTIME)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					} catch (Exception ex) {
+						exceptionList.add(new NeoComError.Builder(ex)
+								                  .withType(EErrorType.EXCEPTION)
+								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
+								                  .build());
+					}
+					return exceptionList;
+				});
+			} else {
+				this.addHeaderContents(new AppVersion()
+						                       .setName(this.name)
+						                       .setVersion(this.version));
+				this.addHeaderContents(new WarningPanel.Builder()
+						                       .withType("WARNING")
+						                       .withDescription("The is no network connection. Application functionality in hold.")
+						                       .build());
+			}
+			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
 		@Override
 		public void collaborate2Model() {
 			try {
-				logger.info(">> [SplashActionsDatasource.collaborate2Model]");
+				logger.info(">> [SplashActionsDataSource.collaborate2Model]");
 				// - S E C T I O N   H E A D E R
-				logger.info("-- [SplashActionsDatasource.collaborate2Model]> Section Header");
+				logger.info("-- [SplashActionsDataSource.collaborate2Model]> Section Header");
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
 						                       .setVersion(this.version));
@@ -190,7 +206,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				runtime.printStackTrace();
 			}
 			//			this.addModelContents(new ColonyMap());
-			logger.info("<< [SplashActionsDatasource.collaborate2Model]");
+			logger.info("<< [SplashActionsDataSource.collaborate2Model]");
 		}
 
 		private boolean validateCredential( final Credential credential ) {
@@ -199,12 +215,12 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		}
 
 		// - B U I L D E R
-		public static class Builder extends AMVCDataSource.BaseBuilder<SplashActionsDatasource, Builder> {
-			private SplashActionsDatasource onConstruction;
+		public static class Builder extends AMVCDataSource.BaseBuilder<SplashActionsDataSource, Builder> {
+			private SplashActionsDataSource onConstruction;
 
 			@Override
-			protected SplashActionsDatasource getActual() {
-				if (null == this.onConstruction) this.onConstruction = new SplashActionsDatasource();
+			protected SplashActionsDataSource getActual() {
+				if (null == this.onConstruction) this.onConstruction = new SplashActionsDataSource();
 				return this.onConstruction;
 			}
 
@@ -227,126 +243,11 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				this.getActual().setApplicationContext(applicationContext);
 				return this;
 			}
-			public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter){
+
+			public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
 				this.onConstruction.esiAdapter = esiAdapter;
 				return this;
 			}
 		}
 	}
 }
-// [01]
-// Create the model for the components initialisation. Keep this simple until mode functionality is added.
-//			// - C O M P O N E N T S   C O R E
-//			initializationTasksList.add(() -> {
-//				final List<NeoComError> exceptionList = new ArrayList<>();
-//				try {
-//					fileSystemAdapter = new AndroidFileSystemAdapter.Builder(
-//							this.getApplicationContext().getResources().getString(R.string.appname)
-//							, this.getApplicationContext())
-//							                    .build();
-//					configurationProvider = new AndroidConfigurationProvider.Builder(
-//							this.getApplicationContext().getResources().getString(R.string.propertiesLocation))
-//							                        .withApplicationContext(this.getApplicationContext())
-//							                        .build();
-//					preferencesProvider = new GlobalAndroidPreferencesProvider();
-//					esiAdapter = new ESIAndroidAdapter.Builder(configurationProvider, fileSystemAdapter)
-//							             .build();
-//				} catch (RuntimeException rtex) {
-//					exceptionList.add(new NeoComError.Builder(rtex)
-//							                  .withType(EErrorType.RUNTIME)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				} catch (Exception ex) {
-//					exceptionList.add(new NeoComError.Builder(ex)
-//							                  .withType(EErrorType.EXCEPTION)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				}
-//				return exceptionList;
-//			});
-//			// - N E O C O M D B H E L P E R
-//			initializationTasksList.add(() -> {
-//				final List<NeoComError> exceptionList = new ArrayList<>();
-//				try {
-//					neocomDBHelper = new NeoComAndroidDBHelper.Builder()
-//							                 .withAppContext(this.getApplicationContext())
-//							                 .withFileSystem(fileSystemAdapter)
-//							                 .setDatabaseLocation(this.getApplicationContext().getResources().getString(R.string.appname))
-//							                 .setDatabaseName(this.getApplicationContext().getResources().getString(R.string.appdatabasefilename))
-//							                 .setDatabaseVersion(Integer.valueOf(this.getApplicationContext().getResources().getString(
-//									                 R.string.appdatabaseversion))
-//							                 )
-//							                 .build();
-//				} catch (RuntimeException rtex) {
-//					exceptionList.add(new NeoComError.Builder(rtex)
-//							                  .withType(EErrorType.RUNTIME)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				} catch (Exception ex) {
-//					exceptionList.add(new NeoComError.Builder(ex)
-//							                  .withType(EErrorType.EXCEPTION)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				}
-//				return exceptionList;
-//			});
-//			// - C O M P O N E N T   F A C T O R Y
-//			initializationTasksList.add(() -> {
-//				final List<NeoComError> exceptionList = new ArrayList<>();
-//				try {
-//					final NeoComAndroid neocom = new NeoComAndroid.Singletoner()
-//							                             .withApplicationContext(this.getApplicationContext())
-//							                             .withFileSystemAdapter(fileSystemAdapter)
-//							                             .withConfigurationProvider(configurationProvider)
-//							                             .withPreferencesProvider(preferencesProvider)
-//							                             .withESIAdapter(esiAdapter)
-//							                             .withDataDownloaderService(new DataDownloaderService())
-//							                             .withMiningRepository(new MiningRepository.Builder()
-//									                                                   .withMiningExtractionDao(neocomDBHelper.getMiningExtractionDao())
-//									                                                   .build()
-//							                             )
-//							                             .withEveItemProvider(new EveItemProvider.Builder(esiAdapter).build())
-//							                             .build();
-//				} catch (RuntimeException rtex) {
-//					exceptionList.add(new NeoComError.Builder(rtex)
-//							                  .withType(EErrorType.RUNTIME)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				} catch (Exception ex) {
-//					exceptionList.add(new NeoComError.Builder(ex)
-//							                  .withType(EErrorType.EXCEPTION)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				}
-//				return exceptionList;
-//			});
-//			// - T I M E D   S E R V I C E
-//			initializationTasksList.add(() -> {
-//				final List<NeoComError> exceptionList = new ArrayList<>();
-//				try {
-//					final TimedUpdater timedService = new TimedUpdater.Builder()
-//							                                  .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
-//							                                  .build();
-//					// Send the timer to the application singleton.
-//					NeoComApplication.setTimedUpdater(timedService);
-//				} catch (RuntimeException rtex) {
-//					exceptionList.add(new NeoComError.Builder(rtex)
-//							                  .withType(EErrorType.RUNTIME)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				} catch (Exception ex) {
-//					exceptionList.add(new NeoComError.Builder(ex)
-//							                  .withType(EErrorType.EXCEPTION)
-//							                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//							                  .withOrigin("SplashActionsDatasource.collaborate2Model")
-//							                  .build());
-//				}
-//				return exceptionList;
-//			});

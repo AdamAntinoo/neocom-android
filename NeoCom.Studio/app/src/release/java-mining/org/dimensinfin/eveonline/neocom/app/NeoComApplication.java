@@ -8,8 +8,11 @@ import java.io.OutputStream;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
@@ -18,7 +21,7 @@ import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.sharedcode.provider.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,13 @@ public class NeoComApplication extends Application {
 	public static void runTicker() {
 		if (null == timedService) timedService = NeoComAndroid.getSingleton().getTimedService();
 		if (null != timedService) timedService.timeTick();
+	}
+	public static boolean checkNetworkAccess() {
+		final ConnectivityManager cm = (ConnectivityManager) NeoComAndroid.getSingleton().getApplication()
+				                                                     .getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if ( (netInfo != null) && netInfo.isConnectedOrConnecting() ) return true;
+		return false;
 	}
 
 	// - F I E L D - S E C T I O N
