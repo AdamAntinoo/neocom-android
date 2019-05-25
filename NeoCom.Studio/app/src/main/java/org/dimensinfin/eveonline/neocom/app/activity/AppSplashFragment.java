@@ -20,6 +20,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
@@ -110,9 +111,10 @@ public class AppSplashFragment extends AMVCPagerFragment {
 							                            .withTaskName("Minute waiting")
 							                            .withTask(() -> {
 								                            // This is a test task that will last for one minute to check the different states.
-								                            Thread.sleep(TimeUnit.MINUTES.toMillis(1));
+								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
 								                            return new ArrayList<>();
 							                            })
+							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 							                            .build(1));
 				}
 				// - D O W N L O A D - M A R K E T P R I C E S
@@ -137,6 +139,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 							                            }
 							                            return exceptionList;
 						                            })
+						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 						                            .build(2));
 				// - D O W N L O A D - P I L O T F A M I L Y
 				initializationTasksList.add(new InitialisationTask.Builder()
@@ -160,6 +163,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 							                            }
 							                            return exceptionList;
 						                            })
+						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 						                            .build(2));
 				// - D O W N L O A D - C I T A D E L S
 				initializationTasksList.add(new InitialisationTask.Builder()
@@ -183,6 +187,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 							                            }
 							                            return exceptionList;
 						                            })
+						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 						                            .build(2));
 			} else {
 				this.addHeaderContents(new AppVersion()
@@ -207,7 +212,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 							                       .setName(this.name)
 							                       .setVersion(this.version));
 					for (InitialisationTask task : this.initializationTasksList) {
-						this.addHeaderContents(task.schedule(2));
+						this.addModelContents(task.schedule(2));
 					}
 					// - S E C T I O N   D A T A
 					// Add the panel title up front of the Credential list.

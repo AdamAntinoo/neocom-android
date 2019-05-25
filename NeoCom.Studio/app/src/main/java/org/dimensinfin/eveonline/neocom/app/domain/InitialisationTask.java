@@ -17,6 +17,7 @@ import org.dimensinfin.eveonline.neocom.core.EventEmitter;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
+import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class InitialisationTask implements ICollaboration {
 	private String taskName = "Initialisation Task";
 	private ETaskStatus status = ETaskStatus.WAITING;
 	private Callable task;
+	private Instant startInstant = Instant.now();
 	private List<NeoComError> exceptionReport = new ArrayList<>();
 	private EventEmitter eventEmitter = new EventEmitter();
 
@@ -49,6 +51,10 @@ public class InitialisationTask implements ICollaboration {
 
 	public ETaskStatus getStatus() {
 		return status;
+	}
+
+	public Instant getStartInstant() {
+		return startInstant;
 	}
 
 	@Override
@@ -82,6 +88,7 @@ public class InitialisationTask implements ICollaboration {
 	 * @return this same instance so it can be inserted on the page.
 	 */
 	public InitialisationTask execute() {
+		this.startInstant = Instant.now();
 		logger.info("[EXECUTING]");
 		this.setStatus(ETaskStatus.EXECUTING);
 		final Future<List<NeoComError>> future = this.executor.submit(this.task);

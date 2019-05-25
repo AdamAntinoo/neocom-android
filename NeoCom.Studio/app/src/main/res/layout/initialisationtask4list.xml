@@ -16,25 +16,48 @@
 
 
 	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+			android:id="@+id/status"
+			style="@style/AppTheme.NeoComText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toStartOf="@+id/elapsedTime"
+			android:layout_marginEnd="4dp"
+			android:gravity="right"
+			android:textColor="@color/appgreylight"
+			android:layout_marginStart="@dimen/standardmargin"
+			android:layout_marginTop="@dimen/standardmargin"
+			android:text="@string/default_paneltitle"
+			android:textSize="12sp"/>
+
+	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
 			android:id="@+id/elapsedTime"
 			style="@style/AppTheme.NeoComText.ElapsedTime"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_toStartOf="@+id/spinner"
+			android:layout_toStartOf="@+id/spinnerOn"
 			android:layout_marginEnd="4dp"
 			android:gravity="right"
 			android:layout_marginStart="@dimen/standardmargin"
 			android:layout_marginTop="@dimen/standardmargin"
-			android:text="@string/default_elapsedtime"
+			android:text="-"
 			android:textSize="12sp"/>
 
 	<ImageView
-			android:id="@+id/spinner"
-			style="@style/AppTheme.NodeIcon"
-			android:layout_width="20dp"
-			android:layout_height="20dp"
+			android:id="@+id/spinnerOn"
+			style="@style/AppTheme.NodeIcon.NoBorder"
+			android:layout_width="18dp"
+			android:layout_height="18dp"
 			android:layout_alignParentEnd="true"
 			android:src="@drawable/progress_spinner_white"
 			android:visibility="visible"/>
+
+	<ImageView
+			android:id="@+id/spinnerOff"
+			style="@style/AppTheme.NodeIcon.NoBorder"
+			android:layout_width="18dp"
+			android:layout_height="18dp"
+			android:layout_alignParentEnd="true"
+			android:src="@drawable/progress70_white"
+			android:visibility="invisible"/>
 
 </RelativeLayout>

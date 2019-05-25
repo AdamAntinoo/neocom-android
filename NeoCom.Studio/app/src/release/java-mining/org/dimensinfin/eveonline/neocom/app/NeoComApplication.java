@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -14,8 +15,12 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
+import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
@@ -145,23 +150,23 @@ public class NeoComApplication extends Application {
 				                            .build());
 
 		// Connect the SDE database.
-		//		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
-		//		try {
-		//			AndroidGlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
-		//					                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.databaseschema"))
-		//					                                               .setDatabasePath(AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname) + "/")
-		//					                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))
-		//					                                               .build()
-		//			);
-		//		} catch (SQLException sqle) {
-		//			AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
-		//			sqle.printStackTrace();
-		//		}
-		//		ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
+		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
+		try {
+			AndroidGlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
+					                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.databaseschema"))
+					                                               .setDatabasePath(AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname) + "/")
+					                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))
+					                                               .build()
+			);
+		} catch (SQLException sqle) {
+			AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
+			sqle.printStackTrace();
+		}
+		ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
 
 		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
-		//		mdServer = new MarketDataServer().start();
-		//		GlobalDataManager.getSingleton().connectMarketDataManager( mdServer );
+		mdServer = new MarketDataServer().start();
+		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
 	}
 
 	/**
