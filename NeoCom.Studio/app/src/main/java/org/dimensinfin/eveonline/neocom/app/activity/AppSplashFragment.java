@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
@@ -78,7 +79,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		// -  S H A R E D   C O M P O N E N T S
 		private ESIGlobalAdapter esiAdapter;
 
-		private List<Callable<List<NeoComError>>> initializationTasksList = new ArrayList<>();
+		private List<InitialisationTask> initializationTasksList = new ArrayList<>();
 
 		private SplashActionsDataSource setName( final String name ) {
 			this.name = name;
@@ -104,66 +105,85 @@ public class AppSplashFragment extends AMVCPagerFragment {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
 			// Change the contents depending on the network status
 			if (NeoComApplication.checkNetworkAccess()) {
+				if (BuildConfig.DEBUG) {
+					initializationTasksList.add(new InitialisationTask.Builder()
+							                            .withTaskName("Minute waiting")
+							                            .withTask(() -> {
+								                            // This is a test task that will last for one minute to check the different states.
+								                            Thread.sleep(TimeUnit.MINUTES.toMillis(1));
+								                            return new ArrayList<>();
+							                            })
+							                            .build(1));
+				}
 				// - D O W N L O A D - M A R K E T P R I C E S
-				initializationTasksList.add(() -> {
-					final List<NeoComError> exceptionList = new ArrayList<>();
-					try {
-						this.esiAdapter.downloadItemPrices();
-					} catch (RuntimeException rtex) {
-						exceptionList.add(new NeoComError.Builder(rtex)
-								                  .withType(EErrorType.RUNTIME)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					} catch (Exception ex) {
-						exceptionList.add(new NeoComError.Builder(ex)
-								                  .withType(EErrorType.EXCEPTION)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					}
-					return exceptionList;
-				});
+				initializationTasksList.add(new InitialisationTask.Builder()
+						                            .withTaskName("Downloading Market Prices")
+						                            .withTask(() -> {
+							                            final List<NeoComError> exceptionList = new ArrayList<>();
+							                            try {
+								                            this.esiAdapter.downloadItemPrices();
+							                            } catch (RuntimeException rtex) {
+								                            exceptionList.add(new NeoComError.Builder(rtex)
+										                                              .withType(EErrorType.RUNTIME)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            } catch (Exception ex) {
+								                            exceptionList.add(new NeoComError.Builder(ex)
+										                                              .withType(EErrorType.EXCEPTION)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            }
+							                            return exceptionList;
+						                            })
+						                            .build(2));
 				// - D O W N L O A D - P I L O T F A M I L Y
-				initializationTasksList.add(() -> {
-					final List<NeoComError> exceptionList = new ArrayList<>();
-					try {
-						this.esiAdapter.downloadPilotFamilyData();
-					} catch (RuntimeException rtex) {
-						exceptionList.add(new NeoComError.Builder(rtex)
-								                  .withType(EErrorType.RUNTIME)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					} catch (Exception ex) {
-						exceptionList.add(new NeoComError.Builder(ex)
-								                  .withType(EErrorType.EXCEPTION)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					}
-					return exceptionList;
-				});
+				initializationTasksList.add(new InitialisationTask.Builder()
+						                            .withTaskName("Downloading Pilot Family data")
+						                            .withTask(() -> {
+							                            final List<NeoComError> exceptionList = new ArrayList<>();
+							                            try {
+								                            this.esiAdapter.downloadPilotFamilyData();
+							                            } catch (RuntimeException rtex) {
+								                            exceptionList.add(new NeoComError.Builder(rtex)
+										                                              .withType(EErrorType.RUNTIME)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            } catch (Exception ex) {
+								                            exceptionList.add(new NeoComError.Builder(ex)
+										                                              .withType(EErrorType.EXCEPTION)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            }
+							                            return exceptionList;
+						                            })
+						                            .build(2));
 				// - D O W N L O A D - C I T A D E L S
-				initializationTasksList.add(() -> {
-					final List<NeoComError> exceptionList = new ArrayList<>();
-					try {
-						AndroidGlobalDataManager.readLocationsDataCache();
-					} catch (RuntimeException rtex) {
-						exceptionList.add(new NeoComError.Builder(rtex)
-								                  .withType(EErrorType.RUNTIME)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					} catch (Exception ex) {
-						exceptionList.add(new NeoComError.Builder(ex)
-								                  .withType(EErrorType.EXCEPTION)
-								                  .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-								                  .withOrigin("SplashActionsDataSource.collaborate2Model")
-								                  .build());
-					}
-					return exceptionList;
-				});
+				initializationTasksList.add(new InitialisationTask.Builder()
+						                            .withTaskName("Downloading Citadels")
+						                            .withTask(() -> {
+							                            final List<NeoComError> exceptionList = new ArrayList<>();
+							                            try {
+								                            AndroidGlobalDataManager.readLocationsDataCache();
+							                            } catch (RuntimeException rtex) {
+								                            exceptionList.add(new NeoComError.Builder(rtex)
+										                                              .withType(EErrorType.RUNTIME)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            } catch (Exception ex) {
+								                            exceptionList.add(new NeoComError.Builder(ex)
+										                                              .withType(EErrorType.EXCEPTION)
+										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+										                                              .build());
+							                            }
+							                            return exceptionList;
+						                            })
+						                            .build(2));
 			} else {
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
@@ -186,8 +206,8 @@ public class AppSplashFragment extends AMVCPagerFragment {
 					this.addHeaderContents(new AppVersion()
 							                       .setName(this.name)
 							                       .setVersion(this.version));
-					for (Callable<List<NeoComError>> task : this.initializationTasksList) {
-						this.addHeaderContents(new InitialisationTask(task).schedule());
+					for (InitialisationTask task : this.initializationTasksList) {
+						this.addHeaderContents(task.schedule(2));
 					}
 					// - S E C T I O N   D A T A
 					// Add the panel title up front of the Credential list.

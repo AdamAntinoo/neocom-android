@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/uipanelborderdarkblue">
+
+	<org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+			android:id="@+id/taskName"
+			style="@style/AppTheme.TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/standardmargin"
+			android:layout_marginTop="@dimen/standardmargin"
+			android:text="@string/default_paneltitle"
+			android:textSize="12sp"/>
+
+
+	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+			android:id="@+id/elapsedTime"
+			style="@style/AppTheme.NeoComText.ElapsedTime"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toStartOf="@+id/spinner"
+			android:layout_marginEnd="4dp"
+			android:gravity="right"
+			android:layout_marginStart="@dimen/standardmargin"
+			android:layout_marginTop="@dimen/standardmargin"
+			android:text="@string/default_elapsedtime"
+			android:textSize="12sp"/>
+
+	<ImageView
+			android:id="@+id/spinner"
+			style="@style/AppTheme.NodeIcon"
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+			android:layout_alignParentEnd="true"
+			android:src="@drawable/progress_spinner_white"
+			android:visibility="visible"/>
+
+</RelativeLayout>

@@ -1,17 +1,22 @@
 package org.dimensinfin.eveonline.neocom.app.controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import android.content.Context;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.render.InitialisationTaskRender;
 
-public class InitialisationTaskController extends AAndroidController<InitialisationTask> {
+public class InitialisationTaskController extends AAndroidController<InitialisationTask> implements PropertyChangeListener {
 	public InitialisationTaskController( @NonNull final InitialisationTask model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
+		model.addPropertyChangeListener(this);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
@@ -23,5 +28,13 @@ public class InitialisationTaskController extends AAndroidController<Initialisat
 	@Override
 	public long getModelId() {
 		return this.getModel().hashCode();
+	}
+
+	// - P R O P E R T Y C H A N G E L I S T E N E R
+	@Override
+	public void propertyChange( final PropertyChangeEvent evt ) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+			this.notifyDataModelChange();
+		}
 	}
 }

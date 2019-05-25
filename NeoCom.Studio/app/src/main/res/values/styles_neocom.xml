@@ -74,6 +74,11 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="AppTheme.NeoComText.ElapsedTime" parent="AppTheme.NeoComText">
+        <item name="android:textColor">@color/apporangemedium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="AppTheme.NeoComText.Click" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appgreen</item>
     </style>
