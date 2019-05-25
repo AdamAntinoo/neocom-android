@@ -94,6 +94,7 @@
     <style name="AppTheme.NeoComText.ItemType" parent="AppTheme.NeoComText">
         <item name="android:textColor">@color/appwhite</item>
         <item name="android:text">@string/default_typeid</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="AppTheme.NeoComText.Category" parent="AppTheme.NeoComText">

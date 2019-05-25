@@ -7,6 +7,8 @@ import java.util.List;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
@@ -17,8 +19,6 @@ import org.dimensinfin.eveonline.neocom.mining.activity.MiningControllerFactory;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -135,9 +135,9 @@ public class MiningLedgerDataSourceTodayTest {
 		int obtained = dataSource.getExtractionsProcessed();
 		Assert.assertEquals("Number of extractions processed.", 10, obtained);
 		obtained = dataSource.getResources().get(34).getQuantity();
-		Assert.assertEquals("Number of Tritanium units.", 10000 * 5 + 1500, obtained);
-		obtained = dataSource.getResources().get(34).getQuantity();
-		Assert.assertEquals("Number of Other units.", 10000 * 5 + 1500, obtained);
+		Assert.assertEquals("Number of Tritanium units.", 10000 * 5 + (15 + 16 + 17 + 18 + 19) * 100, obtained);
+		obtained = dataSource.getResources().get(45498).getQuantity();
+		Assert.assertEquals("Number of Other units.", 10000 * 5 + (15 + 16 + 17 + 18 + 19) * 100, obtained);
 		// Test contents details.
 		IAndroidController testSlot = controllers.get(0);
 		Assert.assertTrue(testSlot instanceof PanelTitleController);
@@ -147,12 +147,14 @@ public class MiningLedgerDataSourceTodayTest {
 		testSlot = controllers.get(2);
 		Assert.assertTrue(testSlot instanceof MiningExtractionController);
 		Assert.assertEquals("Default System Name", ((MiningExtraction) testSlot.getModel()).getSystemName());
-		final int expectedHour = new LocalDateTime().getHourOfDay();
+//		final int expectedHour = new LocalDateTime().getHourOfDay();
 		Assert.assertEquals("Extraction Hour: Extraction 01", 15, ((MiningExtraction) testSlot.getModel()).getExtractionHour());
+		Assert.assertEquals("Extected quantity: Extraction 01", 10000+15*100, ((MiningExtraction) testSlot.getModel()).getQuantity());
 		testSlot = controllers.get(3);
 		Assert.assertTrue(testSlot instanceof MiningExtractionController);
 		Assert.assertEquals("Default System Name", ((MiningExtraction) testSlot.getModel()).getSystemName());
 		Assert.assertEquals("Extraction Hour: Extraction 02", 16, ((MiningExtraction) testSlot.getModel()).getExtractionHour());
+		Assert.assertEquals("Extraction Delta: Extraction 02", 100, ((MiningExtraction) testSlot.getModel()).getDelta());
 	}
 
 	private void generateExtractionsT1() {
@@ -167,12 +169,12 @@ public class MiningLedgerDataSourceTodayTest {
 		// Generate 5 different hours for today.
 		for (int i = 5; i > 0; i--) {
 			final String date = DateTime.now().toString("YYYY/MM/dd");
-			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
-			final LocalDateTime extractionTime = new LocalDateTime().withHourOfDay(20 - i);
+//			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
+//			final LocalDateTime extractionTime = new LocalDateTime().withHourOfDay(20 - i);
 			todayExtractions.add(new MiningExtraction.Builder()
 					                     .withTypeId(typeId)
 					                     .withSolarSystemId(30001647)
-					                     .withQuantity(quantity + i * 100)
+					                     .withQuantity(quantity + (20 - i) * 100)
 					                     .withOwnerId(92223647)
 					                     .withExtractionDate(new LocalDate())
 					                     .withExtractionHour(20 - i)

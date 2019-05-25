@@ -4,38 +4,37 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/uipanelborderyellow">
 
-	<TextView
-			android:id="@+id/nameTypeLabel"
-			style="@style/AppTheme.Label.BottomLine"
+	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+			android:id="@+id/resourceName"
+			style="@style/AppTheme.NeoComText.Orange"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentStart="true"
 			android:singleLine="true"
-			android:text="@string/default_label"
-			android:textSize="10sp"/>
+			android:text="@string/default_resource"/>
 
-	<TextView
-			android:id="@+id/quantityLabel"
-			style="@style/AppTheme.Label.BottomLine"
+	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
+			android:id="@+id/quantity"
+			style="@style/AppTheme.StockCounter"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
-			android:layout_toLeftOf="@+id/valueLabel"
+			android:layout_toLeftOf="@+id/value"
 			android:singleLine="true"
 			android:gravity="right"
-			android:text="@string/default_label"
-			android:textSize="10sp"/>
+			android:text="@string/default_quantity"
+			android:textSize="12sp"/>
 
-	<TextView
-			android:id="@+id/valueLabel"
-			style="@style/AppTheme.Label.BottomLine"
-			android:layout_width="200dip"
+	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
+			android:id="@+id/value"
+			style="@style/AppTheme.StockCounter"
+			android:layout_width="150dip"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentEnd="true"
 			android:singleLine="true"
 			android:gravity="right"
-			android:text="@string/default_label"
-			android:textSize="10sp"/>
+			android:text="@string/default_bignumber"
+			android:textSize="12sp"/>
 </RelativeLayout>

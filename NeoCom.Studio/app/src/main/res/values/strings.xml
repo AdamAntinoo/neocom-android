@@ -60,6 +60,5 @@
 	<string name="propertiesLocation">properties</string>
 	<string name="title_mining">NeoCom Mining</string>
 	<string name="title_shared">NeoCom shared</string>
-	<string name="default_elapsedtime">1m 23s</string>
 
 </resources>

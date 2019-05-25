@@ -6,7 +6,7 @@
 
 	<TextView
 			android:id="@+id/nameTypeLabel"
-			style="@style/AppTheme.Label.BottomLine"
+			style="@style/AppTheme.Label"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
@@ -14,11 +14,11 @@
 			android:singleLine="true"
 			android:textAllCaps="true"
 			android:text="Resource name [#typeId]"
-			android:textSize="9sp"/>
+			android:textSize="8sp"/>
 
 	<TextView
 			android:id="@+id/quantityLabel"
-			style="@style/AppTheme.Label.BottomLine"
+			style="@style/AppTheme.Label"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
@@ -26,11 +26,11 @@
 			android:singleLine="true"
 			android:gravity="right"
 			android:text="QUANTITY"
-			android:textSize="9sp"/>
+			android:textSize="8sp"/>
 
 	<TextView
 			android:id="@+id/valueLabel"
-			style="@style/AppTheme.Label.BottomLine"
+			style="@style/AppTheme.Label"
 			android:layout_width="150dip"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
@@ -38,5 +38,5 @@
 			android:singleLine="true"
 			android:gravity="right"
 			android:text="VALUE"
-			android:textSize="9sp"/>
+			android:textSize="8sp"/>
 </RelativeLayout>
