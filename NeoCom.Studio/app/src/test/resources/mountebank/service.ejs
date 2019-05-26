@@ -1,0 +1,40 @@
+{
+  "port": 8443,
+  "protocol": "https",
+  "name": "origin",
+  "allowCORS": true,
+  "recordRequests": true,
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "GET"
+          }
+        },
+        {
+          "matches": {
+            "path": "/characters/(.*)/mining"
+          }
+        }
+      ],
+      "responses": [
+        {
+          "inject": "<%- stringify(filename, 'characters/mining_extractions.ejs') %>"
+        }
+      ]
+    },
+    {
+      "responses": [
+        {
+          "is": {
+            "statusCode": 400,
+            "body": {
+              "error:": "Bad ESI request message."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
