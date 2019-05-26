@@ -1,19 +1,20 @@
 package org.dimensinfin.eveonline.neocom.mining;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 
-public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> extends PanelTitle implements IContainerAggregator<T> {
+public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> extends PanelTitle implements IContainerAggregator<T>, PropertyChangeListener {
 	protected boolean _expanded = false;
 	protected boolean _renderIfEmpty = true;
 	protected List<T> contents = new ArrayList<>();
-	protected double totalValue = 0.0;
-	protected double totalVolume = 0.0;
 
 	public MiningExtractionAggregatorAsPanelTitle( final String title ) {
 		super(title);
@@ -28,9 +29,32 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	@Override
 	public int addPack( final T itemPack ) {
 		this.contents.add(itemPack);
-		totalValue += itemPack.getPrice() * itemPack.getQuantity();
-		totalVolume += itemPack.getVolume() * itemPack.getQuantity();
+		//		totalValue += itemPack.getPrice() * itemPack.getQuantity();
+		//		totalVolume += itemPack.getVolume() * itemPack.getQuantity();
+//		itemPack.addPropertyChangeListener(this);
 		return contents.size();
+	}
+
+	public double getTotalValue() {
+		double total = 0.0;
+		for (T node : this.contents)
+			total += node.getPrice() * node.getQuantity();
+		return total;
+	}
+
+	public double getTotalVolume() {
+		double total = 0.0;
+		for (T node : this.contents)
+			total += node.getVolume() * node.getQuantity();
+		return total;
+	}
+
+	// - P R O P E R T Y C H A N G E L I S T E N E R
+	@Override
+	public void propertyChange( final PropertyChangeEvent evt ) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+			this.firePropertyChange(evt);
+		}
 	}
 
 	// - I E X P A N D A B L E

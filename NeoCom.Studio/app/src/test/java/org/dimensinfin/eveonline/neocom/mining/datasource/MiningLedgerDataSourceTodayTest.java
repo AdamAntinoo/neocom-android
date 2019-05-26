@@ -14,15 +14,16 @@ import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningControllerFactory;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionAggregatorController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,46 +53,6 @@ public class MiningLedgerDataSourceTodayTest {
 		miningRepository = Mockito.mock(MiningRepository.class);
 		credential = Mockito.mock(Credential.class);
 	}
-
-	//	@Test
-	//	public void prepareModel_noitems() {
-	//
-	//	}
-	//
-	//	@Test
-	//	public void prepareModel_singleLocation() throws SQLException {
-	//		// Given
-	//		final Credential credential = Mockito.mock(Credential.class);
-	//		final MiningRepository miningRepository = Mockito.mock(MiningRepository.class);
-	//		final MiningControllerFactory factory = new MiningControllerFactory("TEST-VARIANT");
-	//		final MiningLedgerDataSourceToday dataSource = new MiningLedgerDataSourceToday.Builder()
-	//				                                               .addIdentifier("TEST/MINING-TODAY")
-	//				                                               .withFactory(factory)
-	//				                                               .withCredential(credential)
-	//				                                               .withMiningRepository(miningRepository)
-	//				                                               .build();
-	//		// When
-	//		Mockito.when(miningRepository.accessTodayMiningExtractions4Pilot(credential)).thenReturn(this.extractionsToday_singleLocation());
-	//		// Testing
-	//		Assert.assertEquals(0, dataSource.getDataSectionContents().size());
-	//		dataSource.prepareModel();
-	//		Assert.assertEquals(0, dataSource.getDataSectionContents().size());
-	//		dataSource.collaborate2Model();
-	//		// Asserts
-	//		Assert.assertEquals(2, dataSource.getDataSectionContents().size());
-	//	}
-	//
-	//	@Test
-	//	public void initializeEntities() {
-	//		//		final Credential credential = new Credential(123)
-	//		//				                              .setDataSource("Tranquility");
-	//		//		Mockito.when(ANeoComEntity.accessGlobal()).thenReturn(global);
-	//		//		Mockito.when(global.getNeocomDBHelper()).thenReturn(helper);
-	//		//		Mockito.when(helper.getCredentialDao()).thenReturn(dao);
-	//		//		final String obtained = credential.getDataSource();
-	//		//		Assert.assertEquals("tranquility", obtained);
-	//
-	//	}
 
 	@Test
 	public void dataSource_noextractions() throws SQLException {
@@ -140,16 +101,18 @@ public class MiningLedgerDataSourceTodayTest {
 		Assert.assertEquals("Number of Other units.", 10000 * 5 + (15 + 16 + 17 + 18 + 19) * 100, obtained);
 		// Test contents details.
 		IAndroidController testSlot = controllers.get(0);
-		Assert.assertTrue(testSlot instanceof PanelTitleController);
+		Assert.assertTrue("Controller instanceof PanelTitleController", testSlot instanceof PanelTitleController);
+		IAndroidController aggregator = controllers.get(1);
+		final String expected = "TODAY MINING EXTRACTIONS [" + ((MiningExtractionAggregatorAsPanelTitle) aggregator.getModel()).getContentSize() + "]";
+		Assert.assertEquals("Number of extractions", expected, ((PanelTitle) testSlot.getModel()).getTitle());
 		testSlot = controllers.get(1);
-		Assert.assertTrue(testSlot instanceof PanelTitleController);
+		Assert.assertTrue("Controller instanceof MiningExtractionAggregatorController", testSlot instanceof MiningExtractionAggregatorController);
 		Assert.assertEquals("Default System Name", ((PanelTitle) testSlot.getModel()).getTitle());
 		testSlot = controllers.get(2);
 		Assert.assertTrue(testSlot instanceof MiningExtractionController);
 		Assert.assertEquals("Default System Name", ((MiningExtraction) testSlot.getModel()).getSystemName());
-//		final int expectedHour = new LocalDateTime().getHourOfDay();
 		Assert.assertEquals("Extraction Hour: Extraction 01", 15, ((MiningExtraction) testSlot.getModel()).getExtractionHour());
-		Assert.assertEquals("Extected quantity: Extraction 01", 10000+15*100, ((MiningExtraction) testSlot.getModel()).getQuantity());
+		Assert.assertEquals("Extected quantity: Extraction 01", 10000 + 15 * 100, ((MiningExtraction) testSlot.getModel()).getQuantity());
 		testSlot = controllers.get(3);
 		Assert.assertTrue(testSlot instanceof MiningExtractionController);
 		Assert.assertEquals("Default System Name", ((MiningExtraction) testSlot.getModel()).getSystemName());
@@ -169,8 +132,6 @@ public class MiningLedgerDataSourceTodayTest {
 		// Generate 5 different hours for today.
 		for (int i = 5; i > 0; i--) {
 			final String date = DateTime.now().toString("YYYY/MM/dd");
-//			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
-//			final LocalDateTime extractionTime = new LocalDateTime().withHourOfDay(20 - i);
 			todayExtractions.add(new MiningExtraction.Builder()
 					                     .withTypeId(typeId)
 					                     .withSolarSystemId(30001647)
@@ -182,23 +143,4 @@ public class MiningLedgerDataSourceTodayTest {
 		}
 		return todayExtractions;
 	}
-
-	//	private List<MiningExtraction> extractionsToday_singleLocation() {
-	//		final List<MiningExtraction> extractions = new ArrayList<>();
-	//		MiningExtraction row = new MiningExtraction()
-	//				                       .setOwnerId(123)
-	//				                       .setExtractionDate(new LocalDate())
-	//				                       .setQuantity(1000)
-	//				                       .setTypeId(34)
-	//				                       .setSolarSystemId(30001647);
-	//		extractions.add(row);
-	//		row = new MiningExtraction()
-	//				      .setOwnerId(123)
-	//				      .setExtractionDate(new LocalDate())
-	//				      .setQuantity(2000)
-	//				      .setTypeId(35)
-	//				      .setSolarSystemId(30001647);
-	//		extractions.add(row);
-	//		return extractions;
 }
-//}

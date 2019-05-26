@@ -15,8 +15,8 @@ public class MiningLedgerActivity extends ACredentialActivity {
 		this.addPage(new MiningLedgerFragment()
 				             .setCredential(this.getCredential())
 				             .setVariant(EMiningVariants.MINING_EXTRACTIONS_TODAY.name()));
-		this.addPage(new MiningLedgerFragment()
-				             .setCredential(this.getCredential())
-				             .setVariant(EMiningVariants.MINING_EXTRACTIONS_ALL.name()));
+//		this.addPage(new MiningLedgerFragment()
+//				             .setCredential(this.getCredential())
+//				             .setVariant(EMiningVariants.MINING_EXTRACTIONS_ALL.name()));
 	}
 }

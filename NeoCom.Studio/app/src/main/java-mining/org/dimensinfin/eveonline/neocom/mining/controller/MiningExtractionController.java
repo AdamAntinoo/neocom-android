@@ -13,13 +13,13 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 import com.squareup.picasso.Picasso;
 
 public class MiningExtractionController extends AAndroidController<MiningExtraction> {
 	public MiningExtractionController( @NonNull final MiningExtraction model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
+//		model.addPropertyChangeListener(this);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
@@ -82,7 +82,7 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 				delta.setVisibility(View.INVISIBLE);
 				separatorLabel.setVisibility(View.INVISIBLE);
 			}
-			extractionHour.setText(this.accessExtractionHour());
+			extractionHour.setText("Hour: " + this.accessExtractionHour());
 			extractionValue.setText(this.accessExtractionValue());
 		}
 
@@ -105,6 +105,7 @@ public class MiningExtractionController extends AAndroidController<MiningExtract
 
 		private String accessExtractionValue() {
 			final double value = this.getController().getModel().getPrice() * this.getController().getModel().getQuantity();
+			if (value < 0.0) return "- ISK";
 			return this.generatePriceString(value, true, true);
 		}
 	}

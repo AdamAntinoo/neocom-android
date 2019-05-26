@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
@@ -66,7 +66,8 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 			MiningExtractionAggregatorAsPanelTitle systemAggregator = null;
 			for (MiningExtraction extraction : extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
-				if (this.search4PreviousHour(extraction, ids)) continue;
+//				if (this.search4PreviousHour(extraction, ids)) continue;
+				this.search4PreviousHour(extraction, ids);
 				final int system = extraction.getSolarSystemId(); // Add the record but aggregate by system.
 				if (processingSystem != system) {
 					// Create a new aggregator and use it to get the rest of the extractors inside.
