@@ -51,7 +51,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 	}
 
 	public Credential getCredential() {
-		if (null == this.credential) return new Credential.Builder(1).build();
+//		if (null == this.credential) return new Credential.Builder(1).build();
 		return credential;
 	}
 

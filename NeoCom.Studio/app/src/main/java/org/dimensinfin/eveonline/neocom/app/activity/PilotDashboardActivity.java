@@ -12,8 +12,6 @@ import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
-import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
-import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerFragment;
 
 /**
  * @author Adam Antinoo
@@ -26,12 +24,11 @@ public class PilotDashboardActivity extends ACredentialActivity {
 		super.onCreate(savedInstanceState);
 		Objects.requireNonNull(this.getCredential());
 		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
-		this.addPage(new AppSplashFragment());
+		this.addPage(new PilotDashboardFragment().setCredential(this.getCredential()));
 		logger.info("<< [PilotDashboardActivity.onCreate]");
 	}
 
 	private View generateActionBar() {
-		// Create the bar content model.
 		final NeoComActionBarV2 actionBar = new NeoComActionBarV2.Builder()
 				                                    .withTitleTopLeft(this.getResources().getString(R.string.appname))
 				                                    .withTitleTopRight(this.getResources().getString(R.string.appversionname))

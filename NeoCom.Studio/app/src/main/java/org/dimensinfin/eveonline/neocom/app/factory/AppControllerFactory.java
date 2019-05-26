@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
@@ -17,6 +18,10 @@ import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
+import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.part.NeoComMenuBarPart;
+import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
+import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {
@@ -50,6 +55,19 @@ public class AppControllerFactory extends ControllerFactory {
 					       .withVariant(this.getVariant())
 					       .build();
 		}
+
+		if (node instanceof PilotV2) {
+			IPart part = new PilotDashbordPart((PilotV2) node).setFactory(this)
+					             .setRenderMode(this.getVariant());
+			return part;
+		}
+		if (node instanceof NeoComMenuBar) {
+			IPart part = new NeoComMenuBarPart((NeoComMenuBar) node).setFactory(this)
+					             .setRenderMode(this.getVariant());
+			return part;
+		}
+		return super.createPart(node);
+
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {
 			return new SplashActionBarController((SplashActionBar) node, this);
