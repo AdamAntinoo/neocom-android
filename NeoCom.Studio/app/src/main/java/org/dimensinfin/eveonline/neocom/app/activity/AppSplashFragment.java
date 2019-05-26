@@ -15,6 +15,7 @@ import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
@@ -58,6 +59,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
 				       .withApplicationContext(this.getActivityContext().getApplicationContext())
+					   .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
 				       .build();
 	}
 

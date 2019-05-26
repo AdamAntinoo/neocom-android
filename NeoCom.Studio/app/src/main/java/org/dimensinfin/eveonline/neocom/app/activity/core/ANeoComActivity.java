@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -52,6 +51,7 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 		}
 		logger.info("<< [ANeoComActivity.setupActionBar]");
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu( final Menu menu ) {
 		final MenuInflater inflater = this.getMenuInflater();
@@ -94,6 +94,7 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
+
 	@Override
 	public boolean onOptionsItemSelected( final MenuItem item ) {
 		switch (item.getItemId()) {
@@ -154,12 +155,14 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 	protected void applyFontToMenuItem( MenuItem mi ) {
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Proxima Nova Thin.ttf");
 		SpannableString mNewTitle = new SpannableString(mi.getTitle());
 		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		mi.setTitle(mNewTitle);
 	}
+
 	protected void validatePermissions() {
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				    != PackageManager.PERMISSION_GRANTED) {
@@ -167,6 +170,13 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 			ActivityCompat.requestPermissions(this,
 					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
 					10);
+		}
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.INTERNET},
+					20);
 		}
 	}
 }
