@@ -5,13 +5,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
-import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
-import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
-import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
-import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
-import org.dimensinfin.eveonline.neocom.app.controller.PilotV3Controller;
-import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
+import org.dimensinfin.eveonline.neocom.app.controller.*;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
@@ -20,7 +14,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.NeoComMenuBarPart;
 import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
@@ -64,11 +57,11 @@ public class AppControllerFactory extends ControllerFactory {
 					       .withVariant(this.getVariant())
 					       .build();
 		}
-//		if (node instanceof NeoComMenuBar) {
-//			return new NeoComMenuBarController((NeoComMenuBar) node, this);
-////			IPart part = new NeoComMenuBarPart((NeoComMenuBar) node).setFactory(this)
-////					             .setRenderMode(this.getVariant());
-//		}
+		if (node instanceof NeoComMenuBar) {
+			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
+					       .withVariant(this.getVariant())
+					       .build();
+		}
 
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {
