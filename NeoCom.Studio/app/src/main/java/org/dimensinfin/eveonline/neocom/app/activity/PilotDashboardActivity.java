@@ -1,0 +1,47 @@
+package org.dimensinfin.eveonline.neocom.app.activity;
+
+import java.util.Objects;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+
+import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
+import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
+import org.dimensinfin.eveonline.neocom.fragment.PilotDashboardFragment;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerFragment;
+
+/**
+ * @author Adam Antinoo
+ */
+public class PilotDashboardActivity extends ACredentialActivity {
+	// - A C T I V I T Y   L I F E C Y C L E
+	@Override
+	public void onCreate( @Nullable Bundle savedInstanceState ) {
+		logger.info(">> [PilotDashboardActivity.onCreate]");
+		super.onCreate(savedInstanceState);
+		Objects.requireNonNull(this.getCredential());
+		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
+		this.addPage(new AppSplashFragment());
+		logger.info("<< [PilotDashboardActivity.onCreate]");
+	}
+
+	private View generateActionBar() {
+		// Create the bar content model.
+		final NeoComActionBarV2 actionBar = new NeoComActionBarV2.Builder()
+				                                    .withTitleTopLeft(this.getResources().getString(R.string.appname))
+				                                    .withTitleTopRight(this.getResources().getString(R.string.appversionname))
+				                                    .withSubtitle(this.getCredential().getAccountName())
+				                                    .build();
+		// Get a controller from the model, then the view from the render.
+		final NeoComActionBarController controller = (NeoComActionBarController) new AppControllerFactory("SPLASH")
+				                                                                         .createController(actionBar);
+		final IRender holder = controller.buildRender(this);
+		holder.updateContent();
+		return holder.getView();
+	}
+}

@@ -6,9 +6,11 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
+import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
@@ -51,6 +53,9 @@ public class AppControllerFactory extends ControllerFactory {
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {
 			return new SplashActionBarController((SplashActionBar) node, this);
+		}
+		if (node instanceof NeoComActionBarV2) {
+			return new NeoComActionBarController((NeoComActionBarV2) node, this);
 		}
 		return super.createController(node);
 	}

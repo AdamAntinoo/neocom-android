@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,9 +24,10 @@ public class SplashActionBar implements ICollaboration {
 		return "active";
 	}
 
+	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -45,6 +47,7 @@ public class SplashActionBar implements ICollaboration {
 			this.onConstruction.preferences = preferences;
 			return this;
 		}
+
 		public SplashActionBar build() {
 			Objects.requireNonNull(this.onConstruction.preferences);
 			// Access the server to get the status and the number of pilots.

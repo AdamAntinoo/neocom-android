@@ -1,49 +1,60 @@
-package org.dimensinfin.eveonline.neocom.sharedcode.activity;
+package org.dimensinfin.eveonline.neocom.app.activity.core;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.RuntimeErrorInfo;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
-public abstract class ACredentialActivity extends NeoComActionBarActivity {
-	public enum EMiningVariants {
-		MINING_LEDGER, MINING_EXTRACTIONS_TODAY
-	}
+public abstract class ACredentialActivity extends ANeoComActivity {
+	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
+	protected Credential credential = null;
+
+	// - C O M P O N E N T S
+	private SharedPreferences preferences ;
+	private CredentialRepository credentialRepository;
+
+	//	public enum EMiningVariants {
+//		MINING_LEDGER, MINING_EXTRACTIONS_TODAY
+//	}
 
 	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
 	//	protected int pilotIdentifier = 0;
-	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
-	protected Credential credential = null;
 	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
-	protected PilotV2 pilot = null;
+//	protected PilotV2 pilot = null;
 
 	protected Credential searchCredential( final int identifier ) {
-		for (Credential cred : AndroidGlobalDataManager.accessAllCredentials("tr")) {
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComAndroid.DEFAULT_ESI_SERVER).toLowerCase();
+		for (Credential cred : this.credentialRepository.findAllByServer(esiServer)) {
 			if (cred.getAccountId() == identifier) return cred;
 		}
 		return null;
 	}
 
 	public Credential getCredential() {
-		return credential;
+		Objects.requireNonNull(this.credential);
+		return this.credential;
 	}
 
 	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [ACredentialActivity.onCreate]");
+		this.injectComponents(); // Inject components.
 		super.onCreate(savedInstanceState);
 		// Get the pilot identifier. This is a mandatory parameter and should be validated.
-		if (null == extras) this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
-				, "ACredentialActivity.onCreate");
-		final int pilotIdentifier = extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
+//		if (null == extras) this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
+//				, "ACredentialActivity.onCreate");
+		final int pilotIdentifier = this.extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
 		if (pilotIdentifier > 0) this.validateCredential(pilotIdentifier);
 		logger.info("<< [ACredentialActivity.onCreate]");
 	}
@@ -75,12 +86,16 @@ public abstract class ACredentialActivity extends NeoComActionBarActivity {
 	}
 
 	protected void validateCredential( final int pilotIdentifier ) {
-		this.credential = searchCredential(pilotIdentifier);
+		this.credential = this.searchCredential(pilotIdentifier);
 		if (null == this.credential)
 			this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
 					, "ACredentialActivity.onCreate"
 					, Integer.valueOf(pilotIdentifier).toString());
 		// TODO - Define the action bar for the new set of MVC 4 activities.
 		//					this.setupActionBar(credential); // Configure the new custom Action Bar
+	}
+	protected void injectComponents() {
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.credentialRepository = NeoComAndroid.getSingleton().getCredentialRepository();
 	}
 }

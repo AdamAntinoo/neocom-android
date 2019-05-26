@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.sharedcode.activity.ACredentialActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 
 public class MiningLedgerActivity extends ACredentialActivity {
 	public enum EMiningVariants {

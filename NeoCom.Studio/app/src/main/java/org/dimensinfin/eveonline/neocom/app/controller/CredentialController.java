@@ -21,11 +21,11 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 import com.squareup.picasso.Picasso;
 
@@ -44,9 +44,13 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		this.pilot.addPropertyChangeListener(this);
 	}
 
-	//	protected CredentialController( @NonNull final ControllerAdapter<Credential> delegate, @NonNull final IControllerFactory factory ) {
-	//		super(delegate, factory);
-	//	}
+	// - P R O P E R T Y C H A N G E L I S T E N E R
+	@Override
+	public void propertyChange( final PropertyChangeEvent evt ) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+			this.notifyDataModelChange();
+		}
+	}
 
 	// - O N C L I C K L I S T E N E R   I N T E R F A C E
 
@@ -110,14 +114,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		return this.pilot;
 	}
 
-	// - P R O P E R T Y C H A N G E L I S T E N E R
-	@Override
-	public void propertyChange( final PropertyChangeEvent evt ) {
-		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
-			this.notifyDataModelChange();
-		}
-	}
-
 	// - C R E D E N T I A L B U I L D E R
 	public static class CredentialRender extends NeoComRenderv2 {
 		// - U I   F I E L D S
@@ -168,7 +164,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		@Override
 		public void updateContent() {
 			super.updateContent();
-//			logger.info(">> [CredentialRender.updateContent]");
+			//			logger.info(">> [CredentialRender.updateContent]");
 			if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
 				this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose, getContext().getTheme()));
 			else this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose));
@@ -248,10 +244,10 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			else return this.qtyFormatter.format(count);
 		}
 
-//		private String accessRace() {
-//			final String raceName = this.getController().getModel().getRaceName();
-//			if (null == raceName) return "-";
-//			else return raceName.toUpperCase();
-//		}
+		//		private String accessRace() {
+		//			final String raceName = this.getController().getModel().getRaceName();
+		//			if (null == raceName) return "-";
+		//			else return raceName.toUpperCase();
+		//		}
 	}
 }
