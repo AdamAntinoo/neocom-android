@@ -6,7 +6,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;

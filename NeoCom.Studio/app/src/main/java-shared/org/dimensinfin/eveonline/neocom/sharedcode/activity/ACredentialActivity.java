@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;

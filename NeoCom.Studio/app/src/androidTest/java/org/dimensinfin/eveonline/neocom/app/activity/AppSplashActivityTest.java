@@ -9,19 +9,16 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
-import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class AppSplashActivityTest {
-//	private AppSplashActivity mActivityRule;
+	//	private AppSplashActivity mActivityRule;
 
 	@Rule
 	public ActivityTestRule<AppSplashActivity> mActivityRule = new ActivityTestRule<>(AppSplashActivity.class);
@@ -34,7 +31,7 @@ public class AppSplashActivityTest {
 		final IRender holder = Mockito.mock(SplashActionBarController.SplashActionBarRender.class);
 		final View splashActionbarView = Mockito.mock(View.class);
 		final AppSplashFragment fragment = Mockito.mock(AppSplashFragment.class);
-		PowerMockito.whenNew(AppSplashFragment.class).withNoArguments().thenReturn(fragment);
+//		PowerMockito.whenNew(AppSplashFragment.class).withNoArguments().thenReturn(fragment);
 		Mockito.when(splashActionBarController.buildRender(mActivityRule.getActivity())).thenReturn(holder);
 		Mockito.doAnswer(( call ) -> {
 			return null;

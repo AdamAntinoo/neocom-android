@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import android.app.ActionBar;
@@ -23,8 +24,9 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
+import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
@@ -152,16 +154,21 @@ public class AuthorizationFlowActivity extends Activity {
 				if (verificationResponse.isSuccessful()) {
 					logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it on the application repository.
+					final CredentialRepository credentialRepository = NeoComAndroid.getSingleton().getCredentialRepository();
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
-					final Credential credential = new Credential(newAccountIdentifier);
+					final Credential credential = new Credential.Builder(newAccountIdentifier).build();
 					credential.setAccountName(verificationResponse.body().getCharacterName())
 							.setAccessToken(token.getAccessToken())
 							.setTokenType(token.getTokenType())
 							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 							.setRefreshToken(token.getRefreshToken())
 							.setDataSource(esiServer.toUpperCase())
-							.setScope(this.esiAdapter.getStringScopes())
-							.store();
+							.setScope(this.esiAdapter.getStringScopes());
+					try {
+						credentialRepository.persist(credential);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					// Once the credential is stored we go back to the Dashboard Activity.
 					this.runOnUiThread(() -> {
 						final Intent intent = new Intent(this, AppSplashActivity.class);

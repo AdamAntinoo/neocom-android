@@ -19,7 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;

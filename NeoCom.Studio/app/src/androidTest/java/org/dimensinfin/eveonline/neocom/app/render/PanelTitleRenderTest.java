@@ -1,13 +1,19 @@
 package org.dimensinfin.eveonline.neocom.app.render;
 
+import android.view.View;
+import android.widget.TextView;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerFragment;
+import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -23,8 +29,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class PanelTitleRenderTest {
+	static {
+		System.setProperty("org.mockito.android.target", ApplicationProvider.getApplicationContext().getCacheDir().getPath());
+	}
+
 	@Rule
-	public ActivityTestRule<SettingsActivity> mActivityRule = new ActivityTestRule<>(SettingsActivity.class);
+	public ActivityTestRule<MiningLedgerActivity> mActivityRule = new ActivityTestRule<>(MiningLedgerActivity.class);
 
 	@Test
 	public void accessLayoutReference() {
@@ -46,6 +56,15 @@ public class PanelTitleRenderTest {
 
 	@Test
 	public void updateContent() {
+		final Credential credential = new Credential.Builder(123).build()
+				                              .setAccountName("TEST ACCOUNT");
+		final MiningLedgerFragment fragment = Mockito.mock(MiningLedgerFragment.class);
+		final MiningLedgerDataSourceToday dataSource = Mockito.mock(MiningLedgerDataSourceToday.class);
+		Mockito.when(fragment.createDS()).thenReturn(dataSource);
+		Mockito.when(fragment.getCredential()).thenReturn(credential);
+		Mockito.doAnswer(( call ) -> {
+			return null;
+		}).when(dataSource).collaborate2Model();
 		final PanelTitleController controller = Mockito.mock(PanelTitleController.class);
 		final PanelTitle model = Mockito.mock(PanelTitle.class);
 		final PanelTitleRender render = new PanelTitleRender(controller, mActivityRule.getActivity());
@@ -53,6 +72,11 @@ public class PanelTitleRenderTest {
 		Mockito.when(controller.getModel()).thenReturn(model);
 		Mockito.when(model.getTitle()).thenReturn(expected);
 		render.updateContent();
-		onView(withId(R.id.title)).check(matches(withText(expected)));
+		final View view = render.getView();
+		Assert.assertNotNull(view);
+		final TextView titleView = view.findViewById(R.id.title);
+		Assert.assertNotNull(titleView);
+		final String obtained = titleView.getText().toString();
+		Assert.assertEquals("The text on the title should match.", expected, obtained);
 	}
 }

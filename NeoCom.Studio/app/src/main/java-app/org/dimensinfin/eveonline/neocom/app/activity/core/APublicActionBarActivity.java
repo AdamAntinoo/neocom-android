@@ -9,7 +9,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
