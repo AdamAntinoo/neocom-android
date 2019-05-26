@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
@@ -25,9 +23,9 @@ public class NeoComActionBarV2 implements ICollaboration {
 	private ImageView activityIcon = null;
 	private ImageView upperIcon = null;
 	private ImageView lowerIcon = null;
-	private String titleTopLeft;
-	private String titleTopRight;
-	private String subtitle;
+	private String titleTopLeft = "";
+	private String titleTopRight = "";
+	private String subtitle = "";
 
 	private NeoComActionBarV2() {}
 
@@ -62,46 +60,46 @@ public class NeoComActionBarV2 implements ICollaboration {
 	// --- U I   F I E L D S
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public NeoComActionBarV2( final int layoutid ) {
-//		super();
-//		this.layoutIdentifier = layoutid;
-//		initializeViews();
-//		updateViews();
-//	}
-//
-//	// - M E T H O D - S E C T I O N ..........................................................................
-//	// --- G E T T E R S   &   S E T T E R S
-//	public NeoComActionBarV2 setTitleLeft( final String title ) {
-//		if (null != title) {
-//			this.titleTopLeft.setText(title);
-//			this.titleTopLeft.setVisibility(View.VISIBLE);
-//		}
-//		return this;
-//	}
-//
-//	public NeoComActionBarV2 setTitleRight( final String title ) {
-//		if (null != title) {
-//			this.titleTopRight.setText(title);
-//			this.titleTopRight.setVisibility(View.VISIBLE);
-//		}
-//		return this;
-//	}
-//
-//	public NeoComActionBarV2 setSubtitle( final String subtitle ) {
-//		if (null != subtitle) {
-//			this.subtitle.setText(subtitle);
-//			this.subtitle.setVisibility(View.VISIBLE);
-//		}
-//		return this;
-//	}
-//
-//	public NeoComActionBarV2 setSubtitleSpanned( Spanned subtitleSpanned ) {
-//		if (null != subtitle) {
-//			this.subtitle.setText(subtitleSpanned);
-//			this.subtitle.setVisibility(View.VISIBLE);
-//		}
-//		return this;
-//	}
+	//	public NeoComActionBarV2( final int layoutid ) {
+	//		super();
+	//		this.layoutIdentifier = layoutid;
+	//		initializeViews();
+	//		updateViews();
+	//	}
+	//
+	//	// - M E T H O D - S E C T I O N ..........................................................................
+	//	// --- G E T T E R S   &   S E T T E R S
+	//	public NeoComActionBarV2 setTitleLeft( final String title ) {
+	//		if (null != title) {
+	//			this.titleTopLeft.setText(title);
+	//			this.titleTopLeft.setVisibility(View.VISIBLE);
+	//		}
+	//		return this;
+	//	}
+	//
+	//	public NeoComActionBarV2 setTitleRight( final String title ) {
+	//		if (null != title) {
+	//			this.titleTopRight.setText(title);
+	//			this.titleTopRight.setVisibility(View.VISIBLE);
+	//		}
+	//		return this;
+	//	}
+	//
+	//	public NeoComActionBarV2 setSubtitle( final String subtitle ) {
+	//		if (null != subtitle) {
+	//			this.subtitle.setText(subtitle);
+	//			this.subtitle.setVisibility(View.VISIBLE);
+	//		}
+	//		return this;
+	//	}
+	//
+	//	public NeoComActionBarV2 setSubtitleSpanned( Spanned subtitleSpanned ) {
+	//		if (null != subtitle) {
+	//			this.subtitle.setText(subtitleSpanned);
+	//			this.subtitle.setVisibility(View.VISIBLE);
+	//		}
+	//		return this;
+	//	}
 
 	public NeoComActionBarV2 setActivityIcon( final int iconReference ) {
 		activityIcon.setImageResource(iconReference);
@@ -131,24 +129,24 @@ public class NeoComActionBarV2 implements ICollaboration {
 		return this;
 	}
 
-//	public void initializeViews() {
-//		createView();
-//		activityIcon = (ImageView) _convertView.findViewById(R.id.activityIcon);
-//		upperIcon = (ImageView) _convertView.findViewById(R.id.upperIcon);
-//		lowerIcon = (ImageView) _convertView.findViewById(R.id.lowerIcon);
-//		titleTopLeft = (TextView) _convertView.findViewById(R.id.toolBarTitleLeft);
-//		titleTopRight = (TextView) _convertView.findViewById(R.id.toolBarTitleRight);
-//		subtitle = (TextView) _convertView.findViewById(R.id.toolBarSubTitle);
-//	}
+	//	public void initializeViews() {
+	//		createView();
+	//		activityIcon = (ImageView) _convertView.findViewById(R.id.activityIcon);
+	//		upperIcon = (ImageView) _convertView.findViewById(R.id.upperIcon);
+	//		lowerIcon = (ImageView) _convertView.findViewById(R.id.lowerIcon);
+	//		titleTopLeft = (TextView) _convertView.findViewById(R.id.toolBarTitleLeft);
+	//		titleTopRight = (TextView) _convertView.findViewById(R.id.toolBarTitleRight);
+	//		subtitle = (TextView) _convertView.findViewById(R.id.toolBarSubTitle);
+	//	}
 
-//	public void updateViews() {
-//		activityIcon.setVisibility(View.GONE);
-//		upperIcon.setVisibility(View.GONE);
-//		lowerIcon.setVisibility(View.GONE);
-//		titleTopRight.setVisibility(View.VISIBLE); // At least the main title should be visible.
-//		titleTopRight.setVisibility(View.GONE);
-//		subtitle.setVisibility(View.GONE);
-//	}
+	//	public void updateViews() {
+	//		activityIcon.setVisibility(View.GONE);
+	//		upperIcon.setVisibility(View.GONE);
+	//		lowerIcon.setVisibility(View.GONE);
+	//		titleTopRight.setVisibility(View.VISIBLE); // At least the main title should be visible.
+	//		titleTopRight.setVisibility(View.GONE);
+	//		subtitle.setVisibility(View.GONE);
+	//	}
 
 	public View getView() {
 		return _convertView;
