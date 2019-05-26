@@ -19,24 +19,24 @@ import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalData
 
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends AMVCDataSource {
-	private Credential credential;
-	private MiningRepository miningRepository; // The mining persistence repository definition.
+	protected Credential credential;
+	protected MiningRepository miningRepository; // The mining persistence repository definition.
 	//	private PanelTitle sectionTitle; // The panel title for the data section
-	private List<MiningExtraction> extractions;
+	protected List<MiningExtraction> extractions;
 	//	private int extractionsCount = 0; // Number of extractions processed
-	private List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
+	protected List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
 	private Map<Integer, Resource> resources = new HashMap<>();
 
 	// - C O N S T R U C T O R S
-	private MiningLedgerDataSourceToday() {}
+	protected MiningLedgerDataSourceToday() {}
 
 	// - B U I L D E R   S E T T E R S
-	private MiningLedgerDataSourceToday setCredential( final Credential credential ) {
+	protected MiningLedgerDataSourceToday setCredential( final Credential credential ) {
 		this.credential = credential;
 		return this;
 	}
 
-	private MiningLedgerDataSourceToday setMiningRepository( final MiningRepository miningRepository ) {
+	protected MiningLedgerDataSourceToday setMiningRepository( final MiningRepository miningRepository ) {
 		this.miningRepository = miningRepository;
 		return this;
 	}
