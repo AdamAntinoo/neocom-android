@@ -1,0 +1,41 @@
+package org.dimensinfin.eveonline.neocom.app.render;
+
+import android.content.Context;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotV3Controller;
+
+public class PilotV3Render extends NeoComRenderv2 {
+	private TextView name;
+
+	// - C O N S T R U C T O R S
+	public PilotV3Render( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+		super(controller, context);
+	}
+
+	@Override
+	public PilotV3Controller getController() {
+		return (PilotV3Controller) super.getController();
+	}
+
+	// - I R E N D E R   I N T E R F A C E
+	@Override
+	public int accessLayoutReference() {
+		return R.layout.paneltitle4list;
+	}
+
+	@Override
+	public void initializeViews() {
+		super.initializeViews();
+		name = this.getView().findViewById(R.id.title);
+	}
+
+	@Override
+	public void updateContent() {
+		super.updateContent();
+		name.setText(this.getController().getModel().getName());
+	}
+}

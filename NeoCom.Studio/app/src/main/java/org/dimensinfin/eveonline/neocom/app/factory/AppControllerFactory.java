@@ -3,14 +3,17 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotV3Controller;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
+import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -56,17 +59,16 @@ public class AppControllerFactory extends ControllerFactory {
 					       .build();
 		}
 
-		if (node instanceof PilotV2) {
-			IPart part = new PilotDashbordPart((PilotV2) node).setFactory(this)
-					             .setRenderMode(this.getVariant());
-			return part;
+		if (node instanceof PilotV3) {
+			return new PilotV3Controller.Builder((PilotV3) node, this)
+					       .withVariant(this.getVariant())
+					       .build();
 		}
-		if (node instanceof NeoComMenuBar) {
-			IPart part = new NeoComMenuBarPart((NeoComMenuBar) node).setFactory(this)
-					             .setRenderMode(this.getVariant());
-			return part;
-		}
-		return super.createPart(node);
+//		if (node instanceof NeoComMenuBar) {
+//			return new NeoComMenuBarController((NeoComMenuBar) node, this);
+////			IPart part = new NeoComMenuBarPart((NeoComMenuBar) node).setFactory(this)
+////					             .setRenderMode(this.getVariant());
+//		}
 
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {

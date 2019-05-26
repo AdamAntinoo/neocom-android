@@ -4,6 +4,7 @@ import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -52,6 +53,7 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 				       .withCredential(this.getCredential())
+					   .withDownloaderService(NeoComAndroid.getSingleton().getDownloaderService())
 				       .build();
 	}
 
