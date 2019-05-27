@@ -15,7 +15,7 @@ public class PilotV3Test {
 	@Before
 	public void setUp() throws Exception {
 		// Given
-		final Credential credential = new Credential(123);
+		final Credential credential = new Credential.Builder(123).build();
 		final DataDownloaderService downloaderService = Mockito.mock(DataDownloaderService.class);
 		pilot = new PilotV3.Builder(credential, downloaderService).build();
 	}

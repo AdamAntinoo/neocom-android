@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/uipanelborderwhite"
-    android:orientation="horizontal">
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/uipanelborderwhite"
+              android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/neocomActionButtonsBlock"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standardmargin"
-        android:orientation="horizontal"
-        android:visibility="visible">
+	<LinearLayout
+			android:id="@+id/neocomActionButtonsBlock"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/standardmargin"
+			android:orientation="horizontal"
+			android:visibility="visible">
 
-        <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/uipanelbordergreen"-->
-        <!--android:orientation="horizontal">-->
+		<Button
+				android:id="@+id/neocomMenu"
+				android:layout_width="@dimen/neocommenusize"
+				android:layout_height="@dimen/neocommenusize"
+				android:background="@drawable/hamburger_icon_white"/>
 
-        <Button
-            android:id="@+id/neocomMenu"
-            android:layout_width="@dimen/neocommenusize"
-            android:layout_height="@dimen/neocommenusize"
-            android:background="@drawable/hamburger_icon_white" />
-        <!--</LinearLayout>-->
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/uipanelbordergreen"
-            android:orientation="horizontal">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="wrap_content"
+		              android:layout_height="match_parent"
+		              android:background="@drawable/uipanelbordergreen"
+		              android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/assetsButton"
-                android:layout_width="@dimen/neocommenusize"
-                android:layout_height="@dimen/neocommenusize"
-                android:background="@drawable/assets" />
-        </LinearLayout>
+			<Button
+					android:id="@+id/assetsButton"
+					android:layout_width="@dimen/neocommenusize"
+					android:layout_height="@dimen/neocommenusize"
+					android:background="@drawable/assets"/>
+		</LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/uipanelbordergreen"
-            android:orientation="horizontal">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="wrap_content"
+		              android:layout_height="match_parent"
+		              android:background="@drawable/uipanelbordergreen"
+		              android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/miningButton"
-                android:layout_width="@dimen/neocommenusize"
-                android:layout_height="@dimen/neocommenusize"
-                android:background="@drawable/miningledger" />
-        </LinearLayout>
+			<Button
+					android:id="@+id/miningButton"
+					android:layout_width="@dimen/neocommenusize"
+					android:layout_height="@dimen/neocommenusize"
+					android:background="@drawable/miningledger"/>
+		</LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/uipanelbordergreen"
-            android:orientation="horizontal">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="wrap_content"
+		              android:layout_height="match_parent"
+		              android:background="@drawable/uipanelbordergreen"
+		              android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/skillsButton"
-                android:layout_width="@dimen/neocommenusize"
-                android:layout_height="@dimen/neocommenusize"
-                android:background="@drawable/skills" />
-        </LinearLayout>
-    </LinearLayout>
+			<Button
+					android:id="@+id/planetaryButton"
+					android:layout_width="@dimen/neocommenusize"
+					android:layout_height="@dimen/neocommenusize"
+					android:background="@drawable/planets"/>
+		</LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>

@@ -43,6 +43,18 @@ class MockInterceptor : Interceptor {
                 .build()
     }
 
+    fun getData(ref: String): String {
+        var responseString = ""
+        responseString = when {
+            ref.contains("planets") -> getMockPlanets
+            else -> responseString
+        }
+        responseString = when {
+            ref.contains("planet/structures") -> getMockPlanetStuctures
+            else -> responseString
+        }
+        return responseString
+    }
 }
 
 const val getMockCharactersCharacterIdMining = """
@@ -164,56 +176,56 @@ const val getMockCharactersCharacterIdMining = """
 ]
 """
 
-const val getMockPlanets = """
+public const val getMockPlanets = """
 [
   {
-    "last_update": "2017-07-20T09:38:30Z",
+    "last_update": "2019-04-20T23:56:39Z",
     "num_pins": 11,
-    "owner_id": 92002067,
-    "planet_id": 40237774,
-    "planet_type": "storm",
-    "solar_system_id": 30003752,
-    "upgrade_level": 5
-  },
-  {
-    "last_update": "2017-07-20T09:38:56Z",
-    "num_pins": 11,
-    "owner_id": 92002067,
-    "planet_id": 40237775,
-    "planet_type": "lava",
-    "solar_system_id": 30003752,
-    "upgrade_level": 5
-  },
-  {
-    "last_update": "2017-07-21T08:47:33Z",
-    "num_pins": 24,
-    "owner_id": 92002067,
-    "planet_id": 40237824,
+    "owner_id": 92223647,
+    "planet_id": 40208073,
     "planet_type": "barren",
-    "solar_system_id": 30003752,
-    "upgrade_level": 5
+    "solar_system_id": 30003280,
+    "upgrade_level": 4
   },
   {
-    "last_update": "2017-07-20T09:39:22Z",
+    "last_update": "2019-04-20T23:56:54Z",
     "num_pins": 11,
-    "owner_id": 92002067,
-    "planet_id": 40237847,
-    "planet_type": "temperate",
-    "solar_system_id": 30003753,
-    "upgrade_level": 5
+    "owner_id": 92223647,
+    "planet_id": 40208301,
+    "planet_type": "lava",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
   },
   {
-    "last_update": "2017-07-20T09:39:46Z",
+    "last_update": "2019-04-20T23:57:14Z",
     "num_pins": 11,
-    "owner_id": 92002067,
-    "planet_id": 40237856,
-    "planet_type": "storm",
-    "solar_system_id": 30003753,
-    "upgrade_level": 5
+    "owner_id": 92223647,
+    "planet_id": 40208304,
+    "planet_type": "plasma",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-04-20T23:57:33Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208306,
+    "planet_type": "gas",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-04-20T23:57:48Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208380,
+    "planet_type": "oceanic",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
   }
 ]
 """
-const val getMockPlanetStuctures = """
+public const val getMockPlanetStuctures = """
 {
   "links": [
     {

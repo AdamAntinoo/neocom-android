@@ -2,21 +2,18 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.*;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
+import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
-import org.dimensinfin.eveonline.neocom.part.NeoComMenuBarPart;
-import org.dimensinfin.eveonline.neocom.part.PilotDashbordPart;
+import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
 
 public class AppControllerFactory extends ControllerFactory {
@@ -69,6 +66,9 @@ public class AppControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof NeoComActionBarV2) {
 			return new NeoComActionBarController((NeoComActionBarV2) node, this);
+		}
+		if (node instanceof PlanetaryActionBar) {
+			return new PlanetaryActionBarController((PlanetaryActionBar) node, this);
 		}
 		return super.createController(node);
 	}

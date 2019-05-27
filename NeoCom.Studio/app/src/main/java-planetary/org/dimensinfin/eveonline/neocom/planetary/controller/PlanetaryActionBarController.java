@@ -13,7 +13,6 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,9 +35,9 @@ public class PlanetaryActionBarController extends AAndroidController<PlanetaryAc
 	// - N E O C O M A C T I O N B A R P L A N E T A R Y R E N D E R
 	public static class PlanetaryActionBarRender extends AMVCRender {
 		// - U I   F I E L D S
-		protected ImageView activityIcon = null;
-		protected ImageView upperIcon = null;
-		protected ImageView lowerIcon = null;
+		protected ImageView activityIcon;
+		protected ImageView upperIcon;
+		protected ImageView lowerIcon;
 		private TextView titleTopLeft;
 		private TextView titleTopRight;
 		private TextView subtitle;
@@ -97,13 +96,13 @@ public class PlanetaryActionBarController extends AAndroidController<PlanetaryAc
 			final String link = this.accessUrlforAvatar();
 			Picasso.get().load(link).into(upperIcon);
 			upperIcon.setVisibility(View.VISIBLE);
-//			try {
-//				final String link = provider.getIconUrlLocation();
-//				Picasso.get().load(link).into(lowerIcon);
-//				lowerIcon.setVisibility(View.VISIBLE);
-//			} catch (NeoComException e) {
-//				lowerIcon.setImageResource(R.drawable.nopilot);
-//			}
+			//			try {
+			//				final String link = provider.getIconUrlLocation();
+			//				Picasso.get().load(link).into(lowerIcon);
+			//				lowerIcon.setVisibility(View.VISIBLE);
+			//			} catch (NeoComException e) {
+			//				lowerIcon.setImageResource(R.drawable.nopilot);
+			//			}
 		}
 
 		public String accessUrlforAvatar() {

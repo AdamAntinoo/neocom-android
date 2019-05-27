@@ -33,9 +33,9 @@ public class NeoComActionBarController extends AAndroidController<NeoComActionBa
 	// - N E O C O M A C T I O N B A R R E N D E R
 	public static class NeoComActionBarRender extends AMVCRender {
 		// - U I   F I E L D S
-		private ImageView activityIcon = null;
-		private ImageView upperIcon = null;
-		private ImageView lowerIcon = null;
+		protected ImageView activityIcon;
+		protected ImageView upperIcon;
+		protected ImageView lowerIcon;
 		private TextView titleTopLeft;
 		private TextView titleTopRight;
 		private TextView subtitle;

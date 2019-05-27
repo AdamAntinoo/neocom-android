@@ -46,9 +46,10 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 	public void initializeViews() {
 		super.initializeViews();
 		neocomMenu = this.getView().findViewById(R.id.neocomMenu);
-		assetsButton = this.getView().findViewById(R.id.assetsButton);
-		miningButton = this.getView().findViewById(R.id.miningButton);
-		skillsButton = this.getView().findViewById(R.id.skillsButton);
+		this.assetsButton = this.getView().findViewById(R.id.assetsButton);
+		this.miningButton = this.getView().findViewById(R.id.miningButton);
+		this.planetaryButton = this.getView().findViewById(R.id.planetaryButton);
+		skillsButton = this.getView().findViewById(R.id.planetaryButton);
 		// Set the onClick actions.
 		assetsButton.setOnClickListener(( View v ) -> {
 					if (BuildConfig.DEBUG)
@@ -68,7 +69,7 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 						Toast.makeText(getContext(),
 								"miningButton Clicked!", Toast.LENGTH_SHORT).show();
 					// With the new implementation get just the identifier for the Credential.
-					final int identifier =  this.getController().getModel().getCredential().getAccountId();
+					final int identifier = this.getController().getModel().getCredential().getAccountId();
 					final Intent intent = new Intent(this.getContext(), MiningLedgerActivity.class);
 					// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
 					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
@@ -81,7 +82,7 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 						Toast.makeText(getContext(),
 								"Planetary Dashboard selected!", Toast.LENGTH_SHORT).show();
 					// With the new implementation get just the identifier for the Credential.
-					final int identifier =  this.getController().getModel().getCredential().getAccountId();
+					final int identifier = this.getController().getModel().getCredential().getAccountId();
 					final Intent intent = new Intent(this.getContext(), PlanetaryColoniesActivity.class);
 					// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
 					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
@@ -89,19 +90,19 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 				}
 		);
 		planetaryButton.setVisibility(View.VISIBLE);
-		skillsButton.setOnClickListener(( View v ) -> {
-			if (BuildConfig.DEBUG)
-					Toast.makeText(getContext(),
-							"skillsButton Clicked!", Toast.LENGTH_LONG).show();
-					// With the new implementation get just the identifier for the Credential.
-					final int identifier = this.getController().getModel().getCredential().getAccountId();
-					final Intent intent = new Intent(this.getContext(), SkillsManagerActivity.class);
-					// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
-					this.getContext().startActivity(intent);
-				}
-		);
-		skillsButton.setVisibility(View.GONE);
+//		skillsButton.setOnClickListener(( View v ) -> {
+//					if (BuildConfig.DEBUG)
+//						Toast.makeText(getContext(),
+//								"skillsButton Clicked!", Toast.LENGTH_LONG).show();
+//					// With the new implementation get just the identifier for the Credential.
+//					final int identifier = this.getController().getModel().getCredential().getAccountId();
+//					final Intent intent = new Intent(this.getContext(), SkillsManagerActivity.class);
+//					// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
+//					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+//					this.getContext().startActivity(intent);
+//				}
+//		);
+//		skillsButton.setVisibility(View.GONE);
 	}
 
 	@Override

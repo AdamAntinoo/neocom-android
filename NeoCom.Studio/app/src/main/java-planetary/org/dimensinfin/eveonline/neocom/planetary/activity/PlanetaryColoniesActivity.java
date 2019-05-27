@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
+import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 public class PlanetaryColoniesActivity extends ACredentialActivity {
 	public enum EPlanetaryVariants {
@@ -32,7 +33,7 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final NeoComActionBarController controller = (NeoComActionBarController) new AppControllerFactory("SPLASH")
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new AppControllerFactory("SPLASH")
 				                                                                         .createController(actionBar);
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();
