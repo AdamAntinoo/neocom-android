@@ -1,16 +1,9 @@
 package org.dimensinfin.eveonline.neocom.mining.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
-import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
@@ -33,7 +26,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withVariant(this.getVariant())
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
-//					       .withCacheStatus(false)
+					       //					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
 					       .build();
@@ -44,7 +37,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withVariant(this.getVariant())
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
-//					       .withCacheStatus(false)
+					       //					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
 					       .build();
@@ -52,7 +45,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 	}
 
 	public Credential getCredential() {
-//		if (null == this.credential) return new Credential.Builder(1).build();
+		//		if (null == this.credential) return new Credential.Builder(1).build();
 		return credential;
 	}
 

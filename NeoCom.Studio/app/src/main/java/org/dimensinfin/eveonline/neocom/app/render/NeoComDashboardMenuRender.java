@@ -14,6 +14,7 @@ import org.dimensinfin.eveonline.neocom.app.activity.AssetsManagerActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.SkillsManagerActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComDashboardMenuController;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
+import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
 
 public class NeoComDashboardMenuRender extends NeoComRenderv2 {
@@ -21,6 +22,7 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 	private Button neocomMenu = null;
 	private Button assetsButton = null;
 	private Button miningButton = null;
+	private Button planetaryButton = null;
 	private Button skillsButton = null;
 
 
@@ -62,9 +64,9 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 		);
 		assetsButton.setVisibility(View.GONE);
 		miningButton.setOnClickListener(( View v ) -> {
-			if (BuildConfig.DEBUG)
-					Toast.makeText(getContext(),
-							"miningButton Clicked!", Toast.LENGTH_SHORT).show();
+					if (BuildConfig.DEBUG)
+						Toast.makeText(getContext(),
+								"miningButton Clicked!", Toast.LENGTH_SHORT).show();
 					// With the new implementation get just the identifier for the Credential.
 					final int identifier =  this.getController().getModel().getCredential().getAccountId();
 					final Intent intent = new Intent(this.getContext(), MiningLedgerActivity.class);
@@ -73,6 +75,20 @@ public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 					this.getContext().startActivity(intent);
 				}
 		);
+		miningButton.setVisibility(View.VISIBLE);
+		planetaryButton.setOnClickListener(( View v ) -> {
+					if (BuildConfig.DEBUG)
+						Toast.makeText(getContext(),
+								"Planetary Dashboard selected!", Toast.LENGTH_SHORT).show();
+					// With the new implementation get just the identifier for the Credential.
+					final int identifier =  this.getController().getModel().getCredential().getAccountId();
+					final Intent intent = new Intent(this.getContext(), PlanetaryColoniesActivity.class);
+					// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
+					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
+					this.getContext().startActivity(intent);
+				}
+		);
+		planetaryButton.setVisibility(View.VISIBLE);
 		skillsButton.setOnClickListener(( View v ) -> {
 			if (BuildConfig.DEBUG)
 					Toast.makeText(getContext(),

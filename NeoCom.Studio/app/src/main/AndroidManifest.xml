@@ -44,6 +44,11 @@
 				android:label="Mining Ledger">
 		</activity>
 		<activity
+				android:name=".planetary.activity.PlanetaryColoniesActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="Planetary Colonies">
+		</activity>
+		<activity
 				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">
