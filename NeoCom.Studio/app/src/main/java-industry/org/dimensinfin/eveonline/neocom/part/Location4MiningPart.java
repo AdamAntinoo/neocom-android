@@ -24,20 +24,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.datamngmt.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * @author Adam Antinoo
@@ -46,7 +44,7 @@ import org.slf4j.LoggerFactory;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class Location4MiningPart extends NeoComAbstractExpandablePart implements IMenuActionTarget {
 	// - S T A T I C - S E C T I O N ..........................................................................
-//	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
+	//	private static Logger logger = LoggerFactory.getLogger("Location4MiningPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -91,7 +89,7 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 	// --- I A N D R O I D P A R T   I N T E R F A C E
 	@Override
 	public long getModelId() {
-		return this.getCastedModel().getID();
+		return this.getCastedModel().getId();
 	}
 
 	@Override
@@ -171,11 +169,11 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 		public void updateContent() {
 			super.updateContent();
 			final String link = getPart().getCastedModel().getUrlLocationIcon();
-			if( (null != link) && (null != nodeIcon))
+			if ((null != link) && (null != nodeIcon))
 				Picasso.get().load(link).into(nodeIcon);
 			locationRegion.setText(this.getPart().getCastedModel().getRegion());
 			locationSystem.setText(this.getPart().getCastedModel().getSystem());
-			locationIdentifier.setText("[" + this.getPart().getCastedModel().getID() + "]");
+			locationIdentifier.setText("[" + this.getPart().getCastedModel().getId() + "]");
 			locationStation.setText(this.getPart().getTStationName());
 			contentsCount.setText(this.getPart().getTContentsCount());
 			locationItemsValue.setText(this.getPart().getTContentsValue());

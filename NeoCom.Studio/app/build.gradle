@@ -66,34 +66,27 @@ android {
     }
     sourceSets {
         main.java {
+            srcDirs += 'src/main/java-appv3'
             srcDirs += 'src/main/java-app'
             srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
             srcDirs += 'src/main/java-shared'
-            srcDirs += 'src/release/java-mining'
         }
         debug.java {
-////            srcDirs += 'src/main/java-app'
-////            srcDirs += 'src/main/java-industry'
-////            srcDirs += 'src/main/java-mining'
             srcDirs += 'src/debug/java-app'
-//            srcDirs += 'src/main-standby/java-planetary'
-////            srcDirs += 'src/main/java-shared'
+//            srcDirs += 'src/debug/java-mining'
         }
         release.java {
-//            srcDirs += 'src/main/java-app'
-//            srcDirs += 'src/main/java-industry'
-//            srcDirs += 'src/main/java-mining'
-            srcDirs += 'src/release/java-mining'
-//            srcDirs += 'src/main/java-shared'
+            srcDirs += 'src/release/java-app'
         }
         main.res {
-            srcDirs += 'src/main/res-shared'
-            srcDirs += 'src/main/res-mining'
+            srcDirs += 'src/main/res-app'
+            srcDirs += 'src/main/res-core'
             srcDirs += 'src/main/res-fitting'
             srcDirs += 'src/main/res-industry'
             srcDirs += 'src/main/res-layouts'
+            srcDirs += 'src/main/res-mining'
             srcDirs += 'src/main/res-sde'
             srcDirs += 'src/main/res-ui'
         }
