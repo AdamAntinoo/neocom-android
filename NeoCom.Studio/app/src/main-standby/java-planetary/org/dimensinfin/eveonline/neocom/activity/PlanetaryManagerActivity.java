@@ -34,12 +34,12 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String getName () {
+	public String getName() {
 		return NeoComAppConnector.getSingleton().getResourceString(R.string.activity_subtitle_PlanetaryManagerActivity);
 	}
 
 	@Override
-	protected void onCreate (final Bundle savedInstanceState) {
+	protected void onCreate( final Bundle savedInstanceState ) {
 		PlanetaryManagerActivity.logger.info(">> [PlanetaryManagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Disable go home for this activity since this is home.
@@ -47,7 +47,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			Bundle extras = null;
-			if ( null != savedInstanceState ) {
+			if (null != savedInstanceState) {
 				extras = savedInstanceState;
 				characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 			} else {
@@ -60,8 +60,8 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 					page++);
 			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_COLONIES.name()).setExtras(extras),
 					page++);
-//			this.addPage(new ColonyLayoutFragment().setVariant(ENeoComVariants.PLANETARY_COLONY_LAYOUT.name()).setExtras(extras),
-//					page++);
+			//			this.addPage(new ColonyLayoutFragment().setVariant(ENeoComVariants.PLANETARY_COLONY_LAYOUT.name()).setExtras(extras),
+			//					page++);
 		} catch (Exception rtex) {
 			PlanetaryManagerActivity.logger.warning("RTEX> [PlanetaryManagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
@@ -69,8 +69,9 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 		}
 		PlanetaryManagerActivity.logger.info("<< [PlanetaryManagerActivity.onCreate]"); //$NON-NLS-1$
 	}
+
 	@Override
-	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		characterid = savedInstanceState.getInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name());
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -81,7 +82,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 	 * reconstruct the AppModel state.
 	 */
 	@Override
-	protected void onSaveInstanceState (final Bundle outState) {
+	protected void onSaveInstanceState( final Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the extra parameters information to be able to restore the page to their same state.
 		outState.putInt(AppWideConstants.EExtras.EXTRA_CAPSULEERID.name(), characterid);

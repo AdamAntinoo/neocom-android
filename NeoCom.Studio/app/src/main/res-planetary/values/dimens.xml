@@ -4,4 +4,6 @@
     <dimen name="panelborderwidth">1px</dimen>
     <dimen name="panelcornerwidth">2px</dimen>
     <dimen name="panelcornerlenght">10px</dimen>
+
+    <dimen name="halfnodeiconsize">10px</dimen>
 </resources>

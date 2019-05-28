@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/structureType"
             android:layout_toRightOf="@+id/nodeIconBlock"
-            android:background="@drawable/uipanelborderblue"
+            android:background="@drawable/uipanelborderdarkblue"
             android:orientation="vertical">
 
             <RelativeLayout

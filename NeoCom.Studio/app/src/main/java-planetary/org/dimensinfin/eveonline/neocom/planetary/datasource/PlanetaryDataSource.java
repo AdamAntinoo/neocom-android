@@ -9,12 +9,13 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 
 public class PlanetaryDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIGlobalAdapter esiAdapter;
-	protected List<ColonyPack> colonies=new ArrayList<>();
+	protected List<ColonyPack> colonies = new ArrayList<>();
 	//	protected MiningRepository planetaryRepository; // The planetary persistence repository definition.
 	//	private PanelTitle sectionTitle; // The panel title for the data section
 	//	protected List<MiningExtraction> extractions;
@@ -50,13 +51,16 @@ public class PlanetaryDataSource extends AMVCDataSource {
 				, credential.getRefreshToken()
 				, credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
+			final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(this.credential.getAccountId()
+					, this.credential.getRefreshToken()
+					, this.credential.getDataSource());
 			final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.esiAdapter.getCharactersCharacterIdPlanetsPlanetId(
 					credential.getAccountId()
 					, colonyEsi.getPlanetId()
 					, credential.getRefreshToken()
 					, credential.getDataSource());
 			if (null != structureContainer) {
-				this.colonies.add(new ColonyPack(colonyEsi, structureContainer));
+				this.colonies.add(new ColonyPack(colonyEsi, planetData, structureContainer));
 			}
 			//			// Search for only the requested colony.
 			//			if (colonyEsi.getPlanetId() == colonyIdentifier) {
@@ -98,7 +102,7 @@ public class PlanetaryDataSource extends AMVCDataSource {
 
 	@Override
 	public void collaborate2Model() {
-		for ( ColonyPack colony : this.colonies)
+		for (ColonyPack colony : this.colonies)
 			this.addModelContents(colony);
 	}
 

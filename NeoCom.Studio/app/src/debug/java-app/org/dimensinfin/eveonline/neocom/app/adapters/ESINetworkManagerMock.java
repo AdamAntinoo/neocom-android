@@ -103,7 +103,7 @@ public class ESINetworkManagerMock extends ESIGlobalAdapter {
 			String datasource = GlobalDataManager.TRANQUILITY_DATASOURCE;
 			if (null != server) datasource = server;
 			// Create the request to be returned so it can be called.
-			final Response<GetCharactersCharacterIdPlanetsPlanetIdOk> planetaryApiResponse = neocomRetrofitMock
+			final Response<GetCharactersCharacterIdPlanetsPlanetIdOk> planetaryApiResponse = neocomRetrofit
 					                                                                                 .create(PlanetaryInteractionApi.class)
 					                                                                                 .getCharactersCharacterIdPlanetsPlanetId(identifier, planetid, datasource, null, null).execute();
 			if (planetaryApiResponse.isSuccessful()) {

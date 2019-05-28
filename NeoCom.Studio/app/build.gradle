@@ -78,6 +78,7 @@ android {
 ////            srcDirs += 'src/main/java-industry'
 ////            srcDirs += 'src/main/java-mining'
             srcDirs += 'src/debug/java-app'
+//            srcDirs += 'src/main-standby/java-planetary'
 ////            srcDirs += 'src/main/java-shared'
         }
         release.java {
@@ -95,6 +96,9 @@ android {
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-sde'
             srcDirs += 'src/main/res-ui'
+        }
+        debug.res{
+            srcDirs += 'src/main/res-planetary'
         }
     }
     compileOptions {
