@@ -63,7 +63,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	public void onClick( final View view ) {
 		logger.info(">> [CredentialController.onClick]");
 		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
-//		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getAccountId()); // Credential account identifier
 		view.getContext().startActivity(intent);
@@ -85,12 +84,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	// - M O D E L   A D A P T E R   M E T H O D S
 	public String getPilotName() {
 		return this.getModel().getName();
-	}
-
-	private String getPilotRaceName() {
-		final String raceName = this.accessPilot().getRaceName();
-		if (null == raceName) return "-";
-		else return raceName.toUpperCase();
 	}
 
 	public String getPilotIdentifier() {
@@ -117,19 +110,18 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	// - C R E D E N T I A L B U I L D E R
 	public static class CredentialRender extends NeoComRenderv2 {
 		// - U I   F I E L D S
-		private TextView pilotName = null;
-		private TextView pilotIdentifier = null;
-		private TextView accountBalance = null;
-		private TextView assetsCount = null;
-		private TextView race = null;
-		private TextView cloneType = null;
-		private TextView expirationTime = null;
-		private TextView nodeClass = null;
+		private TextView pilotName;
+		private TextView pilotIdentifier;
+		private TextView accountBalance;
+		private TextView assetsCount;
+		private TextView race;
+		private TextView cloneType;
+		private TextView expirationTime;
+		private TextView nodeClass;
 
 		// - L A Y O U T   F I E L D S
-		private ViewGroup nodeIconBlock = null;
-		private ImageView targetIcon = null;
-		//		private ImageView rightArrow = null;
+		private ViewGroup nodeIconBlock;
+		private ImageView targetIcon;
 
 		// - C O N S T R U C T O R S
 		public CredentialRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -148,8 +140,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			// Layout fields
 			nodeIconBlock = this.getView().findViewById(R.id.nodeIconBlock);
 			targetIcon = this.getView().findViewById(R.id.targetIcon);
-			//			rightArrow = this.getView().findViewById(R.id.rightArrow);
-
 			// Content  fields.
 			pilotName = this.getView().findViewById(R.id.pilotName);
 			pilotIdentifier = this.getView().findViewById(R.id.pilotIdentifier);
@@ -164,7 +154,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			//			logger.info(">> [CredentialRender.updateContent]");
 			if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
 				this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose, getContext().getTheme()));
 			else this.getView().setBackground(getContext().getResources().getDrawable(R.drawable.uipanelborderrose));
@@ -175,8 +164,8 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			pilotIdentifier.setText(this.getController().getPilotIdentifier());
 			accountBalance.setText(this.accessAccountBalance());
 			assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
-			cloneType.setText(this.getController().getPilotRaceName());
-			// Obtain the values to be set on the fiels. This second task should be done on the UI thread.
+			cloneType.setText(this.accessPilotRaceName());
+			// Obtain the values to be set on the fields. This second task should be done on the UI thread.
 			//			final String walletAmount = getPart().getTWalletAmount();
 			//			final String assetcount = getPart().getTAssetsCount();
 			//			final String racename = getPart().getTRaceName();
@@ -189,42 +178,6 @@ public class CredentialController extends AAndroidController<Credential> impleme
 					Picasso.get().load(link).into(targetIcon);
 				}
 			}
-			// TODO - Review the access to other elements.
-			//				getContext().runOnUiThread(() -> {
-			//							try {
-			//								accountBalance.setText(walletAmount);
-			//								assetsCount.setText(assetcount);
-			//								race.setText(racename);
-			//								if ( null != link ) {
-			//									if ( null != targetIcon ) {
-			//										final Drawable draw = NeoComApp.getSingletonApp().getCacheConnector().getCacheDrawable(link, targetIcon);
-			//										targetIcon.setImageDrawable(draw);
-			//									}
-			//								}
-			//							} catch (RuntimeException rtex) {
-			//								rtex.printStackTrace();
-			//							}
-			//						}
-			//				);
-			//			} catch (RuntimeException rtex) {
-			//				rtex.printStackTrace();
-			//			}
-			//		});
-
-			// Set the icon decorators deènding on the Credential type.
-			// TODO - Activate when the new interface is valid.
-			//			botrightDecorator.setVisibility(View.INVISIBLE);
-			//			botleftDecorator.setVisibility(View.INVISIBLE);
-			//			if ( getPart().getCastedModel().isESICompatible() ) {
-			//				botrightDecorator.setImageResource(R.drawable.hamburger_icon_white);
-			//				botrightDecorator.setVisibility(View.VISIBLE);
-			//			}
-			//			if ( getPart().getCastedModel().isXMLCompatible() ) {
-			//				botleftDecorator.setImageResource(R.drawable.xml_icon);
-			//				botleftDecorator.setVisibility(View.VISIBLE);
-			//			}
-
-			//		logger.info("<< [CredentialRender.updateContent]");
 		}
 
 		@Override
@@ -244,10 +197,11 @@ public class CredentialController extends AAndroidController<Credential> impleme
 			else return this.qtyFormatter.format(count);
 		}
 
-		//		private String accessRace() {
-		//			final String raceName = this.getController().getModel().getRaceName();
-		//			if (null == raceName) return "-";
-		//			else return raceName.toUpperCase();
-		//		}
+		private String accessPilotRaceName() {
+			final String raceName = this.getController().accessPilot().getRaceName();
+			if (null == raceName) return "-";
+			else return raceName.toUpperCase();
+		}
+
 	}
 }

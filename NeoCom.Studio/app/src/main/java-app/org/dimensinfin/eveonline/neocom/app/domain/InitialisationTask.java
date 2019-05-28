@@ -34,10 +34,10 @@ public class InitialisationTask implements ICollaboration {
 		WAITING, SCHEDULED, EXECUTING, COMPLETED, EXCEPTION
 	}
 
-	private ExecutorService executor;
+	private transient ExecutorService executor;
 	private String taskName = "Initialisation Task";
 	private ETaskStatus status = ETaskStatus.WAITING;
-	private Callable task;
+	private transient Callable task;
 	private Instant startInstant = Instant.now();
 	private List<NeoComError> exceptionReport = new ArrayList<>();
 	private EventEmitter eventEmitter = new EventEmitter();
@@ -70,7 +70,7 @@ public class InitialisationTask implements ICollaboration {
 	public InitialisationTask schedule( final int delay ) {
 		logger.info("[POSTING SCHEDULE]");
 		this.setStatus(ETaskStatus.SCHEDULED);
-		this.initialisationExecutor.schedule(() -> {
+		initialisationExecutor.schedule(() -> {
 			logger.info("[STARTING SCHEDULE]");
 			this.setStatus(ETaskStatus.SCHEDULED);
 			//			try {
@@ -113,7 +113,7 @@ public class InitialisationTask implements ICollaboration {
 			this.exceptionReport.add(new NeoComError.Builder(ie)
 					                         .withType(EErrorType.EXCEPTION)
 					                         .withCode("neocom.error.initialization.task.interrupted.exception")
-					                         .withOrigin("InitialisationTask.execute")
+//					                         .withOrigin("InitialisationTask.execute")
 					                         .build());
 			this.status = ETaskStatus.EXCEPTION;
 			this.eventEmitter.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
@@ -121,7 +121,7 @@ public class InitialisationTask implements ICollaboration {
 			this.exceptionReport.add(new NeoComError.Builder(ee)
 					                         .withType(EErrorType.EXCEPTION)
 					                         .withCode("neocom.error.initialization.task.execution.exception")
-					                         .withOrigin("InitialisationTask.execute")
+//					                         .withOrigin("InitialisationTask.execute")
 					                         .build());
 			this.status = ETaskStatus.EXCEPTION;
 			this.eventEmitter.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());

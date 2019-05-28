@@ -2,9 +2,9 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import android.content.Context;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -12,17 +12,11 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.AppVersion;
 
-import androidx.annotation.NonNull;
-
 public class AppVersionController extends AAndroidController<AppVersion> {
 	// - C O N S T R U C T O R S
 	public AppVersionController( @NonNull final AppVersion model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
-
-//	protected AppVersionController( @NonNull final ControllerAdapter<AppVersion> delegate, @NonNull final IControllerFactory factory ) {
-//		super(delegate, factory);
-//	}
 
 	@Override
 	public boolean isVisible() {

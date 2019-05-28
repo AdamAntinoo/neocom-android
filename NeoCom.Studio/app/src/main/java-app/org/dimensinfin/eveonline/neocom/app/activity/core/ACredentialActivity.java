@@ -23,15 +23,6 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 	private SharedPreferences preferences;
 	private CredentialRepository credentialRepository;
 
-	//	public enum EMiningVariants {
-	//		MINING_LEDGER, MINING_EXTRACTIONS_TODAY
-	//	}
-
-	/** When the user selects a Credential we pass to the target Activity the pilot identifier. */
-	//	protected int pilotIdentifier = 0;
-
-	/** Reference to the Pilot associated to the Credential. This fields should be valid to be exported to DS and Parts. */
-	//	protected PilotV2 pilot = null;
 	protected Credential searchCredential( final int identifier ) {
 		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComAndroid.DEFAULT_ESI_SERVER).toLowerCase();
 		for (Credential cred : this.credentialRepository.findAllByServer(esiServer)) {
@@ -51,9 +42,6 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 		logger.info(">> [ACredentialActivity.onCreate]");
 		this.injectComponents(); // Inject components.
 		super.onCreate(savedInstanceState);
-		// Get the pilot identifier. This is a mandatory parameter and should be validated.
-		//		if (null == extras) this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
-		//				, "ACredentialActivity.onCreate");
 		final int pilotIdentifier = this.extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
 		if (pilotIdentifier > 0) this.validateCredential(pilotIdentifier);
 		logger.info("<< [ACredentialActivity.onCreate]");
@@ -90,9 +78,7 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 		if (null == this.credential)
 			this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
 					, "ACredentialActivity.onCreate"
-					, Integer.valueOf(pilotIdentifier).toString());
-		// TODO - Define the action bar for the new set of MVC 4 activities.
-		//					this.setupActionBar(credential); // Configure the new custom Action Bar
+					, Integer.toString(pilotIdentifier));
 	}
 
 	protected void injectComponents() {
