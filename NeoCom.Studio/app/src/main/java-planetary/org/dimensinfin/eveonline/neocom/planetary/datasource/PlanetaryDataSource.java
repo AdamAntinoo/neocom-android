@@ -51,7 +51,7 @@ public class PlanetaryDataSource extends AMVCDataSource {
 				, credential.getRefreshToken()
 				, credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
-			final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(this.credential.getAccountId()
+			final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(colonyEsi.getPlanetId()
 					, this.credential.getRefreshToken()
 					, this.credential.getDataSource());
 			final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.esiAdapter.getCharactersCharacterIdPlanetsPlanetId(
@@ -62,59 +62,13 @@ public class PlanetaryDataSource extends AMVCDataSource {
 			if (null != structureContainer) {
 				this.colonies.add(new ColonyPack(colonyEsi, planetData, structureContainer));
 			}
-			//			// Search for only the requested colony.
-			//			if (colonyEsi.getPlanetId() == colonyIdentifier) {
-			//				this.colony = colonyEsi;
-			//				break;
-			//			}
 		}
-		//		// If we have found the colony then get the colony structureContainer.
-		//		if (null != this.colony) {
-		//			this.pins = structureContainer.getPins();
-		//			this.colonyStructures = Stream.of(structureContainer.getPins())
-		//					                        .map(pin -> {
-		//						                        // Aggregate pins of identical type into a pin map.
-		//						                        List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> found = this.structureMap.get(pin.getTypeId());
-		//						                        if (null == found) {
-		//							                        found = new ArrayList<>();
-		//							                        found.add(pin);
-		//							                        this.structureMap.put(pin.getTypeId(), found);
-		//						                        } else found.add(pin);
-		//						                        return pin;
-		//					                        })
-		//					                        .map(pin -> {
-		//						                        // Transform each pin into a model structure.
-		//						                        final Structure struc = new Structure.Builder()
-		//								                                                .withPin(pin)
-		//								                                                .withPlanetType(PlanetType.valueOf(this.colony.getPlanetType().name()))
-		//								                                                .build();
-		//						                        return struc;
-		//					                        })
-		//					                        .map(structure -> {
-		//						                        // Search for the command center and store it on the field.
-		//						                        if (structure.getStructureType() == PlanetaryStructureType.COMMAND_CENTER)
-		//							                        this.commandCenter = structure;
-		//						                        return structure;
-		//					                        })
-		//					                        .collect(Collectors.toList());
-		//		}
 	}
 
 	@Override
 	public void collaborate2Model() {
 		for (ColonyPack colony : this.colonies)
 			this.addModelContents(colony);
-	}
-
-	// - C O L O N Y P A C K
-	public static class ColonyPack2 {
-		private GetCharactersCharacterIdPlanets200Ok colony;
-		private GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer;
-
-		public ColonyPack2( final GetCharactersCharacterIdPlanets200Ok colony, final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer ) {
-			this.colony = colony;
-			this.structureContainer = structureContainer;
-		}
 	}
 
 	// - B U I L D E R
