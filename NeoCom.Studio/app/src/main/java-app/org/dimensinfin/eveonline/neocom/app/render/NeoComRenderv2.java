@@ -9,21 +9,22 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
-import androidx.annotation.NonNull;
-import com.squareup.picasso.Picasso;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
+
+import com.squareup.picasso.Picasso;
 
 public abstract class NeoComRenderv2 extends AMVCRender {
 	// - C H A R A C T E R S
@@ -66,9 +67,6 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		securityLevels.put(1, "#D73000");
 		securityLevels.put(0, "#F00000");
 	}
-
-	//	public static Typeface daysFace = Typeface
-	//			.createFromAsset(GlobalDataManagerStorage.getAssets(), "fonts/Days.otf");
 
 	// - F I E L D - S E C T I O N
 	protected ImageView _rightArrow = null;
@@ -121,7 +119,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	}
 
 	protected Spanned colorFormat( final String data, final String color, final String suffix ) {
-		final StringBuffer htmlFragment = new StringBuffer();
+		final StringBuilder htmlFragment = new StringBuilder();
 		htmlFragment.append("<font color='").append(color).append("'>");
 		htmlFragment.append(data);
 		if (null != suffix) {
@@ -132,15 +130,12 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	}
 
 	protected Spanned colorFormatLocation( final EveLocation location ) {
-		final StringBuffer htmlLocation = new StringBuffer();
+		final StringBuilder htmlLocation = new StringBuilder();
 		final double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, securityFormatter.format(security)));
 		htmlLocation.append(" ").append(location.getRegion()).append("-").append(location.getName());
 		return Html.fromHtml(htmlLocation.toString());
 	}
-
-	//	@Override
-	//	abstract protected void createView ();
 
 	/**
 	 * The price of the manufacture cost on the output is not tinted with the right color. Use red for cero or
@@ -149,7 +144,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	 */
 	protected Spanned displayManufactureCost( final double cost, final double price, final boolean compress,
 	                                          final boolean suffix ) {
-		final StringBuffer htmlFragmentWithColor = new StringBuffer();
+		final StringBuilder htmlFragmentWithColor = new StringBuilder();
 		final String priceString = this.generatePriceString(cost, compress, suffix);
 		String color = "#FFFFFF";
 		if (cost >= (price * 0.9)) {
@@ -223,14 +218,16 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		// Generate different formats depending on the quantity and the compress flag.
 		// Get rid of negative numbers.
 		if (compress) {
-			if (Math.abs(price) > 1200000000.0) if (addSuffix)
-				return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
-			else
-				return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
-			if (Math.abs(price) > 12000000.0) if (addSuffix)
-				return priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
-			else
-				return priceFormatter.format(price / 1000.0 / 1000.0);
+			if (Math.abs(price) > 1200000000.0)
+				if (addSuffix)
+					return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0) + " B ISK";
+				else
+					return priceFormatter.format(price / 1000.0 / 1000.0 / 1000.0);
+			if (Math.abs(price) > 12000000.0)
+				if (addSuffix)
+					return priceFormatter.format(price / 1000.0 / 1000.0) + " M ISK";
+				else
+					return priceFormatter.format(price / 1000.0 / 1000.0);
 		}
 		if (addSuffix)
 			return priceFormatter.format(price) + " ISK";
@@ -239,7 +236,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	}
 
 	protected String generateSecurityColor( double sec, final String data ) {
-		final StringBuffer htmlFragmentWithColor = new StringBuffer();
+		final StringBuilder htmlFragmentWithColor = new StringBuilder();
 		String secColor = "#F00000";
 		// Get the color from the table.
 		if (sec < 0.0) {
@@ -289,21 +286,11 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 				link = AndroidGlobalDataManager.getURLForStation(typeId);
 			}
 			Picasso.get().load(link).into(targetIcon);
-			//			try {
-			//			final Future<Drawable> draw = AndroidGlobalDataManager.getCacheDrawable(link, targetIcon, getContext());
-			//				targetIcon.setImageDrawable(draw.get());
-			//			} catch (InterruptedException e) {
-			//				e.printStackTrace();
-			//			} catch (ExecutionException e) {
-			//				e.printStackTrace();
-			//			}
 		}
 	}
 
 	protected Spanned regionSystemLocation( final EveLocation loc ) {
-		final StringBuffer htmlLocation = new StringBuffer();
-		// EveLocation loc =
-		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
+		final StringBuilder htmlLocation = new StringBuilder();
 		final String security = loc.getSecurity();
 		String secColor = securityLevels.get(security);
 		if (null == secColor) {

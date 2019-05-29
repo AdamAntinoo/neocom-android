@@ -4,12 +4,10 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -74,7 +72,7 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 		}
 
 		private Spanned composeServerStatus() {
-			final StringBuffer htmlFragment = new StringBuffer();
+			final StringBuilder htmlFragment = new StringBuilder();
 			htmlFragment.append("<font color='lightblue'>");
 			htmlFragment.append(this.getController().getModel().getServerName().toUpperCase());
 			htmlFragment.append("</font>");

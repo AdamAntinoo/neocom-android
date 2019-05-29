@@ -26,9 +26,9 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
 					       .withCredential(this.getCredential())
-						   .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+					       .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
 					       .build();
-		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
+		throw new NeoComRuntimeException("Planetary variant has not defined Data Source to generate content.");
 	}
 
 	public Credential getCredential() {

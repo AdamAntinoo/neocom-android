@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--P L A N E T A R Y   I N T E R A C T I O N-->
+	<color name="pi_extractoriconcolor">#FF00DAC0</color>
+	<color name="pi_extractorringcolor">#FF009A99</color>
+
+	<color name="pi_storageiconcolor">#FF00A4DF</color>
+	<color name="pi_storageringcolor">#FF004065</color>
+	<color name="pi_storageringfillcolor">#FF02A3F1</color>
+
+	<color name="pi_factoryiconcolor">#FFE28700</color>
+	<color name="pi_factoryringcolor">#FFDFCE00</color>
+	<color name="pi_factoryringfillcolor">#FFFB9500</color>
+
+
+
+	<color name="pi_facilityinputbackground">#FFA15929</color>
+	<color name="pi_facilityinputfill">#FFE79434</color>
+	<color name="pi_storagecapacity">#FF0C3F5F</color>
+	<color name="pi_storagefill">#FF019FE5</color>
+
+	<color name="pi_launchpadiconcolor">#FFE79434</color>
+	<color name="pi_controliconcolor">#FFE79434</color>
+
+	<color name="pi_barren_backgroundcolor">#FF392514</color>
+
+	<color name="extractor_cycle">#FF039392</color>
+
+
+</resources>
