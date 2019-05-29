@@ -40,7 +40,6 @@ public class NeoComAndroid {
 	private IGlobalPreferencesManager preferencesProvider;
 	private ESIGlobalAdapter esiAdapter;
 	private DataDownloaderService downloaderService;
-	//	private EveItemProvider eveItemProvider;
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
 	private CredentialRepository credentialRepository;

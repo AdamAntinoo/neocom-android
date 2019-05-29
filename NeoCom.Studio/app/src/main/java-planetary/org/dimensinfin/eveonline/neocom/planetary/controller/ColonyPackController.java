@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 
-public class ColonyPackController extends AAndroidController<ColonyPack> {
+public class ColonyPackController extends AAndroidController<ColonyPack> implements View.OnClickListener{
 	public ColonyPackController( @NonNull final ColonyPack model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
@@ -28,6 +28,11 @@ public class ColonyPackController extends AAndroidController<ColonyPack> {
 	@Override
 	public long getModelId() {
 		return this.getModel().hashCode();
+	}
+
+	@Override
+	public void onClick( final View v ) {
+//		PLANET_IDENTIFIER
 	}
 
 	// - C O L O N Y P A C K 4 L I S T R E N D E R

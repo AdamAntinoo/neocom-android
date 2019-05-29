@@ -27,15 +27,15 @@ public class PlanetaryDataSource extends AMVCDataSource {
 	protected PlanetaryDataSource() {}
 
 	// - B U I L D E R   S E T T E R S
-	protected PlanetaryDataSource setCredential( final Credential credential ) {
-		this.credential = credential;
-		return this;
-	}
-
-	public PlanetaryDataSource setEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-		this.esiAdapter = esiAdapter;
-		return this;
-	}
+	//	protected PlanetaryDataSource setCredential( final Credential credential ) {
+	//		this.credential = credential;
+	//		return this;
+	//	}
+	//
+	//	public PlanetaryDataSource setEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
+	//		this.esiAdapter = esiAdapter;
+	//		return this;
+	//	}
 	//	protected PlanetaryDataSource setPlanetaryRepository( final MiningRepository miningRepository ) {
 	//		this.planetaryRepository = miningRepository;
 	//		return this;
@@ -88,12 +88,12 @@ public class PlanetaryDataSource extends AMVCDataSource {
 		}
 
 		public Builder withCredential( final Credential credential ) {
-			this.getActual().setCredential(credential);
+			this.onConstruction.credential = credential;
 			return this;
 		}
 
 		public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-			this.onConstruction.setEsiAdapter(esiAdapter);
+			this.onConstruction.esiAdapter = esiAdapter;
 			return this;
 		}
 

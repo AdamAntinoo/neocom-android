@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
 
 public class ESINetworkManagerMock extends ESIGlobalAdapter {
 	// - P L A N E T A R Y   I N T E R A C T I O N
-	public static GetUniverseSchematicsSchematicIdOk getUniversePlanetarySchematicsById( final String server, final int schematicId ) {
+	public  GetUniverseSchematicsSchematicIdOk getUniversePlanetarySchematicsById( final String server, final int schematicId ) {
 		logger.info(">> [ESINetworkManagerMock.getUniversePlanetarySchematicsById]");
 		final DateTime startTimePoint = DateTime.now();
 		try {

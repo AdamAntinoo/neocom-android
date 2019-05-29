@@ -1,0 +1,214 @@
+package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui;
+
+import android.content.Context;
+import android.graphics.*;
+import android.graphics.PorterDuff.Mode;
+import android.widget.ImageView;
+
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.StructureGeoPosition;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStructureType;
+import org.dimensinfin.eveonline.neocom.planetary.Structure;
+
+import androidx.annotation.NonNull;
+import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class APlanetaryStructureImageView extends ImageView {
+	protected static Logger logger = LoggerFactory.getLogger(APlanetaryStructureImageView.class);
+
+	// - D R A W I N G   C O N S T A N T S
+	protected static final int CONVERSION_LONGITUDE_MULTIPLIER = 10500 / 9 * 7;
+	protected static final int CONVERSION_LATITUDE_MULTIPLIER = 10500;
+	protected static final int DEFAULT_ICON_WIDTH = 32;
+	protected static final int DEFAULT_ICON_HEIGHT = 32;
+	protected static final int STRUCTURE_SIZE = 110;
+	protected static final int DIMENSION = Float.valueOf(STRUCTURE_SIZE / 2).intValue();
+	protected static final int FACILITY_RING_WIDTH = 10;
+	protected static final int CYCLE_WIDTH = 5;
+	protected static final int ICON_SIZE = FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + CYCLE_WIDTH;
+	protected static final int DIMENSION_NEG = -DIMENSION + ICON_SIZE;
+	protected static final int DIMENSION_POS = DIMENSION - ICON_SIZE;
+	protected static final int STRUCTURE_RING_WIDTH = 12;
+	protected static final int STRUCTURE_ICON_DIMENSION = 30;
+	protected static final float STRUCTURE_INPUTDIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue();
+	protected static final float STRUCTURE_INPUTDIMENSION_POS = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue();
+	protected static final int CYCLE_RADIUS = STRUCTURE_SIZE / 2 - FACILITY_RING_WIDTH - FACILITY_RING_WIDTH;
+	protected static final int CYCLE_BORDER_DISTANCE = (STRUCTURE_SIZE / 2) - CYCLE_RADIUS;
+	protected static final float CYCLE_DIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue() + CYCLE_BORDER_DISTANCE;
+	protected static final float CYCLE_DIMENSION_POS = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue() - CYCLE_BORDER_DISTANCE;
+	protected static final Rect STRUCTURE_ICON_RECT = new Rect(0, 0, DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+	protected static final Rect STRUCTURE_ICON_DESTINATION_RECT = new Rect(DIMENSION_NEG, DIMENSION_POS, DIMENSION_POS, DIMENSION_NEG);
+
+	// - F I E L D S
+	protected StructureGeoPosition deltaPosition = new StructureGeoPosition();
+	/** Delta location for the current structure from the command center. */
+	protected double longitudeDelta = 0.0;
+	protected double latitudeDelta = 0.0;
+	/** Position of the delta to the Control Cebter in pixels. */
+	protected int posx = 0;
+	protected int posy = 0;
+	/** This is the structure to be rendered. This data should contain all the data required for the rendering. */
+	protected Structure structure;
+	/** The resource identifier for the icon that represents the structure. */
+	protected int drawableId = PlanetaryStructureType.DEFAULT.getIconReferenceId();
+	/** Set the default to a Processing Facility. */
+	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
+	protected double scale = 1.0F;
+	protected Bitmap bitmap = null;
+	/** The color to be used to simulate transparency by using the same background color. */
+//	protected int eraserColor = this.getResources().getColor(R.color.pi_barren_backgroundcolor);
+	protected Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // The painting brush.
+
+	// - C O N S T R U C T O R S
+	protected APlanetaryStructureImageView( final Context context ) {
+		super(context);
+	}
+
+	// - C O N T E N T   A P I
+
+	/**
+	 * This should be called before setting the structure to move the structure the Command Center displacement
+	 * and so draw it relative to that structure position.
+	 */
+	public void setDeltaPosition( final StructureGeoPosition deltaPosition ) {
+		this.deltaPosition = deltaPosition;
+		// Calculate canvas location from delta location that is referenced to center.
+		this.longitudeDelta = this.deltaPosition.getLongitude();
+		this.latitudeDelta = this.deltaPosition.getLatitude();
+		this.posx = Long.valueOf(Math.round(this.longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER)).intValue();
+		this.posy = Long.valueOf(Math.round(this.latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER)).intValue();
+	}
+
+	/**
+	 * Get the model frem where to get all the parameters and calculations instead having a lot of methods
+	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
+	 * is called.
+	 */
+	public void setStructure( final Structure structure ) {
+		this.structure = structure;
+		this.setImageBitmap(this.createBitmap());
+		this.drawableId = this.structure.getIconReferenceId();
+//		this.eraserColor = this.getResources().getColor(this.structure.getBackgroundColor());
+	}
+
+	public void setScale( final double newscale ) {
+		this.scale = newscale;
+	}
+
+	// - D R A W I N G
+	protected void centerCanvas( final Canvas canvas ) {
+		canvas.translate((canvas.getWidth() / 2), (canvas.getHeight() / 2));
+		canvas.translate(posx, posy);
+		canvas.drawColor(0x00000000);
+		// Restart the paint.
+		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	}
+
+	protected void drawFacilityRing( final Canvas canvas ) {
+		paint.setColor(this.getColor(this.structure.getStructureColorReference()));
+		canvas.drawCircle(0.0f, 0.0f, DIMENSION, paint);
+		// Use background color to clean up the drawing that should not be seen.
+		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
+	}
+
+	/**
+	 * Draws the white ring depending on the time elapsed from the cycle start.
+	 */
+	protected void drawCycleRing( Canvas canvas ) {
+		paint.setColor(Color.WHITE);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
+		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
+				, this.getCycleAngle(), true, paint);
+		// Use background color to clean up the drawing that should not be seen.
+		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		canvas.drawCircle(0.0F, 0.0F, CYCLE_RADIUS - CYCLE_WIDTH, paint);
+	}
+
+	protected void drawStructureIcon( final Canvas canvas ) {
+		//		paint.setColor(this.getColor(R.color.pi_extractoriconcolor));
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
+		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.drawableId);
+		structureIconBitmap = this.changeImageColor(structureIconBitmap, this.getColor(this.structure.getIconColorReference()));
+		final Rect structureIconRect = new Rect(0, 0, structureIconBitmap.getWidth(), structureIconBitmap.getHeight());
+		final Rect structureIconDestination = new Rect(-STRUCTURE_ICON_DIMENSION, -STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION);
+		canvas.drawBitmap(structureIconBitmap, structureIconRect, structureIconDestination, paint);
+	}
+
+	protected Bitmap createBitmap() {
+		this.bitmap = Bitmap.createBitmap(STRUCTURE_SIZE, STRUCTURE_SIZE, Bitmap.Config.ARGB_8888);
+		return bitmap;
+	}
+
+	protected int getColor( final int colorReference ) {
+		return this.getResources().getColor(colorReference);
+	}
+
+	protected Bitmap changeImageColor( final Bitmap sourceBitmap, int color ) {
+		Bitmap resultBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0,
+				sourceBitmap.getWidth() - 1,
+				sourceBitmap.getHeight() - 1);
+		Paint p = new Paint();
+		ColorFilter filter = new LightingColorFilter(color, 1);
+		p.setColorFilter(filter);
+		Canvas canvas = new Canvas(resultBitmap);
+		canvas.drawBitmap(resultBitmap, 0, 0, p);
+		return resultBitmap;
+	}
+
+	/** Return the number of seconds elapsed on the current cycle. */
+	protected long getCycleElapsed() {
+		return Instant.now().getMillis() / 1000 - this.structure.getLastCycleStart().getMillis() / 1000;
+	}
+
+	/** Return the angle for the current cycle from 0.0 to 360.0 and being 0.0 pointing up. */
+	protected float getCycleAngle() {
+		final float angle = (Float.valueOf(this.getCycleElapsed())
+				                     /
+				                     Float.valueOf(this.structure.getStructureType().getCycleDuration())) * 360.0F;
+		logger.info("-- [getCycleAngle]> Angle: {}", angle);
+		if (angle > 360.0F) return 360.0F;
+		else return angle;
+	}
+
+	// - B U I L D E R
+	protected static abstract class BaseBuilder<T extends APlanetaryStructureImageView, B extends APlanetaryStructureImageView.BaseBuilder> {
+		protected final Context context;
+		protected T actualClass;
+		protected B actualClassBuilder;
+
+		protected abstract T getActual();
+
+		protected abstract B getActualBuilder();
+
+		public BaseBuilder( final Context context ) {
+			this.context = context;
+			this.actualClass = getActual();
+			this.actualClassBuilder = getActualBuilder();
+		}
+
+		public B withDeltaPosition( @NonNull final StructureGeoPosition deltaPosition ) {
+			this.actualClass.setDeltaPosition(deltaPosition);
+			return this.actualClassBuilder;
+		}
+
+		public B withStructure( @NonNull final Structure structure ) {
+			this.actualClass.setStructure(structure);
+			return this.actualClassBuilder;
+		}
+
+		public B withScale( @NonNull final double scale ) {
+			this.actualClass.setScale(scale);
+			return this.actualClassBuilder;
+		}
+
+		public T build() {
+			// Do any other validations. If failed then launch an exception.
+			AppCompatibilityUtils.assertNotNull(this.actualClass.deltaPosition);
+			AppCompatibilityUtils.assertNotNull(this.actualClass.structure);
+			return actualClass;
+		}
+	}
+}

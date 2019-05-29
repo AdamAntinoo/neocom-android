@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <include layout="@layout/nodebase4list" />
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/AppTheme.NodeIcon.NoBorder"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/extractor80_white" />
 
-    <TextView
+    <org.dimensinfin.android.mvc.fonts.Din1451TextView
         android:id="@+id/structureName"
-        style="@style/AppTheme.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/nodeIcon"
-        android:text="Undeterminated Planetary Structure"
-        android:textSize="12sp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/transparent"
+        android:paddingBottom="2dp"
+        android:paddingLeft="2dp"
+        android:text="Extractors"
+        android:textAllCaps="true"
+        android:textColor="@color/apporange"
+        android:textSize="13sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/lastLaunchTime"
-        style="@style/AppTheme.TextView"
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/structureCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_below="@+id/structureName"
-        android:layout_toRightOf="@+id/nodeIcon"
-        android:text="2017-07-29T03:43:54Z"
-        android:textSize="12sp" />
-</RelativeLayout>
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:gravity="right"
+        android:background="@android:color/transparent"
+        android:paddingBottom="2dp"
+        android:paddingLeft="2dp"
+        android:text="1"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
+</LinearLayout>

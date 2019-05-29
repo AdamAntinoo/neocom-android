@@ -130,10 +130,6 @@ public class NeoComApplication extends Application {
 
 		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		//		final IConfigurationProvider configurationProvider = new AndroidConfigurationProvider.Builder(
-		//				this.getResources().getString(R.string.propertiesLocation))
-		//				                                                     .withApplicationContext(this)
-		//				                                                     .build();
 		AndroidGlobalDataManager.connectConfigurationManager(NeoComAndroid.getSingleton().getConfigurationProvider());
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");

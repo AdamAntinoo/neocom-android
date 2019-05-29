@@ -28,7 +28,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
-        minSdkVersion 18
+        minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 118

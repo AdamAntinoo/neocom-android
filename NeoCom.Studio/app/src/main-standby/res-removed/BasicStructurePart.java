@@ -52,7 +52,7 @@ public class BasicStructurePart extends AbstractAndroidPart {
 	}
 
 	public AbstractRender getRenderer (Activity activity) {
-		//		if(fragment instanceof ColonyLayoutFragment ) {
+		//		if(fragment instanceof PlanetaryColonyLayoutFragment ) {
 		//		this._fragment = (Fragment)fragment;
 		this._activity = activity;
 		return this.selectRenderer();

@@ -18,7 +18,7 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.COLONIES_LIST.name()))
+		if (this.getVariant().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name()))
 			return new PlanetaryDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())

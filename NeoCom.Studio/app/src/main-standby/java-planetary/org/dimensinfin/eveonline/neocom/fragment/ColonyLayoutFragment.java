@@ -60,7 +60,7 @@ public class ColonyLayoutFragment extends Fragment implements IPartFactory {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public View onCreateView (final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-		logger.info(">> [ColonyLayoutFragment.onCreateView]");
+		logger.info(">> [PlanetaryColonyLayoutFragment.onCreateView]");
 		super.onCreateView(inflater, container, savedInstanceState);
 		try {
 			_container = (ViewGroup) inflater.inflate(R.layout.fragment_colonylayout, container, false);
@@ -77,10 +77,10 @@ public class ColonyLayoutFragment extends Fragment implements IPartFactory {
 						}
 					});
 		} catch (final RuntimeException rtex) {
-			logger.error("RTEX [ColonyLayoutFragment.onCreateViewSuper]> " + rtex.getMessage());
+			logger.error("RTEX [PlanetaryColonyLayoutFragment.onCreateViewSuper]> " + rtex.getMessage());
 			rtex.printStackTrace();
 		}
-		logger.info("<< [ColonyLayoutFragment.onCreateView]");
+		logger.info("<< [PlanetaryColonyLayoutFragment.onCreateView]");
 		return _container;
 	}
 	public void onStart () {
@@ -98,7 +98,7 @@ public class ColonyLayoutFragment extends Fragment implements IPartFactory {
 	}
 
 	public IPart createPart (final ICollaboration node) {
-		logger.info("-- [ColonyLayoutFragment.createPart]> Node class: " + node.getClass().getName());
+		logger.info("-- [PlanetaryColonyLayoutFragment.createPart]> Node class: " + node.getClass().getName());
 		IPart part = null;
 //		if ( node instanceof ColonyStructure ) {
 //			if(((ColonyStructure) node).getStructureTypeCode()==EPlanetaryStructureType.BASIC_INDUSTRY)
@@ -184,7 +184,7 @@ public class ColonyLayoutFragment extends Fragment implements IPartFactory {
 	}
 
 	private void addViewtoHeader (final IAndroidPart target) {
-		logger.info(">> [ColonyLayoutFragment.addViewtoHeader]");
+		logger.info(">> [PlanetaryColonyLayoutFragment.addViewtoHeader]");
 		try {
 			final AbstractRender holder = target.getRenderer(getActivity());
 			holder.initializeViews();
@@ -198,15 +198,15 @@ public class ColonyLayoutFragment extends Fragment implements IPartFactory {
 			//			}
 			canvas.setVisibility(View.VISIBLE);
 		} catch (final RuntimeException rtex) {
-			logger.info("RTEX [ColonyLayoutFragment.addViewtoHeader]> Problem generating view for: " + target.toString());
-			logger.info("RTEX [ColonyLayoutFragment.addViewtoHeader]> RuntimeException. " + rtex.getMessage());
+			logger.info("RTEX [PlanetaryColonyLayoutFragment.addViewtoHeader]> Problem generating view for: " + target.toString());
+			logger.info("RTEX [PlanetaryColonyLayoutFragment.addViewtoHeader]> RuntimeException. " + rtex.getMessage());
 			rtex.printStackTrace();
 		}
-		logger.info("<< ColonyLayoutFragment.addViewtoHeader");
+		logger.info("<< PlanetaryColonyLayoutFragment.addViewtoHeader");
 	}
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("ColonyLayoutFragment [");
+		StringBuffer buffer = new StringBuffer("PlanetaryColonyLayoutFragment [");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		buffer.append("->").append(super.toString());

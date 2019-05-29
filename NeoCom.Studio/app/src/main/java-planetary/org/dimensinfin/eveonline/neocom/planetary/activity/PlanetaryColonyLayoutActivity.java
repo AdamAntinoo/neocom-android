@@ -22,40 +22,26 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarC
  *
  * @author Adam Antinoo on 05/01/2018.
  */
-public class ColonyLayoutActivity extends ACredentialActivity {
-	public static final String CHARACTER_ACCOUNT_IDENTIFIER = "CHARACTER_ACCOUNT_IDENTIFIER";
-	public static final String ESI_TARGET = "ESI_TARGET";
-	public static final String COLONY_IDENTIFIER = "COLONY_IDENTIFIER";
-
+public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 	/** During the Activity creation just create the pages that should compose this feature UI pages. */
 	public void onCreate( final Bundle savedInstanceState ) {
-		logger.info(">> [ColonyLayoutActivity.onCreate]");
+		logger.info(">> [PlanetaryColonyLayoutActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		this.setupActionBar(this.generateActionBar());
-		this.addPage(new PlanetaryColoniesFragment()
-				             .setCredential(this.getCredential())
-				             .setVariant(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETARY_COLONIES.name()));
-
-		//		// Load into the extras the parameters as if this intent was processed from another UI page.
-		//		final Bundle extras = this.getExtras();
-		//		extras.putLong(CHARACTER_ACCOUNT_IDENTIFIER, 92002067);
-		//		extras.putString(ESI_TARGET, "tranquility");
-		//		extras.putLong(COLONY_IDENTIFIER, 40237774);
-
-		//		final IPagerFragment fragment = new ColonyLayoutFragment();
-		//		this.addPage(fragment);
-		logger.info("<< [ColonyLayoutActivity.onCreate]");
+		this.addPage(new PlanetaryColonyLayoutFragment()
+				             .setCredential(this.getCredential()));
+		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
 	}
 
 	private View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETARY_COLONIES.name())
+				                                     .withSubtitle(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_INSTALLATIONS.getTitle())
 				                                     .withActivityIconRef(R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETARY_COLONIES.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_INSTALLATIONS.name())
 				                                                                               .createController(actionBar);
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();

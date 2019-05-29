@@ -11,8 +11,8 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarC
 
 public class PlanetaryColoniesActivity extends ACredentialActivity {
 	public enum EPlanetaryVariants {
-		COLONIES_LIST("PLANETS LIST"),
-		PLANETARY_COLONIES("PLANET INSTALLATIONS");
+		PLANETS_LIST("PLANETS LIST"),
+		PLANET_INSTALLATIONS("PLANET INSTALLATIONS");
 
 		private String title;
 
@@ -31,18 +31,18 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColoniesFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(EPlanetaryVariants.COLONIES_LIST.name()));
+				             .setVariant(EPlanetaryVariants.PLANETS_LIST.name()));
 	}
 
 	private View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(EPlanetaryVariants.COLONIES_LIST.getTitle())
+				                                     .withSubtitle(EPlanetaryVariants.PLANETS_LIST.getTitle())
 				                                     .withActivityIconRef(R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EPlanetaryVariants.COLONIES_LIST.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EPlanetaryVariants.PLANETS_LIST.name())
 				                                                                               .createController(actionBar);
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();

@@ -60,7 +60,7 @@ public class PlanetaryManagerActivity extends BaseManagerActivity {
 					page++);
 			this.addPage(new PlanetaryFragment().setVariant(ENeoComVariants.PLANETARY_COLONIES.name()).setExtras(extras),
 					page++);
-			//			this.addPage(new ColonyLayoutFragment().setVariant(ENeoComVariants.PLANETARY_COLONY_LAYOUT.name()).setExtras(extras),
+			//			this.addPage(new PlanetaryColonyLayoutFragment().setVariant(ENeoComVariants.PLANETARY_COLONY_LAYOUT.name()).setExtras(extras),
 			//					page++);
 		} catch (Exception rtex) {
 			PlanetaryManagerActivity.logger.warning("RTEX> [PlanetaryManagerActivity.onCreate]> " + rtex.getMessage());
