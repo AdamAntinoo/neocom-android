@@ -23,6 +23,7 @@ public enum PlanetType {
 	PlanetType( final int backgroundColor, final int planetType ) {
 		this.backgroundColor = backgroundColor;
 		this.type = planetType;
+		setPlanetType(planetType, this);
 	}
 
 	public int getBackgroundColor() {
@@ -35,5 +36,9 @@ public enum PlanetType {
 
 	public static PlanetType lookupByType( final int type ) {
 		return planetIndex.get(type);
+	}
+
+	private static void setPlanetType( final int planetType, final PlanetType type ) {
+		planetIndex.put(planetType, type);
 	}
 }

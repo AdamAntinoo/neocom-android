@@ -164,11 +164,15 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	protected void onDraw( Canvas canvas ) {
 		logger.info(">> [FacilityImageView.onDraw]");
 		// Move canvas to center to allow drawing symmetries. Paint all area transparent.
-		this.centerCanvas(canvas);
-		this.drawFacilityRing(canvas);
-		this.drawFacilityFill(canvas);
-		this.drawCycleRing(canvas);
-		this.drawStructureIcon(canvas);
+		try {
+			this.centerCanvas(canvas);
+			this.drawFacilityRing(canvas);
+			this.drawFacilityFill(canvas);
+			this.drawCycleRing(canvas);
+			this.drawStructureIcon(canvas);
+		} catch (Exception ex) {
+			super.onDraw(canvas);
+		}
 		super.onDraw(canvas);
 		logger.info("<< [FacilityImageView.onDraw]");
 	}
@@ -179,8 +183,6 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	 * later facility is able to generate the Tier 2 to Tier 4 resources.
 	 *
 	 * The drawing should check the second type to draw 2 or 3 segments equally spaced.
-	 *
-	 * @param canvas
 	 */
 	@Override
 	protected void drawFacilityRing( final Canvas canvas ) {
@@ -193,25 +195,25 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 				break;
 			case ADVANCED_INDUSTRY:
 				float startAngle = -90.0F + 5.0F;
-//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+				//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 				canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 						, startAngle, 180.0F - 10.0F, true, paint);
 				startAngle = -90.0F + 5.0F + 180.0F;
-//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+				//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 				canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 						, startAngle, 180.0F - 10.0F, true, paint);
 				break;
 			case ADVANCED_INDUSTRY_MULTICOMPONENT:
 				startAngle = -90.0F + 5.0F;
-//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+				//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 				canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 						, startAngle, 120.0F - 10.0F, true, paint);
 				startAngle = -90.0F + 5.0F + 120.0F;
-//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+				//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 				canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 						, startAngle, 120.0F - 10.0F, true, paint);
 				startAngle = -90.0F + 5.0F + 120.0F + 120.0F;
-//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+				//				paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 				canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 						, startAngle, 120.0F - 10.0F, true, paint);
 				break;
@@ -230,19 +232,19 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 			switch (facilityClass) {
 				case BASIC_INDUSTRY:
 					float startAngle = -90.0F;
-//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+					//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 					canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 							, startAngle, section.getFillAngle(360.0F), true, paint);
 					break;
 				case ADVANCED_INDUSTRY:
 					startAngle = -90.0F + 5.0F + 180.0F * sectionCounter;
-//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+					//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 					canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 							, startAngle, section.getFillAngle(180.0F) - 10.0F, true, paint);
 					break;
 				case ADVANCED_INDUSTRY_MULTICOMPONENT:
 					startAngle = -90.0F + 5.0F + 120.0F * sectionCounter;
-//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
+					//					paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));
 					canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 							, startAngle, section.getFillAngle(120.0F) - 10.0F, true, paint);
 					break;

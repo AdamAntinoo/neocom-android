@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
@@ -27,7 +28,7 @@ public class PlanetaryFacility implements ICollaboration {
 	}
 
 	private GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
-	private GetUniverseTypesTypeIdOk itemDelegate; // The item data for the installation referenced.
+	private GetUniverseTypesTypeIdOk planetItemDelegate; // The item data for the installation referenced.
 
 	private double contentsVolume = 0.0;
 	private PlanetarySchematic schematic;
@@ -46,13 +47,12 @@ public class PlanetaryFacility implements ICollaboration {
 	 * a planetaryFacility type. With this change the number of check elements is quite short.
 	 */
 	public PlanetaryFacilityType getStructureType() {
-		return PlanetaryFacilityType.getStructureGroup(this.getItemDelegate().getGroupId());
+		return PlanetaryFacilityType.getStructureGroup(this.getPlanetItemDelegate().getGroupId());
 	}
 
 	/** Check that this delegate exists before accessing it. If the type is not accesible then we should use a default one suitable for the planetaryFacility like the Command Center. */
-	public GetUniverseTypesTypeIdOk getItemDelegate() {
-		if (null == this.itemDelegate) return DEFAULT_COMMAND_CENTER;
-		else return itemDelegate;
+	public GetUniverseTypesTypeIdOk getPlanetItemDelegate() {
+		return this.planetItemDelegate;
 	}
 	public PlanetaryFacility getCommandCenter() {
 		return commandCenter;
@@ -121,7 +121,7 @@ public class PlanetaryFacility implements ICollaboration {
 	}
 
 	public Float getStorageCapacity() {
-		return this.getItemDelegate().getCapacity();
+		return this.getPlanetItemDelegate().getCapacity();
 	}
 
 	public Integer getSchematicId() {
@@ -153,19 +153,16 @@ public class PlanetaryFacility implements ICollaboration {
 
 	// - B U I L D E R
 	public static class Builder {
-		private final PlanetaryFacility object;
+		private final PlanetaryFacility onConstruction;
 
 		public Builder() {
-			this.object = new PlanetaryFacility();
+			this.onConstruction = new PlanetaryFacility();
 		}
 
 		public Builder withPin( final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin ) {
-			this.object.pinDelegate = pin;
-			// Generate the additional delegated from the current pin data.
-			this.withSchematicId(pin.getSchematicId());
-//			this.withTypeId(pin.getTypeId());
-			// Do costly calculations that may require network access.
-			this.object.contentsVolume = this.object.calculateContentsVolume();
+			this.onConstruction.pinDelegate = pin;
+			this.withSchematicId(pin.getSchematicId()); // Generate the additional delegated from the current pin data.
+			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
 			return this;
 		}
 
@@ -178,23 +175,25 @@ public class PlanetaryFacility implements ICollaboration {
 		 * @return
 		 */
 		public Builder withSchematicId( final Integer schematicId ) {
-			this.object.schematic = new PlanetarySchematic.Builder(schematicId).build();
+			this.onConstruction.schematic = new PlanetarySchematic.Builder(schematicId).build();
 			return this;
 		}
 
-//		public Builder withTypeId( final Integer typeId ) {
-//			this.object.itemDelegate = EveItemProvider.getInstance().search(typeId);
-//			//			this.object.structureType = PlanetaryFacilityType.getStructureType(typeId);
-//			return this;
-//		}
+		public Builder withPlanetItem( final GetUniverseTypesTypeIdOk planetItem ) {
+			this.onConstruction.planetItemDelegate = planetItem;
+			return this;
+		}
 
 		public Builder withPlanetType( final PlanetType planetType ) {
-			this.object.planetType = planetType;
+			this.onConstruction.planetType = planetType;
 			return this;
 		}
 
 		public PlanetaryFacility build() {
-			return this.object;
+			Objects.requireNonNull(this.onConstruction.pinDelegate);
+			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
+			Objects.requireNonNull(this.onConstruction.planetType);
+			return this.onConstruction;
 		}
 	}
 }
