@@ -79,6 +79,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 							                               .withPin(pin)
 							                               .withPlanetType(PlanetType.valueOf(this.getExtras().getString(EExtras.PLANET_TYPE_NAME.name())))
 														   .withPlanetItem(this.esiAdapter.getUniverseTypeById(pin.getTypeId()))
+														   .withEsiAdapter(this.esiAdapter)
 							                               .build();
 				                        })
 				                        .map(structure -> {

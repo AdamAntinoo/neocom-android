@@ -85,7 +85,7 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 			this.solarSystemName = this.getView().findViewById(R.id.solarSystemName);
 			this.planetType = this.getView().findViewById(R.id.planetType);
 			this.installationsNumber = this.getView().findViewById(R.id.installationsNumber);
-			this.nodeIcon = this.getView().findViewById(R.id.nodeIcon);
+			this.nodeIcon = this.getView().findViewById(R.id.planetIcon);
 			this.botrightDecorator = this.getView().findViewById(R.id.bottomrightDecorator);
 		}
 

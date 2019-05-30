@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
@@ -27,12 +27,12 @@ public class PlanetaryFacility implements ICollaboration {
 		DEFAULT_COMMAND_CENTER.setCapacity(0.0F);
 	}
 
+	private ESIGlobalAdapter esiAdapter;
 	private GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
 	private GetUniverseTypesTypeIdOk planetItemDelegate; // The item data for the installation referenced.
 
 	private double contentsVolume = 0.0;
 	private PlanetarySchematic schematic;
-	//	private PlanetaryFacilityType structureType = PlanetaryFacilityType.DEFAULT;
 	private PlanetType planetType = PlanetType.BARREN;
 
 	private PlanetaryFacility commandCenter;
@@ -54,6 +54,7 @@ public class PlanetaryFacility implements ICollaboration {
 	public GetUniverseTypesTypeIdOk getPlanetItemDelegate() {
 		return this.planetItemDelegate;
 	}
+
 	public PlanetaryFacility getCommandCenter() {
 		return commandCenter;
 	}
@@ -80,13 +81,6 @@ public class PlanetaryFacility implements ICollaboration {
 		else return cont;
 	}
 
-//	public int getContentsUnits() {
-//		int units = 0;
-//		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents cont : this.getContents())
-//			units += cont.getAmount();
-//		return units;
-//	}
-
 	public int getBackgroundColor() {
 		return planetType.getBackgroundColor();
 	}
@@ -96,7 +90,7 @@ public class PlanetaryFacility implements ICollaboration {
 	}
 
 	public int getIconColorReference() {
-		return getStructureType().getIconColorReference();
+		return this.getStructureType().getIconColorReference();
 	}
 
 	public int getStructureColorReference() {
@@ -104,20 +98,20 @@ public class PlanetaryFacility implements ICollaboration {
 	}
 
 	public DateTime getLastCycleStart() {
-		return pinDelegate.getLastCycleStart();
+		return this.pinDelegate.getLastCycleStart();
 	}
 
 	public PlanetaryFacility setLastCycleStart( final DateTime lastCycleStart ) {
-		pinDelegate.setLastCycleStart(lastCycleStart);
+		this.pinDelegate.setLastCycleStart(lastCycleStart);
 		return this;
 	}
 
 	public Float getLatitude() {
-		return pinDelegate.getLatitude();
+		return this.pinDelegate.getLatitude();
 	}
 
 	public Float getLongitude() {
-		return pinDelegate.getLongitude();
+		return this.pinDelegate.getLongitude();
 	}
 
 	public Float getStorageCapacity() {
@@ -125,7 +119,7 @@ public class PlanetaryFacility implements ICollaboration {
 	}
 
 	public Integer getSchematicId() {
-		return schematic.getSchematicId();
+		return this.schematic.getSchematicId();
 	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
@@ -143,8 +137,8 @@ public class PlanetaryFacility implements ICollaboration {
 	private double calculateContentsVolume() {
 		double volumeUsed = 0.0;
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents cont : this.getContents()) {
-			final GetUniverseTypesTypeIdOk contentItem = NeoComAndroid.getSingleton().getEsiAdapter().getUniverseTypeById(cont.getTypeId());
-			if (null == contentItem) volumeUsed += cont.getAmount() * 0.1;
+			final GetUniverseTypesTypeIdOk contentItem = this.esiAdapter.getUniverseTypeById(cont.getTypeId());
+			if (null == contentItem) volumeUsed += cont.getAmount() * contentItem.getVolume();
 			else volumeUsed += cont.getAmount() * contentItem.getVolume();
 		}
 		return volumeUsed;
@@ -161,21 +155,7 @@ public class PlanetaryFacility implements ICollaboration {
 
 		public Builder withPin( final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin ) {
 			this.onConstruction.pinDelegate = pin;
-			this.withSchematicId(pin.getSchematicId()); // Generate the additional delegated from the current pin data.
-			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
-			return this;
-		}
-
-		/**
-		 * This builder method sets the schematic identifier that is the schematic to be used on the production plan for this facility.
-		 * Not all structures have the ability to handle schematics to this is an optional method that should code gracefully with the
-		 * case the data origin does not define one schematic.
-		 *
-		 * @param schematicId
-		 * @return
-		 */
-		public Builder withSchematicId( final Integer schematicId ) {
-			this.onConstruction.schematic = new PlanetarySchematic.Builder(schematicId).build();
+			//			this.withSchematicId(pin.getSchematicId()); // Generate the additional delegated from the current pin data.
 			return this;
 		}
 
@@ -189,10 +169,26 @@ public class PlanetaryFacility implements ICollaboration {
 			return this;
 		}
 
+		public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
+			this.onConstruction.esiAdapter = esiAdapter;
+			return this;
+		}
+
+		/**
+		 * This builder method sets the schematic identifier that is the schematic to be used on the production plan for this facility.
+		 * Not all structures have the ability to handle schematics to this is an optional method that should code gracefully with the
+		 * case the data origin does not define one schematic.
+		 */
 		public PlanetaryFacility build() {
 			Objects.requireNonNull(this.onConstruction.pinDelegate);
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
+			Objects.requireNonNull(this.onConstruction.esiAdapter);
+			if (null != this.onConstruction.pinDelegate.getSchematicId())
+				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
+						                                .withEsiAdapter(this.onConstruction.esiAdapter)
+						                                .build();
+			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
 			return this.onConstruction;
 		}
 	}
