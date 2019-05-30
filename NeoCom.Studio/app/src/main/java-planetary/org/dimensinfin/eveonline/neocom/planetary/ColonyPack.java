@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 
 public class ColonyPack implements ICollaboration {
+	private int capsuleerIdentifier = 0;
 	private GetCharactersCharacterIdPlanets200Ok colony;
 	private GetUniversePlanetsPlanetIdOk planetData;
 	private GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer;
@@ -25,6 +26,10 @@ public class ColonyPack implements ICollaboration {
 		else return "-";
 	}
 
+	public Integer getPlanetId() {
+		return colony.getPlanetId();
+	}
+
 	public GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum getPlanetType() {
 		return this.colony.getPlanetType();
 	}
@@ -37,6 +42,15 @@ public class ColonyPack implements ICollaboration {
 		return colony.getUpgradeLevel();
 	}
 
+	public int getCapsuleerIdentifier() {
+		return capsuleerIdentifier;
+	}
+
+	public ColonyPack setCapsuleerIdentifier( final int capsuleerIdentifier ) {
+		this.capsuleerIdentifier = capsuleerIdentifier;
+		return this;
+	}
+
 	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
@@ -45,6 +59,8 @@ public class ColonyPack implements ICollaboration {
 
 	@Override
 	public int compareTo( final Object o ) {
+		if (o instanceof ColonyPack)
+			return this.capsuleerIdentifier - ((ColonyPack) o).capsuleerIdentifier;
 		return 0;
 	}
 }

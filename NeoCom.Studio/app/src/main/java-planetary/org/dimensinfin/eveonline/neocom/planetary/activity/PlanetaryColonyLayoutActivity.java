@@ -29,19 +29,20 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 		super.onCreate(savedInstanceState);
 		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColonyLayoutFragment()
-				             .setCredential(this.getCredential()));
+				             .setCredential(this.getCredential())
+				             .setVariant(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name()));
 		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
 	}
 
 	private View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_INSTALLATIONS.getTitle())
+				                                     .withSubtitle(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.getTitle())
 				                                     .withActivityIconRef(R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_INSTALLATIONS.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name())
 				                                                                               .createController(actionBar);
 		final IRender holder = controller.buildRender(this);
 		holder.updateContent();

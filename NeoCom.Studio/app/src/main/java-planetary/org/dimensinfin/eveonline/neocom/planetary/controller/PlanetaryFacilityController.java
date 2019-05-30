@@ -133,7 +133,7 @@ public class PlanetaryFacilityController extends AAndroidController<PlanetaryFac
 			this.structureImage.setDeltaPosition(new FacilityGeoPosition()
 					                                     .setLongitude(longitudeDelta)
 					                                     .setLatitude(latitudeDelta));
-			this.structureImage.setStructure(this.getController().getModel());
+			this.structureImage.setPlanetaryFacility(this.getController().getModel());
 		}
 
 		@Override

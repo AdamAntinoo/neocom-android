@@ -16,30 +16,9 @@ public class PlanetaryDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIGlobalAdapter esiAdapter;
 	protected List<ColonyPack> colonies = new ArrayList<>();
-	//	protected MiningRepository planetaryRepository; // The planetary persistence repository definition.
-	//	private PanelTitle sectionTitle; // The panel title for the data section
-	//	protected List<MiningExtraction> extractions;
-	//	//	private int extractionsCount = 0; // Number of extractions processed
-	//	protected List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
-	//	private Map<Integer, Resource> resources = new HashMap<>();
 
 	// - C O N S T R U C T O R S
 	protected PlanetaryDataSource() {}
-
-	// - B U I L D E R   S E T T E R S
-	//	protected PlanetaryDataSource setCredential( final Credential credential ) {
-	//		this.credential = credential;
-	//		return this;
-	//	}
-	//
-	//	public PlanetaryDataSource setEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-	//		this.esiAdapter = esiAdapter;
-	//		return this;
-	//	}
-	//	protected PlanetaryDataSource setPlanetaryRepository( final MiningRepository miningRepository ) {
-	//		this.planetaryRepository = miningRepository;
-	//		return this;
-	//	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 	@Override
@@ -60,7 +39,8 @@ public class PlanetaryDataSource extends AMVCDataSource {
 					, credential.getRefreshToken()
 					, credential.getDataSource());
 			if (null != structureContainer) {
-				this.colonies.add(new ColonyPack(colonyEsi, planetData, structureContainer));
+				this.colonies.add(new ColonyPack(colonyEsi, planetData, structureContainer)
+						                  .setCapsuleerIdentifier(this.credential.getAccountId()));
 			}
 		}
 	}

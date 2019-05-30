@@ -49,6 +49,11 @@
 				android:label="Planetary Colonies">
 		</activity>
 		<activity
+				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="Planetary Colony Layout">
+		</activity>
+		<activity
 				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">

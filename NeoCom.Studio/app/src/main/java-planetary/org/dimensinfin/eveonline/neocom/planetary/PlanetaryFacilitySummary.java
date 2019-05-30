@@ -46,34 +46,34 @@ public class PlanetaryFacilitySummary implements ICollaboration {
 
 	// - B U I L D E R
 	public static class Builder {
-		private final PlanetaryFacilitySummary object;
+		private final PlanetaryFacilitySummary onConstruction;
 
 		public Builder( final String name ) {
-			this.object = new PlanetaryFacilitySummary(name);
+			this.onConstruction = new PlanetaryFacilitySummary(name);
 		}
 
 		public Builder withGroupId( final int groupId ) {
-			this.object.groupId = groupId;
+			this.onConstruction.groupId = groupId;
 			return this;
 		}
 
 		public Builder withIconReference( final int iconReference ) {
-			this.object.iconReference = iconReference;
+			this.onConstruction.iconReference = iconReference;
 			return this;
 		}
 
 		public Builder withName( final String name ) {
-			this.object.name = name;
+			this.onConstruction.name = name;
 			return this;
 		}
 
 		public Builder withGroupCount( final int groupCount ) {
-			this.object.groupCount = groupCount;
+			this.onConstruction.groupCount = groupCount;
 			return this;
 		}
 
 		public PlanetaryFacilitySummary build() {
-			return this.object;
+			return this.onConstruction;
 		}
 	}
 }

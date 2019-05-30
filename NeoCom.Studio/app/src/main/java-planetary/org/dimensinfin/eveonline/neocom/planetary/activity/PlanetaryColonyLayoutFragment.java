@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.planetary.activity;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
@@ -8,7 +8,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyDataSource;
 
-public class PlanetaryColonyLayoutFragment extends AMVCPagerFragment {
+public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 	private Credential credential;
 
 	@Override
@@ -28,7 +28,7 @@ public class PlanetaryColonyLayoutFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_INSTALLATIONS.name()))
+		if (this.getVariant().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name()))
 			return new PlanetaryColonyDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
