@@ -1,8 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.dimensinfin.eveonline.neocom.R;
 
 public enum PlanetType {
@@ -15,7 +12,7 @@ public enum PlanetType {
 	STORM(R.color.pi_barren_backgroundcolor, 2016),
 	PLASMA(R.color.pi_barren_backgroundcolor, 2016);
 
-	private static final Map<Integer, PlanetType> planetIndex = new HashMap<>();
+//	private static final Map<Integer, PlanetType> planetIndex = new HashMap<>();
 
 	private final int backgroundColor;
 	private final int type;
@@ -23,7 +20,7 @@ public enum PlanetType {
 	PlanetType( final int backgroundColor, final int planetType ) {
 		this.backgroundColor = backgroundColor;
 		this.type = planetType;
-		setPlanetType(planetType, this);
+//		setPlanetType(planetType, this);
 	}
 
 	public int getBackgroundColor() {
@@ -34,11 +31,11 @@ public enum PlanetType {
 		return type;
 	}
 
-	public static PlanetType lookupByType( final int type ) {
-		return planetIndex.get(type);
-	}
+//	public static PlanetType lookupByType( final int type ) {
+	//		return planetIndex.get(type);
+	//	}
 
-	private static void setPlanetType( final int planetType, final PlanetType type ) {
-		planetIndex.put(planetType, type);
-	}
+//	private static void setPlanetType( final int planetType, final PlanetType type ) {
+//		planetIndex.put(planetType, type);
+//	}
 }

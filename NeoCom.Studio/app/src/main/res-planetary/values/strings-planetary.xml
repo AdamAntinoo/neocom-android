@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_defaultsolarsystemname">Amarr</string>
+    <string name="default_defaultconstellationname">The Bleak Lands</string>
+    <string name="default_planetname">6-CZ49 II</string>
+    <string name="default_planettype">BARREN</string>
+</resources>

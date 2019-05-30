@@ -48,6 +48,8 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
 		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
 				, this.getModel().getPlanetId()); // The colony/planet identifier
+		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
+				, this.getModel().getPlanetType().name()); // The planet type as string
 		this.context.startActivity(intent);
 		logger.info("<< [ColonyPackController.onClick]");
 	}

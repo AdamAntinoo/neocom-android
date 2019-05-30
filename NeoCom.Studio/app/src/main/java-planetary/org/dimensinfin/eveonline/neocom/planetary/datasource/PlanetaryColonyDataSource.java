@@ -77,7 +77,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 					                        // Transform each pin into a model planetaryFacility.
 					                        return new PlanetaryFacility.Builder()
 							                               .withPin(pin)
-							                               .withPlanetType(PlanetType.lookupByType(this.planet.getTypeId()))
+							                               .withPlanetType(PlanetType.valueOf(this.getExtras().getString(EExtras.PLANET_TYPE_NAME.name())))
 														   .withPlanetItem(this.esiAdapter.getUniverseTypeById(pin.getTypeId()))
 							                               .build();
 				                        })

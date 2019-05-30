@@ -37,16 +37,16 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 
-	/**
-	 * Draws each of the 3 facility inputs. If the facility does not have that input we draw nothing but the code
-	 * is shared for the 3 facilities.
-	 */
-	private void drawStorageFillRing( Canvas canvas ) {
-		float startAngle = -90.0f;
-		float endAngle = 100;
-		paint.setColor(getResources().getColor(R.color.pi_storagefill));
-		canvas.drawArc(STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_POS, STRUCTURE_INPUTDIMENSION_POS, startAngle, endAngle, true, paint);
-	}
+//	/**
+//	 * Draws each of the 3 facility inputs. If the facility does not have that input we draw nothing but the code
+//	 * is shared for the 3 facilities.
+//	 */
+//	private void drawStorageFillRing( Canvas canvas ) {
+//		float startAngle = -90.0f;
+//		float endAngle = 100;
+//		paint.setColor(getResources().getColor(R.color.pi_storagefill));
+//		canvas.drawArc(STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_POS, STRUCTURE_INPUTDIMENSION_POS, startAngle, endAngle, true, paint);
+//	}
 
 	// - B U I L D E R
 	public static class Builder extends APlanetaryStructureImageView.BaseBuilder<StorageImageView, StorageImageView.Builder> {

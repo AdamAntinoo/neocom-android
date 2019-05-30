@@ -1,79 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/uipanelborderwhite">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/uipanelborderwhite">
 
-    <include layout="@layout/nodebase_decorated" />
+	<FrameLayout
+			android:id="@+id/planetIconBlock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true">
 
-    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-        android:id="@+id/solarSystemName"
-        style="@style/AppTheme.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="Planet 40208301"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+		<ImageView
+				android:id="@+id/planetIcon"
+				style="@style/AppTheme.NodeIcon"
+				android:layout_width="@dimen/planeticonsize"
+				android:layout_height="@dimen/planeticonsize"
+				android:src="@drawable/planet_barren_102_128_3"
+				android:visibility="visible"/>
 
-    <TextView
-        android:id="@+id/installationsLabel"
-        style="@style/AppTheme.Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/installationsNumber"
-        android:layout_marginLeft="@dimen/uilefttextmargin"
-        android:layout_toRightOf="@+id/installationsNumber"
-        android:text="Installations" />
+		<ImageView
+				android:id="@+id/toprightDecorator"
+				android:layout_width="12dp"
+				android:layout_height="12dp"
+				android:layout_gravity="right|top"
+				android:layout_marginBottom="2dp"
+				android:layout_marginRight="4dp"
+				android:src="@drawable/hamburger_icon_white"
+				android:visibility="invisible"/>
 
-    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-        android:id="@+id/installationsNumber"
-        style="@style/AppTheme.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/solarSystemName"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:text="11"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+		<ImageView
+				android:id="@+id/topleftDecorator"
+				android:layout_width="16dp"
+				android:layout_height="16dp"
+				android:layout_gravity="left|top"
+				android:layout_marginBottom="0dp"
+				android:layout_marginLeft="2dp"
+				android:src="@drawable/xml_icon"
+				android:visibility="invisible"/>
 
-    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
-        android:id="@+id/planetType"
-        style="@style/AppTheme.NodeClass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rightBlock"
-        android:gravity="right"
-        android:text="Lava" />
+		<ImageView
+				android:id="@+id/bottomrightDecorator"
+				android:layout_width="12dp"
+				android:layout_height="12dp"
+				android:layout_gravity="right|bottom"
+				android:layout_marginBottom="2dp"
+				android:layout_marginRight="4dp"
+				android:src="@drawable/hamburger_icon_white"
+				android:visibility="invisible"/>
 
-    <LinearLayout
-        android:id="@+id/productBlock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/planetType"
-        android:visibility="invisible"
-        android:layout_toLeftOf="@+id/rightBlock"
-        android:orientation="horizontal">
+		<ImageView
+				android:id="@+id/bottomleftDecorator"
+				android:layout_width="16dp"
+				android:layout_height="16dp"
+				android:layout_gravity="left|bottom"
+				android:layout_marginBottom="0dp"
+				android:layout_marginLeft="2dp"
+				android:src="@drawable/xml_icon"
+				android:visibility="invisible"/>
+	</FrameLayout>
 
-        <ImageView
-            android:id="@+id/producingIcon"
-            style="@style/AppTheme.NodeIcon.NoBorder"
-            android:layout_width="@dimen/halfnodeiconsize"
-            android:layout_height="@dimen/halfnodeiconsize"
-            android:visibility="visible" />
+	<LinearLayout
+			android:id="@+id/rightBlock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:orientation="horizontal">
 
-        <org.dimensinfin.android.mvc.fonts.Din1451TextView
-            android:id="@+id/producingName"
-            style="@style/AppTheme.TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/uilefttextmargin"
-            android:gravity="right"
-            android:text="Synthetic Oil"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+		<ImageView
+				android:id="@+id/separator"
+				android:layout_width="@dimen/standardmargin"
+				android:layout_height="match_parent"
+				android:src="@android:color/transparent"
+				android:visibility="gone"/>
 
-    </LinearLayout>
+		<LinearLayout
+				android:id="@+id/actuatorsBlock"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:orientation="vertical">
+
+			<ImageView
+					android:id="@+id/rightArrow"
+					style="@style/AppTheme.Arrow"
+					android:layout_width="28dp"
+					android:layout_height="28dp"
+					android:visibility="visible"/>
+
+			<ImageView
+					android:id="@+id/menuIcon"
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginTop="-5dp"
+					android:layout_gravity="center"
+					android:src="@drawable/hamburger_icon_white"
+					android:visibility="visible"/>
+
+		</LinearLayout>
+	</LinearLayout>
+
+	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+			android:id="@+id/solarSystemName"
+			style="@style/AppTheme.TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/planetIconBlock"
+			android:text="@string/default_planetname"
+			android:textSize="14sp"
+			android:textStyle="bold"/>
+
+	<TextView
+			android:id="@+id/installationsLabel"
+			style="@style/AppTheme.Label.Big"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignBaseline="@+id/installationsNumber"
+			android:layout_marginLeft="@dimen/uilefttextmargin"
+			android:layout_toRightOf="@+id/installationsNumber"
+			android:text="Installations"/>
+
+	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+			android:id="@+id/installationsNumber"
+			style="@style/AppTheme.TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/solarSystemName"
+			android:layout_toRightOf="@+id/planetIconBlock"
+			android:text="11"
+			android:textSize="13sp"
+			android:textStyle="bold"/>
+
+	<org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+			android:id="@+id/planetType"
+			style="@style/AppTheme.NodeClass"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_toLeftOf="@+id/rightBlock"
+			android:gravity="right"
+			android:text="@string/default_planettype"/>
+
+	<LinearLayout
+			android:id="@+id/storageUsedBlock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/installationsNumber"
+			android:visibility="visible"
+			android:layout_toRightOf="@+id/planetIconBlock"
+			android:orientation="horizontal">
+
+		<ImageView
+				android:id="@+id/storageIcon"
+				style="@style/AppTheme.NodeIcon.NoBorder"
+				android:layout_width="@dimen/halfnodeiconsize"
+				android:layout_height="@dimen/halfnodeiconsize"
+				android:src="@drawable/storage80_white"
+				android:visibility="visible"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/storageUsedLabel"
+				style="@style/AppTheme.Label.Big"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="@dimen/uilefttextmargin"
+				android:gravity="right"
+				android:text="Colony space in use:"
+				android:textSize="12sp"
+				android:textStyle="bold"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/storageUsed"
+				style="@style/AppTheme.StockCounter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="@dimen/uilefttextmargin"
+				android:gravity="right"
+				android:text="1.345 m3/12.500 m3"
+				android:textSize="12sp"
+				android:textStyle="bold"/>
+
+	</LinearLayout>
 </RelativeLayout>

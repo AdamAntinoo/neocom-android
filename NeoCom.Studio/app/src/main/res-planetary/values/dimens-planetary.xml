@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="planeticonsize">72dp</dimen>
     <dimen name="structuresize">24dp</dimen>
     <dimen name="panelborderwidth">1px</dimen>
     <dimen name="panelcornerwidth">2px</dimen>
     <dimen name="panelcornerlenght">10px</dimen>
 
-    <dimen name="halfnodeiconsize">10px</dimen>
+    <dimen name="halfnodeiconsize">18dp</dimen>
 </resources>
