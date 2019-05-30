@@ -72,7 +72,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 		}
 
 		protected void createView () {
-			_convertView = inflateView(R.layout.structure4list);
+			_convertView = inflateView(R.layout.facility4list);
 			_convertView.setTag(this);
 		}
 	}

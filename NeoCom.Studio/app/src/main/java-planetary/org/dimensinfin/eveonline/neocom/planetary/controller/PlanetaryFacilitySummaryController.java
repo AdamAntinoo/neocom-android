@@ -53,14 +53,14 @@ public class PlanetaryFacilitySummaryController extends AAndroidController<Plane
 		// - I R E N D E R
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.structure4list;
+			return R.layout.facility4list;
 		}
 
 		@Override
 		public void initializeViews() {
 			this.nodeIcon = this.getView().findViewById(R.id.nodeIcon);
-			this.structureName = this.getView().findViewById(R.id.structureName);
-			this.structureCount = this.getView().findViewById(R.id.structureCount);
+			this.structureName = this.getView().findViewById(R.id.facilityName);
+			this.structureCount = this.getView().findViewById(R.id.facilityCount);
 		}
 
 		@Override
