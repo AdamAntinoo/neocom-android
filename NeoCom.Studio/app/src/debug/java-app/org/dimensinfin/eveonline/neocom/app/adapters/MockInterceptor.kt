@@ -697,7 +697,7 @@ const val getType2561 = """
 const val getType2483 = """
 {
   "capacity": 0,
-  "description": "Instead of laboring to shield the production lines of this industrial facility from the surrounding environment, designers opted instead to use the available heat, interference, and even crushing pressure to help power the structure itself. A plant on an ice planet might have highly advanced extended heat sinks, while a factory on a plasma world might draw most, if not all of its electricity from magnetized coils specially attuned to the planet's local ion winds. Taking advantage of the indigenous features of each world helps offset the cost of building mass production infrastructure there, which usually involves protective coatings, environmental clothing, and reinforced foundations.",
+  "description": "Instead of laboring to shield the production lines of this industrial facility from the surrounding environment, designers opted instead to use the available heat, interference, and even crushing pressure to help power the planetaryFacility itself. A plant on an ice planet might have highly advanced extended heat sinks, while a factory on a plasma world might draw most, if not all of its electricity from magnetized coils specially attuned to the planet's local ion winds. Taking advantage of the indigenous features of each world helps offset the cost of building mass production infrastructure there, which usually involves protective coatings, environmental clothing, and reinforced foundations.",
   "dogma_attributes": [
     {
       "attribute_id": 1632,

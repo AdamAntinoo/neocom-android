@@ -59,7 +59,7 @@ public class NeoComDataSource extends SpecialDataSource {
 
 	/**
 	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
-	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
+	 * planetaryFacility changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
 	 * The model does not change but the result from the collaborate2View transformation does.
 	 */
 	@Override

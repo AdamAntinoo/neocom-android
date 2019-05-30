@@ -11,11 +11,10 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.AssetsManagerActivity;
-import org.dimensinfin.eveonline.neocom.app.activity.SkillsManagerActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComDashboardMenuController;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 
 public class NeoComDashboardMenuRender extends NeoComRenderv2 {
 	// - U I   F I E L D S

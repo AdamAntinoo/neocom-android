@@ -187,7 +187,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 			//			storageUsedProgress.setProgress(Double.valueOf(getPart().getCastedModel().getVolumeUsedPct()).intValue());
 			//			storageUsedProgress.setScaleY(2f);
 			nodeIcon.setImageResource(R.drawable.launchpad80_white);
-			// Hide the cpu and power blocks that are not used by this structure.
+			// Hide the cpu and power blocks that are not used by this planetaryFacility.
 			commandCenterInfoBlock.setVisibility(View.GONE);
 		}
 	}
@@ -202,7 +202,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 			structureType.setText("Storage");
 			nodeIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.storage80_white));
 			nodeIcon.setImageResource(R.drawable.storage80_white);
-			// Hide the cpu and power blocks that are not used by this structure.
+			// Hide the cpu and power blocks that are not used by this planetaryFacility.
 			commandCenterInfoBlock.setVisibility(View.GONE);
 		}
 	}
@@ -226,7 +226,7 @@ public class StructureWithContentsPart extends NeoComExpandablePart /*implements
 	}
 
 	/**
-	 * The render selected will depend on the Structure type stored on the Model.
+	 * The render selected will depend on the PlanetaryFacility type stored on the Model.
 	 */
 	protected AbstractRender selectRenderer () {
 		final ColonyStructure.EPlanetaryStructureType structureType = getCastedModel().getStructureTypeCode();

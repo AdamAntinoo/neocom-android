@@ -25,7 +25,7 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 
 import com.squareup.picasso.Picasso;
 

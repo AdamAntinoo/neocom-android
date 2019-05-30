@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.eveonline.neocom.R;
 
-public enum PlanetaryStructureType {
+public enum PlanetaryFacilityType {
 	DEFAULT(R.drawable.facility80_white
 			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
@@ -30,15 +30,15 @@ public enum PlanetaryStructureType {
 			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(60));
 
-	public static PlanetaryStructureType getStructureGroup( final int structureGroup ) {
-		if (structureGroup == 1027) return PlanetaryStructureType.COMMAND_CENTER;
-		if (structureGroup == 1028) return PlanetaryStructureType.ADVANCED_INDUSTRY;
-		if (structureGroup == 1026) return PlanetaryStructureType.EXTRACTOR_HEAD;
-		if (structureGroup == 1028) return PlanetaryStructureType.BASIC_INDUSTRY;
-		if (structureGroup == 1063) return PlanetaryStructureType.EXTRACTOR_CONTROL_UNIT;
-		if (structureGroup == 1030) return PlanetaryStructureType.LAUNCHPAD;
-		if (structureGroup == 1029) return PlanetaryStructureType.STORAGE;
-		return PlanetaryStructureType.DEFAULT;
+	public static PlanetaryFacilityType getStructureGroup( final int structureGroup ) {
+		if (structureGroup == 1027) return PlanetaryFacilityType.COMMAND_CENTER;
+		if (structureGroup == 1028) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
+		if (structureGroup == 1026) return PlanetaryFacilityType.EXTRACTOR_HEAD;
+		if (structureGroup == 1028) return PlanetaryFacilityType.BASIC_INDUSTRY;
+		if (structureGroup == 1063) return PlanetaryFacilityType.EXTRACTOR_CONTROL_UNIT;
+		if (structureGroup == 1030) return PlanetaryFacilityType.LAUNCHPAD;
+		if (structureGroup == 1029) return PlanetaryFacilityType.STORAGE;
+		return PlanetaryFacilityType.DEFAULT;
 	}
 
 	private final int iconReferenceId;
@@ -46,7 +46,7 @@ public enum PlanetaryStructureType {
 	private final int structureRingColorReference;
 	private final long cycleDuration;
 
-	PlanetaryStructureType( final int iconReferenceId
+	PlanetaryFacilityType( final int iconReferenceId
 			, final int iconColorReference
 			, final int structureRingColorReference
 			, final long duration ) {

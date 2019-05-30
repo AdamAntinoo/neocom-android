@@ -34,7 +34,7 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;

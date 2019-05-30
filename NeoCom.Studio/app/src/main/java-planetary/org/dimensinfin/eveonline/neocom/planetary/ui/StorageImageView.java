@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui;
+package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,13 +27,13 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 	}
 
 	protected void drawFacilityFill( final Canvas canvas ) {
-		final double fillLevel = this.structure.getContentsVolume();
-		final int angle = Double.valueOf((fillLevel / this.structure.getStorageCapacity()) * 360.0).intValue();
+		final double fillLevel = this.planetaryFacility.getContentsVolume();
+		final int angle = Double.valueOf((fillLevel / this.planetaryFacility.getStorageCapacity()) * 360.0).intValue();
 		paint.setColor(this.getColor(FACTORY_RING_FILL_COLOR));
 		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 				, -90.0F, angle, true, paint);
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
 		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 

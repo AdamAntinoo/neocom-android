@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.controllers;
+package org.dimensinfin.eveonline.neocom.planetary.controller;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -10,13 +10,13 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.StructureGroup;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 
-public class StructureGroupController extends AAndroidController<StructureGroup> {
-	public StructureGroupController(@NonNull final StructureGroup model, @NonNull final IControllerFactory factory) {
+public class PlanetaryFacilitySummaryController extends AAndroidController<PlanetaryFacilitySummary> {
+	public PlanetaryFacilitySummaryController( @NonNull final PlanetaryFacilitySummary model, @NonNull final IControllerFactory factory) {
 		super(model, factory);
 	}
-//	public StructureGroupController(@NonNull final ControllerAdapter<StructureGroup> delegate, @NonNull final IControllerFactory factory) {
+//	public PlanetaryFacilitySummaryController(@NonNull final ControllerAdapter<PlanetaryFacilitySummary> delegate, @NonNull final IControllerFactory factory) {
 //		super(delegate, factory);
 //	}
 
@@ -46,8 +46,8 @@ public class StructureGroupController extends AAndroidController<StructureGroup>
 		}
 
 		@Override
-		public StructureGroupController getController() {
-			return (StructureGroupController) super.getController();
+		public PlanetaryFacilitySummaryController getController() {
+			return (PlanetaryFacilitySummaryController) super.getController();
 		}
 
 		// - I R E N D E R

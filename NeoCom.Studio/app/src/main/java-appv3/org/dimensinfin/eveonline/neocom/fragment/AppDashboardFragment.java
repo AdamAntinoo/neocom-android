@@ -38,7 +38,7 @@ import org.dimensinfin.eveonline.neocom.part.AppVersionPart;
 
 /**
  * Fragments are the structures that support a page's contents. They define the elements to be included on the header section and the
- * data providers that should generate any list of data to be rendered on the body of the page. All those pages share the same structure.
+ * data providers that should generate any list of data to be rendered on the body of the page. All those pages share the same planetaryFacility.
  * A fixed header and an scrollable content list. Just the data source will make each page different from each other.
  *
  * Also each page defines som elements of the ActionBar. The title and the subtitle are mandatory but fragments can adapt to other

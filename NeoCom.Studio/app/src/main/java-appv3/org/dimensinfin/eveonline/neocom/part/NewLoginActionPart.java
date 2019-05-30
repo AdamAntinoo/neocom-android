@@ -29,11 +29,11 @@ import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 //import org.dimensinfin.eveonline.neocom.core.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 
 /**
  * This part will trigger an Activity change when the <b>OnClick</b> event is received. If will show a simple message to the user along
- * with an icon following the base structure of most interface items. When clicked it will start the authorization flow against the ESI
+ * with an icon following the base planetaryFacility of most interface items. When clicked it will start the authorization flow against the ESI
  * authentication platform and will end registering a new Credential on the application database.
  */
 // - CLASS IMPLEMENTATION ...................................................................................

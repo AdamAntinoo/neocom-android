@@ -29,7 +29,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 

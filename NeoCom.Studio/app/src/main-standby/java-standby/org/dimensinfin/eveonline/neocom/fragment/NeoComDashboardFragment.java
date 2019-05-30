@@ -142,7 +142,7 @@ public class NeoComDashboardFragment extends AbstractPagerFragment {
 	/**
 	 * This method adds the icon and button of each director to the header container that this time it is at the
 	 * left of the view. <br>
-	 * This should be implemented as a new List View because it is the only structure able to hangle Part click
+	 * This should be implemented as a new List View because it is the only planetaryFacility able to hangle Part click
 	 * interactions.
 	 */
 	private void setNeoComMenu(final View theView) {

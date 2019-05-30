@@ -12,8 +12,8 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
-import org.dimensinfin.eveonline.neocom.sharedcode.RuntimeErrorInfo;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.exception.RuntimeErrorInfo;
 
 public abstract class ACredentialActivity extends ANeoComActivity {
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */

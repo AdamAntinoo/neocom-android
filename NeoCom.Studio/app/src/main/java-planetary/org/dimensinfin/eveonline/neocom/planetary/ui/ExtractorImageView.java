@@ -1,10 +1,7 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui;
+package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
 
 public class ExtractorImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
 	// - C O N S T R U C T O R S
@@ -16,7 +13,7 @@ public class ExtractorImageView extends APlanetaryStructureImageView implements 
 		logger.info(">> [ExtractorImageView.onDraw]");
 		// Move canvas to center to allow drawing symmetries. Paint all area transparent.
 		this.centerCanvas(canvas);
-		// Draw the structure ring
+		// Draw the planetaryFacility ring
 		this.drawFacilityRing(canvas);
 		this.drawCycleRing(canvas);
 		this.drawStructureIcon(canvas);

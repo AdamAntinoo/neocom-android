@@ -32,7 +32,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.IconicGroupFacetedShipsContainer;
 import org.dimensinfin.eveonline.neocom.model.Ship;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

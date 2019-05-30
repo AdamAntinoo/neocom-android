@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction;
+package org.dimensinfin.eveonline.neocom.planetary;
 
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSchematicIdOk;

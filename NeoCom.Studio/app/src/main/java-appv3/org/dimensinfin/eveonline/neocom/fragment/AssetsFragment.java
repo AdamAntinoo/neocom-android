@@ -38,7 +38,7 @@ import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.model.ShipFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.sharedcode.EExtras;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

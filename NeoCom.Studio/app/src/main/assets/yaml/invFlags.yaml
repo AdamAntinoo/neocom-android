@@ -392,11 +392,11 @@
     orderID: 0
 -   flagID: 144
     flagName: StructureActive
-    flagText: Structure Active
+    flagText: PlanetaryFacility Active
     orderID: 0
 -   flagID: 145
     flagName: StructureInactive
-    flagText: Structure Inactive
+    flagText: PlanetaryFacility Inactive
     orderID: 0
 -   flagID: 146
     flagName: JunkyardReprocessed
@@ -444,7 +444,7 @@
     orderID: 0
 -   flagID: 157
     flagName: StructureOffline
-    flagText: Structure Offline
+    flagText: PlanetaryFacility Offline
     orderID: 0
 -   flagID: 158
     flagName: FighterBay
@@ -472,39 +472,39 @@
     orderID: 0
 -   flagID: 164
     flagName: StructureServiceSlot0
-    flagText: Structure service slot 1
+    flagText: PlanetaryFacility service slot 1
     orderID: 0
 -   flagID: 165
     flagName: StructureServiceSlot1
-    flagText: Structure service slot 2
+    flagText: PlanetaryFacility service slot 2
     orderID: 0
 -   flagID: 166
     flagName: StructureServiceSlot2
-    flagText: Structure service slot 3
+    flagText: PlanetaryFacility service slot 3
     orderID: 0
 -   flagID: 167
     flagName: StructureServiceSlot3
-    flagText: Structure service slot 4
+    flagText: PlanetaryFacility service slot 4
     orderID: 0
 -   flagID: 168
     flagName: StructureServiceSlot4
-    flagText: Structure service slot 5
+    flagText: PlanetaryFacility service slot 5
     orderID: 0
 -   flagID: 169
     flagName: StructureServiceSlot5
-    flagText: Structure service slot 6
+    flagText: PlanetaryFacility service slot 6
     orderID: 0
 -   flagID: 170
     flagName: StructureServiceSlot6
-    flagText: Structure service slot 7
+    flagText: PlanetaryFacility service slot 7
     orderID: 0
 -   flagID: 171
     flagName: StructureServiceSlot7
-    flagText: Structure service slot 8
+    flagText: PlanetaryFacility service slot 8
     orderID: 0
 -   flagID: 172
     flagName: StructureFuel
-    flagText: Structure Fuel
+    flagText: PlanetaryFacility Fuel
     orderID: 0
 -   flagID: 173
     flagName: Deliveries

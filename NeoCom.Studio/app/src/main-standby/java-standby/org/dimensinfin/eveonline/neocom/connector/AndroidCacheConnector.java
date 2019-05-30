@@ -659,7 +659,7 @@ public class AndroidCacheConnector implements ICacheConnector {
 	 * The cache used for the search depends on the side parameter received on the call. All default prices are
 	 * references to the cost of the price to be spent to buy the item.<br>
 	 * If not found on the memory cache then try to load from the serialized version stored on disk. In case
-	 * this action also fails return an empty data structure with the minimum filed data information from the
+	 * this action also fails return an empty data planetaryFacility with the minimum filed data information from the
 	 * related item and fire the update request.
 	 *
 	 * @param itemID

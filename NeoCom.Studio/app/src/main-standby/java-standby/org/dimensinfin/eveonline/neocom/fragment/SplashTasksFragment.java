@@ -55,7 +55,7 @@ import java.util.ArrayList;
 // - CLASS IMPLEMENTATION ...................................................................................
 
 /**
- * This Fragment is created with the new MVC structure. As previous fragments will initialize the key data structures
+ * This Fragment is created with the new MVC planetaryFacility. As previous fragments will initialize the key data structures
  * required by the core code as the Title, Subtitle, Header contents and List contents providers. But wil many of the
  * new simplifications like the removal of the need to define any DataSource or manage any Part directly.
  */

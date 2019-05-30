@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.controllers;
+package org.dimensinfin.eveonline.neocom.planetary.controller;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,29 +8,28 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.StructureGeoPosition;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui.ExtractorImageView;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui.FacilityImageView;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui.IPlanetaryImageView;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui.StorageImageView;
-import org.dimensinfin.eveonline.neocom.planetary.Structure;
+import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.FacilityImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.IPlanetaryImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
 
 import androidx.annotation.NonNull;
 import org.joda.time.DateTime;
 
-public class BasicIndustryStructureController extends AAndroidController<Structure> {
+public class PlanetaryFacilityController extends AAndroidController<PlanetaryFacility> {
 	// - C O N S T R U C T O R S
-	public BasicIndustryStructureController( @NonNull final Structure model, @NonNull final IControllerFactory factory ) {
+	public PlanetaryFacilityController( @NonNull final PlanetaryFacility model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 
-//	protected BasicIndustryStructureController( @NonNull final ControllerAdapter<Structure> delegate, @NonNull final IControllerFactory factory ) {
+//	protected PlanetaryFacilityController( @NonNull final ControllerAdapter<PlanetaryFacility> delegate, @NonNull final IControllerFactory factory ) {
 //		super(delegate, factory);
 //	}
 
@@ -53,7 +52,7 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 
 	// - B A S I C  I N D U S T R Y  S T R U C T U R E  R E N D E R
 	public static class BasicIndustryStructureRender extends MVCRender {
-		private StructureGeoPosition mapCenter;
+		private FacilityGeoPosition mapCenter;
 		private IPlanetaryImageView structureImage;
 		private FrameLayout layoutStructureContainer;
 
@@ -63,8 +62,8 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 		}
 
 		@Override
-		public BasicIndustryStructureController getController() {
-			return (BasicIndustryStructureController) super.getController();
+		public PlanetaryFacilityController getController() {
+			return (PlanetaryFacilityController) super.getController();
 		}
 
 		// - I R E N D E R
@@ -77,8 +76,8 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 		public void initializeViews() {
 			// Initialize the central location from the data source data.
 			this.mapCenter = this.getController().getModel().getCommandCenter().getGeoPosition();
-			// Select the view content renderer depending on the structure type.
-			logger.info("-- [BasicIndustryStructureRender.initializeViews]> Structure type: {}"
+			// Select the view content renderer depending on the planetaryFacility type.
+			logger.info("-- [BasicIndustryStructureRender.initializeViews]> PlanetaryFacility type: {}"
 					, this.getController().getModel().getStructureType().name());
 			final View targetView = this.getView();
 			Runnable animateCycle = new Runnable() {
@@ -131,7 +130,7 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 			final double longitudeDelta = this.getController().getModel().getLongitude() - this.mapCenter.getLongitude();
 			final double latitudeDelta = this.getController().getModel().getLatitude() - this.mapCenter.getLatitude();
 			// The rest of the parameters should be hidden on the View itself.
-			this.structureImage.setDeltaPosition(new StructureGeoPosition()
+			this.structureImage.setDeltaPosition(new FacilityGeoPosition()
 					                                     .setLongitude(longitudeDelta)
 					                                     .setLatitude(latitudeDelta));
 			this.structureImage.setStructure(this.getController().getModel());
@@ -147,7 +146,7 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 
 	// - B A S I C  I N D U S T R Y  S T R U C T U R E  R E N D E R
 //	public abstract static class PlanetaryStructureRender extends MVCRender {
-//		private StructureGeoPosition mapCenter;
+//		private FacilityGeoPosition mapCenter;
 //		private IPlanetaryImageView structureImage;
 //
 //		// - C O N S T R U C T O R S
@@ -156,8 +155,8 @@ public class BasicIndustryStructureController extends AAndroidController<Structu
 //		}
 //
 //		@Override
-//		public BasicIndustryStructureController getController() {
-//			return (BasicIndustryStructureController) super.getController();
+//		public PlanetaryFacilityController getController() {
+//			return (PlanetaryFacilityController) super.getController();
 //		}
 //
 //		// - I R E N D E R

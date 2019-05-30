@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * <br>
  * There should be some type of notification mechanism to report the UI about changes on the data contents
  * performed with background tasks. This is integrated on the GEF model hierarchy but has to be reviewed
- * inside Android special UI/non UI threads structure.
+ * inside Android special UI/non UI threads planetaryFacility.
  *
  * @author Adam Antinoo
  */
@@ -272,7 +272,7 @@ public class NeoComModelStore extends DataManagementModelStore {
 
 	//	/**
 	//	 * Gets a unique list of all the different characters available to the system from the different Logins.
-	//	 * This action is done without disturbing the login selected or any other AppModel structure. The list is
+	//	 * This action is done without disturbing the login selected or any other AppModel planetaryFacility. The list is
 	//	 * not kept and is calculated each time the call is received.
 	//	 */
 	//	@Deprecated

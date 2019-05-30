@@ -42,7 +42,7 @@ public class ShipFacetedAssetsContainer extends Ship {
 	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
-	 * Even this object inherits from the asset structure, it is a new instance of the object and we should copy
+	 * Even this object inherits from the asset planetaryFacility, it is a new instance of the object and we should copy
 	 * the data from the original reference to this instance instead using delegates that will not work when
 	 * accessing directly to fields.
 	 * @return this same instance updated with the reference data.

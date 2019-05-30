@@ -239,7 +239,7 @@ public class AndroidCCPDatabaseConnector implements ICCPDatabaseConnector {
 
 	/**
 	 * Search on the eve.db database for the attributes that describe an Item. Items are the lowest data
-	 * structure for EVE resources or modules. Everything on Eve is an Item. We detect blueprints that require a
+	 * planetaryFacility for EVE resources or modules. Everything on Eve is an Item. We detect blueprints that require a
 	 * different treatment and also we check for the availability of the item at the current cache if
 	 * implemented.
 	 */

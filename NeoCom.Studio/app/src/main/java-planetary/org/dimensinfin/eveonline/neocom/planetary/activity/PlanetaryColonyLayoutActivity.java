@@ -10,12 +10,12 @@ import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 /**
- * This Proof Of Concept project will show the Planetary Colony detailed structure inside a two component view using the standard MVC
+ * This Proof Of Concept project will show the Planetary Colony detailed planetaryFacility inside a two component view using the standard MVC
  * developed for the NeoCom projects. It will only show a single colony for a predefined character so all that identification and parametrisation
  * should be declared as constants input to the Activity in the form of Extras, that is the real way the Activity would receive such
  * data in a final application implementation.
  *
- * Then we should define the character unique <b>account identifier</b> to be used to locate the Credential authorization structure, we should also
+ * Then we should define the character unique <b>account identifier</b> to be used to locate the Credential authorization planetaryFacility, we should also
  * set the target ESI server to use on the requests but probably that definition should be something set on configuration and not
  * selectable to the application interface and finally we should select one of the planetary colonies as if that was the planet
  * selected by the user on the UI.

@@ -100,11 +100,11 @@ public class AndroidGlobalDataManager extends AndroidGlobalDataManagerCache {
 	}
 
 	// --- D A T A   S E R V I C E S
-	private static MiningLedgerService miningLedgerService = new MiningLedgerService();
-
-	public static MiningLedgerService getMiningLedgerService() {
-		return miningLedgerService;
-	}
+//	private static MiningLedgerService miningLedgerService = new MiningLedgerService();
+//
+//	public static MiningLedgerService getMiningLedgerService() {
+//		return miningLedgerService;
+//	}
 
 	private AndroidGlobalDataManager() {
 	}

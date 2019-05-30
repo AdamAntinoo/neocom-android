@@ -1,18 +1,22 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction;
+package org.dimensinfin.eveonline.neocom.planetary;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
-public class StructureGroup implements ICollaboration {
+/**
+ * This class stores the list of facility dta that should be used on the colony header to show an abstract of the facility contents. This is a summary
+ * class similar to an aggregator.
+ */
+public class PlanetaryFacilitySummary implements ICollaboration {
 	private int groupId;
 	private int iconReference;
 	private String name;
 	private int groupCount = 0;
 
 	// - C O N S T R U C T O R
-	public StructureGroup( final String name ) {
+	public PlanetaryFacilitySummary( final String name ) {
 		this.name = name;
 	}
 
@@ -36,16 +40,16 @@ public class StructureGroup implements ICollaboration {
 
 //	@Override
 	public int compareTo( final Object o ) {
-		final StructureGroup target = (StructureGroup) o;
+		final PlanetaryFacilitySummary target = (PlanetaryFacilitySummary) o;
 		return this.getName().compareTo(target.getName());
 	}
 
 	// - B U I L D E R
 	public static class Builder {
-		private final StructureGroup object;
+		private final PlanetaryFacilitySummary object;
 
 		public Builder( final String name ) {
-			this.object = new StructureGroup(name);
+			this.object = new PlanetaryFacilitySummary(name);
 		}
 
 		public Builder withGroupId( final int groupId ) {
@@ -68,7 +72,7 @@ public class StructureGroup implements ICollaboration {
 			return this;
 		}
 
-		public StructureGroup build() {
+		public PlanetaryFacilitySummary build() {
 			return this.object;
 		}
 	}

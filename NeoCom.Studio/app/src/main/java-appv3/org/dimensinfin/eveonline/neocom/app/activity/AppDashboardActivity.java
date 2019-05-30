@@ -77,8 +77,8 @@ public class AppDashboardActivity extends ALinearActivity {
 	 * Just create the fragment page. There are no parameters not customization up to this moment. This is the simplest initialiation
 	 * code for an Activity and the only code to integrate it into the MVC.
 	 *
-	 * This Activity structure is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
-	 * Fragments are added in order and usually should not change. In that case we should add an external storage structure to store the
+	 * This Activity planetaryFacility is quite simple. It just contains a linear vertical layout that should contain the declared fragments.
+	 * Fragments are added in order and usually should not change. In that case we should add an external storage planetaryFacility to store the
 	 * list of fragments and use it to recreate the layout contents on any content change event.
 	 * @param savedInstanceState
 	 */

@@ -171,7 +171,7 @@
 //
 ////[01]
 //	/**
-//	 * The render selected will depend on the Structure type stored on the Model.
+//	 * The render selected will depend on the PlanetaryFacility type stored on the Model.
 //	 */
 //	protected AbstractRender selectRenderer () {
 //		return new ColonyRender(this, _activity);

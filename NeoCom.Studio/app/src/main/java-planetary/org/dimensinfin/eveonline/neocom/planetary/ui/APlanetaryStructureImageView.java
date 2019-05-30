@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui;
+package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import android.content.Context;
 import android.graphics.*;
@@ -6,9 +6,9 @@ import android.graphics.PorterDuff.Mode;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.StructureGeoPosition;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStructureType;
-import org.dimensinfin.eveonline.neocom.planetary.Structure;
+import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 import androidx.annotation.NonNull;
 import org.joda.time.Instant;
@@ -42,17 +42,17 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected static final Rect STRUCTURE_ICON_DESTINATION_RECT = new Rect(DIMENSION_NEG, DIMENSION_POS, DIMENSION_POS, DIMENSION_NEG);
 
 	// - F I E L D S
-	protected StructureGeoPosition deltaPosition = new StructureGeoPosition();
-	/** Delta location for the current structure from the command center. */
+	protected FacilityGeoPosition deltaPosition = new FacilityGeoPosition();
+	/** Delta location for the current planetaryFacility from the command center. */
 	protected double longitudeDelta = 0.0;
 	protected double latitudeDelta = 0.0;
 	/** Position of the delta to the Control Cebter in pixels. */
 	protected int posx = 0;
 	protected int posy = 0;
-	/** This is the structure to be rendered. This data should contain all the data required for the rendering. */
-	protected Structure structure;
-	/** The resource identifier for the icon that represents the structure. */
-	protected int drawableId = PlanetaryStructureType.DEFAULT.getIconReferenceId();
+	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
+	protected PlanetaryFacility planetaryFacility;
+	/** The resource identifier for the icon that represents the planetaryFacility. */
+	protected int drawableId = PlanetaryFacilityType.DEFAULT.getIconReferenceId();
 	/** Set the default to a Processing Facility. */
 	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 	protected double scale = 1.0F;
@@ -69,10 +69,10 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	// - C O N T E N T   A P I
 
 	/**
-	 * This should be called before setting the structure to move the structure the Command Center displacement
-	 * and so draw it relative to that structure position.
+	 * This should be called before setting the planetaryFacility to move the planetaryFacility the Command Center displacement
+	 * and so draw it relative to that planetaryFacility position.
 	 */
-	public void setDeltaPosition( final StructureGeoPosition deltaPosition ) {
+	public void setDeltaPosition( final FacilityGeoPosition deltaPosition ) {
 		this.deltaPosition = deltaPosition;
 		// Calculate canvas location from delta location that is referenced to center.
 		this.longitudeDelta = this.deltaPosition.getLongitude();
@@ -86,11 +86,11 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
 	 * is called.
 	 */
-	public void setStructure( final Structure structure ) {
-		this.structure = structure;
+	public void setPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
+		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
-		this.drawableId = this.structure.getIconReferenceId();
-//		this.eraserColor = this.getResources().getColor(this.structure.getBackgroundColor());
+		this.drawableId = this.planetaryFacility.getIconReferenceId();
+//		this.eraserColor = this.getResources().getColor(this.planetaryFacility.getBackgroundColor());
 	}
 
 	public void setScale( final double newscale ) {
@@ -107,10 +107,10 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	}
 
 	protected void drawFacilityRing( final Canvas canvas ) {
-		paint.setColor(this.getColor(this.structure.getStructureColorReference()));
+		paint.setColor(this.getColor(this.planetaryFacility.getStructureColorReference()));
 		canvas.drawCircle(0.0f, 0.0f, DIMENSION, paint);
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
 		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 
@@ -123,7 +123,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
 				, this.getCycleAngle(), true, paint);
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
 		canvas.drawCircle(0.0F, 0.0F, CYCLE_RADIUS - CYCLE_WIDTH, paint);
 	}
 
@@ -131,7 +131,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		//		paint.setColor(this.getColor(R.color.pi_extractoriconcolor));
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
 		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.drawableId);
-		structureIconBitmap = this.changeImageColor(structureIconBitmap, this.getColor(this.structure.getIconColorReference()));
+		structureIconBitmap = this.changeImageColor(structureIconBitmap, this.getColor(this.planetaryFacility.getIconColorReference()));
 		final Rect structureIconRect = new Rect(0, 0, structureIconBitmap.getWidth(), structureIconBitmap.getHeight());
 		final Rect structureIconDestination = new Rect(-STRUCTURE_ICON_DIMENSION, -STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION);
 		canvas.drawBitmap(structureIconBitmap, structureIconRect, structureIconDestination, paint);
@@ -160,14 +160,14 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 
 	/** Return the number of seconds elapsed on the current cycle. */
 	protected long getCycleElapsed() {
-		return Instant.now().getMillis() / 1000 - this.structure.getLastCycleStart().getMillis() / 1000;
+		return Instant.now().getMillis() / 1000 - this.planetaryFacility.getLastCycleStart().getMillis() / 1000;
 	}
 
 	/** Return the angle for the current cycle from 0.0 to 360.0 and being 0.0 pointing up. */
 	protected float getCycleAngle() {
 		final float angle = (Float.valueOf(this.getCycleElapsed())
 				                     /
-				                     Float.valueOf(this.structure.getStructureType().getCycleDuration())) * 360.0F;
+				                     Float.valueOf(this.planetaryFacility.getStructureType().getCycleDuration())) * 360.0F;
 		logger.info("-- [getCycleAngle]> Angle: {}", angle);
 		if (angle > 360.0F) return 360.0F;
 		else return angle;
@@ -189,13 +189,13 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 			this.actualClassBuilder = getActualBuilder();
 		}
 
-		public B withDeltaPosition( @NonNull final StructureGeoPosition deltaPosition ) {
+		public B withDeltaPosition( @NonNull final FacilityGeoPosition deltaPosition ) {
 			this.actualClass.setDeltaPosition(deltaPosition);
 			return this.actualClassBuilder;
 		}
 
-		public B withStructure( @NonNull final Structure structure ) {
-			this.actualClass.setStructure(structure);
+		public B withStructure( @NonNull final PlanetaryFacility planetaryFacility ) {
+			this.actualClass.setPlanetaryFacility(planetaryFacility);
 			return this.actualClassBuilder;
 		}
 
@@ -207,7 +207,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		public T build() {
 			// Do any other validations. If failed then launch an exception.
 			AppCompatibilityUtils.assertNotNull(this.actualClass.deltaPosition);
-			AppCompatibilityUtils.assertNotNull(this.actualClass.structure);
+			AppCompatibilityUtils.assertNotNull(this.actualClass.planetaryFacility);
 			return actualClass;
 		}
 	}

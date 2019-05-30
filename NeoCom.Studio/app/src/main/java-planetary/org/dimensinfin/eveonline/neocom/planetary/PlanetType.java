@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction;
+package org.dimensinfin.eveonline.neocom.planetary;
 
 import java.util.HashMap;
 import java.util.Map;

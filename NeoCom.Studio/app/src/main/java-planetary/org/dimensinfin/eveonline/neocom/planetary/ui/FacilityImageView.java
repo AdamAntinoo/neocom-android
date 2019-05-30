@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.features.planetaryinteraction.ui;
+package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +10,9 @@ import android.graphics.Canvas;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.features.planetaryinteraction.FacilityStructureInfo;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStructureType;
-import org.dimensinfin.eveonline.neocom.planetary.Structure;
+import org.dimensinfin.eveonline.neocom.planetary.FacilityStructureInfo;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 public class FacilityImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
 	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_factoryringfillcolor;
@@ -114,7 +114,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	//	private final FactorySection factoryProductionSectionA = new FactorySection();
 	//	private final FactorySection factoryProductionSectionB = new FactorySection();
 	//	private final FactorySection factoryProductionSectionC = new FactorySection();
-	//	private StructureGeoPosition deltaPosition = new StructureGeoPosition ( );
+	//	private FacilityGeoPosition deltaPosition = new FacilityGeoPosition ( );
 
 	//	private double capacityA = 3000.0;
 	//	private double capacityB = 3000.0;
@@ -140,14 +140,14 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 
 	// - C O N T E N T   A P I
 	@Override
-	public void setStructure( final Structure structure ) {
-		super.setStructure(structure);
+	public void setPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
+		super.setPlanetaryFacility(planetaryFacility);
 		// Detect the right facility type to setup the different graphic variants.
-		if (this.structure.getStructureType() == PlanetaryStructureType.BASIC_INDUSTRY)
+		if (this.planetaryFacility.getStructureType() == PlanetaryFacilityType.BASIC_INDUSTRY)
 			this.facilityClass = FacilityStructureInfo.BASIC_INDUSTRY;
-		if (this.structure.getStructureType() == PlanetaryStructureType.ADVANCED_INDUSTRY)
-			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.structure.getSchematicId());
-		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = this.structure.getContents();
+		if (this.planetaryFacility.getStructureType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
+			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.planetaryFacility.getSchematicId());
+		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = this.planetaryFacility.getContents();
 		if (null != contents) {
 			for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 				final FactorySection section = new FactorySection.Builder(resource)
@@ -184,7 +184,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	 */
 	@Override
 	protected void drawFacilityRing( final Canvas canvas ) {
-		paint.setColor(this.getColor(this.structure.getStructureColorReference()));
+		paint.setColor(this.getColor(this.planetaryFacility.getStructureColorReference()));
 		// Get the facility type.
 		logger.info("-- [FacilityImageView.drawFacilityRing]> {}", facilityClass.name());
 		switch (facilityClass) {
@@ -217,7 +217,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 				break;
 		}
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
 		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 
@@ -250,15 +250,15 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 			sectionCounter++;
 		}
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.structure.getBackgroundColor()));
+		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
 		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 
 
 	//	private double getContentIndexed( final int index ) {
-	//		if (null != structure) {
+	//		if (null != planetaryFacility) {
 	//			// TODO Analyze and replace by operative code
-	//			//			List<PinContent> contentList = structure.getContent();
+	//			//			List<PinContent> contentList = planetaryFacility.getContent();
 	//			List<PinContent> contentList = null;
 	//			if (null != contentList) {
 	//				PinContent content = contentList.get(0);

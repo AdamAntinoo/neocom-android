@@ -69,7 +69,7 @@ public class ALinearActivity extends APublicMenuActivity {
 			_fragmentContainer = (ViewGroup) this.findViewById(R.id.fragmentContainer);
 			background = (ImageView) this.findViewById(R.id.backgroundFrame);
 			//		_indicator = (CirclePageIndicator) this.findViewById(org.dimensinfin.android.mvc.R.id.indicator);
-			// Check page structure.
+			// Check page planetaryFacility.
 			if (null == _fragmentContainer) {
 				throw new RuntimeException("RTEX [ALinearActivity.onCreate]> Expected UI element not found.");
 			}
