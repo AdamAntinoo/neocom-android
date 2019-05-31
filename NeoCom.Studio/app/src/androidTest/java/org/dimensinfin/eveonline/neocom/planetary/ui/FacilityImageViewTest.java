@@ -1,18 +1,19 @@
 package org.dimensinfin.eveonline.neocom.planetary.ui;
 
+import android.graphics.Canvas;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColonyLayoutActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -25,10 +26,11 @@ public class FacilityImageViewTest {
 	 */
 	@Test
 	public void centerCanvas() {
+		final Canvas canvas = Mockito.mock(Canvas.class);
+		final ArgumentCaptor<Float> savedCaptor = ArgumentCaptor.forClass(Float.class);
+		Mockito.verify(canvas).translate(savedCaptor.capture(), savedCaptor.capture());
 
-		ArgumentCaptor<String> savedCaptor = ArgumentCaptor.forClass(String.class);
-		verify(mock_contractsDao).save(savedCaptor.capture());
-		assertTrue(savedCaptor.getValue().contains("substring I want to find");
+//		assertTrue(savedCaptor.getValue().contains("substring I want to find");
 
 
 	}

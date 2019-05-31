@@ -32,7 +32,9 @@ public enum PlanetaryFacilityType {
 
 	public static PlanetaryFacilityType getStructureGroup( final int structureGroup ) {
 		if (structureGroup == 1027) return PlanetaryFacilityType.COMMAND_CENTER;
-		if (structureGroup == 1028) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
+		if (structureGroup == 2480) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
+		if (structureGroup == 2484) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
+		if (structureGroup == 2472) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
 		if (structureGroup == 1026) return PlanetaryFacilityType.EXTRACTOR_HEAD;
 		if (structureGroup == 1028) return PlanetaryFacilityType.BASIC_INDUSTRY;
 		if (structureGroup == 1063) return PlanetaryFacilityType.EXTRACTOR_CONTROL_UNIT;

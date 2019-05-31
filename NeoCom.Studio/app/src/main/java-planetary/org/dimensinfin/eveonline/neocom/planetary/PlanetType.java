@@ -12,30 +12,15 @@ public enum PlanetType {
 	STORM(R.color.pi_barren_backgroundcolor, 2016),
 	PLASMA(R.color.pi_barren_backgroundcolor, 2016);
 
-//	private static final Map<Integer, PlanetType> planetIndex = new HashMap<>();
-
 	private final int backgroundColor;
 	private final int type;
 
 	PlanetType( final int backgroundColor, final int planetType ) {
 		this.backgroundColor = backgroundColor;
 		this.type = planetType;
-//		setPlanetType(planetType, this);
 	}
 
 	public int getBackgroundColor() {
 		return this.backgroundColor;
 	}
-
-	public int getType() {
-		return type;
-	}
-
-//	public static PlanetType lookupByType( final int type ) {
-	//		return planetIndex.get(type);
-	//	}
-
-//	private static void setPlanetType( final int planetType, final PlanetType type ) {
-//		planetIndex.put(planetType, type);
-//	}
 }

@@ -34,7 +34,7 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 				             .setVariant(EPlanetaryVariants.PLANETS_LIST.name()));
 	}
 
-	private View generateActionBar() {
+	protected View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
 				                                     .withSubtitle(EPlanetaryVariants.PLANETS_LIST.getTitle())
