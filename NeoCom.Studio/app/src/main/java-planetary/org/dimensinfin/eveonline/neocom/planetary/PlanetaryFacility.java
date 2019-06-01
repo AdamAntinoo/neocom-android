@@ -50,8 +50,10 @@ public class PlanetaryFacility implements ICollaboration {
 		return PlanetaryFacilityType.getStructureGroup(this.getPlanetItemDelegate().getGroupId());
 	}
 
-	/** Check that this delegate exists before accessing it. If the type is not accessible then we should use a default one suitable for the
-	 * planetaryFacility like the Command Center. */
+	/**
+	 * Check that this delegate exists before accessing it. If the type is not accessible then we should use a default one suitable for the
+	 * planetaryFacility like the Command Center.
+	 */
 	public GetUniverseTypesTypeIdOk getPlanetItemDelegate() {
 		return this.planetItemDelegate;
 	}
@@ -185,10 +187,11 @@ public class PlanetaryFacility implements ICollaboration {
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
 			Objects.requireNonNull(this.onConstruction.esiAdapter);
-			if (null != this.onConstruction.pinDelegate.getSchematicId())
+			if (null != this.onConstruction.pinDelegate.getSchematicId()) {
 				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
-						                                .withEsiAdapter(this.onConstruction.esiAdapter)
+						                                .withSchematic(this.onConstruction.esiAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
 						                                .build();
+			}
 			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
 			return this.onConstruction;
 		}
