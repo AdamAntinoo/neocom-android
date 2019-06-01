@@ -61,7 +61,6 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 				, planetIdentifier
 				, credential.getRefreshToken()
 				, credential.getDataSource());
-//		this.pins = colonyLayout.getPins();
 		this.colonyPlanetaryFacilities = Stream.of(colonyLayout.getPins())
 				                        .map(pin -> {
 					                        // Aggregate pins of identical type into a pin map.

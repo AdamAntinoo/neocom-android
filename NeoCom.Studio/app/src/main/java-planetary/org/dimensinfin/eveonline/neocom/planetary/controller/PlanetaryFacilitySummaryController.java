@@ -16,23 +16,10 @@ public class PlanetaryFacilitySummaryController extends AAndroidController<Plane
 	public PlanetaryFacilitySummaryController( @NonNull final PlanetaryFacilitySummary model, @NonNull final IControllerFactory factory) {
 		super(model, factory);
 	}
-//	public PlanetaryFacilitySummaryController(@NonNull final ControllerAdapter<PlanetaryFacilitySummary> delegate, @NonNull final IControllerFactory factory) {
-//		super(delegate, factory);
-//	}
-
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
 
 	@Override
 	public IRender buildRender(final Context context) {
 		return new StructureRender(this, context);
-	}
-
-	@Override
-	public long getModelId() {
-		return this.getModel().hashCode();
 	}
 
 	public static class StructureRender extends MVCRender {

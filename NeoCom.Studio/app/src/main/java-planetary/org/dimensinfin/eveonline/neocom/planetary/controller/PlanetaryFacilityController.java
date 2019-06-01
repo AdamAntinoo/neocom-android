@@ -18,12 +18,6 @@ public class PlanetaryFacilityController extends AAndroidController<PlanetaryFac
 		super(model, factory);
 	}
 
-	// - A A N D R O I D C O N T R O L L E R   A B S T R A C T S
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
-
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {

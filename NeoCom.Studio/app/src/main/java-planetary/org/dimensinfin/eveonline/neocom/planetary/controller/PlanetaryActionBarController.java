@@ -27,11 +27,6 @@ public class PlanetaryActionBarController extends AAndroidController<PlanetaryAc
 		return new PlanetaryActionBarRender(this, context);
 	}
 
-	@Override
-	public long getModelId() {
-		return this.getModel().hashCode();
-	}
-
 	// - N E O C O M A C T I O N B A R P L A N E T A R Y R E N D E R
 	public static class PlanetaryActionBarRender extends AMVCRender {
 		// - U I   F I E L D S
