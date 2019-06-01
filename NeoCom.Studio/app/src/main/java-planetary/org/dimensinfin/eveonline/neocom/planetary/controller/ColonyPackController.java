@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColonyLayoutActivity;
 
-public class ColonyPackController extends AAndroidController<ColonyPack> implements View.OnClickListener {
+public class ColonyPackController extends AAndroidController<ColonyPack> implements View.OnClickListener, View.OnLongClickListener {
 	private Context context;
 
 	public ColonyPackController( @NonNull final ColonyPack model, @NonNull final IControllerFactory factory ) {
@@ -33,13 +33,23 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 	}
 
 	@Override
-	public long getModelId() {
-		return this.getModel().hashCode();
+	public void onClick( final View v ) {
+//		logger.info(">> [ColonyPackController.onClick]");
+//		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
+//				.show();
+//		final Intent intent = new Intent(this.context, PlanetaryColonyLayoutActivity.class);
+//		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
+//				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
+//		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
+//				, this.getModel().getPlanetId()); // The colony/planet identifier
+//		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
+//				, this.getModel().getPlanetType().name()); // The planet type as string
+//		this.context.startActivity(intent);
+//		logger.info("<< [ColonyPackController.onClick]");
 	}
 
 	@Override
-	public void onClick( final View v ) {
-		//		PLANET_IDENTIFIER
+	public boolean onLongClick( final View v ) {
 		logger.info(">> [ColonyPackController.onClick]");
 		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
 				.show();
@@ -52,6 +62,7 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 				, this.getModel().getPlanetType().name()); // The planet type as string
 		this.context.startActivity(intent);
 		logger.info("<< [ColonyPackController.onClick]");
+		return true;
 	}
 
 	// - C O L O N Y P A C K 4 L I S T R E N D E R

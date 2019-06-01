@@ -43,14 +43,15 @@ public class PlanetaryFacility implements ICollaboration {
 	// - G E T T E R S   &   S E T T E R S
 
 	/**
-	 * The planetaryFacility type can be inferred from the item group type instead than form the long list of uniqye types that belong to
+	 * The planetaryFacility type can be inferred from the item group type instead than form the long list of unique types that belong to
 	 * a planetaryFacility type. With this change the number of check elements is quite short.
 	 */
 	public PlanetaryFacilityType getStructureType() {
 		return PlanetaryFacilityType.getStructureGroup(this.getPlanetItemDelegate().getGroupId());
 	}
 
-	/** Check that this delegate exists before accessing it. If the type is not accesible then we should use a default one suitable for the planetaryFacility like the Command Center. */
+	/** Check that this delegate exists before accessing it. If the type is not accessible then we should use a default one suitable for the
+	 * planetaryFacility like the Command Center. */
 	public GetUniverseTypesTypeIdOk getPlanetItemDelegate() {
 		return this.planetItemDelegate;
 	}

@@ -9,8 +9,11 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 
 public class PlanetaryDataSource extends AMVCDataSource {
 	protected Credential credential;
@@ -39,12 +42,31 @@ public class PlanetaryDataSource extends AMVCDataSource {
 					, credential.getRefreshToken()
 					, credential.getDataSource());
 			if (null != structureContainer) {
-				this.colonies.add(new ColonyPack(colonyEsi, planetData, structureContainer)
-						                  .setCapsuleerIdentifier(this.credential.getAccountId()));
+				this.colonies.add(new ColonyPack.Builder()
+						                  .withColony(colonyEsi)
+						                  .withPlanetData(planetData)
+						                  .withFacilities(this.convertPint2Facility(structureContainer.getPins()
+								                  , PlanetType.valueOf(colonyEsi.getPlanetType().name())))
+						                  .withCapsuleerIdentifier(this.credential.getAccountId())
+						                  .build());
 			}
 		}
 	}
 
+	private List<PlanetaryFacility> convertPint2Facility( final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins, final PlanetType planetType ) {
+		final List<PlanetaryFacility> facilities = new ArrayList<>();
+		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
+			facilities.add(new PlanetaryFacility.Builder()
+					               .withPin(facility)
+					               .withPlanetType(planetType)
+					               .withPlanetItem(this.esiAdapter.getUniverseTypeById(facility.getTypeId()))
+					               .withEsiAdapter(this.esiAdapter)
+					               .build());
+		}
+		return facilities;
+	}
+
+	// - I C O L L A B O R A T I O N
 	@Override
 	public void collaborate2Model() {
 		for (ColonyPack colony : this.colonies)
