@@ -8,10 +8,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
@@ -34,18 +37,29 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 
 	@Override
 	public void onClick( final View v ) {
-//		logger.info(">> [ColonyPackController.onClick]");
-//		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
-//				.show();
-//		final Intent intent = new Intent(this.context, PlanetaryColonyLayoutActivity.class);
-//		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
-//				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
-//		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
-//				, this.getModel().getPlanetId()); // The colony/planet identifier
-//		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
-//				, this.getModel().getPlanetType().name()); // The planet type as string
-//		this.context.startActivity(intent);
-//		logger.info("<< [ColonyPackController.onClick]");
+		logger.info(">> [ColonyPackController.onClick]");
+		this.toggleExpanded();
+		this.sendChangeEvent(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name());
+		//		completeClick();
+		this.invalidate();
+
+		//		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
+		//				.show();
+		//		final Intent intent = new Intent(this.context, PlanetaryColonyLayoutActivity.class);
+		//		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
+		//				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
+		//		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
+		//				, this.getModel().getPlanetId()); // The colony/planet identifier
+		//		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
+		//				, this.getModel().getPlanetType().name()); // The planet type as string
+		//		this.context.startActivity(intent);
+		logger.info("<< [ColonyPackController.onClick]");
+	}
+
+	private void toggleExpanded() {
+		final ICollaboration model = this.getModel();
+		if (model instanceof IExpandable)
+			this.getModel().toggleExpand();
 	}
 
 	@Override

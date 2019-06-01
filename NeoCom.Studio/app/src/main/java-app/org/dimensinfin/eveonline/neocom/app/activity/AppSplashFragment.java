@@ -109,17 +109,17 @@ public class AppSplashFragment extends AMVCPagerFragment {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
 			// Change the contents depending on the network status
 			if (NeoComApplication.checkNetworkAccess()) {
-				if (BuildConfig.DEBUG) {
-					initializationTasksList.add(new InitialisationTask.Builder()
-							                            .withTaskName("Minute waiting")
-							                            .withTask(() -> {
-								                            // This is a test task that will last for one minute to check the different states.
-								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
-								                            return new ArrayList<>();
-							                            })
-							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-							                            .build(1));
-				}
+//				if (BuildConfig.DEBUG) {
+//					initializationTasksList.add(new InitialisationTask.Builder()
+//							                            .withTaskName("Minute waiting")
+//							                            .withTask(() -> {
+//								                            // This is a test task that will last for one minute to check the different states.
+//								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
+//								                            return new ArrayList<>();
+//							                            })
+//							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+//							                            .build(1));
+//				}
 				// - D O W N L O A D - M A R K E T P R I C E S
 				initializationTasksList.add(new InitialisationTask.Builder()
 						                            .withTaskName("Downloading Market Prices")

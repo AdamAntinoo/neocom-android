@@ -53,7 +53,7 @@ public class PlanetaryFacilitySummaryController extends AAndroidController<Plane
 		// - I R E N D E R
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.facility4list;
+			return R.layout.facility4grouplist;
 		}
 
 		@Override

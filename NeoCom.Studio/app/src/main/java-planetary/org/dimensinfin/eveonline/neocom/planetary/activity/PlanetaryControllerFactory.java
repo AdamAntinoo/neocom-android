@@ -27,7 +27,7 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 			return new PlanetaryFacilitySummaryController((PlanetaryFacilitySummary) node, this);
 		}
 		if (node instanceof PlanetaryFacility) {
-			return new PlanetaryFacilityController((PlanetaryFacility) node, this);
+			return new PlanetaryFacilityController((PlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		return super.createController(node);
 	}
