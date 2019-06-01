@@ -27,7 +27,7 @@ public class PlanetaryFacilityTest {
 		final GetUniverseSchematicsSchematicIdOk schematic = Mockito.mock(GetUniverseSchematicsSchematicIdOk.class);
 		final GetUniverseTypesTypeIdOk planetItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
-		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById("tranquility", 111)).thenReturn(schematic);
+		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
 		globalFacility = new PlanetaryFacility.Builder()
@@ -50,7 +50,7 @@ public class PlanetaryFacilityTest {
 		final GetUniverseSchematicsSchematicIdOk schematic = Mockito.mock(GetUniverseSchematicsSchematicIdOk.class);
 		final GetUniverseTypesTypeIdOk planetItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
-		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById("tranquility", 111)).thenReturn(schematic);
+		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
 		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
@@ -81,7 +81,7 @@ public class PlanetaryFacilityTest {
 		final GetUniverseTypesTypeIdOk resourceItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		final GetCharactersCharacterIdPlanetsPlanetIdOkContents planetContent = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkContents.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
-		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById("tranquility", 111)).thenReturn(schematic);
+		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(esiAdapter.getUniverseTypeById(any(Integer.class))).thenReturn(resourceItem);
 		Mockito.when(resourceItem.getVolume()).thenReturn((float) 0.38);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
