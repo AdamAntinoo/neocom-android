@@ -120,13 +120,13 @@ public class PilotV3 extends PilotV2 implements IPilotDataDownloadCallback {
 		switch (section) {
 			case PILOT_PUBLICDATA:
 				this.setPublicData((GetCharactersCharacterIdOk) completedData);
-				this.firePropertyChange(new PropertyChangeEvent(this
+				this.sendChangeEvent(new PropertyChangeEvent(this
 						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
 						, null, completedData));
 				break;
 			case PILOT_RACE:
 				this.setRace((GetUniverseRaces200Ok) completedData);
-				this.firePropertyChange(new PropertyChangeEvent(this
+				this.sendChangeEvent(new PropertyChangeEvent(this
 						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
 						, null, completedData));
 				break;

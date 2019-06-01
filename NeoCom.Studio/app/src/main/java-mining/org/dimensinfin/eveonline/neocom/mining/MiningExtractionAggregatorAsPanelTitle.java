@@ -53,7 +53,7 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	@Override
 	public void propertyChange( final PropertyChangeEvent evt ) {
 		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
-			this.firePropertyChange(evt);
+			this.sendChangeEvent(evt);
 		}
 	}
 

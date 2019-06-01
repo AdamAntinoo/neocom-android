@@ -61,7 +61,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<MiningExtraction, String> miningExtractionDao ;
 	private Dao<RefiningData, String> refiningDataDao ;
 
-	private Dao<Colony, String> colonyDao ;
+//	private Dao<Colony, String> colonyDao ;
 	//	private Dao<ColonyStorage, String> colonyStorageDao = null;
 	//	private Dao<ColonySerialized, String> colonySerializedDao = null;
 
@@ -535,13 +535,13 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		return refiningDataDao;
 	}
 
-	@Override
-	public Dao<Colony, String> getColonyDao() throws SQLException {
-		if (null == colonyDao) {
-			colonyDao = DaoManager.createDao(this.getConnectionSource(), Colony.class);
-		}
-		return colonyDao;
-	}
+//	@Override
+//	public Dao<Colony, String> getColonyDao() throws SQLException {
+//		if (null == colonyDao) {
+//			colonyDao = DaoManager.createDao(this.getConnectionSource(), Colony.class);
+//		}
+//		return colonyDao;
+//	}
 
 	//	@Override
 	//	public Dao<ColonyStorage, String> getColonyStorageDao() throws SQLException {
