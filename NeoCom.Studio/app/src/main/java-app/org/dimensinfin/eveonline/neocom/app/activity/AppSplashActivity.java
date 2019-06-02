@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
@@ -43,9 +42,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		// Get a controller from the model, then the view from the render.
 		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory("SPLASH")
 				                                                                         .createController(actionBar);
-		final IRender holder = controller.buildRender(this);
-		holder.updateContent();
-		return holder.getView();
+		return super.generateActionBar(controller);
 	}
 
 	/**

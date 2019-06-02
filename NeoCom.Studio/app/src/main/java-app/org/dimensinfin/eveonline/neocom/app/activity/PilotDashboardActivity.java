@@ -37,8 +37,6 @@ public class PilotDashboardActivity extends ACredentialActivity {
 		// Get a controller from the model, then the view from the render.
 		final NeoComActionBarController controller = (NeoComActionBarController) new AppControllerFactory("SPLASH")
 				                                                                         .createController(actionBar);
-		final IRender holder = controller.buildRender(this);
-		holder.updateContent();
-		return holder.getView();
+		return super.generateActionBar(controller);
 	}
 }

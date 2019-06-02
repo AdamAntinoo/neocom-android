@@ -44,8 +44,6 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 		// Get a controller from the model, then the view from the render.
 		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EPlanetaryVariants.PLANETS_LIST.name())
 				                                                                               .createController(actionBar);
-		final IRender holder = controller.buildRender(this);
-		holder.updateContent();
-		return holder.getView();
+		return super.generateActionBar(controller);
 	}
 }

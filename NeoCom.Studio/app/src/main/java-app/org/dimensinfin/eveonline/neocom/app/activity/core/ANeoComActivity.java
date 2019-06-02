@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
 
@@ -50,6 +52,13 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 			logger.info("EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
 		}
 		logger.info("<< [ANeoComActivity.setupActionBar]");
+	}
+
+	protected View generateActionBar( final IAndroidController controller ) {
+		final IRender holder = controller.buildRender(this);
+		final View actionBarView = holder.getView();
+		holder.updateContent();
+		return actionBarView;
 	}
 
 	@Override

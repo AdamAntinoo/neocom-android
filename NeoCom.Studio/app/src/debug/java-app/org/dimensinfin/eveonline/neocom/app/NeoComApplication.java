@@ -176,21 +176,21 @@ public class NeoComApplication extends Application {
 		super.onCreate();
 		NeoComAndroid.initialiseSingleton(this); // Create the component factory but empty of contents.
 		//		Stetho.initializeWithDefaults(this);
-		this.oldInitialization();
+//		this.oldInitialization();
 		// Do global injections
 		//		EsiItemV2.injectEveItemProvider(NeoComAndroid.getSingleton(.get));
 		EsiItemV2.injectDownloaderService(NeoComAndroid.getSingleton().getDownloaderService());
 
-		// Check if the SDE database file is at the right place. If not copy it.
-		if (!AndroidGlobalDataManager.checkAppFile(
-				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
-			// TODO The CCP database is not distributed with the application. If not available then close the App
-			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
-		}
+//		// Check if the SDE database file is at the right place. If not copy it.
+//		if (!AndroidGlobalDataManager.checkAppFile(
+//				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
+//			// TODO The CCP database is not distributed with the application. If not available then close the App
+//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
+//		}
 
 		// Connect the Timed Updater scan.
 		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
-		startTimer();
+//		startTimer();
 		logger.info("<< [NeoComApp.onCreate]");
 	}
 

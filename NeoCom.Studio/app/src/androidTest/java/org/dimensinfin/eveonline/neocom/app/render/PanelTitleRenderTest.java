@@ -71,8 +71,8 @@ public class PanelTitleRenderTest {
 		final String expected = "TEST TITLE";
 		Mockito.when(controller.getModel()).thenReturn(model);
 		Mockito.when(model.getTitle()).thenReturn(expected);
-		render.updateContent();
 		final View view = render.getView();
+		render.updateContent();
 		Assert.assertNotNull(view);
 		final TextView titleView = view.findViewById(R.id.title);
 		Assert.assertNotNull(titleView);

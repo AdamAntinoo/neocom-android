@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.render;
 
+import android.view.View;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
@@ -66,7 +67,7 @@ public class InitialisationTaskRenderTest {
 			return null;
 		}).when(mvcrender).createView();
 		final InitialisationTaskRender render = new InitialisationTaskRender(controller, context);
-		//		render.initializeViews();
+		final View view = render.getView();
 		render.updateContent();
 		onView(withId(R.id.title)).check(matches(withText(expected)));
 	}
