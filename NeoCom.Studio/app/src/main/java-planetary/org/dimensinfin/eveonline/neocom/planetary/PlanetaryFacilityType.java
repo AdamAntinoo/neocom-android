@@ -30,7 +30,7 @@ public enum PlanetaryFacilityType {
 			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(60));
 
-	public static PlanetaryFacilityType getStructureGroup( final int structureGroup ) {
+	public static PlanetaryFacilityType getTypeByStructureGroup( final int structureGroup ) {
 		if (structureGroup == 1027) return PlanetaryFacilityType.COMMAND_CENTER;
 		if (structureGroup == 2480) return PlanetaryFacilityType.ADVANCED_INDUSTRY;
 		if (structureGroup == 2484) return PlanetaryFacilityType.ADVANCED_INDUSTRY;

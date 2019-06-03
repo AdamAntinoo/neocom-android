@@ -4,13 +4,13 @@ import android.content.Context;
 import android.graphics.*;
 import android.graphics.PorterDuff.Mode;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
-import androidx.annotation.NonNull;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected double scale = 1.0F;
 	protected Bitmap bitmap = null;
 	/** The color to be used to simulate transparency by using the same background color. */
-//	protected int eraserColor = this.getResources().getColor(R.color.pi_barren_backgroundcolor);
+	//	protected int eraserColor = this.getResources().getColor(R.color.pi_barren_backgroundcolor);
 	protected Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // The painting brush.
 
 	// - C O N S T R U C T O R S
@@ -90,7 +90,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
 		this.drawableId = this.planetaryFacility.getIconReferenceId();
-//		this.eraserColor = this.getResources().getColor(this.planetaryFacility.getBackgroundColor());
+		//		this.eraserColor = this.getResources().getColor(this.planetaryFacility.getBackgroundColor());
 	}
 
 	public void setScale( final double newscale ) {
@@ -167,7 +167,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected float getCycleAngle() {
 		final float angle = (Float.valueOf(this.getCycleElapsed())
 				                     /
-				                     Float.valueOf(this.planetaryFacility.getStructureType().getCycleDuration())) * 360.0F;
+				                     Float.valueOf(this.planetaryFacility.getFacilityType().getCycleDuration())) * 360.0F;
 		logger.info("-- [getCycleAngle]> Angle: {}", angle);
 		if (angle > 360.0F) return 360.0F;
 		else return angle;

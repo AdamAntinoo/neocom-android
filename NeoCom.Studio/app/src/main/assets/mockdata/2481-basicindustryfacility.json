@@ -1,0 +1,44 @@
+{
+  "capacity": 0,
+  "description": "Populated almost entirely by robotic laborers, mass production facilities excel at creating products in bulk with minimal supervision and maintenance. They can be so self-sufficient that rumors abound of Gallente factories operated entirely by androids and governed by a skeleton crew of drones. (Detractors of this method like to note that Sansha facilities work in much the same fashion.) Either way, the results are irrefutable: Raw materials and components go in one end, and polished commodities come out the other side.",
+  "dogma_attributes": [
+    {
+      "attribute_id": 1632,
+      "value": 11
+    },
+    {
+      "attribute_id": 161,
+      "value": 0
+    },
+    {
+      "attribute_id": 162,
+      "value": 0
+    },
+    {
+      "attribute_id": 4,
+      "value": 0
+    },
+    {
+      "attribute_id": 38,
+      "value": 0
+    },
+    {
+      "attribute_id": 15,
+      "value": 800
+    },
+    {
+      "attribute_id": 49,
+      "value": 200
+    }
+  ],
+  "graphic_id": 4522,
+  "group_id": 1028,
+  "mass": 0,
+  "name": "Temperate Basic Industry Facility",
+  "packaged_volume": 0,
+  "portion_size": 1,
+  "published": true,
+  "radius": 1,
+  "type_id": 2481,
+  "volume": 0
+}

@@ -35,6 +35,8 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	private GetUniverseTypesTypeIdOk planetItemDelegate; // The item data for the installation referenced.
 
 	private double contentsVolume = 0.0;
+	private int cpuUsage = -1;
+	private int powerUsage = -1;
 	private PlanetarySchematic schematic;
 	private PlanetType planetType = PlanetType.BARREN;
 
@@ -49,8 +51,8 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	 * The planetaryFacility type can be inferred from the item group type instead than form the long list of unique types that belong to
 	 * a planetaryFacility type. With this change the number of check elements is quite short.
 	 */
-	public PlanetaryFacilityType getStructureType() {
-		return PlanetaryFacilityType.getStructureGroup(this.getPlanetItemDelegate().getGroupId());
+	public PlanetaryFacilityType getFacilityType() {
+		return PlanetaryFacilityType.getTypeByStructureGroup(this.getPlanetItemDelegate().getGroupId());
 	}
 
 	/**
@@ -80,6 +82,24 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return this.contentsVolume;
 	}
 
+	public int getCpuUsage() {
+		if (this.cpuUsage < 0) {
+			final GetUniverseTypesTypeIdOkDogmaAttributes cpu = this.getDogmaAttributeById(49);
+			if (null == cpu) return 0;
+			else this.cpuUsage = Float.valueOf(cpu.getValue()).intValue();
+		}
+		return this.cpuUsage;
+	}
+
+	public int getPowerUsage() {
+		if (this.powerUsage < 0) {
+			final GetUniverseTypesTypeIdOkDogmaAttributes power = this.getDogmaAttributeById(15);
+			if (null == power) return 0;
+			else this.powerUsage = Float.valueOf(power.getValue()).intValue();
+		}
+		return this.powerUsage;
+	}
+
 	// - D E L E G A T I O N
 	public String getName() {
 		return this.planetItemDelegate.getName();
@@ -96,15 +116,15 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	}
 
 	public int getIconReferenceId() {
-		return this.getStructureType().getIconReferenceId();
+		return this.getFacilityType().getIconReferenceId();
 	}
 
 	public int getIconColorReference() {
-		return this.getStructureType().getIconColorReference();
+		return this.getFacilityType().getIconColorReference();
 	}
 
 	public int getStructureColorReference() {
-		return this.getStructureType().getStructureRingColorReference();
+		return this.getFacilityType().getStructureRingColorReference();
 	}
 
 	public DateTime getLastCycleStart() {

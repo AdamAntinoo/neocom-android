@@ -1,0 +1,47 @@
+[
+  {
+    "last_update": "2019-06-02T08:48:38Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208073,
+    "planet_type": "barren",
+    "solar_system_id": 30003280,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-06-02T08:48:12Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208301,
+    "planet_type": "lava",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-06-02T08:47:55Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208304,
+    "planet_type": "plasma",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-06-02T08:47:26Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208306,
+    "planet_type": "gas",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  },
+  {
+    "last_update": "2019-06-02T08:47:10Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208380,
+    "planet_type": "oceanic",
+    "solar_system_id": 30003283,
+    "upgrade_level": 4
+  }
+]

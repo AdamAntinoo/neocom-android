@@ -1,12 +1,14 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
 
 public class ColonyPack extends NeoComExpandableNode {
@@ -14,6 +16,7 @@ public class ColonyPack extends NeoComExpandableNode {
 	private GetCharactersCharacterIdPlanets200Ok colony;
 	private GetUniversePlanetsPlanetIdOk planetData;
 	private List<IPlanetaryFacility> facilities;
+	private CommandCenterFacility commandCenter;
 
 	private ColonyPack() {}
 
@@ -61,14 +64,44 @@ public class ColonyPack extends NeoComExpandableNode {
 	 */
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
-		return new ArrayList<>(this.facilities);
+		return new ArrayList<ICollaboration>((Collection<? extends ICollaboration>) this.facilities);
 	}
 
+	// - C O R E
 	@Override
 	public int compareTo( final Object o ) {
 		if (o instanceof ColonyPack)
 			return this.capsuleerIdentifier - ((ColonyPack) o).capsuleerIdentifier;
 		return 0;
+	}
+
+	protected void initialise() {
+		this.commandCenter = this.accessCommandCenter();
+		this.commandCenter.setCpuInUse(this.calculateUsedCpu());
+		this.commandCenter.setPowerInUse(this.calculateUsedPower());
+	}
+
+	protected CommandCenterFacility accessCommandCenter() {
+		for (IPlanetaryFacility facility : this.facilities) {
+			if (facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER) return (CommandCenterFacility) facility;
+		}
+		throw new NeoComRuntimeException("There is no command center facility for this colony. Unable to process initialisation.");
+	}
+
+	protected int calculateUsedCpu() {
+		int usedCpu = 0;
+		for (IPlanetaryFacility facility : this.facilities) {
+			usedCpu += facility.getCpuUsage();
+		}
+		return usedCpu;
+	}
+
+	protected int calculateUsedPower() {
+		int usedPower = 0;
+		for (IPlanetaryFacility facility : this.facilities) {
+			usedPower += facility.getPowerUsage();
+		}
+		return usedPower;
 	}
 
 	// - B U I L D E R
@@ -103,6 +136,8 @@ public class ColonyPack extends NeoComExpandableNode {
 			Objects.requireNonNull(this.onConstruction.colony);
 			Objects.requireNonNull(this.onConstruction.planetData);
 			Objects.requireNonNull(this.onConstruction.facilities);
+			// Do other initialisations like calculating the power and cpu used.
+			this.onConstruction.initialise();
 			return this.onConstruction;
 		}
 	}

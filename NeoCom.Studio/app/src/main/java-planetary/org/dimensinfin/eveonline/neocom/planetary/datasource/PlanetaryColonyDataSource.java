@@ -96,7 +96,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 			final GetUniverseTypesTypeIdOk item = this.esiAdapter.getUniverseTypeById(structures.getValue().get(0).getTypeId());
 			this.addHeaderContents(new PlanetaryFacilitySummary.Builder(item.getName())
 					                       .withGroupId(item.getGroupId())
-					                       .withIconReference(PlanetaryFacilityType.getStructureGroup(item.getGroupId()).getIconReferenceId())
+					                       .withIconReference(PlanetaryFacilityType.getTypeByStructureGroup(item.getGroupId()).getIconReferenceId())
 					                       .withGroupCount(structures.getValue().size())
 					                       .build());
 		}
