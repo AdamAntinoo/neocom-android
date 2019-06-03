@@ -12,8 +12,8 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 
 public class PlanetaryDataSource extends AMVCDataSource {
 	protected Credential credential;
@@ -53,10 +53,10 @@ public class PlanetaryDataSource extends AMVCDataSource {
 		}
 	}
 
-	private List<PlanetaryFacility> convertPint2Facility( final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins, final PlanetType planetType ) {
-		final List<PlanetaryFacility> facilities = new ArrayList<>();
+	private List<IPlanetaryFacility> convertPint2Facility( final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins, final PlanetType planetType ) {
+		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			facilities.add(new PlanetaryFacility.Builder()
+			facilities.add(new IPlanetaryFacility.Builder()
 					               .withPin(facility)
 					               .withPlanetType(planetType)
 					               .withPlanetItem(this.esiAdapter.getUniverseTypeById(facility.getTypeId()))

@@ -21,7 +21,7 @@ public class ColonyPackTest {
 	public void builder() {
 		final GetCharactersCharacterIdPlanets200Ok colony = Mockito.mock(GetCharactersCharacterIdPlanets200Ok.class);
 		final GetUniversePlanetsPlanetIdOk planet = Mockito.mock(GetUniversePlanetsPlanetIdOk.class);
-		final List<PlanetaryFacility> facilities = new ArrayList<>();
+		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		final ColonyPack colonyPack = new ColonyPack.Builder()
 				                              .withCapsuleerIdentifier(9222)
 				                              .withColony(colony)

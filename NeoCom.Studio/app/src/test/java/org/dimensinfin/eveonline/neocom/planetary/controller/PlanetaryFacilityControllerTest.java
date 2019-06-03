@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
@@ -16,12 +16,12 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class PlanetaryFacilityControllerTest {
-	private static PlanetaryFacility model;
+	private static IPlanetaryFacility model;
 	private static PlanetaryControllerFactory factory;
 
 	@Before
 	public void setUp() throws Exception {
-		model = Mockito.mock(PlanetaryFacility.class);
+		model = Mockito.mock(IPlanetaryFacility.class);
 		factory = Mockito.mock(PlanetaryControllerFactory.class);
 	}
 
@@ -37,7 +37,7 @@ public class PlanetaryFacilityControllerTest {
 
 	@Test
 	public void buildRender_variantB() {
-		final PlanetaryFacility model = Mockito.mock(PlanetaryFacility.class);
+		final IPlanetaryFacility model = Mockito.mock(IPlanetaryFacility.class);
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
 		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(model, factory)
 				                                                                             .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name());
@@ -49,7 +49,7 @@ public class PlanetaryFacilityControllerTest {
 
 	@Test(expected = NeoComRuntimeException.class)
 	public void buildRender_notfound() {
-		final PlanetaryFacility model = Mockito.mock(PlanetaryFacility.class);
+		final IPlanetaryFacility model = Mockito.mock(IPlanetaryFacility.class);
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
 		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(model, factory)
 				                                                                             .setRenderMode("NOT FOUND");

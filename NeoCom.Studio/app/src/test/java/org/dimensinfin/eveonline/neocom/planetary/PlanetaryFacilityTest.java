@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import static org.mockito.ArgumentMatchers.any;
 
 public class PlanetaryFacilityTest {
-	private static PlanetaryFacility globalFacility;
+	private static IPlanetaryFacility globalFacility;
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,7 +30,7 @@ public class PlanetaryFacilityTest {
 		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
-		globalFacility = new PlanetaryFacility.Builder()
+		globalFacility = new IPlanetaryFacility.Builder()
 				                 .withPin(pin)
 				                 .withPlanetItem(planetItem)
 				                 .withEsiAdapter(esiAdapter)
@@ -40,7 +40,7 @@ public class PlanetaryFacilityTest {
 
 	@Test
 	public void accessorContract() {
-		PojoTestUtils.validateAccessors(PlanetaryFacility.class);
+		PojoTestUtils.validateAccessors(IPlanetaryFacility.class);
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class PlanetaryFacilityTest {
 		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(planetItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -66,7 +66,7 @@ public class PlanetaryFacilityTest {
 	public void builder_exception() {
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
 		final GetUniverseTypesTypeIdOk planetItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(planetItem)
 				                                   .withPlanetType(PlanetType.GAS)
@@ -85,7 +85,7 @@ public class PlanetaryFacilityTest {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 		final GetUniverseTypesTypeIdOk resourceItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItem.getName()).thenReturn("TEST FACILITY - NOT USABLE");
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -102,7 +102,7 @@ public class PlanetaryFacilityTest {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 		final GetUniverseTypesTypeIdOk resourceItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItem.getCapacity()).thenReturn((float) 100.0);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -119,7 +119,7 @@ public class PlanetaryFacilityTest {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 		final GetUniverseTypesTypeIdOk resourceItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -139,7 +139,7 @@ public class PlanetaryFacilityTest {
 		Mockito.when(pin.getSchematicId()).thenReturn(100);
 		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(100)).thenReturn(schematicMock);
 		Mockito.when(planetSchematic.getSchematicId()).thenReturn(100);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -156,7 +156,7 @@ public class PlanetaryFacilityTest {
 		final GetUniverseTypesTypeIdOk resourceItem = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 		Mockito.when(pin.getPinId()).thenReturn(200L);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -184,7 +184,7 @@ public class PlanetaryFacilityTest {
 		Mockito.when(planetContent.getAmount()).thenReturn(new Long(1000));
 		contents.add(planetContent);
 		Mockito.when(pin.getContents()).thenReturn(contents);
-		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facility = new IPlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withPlanetItem(resourceItem)
 				                                   .withEsiAdapter(esiAdapter)
@@ -232,13 +232,13 @@ public class PlanetaryFacilityTest {
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - A");
 		final GetUniverseTypesTypeIdOk resourceItemB = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - B");
-		final PlanetaryFacility facilityA = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityA = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemA)
 				                                    .withEsiAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
-		final PlanetaryFacility facilityB = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityB = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemB)
 				                                    .withEsiAdapter(esiAdapter)
@@ -256,13 +256,13 @@ public class PlanetaryFacilityTest {
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - A");
 		final GetUniverseTypesTypeIdOk resourceItemB = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - A");
-		final PlanetaryFacility facilityA = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityA = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemA)
 				                                    .withEsiAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
-		final PlanetaryFacility facilityB = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityB = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemB)
 				                                    .withEsiAdapter(esiAdapter)
@@ -280,13 +280,13 @@ public class PlanetaryFacilityTest {
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - B");
 		final GetUniverseTypesTypeIdOk resourceItemB = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - A");
-		final PlanetaryFacility facilityA = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityA = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemA)
 				                                    .withEsiAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
-		final PlanetaryFacility facilityB = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityB = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemB)
 				                                    .withEsiAdapter(esiAdapter)
@@ -302,7 +302,7 @@ public class PlanetaryFacilityTest {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 		final GetUniverseTypesTypeIdOk resourceItemA = Mockito.mock(GetUniverseTypesTypeIdOk.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - B");
-		final PlanetaryFacility facilityA = new PlanetaryFacility.Builder()
+		final IPlanetaryFacility facilityA = new IPlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withPlanetItem(resourceItemA)
 				                                    .withEsiAdapter(esiAdapter)

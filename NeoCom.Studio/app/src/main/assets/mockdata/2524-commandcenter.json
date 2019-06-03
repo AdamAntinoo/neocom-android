@@ -1,0 +1,53 @@
+{
+  "capacity": 500,
+  "description": "The modular design of this administrative structure allows it to be deployed piecemeal from orbit, then manually assembled on the surface by MTACs and engineering personnel. Supported by self-regulating pylons that follow the contours of indigenous terrain, the facility can accommodate almost any severity of incline or other non-critical geological hazard. Once active, it serves as both a central command post to coordinate the activity of all other nodes and a basic transportation site for getting commodities off world using standard, vertically launched rockets.",
+  "dogma_attributes": [
+    { // PLANET TYPE
+      "attribute_id": 1632,
+      "value": 2016
+    },
+    {
+      "attribute_id": 161,
+      "value": 1000
+    },
+    {
+      "attribute_id": 162,
+      "value": 0
+    },
+    {
+      "attribute_id": 4,
+      "value": 5000
+    },
+    { // CARGO SPACE
+      "attribute_id": 38,
+      "value": 500
+    },
+    {
+      "attribute_id": 1639,
+      "value": 3
+    },
+    { // POWER
+      "attribute_id": 11,
+      "value": 6000
+    },
+    { // CPU
+      "attribute_id": 48,
+      "value": 1675
+    },
+    {
+      "attribute_id": 633,
+      "value": 0
+    }
+  ],
+  "graphic_id": 4566,
+  "group_id": 1027,
+  "market_group_id": 1322,
+  "mass": 5000,
+  "name": "Barren Command Center",
+  "packaged_volume": 1000,
+  "portion_size": 1,
+  "published": true,
+  "radius": 1,
+  "type_id": 2524,
+  "volume": 1000
+}

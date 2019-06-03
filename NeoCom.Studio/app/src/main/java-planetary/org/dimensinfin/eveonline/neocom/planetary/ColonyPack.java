@@ -13,7 +13,7 @@ public class ColonyPack extends NeoComExpandableNode {
 	private int capsuleerIdentifier = 0;
 	private GetCharactersCharacterIdPlanets200Ok colony;
 	private GetUniversePlanetsPlanetIdOk planetData;
-	private List<PlanetaryFacility> facilities;
+	private List<IPlanetaryFacility> facilities;
 
 	private ColonyPack() {}
 
@@ -94,7 +94,7 @@ public class ColonyPack extends NeoComExpandableNode {
 			return this;
 		}
 
-		public Builder withFacilities( final List<PlanetaryFacility> facilities ) {
+		public Builder withFacilities( final List<IPlanetaryFacility> facilities ) {
 			this.onConstruction.facilities = facilities;
 			return this;
 		}

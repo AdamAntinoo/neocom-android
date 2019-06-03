@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 import androidx.annotation.NonNull;
@@ -50,7 +50,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected int posx = 0;
 	protected int posy = 0;
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
-	protected PlanetaryFacility planetaryFacility;
+	protected IPlanetaryFacility planetaryFacility;
 	/** The resource identifier for the icon that represents the planetaryFacility. */
 	protected int drawableId = PlanetaryFacilityType.DEFAULT.getIconReferenceId();
 	/** Set the default to a Processing Facility. */
@@ -86,7 +86,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
 	 * is called.
 	 */
-	public void setPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
+	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
 		this.drawableId = this.planetaryFacility.getIconReferenceId();
@@ -194,7 +194,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 			return this.actualClassBuilder;
 		}
 
-		public B withStructure( @NonNull final PlanetaryFacility planetaryFacility ) {
+		public B withStructure( @NonNull final IPlanetaryFacility planetaryFacility ) {
 			this.actualClass.setPlanetaryFacility(planetaryFacility);
 			return this.actualClassBuilder;
 		}

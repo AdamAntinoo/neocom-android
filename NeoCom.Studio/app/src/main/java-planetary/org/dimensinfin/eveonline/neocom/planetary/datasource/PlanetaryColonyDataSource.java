@@ -13,9 +13,9 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 
@@ -32,8 +32,8 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 	 * to our model domain. We should keep the ESI domain data because contains the detailed planetaryFacility information. That detailed infromation
 	 * should be connected to the model data as a <b>delegate</b>.
 	 */
-	private List<PlanetaryFacility> colonyPlanetaryFacilities = new ArrayList<>();
-	private PlanetaryFacility commandCenter;
+	private List<IPlanetaryFacility> colonyPlanetaryFacilities = new ArrayList<>();
+	private IPlanetaryFacility commandCenter;
 	/**
 	 * Aggregation map for the selected planet structures. Each entry on the map aggregates the instances and the number of the
 	 * map entry type planet planetary interaction structures.
@@ -74,7 +74,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 				                        })
 				                        .map(pin -> {
 					                        // Transform each pin into a model planetaryFacility.
-					                        return new PlanetaryFacility.Builder()
+					                        return new IPlanetaryFacility.Builder()
 							                               .withPin(pin)
 							                               .withPlanetType(PlanetType.valueOf(this.getExtras().getString(EExtras.PLANET_TYPE_NAME.name())))
 														   .withPlanetItem(this.esiAdapter.getUniverseTypeById(pin.getTypeId()))
@@ -101,7 +101,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 					                       .build());
 		}
 		// - S E C T I O N   D A T A
-		for (PlanetaryFacility planetaryFacility : this.colonyPlanetaryFacilities) {
+		for (IPlanetaryFacility planetaryFacility : this.colonyPlanetaryFacilities) {
 			this.addModelContents(planetaryFacility.setCommandCenter(this.commandCenter));
 		}
 	}

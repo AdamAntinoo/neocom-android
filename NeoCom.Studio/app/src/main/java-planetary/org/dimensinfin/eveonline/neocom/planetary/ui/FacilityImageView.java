@@ -11,7 +11,7 @@ import android.graphics.Canvas;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityStructureInfo;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 public class FacilityImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
@@ -140,7 +140,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 
 	// - C O N T E N T   A P I
 	@Override
-	public void setPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
+	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		super.setPlanetaryFacility(planetaryFacility);
 		// Detect the right facility type to setup the different graphic variants.
 		if (this.planetaryFacility.getStructureType() == PlanetaryFacilityType.BASIC_INDUSTRY)
