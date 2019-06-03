@@ -1,10 +1,14 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import java.util.List;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 import org.joda.time.DateTime;
 
-public interface IPlanetaryFacility {
+public interface IPlanetaryFacility  extends ICollaboration {
 	String getName();
 
 	PlanetaryFacilityType getFacilityType();
@@ -18,6 +22,20 @@ public interface IPlanetaryFacility {
 	int getIconColorReference();
 
 	DateTime getLastCycleStart();
+
+	Integer getSchematicId();
+
+	List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents();
+
+	double getContentsVolume();
+
+	Float getStorageCapacity();
+
+	CommandCenterFacility getCommandCenter();
+
+	FacilityGeoPosition getGeoPosition();
+
+	PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter );
 
 	int getCpuUsage();
 

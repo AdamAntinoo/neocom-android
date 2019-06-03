@@ -63,11 +63,11 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return this.planetItemDelegate;
 	}
 
-	public IPlanetaryFacility getCommandCenter() {
-		return this.commandCenter;
+	public CommandCenterFacility getCommandCenter() {
+		return (CommandCenterFacility) this.commandCenter;
 	}
 
-	public IPlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter ) {
+	public PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter ) {
 		this.commandCenter = commandCenter;
 		return this;
 	}

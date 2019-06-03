@@ -14,6 +14,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
@@ -74,7 +75,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 				                        })
 				                        .map(pin -> {
 					                        // Transform each pin into a model planetaryFacility.
-					                        return new IPlanetaryFacility.Builder()
+					                        return new PlanetaryFacility.Builder()
 							                               .withPin(pin)
 							                               .withPlanetType(PlanetType.valueOf(this.getExtras().getString(EExtras.PLANET_TYPE_NAME.name())))
 														   .withPlanetItem(this.esiAdapter.getUniverseTypeById(pin.getTypeId()))
@@ -83,7 +84,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 				                        })
 				                        .map(structure -> {
 					                        // Search for the command center and store it on the field.
-					                        if (structure.getStructureType() == PlanetaryFacilityType.COMMAND_CENTER)
+					                        if (structure.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER)
 						                        this.commandCenter = structure;
 					                        return structure;
 				                        })

@@ -8,13 +8,14 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 
-public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFacility> {
+public class PlanetaryFacilityController extends AAndroidController<PlanetaryFacility> {
 	// - C O N S T R U C T O R S
-	public PlanetaryFacilityController( @NonNull final IPlanetaryFacility model, @NonNull final IControllerFactory factory ) {
+	public PlanetaryFacilityController( @NonNull final PlanetaryFacility model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 

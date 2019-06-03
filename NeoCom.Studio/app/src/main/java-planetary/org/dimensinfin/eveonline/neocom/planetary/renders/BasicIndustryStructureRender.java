@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.AMVCRender;
-import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.FacilityImageView;
@@ -48,7 +48,7 @@ public class BasicIndustryStructureRender extends AMVCRender {
 		this.mapCenter = this.getController().getModel().getCommandCenter().getGeoPosition();
 		// Select the view content renderer depending on the planetaryFacility type.
 		logger.info("-- [BasicIndustryStructureRender.initializeViews]> PlanetaryFacility type: {}"
-				, this.getController().getModel().getStructureType().name());
+				, this.getController().getModel().getFacilityType().name());
 		final View targetView = this.getView();
 		Runnable animateCycle = new Runnable() {
 			@Override
@@ -57,9 +57,10 @@ public class BasicIndustryStructureRender extends AMVCRender {
 				handler.postDelayed(this, TimeUnit.SECONDS.toMillis(10));
 			}
 		};
-		this.getController().getModel().setLastCycleStart(DateTime.now());
+		// TODO - This should be recalculated
+		((PlanetaryFacility) this.getController().getModel()).setLastCycleStart(DateTime.now());
 		handler.postDelayed(animateCycle, TimeUnit.SECONDS.toMillis(10));
-		switch (this.getController().getModel().getStructureType()) {
+		switch (this.getController().getModel().getFacilityType()) {
 			case EXTRACTOR_CONTROL_UNIT:
 				this.structureImage = new ExtractorImageView.Builder(this.getContext())
 						                      .withStructure(this.getController().getModel())
@@ -97,8 +98,8 @@ public class BasicIndustryStructureRender extends AMVCRender {
 
 	@Override
 	public void updateContent() {
-		final double longitudeDelta = this.getController().getModel().getLongitude() - this.mapCenter.getLongitude();
-		final double latitudeDelta = this.getController().getModel().getLatitude() - this.mapCenter.getLatitude();
+		final double longitudeDelta = this.getController().getModel().getGeoPosition().getLongitude() - this.mapCenter.getLongitude();
+		final double latitudeDelta = this.getController().getModel().getGeoPosition().getLatitude() - this.mapCenter.getLatitude();
 		// The rest of the parameters should be hidden on the View itself.
 		this.structureImage.setDeltaPosition(new FacilityGeoPosition()
 				                                     .setLongitude(longitudeDelta)

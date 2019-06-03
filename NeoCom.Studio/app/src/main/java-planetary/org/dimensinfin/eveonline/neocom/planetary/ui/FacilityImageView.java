@@ -143,9 +143,9 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		super.setPlanetaryFacility(planetaryFacility);
 		// Detect the right facility type to setup the different graphic variants.
-		if (this.planetaryFacility.getStructureType() == PlanetaryFacilityType.BASIC_INDUSTRY)
+		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.BASIC_INDUSTRY)
 			this.facilityClass = FacilityStructureInfo.BASIC_INDUSTRY;
-		if (this.planetaryFacility.getStructureType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
+		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
 			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.planetaryFacility.getSchematicId());
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = this.planetaryFacility.getContents();
 		if (null != contents) {

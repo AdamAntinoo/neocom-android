@@ -1,11 +1,16 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
-public class CommandCenterFacility implements IPlanetaryFacility {
+import org.joda.time.DateTime;
+
+public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacility {
 	private IPlanetaryFacility planetaryFacility;
 	private int cpuCapacity = -1;
 	private int powerOutput = -1;
@@ -81,6 +86,66 @@ public class CommandCenterFacility implements IPlanetaryFacility {
 	@Override
 	public GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId ) {
 		return this.planetaryFacility.getDogmaAttributeById(attributeId);
+	}
+
+	@Override
+	public int getIconReferenceId() {
+		return planetaryFacility.getIconReferenceId();
+	}
+
+	@Override
+	public int getStructureColorReference() {
+		return planetaryFacility.getStructureColorReference();
+	}
+
+	@Override
+	public int getBackgroundColor() {
+		return planetaryFacility.getBackgroundColor();
+	}
+
+	@Override
+	public int getIconColorReference() {
+		return planetaryFacility.getIconColorReference();
+	}
+
+	@Override
+	public DateTime getLastCycleStart() {
+		return planetaryFacility.getLastCycleStart();
+	}
+
+	@Override
+	public Integer getSchematicId() {
+		return planetaryFacility.getSchematicId();
+	}
+
+	@Override
+	public List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents() {
+		return planetaryFacility.getContents();
+	}
+
+	@Override
+	public double getContentsVolume() {
+		return planetaryFacility.getContentsVolume();
+	}
+
+	@Override
+	public Float getStorageCapacity() {
+		return planetaryFacility.getStorageCapacity();
+	}
+
+	@Override
+	public PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter ) {
+		return planetaryFacility.setCommandCenter(commandCenter);
+	}
+
+	@Override
+	public FacilityGeoPosition getGeoPosition() {
+		return planetaryFacility.getGeoPosition();
+	}
+
+	@Override
+	public CommandCenterFacility getCommandCenter() {
+		return planetaryFacility.getCommandCenter();
 	}
 
 	// - B U I L D E R
