@@ -54,7 +54,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 	public void prepareModel() {
 		logger.info(">> [PlanetaryColonyDataSource.prepareModel]");
 		final int planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
-		planet = this.esiAdapter.getUniversePlanetsPlanetId(planetIdentifier
+		this.planet = this.esiAdapter.getUniversePlanetsPlanetId(planetIdentifier
 				, this.credential.getRefreshToken()
 				, this.credential.getDataSource());
 		final GetCharactersCharacterIdPlanetsPlanetIdOk colonyLayout = this.esiAdapter.getCharactersCharacterIdPlanetsPlanetId(

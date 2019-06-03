@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.planetary;
 import java.util.List;
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
