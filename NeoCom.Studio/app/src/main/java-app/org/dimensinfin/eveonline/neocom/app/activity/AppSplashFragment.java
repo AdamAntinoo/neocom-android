@@ -120,6 +120,35 @@ public class AppSplashFragment extends AMVCPagerFragment {
 //							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 //							                            .build(1));
 //				}
+				// - C O P Y   S D E   D A T A B A S E
+//				initializationTasksList.add(new InitialisationTask.Builder()
+//						                            .withTaskName("Downloading Market Prices")
+//						                            .withTask(() -> {
+//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+//							                            try {
+//								                            		// Check if the SDE database file is at the right place. If not copy it.
+//								                            		if (!AndroidGlobalDataManager.checkAppFile(
+//								                            				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
+//								                            			// TODO The CCP database is not distributed with the application. If not available then close the App
+//								                            			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
+//								                            		}
+//							                            } catch (RuntimeException rtex) {
+//								                            exceptionList.add(new NeoComError.Builder(rtex)
+//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
+//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+//										                                              .build());
+//							                            } catch (Exception ex) {
+//								                            exceptionList.add(new NeoComError.Builder(ex)
+//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
+//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+//										                                              .build());
+//							                            }
+//							                            return exceptionList;
+//						                            })
+//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+//						                            .build(2));
 				// - D O W N L O A D - M A R K E T P R I C E S
 				initializationTasksList.add(new InitialisationTask.Builder()
 						                            .withTaskName("Downloading Market Prices")
