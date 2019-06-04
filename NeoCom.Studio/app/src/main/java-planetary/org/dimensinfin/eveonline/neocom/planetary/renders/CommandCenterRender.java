@@ -50,14 +50,14 @@ public class CommandCenterRender extends ResourceFacetedRender {
 		cpuProgress.setProgress(this.accessCpuUsagePercentage());
 	}
 
-	private int accessCpuUsagePercentage() {
-		return this.getController().getModel().getCpuUsage()
+	protected int accessCpuUsagePercentage() {
+		return ((CommandCenterFacility)this.getController().getModel()).cpuInUse()
 				                           /
 				                           ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity();
 	}
 
-	private String accessCpuUsage() {
-		return this.getController().getModel().getCpuUsage()
+	protected String accessCpuUsage() {
+		return ((CommandCenterFacility)this.getController().getModel()).cpuInUse()
 				       + "/"
 				       + ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity()
 				+" Tf";
