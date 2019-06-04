@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 public class CommandCenterRender extends PlanetaryFacility4ListRender {
-//	private TextView structureName;
+	private TextView cpuLevel;
 
 	public CommandCenterRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
@@ -18,24 +18,28 @@ public class CommandCenterRender extends PlanetaryFacility4ListRender {
 
 	@Override
 	public PlanetaryFacilityController getController() {
-		return (PlanetaryFacilityController) super.getController();
+		return super.getController();
 	}
 
 	// - I R E N D E R
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.commandcenterfacility4list;
+		return R.layout.commandcenter4colony;
 	}
 
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-//		structureName = this.getView().findViewById(R.id.structureName);
+		cpuLevel = this.getView().findViewById(R.id.cpuLevel);
 	}
 
 	@Override
 	public void updateContent() {
 		super.updateContent();
-//		structureName.setText(this.getController().getModel().getName());
+		cpuLevel.setText(this.accessCpuUsage());
+	}
+
+	protected String accessCpuUsage() {
+		return this.getController().getModel().getCpuUsage() + "/" + ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity();
 	}
 }

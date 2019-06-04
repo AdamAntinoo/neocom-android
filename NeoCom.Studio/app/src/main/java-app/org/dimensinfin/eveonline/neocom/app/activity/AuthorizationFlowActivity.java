@@ -2,6 +2,8 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import android.app.ActionBar;
@@ -21,17 +23,16 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.Instant;
@@ -63,6 +64,7 @@ import retrofit2.http.POST;
 public class AuthorizationFlowActivity extends Activity {
 	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
+	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
@@ -217,8 +219,8 @@ public class AuthorizationFlowActivity extends Activity {
 			rotation.setRepeatCount(Animation.INFINITE);
 			spinner.startAnimation(rotation);
 		} catch (final RuntimeException rtex) {
-			AndroidGlobalDataManager.registerRuntimeException("AuthorizationFlowActivity.onCreate"
-					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//			AndroidGlobalDataManager.registerRuntimeException("AuthorizationFlowActivity.onCreate"
+			//					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 		}
 	}
@@ -243,7 +245,7 @@ public class AuthorizationFlowActivity extends Activity {
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if ((null != tag) && (tag.equalsIgnoreCase("NEW-LOGIN-PART"))) {
 				// Fire the credential authorization flow on a background task.
-				AndroidGlobalDataManager.getSingleton().submitJob(() -> {
+				backgroundExecutor.submit(() -> {
 					onFireAuth();
 				});
 			} else {
@@ -257,7 +259,7 @@ public class AuthorizationFlowActivity extends Activity {
 							final String authCode = urlData.getQueryParameter("code");
 							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
-								AndroidGlobalDataManager.getSingleton().submitJob(() -> {
+								backgroundExecutor.submit(() -> {
 									this.registerInBackground(authCode);
 								});
 							}
@@ -287,7 +289,7 @@ public class AuthorizationFlowActivity extends Activity {
 			final String tag = extras.getString(EExtras.FIRE_AUTHORIZATION_FLOW.name());
 			if (tag.equalsIgnoreCase("NEW-LOGIN-PART")) {
 				// Fire the credential authorization flow on a background task.
-				AndroidGlobalDataManager.getSingleton().submitJob(() -> {
+				backgroundExecutor.submit(() -> {
 					onFireAuth();
 				});
 			} else {
@@ -301,7 +303,7 @@ public class AuthorizationFlowActivity extends Activity {
 							final String authCode = urlData.getQueryParameter("code");
 							if (StringUtils.isNotBlank(authCode)) {
 								// Fire the conversion to the authenticated Credential but do it on background.
-								AndroidGlobalDataManager.getSingleton().submitJob(() -> {
+								backgroundExecutor.submit(() -> {
 									this.registerInBackground(authCode);
 								});
 							}

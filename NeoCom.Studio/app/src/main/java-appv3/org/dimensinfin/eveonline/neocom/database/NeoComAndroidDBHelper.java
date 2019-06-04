@@ -209,8 +209,10 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				TableUtils.dropTable(databaseConnection, DatabaseVersion.class, true);
 				try {
 					TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
-					DatabaseVersion version = new DatabaseVersion(newVersion)
-							                          .store();
+					DatabaseVersion version = new DatabaseVersion(newVersion);
+//							                          .store();
+					Dao<DatabaseVersion, String> versionDao = this.getVersionDao();
+					versionDao.update(version);
 				} catch (SQLException sqle) {
 					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 				}
@@ -358,6 +360,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			// If the table is empty then insert the seeded Api Keys
 			if (records < 1) {
 				DatabaseVersion key = new DatabaseVersion(this.databaseVersion);
+				version.createOrUpdate(key);
 				logger.info("-- [NeoComAndroidDBHelper.loadSeedData]> Setting DatabaseVersion to: " + key.getVersionNumber());
 			}
 		} catch (SQLException sqle) {

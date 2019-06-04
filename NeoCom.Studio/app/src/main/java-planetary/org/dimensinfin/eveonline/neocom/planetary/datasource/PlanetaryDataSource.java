@@ -55,6 +55,7 @@ public class PlanetaryDataSource extends AMVCDataSource {
 						                  .build());
 			}
 		}
+		logger.info("<< [PlanetaryDataSource.prepareModel]");
 	}
 
 	/**

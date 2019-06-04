@@ -11,7 +11,7 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarC
 
 public class PlanetaryColoniesActivity extends ACredentialActivity {
 	public enum EPlanetaryVariants {
-		PLANETS_LIST("PLANETS LIST"),
+		PLANETS_LIST("PLANET LIST"),
 		PLANET_FACILITIES("PLANET INSTALLATIONS");
 
 		private String title;
