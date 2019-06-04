@@ -59,7 +59,8 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 		final int planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
 			if (planetIdentifier == colonyEsi.getPlanetId()) {
-				final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(colonyEsi.getPlanetId()
+				final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(
+						colonyEsi.getPlanetId()
 						, this.credential.getRefreshToken()
 						, this.credential.getDataSource());
 				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.esiAdapter.getCharactersCharacterIdPlanetsPlanetId(
@@ -81,13 +82,14 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 								} else found.add(facility);
 								return facility;
 							});
-					final ColonyPack colony = new ColonyPack.Builder()
-							                          .withColony(colonyEsi)
-							                          .withPlanetData(planetData)
-							                          .withFacilities(facilities)
-							                          .withCapsuleerIdentifier(this.credential.getAccountId())
-							                          .build();
+					colony = new ColonyPack.Builder()
+							         .withColony(colonyEsi)
+							         .withPlanetData(planetData)
+							         .withFacilities(facilities)
+							         .withCapsuleerIdentifier(this.credential.getAccountId())
+							         .build();
 				}
+				break;
 			}
 		}
 	}

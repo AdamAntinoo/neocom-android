@@ -12,37 +12,37 @@ import org.joda.time.DateTime;
 public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	String getName();
 
+	int getGroupId();
+
 	PlanetaryFacilityType getFacilityType();
-
-	int getIconReferenceId();
-
-	int getStructureColorReference();
 
 	int getBackgroundColor();
 
+	int getIconReferenceId();
+
 	int getIconColorReference();
 
-	DateTime getLastCycleStart();
-
-	Integer getSchematicId();
-
-	List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents();
-
-	double getContentsVolume();
-
-	Float getStorageCapacity();
-
-	CommandCenterFacility getCommandCenter();
+	int getStructureColorReference();
 
 	FacilityGeoPosition getGeoPosition();
 
-	PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter );
+	Integer getSchematicId();
+
+	DateTime getLastCycleStart();
+
+	List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents();
 
 	int getCpuUsage();
 
 	int getPowerUsage();
 
-	int getGroupId();
+	FacilityGeoPosition getCommandCenterPosition();
+
+	void setCommandCenterPosition( final FacilityGeoPosition commandCenterPosition );
 
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
+
+	//	double getContentsVolume();
+
+	//	Float getStorageCapacity();
 }

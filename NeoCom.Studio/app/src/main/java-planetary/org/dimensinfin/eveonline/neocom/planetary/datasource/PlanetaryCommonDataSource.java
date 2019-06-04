@@ -13,6 +13,8 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
+import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
@@ -35,15 +37,23 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			final EsiItemV2 facilityItem = new EsiItemV2(this.esiAdapter.getUniverseTypeById(facility.getTypeId())); // The item for this facility.
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
+			final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
+					                                        .withPin(facility)
+					                                        .withPlanetType(planetType)
+					                                        .withPlanetItem(facilityItem)
+					                                        .withEsiAdapter(this.esiAdapter)
+					                                        .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:
 					facilities.add(new CommandCenterFacility.Builder()
-							               .withPlanetaryFacility(new PlanetaryFacility.Builder()
-									                                      .withPin(facility)
-									                                      .withPlanetType(planetType)
-									                                      .withPlanetItem(facilityItem)
-									                                      .withEsiAdapter(this.esiAdapter)
-									                                      .build())
+							               .withPlanetaryFacility(baseFacility)
+							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
+							               .build());
+					break;
+				case STORAGE:
+					facilities.add(new StorageFacility.Builder()
+							               .withPlanetaryFacility(baseFacility)
+							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 							               .build());
 					break;
 				default:

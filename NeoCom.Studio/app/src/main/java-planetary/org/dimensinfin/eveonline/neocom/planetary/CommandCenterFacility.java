@@ -1,23 +1,17 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.List;
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
-import org.joda.time.DateTime;
-
-public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacility {
-	private IPlanetaryFacility planetaryFacility;
+public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
 	private int cpuCapacity = -1;
 	private int powerOutput = -1;
 	private int cpuInUse = -1;
 	private int powerInUse = -1;
+	private PlanetaryStorage planetaryStorage;
 
 	// - C O M M A N D C E N T E R
-
 	public int getCpuCapacity() {
 		if (this.cpuCapacity < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes cpu = this.planetaryFacility.getDogmaAttributeById(48);
@@ -61,97 +55,6 @@ public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacil
 		return this.powerInUse;
 	}
 
-	// - D E L E G A T E S
-	@Override
-	public String getName() {
-		return this.planetaryFacility.getName();
-	}
-
-	@Override
-	public String getURLForItem() {
-		return planetaryFacility.getURLForItem();
-	}
-
-	@Override
-	public PlanetaryFacilityType getFacilityType() {
-		return this.planetaryFacility.getFacilityType();
-	}
-
-	@Override
-	public int getCpuUsage() {
-		return this.planetaryFacility.getCpuUsage();
-	}
-
-	@Override
-	public int getPowerUsage() {
-		return this.planetaryFacility.getPowerUsage();
-	}
-
-	@Override
-	public GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId ) {
-		return this.planetaryFacility.getDogmaAttributeById(attributeId);
-	}
-
-	@Override
-	public int getIconReferenceId() {
-		return planetaryFacility.getIconReferenceId();
-	}
-
-	@Override
-	public int getStructureColorReference() {
-		return planetaryFacility.getStructureColorReference();
-	}
-
-	@Override
-	public int getBackgroundColor() {
-		return planetaryFacility.getBackgroundColor();
-	}
-
-	@Override
-	public int getIconColorReference() {
-		return planetaryFacility.getIconColorReference();
-	}
-
-	@Override
-	public DateTime getLastCycleStart() {
-		return planetaryFacility.getLastCycleStart();
-	}
-
-	@Override
-	public Integer getSchematicId() {
-		return planetaryFacility.getSchematicId();
-	}
-
-	@Override
-	public List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents() {
-		return planetaryFacility.getContents();
-	}
-
-	@Override
-	public double getContentsVolume() {
-		return planetaryFacility.getContentsVolume();
-	}
-
-	@Override
-	public Float getStorageCapacity() {
-		return planetaryFacility.getStorageCapacity();
-	}
-
-	@Override
-	public PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter ) {
-		return planetaryFacility.setCommandCenter(commandCenter);
-	}
-
-	@Override
-	public FacilityGeoPosition getGeoPosition() {
-		return planetaryFacility.getGeoPosition();
-	}
-
-	@Override
-	public CommandCenterFacility getCommandCenter() {
-		return planetaryFacility.getCommandCenter();
-	}
-
 	// - B U I L D E R
 	public static class Builder {
 		private CommandCenterFacility onConstruction;
@@ -165,9 +68,15 @@ public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacil
 			return this;
 		}
 
+		public Builder withPlanetaryStorage( final PlanetaryStorage planetaryStorage ) {
+			this.onConstruction.planetaryStorage = planetaryStorage;
+			return this;
+		}
+
 		public CommandCenterFacility build() {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
 			return this.onConstruction;
 		}
+
 	}
 }
