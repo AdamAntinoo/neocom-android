@@ -12,14 +12,16 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
 
 public class ColonyPack extends NeoComExpandableNode {
-	private int capsuleerIdentifier = 0;
+	private int capsuleerIdentifier = 0; // Use this identifier to identify the owner of the colony when clicking on the item.
 	private GetCharactersCharacterIdPlanets200Ok colony;
 	private GetUniversePlanetsPlanetIdOk planetData;
 	private List<IPlanetaryFacility> facilities;
 	private CommandCenterFacility commandCenter;
 
+	// - C O N S T R U C T O R S
 	private ColonyPack() {}
 
+	// - G E T T E R S   &   S E T T E R S
 	public String getName() {
 		if (null != this.planetData)
 			return this.planetData.getName();
@@ -44,6 +46,10 @@ public class ColonyPack extends NeoComExpandableNode {
 
 	public int getCapsuleerIdentifier() {
 		return capsuleerIdentifier;
+	}
+
+	public List<IPlanetaryFacility> getFacilities() {
+		return this.facilities;
 	}
 
 	// - I E X P A N D A B L E
@@ -79,11 +85,15 @@ public class ColonyPack extends NeoComExpandableNode {
 		this.commandCenter = this.accessCommandCenter();
 		this.commandCenter.setCpuInUse(this.calculateUsedCpu());
 		this.commandCenter.setPowerInUse(this.calculateUsedPower());
+		for (IPlanetaryFacility facility : this.facilities) {
+			facility.setCommandCenter(this.commandCenter);
+		}
 	}
 
 	protected CommandCenterFacility accessCommandCenter() {
 		for (IPlanetaryFacility facility : this.facilities) {
-			if (facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER) return (CommandCenterFacility) facility;
+			if (facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER)
+				return (CommandCenterFacility) facility;
 		}
 		throw new NeoComRuntimeException("There is no command center facility for this colony. Unable to process initialisation.");
 	}

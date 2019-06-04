@@ -156,6 +156,10 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return null;
 	}
 
+	public int getGroupId() {
+		return this.planetItemDelegate.getGroupId();
+	}
+
 	// - I U N I Q U E M O D E L
 	@Override
 	public long getUniqueModelIdentifier() {

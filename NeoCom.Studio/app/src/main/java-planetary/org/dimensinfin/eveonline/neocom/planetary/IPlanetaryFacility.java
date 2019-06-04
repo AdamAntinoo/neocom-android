@@ -9,7 +9,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdO
 
 import org.joda.time.DateTime;
 
-public interface IPlanetaryFacility  extends ICollaboration, IItemFacet {
+public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	String getName();
 
 	PlanetaryFacilityType getFacilityType();
@@ -41,6 +41,8 @@ public interface IPlanetaryFacility  extends ICollaboration, IItemFacet {
 	int getCpuUsage();
 
 	int getPowerUsage();
+
+	int getGroupId();
 
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
 }
