@@ -45,7 +45,7 @@ public class BasicIndustryStructureRender extends AMVCRender {
 	@Override
 	public void initializeViews() {
 		// Initialize the central location from the data source data.
-		this.mapCenter = this.getController().getModel().getCommandCenter().getGeoPosition();
+		this.mapCenter = this.getController().getModel().getCommandCenterPosition();
 		// Select the view content renderer depending on the planetaryFacility type.
 		logger.info("-- [BasicIndustryStructureRender.initializeViews]> PlanetaryFacility type: {}"
 				, this.getController().getModel().getFacilityType().name());

@@ -176,7 +176,7 @@ public class NeoComApplication extends Application {
 		super.onCreate();
 		NeoComAndroid.initialiseSingleton(this); // Create the component factory but empty of contents.
 		//		Stetho.initializeWithDefaults(this);
-//		this.oldInitialization();
+		this.oldInitialization();
 		// Do global injections
 		//		EsiItemV2.injectEveItemProvider(NeoComAndroid.getSingleton(.get));
 		EsiItemV2.injectDownloaderService(NeoComAndroid.getSingleton().getDownloaderService());

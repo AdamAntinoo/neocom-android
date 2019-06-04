@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 
 public class StorageImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
 	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_storageringfillcolor;
@@ -27,8 +28,8 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 	}
 
 	protected void drawFacilityFill( final Canvas canvas ) {
-		final double fillLevel = this.planetaryFacility.getContentsVolume();
-		final int angle = Double.valueOf((fillLevel / this.planetaryFacility.getStorageCapacity()) * 360.0).intValue();
+		final double fillLevel = ((StorageFacility)this.planetaryFacility).getTotalVolume();
+		final int angle = Double.valueOf((fillLevel / ((StorageFacility)this.planetaryFacility).getStorageCapacity()) * 360.0).intValue();
 		paint.setColor(this.getColor(FACTORY_RING_FILL_COLOR));
 		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
 				, -90.0F, angle, true, paint);

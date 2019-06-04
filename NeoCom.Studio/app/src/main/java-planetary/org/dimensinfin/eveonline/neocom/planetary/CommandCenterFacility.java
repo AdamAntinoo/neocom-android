@@ -1,7 +1,10 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
@@ -10,6 +13,12 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	private int cpuInUse = -1;
 	private int powerInUse = -1;
 	private PlanetaryStorage planetaryStorage;
+
+	// - I C O L L A B O R A T I O N
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variant ) {
+		return new ArrayList<>(this.planetaryStorage.getContents());
+	}
 
 	// - C O M M A N D C E N T E R
 	public int getCpuCapacity() {
@@ -75,6 +84,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 
 		public CommandCenterFacility build() {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
+			Objects.requireNonNull(this.onConstruction.planetaryStorage);
 			return this.onConstruction;
 		}
 

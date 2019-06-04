@@ -86,7 +86,7 @@ public class ColonyPack extends NeoComExpandableNode {
 		this.commandCenter.setCpuInUse(this.calculateUsedCpu());
 		this.commandCenter.setPowerInUse(this.calculateUsedPower());
 		for (IPlanetaryFacility facility : this.facilities) {
-			facility.setCommandCenter(this.commandCenter);
+			facility.setCommandCenterPosition(this.commandCenter.getGeoPosition());
 		}
 	}
 

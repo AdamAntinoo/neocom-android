@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.eveonline.neocom.PojoTestUtils;
+import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
