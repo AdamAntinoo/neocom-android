@@ -20,6 +20,9 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIGlobalAdapter esiAdapter;
 
+	protected ESIGlobalAdapter getEsiAdapter(){
+		return this.esiAdapter;
+	}
 	/**
 	 * Convert the list of facilities received from ESI to out own model structures. Facilities should be interconnected in another way
 	 * to allow the access to some other functions. Also there are special characteristics only available on some facilities depending
@@ -34,14 +37,14 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			, final PlanetType planetType ) {
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			final EsiItemV2 facilityItem = new EsiItemV2(this.esiAdapter.getUniverseTypeById(facility.getTypeId())); // The item for this facility.
+			final EsiItemV2 facilityItem = new EsiItemV2(this.getEsiAdapter().getUniverseTypeById(facility.getTypeId())); // The item for this facility.
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
 			final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 					                                        .withPin(facility)
 					                                        .withPlanetType(planetType)
 					                                        .withPlanetItem(facilityItem)
-					                                        .withEsiAdapter(this.esiAdapter)
+					                                        .withEsiAdapter(this.getEsiAdapter())
 					                                        .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:
@@ -57,13 +60,7 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 							               .build());
 					break;
 				default:
-					facilities.add(new PlanetaryFacility.Builder()
-							               .withPin(facility)
-							               .withPlanetType(planetType)
-							               .withPlanetItem(facilityItem)
-							               .withEsiAdapter(this.esiAdapter)
-							               .build());
-
+					facilities.add(baseFacility);
 			}
 		}
 		return facilities;
