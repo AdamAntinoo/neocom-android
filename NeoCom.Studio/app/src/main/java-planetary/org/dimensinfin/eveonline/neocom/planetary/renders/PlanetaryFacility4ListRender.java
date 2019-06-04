@@ -6,10 +6,9 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
-public class PlanetaryFacility4ListRender extends NeoComRenderv2 {
+public class PlanetaryFacility4ListRender extends ResourceFacetedRender {
 	private TextView structureName;
 
 	public PlanetaryFacility4ListRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {

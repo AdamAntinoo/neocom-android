@@ -68,6 +68,11 @@ public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacil
 	}
 
 	@Override
+	public String getURLForItem() {
+		return planetaryFacility.getURLForItem();
+	}
+
+	@Override
 	public PlanetaryFacilityType getFacilityType() {
 		return this.planetaryFacility.getFacilityType();
 	}

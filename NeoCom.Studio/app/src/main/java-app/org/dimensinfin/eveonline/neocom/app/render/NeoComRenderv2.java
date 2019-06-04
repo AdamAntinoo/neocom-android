@@ -46,6 +46,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected static final DateTimeFormatter jobTimeFormatter = DateTimeFormat.forPattern("D HH:MM");
 	protected static final DecimalFormat priceFormatter = new DecimalFormat("###,###.00");
 	protected static final DecimalFormat qtyFormatter = new DecimalFormat("###,##0");
+	protected static final DecimalFormat pctFormatter = new DecimalFormat("##0.00%");
 	protected static final DecimalFormat moduleIndexFormatter = new DecimalFormat("000");
 	protected static final DecimalFormat queueIndexFormatter = new DecimalFormat("00");
 	protected static final DecimalFormat moduleMultiplierFormatter = new DecimalFormat("x##0.0");

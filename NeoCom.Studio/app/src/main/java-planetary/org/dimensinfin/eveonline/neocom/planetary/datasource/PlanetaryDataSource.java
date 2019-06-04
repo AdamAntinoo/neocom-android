@@ -7,11 +7,11 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
@@ -72,7 +72,7 @@ public class PlanetaryDataSource extends AMVCDataSource {
 			, final PlanetType planetType ) {
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			final GetUniverseTypesTypeIdOk facilityItem = this.esiAdapter.getUniverseTypeById(facility.getTypeId()); // The item for this facility.
+			final EsiItemV2 facilityItem = new EsiItemV2(this.esiAdapter.getUniverseTypeById(facility.getTypeId())); // The item for this facility.
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
 			switch (facilityType) {

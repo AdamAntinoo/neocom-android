@@ -65,7 +65,6 @@ android {
             minifyEnabled false
             useProguard false
             resValue "string", "appdatabasefilename", "neocomv0.14.0"
-//            resValue "string", "appdatabasefilename", "neocomv" + android.defaultConfig.versionName
         }
     }
     sourceSets {
@@ -79,6 +78,7 @@ android {
         }
         debug.java {
             srcDirs += 'src/debug/java-app'
+            srcDirs += 'src/debug/java-test'
 //            srcDirs += 'src/debug/java-mining'
         }
         release.java {

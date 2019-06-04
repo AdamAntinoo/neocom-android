@@ -24,7 +24,6 @@
 		<activity
 				android:name=".app.activity.AppSplashActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Dashdoard"
 				android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -33,6 +32,12 @@
 		</activity>
 
 		<!-- A C T I V I T I E S -->
+		<activity
+				android:name=".visualtests.activity.VisualTestsActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="Visual Tests">
+		</activity>
+
 		<activity
 				android:name=".app.activity.PilotDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"

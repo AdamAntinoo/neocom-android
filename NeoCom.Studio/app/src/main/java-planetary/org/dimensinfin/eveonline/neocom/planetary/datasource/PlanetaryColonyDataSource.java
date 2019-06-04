@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -78,7 +79,7 @@ public class PlanetaryColonyDataSource extends AMVCDataSource {
 					                        return new PlanetaryFacility.Builder()
 							                               .withPin(pin)
 							                               .withPlanetType(PlanetType.valueOf(this.getExtras().getString(EExtras.PLANET_TYPE_NAME.name())))
-														   .withPlanetItem(this.esiAdapter.getUniverseTypeById(pin.getTypeId()))
+														   .withPlanetItem(new EsiItemV2(this.esiAdapter.getUniverseTypeById(pin.getTypeId())))
 														   .withEsiAdapter(this.esiAdapter)
 							                               .build();
 				                        })
