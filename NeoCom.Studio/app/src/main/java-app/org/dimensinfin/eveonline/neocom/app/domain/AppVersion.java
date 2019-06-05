@@ -1,10 +1,11 @@
-package org.dimensinfin.eveonline.neocom.model;
+package org.dimensinfin.eveonline.neocom.app.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

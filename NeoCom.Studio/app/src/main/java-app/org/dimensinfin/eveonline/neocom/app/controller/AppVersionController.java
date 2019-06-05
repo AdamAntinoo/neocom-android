@@ -10,7 +10,7 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.model.AppVersion;
+import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 
 public class AppVersionController extends AAndroidController<AppVersion> {
 	// - C O N S T R U C T O R S

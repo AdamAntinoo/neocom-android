@@ -2,19 +2,16 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import android.content.Context;
 
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
-import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
@@ -25,7 +22,6 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
-import org.dimensinfin.eveonline.neocom.model.AppVersion;
 import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
@@ -76,7 +72,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	public static class SplashActionsDataSource extends AMVCDataSource {
 		private String name;
 		private String version;
-//		private Context applicationContext;
+		//		private Context applicationContext;
 		//		private SharedPreferences preferences;
 
 		// -  S H A R E D   C O M P O N E N T S
@@ -95,9 +91,9 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		//			return this;
 		//		}
 
-//		public Context getApplicationContext() {
-//			return applicationContext;
-//		}
+		//		public Context getApplicationContext() {
+		//			return applicationContext;
+		//		}
 
 		//		public SplashActionsDataSource setApplicationContext( final Context applicationContext ) {
 		//			this.applicationContext = applicationContext;
@@ -109,46 +105,46 @@ public class AppSplashFragment extends AMVCPagerFragment {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
 			// Change the contents depending on the network status
 			if (NeoComApplication.checkNetworkAccess()) {
-//				if (BuildConfig.DEBUG) {
-//					initializationTasksList.add(new InitialisationTask.Builder()
-//							                            .withTaskName("Minute waiting")
-//							                            .withTask(() -> {
-//								                            // This is a test task that will last for one minute to check the different states.
-//								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
-//								                            return new ArrayList<>();
-//							                            })
-//							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-//							                            .build(1));
-//				}
+				//				if (BuildConfig.DEBUG) {
+				//					initializationTasksList.add(new InitialisationTask.Builder()
+				//							                            .withTaskName("Minute waiting")
+				//							                            .withTask(() -> {
+				//								                            // This is a test task that will last for one minute to check the different states.
+				//								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
+				//								                            return new ArrayList<>();
+				//							                            })
+				//							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+				//							                            .build(1));
+				//				}
 				// - C O P Y   S D E   D A T A B A S E
-//				initializationTasksList.add(new InitialisationTask.Builder()
-//						                            .withTaskName("Downloading Market Prices")
-//						                            .withTask(() -> {
-//							                            final List<NeoComError> exceptionList = new ArrayList<>();
-//							                            try {
-//								                            		// Check if the SDE database file is at the right place. If not copy it.
-//								                            		if (!AndroidGlobalDataManager.checkAppFile(
-//								                            				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
-//								                            			// TODO The CCP database is not distributed with the application. If not available then close the App
-//								                            			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
-//								                            		}
-//							                            } catch (RuntimeException rtex) {
-//								                            exceptionList.add(new NeoComError.Builder(rtex)
-//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
-//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-//										                                              .build());
-//							                            } catch (Exception ex) {
-//								                            exceptionList.add(new NeoComError.Builder(ex)
-//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
-//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-//										                                              .build());
-//							                            }
-//							                            return exceptionList;
-//						                            })
-//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-//						                            .build(2));
+				//				initializationTasksList.add(new InitialisationTask.Builder()
+				//						                            .withTaskName("Downloading Market Prices")
+				//						                            .withTask(() -> {
+				//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+				//							                            try {
+				//								                            		// Check if the SDE database file is at the right place. If not copy it.
+				//								                            		if (!AndroidGlobalDataManager.checkAppFile(
+				//								                            				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
+				//								                            			// TODO The CCP database is not distributed with the application. If not available then close the App
+				//								                            			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
+				//								                            		}
+				//							                            } catch (RuntimeException rtex) {
+				//								                            exceptionList.add(new NeoComError.Builder(rtex)
+				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
+				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+				//										                                              .build());
+				//							                            } catch (Exception ex) {
+				//								                            exceptionList.add(new NeoComError.Builder(ex)
+				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
+				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+				//										                                              .build());
+				//							                            }
+				//							                            return exceptionList;
+				//						                            })
+				//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+				//						                            .build(2));
 				// - D O W N L O A D - M A R K E T P R I C E S
 				initializationTasksList.add(new InitialisationTask.Builder()
 						                            .withTaskName("Downloading Market Prices")

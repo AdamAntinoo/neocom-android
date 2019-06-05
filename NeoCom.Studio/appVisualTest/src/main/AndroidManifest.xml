@@ -1,0 +1,33 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.dimensinfin.eveonline.neocom">
+
+	<application
+			android:name="appvisualtest.VisualTestApplication"
+			android:allowBackup="true"
+			android:description="@string/AppDescription"
+			android:icon="@drawable/neocom_icon"
+			android:label="@string/appnameversion"
+			android:largeHeap="true"
+			android:logo="@drawable/neocom_icon"
+			android:roundIcon="@drawable/neocom_icon"
+			android:supportsRtl="true"
+			android:theme="@style/AppTheme.NoActionBar"
+			tools:replace="android:label">
+
+		<!-- S T A R T U P    A C T I V I T Y -->
+		<activity
+				android:name="appvisualtest.activity.VisualTestsActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="Dashdoard"
+				android:theme="@style/AppTheme.NoActionBar">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+
+	</application>
+
+
+</manifest>

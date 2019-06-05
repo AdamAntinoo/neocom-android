@@ -3,18 +3,7 @@ package org.dimensinfin.eveonline.neocom.app.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.exception.NeoComException;
-import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
-
-import com.squareup.picasso.Picasso;
 
 /**
  * @author Adam Antinoo

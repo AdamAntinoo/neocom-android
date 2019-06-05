@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
+import org.dimensinfin.eveonline.neocom.appvisualtest.R;
 
 /**
  * @author Adam Antinoo
