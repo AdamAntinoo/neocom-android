@@ -92,7 +92,7 @@ public class NeoComAndroid {
 
 	public ESIGlobalAdapter getEsiAdapter() {
 		if (null == this.esiAdapter) {
-			esiAdapter = new ESIAndroidAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
 					             .build();
 		}
 		return this.esiAdapter;

@@ -15,6 +15,8 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSchematicIdOk;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -24,6 +26,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ESINetworkManagerMock extends ESIGlobalAdapter {
+	protected ESINetworkManagerMock( final IConfigurationProvider configurationProvider, final IFileSystem fileSystemAdapter ) {
+		super(configurationProvider, fileSystemAdapter);
+	}
+
 	// - P L A N E T A R Y   I N T E R A C T I O N
 	public  GetUniverseSchematicsSchematicIdOk getUniversePlanetarySchematicsById( final String server, final int schematicId ) {
 		logger.info(">> [ESINetworkManagerMock.getUniversePlanetarySchematicsById]");

@@ -13,7 +13,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 
 public class AppControllerFactory extends ControllerFactory {

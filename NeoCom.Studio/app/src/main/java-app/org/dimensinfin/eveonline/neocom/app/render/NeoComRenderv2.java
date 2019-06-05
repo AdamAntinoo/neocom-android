@@ -17,7 +17,6 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
@@ -281,12 +280,22 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		// Check if the layout has the icon placeholder.
 		if (null != targetIcon) {
 			// If the flag signals an station change the code.
-			String link = AndroidGlobalDataManager.getURLForItem(typeId);
+			String link = this.getURLForItem(typeId);
 			if (station) {
-				link = AndroidGlobalDataManager.getURLForStation(typeId);
+				link = this.getURLForStation(typeId);
 			}
 			Picasso.get().load(link).into(targetIcon);
 		}
+	}
+
+	protected String getURLForItem( final int typeID ) {
+		final String iconUrl = "http://image.eveonline.com/Type/" + typeID + "_64.png";
+		return iconUrl;
+	}
+
+	protected String getURLForStation( final int typeID ) {
+		final String iconUrl = "http://image.eveonline.com/Render/" + typeID + "_64.png";
+		return iconUrl;
 	}
 
 	protected Spanned regionSystemLocation( final EveLocation loc ) {

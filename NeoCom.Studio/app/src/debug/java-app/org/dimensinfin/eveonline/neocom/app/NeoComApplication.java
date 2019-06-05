@@ -19,6 +19,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
@@ -140,7 +141,7 @@ public class NeoComApplication extends Application {
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
 		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(NeoComAndroid.getSingleton().getConfigurationProvider()
 				, NeoComAndroid.getSingleton().getFileSystemAdapter()
-				, new ESIAndroidAdapter.Builder(NeoComAndroid.getSingleton().getConfigurationProvider()
+				, new ESIGlobalAdapter.Builder(NeoComAndroid.getSingleton().getConfigurationProvider()
 				, NeoComAndroid.getSingleton().getFileSystemAdapter())
 						  .build())
 				                            .build());

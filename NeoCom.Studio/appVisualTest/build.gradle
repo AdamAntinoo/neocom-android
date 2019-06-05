@@ -136,6 +136,10 @@ dependencies {
     implementation project(':AndroidMVCLibrary')
     implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
+
+    // D A T A B A S E
+    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
+    implementation 'org.xerial:sqlite-jdbc:3.16.1'
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

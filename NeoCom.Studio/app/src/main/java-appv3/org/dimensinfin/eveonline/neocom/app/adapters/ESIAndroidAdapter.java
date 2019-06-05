@@ -11,8 +11,9 @@ import org.jetbrains.annotations.NotNull;
 public class ESIAndroidAdapter extends ESINetworkManagerMock {
 	// - C O N S T R U C T O R S
 	protected ESIAndroidAdapter( final IConfigurationProvider configurationProvider, final IFileSystem fileSystemAdapter ) {
-		this.configurationProvider = configurationProvider;
-		this.fileSystemAdapter = fileSystemAdapter;
+		super(configurationProvider,fileSystemAdapter);
+//		this.configurationProvider = configurationProvider;
+//		this.fileSystemAdapter = fileSystemAdapter;
 	}
 
 	public void initialise() {

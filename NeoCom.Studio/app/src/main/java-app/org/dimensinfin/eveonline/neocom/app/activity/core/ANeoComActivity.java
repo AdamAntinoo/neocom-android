@@ -23,6 +23,7 @@ import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
 public class ANeoComActivity extends AMVCMultiPageActivity {
 	private static Menu activityMenu = null;
