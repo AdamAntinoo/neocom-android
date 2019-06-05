@@ -9,10 +9,10 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
+import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
@@ -22,8 +22,6 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
-import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 public class AppSplashFragment extends AMVCPagerFragment {
 	// - O V E R R I D E S
@@ -104,7 +102,8 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		public void prepareModel() {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
 			// Change the contents depending on the network status
-			if (NeoComApplication.checkNetworkAccess()) {
+			// TODO - Move this to the isolation layer and remove dependecy to harcoded code.
+//			if (NeoComApplication.checkNetworkAccess()) {
 				//				if (BuildConfig.DEBUG) {
 				//					initializationTasksList.add(new InitialisationTask.Builder()
 				//							                            .withTaskName("Minute waiting")
@@ -194,30 +193,30 @@ public class AppSplashFragment extends AMVCPagerFragment {
 						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
 						                            .build(2));
 				// - D O W N L O A D - C I T A D E L S
-				initializationTasksList.add(new InitialisationTask.Builder()
-						                            .withTaskName("Downloading Citadels")
-						                            .withTask(() -> {
-							                            final List<NeoComError> exceptionList = new ArrayList<>();
-							                            try {
-								                            AndroidGlobalDataManager.readLocationsDataCache();
-							                            } catch (RuntimeException rtex) {
-								                            exceptionList.add(new NeoComError.Builder(rtex)
-										                                              .withType(EErrorType.RUNTIME)
-										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            } catch (Exception ex) {
-								                            exceptionList.add(new NeoComError.Builder(ex)
-										                                              .withType(EErrorType.EXCEPTION)
-										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            }
-							                            return exceptionList;
-						                            })
-						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-						                            .build(2));
-			} else {
+//				initializationTasksList.add(new InitialisationTask.Builder()
+//						                            .withTaskName("Downloading Citadels")
+//						                            .withTask(() -> {
+//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+//							                            try {
+//								                            AndroidGlobalDataManager.readLocationsDataCache();
+//							                            } catch (RuntimeException rtex) {
+//								                            exceptionList.add(new NeoComError.Builder(rtex)
+//										                                              .withType(EErrorType.RUNTIME)
+//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+//										                                              .build());
+//							                            } catch (Exception ex) {
+//								                            exceptionList.add(new NeoComError.Builder(ex)
+//										                                              .withType(EErrorType.EXCEPTION)
+//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+//										                                              .build());
+//							                            }
+//							                            return exceptionList;
+//						                            })
+//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+//						                            .build(2));
+//			} else {
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
 						                       .setVersion(this.version));
@@ -225,13 +224,13 @@ public class AppSplashFragment extends AMVCPagerFragment {
 						                       .withType("WARNING")
 						                       .withDescription("The is no network connection. Application functionality in hold.")
 						                       .build());
-			}
+//			}
 			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
 		@Override
 		public void collaborate2Model() {
-			if (NeoComApplication.checkNetworkAccess()) {
+//			if (NeoComApplication.checkNetworkAccess()) {
 				try {
 					logger.info(">> [SplashActionsDataSource.collaborate2Model]");
 					// - S E C T I O N   H E A D E R
@@ -258,7 +257,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				} catch (RuntimeException runtime) {
 					logger.info("-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage());
 				}
-			}
+//			}
 			logger.info("<< [SplashActionsDataSource.collaborate2Model]");
 		}
 
