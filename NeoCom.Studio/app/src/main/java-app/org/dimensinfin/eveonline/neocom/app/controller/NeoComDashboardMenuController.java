@@ -8,10 +8,8 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComDashboardMenuRender;
-import org.dimensinfin.eveonline.neocom.app.render.PilotV3Render;
-import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 
 public class NeoComDashboardMenuController extends AAndroidController<NeoComMenuBar> {
 	protected String variant;

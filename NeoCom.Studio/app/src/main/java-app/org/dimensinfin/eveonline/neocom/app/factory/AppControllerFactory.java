@@ -11,10 +11,10 @@ import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.model.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
-import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {

@@ -8,9 +8,8 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerFragment;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.ui.NeoComMenuBar;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 
 /**
  * @author Adam Antinoo

@@ -50,7 +50,7 @@ import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
-import org.dimensinfin.eveonline.neocom.ui.CustomTypefaceSpan;
+import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
 import java.util.ArrayList;
 import java.util.Collections;
