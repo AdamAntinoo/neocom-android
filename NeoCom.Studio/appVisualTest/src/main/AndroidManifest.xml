@@ -3,7 +3,7 @@
           package="org.dimensinfin.eveonline.neocom">
 
 	<application
-			android:name="appvisualtest.VisualTestApplication"
+			android:name="VisualTestApplication"
 			android:allowBackup="true"
 			android:description="@string/AppDescription"
 			android:icon="@drawable/neocom_icon"

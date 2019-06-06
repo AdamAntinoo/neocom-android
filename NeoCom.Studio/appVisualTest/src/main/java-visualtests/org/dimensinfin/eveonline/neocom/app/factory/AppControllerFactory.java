@@ -30,45 +30,6 @@ public class AppControllerFactory extends ControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		logger.info("-- [AppDashboardFactory.createPart]> Node class: {}", node.getClass().getSimpleName());
-		if (node instanceof AppVersion) {
-			return new AppVersionController((AppVersion) node, this);
-		}
-		if (node instanceof Credential) {
-			return new CredentialController((Credential) node, this);
-		}
-		if (node instanceof NewLoginAction) {
-			return new NewLoginController((NewLoginAction) node, this);
-		}
-		if (node instanceof InitialisationTask) {
-			return new InitialisationTaskController((InitialisationTask) node, this);
-		}
-		if (node instanceof PanelTitle) {
-			return new PanelTitleController.Builder((PanelTitle) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
-
-		if (node instanceof PilotV3) {
-			return new PilotV3Controller.Builder((PilotV3) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
-		if (node instanceof NeoComMenuBar) {
-			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
-
-		// - A C T I O N B A R S
-		if (node instanceof SplashActionBar) {
-			return new SplashActionBarController((SplashActionBar) node, this);
-		}
-		if (node instanceof NeoComActionBarV2) {
-			return new NeoComActionBarController((NeoComActionBarV2) node, this);
-		}
-		if (node instanceof PlanetaryActionBar) {
-			return new PlanetaryActionBarController((PlanetaryActionBar) node, this);
-		}
 		return super.createController(node);
 	}
 }

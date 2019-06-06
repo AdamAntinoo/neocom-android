@@ -76,7 +76,9 @@ public class NeoComAndroid {
 
 	public IGlobalPreferencesManager getPreferencesProvider() {
 		if (null == this.preferencesProvider) {
-			preferencesProvider = new GlobalAndroidPreferencesProvider();
+			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
+					                      .withApplication(this.getApplication())
+					                      .build();
 		}
 		return this.preferencesProvider;
 	}
