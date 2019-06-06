@@ -9,19 +9,11 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
-public class PlanetaryDataSource extends AMVCDataSource {
-	protected Credential credential;
-	protected ESIGlobalAdapter esiAdapter;
+public class PlanetaryDataSource extends PlanetaryCommonDataSource {
 	protected List<ColonyPack> colonies = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
@@ -55,47 +47,7 @@ public class PlanetaryDataSource extends AMVCDataSource {
 						                  .build());
 			}
 		}
-	}
-
-	/**
-	 * Convert the list of facilities received from ESI to out own model structures. Facilities should be interconnected in another way
-	 * to allow the access to some other functions. Also there are special characteristics only available on some facilities depending
-	 * on the facility type.
-	 *
-	 * The planet item record is required to identify the pin group and from it the facility type.
-	 *
-	 * The colony is required by a command center to be able to request the used power and cpu. The colony is the only able to scan all
-	 * the facilities and get such information.
-	 */
-	private List<IPlanetaryFacility> convertPin2Facility( final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins
-			, final PlanetType planetType ) {
-		final List<IPlanetaryFacility> facilities = new ArrayList<>();
-		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			final GetUniverseTypesTypeIdOk facilityItem = this.esiAdapter.getUniverseTypeById(facility.getTypeId()); // The item for this facility.
-			// Create the right facility class depending on the type.
-			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
-			switch (facilityType) {
-				case COMMAND_CENTER:
-					facilities.add(new CommandCenterFacility.Builder()
-							               .withPlanetaryFacility(new PlanetaryFacility.Builder()
-									                                      .withPin(facility)
-									                                      .withPlanetType(planetType)
-									                                      .withPlanetItem(facilityItem)
-									                                      .withEsiAdapter(this.esiAdapter)
-									                                      .build())
-							               .build());
-					break;
-				default:
-					facilities.add(new PlanetaryFacility.Builder()
-							               .withPin(facility)
-							               .withPlanetType(planetType)
-							               .withPlanetItem(facilityItem)
-							               .withEsiAdapter(this.esiAdapter)
-							               .build());
-
-			}
-		}
-		return facilities;
+		logger.info("<< [PlanetaryDataSource.prepareModel]");
 	}
 
 	// - I C O L L A B O R A T I O N

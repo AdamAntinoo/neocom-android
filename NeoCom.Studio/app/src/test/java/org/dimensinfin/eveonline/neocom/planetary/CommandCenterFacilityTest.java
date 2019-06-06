@@ -12,4 +12,20 @@ public class CommandCenterFacilityTest {
 													   .withPlanetaryFacility(planetaryFacility)
 				.build();
 	}
+
+	@Test
+	public void getCpuCapacity() {
+	}
+
+	@Test
+	public void getPowerOutput() {
+	}
+
+	@Test
+	public void cpuInUse() {
+	}
+
+	@Test
+	public void powerInUse() {
+	}
 }

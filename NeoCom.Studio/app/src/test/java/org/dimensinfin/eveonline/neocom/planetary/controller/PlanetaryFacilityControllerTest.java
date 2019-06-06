@@ -5,6 +5,8 @@ import android.content.Context;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
@@ -27,7 +29,9 @@ public class PlanetaryFacilityControllerTest {
 
 	@Test
 	public void buildRender_variantA() {
-		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(model, factory)
+		final PlanetaryFacility facility = Mockito.mock(PlanetaryFacility.class);
+		Mockito.when(facility.getFacilityType()).thenReturn(PlanetaryFacilityType.COMMAND_CENTER);
+		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(facility, factory)
 				                                                                             .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name());
 		final Context context = Mockito.mock(Context.class);
 		final IRender obtained = controller.buildRender(context);

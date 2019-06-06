@@ -3,12 +3,13 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
+import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilitySummaryController;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 
 /**
  * @author Adam Antinoo
@@ -26,8 +27,11 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 		if (node instanceof PlanetaryFacilitySummary) {
 			return new PlanetaryFacilitySummaryController((PlanetaryFacilitySummary) node, this);
 		}
-		if (node instanceof PlanetaryFacility) {
-			return new PlanetaryFacilityController((PlanetaryFacility) node, this).setRenderMode(this.getVariant());
+		if (node instanceof IPlanetaryFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
+		}
+		if (node instanceof CommandCenterFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		return super.createController(node);
 	}

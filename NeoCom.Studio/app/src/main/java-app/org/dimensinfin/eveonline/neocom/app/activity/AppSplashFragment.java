@@ -256,6 +256,9 @@ public class AppSplashFragment extends AMVCPagerFragment {
 					this.addModelContents(new NewLoginAction());
 				} catch (RuntimeException runtime) {
 					logger.info("-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage());
+					// Add the node to display the new New Login Button.
+					this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
+					this.addModelContents(new NewLoginAction());
 				}
 //			}
 			logger.info("<< [SplashActionsDataSource.collaborate2Model]");

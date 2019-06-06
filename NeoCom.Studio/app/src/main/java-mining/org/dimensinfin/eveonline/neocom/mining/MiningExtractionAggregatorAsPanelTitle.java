@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 
@@ -58,13 +57,13 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	}
 
 	// - I E X P A N D A B L E
-	@Override
+//	@Override
 	public boolean collapse() {
 		_expanded = false;
 		return _expanded;
 	}
 
-	@Override
+//	@Override
 	public boolean expand() {
 		_expanded = true;
 		return _expanded;
@@ -75,7 +74,7 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 		return this._expanded;
 	}
 
-	@Override
+//	@Override
 	public boolean isEmpty() {
 		return (this.contents.size() <= 0);
 	}
@@ -85,7 +84,7 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	 *
 	 * @return ever true since they cannot be collapsed.
 	 */
-	@Override
+//	@Override
 	public boolean isExpanded() {
 		return true;
 	}
@@ -95,16 +94,16 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	 *
 	 * @return ever false to tell that empty should be removed.
 	 */
-	@Override
+//	@Override
 	public boolean isRenderWhenEmpty() {
 		return false;
 	}
 
-	@Override
-	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
-		_renderIfEmpty = renderWhenEmpty;
-		return this;
-	}
+//	@Override
+//	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
+//		_renderIfEmpty = renderWhenEmpty;
+//		return this;
+//	}
 
 	// - I C O L L A B O R A T I O N
 	@Override

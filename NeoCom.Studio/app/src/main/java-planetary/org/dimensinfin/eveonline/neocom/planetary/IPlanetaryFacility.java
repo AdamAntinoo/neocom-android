@@ -3,43 +3,46 @@ package org.dimensinfin.eveonline.neocom.planetary;
 import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 import org.joda.time.DateTime;
 
-public interface IPlanetaryFacility  extends ICollaboration {
+public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	String getName();
+
+	int getGroupId();
 
 	PlanetaryFacilityType getFacilityType();
 
-	int getIconReferenceId();
-
-	int getStructureColorReference();
-
 	int getBackgroundColor();
+
+	int getIconReferenceId();
 
 	int getIconColorReference();
 
-	DateTime getLastCycleStart();
-
-	Integer getSchematicId();
-
-	List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents();
-
-	double getContentsVolume();
-
-	Float getStorageCapacity();
-
-	CommandCenterFacility getCommandCenter();
+	int getStructureColorReference();
 
 	FacilityGeoPosition getGeoPosition();
 
-	PlanetaryFacility setCommandCenter( final IPlanetaryFacility commandCenter );
+	Integer getSchematicId();
+
+	DateTime getLastCycleStart();
+
+	List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents();
 
 	int getCpuUsage();
 
 	int getPowerUsage();
 
+	FacilityGeoPosition getCommandCenterPosition();
+
+	void setCommandCenterPosition( final FacilityGeoPosition commandCenterPosition );
+
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
+
+	//	double getContentsVolume();
+
+	//	Float getStorageCapacity();
 }

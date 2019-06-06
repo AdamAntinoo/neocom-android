@@ -5,4 +5,6 @@
     <string name="default_planetname">6-CZ49 II</string>
     <string name="default_planettype">BARREN</string>
     <string name="default_facilityname">Command Center</string>
+    <string name="default_cyclestart">2018-01-26T00:39:32Z</string>
+
 </resources>

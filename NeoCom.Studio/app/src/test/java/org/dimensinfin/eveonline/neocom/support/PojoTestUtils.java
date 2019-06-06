@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom;
+package org.dimensinfin.eveonline.neocom.support;
 
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
