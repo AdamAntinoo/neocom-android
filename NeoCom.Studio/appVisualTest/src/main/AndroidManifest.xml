@@ -17,7 +17,7 @@
 
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
-				android:name="appvisualtest.activity.VisualTestsActivity"
+				android:name=".appvisualtest.activity.VisualTestsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Dashdoard"
 				android:theme="@style/AppTheme.NoActionBar">
