@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+	<RelativeLayout
+			android:id="@+id/nodeContainer"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:background="@drawable/uipanelborderdarkblue">
+
+		<include layout="@layout/nodebase4expandnew"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+				android:id="@+id/facilityName"
+				style="@style/AppTheme.TextView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+				android:layout_toRightOf="@+id/nodeIconBlock"
+				android:text="Planetary Facility"
+				android:textSize="14sp"
+				android:textStyle="bold"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/cycleStart"
+				style="@style/AppTheme.TextView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/nodeIconBlock"
+				android:layout_below="@+id/facilityName"
+				android:text="@string/default_cyclestart"
+				android:textSize="12sp"/>
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/cycleElapsed"
+				style="@style/AppTheme.TextView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_toRightOf="@+id/cycleStart"
+				android:layout_below="@+id/facilityName"
+				android:text="@string/default_cyclestart"
+				android:gravity="right"
+				android:textSize="12sp"/>
+	</RelativeLayout>
+</LinearLayout>

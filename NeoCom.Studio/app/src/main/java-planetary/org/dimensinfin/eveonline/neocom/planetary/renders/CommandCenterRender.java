@@ -14,7 +14,11 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	private TextView cpuLevel;
 	private TextView cpuLevelData;
 	private ProgressBar cpuProgress;
-
+	private TextView powerLevel;
+	private TextView powerLevelData;
+	private ProgressBar powerProgress;
+	private TextView fillLevelLabel;
+	private TextView fillLevelNumbers;
 	private ProgressBar storageUsedProgress;
 
 	public CommandCenterRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -35,31 +39,64 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		cpuLevel = this.getView().findViewById(R.id.cpuLevel);
-		cpuLevelData = this.getView().findViewById(R.id.cpuLevelData);
-		cpuProgress = this.getView().findViewById(R.id.cpuProgress);
+		this.cpuLevel = this.getView().findViewById(R.id.cpuLevel);
+		this.cpuLevelData = this.getView().findViewById(R.id.cpuLevelData);
+		this.cpuProgress = this.getView().findViewById(R.id.cpuProgress);
+		this.powerLevel = this.getView().findViewById(R.id.powerLevel);
+		this.powerLevelData = this.getView().findViewById(R.id.powerLevelData);
+		this.powerProgress = this.getView().findViewById(R.id.powerProgress);
+		this.fillLevelLabel = this.getView().findViewById(R.id.fillLevelLabel);
+		this.fillLevelNumbers = this.getView().findViewById(R.id.fillLevelNumbers);
+		this.storageUsedProgress = this.getView().findViewById(R.id.storageUsedProgress);
 	}
 
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		//		String link = this.getController().getModel().getURLForItem();
-		//		Picasso.get().load(link).into(nodeIcon);
 		cpuLevel.setText(pctFormatter.format(this.accessCpuUsagePercentage()));
 		cpuLevelData.setText(this.accessCpuUsage());
 		cpuProgress.setProgress(this.accessCpuUsagePercentage());
+		powerLevel.setText(pctFormatter.format(this.accessPowerUsagePercentage()));
+		powerLevelData.setText(this.accessPowerUsage());
+		powerProgress.setProgress(this.accessPowerUsagePercentage());
+		fillLevelLabel.setText("Capacity used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
+		fillLevelNumbers.setText(this.accessStorageUsed());
+		storageUsedProgress.setProgress(this.accessStorageUsedPercentage());
 	}
 
 	protected int accessCpuUsagePercentage() {
-		return ((CommandCenterFacility)this.getController().getModel()).cpuInUse()
-				                           /
-				                           ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity();
+		return ((CommandCenterFacility) this.getController().getModel()).cpuInUse()
+				       /
+				       ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity();
 	}
 
 	protected String accessCpuUsage() {
-		return ((CommandCenterFacility)this.getController().getModel()).cpuInUse()
+		return ((CommandCenterFacility) this.getController().getModel()).cpuInUse()
 				       + "/"
 				       + ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity()
-				+" Tf";
+				       + " Tf";
+	}
+
+	protected int accessPowerUsagePercentage() {
+		return ((CommandCenterFacility) this.getController().getModel()).powerInUse()
+				       /
+				       ((CommandCenterFacility) this.getController().getModel()).getPowerOutput();
+	}
+
+	protected String accessPowerUsage() {
+		return ((CommandCenterFacility) this.getController().getModel()).powerInUse()
+				       + "/"
+				       + ((CommandCenterFacility) this.getController().getModel()).getPowerOutput()
+				       + " Mw";
+	}
+	protected int accessStorageUsedPercentage() {
+		return 10;
+	}
+
+	protected String accessStorageUsed() {
+		return 100
+				       + "/"
+				       + 500
+				       + " M3";
 	}
 }
