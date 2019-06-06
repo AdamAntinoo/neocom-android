@@ -7,7 +7,7 @@ import java.util.Objects;
 import android.content.SharedPreferences;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 
 public class SplashActionBar implements ICollaboration {
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
@@ -17,7 +17,7 @@ public class SplashActionBar implements ICollaboration {
 	private SplashActionBar() {}
 
 	public String getServerName() {
-		return this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER);
+		return this.preferences.getString(DATASOURCE_PREFERENCE, NeoComComponentFactory.DEFAULT_ESI_SERVER);
 	}
 
 	public String getServerStatus() {

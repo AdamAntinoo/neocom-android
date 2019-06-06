@@ -9,7 +9,7 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
@@ -53,8 +53,8 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
 				       //				       .withApplicationContext(this.getActivityContext().getApplicationContext())
-				       .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
-				       .withCredentialRepository(NeoComAndroid.getSingleton().getCredentialRepository())
+				       .withEsiAdapter(NeoComComponentFactory.getSingleton().getEsiAdapter())
+				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
 				       .build();
 	}
 

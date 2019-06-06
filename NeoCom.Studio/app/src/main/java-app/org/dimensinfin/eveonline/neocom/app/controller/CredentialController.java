@@ -21,7 +21,7 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -39,7 +39,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3.Builder(model, NeoComAndroid.getSingleton().getDownloaderService())
+		this.pilot = new PilotV3.Builder(model, NeoComComponentFactory.getSingleton().getDownloaderService())
 				             .build();
 		this.pilot.addPropertyChangeListener(this);
 	}

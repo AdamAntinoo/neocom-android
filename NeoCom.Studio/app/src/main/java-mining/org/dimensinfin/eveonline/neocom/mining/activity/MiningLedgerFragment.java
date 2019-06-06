@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
@@ -28,7 +28,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withFactory(this.createFactory())
 					       //					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
-					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
+					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
 		if (this.getVariant().equalsIgnoreCase(MiningLedgerActivity.EMiningVariants.MINING_EXTRACTIONS_ALL.name()))
 			return new MiningLedgerDataSourceAll.Builder()
@@ -39,7 +39,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withFactory(this.createFactory())
 					       //					       .withCacheStatus(false)
 					       .withCredential(this.getCredential())
-					       .withMiningRepository(NeoComAndroid.getSingleton().getMiningRepository())
+					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
 		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
 	}

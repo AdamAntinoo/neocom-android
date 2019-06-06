@@ -16,8 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.adapters.ESIAndroidAdapter;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
@@ -67,12 +66,12 @@ public class NeoComApplication extends Application {
 	}
 
 	public static void runTicker() {
-		if (null == timedService) timedService = NeoComAndroid.getSingleton().getTimedService();
+		if (null == timedService) timedService = NeoComComponentFactory.getSingleton().getTimedService();
 		if (null != timedService) timedService.timeTick();
 	}
 
 	public static boolean checkNetworkAccess() {
-		final ConnectivityManager cm = (ConnectivityManager) NeoComAndroid.getSingleton().getApplication()
+		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
 				                                                     .getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
@@ -80,7 +79,7 @@ public class NeoComApplication extends Application {
 	}
 
 	// - F I E L D - S E C T I O N
-	private NeoComAndroid neocom;
+	private NeoComComponentFactory neocom;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public NeoComApplication() {
@@ -97,10 +96,10 @@ public class NeoComApplication extends Application {
 	public void startTimer() {
 		if (null == timeTickReceiver) {
 			final boolean tickActivate = Boolean.valueOf(
-					NeoComAndroid.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
+					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
 							, "true"));
 			final int tickTime = Integer.valueOf(
-					NeoComAndroid.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
+					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
 							, "5"));
 			timeTickReceiver = new TimeTickReceiver.Builder(this)
 					                   .withTickActivate(tickActivate)
@@ -113,7 +112,7 @@ public class NeoComApplication extends Application {
 	//	private TimedUpdater getTimedService() {
 	//		if (null == timedService)
 	//			timedService = new TimedUpdater.Singletoner()
-	//					               .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+	//					               .withESIAdapter(NeoComComponentFactory.getSingleton().getEsiAdapter())
 	//					               .build();
 	//		return timedService;
 	//	}
@@ -127,22 +126,22 @@ public class NeoComApplication extends Application {
 
 		// Connect the file system to be able to read the assets and other application resources stored externally.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
-		AndroidGlobalDataManager.installFileSystem(NeoComAndroid.getSingleton().getFileSystemAdapter());
+		AndroidGlobalDataManager.installFileSystem(NeoComComponentFactory.getSingleton().getFileSystemAdapter());
 
 		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(NeoComAndroid.getSingleton().getConfigurationProvider());
+		AndroidGlobalDataManager.connectConfigurationManager(NeoComComponentFactory.getSingleton().getConfigurationProvider());
 
 		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
-		AndroidGlobalDataManager.connectPreferencesManager(NeoComAndroid.getSingleton().getPreferencesProvider());
-		AndroidGlobalDataManager.connectNeoComDBConnector(NeoComAndroid.getSingleton().getNeoComDBHelper());
+		AndroidGlobalDataManager.connectPreferencesManager(NeoComComponentFactory.getSingleton().getPreferencesProvider());
+		AndroidGlobalDataManager.connectNeoComDBConnector(NeoComComponentFactory.getSingleton().getNeoComDBHelper());
 
 		// Initialize the Model with the current global instance.
 		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
-		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(NeoComAndroid.getSingleton().getConfigurationProvider()
-				, NeoComAndroid.getSingleton().getFileSystemAdapter()
-				, new ESIGlobalAdapter.Builder(NeoComAndroid.getSingleton().getConfigurationProvider()
-				, NeoComAndroid.getSingleton().getFileSystemAdapter())
+		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
+				, NeoComComponentFactory.getSingleton().getFileSystemAdapter()
+				, new ESIGlobalAdapter.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
+				, NeoComComponentFactory.getSingleton().getFileSystemAdapter())
 						  .build())
 				                            .build());
 
@@ -175,12 +174,12 @@ public class NeoComApplication extends Application {
 	public void onCreate() {
 		logger.info(">> [NeoComApplication.onCreate]");
 		super.onCreate();
-		NeoComAndroid.initialiseSingleton(this); // Create the component factory but empty of contents.
+		NeoComComponentFactory.initialiseSingleton(this); // Create the component factory but empty of contents.
 		//		Stetho.initializeWithDefaults(this);
 //		this.oldInitialization();
 		// Do global injections
-		//		EsiItemV2.injectEveItemProvider(NeoComAndroid.getSingleton(.get));
-		EsiItemV2.injectDownloaderService(NeoComAndroid.getSingleton().getDownloaderService());
+		//		EsiItemV2.injectEveItemProvider(NeoComComponentFactory.getSingleton(.get));
+		EsiItemV2.injectDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService());
 
 //		// Check if the SDE database file is at the right place. If not copy it.
 //		if (!AndroidGlobalDataManager.checkAppFile(

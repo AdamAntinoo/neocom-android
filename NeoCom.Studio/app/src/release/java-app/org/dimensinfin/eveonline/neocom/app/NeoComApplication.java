@@ -112,7 +112,7 @@ public class NeoComApplication extends Application {
 	//	private TimedUpdater getTimedService() {
 	//		if (null == timedService)
 	//			timedService = new TimedUpdater.Singletoner()
-	//					               .withESIAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+	//					               .withESIAdapter(NeoComComponentFactory.getSingleton().getEsiAdapter())
 	//					               .build();
 	//		return timedService;
 	//	}
@@ -182,7 +182,7 @@ public class NeoComApplication extends Application {
 		//		Stetho.initializeWithDefaults(this);
 		this.oldInitialization();
 		// Do global injections
-		//		EsiItemV2.injectEveItemProvider(NeoComAndroid.getSingleton(.get));
+		//		EsiItemV2.injectEveItemProvider(NeoComComponentFactory.getSingleton(.get));
 		EsiItemV2.injectDownloaderService(NeoComAndroid.getSingleton().getDownloaderService());
 
 		// Check if the SDE database file is at the right place. If not copy it.

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -24,7 +24,7 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 	private CredentialRepository credentialRepository;
 
 	protected Credential searchCredential( final int identifier ) {
-		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComAndroid.DEFAULT_ESI_SERVER).toLowerCase();
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComComponentFactory.DEFAULT_ESI_SERVER).toLowerCase();
 		for (Credential cred : this.credentialRepository.findAllByServer(esiServer)) {
 			if (cred.getAccountId() == identifier) return cred;
 		}
@@ -83,6 +83,6 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 
 	protected void injectComponents() {
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		this.credentialRepository = NeoComAndroid.getSingleton().getCredentialRepository();
+		this.credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 	}
 }

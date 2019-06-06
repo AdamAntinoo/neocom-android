@@ -45,9 +45,7 @@ android {
         main.java {
             srcDirs += 'src/main/java-visualtests'
             srcDirs += 'src/main-app/java-app'
-//            srcDirs += '../app/src/main/java-app'
-//            srcDirs += '../../app/src/main/java-app'
-//            srcDirs +=  file("$buildDir/generated/source/apt/main")
+            srcDirs += 'src/main/java-appv4'
         }
         debug.java {
         }

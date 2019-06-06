@@ -22,7 +22,7 @@ import android.widget.Toast;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
@@ -76,7 +76,7 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread(() -> {
-			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComAndroid.DEFAULT_ESI_SERVER);
+			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComComponentFactory.DEFAULT_ESI_SERVER);
 			this.esiAdapter.activateEsiServer(esiServer);
 			final Uri url = Uri.parse(this.esiAdapter.getAuthorizationUrl4Server(esiServer));
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
@@ -96,7 +96,7 @@ public class AuthorizationFlowActivity extends Activity {
 		logger.info(">> [AuthorizationFlowActivity.registerInBackground]");
 		logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating access token request.");
 		// Get from the properties the user selected esi source.
-		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComAndroid.DEFAULT_ESI_SERVER).toLowerCase();
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComComponentFactory.DEFAULT_ESI_SERVER).toLowerCase();
 		try {
 			// Create a Retrofit request service to encapsulate the call.
 			final GetAccessToken serviceGetAccessToken = new Retrofit.Builder()
@@ -154,7 +154,7 @@ public class AuthorizationFlowActivity extends Activity {
 				if (verificationResponse.isSuccessful()) {
 					logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Character verification OK.");
 					// Create the credential and store it on the application repository.
-					final CredentialRepository credentialRepository = NeoComAndroid.getSingleton().getCredentialRepository();
+					final CredentialRepository credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
 					final Credential credential = new Credential.Builder(newAccountIdentifier).build();
 					credential.setAccountName(verificationResponse.body().getCharacterName())
@@ -328,8 +328,8 @@ public class AuthorizationFlowActivity extends Activity {
 	}
 
 	private void injectComponents() {
-		this.configurationProvider = NeoComAndroid.getSingleton().getConfigurationProvider();
+		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		this.esiAdapter = NeoComAndroid.getSingleton().getEsiAdapter();
+		this.esiAdapter = NeoComComponentFactory.getSingleton().getEsiAdapter();
 	}
 }

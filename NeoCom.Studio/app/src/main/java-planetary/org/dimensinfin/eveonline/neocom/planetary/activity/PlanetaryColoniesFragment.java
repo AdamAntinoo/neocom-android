@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryDataSource;
@@ -26,7 +26,7 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
 					       .withCredential(this.getCredential())
-					       .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
+					       .withEsiAdapter(NeoComComponentFactory.getSingleton().getEsiAdapter())
 					       .build();
 		throw new NeoComRuntimeException("Planetary variant has not defined Data Source to generate content.");
 	}

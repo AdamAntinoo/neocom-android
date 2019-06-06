@@ -6,10 +6,7 @@ import java.util.Objects;
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
-import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
@@ -29,10 +26,10 @@ import com.j256.ormlite.dao.Dao;
  *
  * @author Adam Antinoo
  */
-public class NeoComAndroid {
+public class NeoComComponentFactory {
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 
-	private static NeoComAndroid singleton;
+	private static NeoComComponentFactory singleton;
 	private static Application application;
 
 	private IConfigurationProvider configurationProvider;
@@ -46,13 +43,13 @@ public class NeoComAndroid {
 	private MiningRepository miningRepository;
 	private TimedUpdater timedService;
 
-	public static NeoComAndroid initialiseSingleton( final Application newApplication ) {
+	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
 		application = newApplication;
-		if (null == singleton) singleton = new NeoComAndroid();
+		if (null == singleton) singleton = new NeoComComponentFactory();
 		return singleton;
 	}
 
-	public static NeoComAndroid getSingleton() {
+	public static NeoComComponentFactory getSingleton() {
 		if (null == singleton)
 			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
 		return singleton;
@@ -108,34 +105,34 @@ public class NeoComAndroid {
 		return this.downloaderService;
 	}
 
-	public TimedUpdater getTimedService() {
-		if (null == this.timedService) {
-			timedService = new TimedUpdater.Builder()
-					               .withESIAdapter(this.getEsiAdapter())
-								   .withPreferencesProvider(this.getPreferencesProvider())
-					               .withESIDataPersistenceService(this.getPersistenceService())
-								   .withCredentialRepository(this.getCredentialRepository())
-					               .build();
-
-		}
-		return this.timedService;
-	}
-
-	public ESIDataPersistenceService getPersistenceService() {
-		if (null == this.persistenceService) {
-			try {
-				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
-				persistenceService = new ESIDataPersistenceService.Builder()
-						                     .withEsiAdapter(esiAdapter)
-						                     .withMiningRepository(this.getMiningRepository())
-						                     .build();
-			} catch (SQLException sqle) {
-				persistenceService = null;
-				Objects.requireNonNull(persistenceService);
-			}
-		}
-		return this.persistenceService;
-	}
+//	public TimedUpdater getTimedService() {
+//		if (null == this.timedService) {
+//			timedService = new TimedUpdater.Builder()
+//					               .withESIAdapter(this.getEsiAdapter())
+//								   .withPreferencesProvider(this.getPreferencesProvider())
+//					               .withESIDataPersistenceService(this.getPersistenceService())
+//								   .withCredentialRepository(this.getCredentialRepository())
+//					               .build();
+//
+//		}
+//		return this.timedService;
+//	}
+//
+//	public ESIDataPersistenceService getPersistenceService() {
+//		if (null == this.persistenceService) {
+//			try {
+//				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
+//				persistenceService = new ESIDataPersistenceService.Builder()
+//						                     .withEsiAdapter(esiAdapter)
+//						                     .withMiningRepository(this.getMiningRepository())
+//						                     .build();
+//			} catch (SQLException sqle) {
+//				persistenceService = null;
+//				Objects.requireNonNull(persistenceService);
+//			}
+//		}
+//		return this.persistenceService;
+//	}
 
 	public CredentialRepository getCredentialRepository() {
 		if (null == this.credentialRepository) {
@@ -151,19 +148,19 @@ public class NeoComAndroid {
 		return this.credentialRepository;
 	}
 
-	public MiningRepository getMiningRepository() {
-		if (null == this.miningRepository) {
-			try {
-				miningRepository = new MiningRepository.Builder()
-						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
-						                   .build();
-			} catch (SQLException sqle) {
-				miningRepository = null;
-				Objects.requireNonNull(miningRepository);
-			}
-		}
-		return this.miningRepository;
-	}
+//	public MiningRepository getMiningRepository() {
+//		if (null == this.miningRepository) {
+//			try {
+//				miningRepository = new MiningRepository.Builder()
+//						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
+//						                   .build();
+//			} catch (SQLException sqle) {
+//				miningRepository = null;
+//				Objects.requireNonNull(miningRepository);
+//			}
+//		}
+//		return this.miningRepository;
+//	}
 
 	public NeoComAndroidDBHelper getNeoComDBHelper() {
 		if (null == this.neocomDBHelper) {

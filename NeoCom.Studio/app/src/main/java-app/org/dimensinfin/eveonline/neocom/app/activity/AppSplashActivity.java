@@ -9,7 +9,7 @@ import android.view.View;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
@@ -66,6 +66,6 @@ public class AppSplashActivity extends ANeoComActivity {
 	}
 
 	protected void injectComponents() {
-		this.configurationProvider = NeoComAndroid.getSingleton().getConfigurationProvider();
+		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 	}
 }
