@@ -45,7 +45,8 @@ android {
         main.java {
             srcDirs += 'src/main/java-visualtests'
             srcDirs += 'src/main-app/java-app'
-            srcDirs += 'src/main/java-appv4'
+            srcDirs += 'src/main-app/java-appv4'
+            srcDirs += 'src/main-app/java-planetary'
         }
         debug.java {
         }
@@ -58,6 +59,7 @@ android {
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-sde'
             srcDirs += 'src/main/res-ui'
+            srcDirs += 'src/main/res-planetary'
         }
         debug.res {
         }

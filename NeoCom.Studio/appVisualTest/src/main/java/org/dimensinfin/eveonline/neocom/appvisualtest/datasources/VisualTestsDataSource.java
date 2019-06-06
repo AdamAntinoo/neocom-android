@@ -1,12 +1,70 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 
 public class VisualTestsDataSource extends AMVCDataSource {
+	private static ESIGlobalAdapter esiAdapter = NeoComComponentFactory.getSingleton().getEsiAdapter();
+	private ColonyPack colonyPack;
+
 	@Override
 	public void prepareModel() {
- // - S P L A S H
+		// - S P L A S H
+		// - P L A N E T A R Y
+		final GetCharactersCharacterIdPlanets200Ok colony = new GetCharactersCharacterIdPlanets200Ok();
+		colony.setOwnerId(92223647);
+		colony.setPlanetId(40208073);
+		colony.setNumPins(1);
+		colony.setUpgradeLevel(1);
+		colony.setSolarSystemId(30003280);
+		colony.setPlanetType(GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum.GAS);
+
+		final GetUniversePlanetsPlanetIdOk planetData = new GetUniversePlanetsPlanetIdOk();
+		planetData.setPlanetId(40208073);
+		planetData.setName("Planet Name IV");
+		planetData.setSystemId(30003280);
+		planetData.setTypeId(2016);
+
+		final GetUniverseTypesTypeIdOk planetItem = new GetUniverseTypesTypeIdOk();
+		planetItem.name("Planet (Barren)");
+		planetItem.typeId(2016);
+		planetItem.groupId(7);
+
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		pin.setPinId(1012696414582L);
+		pin.setTypeId(2524);
+		pin.setG
+
+		final List<IPlanetaryFacility> facilities = new ArrayList<>();
+		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
+				                                            .withPlanetaryFacility(new PlanetaryFacility.Builder()
+						                                                                   .withEsiAdapter(esiAdapter)
+						                                                                   .withPlanetType(PlanetType.GAS)
+						                                                                   .withPlanetItem(planetItem)
+						                                                                   .withPin(pin)
+						                                                                   .build())
+				                                            .build();
+		facilities.add(commandCenter);
+		colonyPack = new ColonyPack.Builder()
+				             .withCapsuleerIdentifier(123456)
+				             .withColony(colony)
+				             .withPlanetData(planetData)
+				             .withFacilities(facilities)
+				             .build();
 
 	}
 
@@ -17,6 +75,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		this.addModelContents(new AppVersion().setName("Visual Test Name"));
 		this.addModelContents(new AppVersion().setVersion("Visual Test Version"));
 
+		// -  P L A N E T A R Y
+		this.addModelContents(colonyPack);
 	}
 
 	// - B U I L D E R
@@ -33,30 +93,5 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		protected Builder getActualBuilder() {
 			return this;
 		}
-
-		//		public Builder withName( final String name ) {
-		//			this.onConstruction.name = name;
-		//			return this;
-		//		}
-		//
-		//		public Builder withVersion( final String version ) {
-		//			this.onConstruction.version = version;
-		//			return this;
-		//		}
-		//
-		//		//			public Builder withApplicationContext( final Context applicationContext ) {
-		//		//				this.getActual().setApplicationContext(applicationContext);
-		//		//				return this;
-		//		//			}
-		//
-		//		public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-		//			this.onConstruction.esiAdapter = esiAdapter;
-		//			return this;
-		//		}
-		//
-		//		public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
-		//			this.onConstruction.credentialRepository = credentialRepository;
-		//			return this;
-		//		}
 	}
 }

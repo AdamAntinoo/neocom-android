@@ -5,6 +5,8 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {
@@ -15,6 +17,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
+		}
+		if (node instanceof ColonyPack) {
+			return new ColonyPackController((ColonyPack) node, this);
 		}
 		return super.createController(node);
 	}

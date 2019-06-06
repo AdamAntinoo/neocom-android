@@ -92,6 +92,7 @@ android {
             srcDirs += 'src/main/res-industry'
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-mining'
+            srcDirs += 'src/main/res-planetary'
             srcDirs += 'src/main/res-sde'
             srcDirs += 'src/main/res-ui'
         }

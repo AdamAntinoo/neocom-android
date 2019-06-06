@@ -187,5 +187,12 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 					new String[]{Manifest.permission.INTERNET},
 					20);
 		}
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+					30);
+		}
 	}
 }
