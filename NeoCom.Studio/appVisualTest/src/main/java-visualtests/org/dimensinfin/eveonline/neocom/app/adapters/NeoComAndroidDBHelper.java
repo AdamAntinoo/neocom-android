@@ -6,10 +6,15 @@ import java.util.Objects;
 import android.content.Context;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 
 public class NeoComAndroidDBHelper {
 	private static Logger logger = LoggerFactory.getLogger(NeoComAndroidDBHelper.class);
@@ -31,6 +36,14 @@ public class NeoComAndroidDBHelper {
 				, databaseVersion);
 		this.storageLocation = databaseName;
 		this.databaseVersion = databaseVersion;
+	}
+
+//	@Override
+	public Dao<Credential, String> getCredentialDao() throws SQLException {
+//		if (null == credentialDao) {
+//			credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
+//		}
+		return  Mockito.mock(Dao.class);
 	}
 
 	// -  B U I L D E R
