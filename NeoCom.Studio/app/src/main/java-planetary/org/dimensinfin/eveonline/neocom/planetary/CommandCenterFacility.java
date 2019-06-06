@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 
 public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacility {
 	private IPlanetaryFacility planetaryFacility;
+	private int level = 0;
 	private int cpuCapacity = -1;
 	private int powerOutput = -1;
 	private int cpuInUse = -1;
@@ -157,6 +158,13 @@ public class CommandCenterFacility extends NeoComNode implements IPlanetaryFacil
 
 		public Builder withPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 			this.onConstruction.planetaryFacility = planetaryFacility;
+			return this;
+		}
+
+		public Builder withLevel( final int level ) {
+			this.onConstruction.level = level;
+			this.onConstruction.cpuCapacity=CommandCenterType.getTypeByLevelAndPlanetType(level).getCpuCapacity();
+			this.onConstruction.powerOutput=CommandCenterType.getTypeByLevelAndPlanetType(level).getPowerOutput();
 			return this;
 		}
 

@@ -214,7 +214,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-		public Builder withPlanetItem( final GetUniverseTypesTypeIdOk planetItem ) {
+		public Builder withFacitityItem( final GetUniverseTypesTypeIdOk planetItem ) {
 			this.onConstruction.planetItemDelegate = planetItem;
 			return this;
 		}

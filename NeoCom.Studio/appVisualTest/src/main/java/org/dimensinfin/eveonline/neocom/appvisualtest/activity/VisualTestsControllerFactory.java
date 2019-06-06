@@ -6,7 +6,10 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {
@@ -20,6 +23,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof ColonyPack) {
 			return new ColonyPackController((ColonyPack) node, this);
+		}
+		if (node instanceof CommandCenterFacility) {
+			return new PlanetaryFacilityController((PlanetaryFacility) node, this);
 		}
 		return super.createController(node);
 	}

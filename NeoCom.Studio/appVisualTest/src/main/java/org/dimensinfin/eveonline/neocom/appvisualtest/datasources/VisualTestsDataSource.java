@@ -41,20 +41,26 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		final GetUniverseTypesTypeIdOk planetItem = new GetUniverseTypesTypeIdOk();
 		planetItem.name("Planet (Barren)");
-		planetItem.typeId(2016);
-		planetItem.groupId(7);
+		planetItem.typeId(2524);
+		planetItem.groupId(1027);
+		final GetUniverseTypesTypeIdOk facilityItem = new GetUniverseTypesTypeIdOk();
+		facilityItem.name("Barren Command Center");
+		facilityItem.typeId(2524);
+		facilityItem.groupId(1027);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
 		pin.setTypeId(2524);
-		pin.setG
+		//		pin.setG
 
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
+															.withLevel(colony.getUpgradeLevel())
 				                                            .withPlanetaryFacility(new PlanetaryFacility.Builder()
 						                                                                   .withEsiAdapter(esiAdapter)
 						                                                                   .withPlanetType(PlanetType.GAS)
 						                                                                   .withPlanetItem(planetItem)
+						                                                                   .withFacitityItem(facilityItem)
 						                                                                   .withPin(pin)
 						                                                                   .build())
 				                                            .build();
