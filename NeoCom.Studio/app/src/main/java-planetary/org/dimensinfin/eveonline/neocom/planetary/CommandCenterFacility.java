@@ -8,12 +8,12 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
-	private IPlanetaryFacility planetaryFacility;
 	private int level = 0;
 	private int cpuCapacity = -1;
 	private int powerOutput = -1;
 	private int cpuInUse = -1;
 	private int powerInUse = -1;
+//	private IPlanetaryFacility planetaryFacility;
 	private PlanetaryStorage planetaryStorage;
 
 	// - I C O L L A B O R A T I O N
@@ -81,9 +81,10 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 
 		public Builder withLevel( final int level ) {
 			this.onConstruction.level = level;
-			this.onConstruction.cpuCapacity=CommandCenterType.getTypeByLevelAndPlanetType(level).getCpuCapacity();
-			this.onConstruction.powerOutput=CommandCenterType.getTypeByLevelAndPlanetType(level).getPowerOutput();
-			return this;}
+			this.onConstruction.cpuCapacity = CommandCenterType.getTypeByLevelAndPlanetType(level).getCpuCapacity();
+			this.onConstruction.powerOutput = CommandCenterType.getTypeByLevelAndPlanetType(level).getPowerOutput();
+			return this;
+		}
 
 		public Builder withPlanetaryStorage( final PlanetaryStorage planetaryStorage ) {
 			this.onConstruction.planetaryStorage = planetaryStorage;

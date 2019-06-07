@@ -7,7 +7,8 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
@@ -25,7 +26,8 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 			return new ColonyPackController((ColonyPack) node, this);
 		}
 		if (node instanceof CommandCenterFacility) {
-			return new PlanetaryFacilityController((PlanetaryFacility) node, this);
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
+					       .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name());
 		}
 		return super.createController(node);
 	}

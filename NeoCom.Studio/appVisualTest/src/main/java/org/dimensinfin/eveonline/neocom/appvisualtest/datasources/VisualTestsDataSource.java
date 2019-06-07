@@ -6,8 +6,11 @@ import java.util.List;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
@@ -16,6 +19,7 @@ import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 
 public class VisualTestsDataSource extends AMVCDataSource {
 	private static ESIGlobalAdapter esiAdapter = NeoComComponentFactory.getSingleton().getEsiAdapter();
@@ -29,7 +33,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		colony.setOwnerId(92223647);
 		colony.setPlanetId(40208073);
 		colony.setNumPins(1);
-		colony.setUpgradeLevel(1);
+		colony.setUpgradeLevel(2);
 		colony.setSolarSystemId(30003280);
 		colony.setPlanetType(GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum.GAS);
 
@@ -39,32 +43,43 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		planetData.setSystemId(30003280);
 		planetData.setTypeId(2016);
 
-		final GetUniverseTypesTypeIdOk planetItem = new GetUniverseTypesTypeIdOk();
-		planetItem.name("Planet (Barren)");
-		planetItem.typeId(2524);
-		planetItem.groupId(1027);
-		final GetUniverseTypesTypeIdOk facilityItem = new GetUniverseTypesTypeIdOk();
-		facilityItem.name("Barren Command Center");
-		facilityItem.typeId(2524);
-		facilityItem.groupId(1027);
+//		final GetUniverseTypesTypeIdOk planetItemEsi = new GetUniverseTypesTypeIdOk();
+//		planetItemEsi.name("Planet (Barren)");
+//		planetItemEsi.typeId(2524);
+//		planetItemEsi.groupId(1027);
+//		final EsiItemV2 planetItem = new EsiItemV2(planetItemEsi);
+		final GetUniverseTypesTypeIdOk facilityItemEsi = new GetUniverseTypesTypeIdOk();
+		facilityItemEsi.name("Barren Command Center");
+		facilityItemEsi.typeId(2524);
+		facilityItemEsi.groupId(1027);
+		final EsiItemV2 facilityItem = new EsiItemV2(facilityItemEsi);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
 		pin.setTypeId(2524);
-		//		pin.setG
+		pin.setLatitude(0.0F);
+		pin.setLongitude(0.0F);
+
+		GetCharactersCharacterIdPlanetsPlanetIdOkContents content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(3689);
+		content.setAmount(1000L);
+		pin.addContentsItem(content);
 
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
+		final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
+				                                        .withEsiAdapter(esiAdapter)
+				                                        .withPlanetType(PlanetType.GAS)
+				                                        //						                                                                   .withPlanetItem(planetItem)
+				                                        .withFacitityItem(facilityItem)
+				                                        .withPin(pin)
+				                                        .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
-															.withLevel(colony.getUpgradeLevel())
-				                                            .withPlanetaryFacility(new PlanetaryFacility.Builder()
-						                                                                   .withEsiAdapter(esiAdapter)
-						                                                                   .withPlanetType(PlanetType.GAS)
-						                                                                   .withPlanetItem(planetItem)
-						                                                                   .withFacitityItem(facilityItem)
-						                                                                   .withPin(pin)
-						                                                                   .build())
+				                                            .withLevel(colony.getUpgradeLevel())
+				                                            .withPlanetaryFacility(baseFacility)
+				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 				                                            .build();
 		facilities.add(commandCenter);
+		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
 				             .withCapsuleerIdentifier(123456)
 				             .withColony(colony)
@@ -76,13 +91,16 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 	@Override
 	public void collaborate2Model() {
-		// - S P L A S H
-		this.addModelContents(new AppVersion());
-		this.addModelContents(new AppVersion().setName("Visual Test Name"));
-		this.addModelContents(new AppVersion().setVersion("Visual Test Version"));
-
-		// -  P L A N E T A R Y
-		this.addModelContents(colonyPack);
+		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.SPLASH.name())) {
+			// - S P L A S H
+			this.addModelContents(new AppVersion());
+			this.addModelContents(new AppVersion().setName("Visual Test Name"));
+			this.addModelContents(new AppVersion().setVersion("Visual Test Version"));
+		}
+		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.PLANETARY_COMMANDCENTER.name())) {
+			// -  P L A N E T A R Y
+			this.addModelContents(colonyPack);
+		}
 	}
 
 	// - B U I L D E R

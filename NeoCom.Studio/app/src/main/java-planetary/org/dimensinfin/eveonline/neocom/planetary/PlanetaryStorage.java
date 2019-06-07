@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
+import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.mining.IContainerAggregator;
 
 public class PlanetaryStorage implements IContainerAggregator<PlanetaryResouceV2> {
 	private List<PlanetaryResouceV2> contents=new ArrayList<>();
@@ -14,10 +14,8 @@ public class PlanetaryStorage implements IContainerAggregator<PlanetaryResouceV2
 	 * Transform the default esi data into an aggregator data to be used on facilities.
 	 */
 	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents ) {
-		//		this.contents = contents;
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 			int quantity = 0;
-//			final Long qty = ;
 			if ( null != resource.getAmount())quantity=resource.getAmount().intValue();
 			this.contents.add(new PlanetaryResouceV2(new EsiItemV2(resource.getTypeId()),quantity));
 		}

@@ -8,6 +8,7 @@ import java.util.List;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 
 public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> extends PanelTitle implements IContainerAggregator<T>, PropertyChangeListener {
