@@ -6,6 +6,7 @@ import java.util.Objects;
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
@@ -17,6 +18,9 @@ import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This is a singleton with global access that will contain application component references so they can be injected to other components. The creation
  * of those components will be down internally on demand and with the knowledge of what components depend on other components.
@@ -24,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
  * @author Adam Antinoo
  */
 public class NeoComComponentFactory {
+	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 
 	private static NeoComComponentFactory singleton;
@@ -31,8 +36,10 @@ public class NeoComComponentFactory {
 
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
+	@Deprecated
 	private IGlobalPreferencesManager preferencesProvider;
 	private ESIGlobalAdapter esiAdapter;
+	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
@@ -58,6 +65,7 @@ public class NeoComComponentFactory {
 		return application;
 	}
 
+	// - A C C E S S O R S
 	public IConfigurationProvider getConfigurationProvider() {
 		if (null == this.configurationProvider) {
 			this.configurationProvider = new AndroidConfigurationProvider.Builder(
@@ -68,6 +76,7 @@ public class NeoComComponentFactory {
 		return this.configurationProvider;
 	}
 
+	@Deprecated
 	public IGlobalPreferencesManager getPreferencesProvider() {
 		if (null == this.preferencesProvider) {
 			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
@@ -86,6 +95,7 @@ public class NeoComComponentFactory {
 		return this.fileSystemAdapter;
 	}
 
+	@Deprecated
 	public ESIGlobalAdapter getEsiAdapter() {
 		if (null == this.esiAdapter) {
 			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
@@ -94,9 +104,22 @@ public class NeoComComponentFactory {
 		return this.esiAdapter;
 	}
 
+	public ESIDataAdapter getEsiDataAdapter() {
+		if (null == this.esiDataAdapter) {
+			//			try {
+			esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+					                 .build();
+			//			} catch (IOException ioe) {
+			//				logger.info("EX [NeoComComponentFactory.getEsiDataAdapter]> Unable to create ESI data adapter because failure on external cache.");
+			//				throw new NeoComRuntimeException(ioe.getMessage());
+			//			}
+		}
+		return this.esiDataAdapter;
+	}
+
 	public DataDownloaderService getDownloaderService() {
 		if (null == this.downloaderService) {
-			downloaderService = new DataDownloaderService.Builder(this.getEsiAdapter())
+			downloaderService = new DataDownloaderService.Builder(this.getEsiDataAdapter())
 					                    .build();
 		}
 		return this.downloaderService;

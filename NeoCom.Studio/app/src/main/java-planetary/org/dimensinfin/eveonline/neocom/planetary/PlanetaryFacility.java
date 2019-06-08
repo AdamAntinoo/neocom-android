@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
@@ -21,7 +22,7 @@ import org.joda.time.DateTime;
  */
 public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility, ICollaboration, IUniqueModel {
 	// TODO - Remove this dependency required only to calculate volumes this is not required for base facilities.
-	private ESIGlobalAdapter esiAdapter;
+	private ESIDataAdapter esiDataAdapter;
 	private GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
 	private EsiItemV2 planetItemDelegate; // The item data for the installation referenced.
 	private FacilityGeoPosition commandCenterPosition;
@@ -193,7 +194,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 //	private double calculateContentsVolume() {
 //		double volumeUsed = 0.0;
 //		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents cont : this.getContents()) {
-//			final GetUniverseTypesTypeIdOk contentItem = this.esiAdapter.getUniverseTypeById(cont.getTypeId());
+//			final GetUniverseTypesTypeIdOk contentItem = this.esiDataAdapter.getUniverseTypeById(cont.getTypeId());
 //			if (null == contentItem) volumeUsed += cont.getAmount() * contentItem.getVolume();
 //			else volumeUsed += cont.getAmount() * contentItem.getVolume();
 //		}
@@ -229,8 +230,8 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-		public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-			this.onConstruction.esiAdapter = esiAdapter;
+		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 
@@ -243,10 +244,10 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			Objects.requireNonNull(this.onConstruction.pinDelegate);
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
-			Objects.requireNonNull(this.onConstruction.esiAdapter);
+			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			if (null != this.onConstruction.pinDelegate.getSchematicId()) {
 				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
-						                                .withSchematic(this.onConstruction.esiAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
+						                                .withSchematic(this.onConstruction.esiDataAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
 						                                .build();
 			}
 //			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();

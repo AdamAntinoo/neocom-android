@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
@@ -19,10 +20,12 @@ import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIGlobalAdapter esiAdapter;
+	protected ESIDataAdapter esiDataAdapter;
 
-	protected ESIGlobalAdapter getEsiAdapter(){
-		return this.esiAdapter;
+	protected ESIDataAdapter getEsiAdapter() {
+		return this.esiDataAdapter;
 	}
+
 	/**
 	 * Convert the list of facilities received from ESI to out own model structures. Facilities should be interconnected in another way
 	 * to allow the access to some other functions. Also there are special characteristics only available on some facilities depending
@@ -44,19 +47,19 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 					                                        .withPin(facility)
 					                                        .withPlanetType(planetType)
 					                                        .withPlanetItem(facilityItem)
-					                                        .withEsiAdapter(this.getEsiAdapter())
+					                                        .withEsiDataAdapter(this.getEsiAdapter())
 					                                        .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:
 					facilities.add(new CommandCenterFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
-							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
+							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
 							               .build());
 					break;
 				case STORAGE:
 					facilities.add(new StorageFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
-							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
+							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
 							               .build());
 					break;
 				default:

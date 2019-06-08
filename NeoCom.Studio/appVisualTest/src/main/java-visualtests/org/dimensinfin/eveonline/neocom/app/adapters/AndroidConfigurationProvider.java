@@ -16,17 +16,13 @@ import com.annimon.stream.Stream;
  * @author Adam Antinoo
  */
 public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
-	// - F I E L D - S E C T I O N
 	private Context applicationContext;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	private AndroidConfigurationProvider( final String propertiesFolder/*, final Application applicationContext */ ) {
+	// - C O N S T R U C T O R S
+	private AndroidConfigurationProvider( final String propertiesFolder ) {
 		super(propertiesFolder);
-		//		this.applicationContext = applicationContext;
-		//		initialize();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void readAllProperties() {
 		logger.info(">> [AndroidConfigurationProvider.readAllProperties]");
 		// Read all .properties files under the predefined path on the /assets folder.

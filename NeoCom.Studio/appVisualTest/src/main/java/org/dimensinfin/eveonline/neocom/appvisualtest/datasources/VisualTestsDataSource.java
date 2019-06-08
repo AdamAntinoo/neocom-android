@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
@@ -22,7 +22,7 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 
 public class VisualTestsDataSource extends AMVCDataSource {
-	private static ESIGlobalAdapter esiAdapter = NeoComComponentFactory.getSingleton().getEsiAdapter();
+	private ESIDataAdapter esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 	private ColonyPack colonyPack;
 
 	@Override
@@ -43,11 +43,6 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		planetData.setSystemId(30003280);
 		planetData.setTypeId(2016);
 
-//		final GetUniverseTypesTypeIdOk planetItemEsi = new GetUniverseTypesTypeIdOk();
-//		planetItemEsi.name("Planet (Barren)");
-//		planetItemEsi.typeId(2524);
-//		planetItemEsi.groupId(1027);
-//		final EsiItemV2 planetItem = new EsiItemV2(planetItemEsi);
 		final GetUniverseTypesTypeIdOk facilityItemEsi = new GetUniverseTypesTypeIdOk();
 		facilityItemEsi.name("Barren Command Center");
 		facilityItemEsi.typeId(2524);
@@ -67,7 +62,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
-				                                        .withEsiAdapter(esiAdapter)
+				                                        .withEsiDataAdapter(esiDataAdapter)
 				                                        .withPlanetType(PlanetType.GAS)
 				                                        //						                                                                   .withPlanetItem(planetItem)
 				                                        .withFacitityItem(facilityItem)
@@ -76,7 +71,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
 				                                            .withLevel(colony.getUpgradeLevel())
 				                                            .withPlanetaryFacility(baseFacility)
-				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
+				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
 				                                            .build();
 		facilities.add(commandCenter);
 		colony.setNumPins(facilities.size());

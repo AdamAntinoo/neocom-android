@@ -141,26 +141,14 @@ android {
 }
 
 //--- T A S K S   C O M P L E M E N T A R Y
-// Clean up the resources received from other modules.
-// Needs to be executed manually because it is dangerous to leave this decision to the build.
-//task cleanUpResources(type: Delete) {
-//    delete 'src/main/resources/sdecontents'
-//    delete 'src/main/resources/yaml'
-//}
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
-//task copyResources(type: Copy) {
-//    copy {
-//        // NeoCom.Model Properties
-//        println 'Copy :NeoCom.Model resources to :NeoCom:MicroServices'
-//        from project(':NeoCom.Model').file('src/main/resources')
-//        into file('src/main/assets')
-//    }
-//    copy {
-//        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
-//        from project(':NeoCom.DataManagement').file('src/main/resources')
-//        into file('src/main/assets')
-//    }
-//}
+task copyResources(type: Copy) {
+    copy {
+        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
+        from project(':NeoCom.DataManagement').file('src/main/resources')
+        into file('src/main/assets')
+    }
+}
 
 // - P R O D U C T   V E R S I O N S
 ext {

@@ -1,11 +1,13 @@
 package org.dimensinfin.eveonline.neocom.app.adapters;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
@@ -14,12 +16,19 @@ import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
+import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -30,6 +39,7 @@ import com.j256.ormlite.dao.Dao;
  * @author Adam Antinoo
  */
 public class NeoComComponentFactory {
+	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 
 	private static NeoComComponentFactory singleton;
@@ -39,6 +49,7 @@ public class NeoComComponentFactory {
 	private IFileSystem fileSystemAdapter;
 	private IGlobalPreferencesManager preferencesProvider;
 	private ESIGlobalAdapter esiAdapter;
+	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
@@ -100,9 +111,26 @@ public class NeoComComponentFactory {
 		return this.esiAdapter;
 	}
 
+	public ESIDataAdapter getEsiDataAdapter() {
+		if (null == this.esiDataAdapter) {
+//			try {
+				esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+						                 .build();
+				// TODO - Connect to dependent classes while the code is converted to external injection.
+				EsiItemV2.injectDownloaderService(this.getDownloaderService());
+				MarketDataSet.injectEsiDataAdapter(this.getEsiDataAdapter());
+				EveItem.injectEsiDataAdapter(this.getEsiDataAdapter());
+//			} catch (IOException ioe) {
+//				logger.info("EX [NeoComComponentFactory.getEsiDataAdapter]> Unable to create ESI data adapter because failure on external cache.");
+//				throw new NeoComRuntimeException(ioe.getMessage());
+//			}
+		}
+		return this.esiDataAdapter;
+	}
+
 	public DataDownloaderService getDownloaderService() {
 		if (null == this.downloaderService) {
-			downloaderService = new DataDownloaderService.Builder(this.getEsiAdapter())
+			downloaderService = new DataDownloaderService.Builder(this.getEsiDataAdapter())
 					                    .build();
 		}
 		return this.downloaderService;
@@ -112,9 +140,9 @@ public class NeoComComponentFactory {
 		if (null == this.timedService) {
 			timedService = new TimedUpdater.Builder()
 					               .withESIAdapter(this.getEsiAdapter())
-								   .withPreferencesProvider(this.getPreferencesProvider())
+					               .withPreferencesProvider(this.getPreferencesProvider())
 					               .withESIDataPersistenceService(this.getPersistenceService())
-								   .withCredentialRepository(this.getCredentialRepository())
+					               .withCredentialRepository(this.getCredentialRepository())
 					               .build();
 
 		}

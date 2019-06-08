@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -20,6 +22,7 @@ import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalData
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	protected Credential credential;
+	protected ESIDataAdapter esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 	protected MiningRepository miningRepository; // The mining persistence repository definition.
 	//	private PanelTitle sectionTitle; // The panel title for the data section
 	protected List<MiningExtraction> extractions;
@@ -136,7 +139,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 		if (this.resources.containsKey(typeId)) {
 			final Resource hit = this.resources.get(typeId);
 			hit.add(qty);
-		} else this.resources.put(typeId, new Resource(typeId, qty));
+		} else this.resources.put(typeId, new Resource.Builder(qty).withEveItem(this.esiDataAdapter.searchEsiItem4Id(typeId)).build());
 	}
 
 	private boolean search4PreviousHour( final MiningExtraction extraction, final Map<String, MiningExtraction> ids ) {

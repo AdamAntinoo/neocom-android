@@ -21,7 +21,6 @@ import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
@@ -143,6 +142,7 @@ public class NeoComApplication extends Application {
 				, new ESIGlobalAdapter.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
 				, NeoComComponentFactory.getSingleton().getFileSystemAdapter())
 						  .build())
+				                            .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				                            .build());
 
 		// Connect the SDE database.
@@ -179,18 +179,18 @@ public class NeoComApplication extends Application {
 		this.oldInitialization();
 		// Do global injections
 		//		EsiItemV2.injectEveItemProvider(NeoComComponentFactory.getSingleton(.get));
-		EsiItemV2.injectDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService());
+		//		EsiItemV2.injectDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService());
 
-//		// Check if the SDE database file is at the right place. If not copy it.
-//		if (!AndroidGlobalDataManager.checkAppFile(
-//				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
-//			// TODO The CCP database is not distributed with the application. If not available then close the App
-//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
-//		}
+		//		// Check if the SDE database file is at the right place. If not copy it.
+		//		if (!AndroidGlobalDataManager.checkAppFile(
+		//				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
+		//			// TODO The CCP database is not distributed with the application. If not available then close the App
+		//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
+		//		}
 
 		// Connect the Timed Updater scan.
 		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
-//		startTimer();
+		//		startTimer();
 		logger.info("<< [NeoComApp.onCreate]");
 	}
 
