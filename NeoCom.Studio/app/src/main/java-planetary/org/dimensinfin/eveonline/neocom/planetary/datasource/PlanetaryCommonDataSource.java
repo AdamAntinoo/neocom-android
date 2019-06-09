@@ -7,8 +7,8 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
@@ -40,13 +40,13 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			, final PlanetType planetType ) {
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			final EsiItemV2 facilityItem = new EsiItemV2(this.getEsiAdapter().getUniverseTypeById(facility.getTypeId())); // The item for this facility.
+			final EveItem facilityItem = new EveItem(this.getEsiAdapter().getUniverseTypeById(facility.getTypeId())); // The item for this facility.
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
 			final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 					                                        .withPin(facility)
 					                                        .withPlanetType(planetType)
-					                                        .withPlanetItem(facilityItem)
+					                                        .withFacitityItem(facilityItem)
 					                                        .withEsiDataAdapter(this.getEsiAdapter())
 					                                        .build();
 			switch (facilityType) {

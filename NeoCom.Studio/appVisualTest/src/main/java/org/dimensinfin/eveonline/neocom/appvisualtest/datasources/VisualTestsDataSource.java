@@ -8,12 +8,12 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
@@ -47,7 +47,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		facilityItemEsi.name("Barren Command Center");
 		facilityItemEsi.typeId(2524);
 		facilityItemEsi.groupId(1027);
-		final EsiItemV2 facilityItem = new EsiItemV2(facilityItemEsi);
+		final EveItem facilityItem = new EveItem(facilityItemEsi);
+		final EveItem facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
@@ -64,8 +65,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 				                                        .withEsiDataAdapter(esiDataAdapter)
 				                                        .withPlanetType(PlanetType.GAS)
-				                                        //						                                                                   .withPlanetItem(planetItem)
-				                                        .withFacitityItem(facilityItem)
+				                                        .withFacitityItem(facilityItem2)
 				                                        .withPin(pin)
 				                                        .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
@@ -81,7 +81,6 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				             .withPlanetData(planetData)
 				             .withFacilities(facilities)
 				             .build();
-
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
@@ -56,7 +56,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 			this.commandCenter = new CommandCenterFacility.Builder()
 					                     .withPlanetaryFacility(new PlanetaryFacility.Builder()
 							                                            .withEsiAdapter(this.esiAdapter)
-							                                            .withPlanetItem(new EsiItemV2(this.esiAdapter.getUniverseTypeById(2550)))
+							                                            .withPlanetItem(new EveItem(this.esiAdapter.getUniverseTypeById(2550)))
 							                                            .withPlanetType(PlanetType.STORM)
 							                                            .withPin(structure)
 							                                            .build())

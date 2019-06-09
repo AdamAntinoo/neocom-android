@@ -7,11 +7,10 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import org.joda.time.DateTime;
@@ -24,7 +23,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	// TODO - Remove this dependency required only to calculate volumes this is not required for base facilities.
 	private ESIDataAdapter esiDataAdapter;
 	private GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
-	private EsiItemV2 planetItemDelegate; // The item data for the installation referenced.
+	private EveItem planetItemDelegate; // The item data for the installation referenced.
 	private FacilityGeoPosition commandCenterPosition;
 	private PlanetarySchematic schematic;
 	private PlanetType planetType = PlanetType.BARREN;
@@ -214,13 +213,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-		@Deprecated
-		public Builder withPlanetItem( final EsiItemV2 planetItem ) {
-			this.onConstruction.planetItemDelegate = planetItem;
-			return this;
-		}
-
-		public Builder withFacitityItem( final EsiItemV2 planetItem ) {
+		public Builder withFacitityItem( final EveItem planetItem ) {
 			this.onConstruction.planetItemDelegate = planetItem;
 			return this;
 		}

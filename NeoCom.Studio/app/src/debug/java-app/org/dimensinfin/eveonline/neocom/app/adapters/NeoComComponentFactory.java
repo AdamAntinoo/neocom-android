@@ -1,6 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.adapters;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -16,8 +15,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESINetworkManager;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
@@ -117,7 +114,7 @@ public class NeoComComponentFactory {
 				esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
 						                 .build();
 				// TODO - Connect to dependent classes while the code is converted to external injection.
-				EsiItemV2.injectDownloaderService(this.getDownloaderService());
+//				EsiItemV2.injectDownloaderService(this.getDownloaderService());
 				MarketDataSet.injectEsiDataAdapter(this.getEsiDataAdapter());
 				EveItem.injectEsiDataAdapter(this.getEsiDataAdapter());
 //			} catch (IOException ioe) {

@@ -13,7 +13,6 @@ import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningControllerFactory;
@@ -45,7 +44,7 @@ public class MiningLedgerDataSourceTodayTest {
 		final Dao dao = Mockito.mock(Dao.class);
 		ANeoComEntity.connectGlobal(global);
 		final DataDownloaderService downloader = Mockito.mock(DataDownloaderService.class);
-		EsiItemV2.injectDownloaderService(downloader);
+//		EsiItemV2.injectDownloaderService(downloader);
 		//		Mockito.when(ANeoComEntity.accessGlobal()).thenReturn(global);
 		Mockito.when(global.getNeocomDBHelper()).thenReturn(helper);
 		Mockito.when(helper.getMiningExtractionDao()).thenReturn(dao);

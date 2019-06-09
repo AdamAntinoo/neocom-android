@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.domain.EsiItemV2;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSchematicIdOk;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
 
 import org.junit.Assert;
@@ -20,7 +20,7 @@ public class PlanetaryFacilityTest {
 	private static final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
 	private static final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
 	private static final GetUniverseSchematicsSchematicIdOk schematic=Mockito.mock(GetUniverseSchematicsSchematicIdOk.class);
-	private static final EsiItemV2 planetItem = Mockito.mock(EsiItemV2.class);
+	private static final EveItem planetItem = Mockito.mock(EveItem.class);
 
 	@Before
 	public void setUp()  {
@@ -74,7 +74,7 @@ public class PlanetaryFacilityTest {
 
 	@Test
 	public void getName() {
-		final EsiItemV2 resourceItem = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItem = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItem.getName()).thenReturn("TEST FACILITY - NOT USABLE");
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
@@ -89,7 +89,7 @@ public class PlanetaryFacilityTest {
 
 //	@Test
 	public void getStorageCapacity() {
-		final EsiItemV2 resourceItem = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItem = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItem.getCapacity()).thenReturn((float) 100.0);
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
@@ -150,7 +150,7 @@ public class PlanetaryFacilityTest {
 
 //	@Test
 	public void getContentsVolume() {
-		final EsiItemV2 resourceItem = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItem = Mockito.mock(EveItem.class);
 		final GetCharactersCharacterIdPlanetsPlanetIdOkContents planetContent = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkContents.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
 		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
@@ -206,9 +206,9 @@ public class PlanetaryFacilityTest {
 	@Test
 	public void compareTo_less() {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
-		final EsiItemV2 resourceItemA = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemA = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - A");
-		final EsiItemV2 resourceItemB = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemB = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - B");
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
@@ -229,9 +229,9 @@ public class PlanetaryFacilityTest {
 	@Test
 	public void compareTo_equal() {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
-		final EsiItemV2 resourceItemA = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemA = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - A");
-		final EsiItemV2 resourceItemB = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemB = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - A");
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
@@ -252,9 +252,9 @@ public class PlanetaryFacilityTest {
 	@Test
 	public void compareTo_greater() {
 		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
-		final EsiItemV2 resourceItemA = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemA = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - B");
-		final EsiItemV2 resourceItemB = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemB = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemB.getName()).thenReturn("TEST FACILITY - A");
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
@@ -275,7 +275,7 @@ public class PlanetaryFacilityTest {
 	@Test
 	public void compareTo_other() {
 //		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
-		final EsiItemV2 resourceItemA = Mockito.mock(EsiItemV2.class);
+		final EveItem resourceItemA = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - B");
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
