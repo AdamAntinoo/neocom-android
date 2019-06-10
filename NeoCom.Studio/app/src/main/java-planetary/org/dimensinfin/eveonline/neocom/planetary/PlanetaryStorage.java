@@ -25,10 +25,7 @@ public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 			int quantity = 0;
 			if (null != resource.getAmount()) quantity = resource.getAmount().intValue();
-			this.contents.add(new PlanetaryResource.Builder()
-					                  .withEveItem(esiDataAdapter.searchEsiItem4Id(resource.getTypeId()))
-					                  .withQuantity(quantity)
-					                  .build());
+			this.contents.add(new PlanetaryResource(resource.getTypeId(), quantity));
 		}
 	}
 

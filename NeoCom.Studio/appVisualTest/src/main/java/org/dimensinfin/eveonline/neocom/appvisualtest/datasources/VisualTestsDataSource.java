@@ -47,8 +47,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		facilityItemEsi.name("Barren Command Center");
 		facilityItemEsi.typeId(2524);
 		facilityItemEsi.groupId(1027);
-		final EveItem facilityItem = new EveItem(facilityItemEsi);
-		final EveItem facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
+		final EveItem facilityItem = new EveItem(2524);
+		final GetUniverseTypesTypeIdOk facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
@@ -65,7 +65,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 				                                        .withEsiDataAdapter(esiDataAdapter)
 				                                        .withPlanetType(PlanetType.GAS)
-				                                        .withFacitityItem(facilityItem2)
+				                                        .withFacilityItem(facilityItem)
 				                                        .withPin(pin)
 				                                        .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()

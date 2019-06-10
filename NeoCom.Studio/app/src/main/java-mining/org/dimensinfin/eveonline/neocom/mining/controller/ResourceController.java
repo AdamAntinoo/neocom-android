@@ -76,7 +76,7 @@ public class ResourceController extends AAndroidController<Resource> {
 		}
 
 		private String accessResourceValue() {
-			final double value = this.getController().getModel().getItem().getBaseprice() * this.getController().getModel().getQuantity();
+			final double value = this.getController().getModel().getItem().getPrice() * this.getController().getModel().getQuantity();
 			return this.generatePriceString(value, true, true);
 		}
 	}

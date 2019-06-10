@@ -15,7 +15,7 @@ public class MiningExtractionControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		// Given
-		miningExtraction = new MiningExtraction();
+		miningExtraction = new MiningExtraction.Builder().withQuantity(10).build();
 		factory = Mockito.mock(ControllerFactory.class);
 	}
 

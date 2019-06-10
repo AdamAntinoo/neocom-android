@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
@@ -20,7 +21,7 @@ public class PlanetaryCommonDataSourceTest {
 
 	@Test
 	public void convertPin2Facility_default() {
-		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
+		final ESIDataAdapter esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins = new ArrayList<>();
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins facility = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
 		final GetUniverseTypesTypeIdOk item = Mockito.mock(GetUniverseTypesTypeIdOk.class);
@@ -38,7 +39,7 @@ public class PlanetaryCommonDataSourceTest {
 
 	@Test
 	public void convertPin2Facility_commandcenter() {
-		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
+		final ESIDataAdapter esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins = new ArrayList<>();
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins facility = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
 		final GetUniverseTypesTypeIdOk item = Mockito.mock(GetUniverseTypesTypeIdOk.class);
@@ -56,7 +57,7 @@ public class PlanetaryCommonDataSourceTest {
 
 	@Test
 	public void convertPin2Facility_storage() {
-		final ESIGlobalAdapter esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
+		final ESIDataAdapter esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins = new ArrayList<>();
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins facility = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);
 		final GetUniverseTypesTypeIdOk item = Mockito.mock(GetUniverseTypesTypeIdOk.class);

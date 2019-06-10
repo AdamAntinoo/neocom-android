@@ -46,7 +46,7 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 					                                        .withPin(facility)
 					                                        .withPlanetType(planetType)
-					                                        .withFacitityItem(facilityItem)
+					                                        .withFacilityItem(facilityItem)
 					                                        .withEsiDataAdapter(this.getEsiAdapter())
 					                                        .build();
 			switch (facilityType) {

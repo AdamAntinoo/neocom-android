@@ -213,7 +213,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-		public Builder withFacitityItem( final EveItem planetItem ) {
+		public Builder withFacilityItem( final EveItem planetItem ) {
 			this.onConstruction.planetItemDelegate = planetItem;
 			return this;
 		}

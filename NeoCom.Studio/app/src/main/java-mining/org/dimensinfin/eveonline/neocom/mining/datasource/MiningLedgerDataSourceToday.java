@@ -10,13 +10,13 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
@@ -69,7 +69,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 			MiningExtractionAggregatorAsPanelTitle systemAggregator = null;
 			for (MiningExtraction extraction : extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
-//				if (this.search4PreviousHour(extraction, ids)) continue;
+				//				if (this.search4PreviousHour(extraction, ids)) continue;
 				this.search4PreviousHour(extraction, ids);
 				final int system = extraction.getSolarSystemId(); // Add the record but aggregate by system.
 				if (processingSystem != system) {
@@ -104,7 +104,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	public void collaborate2Model() {
 		// - H E A D E R   S E C T I O N
 		this.addHeaderContents(new TableHeader()); // Add the resource table header
-		for ( Resource resource : this.resources.values()) {
+		for (Resource resource : this.resources.values()) {
 			this.addHeaderContents(resource);
 		}
 
@@ -139,7 +139,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 		if (this.resources.containsKey(typeId)) {
 			final Resource hit = this.resources.get(typeId);
 			hit.add(qty);
-		} else this.resources.put(typeId, new Resource.Builder(qty).withEveItem(this.esiDataAdapter.searchEsiItem4Id(typeId)).build());
+		} else this.resources.put(typeId, new Resource(typeId, qty));
 	}
 
 	private boolean search4PreviousHour( final MiningExtraction extraction, final Map<String, MiningExtraction> ids ) {

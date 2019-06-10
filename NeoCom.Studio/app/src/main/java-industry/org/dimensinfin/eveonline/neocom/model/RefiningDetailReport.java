@@ -84,10 +84,10 @@ public class RefiningDetailReport extends EveItem {
 		return item.getName();
 	}
 
-	@Override
-	public double getBaseprice() {
-		return item.getBaseprice();
-	}
+//	@Override
+//	public double getBaseprice() {
+//		return item.getBaseprice();
+//	}
 
 	@Override
 	public String getCategoryName() {

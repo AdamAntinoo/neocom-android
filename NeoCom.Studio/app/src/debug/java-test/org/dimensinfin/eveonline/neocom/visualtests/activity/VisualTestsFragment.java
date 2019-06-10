@@ -4,8 +4,8 @@ import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroid;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -39,7 +39,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 
 	public static class VisualTestsGenerator extends AMVCDataSource {
 		private CommandCenterFacility commandCenter;
-		private ESIGlobalAdapter esiAdapter;
+		private ESIDataAdapter esiAdapter;
 		private GetCharactersCharacterIdPlanetsPlanetIdOkContents bacteria;
 
 		@Override
@@ -55,8 +55,8 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 			structure.addContentsItem(bacteria);
 			this.commandCenter = new CommandCenterFacility.Builder()
 					                     .withPlanetaryFacility(new PlanetaryFacility.Builder()
-							                                            .withEsiAdapter(this.esiAdapter)
-							                                            .withPlanetItem(new EveItem(this.esiAdapter.getUniverseTypeById(2550)))
+							                                            .withEsiDataAdapter(this.esiAdapter)
+							                                            .withFacilityItem(new EveItem(this.esiAdapter.getUniverseTypeById(2550)))
 							                                            .withPlanetType(PlanetType.STORM)
 							                                            .withPin(structure)
 							                                            .build())
@@ -84,23 +84,11 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 				return this;
 			}
 
-			//			public PlanetaryDataSource.Builder withCredential( final Credential credential ) {
-			//				this.onConstruction.credential = credential;
-			//				return this;
-			//			}
-			//
-			//			public PlanetaryDataSource.Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-			//				this.onConstruction.esiAdapter = esiAdapter;
-			//				return this;
-			//			}
-
 			@Override
 			public VisualTestsGenerator build() {
 				// Check additional mandatory fields.
 				final VisualTestsGenerator target = super.build();
-				this.onConstruction.esiAdapter = NeoComAndroid.getSingleton().getEsiAdapter();
-				//				Objects.requireNonNull(target.credential);
-				//				Objects.requireNonNull(target.esiAdapter);
+				this.onConstruction.esiAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 				return target;
 			}
 		}

@@ -222,6 +222,3 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 		}
 	}
 }
-
-// - UNUSED CODE ............................................................................................
-//[01]
