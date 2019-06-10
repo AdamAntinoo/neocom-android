@@ -19,6 +19,7 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
+		logger.info("-- [VisualTestsControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
 		}

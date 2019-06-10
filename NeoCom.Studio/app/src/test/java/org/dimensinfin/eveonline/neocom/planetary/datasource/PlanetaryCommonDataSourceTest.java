@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
@@ -30,7 +29,7 @@ public class PlanetaryCommonDataSourceTest {
 		Mockito.when(esiAdapter.getUniverseTypeById(2550)).thenReturn(item);
 		Mockito.when(item.getGroupId()).thenReturn(1028);
 		final PlanetaryCommonDataSource ds = Mockito.mock(PlanetaryCommonDataSource.class, Mockito.CALLS_REAL_METHODS);
-		Mockito.when(ds.getEsiAdapter()).thenReturn(esiAdapter);
+		Mockito.when(ds.getEsiDataAdapter()).thenReturn(esiAdapter);
 
 		final List<IPlanetaryFacility> facilities = ds.convertPin2Facility(pins, PlanetType.STORM);
 		Assert.assertTrue(facilities.size() > 0);
@@ -48,7 +47,7 @@ public class PlanetaryCommonDataSourceTest {
 		Mockito.when(esiAdapter.getUniverseTypeById(2550)).thenReturn(item);
 		Mockito.when(item.getGroupId()).thenReturn(1027);
 		final PlanetaryCommonDataSource ds = Mockito.mock(PlanetaryCommonDataSource.class, Mockito.CALLS_REAL_METHODS);
-		Mockito.when(ds.getEsiAdapter()).thenReturn(esiAdapter);
+		Mockito.when(ds.getEsiDataAdapter()).thenReturn(esiAdapter);
 
 		final List<IPlanetaryFacility> facilities = ds.convertPin2Facility(pins, PlanetType.STORM);
 		Assert.assertTrue(facilities.size() > 0);
@@ -66,7 +65,7 @@ public class PlanetaryCommonDataSourceTest {
 		Mockito.when(esiAdapter.getUniverseTypeById(2550)).thenReturn(item);
 		Mockito.when(item.getGroupId()).thenReturn(1029);
 		final PlanetaryCommonDataSource ds = Mockito.mock(PlanetaryCommonDataSource.class, Mockito.CALLS_REAL_METHODS);
-		Mockito.when(ds.getEsiAdapter()).thenReturn(esiAdapter);
+		Mockito.when(ds.getEsiDataAdapter()).thenReturn(esiAdapter);
 
 		final List<IPlanetaryFacility> facilities = ds.convertPin2Facility(pins, PlanetType.STORM);
 		Assert.assertTrue(facilities.size() > 0);

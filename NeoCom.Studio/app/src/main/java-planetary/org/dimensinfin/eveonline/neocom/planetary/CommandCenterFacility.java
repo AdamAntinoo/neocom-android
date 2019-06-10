@@ -81,8 +81,8 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 
 		public Builder withLevel( final int level ) {
 			this.onConstruction.level = level;
-			this.onConstruction.cpuCapacity = CommandCenterType.getTypeByLevelAndPlanetType(level).getCpuCapacity();
-			this.onConstruction.powerOutput = CommandCenterType.getTypeByLevelAndPlanetType(level).getPowerOutput();
+			this.onConstruction.cpuCapacity = CommandCenterType.getTypeByLevel(level).getCpuCapacity();
+			this.onConstruction.powerOutput = CommandCenterType.getTypeByLevel(level).getPowerOutput();
 			return this;
 		}
 

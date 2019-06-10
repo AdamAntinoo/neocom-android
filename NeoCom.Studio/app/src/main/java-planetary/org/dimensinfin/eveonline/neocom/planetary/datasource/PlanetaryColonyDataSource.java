@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
@@ -22,15 +23,6 @@ import com.annimon.stream.Stream;
 
 public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	private ColonyPack colony;
-	//	private GetUniversePlanetsPlanetIdOk planet; // The selected colony
-	//	private List<GetCharactersCharacterIdPlanetsPlanetIdOkPins> pins; // List of installations on the selected planet.
-	/**
-	 * There are a list of planet structures that are from the ESI domain and then this same list of structures but converted
-	 * to our model domain. We should keep the ESI domain data because contains the detailed planetaryFacility information. That detailed infromation
-	 * should be connected to the model data as a <b>delegate</b>.
-	 */
-	//	private List<IPlanetaryFacility> colonyPlanetaryFacilities = new ArrayList<>();
-	//	private IPlanetaryFacility commandCenter;
 	/**
 	 * Aggregation map for the selected planet structures. Each entry on the map aggregates the instances and the number of the
 	 * map entry type planet planetary interaction facilities.
@@ -51,7 +43,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	public void prepareModel() {
 		logger.info(">> [PlanetaryColonyDataSource.prepareModel]");
 		// Read the colony data and generate the support structureContainer, both for the header and for the main.
-		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.esiAdapter.getCharactersCharacterIdPlanets(
+		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId()
 				, credential.getRefreshToken()
 				, credential.getDataSource());
@@ -59,11 +51,8 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 		final int planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
 			if (planetIdentifier == colonyEsi.getPlanetId()) {
-				final GetUniversePlanetsPlanetIdOk planetData = this.esiAdapter.getUniversePlanetsPlanetId(
-						colonyEsi.getPlanetId()
-						, this.credential.getRefreshToken()
-						, this.credential.getDataSource());
-				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.esiAdapter.getCharactersCharacterIdPlanetsPlanetId(
+				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
 						credential.getAccountId()
 						, colonyEsi.getPlanetId()
 						, credential.getRefreshToken()
@@ -130,8 +119,8 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 			return this;
 		}
 
-		public Builder withEsiAdapter( final ESIGlobalAdapter esiAdapter ) {
-			this.onConstruction.esiAdapter = esiAdapter;
+		public Builder withEsiAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 
@@ -140,7 +129,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 			// Check additional mandatory fields.
 			final PlanetaryColonyDataSource target = super.build();
 			Objects.requireNonNull(target.credential);
-			Objects.requireNonNull(target.esiAdapter);
+			Objects.requireNonNull(target.esiDataAdapter);
 			return target;
 		}
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
@@ -19,10 +18,10 @@ import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
-	protected ESIGlobalAdapter esiAdapter;
+//	protected ESIGlobalAdapter esiAdapter;
 	protected ESIDataAdapter esiDataAdapter;
 
-	protected ESIDataAdapter getEsiAdapter() {
+	protected ESIDataAdapter getEsiDataAdapter() {
 		return this.esiDataAdapter;
 	}
 
@@ -40,14 +39,14 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			, final PlanetType planetType ) {
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
-			final EveItem facilityItem = new EveItem(this.getEsiAdapter().getUniverseTypeById(facility.getTypeId())); // The item for this facility.
+			final EveItem facilityItem = new EveItem(facility.getTypeId()); // The item for this facility.
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
 			final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
 					                                        .withPin(facility)
 					                                        .withPlanetType(planetType)
 					                                        .withFacilityItem(facilityItem)
-					                                        .withEsiDataAdapter(this.getEsiAdapter())
+					                                        .withEsiDataAdapter(this.getEsiDataAdapter())
 					                                        .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:

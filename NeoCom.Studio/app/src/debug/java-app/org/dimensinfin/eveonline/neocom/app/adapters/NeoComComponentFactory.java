@@ -20,7 +20,6 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
@@ -111,18 +110,10 @@ public class NeoComComponentFactory {
 
 	public ESIDataAdapter getEsiDataAdapter() {
 		if (null == this.esiDataAdapter) {
-//			try {
-				esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
-						                 .build();
-				// TODO - Connect to dependent classes while the code is converted to external injection.
-//				EsiItemV2.injectDownloaderService(this.getDownloaderService());
-				MarketDataSet.injectEsiDataAdapter(this.getEsiDataAdapter());
-				EveItem.injectEsiDataAdapter(this.getEsiDataAdapter());
-//				NeoComNode.in
-//			} catch (IOException ioe) {
-//				logger.info("EX [NeoComComponentFactory.getEsiDataAdapter]> Unable to create ESI data adapter because failure on external cache.");
-//				throw new NeoComRuntimeException(ioe.getMessage());
-//			}
+			esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+					                 .build();
+			MarketDataSet.injectEsiDataAdapter(this.getEsiDataAdapter());
+			EveItem.injectEsiDataAdapter(this.getEsiDataAdapter());
 		}
 		return this.esiDataAdapter;
 	}

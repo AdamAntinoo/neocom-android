@@ -14,6 +14,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
@@ -105,15 +106,10 @@ public class NeoComComponentFactory {
 	}
 
 	public ESIDataAdapter getEsiDataAdapter() {
-		if (null == this.esiDataAdapter) {
-			//			try {
+		if (null == this.esiDataAdapter)
 			esiDataAdapter = new ESIDataAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
 					                 .build();
-			//			} catch (IOException ioe) {
-			//				logger.info("EX [NeoComComponentFactory.getEsiDataAdapter]> Unable to create ESI data adapter because failure on external cache.");
-			//				throw new NeoComRuntimeException(ioe.getMessage());
-			//			}
-		}
+		EveItem.injectEsiDataAdapter(this.esiDataAdapter);
 		return this.esiDataAdapter;
 	}
 
@@ -124,35 +120,6 @@ public class NeoComComponentFactory {
 		}
 		return this.downloaderService;
 	}
-
-	//	public TimedUpdater getTimedService() {
-	//		if (null == this.timedService) {
-	//			timedService = new TimedUpdater.Builder()
-	//					               .withESIAdapter(this.getEsiAdapter())
-	//								   .withPreferencesProvider(this.getPreferencesProvider())
-	//					               .withESIDataPersistenceService(this.getPersistenceService())
-	//								   .withCredentialRepository(this.getCredentialRepository())
-	//					               .build();
-	//
-	//		}
-	//		return this.timedService;
-	//	}
-	//
-	//	public ESIDataPersistenceService getPersistenceService() {
-	//		if (null == this.persistenceService) {
-	//			try {
-	//				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
-	//				persistenceService = new ESIDataPersistenceService.Builder()
-	//						                     .withEsiAdapter(esiAdapter)
-	//						                     .withMiningRepository(this.getMiningRepository())
-	//						                     .build();
-	//			} catch (SQLException sqle) {
-	//				persistenceService = null;
-	//				Objects.requireNonNull(persistenceService);
-	//			}
-	//		}
-	//		return this.persistenceService;
-	//	}
 
 	public CredentialRepository getCredentialRepository() {
 		if (null == this.credentialRepository) {

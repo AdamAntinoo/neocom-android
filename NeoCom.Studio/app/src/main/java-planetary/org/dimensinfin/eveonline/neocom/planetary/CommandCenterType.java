@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandCenterType {
-	private static Map<Integer, Map<PlanetType, CommandCenterType>> commandCenterTypesMap2 = new HashMap<>();
 	private static Map<Integer, CommandCenterType> commandCenterTypesMap = new HashMap<>();
 
 	static {
-		//		Map<PlanetType, CommandCenterType> level1 = new HashMap<>();
 		commandCenterTypesMap.put(0, new CommandCenterType.Builder()
 				                             .withLevel(0)
 				                             .withPrefix("")
@@ -47,7 +45,7 @@ public class CommandCenterType {
 				                             .build());
 	}
 
-	public static CommandCenterType getTypeByLevelAndPlanetType( int level ) {
+	public static CommandCenterType getTypeByLevel( int level ) {
 		if (level < 0) level = 0;
 		if (level > 5) level = 5;
 		return commandCenterTypesMap.get(level);
@@ -78,7 +76,7 @@ public class CommandCenterType {
 	}
 
 	// - B U I L D E R
-	public static class Builder {
+	protected static class Builder {
 		private CommandCenterType onConstruction;
 
 		public Builder() {
