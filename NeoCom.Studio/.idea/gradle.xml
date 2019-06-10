@@ -10,12 +10,12 @@
             <option value="$PROJECT_DIR$/../../android-mvc/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appVisualTest" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/ESI.SwaggerApi" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>

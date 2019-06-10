@@ -189,7 +189,6 @@ dependencies {
 //    implementation files('libs/AndroidMVCLibrary-4.2.1')
 
     implementation project(':ESI.SwaggerApi')
-//    implementation project(':NeoCom.Model')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
 
