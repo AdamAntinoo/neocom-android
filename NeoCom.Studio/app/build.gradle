@@ -150,17 +150,6 @@ task copyResources(type: Copy) {
     }
 }
 
-// - P R O D U C T   V E R S I O N S
-ext {
-    supportLibraryVersion = '28.0.0'
-    jodaTimeVersion = '2.3'
-    jacksonVersion = '2.9.4'
-    fasterxmlJackson = '2.9.4'
-    ormliteVersion = '4.48'
-    retrofitVersion = '2.3.0'
-    powermockVersion = '2.0.2'
-}
-
 // - A N D R O I D    S U P P O R T
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -191,6 +180,7 @@ dependencies {
     implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
+    implementation project(':appFeatures')
 
     // G R A P H S   &   C H A R T S
 //    implementation 'com.github.AnyChart:AnyChart-Android:0.2.1'

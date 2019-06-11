@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/context_locationrole_manufacture"
+        android:actionLayout="@layout/menu_location4context"
+        android:icon="@drawable/planets"
+        android:title="MANUFACTURE"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/context_locationrole_refining"
+        android:icon="@drawable/planets"
+        android:title="REFINING" />
+    <item
+        android:id="@+id/context_locationrole_garage"
+        android:icon="@drawable/planets"
+        android:title="GARAGE" />
+    <item
+        android:id="@+id/context_locationrole_clear"
+        android:icon="@drawable/planets"
+        android:title="-CLEAR-" />
+
+</menu>

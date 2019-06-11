@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+			android:key="category_DataSource"
+			android:title="DATA SOURCES"
+			android:widgetLayout="@style/AppTheme.PrefCatStyle">
+		<ListPreference
+				android:defaultValue="Tranquility"
+				android:dialogTitle="Select the Eve Server:"
+				android:entries="@array/pref_dataSources"
+				android:entryValues="@array/pref_dataSources"
+				android:key="prefkey_dataSourceList"
+				android:summary="The names of the data sources from CPP ESI servers."
+				android:title="ESI Data Source"/>
+	</PreferenceCategory>
+	<PreferenceCategory
+			android:key="category_Development"
+			android:title="@string/pref_category_Development"
+			android:widgetLayout="@style/AppTheme.PrefCatStyle">
+		<!--<CheckBoxPreference-->
+		<!--style="@style/AppTheme.PrefCatStyle"-->
+		<!--android:background="@color/appgreydark"-->
+		<!--android:defaultValue="true"-->
+		<!--android:key="prefkey_BlockBackgroundTimer"-->
+		<!--android:summary="Block the activation of the background timer service. A change to this property requires restart to make active the new value."-->
+		<!--android:title="Block Timer" />-->
+		<CheckBoxPreference
+				android:id="@+id/DevelopmentBlockDownloads"
+				android:defaultValue="true"
+				android:key="prefkey_BlockDownloads"
+				android:summary="Block the download of any data obtained from the background event receiver."
+				android:title="Block Downloads"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockMarket"
+				android:summary="Block the download of market data. Use to remove debug clutter."
+				android:title="Block Market"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockCharacterUpdate"
+				android:summary="Block the download of Character data exclusively. Rest of jobs are allowed."
+				android:title="Block Character Update"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockAssetsUpdate"
+				android:summary="Block the download of Assets data exclusively. Rest of jobs are allowed."
+				android:title="Block Assets Update"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockColonyUpdate"
+				android:summary="Block the download of Colony data exclusively. Rest of jobs are allowed."
+				android:title="Block Colony Update"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockSkillsUpdate"
+				android:summary="Block the download of Skills data exclusively. Rest of jobs are allowed."
+				android:title="Block Skills Update"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockIndustryUpdate"
+				android:summary="Block the download of Industry Jobs and Mining data exclusively. Rest of jobs are allowed."
+				android:title="Block Industry and Mining Update"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_BlockMarketOrdersUpdate"
+				android:summary="Block the download of Market Orders data exclusively. Rest of jobs are allowed."
+				android:title="Block Market Orders Update"/>
+	</PreferenceCategory>
+	<PreferenceCategory
+			android:key="category_Industry"
+			android:title="@string/pref_category_Industry">
+		android:widgetLayout="@style/AppTheme.ActionBar.TitleTextStyle">
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_AllowMoveRequests"
+				android:summary="Analyzes the availability of resources outside the current location to fulfill manufacture requests. If disabled then outside resources are not used."
+				android:title="Use Remote Resources"/>
+		<EditTextPreference
+				android:key="prefkey_DefaultRefiningRatio"
+				android:defaultValue="30.0"
+				android:enabled="true"
+				android:numeric="integer"
+				android:persistent="true"
+				android:summary="Defines the refining ratio for a default refining location. Other locations marked as REFINING can have real game values set by the user."
+				android:title="Default Refining Ratio"/>
+	</PreferenceCategory>
+	<PreferenceCategory
+			android:key="category_Assets"
+			android:title="@string/pref_category_Assets">
+		android:widgetLayout="@style/AppTheme.ActionBar.TitleTextStyle">
+		<ListPreference
+				android:defaultValue="10"
+				android:dialogTitle="Number Of Locations"
+				android:entries="@array/pref_numberOfLocations_entries"
+				android:entryValues="@array/pref_numberOfLocations_values"
+				android:key="prefkey_locationsLimit"
+				android:numeric="integer"
+				android:summary="Number of locations that activate the Region grouping on the Assets By Location page."
+				android:title="Number of Locations"/>
+		<CheckBoxPreference
+				android:defaultValue="true"
+				android:key="prefkey_RegionCollapsed"
+				android:summary="Start Region list groups collapsed."
+				android:title="Collapse Regions groups"/>
+		<!--         <CheckBoxPreference -->
+		<!--             android:defaultValue="true" -->
+		<!--             android:key="prefkey_AssetValueCalculation" -->
+		<!--             android:summary="Aggregates the sell cost for all assets found on the Location." -->
+		<!--             android:title="Calculate asset value" /> -->
+	</PreferenceCategory>
+</PreferenceScreen>

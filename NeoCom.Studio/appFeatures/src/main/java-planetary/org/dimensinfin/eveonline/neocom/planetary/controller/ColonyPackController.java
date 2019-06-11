@@ -3,23 +3,17 @@ package org.dimensinfin.eveonline.neocom.planetary.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColonyLayoutActivity;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPack4ListRender;
 
 public class ColonyPackController extends AAndroidController<ColonyPack> implements View.OnClickListener, View.OnLongClickListener {
@@ -56,7 +50,8 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 		logger.info(">> [ColonyPackController.onClick]");
 		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
 				.show();
-		final Intent intent = new Intent(this.context, PlanetaryColonyLayoutActivity.class);
+		final Intent intent = this.getControllerFactory().prepareActivity("PLANET_FACILITIES", this.context);
+		//		new Intent(this.context, PlanetaryColonyLayoutActivity.class);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
 		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()

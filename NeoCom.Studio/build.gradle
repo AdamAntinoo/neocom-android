@@ -41,4 +41,5 @@ ext {
     fasterxmlJackson = '2.9.4'
     ormliteVersion = '4.48'
     retrofitVersion = '2.3.0'
+    powermockVersion = '2.0.2'
 }

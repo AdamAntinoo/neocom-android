@@ -20,17 +20,17 @@ import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
 import com.squareup.picasso.Picasso;
 
 public class CredentialController extends AAndroidController<Credential> implements PropertyChangeListener, View.OnClickListener {
 	private Context context;
+	private DataDownloaderService downloaderService;
 
 	// - E X T E N D E D   M O D E L
 	private PilotV3 pilot;
@@ -39,8 +39,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3.Builder(model, NeoComComponentFactory.getSingleton().getDownloaderService())
-				             .build();
+		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
 		this.pilot.addPropertyChangeListener(this);
 	}
 
@@ -62,7 +61,8 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	 */
 	public void onClick( final View view ) {
 		logger.info(">> [CredentialController.onClick]");
-		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
+		final Intent intent = this.getControllerFactory().prepareActivity("PLANET_FACILITIES", this.context);
+		//		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getAccountId()); // Credential account identifier
 		view.getContext().startActivity(intent);
@@ -105,6 +105,25 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	private PilotV3 accessPilot() {
 		Objects.requireNonNull(this.pilot);
 		return this.pilot;
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		private CredentialController onConstuction;
+
+		public Builder( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
+			this.onConstuction = new CredentialController(model, factory);
+		}
+
+		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
+			this.onConstuction.downloaderService = downloaderService;
+			return this;
+		}
+
+		public CredentialController build() {
+			Objects.requireNonNull(this.onConstuction.downloaderService);
+			return this.onConstuction;
+		}
 	}
 
 	// - C R E D E N T I A L B U I L D E R

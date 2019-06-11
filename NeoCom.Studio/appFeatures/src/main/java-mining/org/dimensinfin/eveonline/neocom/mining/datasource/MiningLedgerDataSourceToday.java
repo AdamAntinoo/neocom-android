@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
@@ -17,12 +16,11 @@ import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	protected Credential credential;
-	protected ESIDataAdapter esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+	protected ESIDataAdapter esiDataAdapter;
 	protected MiningRepository miningRepository; // The mining persistence repository definition.
 	//	private PanelTitle sectionTitle; // The panel title for the data section
 	protected List<MiningExtraction> extractions;
@@ -34,15 +32,15 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	protected MiningLedgerDataSourceToday() {}
 
 	// - B U I L D E R   S E T T E R S
-	protected MiningLedgerDataSourceToday setCredential( final Credential credential ) {
-		this.credential = credential;
-		return this;
-	}
-
-	protected MiningLedgerDataSourceToday setMiningRepository( final MiningRepository miningRepository ) {
-		this.miningRepository = miningRepository;
-		return this;
-	}
+	//	protected MiningLedgerDataSourceToday setCredential( final Credential credential ) {
+	//		this.credential = credential;
+	//		return this;
+	//	}
+	//
+	//	protected MiningLedgerDataSourceToday setMiningRepository( final MiningRepository miningRepository ) {
+	//		this.miningRepository = miningRepository;
+	//		return this;
+	//	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 
@@ -88,12 +86,13 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 			//					}
 
 		} catch (SQLException sqle) {
-			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
-					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			// TODO REPLACE BY ANOTHER PATTERN
+			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
+			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			sqle.printStackTrace();
 		} catch (RuntimeException rtex) {
-			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerDataSource.collaborate2Model"
-					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+			//			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerDataSource.collaborate2Model"
+			//					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			rtex.printStackTrace();
 		}
 		//			}
@@ -180,12 +179,17 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 		}
 
 		public MiningLedgerDataSourceToday.Builder withCredential( final Credential credential ) {
-			this.getActual().setCredential(credential);
+			this.getActual().credential = credential;
 			return this;
 		}
 
 		public MiningLedgerDataSourceToday.Builder withMiningRepository( final MiningRepository miningRepository ) {
-			this.onConstruction.setMiningRepository(miningRepository);
+			this.getActual().miningRepository = miningRepository;
+			return this;
+		}
+
+		public MiningLedgerDataSourceToday.Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.getActual().esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 

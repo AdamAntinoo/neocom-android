@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderdarkblue">
+
+    <FrameLayout
+        android:id="@+id/nodeIconBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/targetIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizebig"
+            android:layout_height="@dimen/nodeiconsizebig"
+            android:src="@drawable/nopilot" />
+
+        <ImageView
+            android:id="@+id/toprightDecorator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/omega"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/topleftDecorator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="left|top"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="2dp"
+            android:src="@drawable/xml_icon"
+            android:visibility="invisible" />
+
+
+        <ImageView
+            android:id="@+id/botrightDecorator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/botleftDecorator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="2dp"
+            android:src="@drawable/xml_icon"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/allianceIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <ImageView
+        android:id="@+id/corporationIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_below="@+id/allianceIcon"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <ImageView
+        android:id="@+id/raceIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_below="@+id/corporationIcon"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <LinearLayout
+        android:id="@+id/pilotInformationBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/pilotNameBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+                android:id="@+id/pilotName"
+                style="@style/AppTheme.NeoComText.Green"
+                android:text="Adam Antinoo" />
+
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/pilotIdentifier"
+                style="@style/AppTheme.TextView"
+                android:layout_marginLeft="4dp"
+                android:text="[60014089]"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pilotWalletDataBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/nodeIconBlock"
+        android:orientation="vertical">
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/accountBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/assetsCount"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/bottomline_correction"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="123,345,556.98 ISK"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/accountBalanceLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:text="BALANCE" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/pilotSkillPointsBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/nodeIconBlock">
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/skillPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/bottomline_correction"
+            android:ellipsize="marquee"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/default_skillpoints"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/assetsCountLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/skillPoints"
+            android:gravity="right"
+            android:text="SKILL POINTS" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pilotRaceBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/nodeClass"
+            style="@style/AppTheme.NodeClass"
+            android:gravity="right"
+            android:text="PILOT" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/race"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:text="Minmatar"
+            android:textColor="@color/apporange"
+            android:textSize="11sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/cloneType"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Clone Grade Alpha"
+            android:textColor="@color/appwhite"
+            android:textSize="11sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/expirationTime"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Expired"
+            android:textColor="@color/appred"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</RelativeLayout>

@@ -9,7 +9,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 	//	private Credential credential;
@@ -46,8 +45,8 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 				if (extraction.getExtractionHour() == 24) dateAggregator.addPack(extraction);
 			}
 		} catch (SQLException sqle) {
-			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
-					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
+			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			sqle.printStackTrace();
 		}
 	}
