@@ -3,17 +3,6 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.controller.*;
-import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
-import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
-import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {

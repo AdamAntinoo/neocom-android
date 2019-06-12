@@ -5,6 +5,7 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
@@ -30,19 +31,19 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColonyLayoutFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name()));
+				             .setVariant(EVariants.PLANET_FACILITIES.name()));
 		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
 	}
 
 	private View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.getTitle())
+				                                     .withSubtitle( EVariants.PLANET_FACILITIES.getTitle())
 				                                     .withActivityIconRef(R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EVariants.PLANET_FACILITIES.name())
 				                                                                               .createController(actionBar);
 		return super.generateActionBar(controller);
 	}

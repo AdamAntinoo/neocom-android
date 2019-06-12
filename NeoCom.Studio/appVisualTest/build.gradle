@@ -7,7 +7,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom.visualtests"
-        minSdkVersion 16 // Required because the colony drawing.
+        minSdkVersion 19 // Required because the colony drawing.
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 118
@@ -43,23 +43,14 @@ android {
     }
     sourceSets {
         main.java {
-            srcDirs += 'src/main/java-visualtests'
-            srcDirs += 'src/main-app/java-app'
-            srcDirs += 'src/main-app/java-appv4'
-            srcDirs += 'src/main-app/java-planetary'
+//            srcDirs += 'src/main/java-mockedclasses'
+            srcDirs += 'src/main/java-visualtest'
         }
         debug.java {
         }
         release.java {
         }
         main.res {
-            srcDirs += 'src/main/res-visualtests'
-            srcDirs += 'src/main/res-app'
-            srcDirs += 'src/main/res-core'
-            srcDirs += 'src/main/res-layouts'
-            srcDirs += 'src/main/res-sde'
-            srcDirs += 'src/main/res-ui'
-            srcDirs += 'src/main/res-planetary'
         }
         debug.res {
         }
@@ -136,6 +127,7 @@ dependencies {
     implementation project(':AndroidMVCLibrary')
     implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
+    implementation project(':appFeatures')
 
     // D A T A B A S E
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"

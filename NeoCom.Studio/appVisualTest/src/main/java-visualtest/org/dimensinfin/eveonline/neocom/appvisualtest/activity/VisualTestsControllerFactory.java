@@ -3,12 +3,12 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
@@ -28,7 +28,7 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof CommandCenterFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
-					       .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name());
+					       .setRenderMode(EVariants.PLANETS_LIST.name());
 		}
 		return super.createController(node);
 	}

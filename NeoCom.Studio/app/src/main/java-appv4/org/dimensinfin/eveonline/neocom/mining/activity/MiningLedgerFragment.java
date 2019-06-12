@@ -3,6 +3,9 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.EActivities;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -14,12 +17,13 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 
 	@Override
 	public IControllerFactory createFactory() {
-		return new MiningControllerFactory(this.getVariant());
+		return new MiningControllerFactory(this.getVariant())
+				.registerActivity(EActivities.RESOURCE_DETAIL_ACTIVITY.name(), PilotDashboardActivity.class);
 	}
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(MiningLedgerActivity.EMiningVariants.MINING_EXTRACTIONS_TODAY.name()))
+		if (this.getVariant().equalsIgnoreCase(EVariants.MINING_EXTRACTIONS_TODAY.name()))
 			return new MiningLedgerDataSourceToday.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -30,7 +34,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
-		if (this.getVariant().equalsIgnoreCase(MiningLedgerActivity.EMiningVariants.MINING_EXTRACTIONS_ALL.name()))
+		if (this.getVariant().equalsIgnoreCase(EVariants.MINING_EXTRACTIONS_ALL.name()))
 			return new MiningLedgerDataSourceAll.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -45,8 +49,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 	}
 
 	public Credential getCredential() {
-		//		if (null == this.credential) return new Credential.Builder(1).build();
-		return credential;
+		return this.credential;
 	}
 
 	public MiningLedgerFragment setCredential( final Credential credential ) {

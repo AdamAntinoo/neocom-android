@@ -1,5 +1,6 @@
 include ':app'
 include ':appFeatures'
+include ':appVisualTest'
 include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('/Users/luisdediego/Personal/NeoCom/android-mvc/AndroidMVCLibrary')
 include ':ESI.SwaggerApi'

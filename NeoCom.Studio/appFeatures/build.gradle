@@ -45,8 +45,7 @@ android {
         main.java {
             srcDirs += 'src/main-app/java-app'
 
-            srcDirs += 'src/main/java-mining'
-            srcDirs += 'src/main/java-planetary'
+            srcDirs += 'src/main-features/java-planetary'
         }
         main.res {
             srcDirs += 'src/main-app/res-app'
@@ -55,8 +54,9 @@ android {
             srcDirs += 'src/main-app/res-sde'
             srcDirs += 'src/main-app/res-ui'
 
-            srcDirs += 'src/main/res-mining'
-            srcDirs += 'src/main/res-planetary'
+            srcDirs += 'src/main-features/res-mining'
+            srcDirs += 'src/main-features/res-planetary'
+            srcDirs += 'src/main-features/res-indutry'
         }
     }
     compileOptions {
