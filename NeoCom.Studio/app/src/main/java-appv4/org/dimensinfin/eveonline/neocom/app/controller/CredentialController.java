@@ -61,7 +61,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	 */
 	public void onClick( final View view ) {
 		logger.info(">> [CredentialController.onClick]");
-		final Intent intent = this.getControllerFactory().prepareActivity("PLANET_FACILITIES", this.context);
+		final Intent intent = this.getControllerFactory().prepareActivity("CAPSULEER DASHBOARD", this.context);
 		//		final Intent intent = new Intent(this.context, PilotDashboardActivity.class);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getAccountId()); // Credential account identifier

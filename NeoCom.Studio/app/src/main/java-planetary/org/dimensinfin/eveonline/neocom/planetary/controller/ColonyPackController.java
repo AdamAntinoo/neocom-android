@@ -50,7 +50,7 @@ public class ColonyPackController extends AAndroidController<ColonyPack> impleme
 		logger.info(">> [ColonyPackController.onClick]");
 		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
 				.show();
-		final Intent intent = this.getControllerFactory().prepareActivity("PLANET_FACILITIES", this.context);
+		final Intent intent = this.getControllerFactory().prepareActivity("PLANET INSTALLATIONS", this.context);
 		//		new Intent(this.context, PlanetaryColonyLayoutActivity.class);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier

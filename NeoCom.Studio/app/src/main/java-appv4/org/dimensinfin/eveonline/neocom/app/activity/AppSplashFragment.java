@@ -19,7 +19,6 @@ import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
@@ -38,7 +37,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 	@Override
 	public IControllerFactory createFactory() {
-		return new AppControllerFactory(this.getVariant());
+		return new AppControllerFactory(this.getVariant()).registerActivity("CAPSULEER DASHBOARD", PilotDashboardActivity.class);
 	}
 
 	@Override

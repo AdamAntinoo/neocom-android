@@ -24,8 +24,6 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceCo
  * @author Adam Antinoo
  */
 public class PlanetaryControllerFactory extends AppControllerFactory {
-	private Map<String, Class> activityRegistry = new HashMap();
-
 	public PlanetaryControllerFactory( final String selectedVariant ) {
 		super(selectedVariant);
 	}
@@ -48,15 +46,5 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 			return new PlanetaryResourceController((PlanetaryResource) node, this).setRenderMode(this.getVariant());
 		}
 		return super.createController(node);
-	}
-
-	public IControllerFactory registerActivity( final String activityCode, final Class activityClass ) {
-		this.activityRegistry.put(activityCode, activityClass);
-		return this;
-	}
-
-	public Intent prepareActivity( final String activityCode, final Context context ) {
-		final Intent intent = new Intent(context, PlanetaryColonyLayoutActivity.class);
-		return intent;
 	}
 }

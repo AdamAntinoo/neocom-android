@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.*;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
@@ -36,7 +37,7 @@ public class AppControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof Credential) {
 			return new CredentialController.Builder((Credential) node, this)
-					       .withDownloaderService(NeoComCom);
+					       .withDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService()).build();
 		}
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
