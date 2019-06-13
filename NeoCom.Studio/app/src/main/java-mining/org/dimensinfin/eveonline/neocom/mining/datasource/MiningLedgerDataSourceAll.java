@@ -11,20 +11,6 @@ import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 
 public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
-	//	private Credential credential;
-	//	private MiningRepository miningRepository;
-	//	private List<MiningExtraction> extractions = new ArrayList<>();
-
-	//	public MiningLedgerDataSourceAll setCredential( final Credential credential ) {
-	//		this.credential = credential;
-	//		return this;
-	//	}
-	//
-	//	public MiningLedgerDataSourceAll setMiningRepository( final MiningRepository miningRepository ) {
-	//		this.miningRepository = miningRepository;
-	//		return this;
-	//	}
-
 	@Override
 	public void prepareModel() {
 		// - A L L   E X T R A C T I O N S
@@ -45,7 +31,7 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 				if (extraction.getExtractionHour() == 24) dateAggregator.addPack(extraction);
 			}
 		} catch (SQLException sqle) {
-//			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
+			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
 			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
 			sqle.printStackTrace();
 		}
@@ -81,12 +67,12 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 		}
 
 		public Builder withCredential( final Credential credential ) {
-			this.getActual().setCredential(credential);
+			this.getActual().credential = credential;
 			return this;
 		}
 
 		public Builder withMiningRepository( final MiningRepository miningRepository ) {
-			this.onConstruction.setMiningRepository(miningRepository);
+			this.onConstruction.miningRepository = miningRepository;
 			return this;
 		}
 

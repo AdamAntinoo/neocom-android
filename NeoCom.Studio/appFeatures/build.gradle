@@ -56,7 +56,7 @@ android {
 
             srcDirs += 'src/main-features/res-mining'
             srcDirs += 'src/main-features/res-planetary'
-            srcDirs += 'src/main-features/res-indutry'
+            srcDirs += 'src/main-features/res-industry'
         }
     }
     compileOptions {

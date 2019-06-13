@@ -15,6 +15,8 @@
 //                  rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -26,33 +28,27 @@ import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
-//import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
-//import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
-//import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
-import java.util.concurrent.ExecutionException;
-
-// - CLASS IMPLEMENTATION ...................................................................................
 public class AssetPart extends NeoComAbstractPart {
-//	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
-//		public int compare( final IPart left, final IPart right ) {
-//			String leftField = null;
-//			String rightField = null;
-//			if (left instanceof INamedPart) {
-//				leftField = ((INamedPart) left).getName();
-//			}
-//			if (right instanceof INamedPart) {
-//				rightField = ((INamedPart) right).getName();
-//			}
-//			if (null == leftField) return 1;
-//			if (null == rightField) return -1;
-//			if ("" == leftField) return 1;
-//			if ("" == rightField) return -1;
-//			return leftField.compareTo(rightField);
-//		}
-//	};
+	//	public static Comparator<IPart> AssetNameComparator = new Comparator<IPart>() {
+	//		public int compare( final IPart left, final IPart right ) {
+	//			String leftField = null;
+	//			String rightField = null;
+	//			if (left instanceof INamedPart) {
+	//				leftField = ((INamedPart) left).getName();
+	//			}
+	//			if (right instanceof INamedPart) {
+	//				rightField = ((INamedPart) right).getName();
+	//			}
+	//			if (null == leftField) return 1;
+	//			if (null == rightField) return -1;
+	//			if ("" == leftField) return 1;
+	//			if ("" == rightField) return -1;
+	//			return leftField.compareTo(rightField);
+	//		}
+	//	};
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 8910031270706432316L;
@@ -95,37 +91,39 @@ public class AssetPart extends NeoComAbstractPart {
 			return "- ISK";
 		}
 	}
+
 	public String getTStackValue() {
-			try {
-				return generatePriceString(getCastedModel().getItem().getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity()
-						, true, true);
-			} catch (ExecutionException ee) {
-				return "- ISK";
-			} catch (InterruptedException ie) {
-				return "- ISK";
-			}
+		try {
+			return generatePriceString(getCastedModel().getItem().getHighestBuyerPrice().getPrice() * getCastedModel().getQuantity()
+					, true, true);
+		} catch (ExecutionException ee) {
+			return "- ISK";
+		} catch (InterruptedException ie) {
+			return "- ISK";
+		}
 	}
+
 	public String getTQuantity() {
 		return qtyFormatter.format(getCastedModel().getQuantity());
 	}
 
-//	/**
-//	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
-//	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
-//	 * the background manager.
-//	 */
-//	@Deprecated
-//	public Spanned getTAssetInformation() {
-//		StringBuffer assetInfo = new StringBuffer();
-//		assetInfo.append("<font color='#FFFFFF'>").append("id: ").append("</font>");
-//		assetInfo.append("<font color='#A0A0A0'>").append(getCastedModel().getAssetId()).append("</font>").append
-//				(FLOW_ARROW_RIGHT);
-//		assetInfo.append("<font color='#FFFFFF'>").append("Cat.: ").append("</font>");
-//		assetInfo.append("<font color='#0000FF'>").append(getCastedModel().getCategory()).append("</font>").append(FLOW_ARROW_RIGHT);
-//		assetInfo.append("<font color='#FFFFFF'>").append("Type: ").append("</font>");
-//		assetInfo.append("<font color='#F2540C'>").append(getCastedModel().getItem().getTypeID()).append("</font>");
-//		return Html.fromHtml(assetInfo.toString());
-//	}
+	//	/**
+	//	 * This method does two things. It will get the current price (even obsolete or inexact) from the Item
+	//	 * database and at the same time fire an update of the item information (mainly on prices and locations) to
+	//	 * the background manager.
+	//	 */
+	//	@Deprecated
+	//	public Spanned getTAssetInformation() {
+	//		StringBuffer assetInfo = new StringBuffer();
+	//		assetInfo.append("<font color='#FFFFFF'>").append("id: ").append("</font>");
+	//		assetInfo.append("<font color='#A0A0A0'>").append(getCastedModel().getAssetId()).append("</font>").append
+	//				(FLOW_ARROW_RIGHT);
+	//		assetInfo.append("<font color='#FFFFFF'>").append("Cat.: ").append("</font>");
+	//		assetInfo.append("<font color='#0000FF'>").append(getCastedModel().getCategory()).append("</font>").append(FLOW_ARROW_RIGHT);
+	//		assetInfo.append("<font color='#FFFFFF'>").append("Type: ").append("</font>");
+	//		assetInfo.append("<font color='#F2540C'>").append(getCastedModel().getItem().getTypeID()).append("</font>");
+	//		return Html.fromHtml(assetInfo.toString());
+	//	}
 	//[01]
 
 	//	public long getAssetID() {
@@ -218,6 +216,7 @@ public class AssetPart extends NeoComAbstractPart {
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
 	 * parts to allow for easy management of the corresponding parts and views. The asset part return the unique asset
 	 * identifier that is unique for each asset on the game, as most of the game data instances.
+	 *
 	 * @return <code>long</code> identifier with the model number.
 	 */
 	public long getModelId() {
@@ -241,7 +240,7 @@ final class AssetRender extends ANodeBase4ExpandRender {
 	//	private static Logger			logger					= Logger.getLogger("AssetRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private ImageView targetIcon = null;
+	//	private ImageView targetIcon = null;
 
 	protected TextView assetName = null;
 	protected TextView typeId = null;
@@ -265,7 +264,7 @@ final class AssetRender extends ANodeBase4ExpandRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-//		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
+		//		targetIcon = (ImageView) _convertView.findViewById(R.id.targetIcon);
 
 		this.assetName = (TextView) this._convertView.findViewById(R.id.assetName);
 		this.typeId = (TextView) this._convertView.findViewById(R.id.typeId);
@@ -284,20 +283,20 @@ final class AssetRender extends ANodeBase4ExpandRender {
 		this.typeId.setText("[#" + this.getPart().getCastedModel().getTypeId() + "]");
 		this.assetCategory.setText(getPart().getTItemCategory());
 		this.itemPrice.setText(getPart().getTItemPrice());
-				this.stackValue.setText(getPart().getTStackValue());
-				this.quantity.setText(getPart().getTQuantity());
-//		String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
-//		Picasso.get().load(link).into(targetIcon);
+		this.stackValue.setText(getPart().getTStackValue());
+		this.quantity.setText(getPart().getTQuantity());
+		//		String link = AndroidGlobalDataManager.getURLForItem(this.getPart().getCastedModel().getTypeId());
+		//		Picasso.get().load(link).into(targetIcon);
 
 		// If asset inside a container or ship then set a white margin at the left.
-//		if (getPart().getCastedModel().hasParent()) {
-//			final ImageView image = (ImageView) this._convertView.findViewById(R.id.nodeIcon);
-//			final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(image.getLayoutParams());
-//			lp.setMargins(15, 0, 0, 0);
-//			image.setLayoutParams(lp);
-//		}
+		//		if (getPart().getCastedModel().hasParent()) {
+		//			final ImageView image = (ImageView) this._convertView.findViewById(R.id.nodeIcon);
+		//			final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(image.getLayoutParams());
+		//			lp.setMargins(15, 0, 0, 0);
+		//			image.setLayoutParams(lp);
+		//		}
 
-//		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeId());
+		//		loadEveIcon((ImageView) this._convertView.findViewById(R.id.nodeIcon), getPart().getCastedModel().getTypeId());
 		logger.info("-- [AssetRender.updateContent]> Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 	}
 

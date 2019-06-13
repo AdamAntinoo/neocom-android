@@ -37,8 +37,9 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	private PilotV3 pilot;
 
 	// - C O N S T R U C T O R S
-	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
+	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory, final DataDownloaderService downloaderService ) {
 		super(model, factory);
+		this.downloaderService = downloaderService;
 		// Controller creation is the place where to request extended model data.
 		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
 		this.pilot.addPropertyChangeListener(this);
@@ -111,14 +112,16 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	public static class Builder {
 		private CredentialController onConstuction;
 
-		public Builder( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
-			this.onConstuction = new CredentialController(model, factory);
+		public Builder( @NonNull final Credential model
+				, @NonNull final IControllerFactory factory
+				, final DataDownloaderService downloaderService ) {
+			this.onConstuction = new CredentialController(model, factory, downloaderService);
 		}
 
-		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
-			this.onConstuction.downloaderService = downloaderService;
-			return this;
-		}
+		//		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
+		//			this.onConstuction.downloaderService = downloaderService;
+		//			return this;
+		//		}
 
 		public CredentialController build() {
 			Objects.requireNonNull(this.onConstuction.downloaderService);

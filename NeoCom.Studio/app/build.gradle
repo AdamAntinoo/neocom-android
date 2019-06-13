@@ -75,26 +75,16 @@ android {
             srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
-//            srcDirs += 'src/main/java-shared'
         }
         debug.java {
             srcDirs += 'src/debug/java-app'
             srcDirs += 'src/debug/java-test'
-//            srcDirs += 'src/debug/java-mining'
         }
         release.java {
             srcDirs += 'src/release/java-app'
         }
         main.res {
-            srcDirs += 'src/main/res-app'
-            srcDirs += 'src/main/res-core'
             srcDirs += 'src/main/res-fitting'
-            srcDirs += 'src/main/res-industry'
-            srcDirs += 'src/main/res-layouts'
-            srcDirs += 'src/main/res-mining'
-            srcDirs += 'src/main/res-planetary'
-            srcDirs += 'src/main/res-sde'
-            srcDirs += 'src/main/res-ui'
         }
         debug.res{
             srcDirs += 'src/main/res-planetary'

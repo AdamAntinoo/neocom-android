@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="org.dimensinfin.eveonline.neocom">
+          package="org.dimensinfin.eveonline">
 
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 	<application
-			android:name=".app.NeoComApplication"
+			android:name=".neocom.app.NeoComApplication"
 			android:allowBackup="true"
 			android:description="@string/AppDescription"
 			android:icon="@drawable/neocom_icon"
@@ -22,7 +22,7 @@
 
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
-				android:name=".app.activity.AppSplashActivity"
+				android:name=".neocom.app.activity.AppSplashActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
@@ -32,42 +32,42 @@
 		</activity>
 
 		<!-- A C T I V I T I E S -->
-		<activity
-				android:name=".visualtests.activity.VisualTestsActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Visual Tests">
-		</activity>
+		<!--<activity-->
+				<!--android:name=".visualtests.activity.VisualTestsActivity"-->
+				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+				<!--android:label="Visual Tests">-->
+		<!--</activity>-->
 
 		<activity
-				android:name=".app.activity.PilotDashboardActivity"
+				android:name=".neocom.app.activity.PilotDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Pilot Dashboard">
 		</activity>
 		<activity
-				android:name=".mining.activity.MiningLedgerActivity"
+				android:name=".neocom.mining.activity.MiningLedgerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Mining Ledger">
 		</activity>
 		<activity
-				android:name=".planetary.activity.PlanetaryColoniesActivity"
+				android:name=".neocom.planetary.activity.PlanetaryColoniesActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Planetary Colonies">
 		</activity>
 		<activity
-				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"
+				android:name=".neocom.planetary.activity.PlanetaryColonyLayoutActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Planetary Colony Layout">
 		</activity>
 		<activity
-				android:name=".app.activity.core.SettingsActivity"
+				android:name=".neocom.app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">
 		</activity>
 		<activity
-				android:name=".app.activity.AuthorizationFlowActivity"
+				android:name=".neocom.app.activity.AuthorizationFlowActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Authorization ESI Flow"
-				android:parentActivityName=".app.activity.AppDashboardActivity">
+				android:parentActivityName=".neocom.app.activity.AppDashboardActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 
@@ -83,7 +83,7 @@
 
 		 <!--N O T   O P E R A T I V E-->
 		<activity
-				android:name=".app.activity.AppDashboardActivity"
+				android:name=".neocom.app.activity.AppDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:icon="@drawable/splash_icon"
 				android:label="@string/appnameversion"
@@ -93,7 +93,7 @@
 		</activity>
 
 		<activity
-				android:name=".app.activity.AssetsManagerActivity"
+				android:name=".neocom.app.activity.AssetsManagerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Assets Manager">
 			<meta-data
@@ -105,14 +105,14 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".app.activity.RefiningDetailActivity"
+				android:name=".neocom.app.activity.RefiningDetailActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Mining Ledger"
 				android:screenOrientation="landscape">
 
 		</activity>
 		<activity
-				android:name=".app.activity.SkillsManagerActivity"
+				android:name=".neocom.app.activity.SkillsManagerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Skills Manager">
 		</activity>

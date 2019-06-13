@@ -7,6 +7,7 @@ import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
@@ -29,9 +30,9 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 	// - I A N D R O I D C O N T R O L L E R
 	@Override
 	public IRender buildRender( final Context context ) {
-		if (this.getRenderMode().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name()))
+		if (this.getRenderMode().equalsIgnoreCase(EVariants.PLANET_FACILITIES.name()))
 			return new BasicIndustryStructureRender(this, context);
-		if (this.getRenderMode().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name())) {
+		if (this.getRenderMode().equalsIgnoreCase(EVariants.PLANETS_LIST.name())) {
 			// Choose the render depending on the facility.
 			switch (this.getModel().getFacilityType()) {
 				case COMMAND_CENTER:

@@ -5,16 +5,16 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.*;
+import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
+import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 public class AppControllerFactory extends ControllerFactory {
@@ -36,8 +36,7 @@ public class AppControllerFactory extends ControllerFactory {
 			return new AppVersionController((AppVersion) node, this);
 		}
 		if (node instanceof Credential) {
-			return new CredentialController.Builder((Credential) node, this)
-					       .withDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService()).build();
+			return new CredentialController.Builder((Credential) node, this, NeoComComponentFactory.getSingleton().getDownloaderService()).build();
 		}
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
