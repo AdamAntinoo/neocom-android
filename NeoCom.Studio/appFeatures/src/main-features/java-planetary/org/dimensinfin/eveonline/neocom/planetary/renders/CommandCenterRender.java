@@ -11,6 +11,7 @@ import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 public class CommandCenterRender extends ResourceFacetedRender {
+	private TextView facilityName;
 	private TextView cpuLevel;
 	private TextView cpuLevelData;
 	private ProgressBar cpuProgress;
@@ -39,6 +40,7 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
+		this.facilityName = this.getView().findViewById(R.id.facilityName);
 		this.cpuLevel = this.getView().findViewById(R.id.cpuLevel);
 		this.cpuLevelData = this.getView().findViewById(R.id.cpuLevelData);
 		this.cpuProgress = this.getView().findViewById(R.id.cpuProgress);
@@ -53,15 +55,17 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	@Override
 	public void updateContent() {
 		super.updateContent();
+		this.facilityName.setText(this.getController().getModel().getName());
 		cpuLevel.setText(pctFormatter.format(this.accessCpuUsagePercentage()));
 		cpuLevelData.setText(this.accessCpuUsage());
 		cpuProgress.setProgress(this.accessCpuUsagePercentage());
 		powerLevel.setText(pctFormatter.format(this.accessPowerUsagePercentage()));
 		powerLevelData.setText(this.accessPowerUsage());
 		powerProgress.setProgress(this.accessPowerUsagePercentage());
-		fillLevelLabel.setText("Capacity used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
+		fillLevelLabel.setText("Storage used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
 		fillLevelNumbers.setText(this.accessStorageUsed());
-		storageUsedProgress.setProgress(this.accessStorageUsedPercentage());
+		final Float storageProgress = 100 * this.accessStorageUsedPercentage();
+		storageUsedProgress.setProgress(storageProgress.intValue());
 	}
 
 	protected int accessCpuUsagePercentage() {
@@ -89,14 +93,19 @@ public class CommandCenterRender extends ResourceFacetedRender {
 				       + ((CommandCenterFacility) this.getController().getModel()).getPowerOutput()
 				       + " Mw";
 	}
-	protected int accessStorageUsedPercentage() {
-		return 10;
+
+	protected Float accessStorageUsedPercentage() {
+		final int capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
+		final double usage = ((CommandCenterFacility) this.getController().getModel()).getTotalVolume();
+		return (float) (usage / capacity);
 	}
 
 	protected String accessStorageUsed() {
-		return 100
+		final int capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
+		final double usage = ((CommandCenterFacility) this.getController().getModel()).getTotalVolume();
+		return qtyFormatter.format(usage)
 				       + "/"
-				       + 500
+				       + qtyFormatter.format(capacity)
 				       + " M3";
 	}
 }

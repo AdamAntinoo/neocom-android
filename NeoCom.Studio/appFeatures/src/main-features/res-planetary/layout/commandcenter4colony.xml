@@ -8,7 +8,6 @@
         android:id="@+id/nodeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/uipanelborderred">
 
         <include layout="@layout/nodebase4expandnew" />
@@ -32,14 +31,14 @@
             android:layout_toLeftOf="@+id/rightBlock"
             android:layout_toRightOf="@+id/nodeIconBlock">
 
-            <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/fillLevelLabel"
-                style="@style/AppTheme.Label"
+                style="@style/AppTheme.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="@dimen/uirighttextmargin"
-                android:text="Capacity used: 35.00%"
+                android:text="Storage used: 35.00%"
                 android:visibility="visible" />
 
             <ProgressBar
@@ -56,9 +55,9 @@
                 android:progress="35"
                 android:progressTint="@color/appblue" />
 
-            <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
                 android:id="@+id/fillLevelNumbers"
-                style="@style/AppTheme.Label"
+                style="@style/AppTheme.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

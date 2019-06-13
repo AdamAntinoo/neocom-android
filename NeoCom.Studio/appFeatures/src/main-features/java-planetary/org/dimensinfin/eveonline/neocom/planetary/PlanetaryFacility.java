@@ -92,6 +92,10 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		else return cont;
 	}
 
+	public PlanetType getPlanetType() {
+		return planetType;
+	}
+
 	public int getBackgroundColor() {
 		return planetType.getBackgroundColor();
 	}

@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/appFeatures" />
             <option value="$PROJECT_DIR$/appVisualTest" />
-            <option value="$PROJECT_DIR$/../../neocom-datamanagement/ESI.SwaggerApi" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
           </set>
         </option>

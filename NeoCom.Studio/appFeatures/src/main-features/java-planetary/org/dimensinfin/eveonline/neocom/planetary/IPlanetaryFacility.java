@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	String getName();
 
+	PlanetType getPlanetType();
+
 	int getGroupId();
 
 	PlanetaryFacilityType getFacilityType();
@@ -41,8 +43,4 @@ public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	void setCommandCenterPosition( final FacilityGeoPosition commandCenterPosition );
 
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
-
-	//	double getContentsVolume();
-
-	//	Float getStorageCapacity();
 }

@@ -13,8 +13,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	private int powerOutput = -1;
 	private int cpuInUse = -1;
 	private int powerInUse = -1;
-//	private IPlanetaryFacility planetaryFacility;
-	private PlanetaryStorage planetaryStorage;
+	private transient PlanetaryStorage planetaryStorage;
 
 	// - I C O L L A B O R A T I O N
 	@Override
@@ -23,11 +22,20 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	}
 
 	// - C O M M A N D C E N T E R
+	@Override
+	public String getName() {
+		return CommandCenterType.getTypeByLevel(level).getName(this.getPlanetType());
+	}
+
+	public PlanetType getPlanetType() {
+		return this.planetaryFacility.getPlanetType();
+	}
+
 	public int getCpuCapacity() {
 		if (this.cpuCapacity < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes cpu = this.planetaryFacility.getDogmaAttributeById(48);
 			if (null == cpu) return 0;
-			else this.cpuCapacity = Float.valueOf(cpu.getValue()).intValue();
+			else this.cpuCapacity = cpu.getValue().intValue();
 		}
 		return this.cpuCapacity;
 	}
@@ -39,7 +47,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		if (this.powerOutput < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes power = this.planetaryFacility.getDogmaAttributeById(11);
 			if (null == power) return 0;
-			else this.powerOutput = Float.valueOf(power.getValue()).intValue();
+			else this.powerOutput = power.getValue().intValue();
 		}
 		return this.powerOutput;
 	}
@@ -64,6 +72,19 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 
 	public int powerInUse() {
 		return this.powerInUse;
+	}
+
+	public int getStorageCapacity() {
+		if (this.planetaryStorage.storageCapacity < 0) {
+			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
+			if (null == storage) return 0;
+			else this.planetaryStorage.storageCapacity = storage.getValue().intValue();
+		}
+		return this.planetaryStorage.storageCapacity;
+	}
+
+	public double getTotalVolume() {
+		return this.planetaryStorage.getTotalVolume();
 	}
 
 	// - B U I L D E R

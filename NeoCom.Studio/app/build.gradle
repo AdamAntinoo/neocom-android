@@ -162,12 +162,13 @@ dependencies {
 
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
 //    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.0'
 //    implementation 'org.dimensinfin:NeoCom.Model:0.14.0'
 //    implementation 'org.dimensinfin:NeoCom.DataManagement:0.14.0'
 //    implementation files('libs/AndroidMVCLibrary-4.2.1')
 
-    implementation project(':ESI.SwaggerApi')
+//    implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
     implementation project(':appFeatures')

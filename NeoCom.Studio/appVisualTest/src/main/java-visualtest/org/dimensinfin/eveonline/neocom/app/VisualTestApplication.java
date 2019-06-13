@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom;
+package org.dimensinfin.eveonline.neocom.app;
 
 import android.app.Application;
 

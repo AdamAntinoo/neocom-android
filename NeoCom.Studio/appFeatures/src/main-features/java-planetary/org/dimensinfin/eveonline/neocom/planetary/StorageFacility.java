@@ -10,6 +10,10 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdO
 public class StorageFacility extends PlanetaryFacilityWrapper {
 	private PlanetaryStorage planetaryStorage;
 
+	public PlanetType getPlanetType() {
+		return this.planetaryFacility.getPlanetType();
+	}
+
 	public double getStorageCapacity() {
 		final GetUniverseTypesTypeIdOkDogmaAttributes capacity = this.planetaryFacility.getDogmaAttributeById(38);
 		if (null != capacity) return capacity.getValue();

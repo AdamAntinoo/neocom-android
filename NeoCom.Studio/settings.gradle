@@ -3,7 +3,7 @@ include ':appFeatures'
 include ':appVisualTest'
 include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('/Users/luisdediego/Personal/NeoCom/android-mvc/AndroidMVCLibrary')
-include ':ESI.SwaggerApi'
-project(':ESI.SwaggerApi').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/ESI.SwaggerApi')
+//include ':ESI.SwaggerApi'
+//project(':ESI.SwaggerApi').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/ESI.SwaggerApi')
 include ':NeoCom.DataManagement'
 project(':NeoCom.DataManagement').projectDir = new File('/Users/luisdediego/Personal/NeoCom/neocom-datamanagement/NeoCom.DataManagement')

@@ -11,7 +11,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 118
-        versionName "0.15.1.VT"
+        versionName "0.16.0.VT"
         project.archivesBaseName = "NeoCom.VisualTests"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -121,11 +121,12 @@ dependencies {
 
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation project(':AndroidMVCLibrary')
-    implementation project(':ESI.SwaggerApi')
+//    implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
     implementation project(':appFeatures')
 
