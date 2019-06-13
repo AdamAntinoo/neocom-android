@@ -19,7 +19,7 @@ import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.activity.core.APublicCredentialActivity;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.AssetsShipsFragment;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;

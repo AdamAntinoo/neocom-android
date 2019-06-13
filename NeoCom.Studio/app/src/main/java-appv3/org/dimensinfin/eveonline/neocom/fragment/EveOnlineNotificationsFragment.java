@@ -27,7 +27,7 @@ import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.part.PanelTitlePart;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 

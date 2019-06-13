@@ -12,7 +12,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;

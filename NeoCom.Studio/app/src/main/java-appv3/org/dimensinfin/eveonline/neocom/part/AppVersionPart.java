@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 

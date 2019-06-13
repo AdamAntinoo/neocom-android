@@ -33,7 +33,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.services.UpdateJobManager;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 

@@ -25,7 +25,7 @@ import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
 import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

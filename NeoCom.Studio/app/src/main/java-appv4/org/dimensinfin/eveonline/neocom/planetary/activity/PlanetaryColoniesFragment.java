@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -19,7 +20,7 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name()))
+		if (this.getVariant().equalsIgnoreCase(EVariants.PLANETS_LIST.name()))
 			return new PlanetaryDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())

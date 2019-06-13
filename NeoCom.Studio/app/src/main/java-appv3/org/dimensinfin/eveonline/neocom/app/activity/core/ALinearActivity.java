@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 
 import java.util.ArrayList;
 import java.util.List;

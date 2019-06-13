@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.sharedcode.dataservice;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;

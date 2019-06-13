@@ -21,7 +21,7 @@ import android.support.annotation.Nullable;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ALinearActivity;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
 import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;

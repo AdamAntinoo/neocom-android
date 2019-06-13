@@ -27,12 +27,10 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.eveonline.neocom.R;
 //import org.dimensinfin.eveonline.neocom.database.entity.NeoComAsset;
-//import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+//import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 //import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.render.NeoComRender;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
 
 import java.util.concurrent.ExecutionException;
 

@@ -75,7 +75,7 @@ android {
             srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
-            srcDirs += 'src/main/java-shared'
+//            srcDirs += 'src/main/java-shared'
         }
         debug.java {
             srcDirs += 'src/debug/java-app'

@@ -11,6 +11,7 @@
 /.idea/caches
 
 /local.properties
-/build
+build/
 /captures
-/app/coverage
+app/coverage/
+app/build/

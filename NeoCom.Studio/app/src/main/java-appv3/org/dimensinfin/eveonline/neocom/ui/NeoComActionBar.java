@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.eveonline.neocom.R;
 //import org.dimensinfin.eveonline.neocom.core.NeoComException;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.slf4j.Logger;

@@ -8,7 +8,7 @@ import android.content.Intent;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.enums.PreferenceKeys;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

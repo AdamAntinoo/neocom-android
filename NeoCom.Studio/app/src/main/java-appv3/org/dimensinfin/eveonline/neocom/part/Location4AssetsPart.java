@@ -39,7 +39,7 @@ import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 //import org.dimensinfin.eveonline.neocom.entity.Credential;
 //import org.dimensinfin.eveonline.neocom.entity.Property;
-import org.dimensinfin.eveonline.neocom.sharedcode.dataservice.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
