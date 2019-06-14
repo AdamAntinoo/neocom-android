@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
@@ -64,6 +65,11 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 					facilities.add(new StorageFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
 							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+							               .build());
+					break;
+				case EXTRACTOR_CONTROL_UNIT:
+					facilities.add(new ExtractorFacility.Builder()
+							               .withPlanetaryFacility(baseFacility)
 							               .build());
 					break;
 				default:

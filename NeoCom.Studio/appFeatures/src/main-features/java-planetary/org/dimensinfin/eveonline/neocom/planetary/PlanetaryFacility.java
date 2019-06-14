@@ -8,6 +8,7 @@ import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -113,7 +114,9 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	}
 
 	public DateTime getLastCycleStart() {
-		return this.pinDelegate.getLastCycleStart();
+		final DateTime start = this.pinDelegate.getLastCycleStart();
+		if (null == start) return DateTime.now();
+		else return start;
 	}
 
 	public IPlanetaryFacility setLastCycleStart( final DateTime lastCycleStart ) {
@@ -147,6 +150,10 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 
 	public int getGroupId() {
 		return this.planetItemDelegate.getGroupId();
+	}
+
+	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
+		return this.pinDelegate.getExtractorDetails();
 	}
 
 	// - I U N I Q U E M O D E L

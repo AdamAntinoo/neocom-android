@@ -12,6 +12,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.CommandCenterRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.ExtractorRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.StorageRender;
 
@@ -41,6 +42,8 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 					return new StorageRender(this, context);
 				case LAUNCHPAD:
 					return new StorageRender(this, context);
+				case EXTRACTOR_CONTROL_UNIT:
+					return new ExtractorRender(this, context);
 				default:
 					return new PlanetaryFacility4ListRender(this, context);
 			}

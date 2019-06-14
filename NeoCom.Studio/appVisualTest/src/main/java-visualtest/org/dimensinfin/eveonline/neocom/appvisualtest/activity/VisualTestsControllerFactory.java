@@ -8,6 +8,7 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
@@ -34,6 +35,10 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 					       .setRenderMode(EVariants.PLANETS_LIST.name());
 		}
 		if (node instanceof StorageFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
+					       .setRenderMode(EVariants.PLANETS_LIST.name());
+		}
+		if (node instanceof ExtractorFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
 					       .setRenderMode(EVariants.PLANETS_LIST.name());
 		}

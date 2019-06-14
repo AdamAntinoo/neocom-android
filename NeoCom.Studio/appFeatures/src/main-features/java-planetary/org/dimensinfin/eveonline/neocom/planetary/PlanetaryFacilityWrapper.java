@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary;
 import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
@@ -59,12 +60,22 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 
 	@Override
 	public DateTime getLastCycleStart() {
-		return planetaryFacility.getLastCycleStart();
+		return this.planetaryFacility.getLastCycleStart();
 	}
 
 	@Override
 	public List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents() {
 		return this.planetaryFacility.getContents();
+	}
+
+	@Override
+	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
+		return this.planetaryFacility.getExtractorDetails();
+	}
+
+	@Override
+	public PlanetType getPlanetType() {
+		return this.planetaryFacility.getPlanetType();
 	}
 
 	@Override
@@ -91,15 +102,6 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 	public GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId ) {
 		return this.planetaryFacility.getDogmaAttributeById(attributeId);
 	}
-	//	@Override
-	//	public double getContentsVolume() {
-	//		return this.planetaryFacility.getContentsVolume();
-	//	}
-
-	//	@Override
-	//	public Float getStorageCapacity() {
-	//		return this.planetaryFacility.getStorageCapacity();
-	//	}
 
 	// -  I I T E M F A C E T
 	@Override

@@ -12,6 +12,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
@@ -44,6 +45,9 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		if (node instanceof StorageFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
+		}
+		if (node instanceof ExtractorFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		if (node instanceof PlanetaryResource) {

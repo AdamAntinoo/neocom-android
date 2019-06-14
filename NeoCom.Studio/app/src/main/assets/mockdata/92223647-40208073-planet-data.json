@@ -52,7 +52,7 @@
     }
   ],
   "pins": [
-    {
+    { // Command Center
       "contents": [
         {
           "amount": 233,
@@ -79,7 +79,7 @@
       "schematic_id": 73,
       "type_id": 2474
     },
-    {
+    { // Advanced Industry
       "contents": [
         {
           "amount": 40,
@@ -93,7 +93,7 @@
       "schematic_id": 73,
       "type_id": 2474
     },
-    {
+    { // Extractor control unit
       "expiry_time": "2019-06-10T14:48:38Z",
       "extractor_details": {
         "cycle_time": 7200,
@@ -135,7 +135,7 @@
       "pin_id": 1024811499544,
       "type_id": 2848
     },
-    {
+    { // Storage facility
       "contents": [
         {
           "amount": 3100,

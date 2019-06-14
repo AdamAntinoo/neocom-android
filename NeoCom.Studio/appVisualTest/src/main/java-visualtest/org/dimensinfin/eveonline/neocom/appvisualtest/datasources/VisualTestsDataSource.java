@@ -10,17 +10,22 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
+
+import org.joda.time.DateTime;
 
 public class VisualTestsDataSource extends AMVCDataSource {
 	private ESIDataAdapter esiDataAdapter /*= NeoComComponentFactory.getSingleton().getEsiDataAdapter()*/;
@@ -76,6 +81,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                            .build();
 		facilities.add(commandCenter);
 
+		// - STORAGE FACILITY
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins storagePin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		storagePin.setPinId(1024811499528L);
 		storagePin.setTypeId(2536);
@@ -96,6 +102,46 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents(), this.esiDataAdapter))
 				                                        .build();
 		facilities.add(storageFacility);
+
+		// - EXTRACTOR FACILITY
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins extractorPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		extractorPin.setPinId(1024811499544L);
+		extractorPin.setTypeId(2848);
+		extractorPin.setInstallTime(new DateTime("2019-06-02T08:48:38Z"));
+		extractorPin.setLastCycleStart(new DateTime("2019-06-14T19:15:00Z"));
+		extractorPin.setLatitude(0.0F);
+		extractorPin.setLongitude(0.0F);
+		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
+		extractorDetails.setCycleTime(7200);
+		extractorDetails.setProductTypeId(2270);
+		extractorDetails.setQtyPerCycle(5521);
+		extractorDetails.setHeadRadius(0.0337348617613F);
+
+		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
+		extractorHead.setHeadId(0);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorPin.setExtractorDetails(extractorDetails);
+
+//		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+//		content.setTypeId(9836);
+//		content.setAmount(1000L);
+//		storagePin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(extractorPin.getTypeId()))
+				               .withPin(extractorPin)
+				               .build();
+		final ExtractorFacility extractorFacility = new ExtractorFacility.Builder()
+				                                        .withPlanetaryFacility(baseFacility)
+//															.withExtractorDetails(extractorDetails)
+//				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents(), this.esiDataAdapter))
+				                                        .build();
+		facilities.add(extractorFacility);
 
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
