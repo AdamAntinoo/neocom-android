@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
@@ -68,7 +69,7 @@ public class AuthorizationFlowActivity extends Activity {
 
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
-	private ESIGlobalAdapter esiAdapter;
+	private ESIDataAdapter esiAdapter;
 	private ImageView spinner = null;
 
 	/**
@@ -332,6 +333,6 @@ public class AuthorizationFlowActivity extends Activity {
 	private void injectComponents() {
 		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		this.esiAdapter = NeoComComponentFactory.getSingleton().getEsiAdapter();
+		this.esiAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 	}
 }

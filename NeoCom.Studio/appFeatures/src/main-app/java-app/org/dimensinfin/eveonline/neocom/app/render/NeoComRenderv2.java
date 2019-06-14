@@ -85,9 +85,8 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
 		this._rightArrow = this.getView().findViewById(R.id.rightArrow);
-		this._rightArrow.setVisibility(View.INVISIBLE);
+		//		this._rightArrow.setVisibility(View.INVISIBLE);
 		this.menuIcon = this.getView().findViewById(R.id.menuIcon);
-		this.menuIcon.setVisibility(View.INVISIBLE);
 	}
 
 	/**
@@ -120,10 +119,10 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 				//				}
 			} else _rightArrow.setVisibility(View.GONE);
 		}
-		if ( null != menuIcon){
+		if (null != menuIcon) {
 			if (targetModel instanceof View.OnLongClickListener) {
 				menuIcon.setVisibility(View.VISIBLE);
-			}
+			} else this.menuIcon.setVisibility(View.INVISIBLE);
 		}
 	}
 

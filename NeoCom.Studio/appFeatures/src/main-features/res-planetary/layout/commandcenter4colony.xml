@@ -14,7 +14,7 @@
 
 		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 				android:id="@+id/facilityName"
-				style="@style/AppTheme.NeoComText.Click"
+				style="@style/AppTheme.NeoComText"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentTop="true"

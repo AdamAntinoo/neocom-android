@@ -7,25 +7,28 @@ import java.util.Objects;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
-public class StorageFacility extends PlanetaryFacilityWrapper {
+public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
 	private PlanetaryStorage planetaryStorage;
 
 	public PlanetType getPlanetType() {
 		return this.planetaryFacility.getPlanetType();
 	}
 
-	public double getStorageCapacity() {
-		final GetUniverseTypesTypeIdOkDogmaAttributes capacity = this.planetaryFacility.getDogmaAttributeById(38);
-		if (null != capacity) return capacity.getValue();
-		else return 0.0;
+	public Float getStorageCapacity() {
+		if (this.planetaryStorage.storageCapacity < 0) {
+			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
+			if (null == storage) return 0.0F;
+			else this.planetaryStorage.storageCapacity = storage.getValue();
+		}
+		return this.planetaryStorage.storageCapacity;
+	}
+
+	public Float getTotalVolume() {
+		return this.planetaryStorage.getTotalVolume();
 	}
 
 	public double getTotalValue() {
-		return planetaryStorage.getTotalValue();
-	}
-
-	public double getTotalVolume() {
-		return planetaryStorage.getTotalVolume();
+		return this.planetaryStorage.getTotalValue();
 	}
 
 	// - I C O L L A B O R A T I O N

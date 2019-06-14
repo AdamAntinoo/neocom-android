@@ -104,7 +104,7 @@
 
 	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 			android:id="@+id/solarSystemName"
-			style="@style/AppTheme.NeoComText"
+			style="@style/AppTheme.NeoComText.Click"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"

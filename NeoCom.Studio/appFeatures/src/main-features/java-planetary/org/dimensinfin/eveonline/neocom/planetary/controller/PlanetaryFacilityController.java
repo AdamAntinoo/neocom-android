@@ -13,6 +13,7 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.CommandCenterRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.StorageRender;
 
 public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFacility> implements IContainer {
 	// - C O N S T R U C T O R S
@@ -37,7 +38,9 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 				case COMMAND_CENTER:
 					return new CommandCenterRender(this, context);
 				case STORAGE:
-					return new PlanetaryFacility4ListRender(this, context);
+					return new StorageRender(this, context);
+				case LAUNCHPAD:
+					return new StorageRender(this, context);
 				default:
 					return new PlanetaryFacility4ListRender(this, context);
 			}

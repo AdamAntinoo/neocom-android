@@ -18,7 +18,6 @@ import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
-//	protected ESIGlobalAdapter esiAdapter;
 	protected ESIDataAdapter esiDataAdapter;
 
 	protected ESIDataAdapter getEsiDataAdapter() {
@@ -56,6 +55,12 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 							               .build());
 					break;
 				case STORAGE:
+					facilities.add(new StorageFacility.Builder()
+							               .withPlanetaryFacility(baseFacility)
+							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+							               .build());
+					break;
+				case LAUNCHPAD:
 					facilities.add(new StorageFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
 							               .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))

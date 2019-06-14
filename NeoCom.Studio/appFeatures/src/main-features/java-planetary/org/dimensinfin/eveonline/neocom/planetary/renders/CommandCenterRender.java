@@ -71,7 +71,7 @@ public class CommandCenterRender extends ResourceFacetedRender {
 		this.fillLevelLabel.setText("Storage used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
 		this.fillLevelNumbers.setText(this.accessStorageUsed());
 		final Float storageProgress = 100 * this.accessStorageUsedPercentage();
-		storageUsedProgress.setProgress(storageProgress.intValue());
+		this.storageUsedProgress.setProgress(storageProgress.intValue());
 		this.levelDecorator.setVisibility(View.VISIBLE);
 		switch (((CommandCenterFacility)this.getController().getModel()).getUpgradeLevel()) {
 			case 1:

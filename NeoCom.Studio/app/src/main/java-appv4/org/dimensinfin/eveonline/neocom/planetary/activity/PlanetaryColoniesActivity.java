@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import android.os.Bundle;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
@@ -18,7 +17,7 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColoniesFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(EActivities.PLANETARY_COLOY_LAYOUT_ACTIVITY.name()));
+				             .setVariant(EVariants.PLANETS_LIST.name()));
 	}
 
 	protected View generateActionBar() {

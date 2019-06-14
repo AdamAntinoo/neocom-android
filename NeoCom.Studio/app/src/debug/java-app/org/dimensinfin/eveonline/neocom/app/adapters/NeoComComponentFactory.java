@@ -45,7 +45,7 @@ public class NeoComComponentFactory {
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	private IGlobalPreferencesManager preferencesProvider;
-	private ESIGlobalAdapter esiAdapter;
+//	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
 	private NeoComAndroidDBHelper neocomDBHelper;
@@ -100,13 +100,13 @@ public class NeoComComponentFactory {
 		return this.fileSystemAdapter;
 	}
 
-	public ESIGlobalAdapter getEsiAdapter() {
-		if (null == this.esiAdapter) {
-			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
-					             .build();
-		}
-		return this.esiAdapter;
-	}
+//	public ESIGlobalAdapter getEsiAdapter() {
+//		if (null == this.esiAdapter) {
+//			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+//					             .build();
+//		}
+//		return this.esiAdapter;
+//	}
 
 	public ESIDataAdapter getEsiDataAdapter() {
 		if (null == this.esiDataAdapter) {
@@ -129,7 +129,7 @@ public class NeoComComponentFactory {
 	public TimedUpdater getTimedService() {
 		if (null == this.timedService) {
 			timedService = new TimedUpdater.Builder()
-					               .withESIAdapter(this.getEsiAdapter())
+					               .withESIAdapter(this.getEsiDataAdapter())
 					               .withPreferencesProvider(this.getPreferencesProvider())
 					               .withESIDataPersistenceService(this.getPersistenceService())
 					               .withCredentialRepository(this.getCredentialRepository())
@@ -144,7 +144,7 @@ public class NeoComComponentFactory {
 			try {
 				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
 				persistenceService = new ESIDataPersistenceService.Builder()
-						                     .withEsiAdapter(esiAdapter)
+						                     .withEsiAdapter(esiDataAdapter)
 						                     .withMiningRepository(this.getMiningRepository())
 						                     .build();
 			} catch (SQLException sqle) {
