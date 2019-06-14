@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.datasources.VisualTestsDataSource;
 
 public class VisualTestsFragment extends AMVCPagerFragment {
@@ -20,6 +21,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
+					   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 //				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 //				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
 				       //				       .withApplicationContext(this.getActivityContext().getApplicationContext())

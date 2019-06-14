@@ -163,10 +163,15 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-simple:1.7.25'
     testImplementation 'joda-time:joda-time:2.9.9'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'com.openpojo:openpojo:0.8.12'
     testImplementation 'org.mockito:mockito-core:2.22.0'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
     testImplementation "org.robolectric:robolectric:4.3-alpha-2"
+
+//    testImplementation 'org.dimensinfin:CoreBase.core:3.0.1'
+//    testImplementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
+//    testImplementation project(':NeoCom.DataManagement')
 }

@@ -56,22 +56,24 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	public void updateContent() {
 		super.updateContent();
 		this.facilityName.setText(this.getController().getModel().getName());
-		cpuLevel.setText(pctFormatter.format(this.accessCpuUsagePercentage()));
-		cpuLevelData.setText(this.accessCpuUsage());
-		cpuProgress.setProgress(this.accessCpuUsagePercentage());
-		powerLevel.setText(pctFormatter.format(this.accessPowerUsagePercentage()));
-		powerLevelData.setText(this.accessPowerUsage());
-		powerProgress.setProgress(this.accessPowerUsagePercentage());
-		fillLevelLabel.setText("Storage used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
-		fillLevelNumbers.setText(this.accessStorageUsed());
+		this.cpuLevel.setText("CPU: " + pctFormatter.format(this.accessCpuUsagePercentage()));
+		this.cpuLevelData.setText(this.accessCpuUsage());
+		final Float cpuProgress = 100 * this.accessCpuUsagePercentage();
+		this.cpuProgress.setProgress(cpuProgress.intValue());
+		this.powerLevel.setText("POWER: " + pctFormatter.format(this.accessPowerUsagePercentage()));
+		this.powerLevelData.setText(this.accessPowerUsage());
+		final Float powerProgress = 100 * this.accessPowerUsagePercentage();
+		this.powerProgress.setProgress(powerProgress.intValue());
+		this.fillLevelLabel.setText("Storage used: " + pctFormatter.format(this.accessStorageUsedPercentage()));
+		this.fillLevelNumbers.setText(this.accessStorageUsed());
 		final Float storageProgress = 100 * this.accessStorageUsedPercentage();
 		storageUsedProgress.setProgress(storageProgress.intValue());
 	}
 
-	protected int accessCpuUsagePercentage() {
-		return ((CommandCenterFacility) this.getController().getModel()).cpuInUse()
-				       /
-				       ((CommandCenterFacility) this.getController().getModel()).getCpuCapacity();
+	protected Float accessCpuUsagePercentage() {
+		final Float cpuUse = Float.valueOf(((CommandCenterFacility) this.getController().getModel()).cpuInUse());
+		final Float cpuCapacity = Float.valueOf(((CommandCenterFacility) this.getController().getModel()).getCpuCapacity());
+		return cpuUse / cpuCapacity;
 	}
 
 	protected String accessCpuUsage() {
@@ -81,10 +83,10 @@ public class CommandCenterRender extends ResourceFacetedRender {
 				       + " Tf";
 	}
 
-	protected int accessPowerUsagePercentage() {
-		return ((CommandCenterFacility) this.getController().getModel()).powerInUse()
-				       /
-				       ((CommandCenterFacility) this.getController().getModel()).getPowerOutput();
+	protected Float accessPowerUsagePercentage() {
+		final Float powerUse = Float.valueOf(((CommandCenterFacility) this.getController().getModel()).powerInUse());
+		final Float powerOutput = Float.valueOf(((CommandCenterFacility) this.getController().getModel()).getPowerOutput());
+		return powerUse / powerOutput;
 	}
 
 	protected String accessPowerUsage() {

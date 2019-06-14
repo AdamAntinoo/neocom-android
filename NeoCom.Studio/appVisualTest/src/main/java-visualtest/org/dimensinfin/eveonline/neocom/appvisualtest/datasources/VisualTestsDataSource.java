@@ -20,9 +20,10 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
+import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 
 public class VisualTestsDataSource extends AMVCDataSource {
-	private ESIDataAdapter esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+	private ESIDataAdapter esiDataAdapter /*= NeoComComponentFactory.getSingleton().getEsiDataAdapter()*/;
 	private ColonyPack colonyPack;
 
 	@Override
@@ -43,12 +44,12 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		planetData.setSystemId(30003280);
 		planetData.setTypeId(2016);
 
-		final GetUniverseTypesTypeIdOk facilityItemEsi = new GetUniverseTypesTypeIdOk();
-		facilityItemEsi.name("Barren Command Center");
-		facilityItemEsi.typeId(2524);
-		facilityItemEsi.groupId(1027);
-		final EveItem facilityItem = new EveItem(2524);
-		final GetUniverseTypesTypeIdOk facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
+		final GetUniverseTypesTypeIdOk facilityCommandCenterItem = new GetUniverseTypesTypeIdOk();
+		facilityCommandCenterItem.name("Barren Command Center");
+		facilityCommandCenterItem.typeId(2136);
+		facilityCommandCenterItem.groupId(1027);
+		//		final EveItem facilityItem = new EveItem(2524);
+		//		final GetUniverseTypesTypeIdOk facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
@@ -58,22 +59,44 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		GetCharactersCharacterIdPlanetsPlanetIdOkContents content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
 		content.setTypeId(3689);
-		content.setAmount(1000L);
+		content.setAmount(100L);
 		pin.addContentsItem(content);
 
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
-		final IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
-				                                        .withEsiDataAdapter(esiDataAdapter)
-				                                        .withPlanetType(PlanetType.GAS)
-				                                        .withFacilityItem(facilityItem)
-				                                        .withPin(pin)
-				                                        .build();
+		IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
+				                                  .withEsiDataAdapter(esiDataAdapter)
+				                                  .withPlanetType(PlanetType.GAS)
+				                                  .withFacilityItem(new EveItem(facilityCommandCenterItem.getTypeId()))
+				                                  .withPin(pin)
+				                                  .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
 				                                            .withLevel(colony.getUpgradeLevel())
 				                                            .withPlanetaryFacility(baseFacility)
 				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
 				                                            .build();
 		facilities.add(commandCenter);
+
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins storagePin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		storagePin.setPinId(1024811499528L);
+		storagePin.setTypeId(2536);
+		storagePin.setLatitude(0.0F);
+		storagePin.setLongitude(0.0F);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(9836);
+		content.setAmount(1000L);
+		storagePin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(2536))
+				               .withPin(storagePin)
+				               .build();
+		final StorageFacility storageFacility = new StorageFacility.Builder()
+				                                        .withPlanetaryFacility(baseFacility)
+				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents(), this.esiDataAdapter))
+				                                        .build();
+		facilities.add(storageFacility);
+
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
 				             .withCapsuleerIdentifier(123456)
@@ -88,8 +111,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.SPLASH.name())) {
 			// - S P L A S H
 			this.addModelContents(new AppVersion());
-			this.addModelContents(new AppVersion().setName("Visual Test Name"));
-			this.addModelContents(new AppVersion().setVersion("Visual Test Version"));
+			this.addModelContents(new AppVersion().setName("NeoCom").setVersion("v 0.16 VT"));
 		}
 		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.PLANETARY_COMMANDCENTER.name())) {
 			// -  P L A N E T A R Y
@@ -109,6 +131,11 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		@Override
 		protected Builder getActualBuilder() {
+			return this;
+		}
+
+		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 	}

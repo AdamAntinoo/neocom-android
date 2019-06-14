@@ -9,8 +9,10 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {
@@ -29,6 +31,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		if (node instanceof CommandCenterFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
 					       .setRenderMode(EVariants.PLANETS_LIST.name());
+		}
+		if (node instanceof PlanetaryResource) {
+			return new PlanetaryResourceController((PlanetaryResource) node, this);
 		}
 		return super.createController(node);
 	}

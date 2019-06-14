@@ -1,10 +1,12 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
+import android.os.Looper;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
@@ -46,12 +48,14 @@ public class PlanetaryResourceRender extends NeoComRenderv2 {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.resourceName.setText(this.getController().getModel().getName());
-		this.resourceTypeId.setText(qtyFormatter.format(this.getController().getModel().getTypeId()));
-		this.tier.setText(this.getController().getModel().getTier().getTypeCode());
-		this.volume.setText(this.accessVolume());
-		this.quantity.setText(this.accessQuantity());
-		this.value.setText(this.accessValue());
+		AppCompatibilityUtils.backgroundExecutor.submit(()->{
+			this.resourceName.setText(this.getController().getModel().getName());
+			this.resourceTypeId.setText(qtyFormatter.format(this.getController().getModel().getTypeId()));
+			this.tier.setText(this.getController().getModel().getTier().getTypeCode());
+			this.volume.setText(this.accessVolume());
+			this.quantity.setText(this.accessQuantity());
+			this.value.setText(this.accessValue());
+		});
 	}
 
 	protected String accessVolume() {
