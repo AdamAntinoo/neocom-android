@@ -69,7 +69,8 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	}
 
 	// - F I E L D - S E C T I O N
-	protected ImageView _rightArrow = null;
+	protected ImageView _rightArrow;
+	protected ImageView menuIcon;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NeoComRenderv2( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -83,7 +84,10 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	// - I R E N D E R   I N T E R F A C E
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
-		_rightArrow = this.getView().findViewById(R.id.rightArrow);
+		this._rightArrow = this.getView().findViewById(R.id.rightArrow);
+		this._rightArrow.setVisibility(View.INVISIBLE);
+		this.menuIcon = this.getView().findViewById(R.id.menuIcon);
+		this.menuIcon.setVisibility(View.INVISIBLE);
 	}
 
 	/**
@@ -115,6 +119,11 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 				//					}
 				//				}
 			} else _rightArrow.setVisibility(View.GONE);
+		}
+		if ( null != menuIcon){
+			if (targetModel instanceof View.OnLongClickListener) {
+				menuIcon.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 

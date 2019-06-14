@@ -18,9 +18,9 @@
 			android:textColor="@android:color/white"
 			android:textSize="10sp"/>
 
-	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 			android:id="@+id/resourceName"
-			style="@style/AppTheme.NeoComText.Orange"
+			style="@style/AppTheme.NeoComText"
 			android:layout_alignParentTop="true"
 			android:layout_toRightOf="@+id/nodeIconBlock"
 			android:text="@string/default_resource"

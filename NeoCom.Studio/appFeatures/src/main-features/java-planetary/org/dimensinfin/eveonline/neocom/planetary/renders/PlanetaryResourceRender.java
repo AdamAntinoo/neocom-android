@@ -1,17 +1,16 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.Looper;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
 
-public class PlanetaryResourceRender extends NeoComRenderv2 {
+public class PlanetaryResourceRender extends ResourceFacetedRender {
 	private TextView resourceName;
 	private TextView resourceTypeId;
 	private TextView tier;
@@ -48,13 +47,21 @@ public class PlanetaryResourceRender extends NeoComRenderv2 {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		AppCompatibilityUtils.backgroundExecutor.submit(()->{
-			this.resourceName.setText(this.getController().getModel().getName());
-			this.resourceTypeId.setText(qtyFormatter.format(this.getController().getModel().getTypeId()));
-			this.tier.setText(this.getController().getModel().getTier().getTypeCode());
-			this.volume.setText(this.accessVolume());
-			this.quantity.setText(this.accessQuantity());
-			this.value.setText(this.accessValue());
+		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+			try {
+				final String name = this.getController().getModel().getName(); // Access and download the item.
+				final String valueData = this.accessValue();
+				((Activity) this.getContext()).runOnUiThread(() -> {
+					this.resourceName.setText(this.getController().getModel().getName());
+					this.resourceTypeId.setText("[#" + this.getController().getModel().getTypeId() + "]");
+					this.tier.setText(this.getController().getModel().getTier().getTypeCode());
+					this.volume.setText(this.accessVolume() + " m3");
+					this.quantity.setText(this.accessQuantity() + " items");
+					this.value.setText(this.accessValue());
+				});
+			} catch (RuntimeException rte) {
+				rte.printStackTrace();
+			}
 		});
 	}
 

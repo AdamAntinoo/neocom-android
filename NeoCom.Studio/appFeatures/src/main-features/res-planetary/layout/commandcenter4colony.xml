@@ -14,7 +14,7 @@
 
 		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 				android:id="@+id/facilityName"
-				style="@style/AppTheme.TextView"
+				style="@style/AppTheme.NeoComText.Click"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentTop="true"
@@ -93,6 +93,7 @@
 						android:layout_centerVertical="true"
 						android:layout_marginRight="@dimen/uirighttextmargin"
 						android:text="CPU: 37%"
+						android:textSize="10dp"
 						android:visibility="visible"/>
 
 				<ProgressBar
@@ -118,6 +119,7 @@
 						android:layout_centerVertical="true"
 						android:layout_marginRight="@dimen/uirighttextmargin"
 						android:text="7.934/21.315 tf"
+						android:textSize="10dp"
 						android:visibility="visible"/>
 
 			</LinearLayout>
@@ -140,6 +142,7 @@
 						android:layout_centerVertical="true"
 						android:layout_marginRight="@dimen/uirighttextmargin"
 						android:text="Power: 96.01%"
+						android:textSize="10dp"
 						android:visibility="visible"/>
 
 				<ProgressBar
@@ -165,6 +168,7 @@
 						android:layout_centerVertical="true"
 						android:layout_marginRight="@dimen/uirighttextmargin"
 						android:text="16,321/117,000 M"
+						android:textSize="10dp"
 						android:visibility="visible"/>
 
 			</LinearLayout>

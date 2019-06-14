@@ -42,8 +42,8 @@ public class PlanetaryFacility4ListRender extends ResourceFacetedRender {
 	public void updateContent() {
 		super.updateContent();
 		this.facilityName.setText(this.getController().getModel().getName());
-		this.cycleStart.setText(this.getController().getModel().getLastCycleStart().toString());
-		this.cycleElapsed.setText(this.accessElapsedCycle());
+//		this.cycleStart.setText(this.getController().getModel().getLastCycleStart().toString());
+//		this.cycleElapsed.setText(this.accessElapsedCycle());
 	}
 	protected String accessElapsedCycle(){
 		return Long.valueOf(( DateTime.now().getMillis()-this.getController().getModel().getLastCycleStart().getMillis())/1000/60).toString()

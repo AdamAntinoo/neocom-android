@@ -1,6 +1,8 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityCo
 
 public class CommandCenterRender extends ResourceFacetedRender {
 	private TextView facilityName;
+	private ImageView levelDecorator;
 	private TextView cpuLevel;
 	private TextView cpuLevelData;
 	private ProgressBar cpuProgress;
@@ -41,6 +44,7 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	public void initializeViews() {
 		super.initializeViews();
 		this.facilityName = this.getView().findViewById(R.id.facilityName);
+		this.levelDecorator = this.getView().findViewById(R.id.botrightDecorator);
 		this.cpuLevel = this.getView().findViewById(R.id.cpuLevel);
 		this.cpuLevelData = this.getView().findViewById(R.id.cpuLevelData);
 		this.cpuProgress = this.getView().findViewById(R.id.cpuProgress);
@@ -68,6 +72,24 @@ public class CommandCenterRender extends ResourceFacetedRender {
 		this.fillLevelNumbers.setText(this.accessStorageUsed());
 		final Float storageProgress = 100 * this.accessStorageUsedPercentage();
 		storageUsedProgress.setProgress(storageProgress.intValue());
+		this.levelDecorator.setVisibility(View.VISIBLE);
+		switch (((CommandCenterFacility)this.getController().getModel()).getUpgradeLevel()) {
+			case 1:
+				levelDecorator.setImageResource(R.drawable.level1white);
+				break;
+			case 2:
+				levelDecorator.setImageResource(R.drawable.level2white);
+				break;
+			case 3:
+				levelDecorator.setImageResource(R.drawable.level3white);
+				break;
+			case 4:
+				levelDecorator.setImageResource(R.drawable.level4white);
+				break;
+			case 5:
+				levelDecorator.setImageResource(R.drawable.level5white);
+				break;
+		}
 	}
 
 	protected Float accessCpuUsagePercentage() {
@@ -97,13 +119,13 @@ public class CommandCenterRender extends ResourceFacetedRender {
 	}
 
 	protected Float accessStorageUsedPercentage() {
-		final int capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
+		final Float capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
 		final double usage = ((CommandCenterFacility) this.getController().getModel()).getTotalVolume();
 		return (float) (usage / capacity);
 	}
 
 	protected String accessStorageUsed() {
-		final int capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
+		final Float capacity = ((CommandCenterFacility) this.getController().getModel()).getStorageCapacity();
 		final double usage = ((CommandCenterFacility) this.getController().getModel()).getTotalVolume();
 		return qtyFormatter.format(usage)
 				       + "/"

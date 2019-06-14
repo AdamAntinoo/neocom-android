@@ -36,6 +36,8 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 			switch (this.getModel().getFacilityType()) {
 				case COMMAND_CENTER:
 					return new CommandCenterRender(this, context);
+				case STORAGE:
+					return new PlanetaryFacility4ListRender(this, context);
 				default:
 					return new PlanetaryFacility4ListRender(this, context);
 			}

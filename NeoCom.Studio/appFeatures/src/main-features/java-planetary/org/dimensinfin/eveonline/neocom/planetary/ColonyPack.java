@@ -41,7 +41,7 @@ public class ColonyPack extends NeoComExpandableNode {
 	}
 
 	public Integer getUpgradeLevel() {
-		return colony.getUpgradeLevel();
+		return this.colony.getUpgradeLevel();
 	}
 
 	public int getCapsuleerIdentifier() {
@@ -112,6 +112,23 @@ public class ColonyPack extends NeoComExpandableNode {
 			usedPower += facility.getPowerUsage();
 		}
 		return usedPower;
+	}
+
+	public Float getStorageInUse() {
+		Float storage = 0.0F;
+		for (IPlanetaryFacility facility : this.facilities) {
+			if (facility instanceof IPlanetaryStorage)
+				storage += ((IPlanetaryStorage) facility).getTotalVolume();
+		}
+		return storage;
+	}
+	public Float getStorageCapacity() {
+		Float storage = 0.0F;
+		for (IPlanetaryFacility facility : this.facilities) {
+			if (facility instanceof IPlanetaryStorage)
+				storage += ((IPlanetaryStorage) facility).getStorageCapacity();
+		}
+		return storage;
 	}
 
 	// - B U I L D E R

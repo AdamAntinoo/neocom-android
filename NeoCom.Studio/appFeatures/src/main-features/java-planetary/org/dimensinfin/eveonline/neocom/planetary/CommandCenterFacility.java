@@ -27,6 +27,10 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return CommandCenterType.getTypeByLevel(level).getName(this.getPlanetType());
 	}
 
+	public Integer getUpgradeLevel() {
+		return this.level;
+	}
+
 	public PlanetType getPlanetType() {
 		return this.planetaryFacility.getPlanetType();
 	}
@@ -74,16 +78,16 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.powerInUse;
 	}
 
-	public int getStorageCapacity() {
+	public Float getStorageCapacity() {
 		if (this.planetaryStorage.storageCapacity < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
-			if (null == storage) return 0;
-			else this.planetaryStorage.storageCapacity = storage.getValue().intValue();
+			if (null == storage) return 0.0F;
+			else this.planetaryStorage.storageCapacity = storage.getValue();
 		}
 		return this.planetaryStorage.storageCapacity;
 	}
 
-	public double getTotalVolume() {
+	public Float getTotalVolume() {
 		return this.planetaryStorage.getTotalVolume();
 	}
 

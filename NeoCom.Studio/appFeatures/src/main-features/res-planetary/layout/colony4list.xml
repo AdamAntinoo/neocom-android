@@ -41,8 +41,8 @@
 
 		<ImageView
 				android:id="@+id/bottomrightDecorator"
-				android:layout_width="12dp"
-				android:layout_height="12dp"
+				android:layout_width="@dimen/halfnodeiconsize"
+				android:layout_height="@dimen/halfnodeiconsize"
 				android:layout_gravity="right|bottom"
 				android:layout_marginBottom="2dp"
 				android:layout_marginRight="4dp"
@@ -51,8 +51,8 @@
 
 		<ImageView
 				android:id="@+id/bottomleftDecorator"
-				android:layout_width="16dp"
-				android:layout_height="16dp"
+				android:layout_width="@dimen/halfnodeiconsize"
+				android:layout_height="@dimen/halfnodeiconsize"
 				android:layout_gravity="left|bottom"
 				android:layout_marginBottom="0dp"
 				android:layout_marginLeft="2dp"
@@ -104,7 +104,7 @@
 
 	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 			android:id="@+id/solarSystemName"
-			style="@style/AppTheme.TextView"
+			style="@style/AppTheme.NeoComText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
@@ -115,7 +115,7 @@
 
 	<TextView
 			android:id="@+id/installationsLabel"
-			style="@style/AppTheme.Label.Big"
+			style="@style/AppTheme.TextView"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignBaseline="@+id/installationsNumber"
@@ -123,16 +123,14 @@
 			android:layout_toRightOf="@+id/installationsNumber"
 			android:text="Installations"/>
 
-	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
 			android:id="@+id/installationsNumber"
-			style="@style/AppTheme.TextView"
+			style="@style/AppTheme.NeoComText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/solarSystemName"
 			android:layout_toRightOf="@+id/planetIconBlock"
-			android:text="11"
-			android:textSize="13sp"
-			android:textStyle="bold"/>
+			android:text="@string/default_smallnumber"/>
 
 	<org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
 			android:id="@+id/planetType"
@@ -161,27 +159,26 @@
 				android:src="@drawable/storage80_white"
 				android:visibility="visible"/>
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 				android:id="@+id/storageUsedLabel"
-				style="@style/AppTheme.Label.Big"
+				style="@style/AppTheme.NeoComText.Category"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="@dimen/uilefttextmargin"
 				android:gravity="right"
-				android:text="Colony space in use:"
-				android:textSize="12sp"
-				android:textStyle="bold"/>
+				android:layout_marginTop="2dp"
+				android:text="Total Storage in use:"/>
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+		<org.dimensinfin.android.mvc.fonts.PrototypeTextView
 				android:id="@+id/storageUsed"
 				style="@style/AppTheme.StockCounter"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="@dimen/uilefttextmargin"
 				android:gravity="right"
+				android:layout_marginTop="3dip"
 				android:text="1.345 m3/12.500 m3"
-				android:textSize="12sp"
-				android:textStyle="bold"/>
+				android:textSize="13sp"/>
 
 	</LinearLayout>
 </RelativeLayout>
