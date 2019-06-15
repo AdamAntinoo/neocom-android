@@ -5,16 +5,21 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 
-public class ExtractorFacility extends PlanetaryFacilityWrapper {
+public class ExtractorFacility extends PlanetaryFacilityWrapper  {
 	private EveItem extractionType;
 
 	public String getExtractingResourceName() {
 		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails details = this.planetaryFacility.getExtractorDetails();
 		this.extractionType = new EveItem(details.getProductTypeId());
 		return this.extractionType.getName();
+	}
+
+	public String getExtractingResourceURLForItem() {
+		return this.extractionType.getURLForItem();
 	}
 
 	// - I C O L L A B O R A T I O N
@@ -33,7 +38,9 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 
 		public Builder withPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 			this.onConstruction.planetaryFacility = planetaryFacility;
-			this.onConstruction.extractionType=new EveItem(this.onConstruction.planetaryFacility.getExtractorDetails().getProductTypeId());
+			final Integer extractTypeId = this.onConstruction.planetaryFacility.getExtractorDetails().getProductTypeId();
+			if ( null == extractTypeId)
+			this.onConstruction.extractionType = new EveItem();
 			return this;
 		}
 

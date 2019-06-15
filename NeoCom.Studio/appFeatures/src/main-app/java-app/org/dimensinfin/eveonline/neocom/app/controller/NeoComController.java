@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.eveonline.neocom.R;
 
 public abstract class NeoComController<M extends ICollaboration> extends AAndroidController<M> {
 	private Separator.ESeparatorType theme = Separator.ESeparatorType.DEFAULT;
@@ -34,14 +35,16 @@ public abstract class NeoComController<M extends ICollaboration> extends AAndroi
 			List<IAndroidController> ch = this.orderingFeature(this.getChildren());
 			logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
-			contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
+			if (((IExpandable) this.getModel()).isExpanded())
+				contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
 			// Add this node to the list of controllers only if it should be visible.
 			if (this.isVisible()) contentCollector.add(this);
 			if (((IExpandable) this.getModel()).isExpanded())
 				for (IAndroidController controller : ch) {
 					controller.collaborate2View(contentCollector);
 				}
-			contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
+			if (((IExpandable) this.getModel()).isExpanded())
+				contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
 		} else if (this instanceof IContainer) {
 			if (this.isVisible()) contentCollector.add(this);
 			if (((IContainer) this).wants2Collaborate()) {
@@ -60,5 +63,19 @@ public abstract class NeoComController<M extends ICollaboration> extends AAndroi
 	public NeoComController<M> setTheme( final Separator.ESeparatorType theme ) {
 		this.theme = theme;
 		return this;
+	}
+
+	public int drawableBorder() {
+		switch (this.theme) {
+			case LINE_RED:
+				return R.drawable.uipanelborderred;
+			case LINE_YELLOW:
+				return R.drawable.uipanelborderyellow;
+			case LINE_GREEN:
+				return R.drawable.uipanelbordergreen;
+			case LINE_PURPLE:
+				return R.drawable.uipanelborderpurple;
+		}
+		return R.drawable.uipanelborderwhite;
 	}
 }

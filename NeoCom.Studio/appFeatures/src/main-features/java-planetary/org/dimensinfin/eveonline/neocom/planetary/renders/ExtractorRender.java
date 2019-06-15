@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -15,7 +16,10 @@ import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import com.squareup.picasso.Picasso;
+
 public class ExtractorRender extends ResourceFacetedRender {
+	private ImageView extractingResourceIcon;
 	private TextView facilityName;
 	private TextView extractingResourceName;
 	private ProgressBar currentCycleProgress;
@@ -39,6 +43,7 @@ public class ExtractorRender extends ResourceFacetedRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
+		this.extractingResourceIcon = this.getView().findViewById(R.id.extractingResourceIcon);
 		this.facilityName = this.getView().findViewById(R.id.facilityName);
 		this.extractingResourceName = this.getView().findViewById(R.id.extractingResourceName);
 		this.currentCycleProgress = this.getView().findViewById(R.id.currentCycleProgress);
@@ -48,6 +53,8 @@ public class ExtractorRender extends ResourceFacetedRender {
 	@Override
 	public void updateContent() {
 		super.updateContent();
+		String link = ((ExtractorFacility) this.getController().getModel()).getExtractingResourceURLForItem();
+		Picasso.get().load(link).into(this.extractingResourceIcon);
 		this.facilityName.setText(this.getController().getModel().getName());
 		this.extractingResourceName.setText(((ExtractorFacility) this.getController().getModel()).getExtractingResourceName());
 		this.currentCycleProgress.setProgress(this.accessCycleProgress());
