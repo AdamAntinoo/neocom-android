@@ -18,10 +18,14 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.squareup.picasso.Picasso;
 
@@ -321,5 +325,9 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 				.append(securityFormatter.format(loc.getSecurityValue())).append("</font>");
 		htmlLocation.append(" ").append(loc.getStation());
 		return Html.fromHtml(htmlLocation.toString());
+	}
+
+	protected String format2hms( final long elapsed ) {
+		return DurationFormatUtils.formatDuration(elapsed * 1000, "HH:mm:ss");
 	}
 }

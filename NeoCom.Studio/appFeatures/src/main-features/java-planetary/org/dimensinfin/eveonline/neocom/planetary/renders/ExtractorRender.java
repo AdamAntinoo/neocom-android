@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,8 +14,6 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityCo
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import com.squareup.picasso.Picasso;
 
@@ -62,7 +61,7 @@ public class ExtractorRender extends ResourceFacetedRender {
 			this.currentCycleProgress.setProgress(this.accessCycleProgress());
 			this.currentCycleTime.setText(this.accessCycleTime());
 		} else {
-			this.extractingResourceName.setText("<font color='#FF0000'>Extraction not running.</font>");
+			this.extractingResourceName.setText(Html.fromHtml("<font color='#FF0000'>Extraction not running.</font>"));
 		}
 	}
 
@@ -77,7 +76,6 @@ public class ExtractorRender extends ResourceFacetedRender {
 		final Integer cycle = ((ExtractorFacility) this.getController().getModel()).getCycleTime();
 		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
 		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
-		final DateTimeFormatter formatter = DateTimeFormat.forPattern("HH.mm:ss");
-		return formatter.print((elapsed.getSeconds() % cycle) * 1000) + " / " + formatter.print(cycle * 1000);
+		return this.format2hms((elapsed.getSeconds() % cycle) * 1000) + " / " + this.format2hms(cycle * 1000);
 	}
 }

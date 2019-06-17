@@ -125,8 +125,9 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withPin(extractorPinInactive)
 				               .build();
 		final ExtractorFacility extractorFacilityInactive = new ExtractorFacility.Builder()
-				                                            .withPlanetaryFacility(baseFacility)
-				                                            .build();
+				                                                    .withPlanetaryFacility(baseFacility)
+				                                                    .withExtractorDetails(extractorPinInactive)
+				                                                    .build();
 		facilities.add(extractorFacilityInactive);
 
 		// - EXTRACTOR FACILITY - RUNNING
@@ -134,7 +135,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPin.setPinId(1024811499544L);
 		extractorPin.setTypeId(2848);
 		extractorPin.setInstallTime(new DateTime("2019-06-14T23:33:07Z"));
-		extractorPin.setLastCycleStart(new DateTime("2019-06-14T23:33:07Z"));
+		extractorPin.setLastCycleStart(DateTime.now().minusHours(1));
 		extractorPin.setLatitude(0.0F);
 		extractorPin.setLongitude(0.0F);
 		extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
@@ -159,6 +160,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .build();
 		final ExtractorFacility extractorFacility = new ExtractorFacility.Builder()
 				                                            .withPlanetaryFacility(baseFacility)
+				                                            .withExtractorDetails(extractorPin)
 				                                            .build();
 		facilities.add(extractorFacility);
 
