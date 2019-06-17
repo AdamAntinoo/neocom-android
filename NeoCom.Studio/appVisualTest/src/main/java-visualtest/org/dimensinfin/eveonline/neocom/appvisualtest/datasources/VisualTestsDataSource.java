@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
@@ -68,12 +67,12 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		pin.addContentsItem(content);
 
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
-		IPlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
-				                                  .withEsiDataAdapter(esiDataAdapter)
-				                                  .withPlanetType(PlanetType.GAS)
-				                                  .withFacilityItem(new EveItem(facilityCommandCenterItem.getTypeId()))
-				                                  .withPin(pin)
-				                                  .build();
+		PlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
+				                                 .withEsiDataAdapter(esiDataAdapter)
+				                                 .withPlanetType(PlanetType.GAS)
+				                                 .withFacilityItem(new EveItem(facilityCommandCenterItem.getTypeId()))
+				                                 .withPin(pin)
+				                                 .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
 				                                            .withLevel(colony.getUpgradeLevel())
 				                                            .withPlanetaryFacility(baseFacility)
@@ -103,21 +102,47 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                        .build();
 		facilities.add(storageFacility);
 
-		// - EXTRACTOR FACILITY
+		// - EXTRACTOR FACILITY - INACTIVE
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins extractorPinInactive = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		extractorPinInactive.setPinId(1024811499533L);
+		extractorPinInactive.setTypeId(2848);
+		extractorPinInactive.setLastCycleStart(new DateTime("2019-06-14T23:07:15Z"));
+		extractorPinInactive.setLatitude(0.0F);
+		extractorPinInactive.setLongitude(0.0F);
+		GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
+		GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
+		extractorHead.setHeadId(0);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorPinInactive.setExtractorDetails(extractorDetails);
+
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(extractorPinInactive.getTypeId()))
+				               .withPin(extractorPinInactive)
+				               .build();
+		final ExtractorFacility extractorFacilityInactive = new ExtractorFacility.Builder()
+				                                            .withPlanetaryFacility(baseFacility)
+				                                            .build();
+		facilities.add(extractorFacilityInactive);
+
+		// - EXTRACTOR FACILITY - RUNNING
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins extractorPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		extractorPin.setPinId(1024811499544L);
 		extractorPin.setTypeId(2848);
-		extractorPin.setInstallTime(new DateTime("2019-06-02T08:48:38Z"));
-		extractorPin.setLastCycleStart(new DateTime("2019-06-14T19:15:00Z"));
+		extractorPin.setInstallTime(new DateTime("2019-06-14T23:33:07Z"));
+		extractorPin.setLastCycleStart(new DateTime("2019-06-14T23:33:07Z"));
 		extractorPin.setLatitude(0.0F);
 		extractorPin.setLongitude(0.0F);
-		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
+		extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
 		extractorDetails.setCycleTime(7200);
 		extractorDetails.setProductTypeId(2270);
-		extractorDetails.setQtyPerCycle(5521);
+		extractorDetails.setQtyPerCycle(5376);
 		extractorDetails.setHeadRadius(0.0337348617613F);
-
-		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
+		extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
 		extractorHead.setHeadId(0);
 		extractorDetails.addHeadsItem(extractorHead);
 		extractorDetails.addHeadsItem(extractorHead);
@@ -126,10 +151,6 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorDetails.addHeadsItem(extractorHead);
 		extractorPin.setExtractorDetails(extractorDetails);
 
-//		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
-//		content.setTypeId(9836);
-//		content.setAmount(1000L);
-//		storagePin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
 				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
@@ -137,10 +158,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withPin(extractorPin)
 				               .build();
 		final ExtractorFacility extractorFacility = new ExtractorFacility.Builder()
-				                                        .withPlanetaryFacility(baseFacility)
-//															.withExtractorDetails(extractorDetails)
-//				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents(), this.esiDataAdapter))
-				                                        .build();
+				                                            .withPlanetaryFacility(baseFacility)
+				                                            .build();
 		facilities.add(extractorFacility);
 
 		colony.setNumPins(facilities.size());

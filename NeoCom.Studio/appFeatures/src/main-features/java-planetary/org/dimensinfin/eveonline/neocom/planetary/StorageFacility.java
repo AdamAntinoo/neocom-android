@@ -45,7 +45,7 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 			this.onConstruction = new StorageFacility();
 		}
 
-		public Builder withPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
+		public Builder withPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
 			this.onConstruction.planetaryFacility = planetaryFacility;
 			return this;
 		}

@@ -45,5 +45,5 @@ public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
 
-	GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails();
+//	GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails();
 }

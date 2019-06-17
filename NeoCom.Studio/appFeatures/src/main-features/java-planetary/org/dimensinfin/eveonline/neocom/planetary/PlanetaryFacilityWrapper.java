@@ -3,14 +3,13 @@ package org.dimensinfin.eveonline.neocom.planetary;
 import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import org.joda.time.DateTime;
 
 public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPlanetaryFacility {
-	protected IPlanetaryFacility planetaryFacility;
+	protected PlanetaryFacility planetaryFacility;
 
 	// - I P L A N E T A R Y F A C I L I T Y
 	@Override
@@ -68,10 +67,10 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 		return this.planetaryFacility.getContents();
 	}
 
-	@Override
-	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-		return this.planetaryFacility.getExtractorDetails();
-	}
+	//	@Override
+	//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
+	//		return this.planetaryFacility.getExtractorDetails();
+	//	}
 
 	@Override
 	public PlanetType getPlanetType() {
@@ -106,6 +105,6 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 	// -  I I T E M F A C E T
 	@Override
 	public String getURLForItem() {
-		return planetaryFacility.getURLForItem();
+		return this.planetaryFacility.getURLForItem();
 	}
 }

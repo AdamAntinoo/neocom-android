@@ -22,8 +22,8 @@ import org.joda.time.DateTime;
  */
 public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility, ICollaboration, IUniqueModel {
 	// TODO - Remove this dependency required only to calculate schematics this is not required for base facilities.
-	private ESIDataAdapter esiDataAdapter;
-	private GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
+	protected ESIDataAdapter esiDataAdapter;
+	protected GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
 	private EveItem planetItemDelegate; // The item data for the installation referenced.
 	private FacilityGeoPosition commandCenterPosition;
 	private PlanetarySchematic schematic;
@@ -152,9 +152,9 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return this.planetItemDelegate.getGroupId();
 	}
 
-	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-		return this.pinDelegate.getExtractorDetails();
-	}
+//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
+//		return this.pinDelegate.getExtractorDetails();
+//	}
 
 	// - I U N I Q U E M O D E L
 	@Override
@@ -224,7 +224,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		 * Not all structures have the ability to handle schematics to this is an optional method that should code gracefully with the
 		 * case the data origin does not define one schematic.
 		 */
-		public IPlanetaryFacility build() {
+		public PlanetaryFacility build() {
 			Objects.requireNonNull(this.onConstruction.pinDelegate);
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);

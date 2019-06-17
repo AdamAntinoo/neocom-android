@@ -99,7 +99,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 			this.onConstruction = new CommandCenterFacility();
 		}
 
-		public Builder withPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
+		public Builder withPlanetaryFacility( final PlanetaryFacility planetaryFacility ) {
 			this.onConstruction.planetaryFacility = planetaryFacility;
 			return this;
 		}

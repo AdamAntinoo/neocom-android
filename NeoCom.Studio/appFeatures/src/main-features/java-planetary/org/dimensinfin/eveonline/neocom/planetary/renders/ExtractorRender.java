@@ -53,23 +53,28 @@ public class ExtractorRender extends ResourceFacetedRender {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		String link = ((ExtractorFacility) this.getController().getModel()).getExtractingResourceURLForItem();
-		Picasso.get().load(link).into(this.extractingResourceIcon);
 		this.facilityName.setText(this.getController().getModel().getName());
-		this.extractingResourceName.setText(((ExtractorFacility) this.getController().getModel()).getExtractingResourceName());
-		this.currentCycleProgress.setProgress(this.accessCycleProgress());
-		this.currentCycleTime.setText(this.accessCycleTime());
+		final ExtractorFacility.ExtractorState state = ((ExtractorFacility) this.getController().getModel()).getState();
+		if (state == ExtractorFacility.ExtractorState.EXTRACTING) {
+			String link = ((ExtractorFacility) this.getController().getModel()).getExtractingResourceURLForItem();
+			Picasso.get().load(link).into(this.extractingResourceIcon);
+			this.extractingResourceName.setText(((ExtractorFacility) this.getController().getModel()).getExtractingResourceName());
+			this.currentCycleProgress.setProgress(this.accessCycleProgress());
+			this.currentCycleTime.setText(this.accessCycleTime());
+		} else {
+			this.extractingResourceName.setText("<font color='#FF0000'>Extraction not running.</font>");
+		}
 	}
 
 	private int accessCycleProgress() {
-		final Integer cycle = this.getController().getModel().getExtractorDetails().getCycleTime();
+		final Integer cycle = ((ExtractorFacility) this.getController().getModel()).getCycleTime();
 		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
 		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
 		return 100 * (elapsed.getSeconds() % cycle) / cycle;
 	}
 
 	private String accessCycleTime() {
-		final Integer cycle = this.getController().getModel().getExtractorDetails().getCycleTime();
+		final Integer cycle = ((ExtractorFacility) this.getController().getModel()).getCycleTime();
 		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
 		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
 		final DateTimeFormatter formatter = DateTimeFormat.forPattern("HH.mm:ss");

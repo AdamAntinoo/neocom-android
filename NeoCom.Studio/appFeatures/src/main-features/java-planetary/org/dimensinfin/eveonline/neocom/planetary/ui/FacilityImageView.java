@@ -12,6 +12,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityStructureInfo;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 public class FacilityImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
@@ -147,7 +148,8 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 			this.facilityClass = FacilityStructureInfo.BASIC_INDUSTRY;
 		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
 			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.planetaryFacility.getSchematicId());
-		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = this.planetaryFacility.getContents();
+		// TODO - The contents re only valid for some type of calities so this code should be reconstructed.
+		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = ((PlanetaryFacility)this.planetaryFacility).getContents();
 		if (null != contents) {
 			for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 				final FactorySection section = new FactorySection.Builder(resource)
