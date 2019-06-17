@@ -12,13 +12,21 @@
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true">
 
-		<ImageView
-				android:id="@+id/planetIcon"
-				style="@style/AppTheme.NodeIcon"
-				android:layout_width="@dimen/planeticonsize"
-				android:layout_height="@dimen/planeticonsize"
-				android:src="@drawable/planet_barren_102_128_3"
-				android:visibility="visible"/>
+		<FrameLayout
+				android:id="@+id/mapCanvas"
+				android:layout_width="@dimen/nodeiconsizebig"
+				android:layout_height="@dimen/nodeiconsizebig"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true">
+
+			<ImageView
+					android:id="@+id/planetIcon"
+					style="@style/AppTheme.NodeIcon"
+					android:layout_width="@dimen/nodeiconsizebig"
+					android:layout_height="@dimen/nodeiconsizebig"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentTop="true"/>
+		</FrameLayout>
 
 		<ImageView
 				android:id="@+id/toprightDecorator"

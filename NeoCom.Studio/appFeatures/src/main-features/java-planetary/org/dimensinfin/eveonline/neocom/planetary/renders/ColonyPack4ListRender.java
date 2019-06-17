@@ -1,8 +1,11 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
+import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgessImageView;
 
 // - C O L O N Y P A C K 4 L I S T R E N D E R
 public class ColonyPack4ListRender extends NeoComRenderv2 {
@@ -19,6 +23,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	private TextView solarSystemName;
 	private TextView planetType;
 	private TextView installationsNumber;
+	private FrameLayout mapCanvas;
 	private ImageView nodeIcon;
 	private ImageView levelDecorator;
 	private TextView storageUsed;
@@ -46,6 +51,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		this.solarSystemName = this.getView().findViewById(R.id.solarSystemName);
 		this.planetType = this.getView().findViewById(R.id.planetType);
 		this.installationsNumber = this.getView().findViewById(R.id.installationsNumber);
+		this.mapCanvas = this.getView().findViewById(R.id.mapCanvas);
 		this.nodeIcon = this.getView().findViewById(R.id.planetIcon);
 		this.levelDecorator = this.getView().findViewById(R.id.bottomrightDecorator);
 		this.storageUsed = this.getView().findViewById(R.id.storageUsed);
@@ -79,8 +85,21 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 				break;
 		}
 		this.setPlanetIcon();
+		final Handler _handler = new Handler(Looper.getMainLooper());
+		;
+		_handler.post(() -> {
+			final ImageView storageImage = this.generateStorageImage();
+			this.mapCanvas.addView((ImageView) storageImage);
+		});
 		if (this.getController().getModel().isEmpty())
 			_rightArrow.setVisibility(View.GONE); // Hide the right arrow while the number on contents is zero.
+	}
+
+	private ImageView generateStorageImage() {
+		return new StorageProgessImageView.Builder(this.getContext())
+				       .withUsedVolume(this.getController().getModel().getStorageInUse())
+				       .withCapacity(this.getController().getModel().getStorageCapacity())
+				       .build();
 	}
 
 	protected void setPlanetIcon() {

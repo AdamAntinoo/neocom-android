@@ -76,6 +76,6 @@ public class ExtractorRender extends ResourceFacetedRender {
 		final Integer cycle = ((ExtractorFacility) this.getController().getModel()).getCycleTime();
 		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
 		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
-		return this.format2hms((elapsed.getSeconds() % cycle) * 1000) + " / " + this.format2hms(cycle * 1000);
+		return this.format2hms(elapsed.getSeconds() % cycle) + " / " + this.format2hms(cycle);
 	}
 }
