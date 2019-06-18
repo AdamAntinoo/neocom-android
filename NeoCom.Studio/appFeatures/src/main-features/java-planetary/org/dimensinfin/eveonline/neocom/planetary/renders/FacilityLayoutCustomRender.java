@@ -60,13 +60,12 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 			case COMMAND_CENTER:
 				this.structureImage = new CommandCenterImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			case EXTRACTOR_CONTROL_UNIT:
 				this.structureImage = new ExtractorImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-						                      .withDeltaPosition(this.mapCenter)
+//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				// Start the extraction cycle animation.
 				//					handler.postDelayed(animateCycle, TimeUnit.SECONDS.toMillis(10));
@@ -74,19 +73,19 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 			case STORAGE:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-						                      .withDeltaPosition(this.mapCenter)
+//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			case LAUNCHPAD:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-						                      .withDeltaPosition(this.mapCenter)
+//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			default:
 				this.structureImage = new FacilityImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-						                      .withDeltaPosition(this.mapCenter)
+//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 		}
 		this.layoutStructureContainer.addView((ImageView) this.structureImage);

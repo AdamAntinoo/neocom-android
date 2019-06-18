@@ -38,7 +38,7 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 
 	protected void drawCpuInUseRing( final Canvas canvas ) {
 		// Draw the circle indicators.
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcenterringcolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
@@ -57,7 +57,7 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 
 	protected void drawPowerInUseRing( final Canvas canvas ) {
 		// Draw the circle indicators.
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcenterringcolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
@@ -87,7 +87,7 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	}
 
 	protected void drawFacilityFill( final Canvas canvas ) {
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcenterstorageusedcolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);

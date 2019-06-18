@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
@@ -188,6 +189,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	 */
 	@Override
 	protected void drawFacilityRing( final Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setColor(this.getColor(this.planetaryFacility.getStructureColorReference()));
 		// Get the facility type.
 		logger.info("-- [FacilityImageView.drawFacilityRing]> {}", facilityClass.name());
@@ -226,6 +228,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	}
 
 	protected void drawFacilityFill( final Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setColor(this.getColor(FACTORY_RING_FILL_COLOR));
 		// Get the facility type.
 		logger.info("-- [FacilityImageView.drawFacilityFill]> {}", facilityClass.name());
@@ -283,6 +286,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	 * is shared for the 3 facilities.
 	 */
 	private void drawFacilityInputRing( Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		// Draw for input A
 		float startAngle = -90.0F;
 		paint.setColor(getResources().getColor(R.color.pi_facilityinputfill));

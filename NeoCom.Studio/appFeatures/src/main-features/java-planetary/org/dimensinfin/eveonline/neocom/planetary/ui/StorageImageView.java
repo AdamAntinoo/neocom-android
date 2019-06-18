@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
@@ -28,6 +29,7 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 	}
 
 	protected void drawFacilityFill( final Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		final double fillLevel = ((StorageFacility)this.planetaryFacility).getTotalVolume();
 		final int angle = Double.valueOf((fillLevel / ((StorageFacility)this.planetaryFacility).getStorageCapacity()) * 360.0).intValue();
 		paint.setColor(this.getColor(FACTORY_RING_FILL_COLOR));
