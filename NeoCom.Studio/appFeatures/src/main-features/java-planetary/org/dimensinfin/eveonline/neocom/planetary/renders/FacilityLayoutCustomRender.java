@@ -21,13 +21,13 @@ import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
 
 import org.joda.time.DateTime;
 
-public class BasicIndustryStructureRender extends AMVCRender {
+public class FacilityLayoutCustomRender extends AMVCRender {
 	private FacilityGeoPosition mapCenter;
 	private IPlanetaryImageView structureImage;
 	private FrameLayout layoutStructureContainer;
 
 	// - C O N S T R U C T O R S
-	public BasicIndustryStructureRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public FacilityLayoutCustomRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 

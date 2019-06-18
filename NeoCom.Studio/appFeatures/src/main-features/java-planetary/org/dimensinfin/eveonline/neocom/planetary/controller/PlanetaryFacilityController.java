@@ -10,7 +10,7 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.CommandCenterRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ExtractorRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
@@ -32,7 +32,7 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 	@Override
 	public IRender buildRender( final Context context ) {
 		if (this.getRenderMode().equalsIgnoreCase(EVariants.PLANET_FACILITIES.name()))
-			return new BasicIndustryStructureRender(this, context);
+			return new FacilityLayoutCustomRender(this, context);
 		if (this.getRenderMode().equalsIgnoreCase(EVariants.PLANETS_LIST.name())) {
 			// Choose the render depending on the facility.
 			switch (this.getModel().getFacilityType()) {

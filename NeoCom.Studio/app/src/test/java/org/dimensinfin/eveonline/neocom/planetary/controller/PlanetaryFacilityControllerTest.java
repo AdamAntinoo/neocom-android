@@ -9,7 +9,7 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
-import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryStructureRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 
 import org.junit.Assert;
@@ -48,7 +48,7 @@ public class PlanetaryFacilityControllerTest {
 		final Context context = Mockito.mock(Context.class);
 		final IRender obtained = controller.buildRender(context);
 		Assert.assertNotNull(obtained);
-		Assert.assertTrue(obtained instanceof BasicIndustryStructureRender);
+		Assert.assertTrue(obtained instanceof FacilityLayoutCustomRender);
 	}
 
 	@Test(expected = NeoComRuntimeException.class)
