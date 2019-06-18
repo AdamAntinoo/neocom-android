@@ -7,10 +7,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 
 public class VisualTestsActivity extends AMVCMultiPageActivity {
 	public enum VisualTestPages {
-		SPLASH, PLANETARY_COMMANDCENTER
+		SPLASH, PLANETARY_COMMANDCENTER,
+		PLANETARY_LAYOUT
 	}
 
 	@Override
@@ -19,6 +21,7 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.validatePermissions();
 		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
 		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.PLANETARY_COMMANDCENTER.name()));
+		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(EVariants.PLANET_FACILITIES.name()));
 	}
 
 	protected void validatePermissions() {

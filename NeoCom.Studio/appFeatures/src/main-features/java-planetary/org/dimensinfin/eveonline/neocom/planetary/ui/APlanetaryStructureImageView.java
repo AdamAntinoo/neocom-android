@@ -122,32 +122,6 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		paint.setStyle(Paint.Style.STROKE);
 		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION, -90.0F
 				, 360.0F, false, paint);
-//		paint.setPathEffect(new DashPathEffect(new float[]{5, 3}, 5));
-
-//		canvas.drawCircle(0.0f, 0.0f, DIMENSION, paint);
-		// Use background color to clean up the drawing that should not be seen.
-//		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-//		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
-	}
-
-	/**
-	 * Draws the white ring depending on the time elapsed from the cycle start.
-	 */
-	protected void drawCycleRing( Canvas canvas ) {
-		paint.setColor(Color.WHITE);
-		paint.setStrokeWidth(CYCLE_WIDTH);
-		paint.setAntiAlias(true);
-		paint.setStrokeCap(Paint.Cap.BUTT);
-		paint.setStyle(Paint.Style.STROKE);
-		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
-				, this.getCycleAngle(), false, paint);
-
-//		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
-//		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
-//				, this.getCycleAngle(), true, paint);
-//		// Use background color to clean up the drawing that should not be seen.
-//		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-//		canvas.drawCircle(0.0F, 0.0F, CYCLE_RADIUS - CYCLE_WIDTH, paint);
 	}
 
 	protected void drawFacilityIcon( final Canvas canvas ) {
@@ -186,21 +160,6 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		return Instant.now().getMillis() / 1000 - this.planetaryFacility.getLastCycleStart().getMillis() / 1000;
 	}
 
-	/** Return the angle for the current cycle from -90.0 and for 360.0 degrees and being -90.0 pointing up. */
-	protected float getCycleAngle() {
-		final Integer cycle = ((ExtractorFacility) this.planetaryFacility).getCycleTime();
-		final DateTime lastCycleStart = this.planetaryFacility.getLastCycleStart();
-		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
-		return 360.0F * (elapsed.getSeconds() % cycle) / cycle;
-
-//		final float angle = (Float.valueOf(this.getCycleElapsed())
-//				                     /
-//				                     Float.valueOf(this.planetaryFacility.getFacilityType().getCycleDuration())) * 360.0F;
-//		logger.info("-- [getCycleAngle]> Angle: {}", angle);
-//		if (angle > 360.0F) return 360.0F;
-//		else return angle;
-	}
-
 	// - B U I L D E R
 	protected static abstract class BaseBuilder<T extends APlanetaryStructureImageView, B extends APlanetaryStructureImageView.BaseBuilder> {
 		protected final Context context;
@@ -222,7 +181,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 			return this.actualClassBuilder;
 		}
 
-		public B withStructure( @NonNull final IPlanetaryFacility planetaryFacility ) {
+		public B withFacility( @NonNull final IPlanetaryFacility planetaryFacility ) {
 			this.actualClass.setPlanetaryFacility(planetaryFacility);
 			return this.actualClassBuilder;
 		}

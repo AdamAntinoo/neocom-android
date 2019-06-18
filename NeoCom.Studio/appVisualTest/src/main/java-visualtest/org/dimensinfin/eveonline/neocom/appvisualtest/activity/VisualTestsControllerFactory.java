@@ -32,15 +32,15 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof CommandCenterFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
-					       .setRenderMode(EVariants.PLANETS_LIST.name());
+					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof StorageFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
-					       .setRenderMode(EVariants.PLANETS_LIST.name());
+					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof ExtractorFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
-					       .setRenderMode(EVariants.PLANETS_LIST.name());
+					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof PlanetaryResource) {
 			return new PlanetaryResourceController((PlanetaryResource) node, this);

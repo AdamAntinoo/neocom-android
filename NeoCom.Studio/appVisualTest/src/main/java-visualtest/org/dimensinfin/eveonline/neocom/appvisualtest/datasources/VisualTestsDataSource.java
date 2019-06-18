@@ -52,8 +52,6 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		facilityCommandCenterItem.name("Barren Command Center");
 		facilityCommandCenterItem.typeId(2136);
 		facilityCommandCenterItem.groupId(1027);
-		//		final EveItem facilityItem = new EveItem(2524);
-		//		final GetUniverseTypesTypeIdOk facilityItem2 = this.esiDataAdapter.searchEsiItem4Id(2524);
 
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);

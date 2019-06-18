@@ -6,10 +6,10 @@ import org.dimensinfin.eveonline.neocom.R;
 
 public enum PlanetaryFacilityType {
 	DEFAULT(R.drawable.facility80_white
-			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
+			, R.color.pi_extractoriconcolor, R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	COMMAND_CENTER(R.drawable.commandcenter80_white
-			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
+			, R.color.pi_commandcentericoncolor, R.color.pi_commandcenterringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	STORAGE(R.drawable.storage80_white
 			, R.color.pi_storageiconcolor,R.color.pi_storageringcolor

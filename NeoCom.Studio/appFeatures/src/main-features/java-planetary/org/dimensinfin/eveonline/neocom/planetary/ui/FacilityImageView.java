@@ -170,7 +170,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 			this.centerCanvas(canvas);
 			this.drawFacilityRing(canvas);
 			this.drawFacilityFill(canvas);
-			this.drawCycleRing(canvas);
+//			this.drawCycleRing(canvas);
 			this.drawFacilityIcon(canvas);
 		} catch (Exception ex) {
 			super.onDraw(canvas);

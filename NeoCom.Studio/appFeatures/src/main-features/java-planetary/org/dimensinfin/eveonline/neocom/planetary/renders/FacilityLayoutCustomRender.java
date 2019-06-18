@@ -12,14 +12,12 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.ui.CommandCenterImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.FacilityImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.IPlanetaryImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
-
-import org.joda.time.DateTime;
 
 public class FacilityLayoutCustomRender extends AMVCRender {
 	private FacilityGeoPosition mapCenter;
@@ -57,13 +55,17 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 				handler.postDelayed(this, TimeUnit.SECONDS.toMillis(10));
 			}
 		};
-		// TODO - This should be recalculated
-//		((PlanetaryFacility) this.getController().getModel()).setLastCycleStart(DateTime.now());
 		handler.postDelayed(animateCycle, TimeUnit.SECONDS.toMillis(10));
 		switch (this.getController().getModel().getFacilityType()) {
+			case COMMAND_CENTER:
+				this.structureImage = new CommandCenterImageView.Builder(this.getContext())
+						                      .withFacility(this.getController().getModel())
+//						                      .withDeltaPosition(this.mapCenter)
+						                      .build();
+				break;
 			case EXTRACTOR_CONTROL_UNIT:
 				this.structureImage = new ExtractorImageView.Builder(this.getContext())
-						                      .withStructure(this.getController().getModel())
+						                      .withFacility(this.getController().getModel())
 						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				// Start the extraction cycle animation.
@@ -71,25 +73,19 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 				break;
 			case STORAGE:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
-						                      .withStructure(this.getController().getModel())
+						                      .withFacility(this.getController().getModel())
 						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			case LAUNCHPAD:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
-						                      .withStructure(this.getController().getModel())
-						                      .withDeltaPosition(this.mapCenter)
-						                      .build();
-				break;
-			case COMMAND_CENTER:
-				this.structureImage = new FacilityImageView.Builder(this.getContext())
-						                      .withStructure(this.getController().getModel())
+						                      .withFacility(this.getController().getModel())
 						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			default:
 				this.structureImage = new FacilityImageView.Builder(this.getContext())
-						                      .withStructure(this.getController().getModel())
+						                      .withFacility(this.getController().getModel())
 						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 		}
@@ -98,13 +94,13 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 
 	@Override
 	public void updateContent() {
-		final double longitudeDelta = this.getController().getModel().getGeoPosition().getLongitude() - this.mapCenter.getLongitude();
-		final double latitudeDelta = this.getController().getModel().getGeoPosition().getLatitude() - this.mapCenter.getLatitude();
-		// The rest of the parameters should be hidden on the View itself.
-		this.structureImage.setDeltaPosition(new FacilityGeoPosition()
-				                                     .setLongitude(longitudeDelta)
-				                                     .setLatitude(latitudeDelta));
-		this.structureImage.setPlanetaryFacility(this.getController().getModel());
+//		final double longitudeDelta = this.getController().getModel().getGeoPosition().getLongitude() - this.mapCenter.getLongitude();
+//		final double latitudeDelta = this.getController().getModel().getGeoPosition().getLatitude() - this.mapCenter.getLatitude();
+//		// The rest of the parameters should be hidden on the View itself.
+//		this.structureImage.setDeltaPosition(new FacilityGeoPosition()
+//				                                     .setLongitude(longitudeDelta)
+//				                                     .setLatitude(latitudeDelta));
+//		this.structureImage.setPlanetaryFacility(this.getController().getModel());
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
@@ -18,6 +19,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
+		if (variant.equalsIgnoreCase(EVariants.PLANET_FACILITIES.name())) return new ArrayList<>();
 		return new ArrayList<>(this.planetaryStorage.getContents());
 	}
 
