@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Resources;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -22,14 +23,14 @@ public class VisualTestsDataSourceTest {
 	@Before
 	public void setUp() throws Exception {
 		final TestConfigurationProvider configurationProvider = new TestConfigurationProvider.Builder("properties").build();
-		final TestFileSystem fileSystem = new TestFileSystem("src/resources");
+		final TestFileSystem fileSystem = new TestFileSystem();
 		final ESIDataAdapter esiDataAdapter = new ESIDataAdapter.Builder(configurationProvider, fileSystem).build();
 		EveItem.injectEsiDataAdapter(esiDataAdapter);
-		final VisualTestsControllerFactory factory = new VisualTestsControllerFactory("H");
+		final VisualTestsControllerFactory factory = new VisualTestsControllerFactory(EVariants.PLANETS_LIST.name());
 
 		ds = new VisualTestsDataSource.Builder()
 				     .addIdentifier("TEST DATA SOURCE")
-				     .withVariant("V")
+				     .withVariant(EVariants.PLANETS_LIST.name())
 				     .withFactory(factory)
 					 .withEsiDataAdapter(esiDataAdapter)
 				     .build();
@@ -44,6 +45,7 @@ public class VisualTestsDataSourceTest {
 	@Test
 	public void collaborate2Model() {
 		Assert.assertNotNull(ds);
+		ds.prepareModel();
 		ds.collaborate2Model();
 	}
 }

@@ -54,6 +54,9 @@ android {
         }
         debug.res {
         }
+        test.java {
+            srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
+        }
     }
     compileOptions {
         sourceCompatibility = '1.8'

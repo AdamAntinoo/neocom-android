@@ -22,11 +22,6 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 					   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-//				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
-//				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
-				       //				       .withApplicationContext(this.getActivityContext().getApplicationContext())
-//				       .withEsiAdapter(NeoComAndroid.getSingleton().getEsiAdapter())
-//				       .withCredentialRepository(NeoComAndroid.getSingleton().getCredentialRepository())
 				       .build();
 	}
 

@@ -43,9 +43,9 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	}
 
 	//		@Override
-//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-//		return this.planetaryFacility.pinDelegate.getExtractorDetails();
-//	}
+	//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
+	//		return this.planetaryFacility.pinDelegate.getExtractorDetails();
+	//	}
 
 	public String getExtractingResourceName() {
 		//		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails details = this.extractorDetails();
@@ -81,8 +81,12 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 			this.onConstruction.extractorDetails = pin.getExtractorDetails();
 			this.onConstruction.installTime = pin.getInstallTime();
 			if (null != this.onConstruction.installTime) {
+				// Check expired extractors
+				final DateTime expiryTime = pin.getExpiryTime();
+				if (null == expiryTime) return this;
+				if (expiryTime.isBefore(DateTime.now())) return this;
 				final Integer extractTypeId = this.onConstruction.extractorDetails.getProductTypeId();
-				Objects.requireNonNull(extractTypeId);
+				if (null == extractTypeId) return this;
 				this.onConstruction.extractionType = new EveItem(extractTypeId);
 				this.onConstruction.state = ExtractorState.EXTRACTING;
 			}
@@ -94,6 +98,5 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 			Objects.requireNonNull(this.onConstruction.extractorDetails);
 			return this.onConstruction;
 		}
-
 	}
 }

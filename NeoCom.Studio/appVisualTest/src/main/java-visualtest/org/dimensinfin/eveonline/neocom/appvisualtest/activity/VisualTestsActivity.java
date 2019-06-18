@@ -20,7 +20,7 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		super.onCreate(savedInstanceState);
 		this.validatePermissions();
 		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
-		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.PLANETARY_COMMANDCENTER.name()));
+		this.addPage(new VisualTestsFragment().setVariant(EVariants.PLANETS_LIST.name()));
 		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(EVariants.PLANET_FACILITIES.name()));
 	}
 

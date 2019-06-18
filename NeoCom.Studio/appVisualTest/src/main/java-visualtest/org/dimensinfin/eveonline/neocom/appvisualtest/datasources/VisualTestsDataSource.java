@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -28,7 +29,7 @@ import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 import org.joda.time.DateTime;
 
 public class VisualTestsDataSource extends AMVCDataSource {
-	private ESIDataAdapter esiDataAdapter /*= NeoComComponentFactory.getSingleton().getEsiDataAdapter()*/;
+	private ESIDataAdapter esiDataAdapter;
 	private ColonyPack colonyPack;
 	private List<IPlanetaryFacility> facilities = new ArrayList<>();
 
@@ -134,6 +135,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPin.setPinId(1024811499544L);
 		extractorPin.setTypeId(2848);
 		extractorPin.setInstallTime(new DateTime("2019-06-14T23:33:07Z"));
+		extractorPin.setExpiryTime(DateTime.now().plus(TimeUnit.DAYS.toMillis(1)));
 		extractorPin.setLastCycleStart(DateTime.now().minusHours(1));
 		extractorPin.setLatitude(-0.002F);
 		extractorPin.setLongitude(-0.030F);
@@ -163,6 +165,41 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                            .build();
 		facilities.add(extractorFacility);
 
+		// - EXTRACTOR FACILITY - EXPIRED
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins extractorExpiredPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		extractorExpiredPin.setPinId(1023334852408L);
+		extractorExpiredPin.setTypeId(3060);
+		extractorExpiredPin.setInstallTime(new DateTime("2019-06-14T23:33:07Z"));
+		extractorExpiredPin.setExpiryTime(DateTime.now().minus(TimeUnit.HOURS.toMillis(2)));
+		extractorExpiredPin.setLastCycleStart(DateTime.now().minusHours(1));
+		extractorExpiredPin.setLatitude(-0.002F);
+		extractorExpiredPin.setLongitude(0.060F);
+		extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
+		extractorDetails.setCycleTime(7200);
+		extractorDetails.setProductTypeId(2268);
+		extractorDetails.setQtyPerCycle(4672);
+		extractorDetails.setHeadRadius(0.0337348617613F);
+		extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
+		extractorHead.setHeadId(0);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorDetails.addHeadsItem(extractorHead);
+		extractorExpiredPin.setExtractorDetails(extractorDetails);
+
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(extractorExpiredPin.getTypeId()))
+				               .withPin(extractorExpiredPin)
+				               .build();
+		final ExtractorFacility extractorExpiredFacility = new ExtractorFacility.Builder()
+				                                            .withPlanetaryFacility(baseFacility)
+				                                            .withExtractorDetails(extractorExpiredPin)
+				                                            .build();
+		facilities.add(extractorExpiredFacility);
+
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
 				             .withCapsuleerIdentifier(123456)
@@ -179,7 +216,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 			this.addModelContents(new AppVersion());
 			this.addModelContents(new AppVersion().setName("NeoCom").setVersion("v 0.16 VT"));
 		}
-		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.PLANETARY_COMMANDCENTER.name())) {
+		if (this.getVariant().equalsIgnoreCase(EVariants.PLANETS_LIST.name())) {
 			// -  P L A N E T A R Y
 			this.addModelContents(colonyPack);
 		}
