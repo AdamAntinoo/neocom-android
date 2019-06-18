@@ -58,7 +58,7 @@ public class BasicIndustryStructureRender extends AMVCRender {
 			}
 		};
 		// TODO - This should be recalculated
-		((PlanetaryFacility) this.getController().getModel()).setLastCycleStart(DateTime.now());
+//		((PlanetaryFacility) this.getController().getModel()).setLastCycleStart(DateTime.now());
 		handler.postDelayed(animateCycle, TimeUnit.SECONDS.toMillis(10));
 		switch (this.getController().getModel().getFacilityType()) {
 			case EXTRACTOR_CONTROL_UNIT:
@@ -109,7 +109,7 @@ public class BasicIndustryStructureRender extends AMVCRender {
 
 	@Override
 	public void createView() {
-		this.layoutStructureContainer = new FrameLayout(getContext());
+		this.layoutStructureContainer = new FrameLayout(this.getContext());
 		this.convertView = this.layoutStructureContainer;
 		this.convertView.setTag(this);
 	}

@@ -10,7 +10,7 @@ android {
     }
     compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21 // Custom drawing for arcs
         targetSdkVersion 28
         versionCode 1
         versionName "0.15.0"

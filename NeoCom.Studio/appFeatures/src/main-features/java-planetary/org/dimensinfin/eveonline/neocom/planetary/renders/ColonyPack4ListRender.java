@@ -14,7 +14,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
-import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgessImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 // - C O L O N Y P A C K 4 L I S T R E N D E R
 public class ColonyPack4ListRender extends NeoComRenderv2 {
@@ -96,7 +96,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	}
 
 	private ImageView generateStorageImage() {
-		return new StorageProgessImageView.Builder(this.getContext())
+		return new StorageProgressImageView.Builder(this.getContext())
 				       .withUsedVolume(this.getController().getModel().getStorageInUse())
 				       .withCapacity(this.getController().getModel().getStorageCapacity())
 				       .build();

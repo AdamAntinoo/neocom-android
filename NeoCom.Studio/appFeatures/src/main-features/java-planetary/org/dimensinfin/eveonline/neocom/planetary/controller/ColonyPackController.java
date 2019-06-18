@@ -52,10 +52,9 @@ public class ColonyPackController extends NeoComController<ColonyPack> implement
 	@Override
 	public boolean onLongClick( final View v ) {
 		logger.info(">> [ColonyPackController.onClick]");
-		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
-				.show();
+//		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
+//				.show();
 		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), this.context);
-		//		new Intent(this.context, PlanetaryColonyLayoutActivity.class);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
 		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()

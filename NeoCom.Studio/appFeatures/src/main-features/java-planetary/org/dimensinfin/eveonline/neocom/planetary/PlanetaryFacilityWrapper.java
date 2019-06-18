@@ -89,7 +89,7 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 
 	@Override
 	public FacilityGeoPosition getCommandCenterPosition() {
-		return planetaryFacility.getCommandCenterPosition();
+		return this.planetaryFacility.getCommandCenterPosition();
 	}
 
 	@Override

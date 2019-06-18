@@ -3,8 +3,8 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import android.os.Bundle;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
@@ -38,7 +38,7 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 	private View generateActionBar() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle( EVariants.PLANET_FACILITIES.getTitle())
+				                                     .withSubtitle("-Planet Name-")
 				                                     .withActivityIconRef(R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();

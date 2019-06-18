@@ -7,11 +7,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
+import org.joda.time.DateTime;
 import org.joda.time.Instant;
+import org.joda.time.Seconds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +22,8 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected static Logger logger = LoggerFactory.getLogger(APlanetaryStructureImageView.class);
 
 	// - D R A W I N G   C O N S T A N T S
-	protected static final int CONVERSION_LONGITUDE_MULTIPLIER = 10500 / 9 * 7;
-	protected static final int CONVERSION_LATITUDE_MULTIPLIER = 10500;
+	protected static final Float CONVERSION_LONGITUDE_MULTIPLIER = 10500.0F / 9.0F * 7.0F;
+	protected static final Float CONVERSION_LATITUDE_MULTIPLIER = 10500.0F;
 	protected static final int DEFAULT_ICON_WIDTH = 32;
 	protected static final int DEFAULT_ICON_HEIGHT = 32;
 	protected static final int STRUCTURE_SIZE = 110;
@@ -47,15 +50,15 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected double longitudeDelta = 0.0;
 	protected double latitudeDelta = 0.0;
 	/** Position of the delta to the Control Cebter in pixels. */
-	protected int posx = 0;
-	protected int posy = 0;
+	protected long posx = 0;
+	protected long posy = 0;
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
 	protected IPlanetaryFacility planetaryFacility;
 	/** The resource identifier for the icon that represents the planetaryFacility. */
 	protected int drawableId = PlanetaryFacilityType.DEFAULT.getIconReferenceId();
 	/** Set the default to a Processing Facility. */
 	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
-	protected double scale = 1.0F;
+	protected double scale = 1.0;
 	protected Bitmap bitmap = null;
 	/** The color to be used to simulate transparency by using the same background color. */
 	//	protected int eraserColor = this.getResources().getColor(R.color.pi_barren_backgroundcolor);
@@ -69,20 +72,22 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	// - C O N T E N T   A P I
 
 	/**
-	 * This should be called before setting the planetaryFacility to move the planetaryFacility the Command Center displacement
-	 * and so draw it relative to that planetaryFacility position.
+	 * This should be called before setting the planetaryFacility. This method calculates the displacement to set this facility relative
+	 * to the Command Center position so the command center is centered and this facility is draw close to it.
+	 * There are some constants to adjust for the facility drawing size so they are touching without overlapping like the real coordinates
+	 * on the planetary interaction game.
 	 */
 	public void setDeltaPosition( final FacilityGeoPosition deltaPosition ) {
 		this.deltaPosition = deltaPosition;
 		// Calculate canvas location from delta location that is referenced to center.
 		this.longitudeDelta = this.deltaPosition.getLongitude();
 		this.latitudeDelta = this.deltaPosition.getLatitude();
-		this.posx = Long.valueOf(Math.round(this.longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER)).intValue();
-		this.posy = Long.valueOf(Math.round(this.latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER)).intValue();
+		this.posx = Math.round(this.longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER);
+		this.posy = Math.round(this.latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER);
 	}
 
 	/**
-	 * Get the model frem where to get all the parameters and calculations instead having a lot of methods
+	 * Get the model from where to get all the parameters and calculations instead having a lot of methods
 	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
 	 * is called.
 	 */
@@ -90,7 +95,6 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
 		this.drawableId = this.planetaryFacility.getIconReferenceId();
-		//		this.eraserColor = this.getResources().getColor(this.planetaryFacility.getBackgroundColor());
 	}
 
 	public void setScale( final double newscale ) {
@@ -101,17 +105,29 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected void centerCanvas( final Canvas canvas ) {
 		canvas.translate((canvas.getWidth() / 2), (canvas.getHeight() / 2));
 		canvas.translate(posx, posy);
-		canvas.drawColor(0x00000000);
+//		canvas.drawColor(0x00000000);
 		// Restart the paint.
 		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	}
 
+	/**
+	 * Draw the facility color ring. Has no data information, just a ring to set the facility coverage area.
+	 * @param canvas
+	 */
 	protected void drawFacilityRing( final Canvas canvas ) {
 		paint.setColor(this.getColor(this.planetaryFacility.getStructureColorReference()));
-		canvas.drawCircle(0.0f, 0.0f, DIMENSION, paint);
+		paint.setStrokeWidth(FACILITY_RING_WIDTH);
+		paint.setAntiAlias(true);
+		paint.setStrokeCap(Paint.Cap.BUTT);
+		paint.setStyle(Paint.Style.STROKE);
+		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION, -90.0F
+				, 360.0F, false, paint);
+//		paint.setPathEffect(new DashPathEffect(new float[]{5, 3}, 5));
+
+//		canvas.drawCircle(0.0f, 0.0f, DIMENSION, paint);
 		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
+//		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
+//		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
 	}
 
 	/**
@@ -119,15 +135,22 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	 */
 	protected void drawCycleRing( Canvas canvas ) {
 		paint.setColor(Color.WHITE);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
+		paint.setStrokeWidth(CYCLE_WIDTH);
+		paint.setAntiAlias(true);
+		paint.setStrokeCap(Paint.Cap.BUTT);
+		paint.setStyle(Paint.Style.STROKE);
 		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
-				, this.getCycleAngle(), true, paint);
-		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-		canvas.drawCircle(0.0F, 0.0F, CYCLE_RADIUS - CYCLE_WIDTH, paint);
+				, this.getCycleAngle(), false, paint);
+
+//		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
+//		canvas.drawArc(CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_NEG, CYCLE_DIMENSION_POS, CYCLE_DIMENSION_POS, -90.0F
+//				, this.getCycleAngle(), true, paint);
+//		// Use background color to clean up the drawing that should not be seen.
+//		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
+//		canvas.drawCircle(0.0F, 0.0F, CYCLE_RADIUS - CYCLE_WIDTH, paint);
 	}
 
-	protected void drawStructureIcon( final Canvas canvas ) {
+	protected void drawFacilityIcon( final Canvas canvas ) {
 		//		paint.setColor(this.getColor(R.color.pi_extractoriconcolor));
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
 		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.drawableId);
@@ -163,14 +186,19 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		return Instant.now().getMillis() / 1000 - this.planetaryFacility.getLastCycleStart().getMillis() / 1000;
 	}
 
-	/** Return the angle for the current cycle from 0.0 to 360.0 and being 0.0 pointing up. */
+	/** Return the angle for the current cycle from -90.0 and for 360.0 degrees and being -90.0 pointing up. */
 	protected float getCycleAngle() {
-		final float angle = (Float.valueOf(this.getCycleElapsed())
-				                     /
-				                     Float.valueOf(this.planetaryFacility.getFacilityType().getCycleDuration())) * 360.0F;
-		logger.info("-- [getCycleAngle]> Angle: {}", angle);
-		if (angle > 360.0F) return 360.0F;
-		else return angle;
+		final Integer cycle = ((ExtractorFacility) this.planetaryFacility).getCycleTime();
+		final DateTime lastCycleStart = this.planetaryFacility.getLastCycleStart();
+		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
+		return 360.0F * (elapsed.getSeconds() % cycle) / cycle;
+
+//		final float angle = (Float.valueOf(this.getCycleElapsed())
+//				                     /
+//				                     Float.valueOf(this.planetaryFacility.getFacilityType().getCycleDuration())) * 360.0F;
+//		logger.info("-- [getCycleAngle]> Angle: {}", angle);
+//		if (angle > 360.0F) return 360.0F;
+//		else return angle;
 	}
 
 	// - B U I L D E R

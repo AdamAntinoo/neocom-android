@@ -11,8 +11,8 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StorageProgessImageView extends ImageView {
-	protected static Logger logger = LoggerFactory.getLogger(StorageProgessImageView.class);
+public class StorageProgressImageView extends ImageView {
+	protected static Logger logger = LoggerFactory.getLogger(StorageProgressImageView.class);
 	private static final int MARGIN_WIDTH = 20;
 
 	private Context context;
@@ -20,13 +20,13 @@ public class StorageProgessImageView extends ImageView {
 	private Float capacity;
 	private Paint paint;
 
-	public StorageProgessImageView( final Context context ) {
+	public StorageProgressImageView( final Context context ) {
 		super(context);
 	}
 
 	@Override
 	protected void onDraw( Canvas canvas ) {
-		logger.info(">> [FacilityImageView.onDraw]");
+		logger.info(">> [StorageProgressImageView.onDraw]");
 		// Move canvas to center to allow drawing symmetries. Paint all area transparent.
 		try {
 			this.centerCanvas(canvas);
@@ -35,7 +35,7 @@ public class StorageProgessImageView extends ImageView {
 			super.onDraw(canvas);
 		}
 		super.onDraw(canvas);
-		logger.info("<< [FacilityImageView.onDraw]");
+		logger.info("<< [StorageProgressImageView.onDraw]");
 	}
 
 	// - D R A W I N G
@@ -59,24 +59,24 @@ public class StorageProgessImageView extends ImageView {
 		if (angle > 270.0F) {
 			// Draw red zone
 			paint.setColor(getResources().getColor(R.color.appred));
-			canvas.drawArc(-dimension, -dimension, dimension, dimension, this.getCycleAngle() - 90.0F
+			canvas.drawArc(-dimension, -dimension, dimension, dimension, 270.0F-90.0F
 					, angle - 270.0F, false, paint);
 		}
 	}
 
 	public Float getCycleAngle() {
 		final float angle = this.inUse / this.capacity * 360.0F;
-		logger.info("-- [getCycleAngle]> Angle: {}", angle);
+		logger.info("-- [StorageProgressImageView.getCycleAngle]> Angle: {}", angle);
 		if (angle > 360.0F) return 360.0F;
 		else return angle;
 	}
 
 	// - B U I L D E R
 	public static class Builder {
-		private StorageProgessImageView onConstruction;
+		private StorageProgressImageView onConstruction;
 
 		public Builder( final Context context ) {
-			this.onConstruction = new StorageProgessImageView(context);
+			this.onConstruction = new StorageProgressImageView(context);
 			this.onConstruction.context = context;
 		}
 
@@ -90,7 +90,7 @@ public class StorageProgessImageView extends ImageView {
 			return this;
 		}
 
-		public StorageProgessImageView build() {
+		public StorageProgressImageView build() {
 			return this.onConstruction;
 		}
 	}

@@ -43,11 +43,11 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 			// Create the right facility class depending on the type.
 			final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
 			final PlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
-					                                        .withPin(facility)
-					                                        .withPlanetType(planetType)
-					                                        .withFacilityItem(facilityItem)
-					                                        .withEsiDataAdapter(this.getEsiDataAdapter())
-					                                        .build();
+					                                       .withPin(facility)
+					                                       .withPlanetType(planetType)
+					                                       .withFacilityItem(facilityItem)
+					                                       .withEsiDataAdapter(this.getEsiDataAdapter())
+					                                       .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:
 					facilities.add(new CommandCenterFacility.Builder()
@@ -70,7 +70,7 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 				case EXTRACTOR_CONTROL_UNIT:
 					facilities.add(new ExtractorFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
-							.withExtractorDetails(facility )
+							               .withExtractorDetails(facility)
 							               .build());
 					break;
 				default:

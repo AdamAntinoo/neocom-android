@@ -12,7 +12,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityStructureInfo;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 public class FacilityImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
@@ -149,7 +148,8 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
 			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.planetaryFacility.getSchematicId());
 		// TODO - The contents re only valid for some type of calities so this code should be reconstructed.
-		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = ((PlanetaryFacility)this.planetaryFacility).getContents();
+		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = null;
+		//		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = ((PlanetaryFacility)this.planetaryFacility).getContents();
 		if (null != contents) {
 			for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 				final FactorySection section = new FactorySection.Builder(resource)
@@ -171,7 +171,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 			this.drawFacilityRing(canvas);
 			this.drawFacilityFill(canvas);
 			this.drawCycleRing(canvas);
-			this.drawStructureIcon(canvas);
+			this.drawFacilityIcon(canvas);
 		} catch (Exception ex) {
 			super.onDraw(canvas);
 		}

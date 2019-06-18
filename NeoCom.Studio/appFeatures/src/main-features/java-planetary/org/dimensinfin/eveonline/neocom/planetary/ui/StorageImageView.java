@@ -22,7 +22,7 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 		this.centerCanvas(canvas);
 		this.drawFacilityRing(canvas);
 		this.drawFacilityFill(canvas);
-		this.drawStructureIcon(canvas);
+		this.drawFacilityIcon(canvas);
 		super.onDraw(canvas);
 		logger.info("<< [StorageImageView.onDraw]");
 	}

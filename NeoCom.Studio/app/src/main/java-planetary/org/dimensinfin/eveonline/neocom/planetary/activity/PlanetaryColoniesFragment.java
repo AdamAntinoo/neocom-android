@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -15,7 +16,7 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new PlanetaryControllerFactory(this.getVariant())
-				       .registerActivity("PLANET INSTALLATIONS", PlanetaryColonyLayoutActivity.class);
+				       .registerActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), PlanetaryColonyLayoutActivity.class);
 	}
 
 	@Override
