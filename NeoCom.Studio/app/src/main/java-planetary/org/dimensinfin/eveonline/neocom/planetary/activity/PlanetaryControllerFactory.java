@@ -38,9 +38,6 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 		if (node instanceof PlanetaryFacilitySummary) {
 			return new PlanetaryFacilitySummaryController((PlanetaryFacilitySummary) node, this);
 		}
-		if (node instanceof IPlanetaryFacility) {
-			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
-		}
 		if (node instanceof CommandCenterFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
@@ -48,6 +45,9 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		if (node instanceof ExtractorFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
+		}
+		if (node instanceof IPlanetaryFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this).setRenderMode(this.getVariant());
 		}
 		if (node instanceof PlanetaryResource) {
