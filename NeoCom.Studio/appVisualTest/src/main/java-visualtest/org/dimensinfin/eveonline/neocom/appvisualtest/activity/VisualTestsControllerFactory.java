@@ -9,12 +9,15 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
+import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryRender;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {
@@ -39,6 +42,14 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof ExtractorFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
+					       .setRenderMode(this.getVariant());
+		}
+		if (node instanceof FactoryFacility) {
+			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
+					       .setRenderMode(this.getVariant());
+		}
+		if (node instanceof PlanetaryFacility) {
 			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
 					       .setRenderMode(this.getVariant());
 		}

@@ -17,14 +17,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
-import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
-import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
+import org.dimensinfin.eveonline.neocom.planetary.*;
 
 import org.joda.time.DateTime;
 
@@ -89,6 +82,10 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
 		content.setTypeId(9836);
 		content.setAmount(1000L);
+		storagePin.addContentsItem(content);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(2309);
+		content.setAmount(1227L);
 		storagePin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
 				               .withEsiDataAdapter(esiDataAdapter)
@@ -199,6 +196,29 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                            .withExtractorDetails(extractorExpiredPin)
 				                                            .build();
 		facilities.add(extractorExpiredFacility);
+
+		// - BASE INDUSTRY FACILITY
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		baseIndustryPin.setPinId(1023355532557L);
+		baseIndustryPin.setTypeId(2492);
+		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:40:35Z"));
+		baseIndustryPin.setSchematicId(123);
+		baseIndustryPin.setLatitude(2.2622209669F);
+		baseIndustryPin.setLongitude(1.93942649917F);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(2309);
+		content.setAmount(1227L);
+		baseIndustryPin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
+				               .withPin(baseIndustryPin)
+				               .build();
+		final FactoryFacility baseIndustryFacility = new FactoryFacility.Builder()
+				                                            .withPlanetaryFacility(baseFacility)
+				                                            .build();
+		facilities.add(baseIndustryFacility);
 
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()

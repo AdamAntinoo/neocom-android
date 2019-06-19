@@ -19,9 +19,9 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
 		this.validatePermissions();
-		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
-		this.addPage(new VisualTestsFragment().setVariant(EVariants.PLANETS_LIST.name()));
 		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(EVariants.PLANET_FACILITIES.name()));
+		this.addPage(new VisualTestsFragment().setVariant(EVariants.PLANETS_LIST.name()));
+		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
 	}
 
 	protected void validatePermissions() {

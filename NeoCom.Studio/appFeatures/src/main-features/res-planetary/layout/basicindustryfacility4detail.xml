@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+	<RelativeLayout
+			android:id="@+id/nodeContainer"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/uipanelborderdarkblue">
+
+		<include layout="@layout/nodebase4expandnew"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+				android:id="@+id/facilityName"
+				style="@style/AppTheme.NeoComText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+				android:layout_toRightOf="@+id/nodeIconBlock"
+				android:text="@string/basic_industry_facility_name"/>
+
+		<RelativeLayout
+				android:id="@+id/inputsBlock"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/facilityName"
+				android:layout_toRightOf="@+id/nodeIconBlock">
+
+			<FrameLayout
+					android:id="@+id/input1ResourceBlock"
+					android:layout_width="@dimen/nodeiconsize"
+					android:layout_height="@dimen/nodeiconsize">
+
+				<ImageView
+						android:id="@+id/input1ResourceIcon"
+						android:layout_gravity="center"
+						style="@style/AppTheme.NodeIcon"
+						android:layout_width="@dimen/nodeiconsizesmall"
+						android:layout_height="@dimen/nodeiconsizesmall"
+						android:src="@drawable/defaulticonplaceholder"
+						android:visibility="visible"/>
+			</FrameLayout>
+
+			<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="@dimen/nodeiconsize"
+					android:layout_toRightOf="@+id/input1ResourceBlock"
+					android:orientation="vertical">
+
+				<org.dimensinfin.android.mvc.fonts.Din1451TextView
+						android:id="@+id/input1ResourceName"
+						style="@style/AppTheme.TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/default_resource"
+						android:visibility="visible"
+						android:textSize="12sp"/>
+				<org.dimensinfin.android.mvc.fonts.Din1451TextView
+						android:id="@+id/input1Quantity"
+						style="@style/AppTheme.TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/default_resource"
+						android:visibility="visible"
+						android:textSize="12sp"/>
+			</LinearLayout>
+
+			<FrameLayout
+					android:id="@+id/input2ResourceBlock"
+					android:layout_below="@+id/input1ResourceBlock"
+					android:visibility="gone"
+					android:layout_width="@dimen/nodeiconsize"
+					android:layout_height="@dimen/nodeiconsize">
+
+				<ImageView
+						android:id="@+id/input2ResourceIcon"
+						android:layout_gravity="center"
+						style="@style/AppTheme.NodeIcon"
+						android:layout_width="@dimen/nodeiconsizesmall"
+						android:layout_height="@dimen/nodeiconsizesmall"
+						android:src="@drawable/defaulticonplaceholder"
+						android:visibility="visible"/>
+			</FrameLayout>
+
+			<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_below="@+id/input1ResourceName"
+					android:layout_toRightOf="@+id/input2ResourceBlock"
+					android:orientation="vertical">
+
+				<org.dimensinfin.android.mvc.fonts.Din1451TextView
+						android:id="@+id/input2ResourceName"
+						style="@style/AppTheme.TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="@dimen/nodeiconsize"
+						android:text="@string/default_resource"
+						android:visibility="gone"
+						android:textSize="12sp"/>
+			</LinearLayout>
+
+		</RelativeLayout>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/cycleStart"
+				style="@style/AppTheme.TextView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/nodeIconBlock"
+				android:layout_below="@+id/facilityName"
+				android:text="@string/default_cyclestart"
+				android:visibility="gone"
+				android:textSize="12sp"/>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/cycleElapsed"
+				style="@style/AppTheme.TextView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_toRightOf="@+id/cycleStart"
+				android:layout_below="@+id/facilityName"
+				android:text="@string/default_cyclestart"
+				android:gravity="right"
+				android:visibility="gone"
+				android:textSize="12sp"/>
+	</RelativeLayout>
+</LinearLayout>

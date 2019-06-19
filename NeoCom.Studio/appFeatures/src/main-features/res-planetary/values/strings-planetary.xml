@@ -7,4 +7,6 @@
     <string name="default_facilityname">Command Center</string>
     <string name="default_cyclestart">2018-01-26T00:39:32Z</string>
 
+    <string name="basic_industry_facility_name">Basic Industry Facility</string>
+
 </resources>
