@@ -139,6 +139,18 @@ task copyResources(type: Copy) {
         into file('src/main/assets')
     }
 }
+// Generate the SDE database if does not exist or the version does not match
+task generateSDEDatabase(type: Exec){
+    workingDir './src/main/sh'
+    commandLine './create-sde.sh'
+}
+task copySDEDatabase(type: Copy) {
+    println 'Copy SDE database to Assets...'
+    from './src/main/sh/sde.db'
+    into './src/main/assets'
+}
+copySDEDatabase.dependsOn generateSDEDatabase
+build.dependsOn copySDEDatabase
 
 // - A N D R O I D    S U P P O R T
 dependencies {
