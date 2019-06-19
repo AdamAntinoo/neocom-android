@@ -5,7 +5,5 @@
 
 DROP TABLE IF EXISTS `version`;
 CREATE TABLE `version` (
-  `version` int(8) NOT NULL
+  `version` varchar(16) NOT NULL
 );
-
-INSERT INTO `version` VALUES (20190529);

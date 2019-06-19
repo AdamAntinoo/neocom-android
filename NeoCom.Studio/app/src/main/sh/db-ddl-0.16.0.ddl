@@ -1,4 +1,5 @@
 .read planetSchematics.sql
 .read planetSchematicsTypeMap.sql
-.read version.sql
+.read createVersionTable.sql
+.read setVersion.sql
 .exit

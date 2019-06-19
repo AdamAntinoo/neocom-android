@@ -58,6 +58,8 @@ android {
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
 
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
+
+            buildConfigField "String", "SDE_DB_VERSION", SDE_DB_VERSION
         }
         debug {
             initWith release
@@ -139,8 +141,15 @@ task copyResources(type: Copy) {
         into file('src/main/assets')
     }
 }
+// Create the sde setup version data with the configured version contents.
+task generateVersionSQL()  {
+    doLast {
+        new File("./src/main/sh/setVersion.sql").text = "INSERT INTO `version` VALUES (${SDE_DB_VERSION});"
+    }
+}
 // Generate the SDE database if does not exist or the version does not match
 task generateSDEDatabase(type: Exec){
+    println 'Generate the Version data...'
     workingDir './src/main/sh'
     commandLine './create-sde.sh'
 }
@@ -149,8 +158,9 @@ task copySDEDatabase(type: Copy) {
     from './src/main/sh/sde.db'
     into './src/main/assets'
 }
+generateSDEDatabase.dependsOn generateVersionSQL
 copySDEDatabase.dependsOn generateSDEDatabase
-build.dependsOn copySDEDatabase
+//build.dependsOn copySDEDatabase
 
 // - A N D R O I D    S U P P O R T
 dependencies {
