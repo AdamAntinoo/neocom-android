@@ -198,7 +198,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		facilities.add(extractorExpiredFacility);
 
 		// - BASE INDUSTRY FACILITY
-		final GetCharactersCharacterIdPlanetsPlanetIdOkPins baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		 GetCharactersCharacterIdPlanetsPlanetIdOkPins baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		baseIndustryPin.setPinId(1023355532557L);
 		baseIndustryPin.setTypeId(2492);
 		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:40:35Z"));
@@ -207,7 +207,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		baseIndustryPin.setLongitude(1.93942649917F);
 		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
 		content.setTypeId(2309);
-		content.setAmount(1227L);
+		content.setAmount(2950L);
 		baseIndustryPin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
 				               .withEsiDataAdapter(esiDataAdapter)
@@ -219,6 +219,29 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                            .withPlanetaryFacility(baseFacility)
 				                                            .build();
 		facilities.add(baseIndustryFacility);
+
+		// - BASE INDUSTRY FACILITY EMPTY
+		baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		baseIndustryPin.setPinId(1023355532557L);
+		baseIndustryPin.setTypeId(2492);
+		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:40:35Z"));
+		baseIndustryPin.setSchematicId(123);
+		baseIndustryPin.setLatitude(2.24941441851F);
+		baseIndustryPin.setLongitude(1.91171681673F);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(2309);
+		content.setAmount(1350L);
+		baseIndustryPin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
+				               .withPin(baseIndustryPin)
+				               .build();
+		final FactoryFacility baseIndustryFacility2 = new FactoryFacility.Builder()
+				                                             .withPlanetaryFacility(baseFacility)
+				                                             .build();
+		facilities.add(baseIndustryFacility2);
 
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()

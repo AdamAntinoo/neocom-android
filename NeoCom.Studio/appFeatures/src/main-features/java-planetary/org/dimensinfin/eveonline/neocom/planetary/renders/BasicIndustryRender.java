@@ -3,6 +3,8 @@ package org.dimensinfin.eveonline.neocom.planetary.renders;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,8 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.ui.ProgressRingImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +62,14 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 			Picasso.get().load(link).into(this.input1ResourceIcon);
 			this.input1ResourceName.setText(input1.getName());
 			this.input1Quantity.setText(this.accessResourceQuantity(0));
+			final ImageView inputResourceAvailable = this.generateInputResourceRing(input1);
+			this.input1ResourceBlock.addView((ImageView) inputResourceAvailable);
 		}
+//		final Handler _handler = new Handler(Looper.getMainLooper());
+//		;
+//		_handler.post(() -> {
+//		});
+
 		//		this.cycleStart.setText(this.getController().getModel().getLastCycleStart().toString());
 		//		this.cycleElapsed.setText(this.accessElapsedCycle());
 	}
@@ -71,5 +82,12 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 		final List<FactoryFacility.FactoryInputs> contents = ((FactoryFacility) this.getController().getModel()).getInputs();
 		final FactoryFacility.FactoryInputs input1 = contents.get(0);
 		return input1.getAmount() + " / " + "3000";
+	}
+	protected ImageView generateInputResourceRing( final FactoryFacility.FactoryInputs resource ){
+		return new ProgressRingImageView.Builder(this.getContext())
+				       .withUsage(resource.getAmount().floatValue())
+				       .withCapacity(3000F)
+					   .withColour(R.color.appyellow)
+				       .build();
 	}
 }
