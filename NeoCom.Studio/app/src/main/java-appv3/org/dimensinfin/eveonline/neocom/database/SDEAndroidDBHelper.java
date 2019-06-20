@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Adam Antinoo
  */
-public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelper {
+public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDatabaseAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
 	//	private static final String CCPDATABASE_URL = "jdbc:sqlite:src/main/resources/eve.db-this reference is platform specific-";
@@ -60,9 +60,9 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 	}
 
 	public ISDEDBHelper build() throws SQLException {
-		if ( StringUtils.isEmpty(schema) )
+		if (StringUtils.isEmpty(schema))
 			throw new SQLException("Cannot create connection: 'schema' is empty.");
-		if ( StringUtils.isEmpty(databaseName) )
+		if (StringUtils.isEmpty(databaseName))
 			throw new SQLException("Cannot create connection: 'databaseName' is empty.");
 		databaseValid = true;
 		openSDEDB();
@@ -74,9 +74,9 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 	}
 
 	public boolean databaseIsValid() {
-		if ( isOpen )
-			if ( databaseValid )
-				if ( null != ccpDatabase ) return true;
+		if (isOpen)
+			if (databaseValid)
+				if (null != ccpDatabase) return true;
 		return false;
 	}
 
@@ -84,14 +84,13 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
 	 * services. Being a pooled connection it can create as many connections as required to do requests in
 	 * parallel to the database instance. This only is effective for MySql databases.
-	 * @return
 	 */
 	private boolean openSDEDB() {
 		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
-		if ( !isOpen ) {
-			if ( null == ccpDatabase ) {
+		if (!isOpen) {
+			if (null == ccpDatabase) {
 				final String path = Environment.getExternalStorageDirectory() + "/" + databasePath + databaseName;
-				if ( AndroidGlobalDataManager.sdcardAvailable() ) {
+				if (AndroidGlobalDataManager.sdcardAvailable()) {
 					ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 					logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}."
 							, path, databaseVersion);
@@ -127,11 +126,8 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 	 * This is the specific SpringBoot implementation for the SDE database adaptation. We can create compatible
 	 * <code>RawStatements</code> that can isolate the generic database access code from the platform specific. This
 	 * stetement uses the database connection to create a generic JDBC Java statement.
-	 * @param query
-	 * @param parameters
-	 * @return
 	 */
-	protected AndroidRawStatement constructStatement( final String query, final String[] parameters ) throws SQLException {
+	public AndroidRawStatement constructStatement( final String query, final String[] parameters ) throws SQLException {
 		return new AndroidRawStatement(ccpDatabase, query, parameters);
 	}
 
@@ -156,9 +152,9 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 
 		public AndroidRawStatement( final SQLiteDatabase database, final String query, final String[] parameters ) throws
 				SQLException {
-			if ( null != database ) {
+			if (null != database) {
 				cursor = database.rawQuery(query, parameters);
-				if ( null == cursor ) throw new SQLException("Invalid statement when processing query: " + query);
+				if (null == cursor) throw new SQLException("Invalid statement when processing query: " + query);
 			} else throw new SQLException("No valid connection to database to create statement. " + query);
 		}
 
@@ -218,7 +214,20 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDBHelp
 		}
 
 		public void close() {
-			if ( null != cursor ) cursor.close();
+			if (null != cursor) cursor.close();
+		}
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		private SDEAndroidDBHelper onConstruction;
+
+		public Builder() {
+			this.onConstruction = new SDEAndroidDBHelper();
+		}
+
+		public ISDEDatabaseAdapter build() {
+			return this.onConstruction;
 		}
 	}
 }

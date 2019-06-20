@@ -26,7 +26,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	protected GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
 	private EveItem planetItemDelegate; // The item data for the installation referenced.
 	private FacilityGeoPosition commandCenterPosition;
-	private PlanetarySchematic schematic;
+//	private PlanetarySchematic schematic;
 	private PlanetType planetType = PlanetType.BARREN;
 
 	private int cpuUsage = -1;
@@ -137,7 +137,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	}
 
 	public Integer getSchematicId() {
-		return this.schematic.getSchematicId();
+		return this.pinDelegate.getSchematicId();
 	}
 
 	public GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId ) {
@@ -229,11 +229,11 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
 			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
-			if (null != this.onConstruction.pinDelegate.getSchematicId()) {
-				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
-						                                .withSchematic(this.onConstruction.esiDataAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
-						                                .build();
-			}
+//			if (null != this.onConstruction.pinDelegate.getSchematicId()) {
+//				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
+//						                                .withSchematic(this.onConstruction.esiDataAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
+//						                                .build();
+//			}
 			//			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
 			return this.onConstruction;
 		}

@@ -1,13 +1,9 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
-import android.app.Application;
-import android.content.res.Resources;
-
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.support.TestConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.support.TestFileSystem;
@@ -25,6 +21,7 @@ public class VisualTestsDataSourceTest {
 		final TestConfigurationProvider configurationProvider = new TestConfigurationProvider.Builder("properties").build();
 		final TestFileSystem fileSystem = new TestFileSystem();
 		final ESIDataAdapter esiDataAdapter = new ESIDataAdapter.Builder(configurationProvider, fileSystem).build();
+		final ISDEDatabaseAdapter sdeDatabaseAdapter = Mockito.mock(ISDEDatabaseAdapter.class);
 		EveItem.injectEsiDataAdapter(esiDataAdapter);
 		final VisualTestsControllerFactory factory = new VisualTestsControllerFactory(EVariants.PLANETS_LIST.name());
 
@@ -32,7 +29,8 @@ public class VisualTestsDataSourceTest {
 				     .addIdentifier("TEST DATA SOURCE")
 				     .withVariant(EVariants.PLANETS_LIST.name())
 				     .withFactory(factory)
-					 .withEsiDataAdapter(esiDataAdapter)
+				     .withEsiDataAdapter(esiDataAdapter)
+				     .withSDEDatabaseAdapter(sdeDatabaseAdapter)
 				     .build();
 	}
 

@@ -10,6 +10,8 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
@@ -48,10 +50,11 @@ public class NeoComComponentFactory {
 	private DataDownloaderService downloaderService;
 	private ESIDataPersistenceService persistenceService;
 	private TimedUpdater timedService;
+
 	private NeoComAndroidDBHelper neocomDBHelper;
+	private ISDEDatabaseAdapter sdeDatabaseAdapter;
 	private CredentialRepository credentialRepository;
 	private MiningRepository miningRepository;
-	private NeoComSDEDBHelper SDEDBHelper;
 	private PlanetaryRepository planetaryRepository;
 
 	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
@@ -203,23 +206,32 @@ public class NeoComComponentFactory {
 		return this.neocomDBHelper;
 	}
 
-	public NeoComSDEDBHelper getSDEDBHelper() {
-		if (null == this.SDEDBHelper) {
-			try {
-				SDEDBHelper = new NeoComSDEDBHelper.Builder()
-						              .withAppContext(application)
-						              .withFileSystem(this.getFileSystemAdapter())
-						              //						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
-						              .setDatabaseName(application.getResources().getString(R.string.sdedatabasefilename))
-						              .setDatabaseVersion(Integer.valueOf(application.getResources().getString(
-								              R.string.appdatabaseversion)))
-						              .build();
-			} catch (SQLException sqle) {
-				SDEDBHelper = null;
-				Objects.requireNonNull(SDEDBHelper);
-			}
+//	public NeoComSDEDBHelper getSDEDBHelper() {
+//		if (null == this.SDEDBHelper) {
+//			try {
+//				SDEDBHelper = new NeoComSDEDBHelper.Builder()
+//						              .withAppContext(application)
+//						              .withFileSystem(this.getFileSystemAdapter())
+//						              //						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
+//						              .setDatabaseName(application.getResources().getString(R.string.sdedatabasefilename))
+//						              .setDatabaseVersion(Integer.valueOf(application.getResources().getString(
+//								              R.string.appdatabaseversion)))
+//						              .build();
+//			} catch (SQLException sqle) {
+//				SDEDBHelper = null;
+//				Objects.requireNonNull(SDEDBHelper);
+//			}
+//		}
+//		return this.SDEDBHelper;
+//	}
+
+	public ISDEDatabaseAdapter getSDEDatabaseAdapter(){
+		if (null == this.sdeDatabaseAdapter) {
+			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
+					                          //					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                          .build();
 		}
-		return this.SDEDBHelper;
+		return this.sdeDatabaseAdapter;
 	}
 
 	public PlanetaryRepository getPlanetaryRepository() {

@@ -21,7 +21,6 @@ import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 
-import org.mockito.internal.matchers.And;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,11 +172,12 @@ public class NeoComComponentFactory {
 		}
 		return this.neocomDBHelper;
 	}
-	public ISDEDatabaseAdapter getSDEDatabaseAdapter(){
+
+	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
 		if (null == this.sdeDatabaseAdapter) {
 			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
-//					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
-					                           .build();
+					                          //					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                          .build();
 		}
 		return this.sdeDatabaseAdapter;
 	}
