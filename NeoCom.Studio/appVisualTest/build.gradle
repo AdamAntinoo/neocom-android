@@ -30,6 +30,7 @@ android {
             resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom"
+            resValue "string", "sdedatabasefilename", "sde.db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
 
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
@@ -90,6 +91,13 @@ android {
 }
 
 // - T A S K S   C O M P L E M E N T A R Y
+task copySDEDatabase(type: Copy) {
+    copy {
+        println 'Copy :app SDEDatabase to assets'
+        from project(':app').file('src/main/assets/sde.db')
+        into file('src/main/assets')
+    }
+}
 
 // - P R O D U C T   V E R S I O N S
 ext {

@@ -67,6 +67,40 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder;
 	}
 
+	/**
+	 * Copies a file from the application distribution 'assets' folder to the application data directory. This may depend on the configuration
+	 * adapter because the source, destination and even the resource to be copied are configured.
+	 */
+	public void copyFromAssets( final String sourceFileName, final String destinationDirectory ) {
+		InputStream instream = null;
+		OutputStream outstream = null;
+		try {
+			instream = this.openAsset4Input(sourceFileName);
+			String destinationName = sourceFileName;
+			if (null != destinationDirectory)
+				destinationName = destinationDirectory + "/" + sourceFileName;
+			final File destination = new File(this.accessResource4Path(destinationName));
+			destination.createNewFile();
+			outstream = new FileOutputStream(destination);
+			final byte[] buffer = new byte[8192];
+			int length;
+			while ((length = instream.read(buffer)) > 0) {
+				outstream.write(buffer, 0, length);
+			}
+			outstream.flush();
+			logger.info("-- [AndroidFileSystemAdapter.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]");
+		} catch (final Exception e) {
+			e.printStackTrace();
+			logger.error("E> [AndroidFileSystemAdapter.copyFromAssets] Failed to copy resource: " + sourceFileName);
+		} finally {
+			try {
+				if (outstream != null) outstream.close();
+				if (instream != null) instream.close();
+			} catch (final IOException e) {
+			}
+		}
+	}
+
 	// - B U I L D E R
 	public static class Builder {
 		private AndroidFileSystemAdapter onConstruction;

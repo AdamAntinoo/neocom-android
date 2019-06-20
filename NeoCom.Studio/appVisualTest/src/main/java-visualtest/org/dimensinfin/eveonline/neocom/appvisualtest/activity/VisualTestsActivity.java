@@ -7,7 +7,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 public class VisualTestsActivity extends AMVCMultiPageActivity {
 	public enum VisualTestPages {
@@ -15,10 +18,14 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		PLANETARY_LAYOUT
 	}
 
+	private IFileSystem fileSystem;
+
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
+		this.injectComponents();
 		this.validatePermissions();
+		this.validateSDEDatabase();
 		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(EVariants.PLANET_FACILITIES.name()));
 		this.addPage(new VisualTestsFragment().setVariant(EVariants.PLANETS_LIST.name()));
 		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
@@ -46,5 +53,20 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 					new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
 					30);
 		}
+	}
+
+	protected void validateSDEDatabase() {
+		if (this.sdeDatabaseExists()) {
+			// Just copy the assets to the application directory.
+			this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
+		}
+	}
+
+	protected boolean sdeDatabaseExists() {
+		return true;
+	}
+
+	protected void injectComponents() {
+		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	}
 }

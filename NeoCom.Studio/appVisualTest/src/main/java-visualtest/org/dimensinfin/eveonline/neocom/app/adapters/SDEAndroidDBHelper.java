@@ -27,14 +27,17 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 	private boolean databaseValid = false;
 	private boolean isOpen = false;
 	//	private Connection connectionSource = null;
-	private SQLiteDatabase ccpDatabase ;
+	private SQLiteDatabase ccpDatabase;
 
 	// - C O N S T R U C T O R S
 	private SDEAndroidDBHelper() {
 		super();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	public int getDatabaseVersion() {
+		return databaseVersion;
+	}
+
 	public ISDEDBHelper setDatabaseSchema( final String newschema ) {
 		this.schema = newschema;
 		return this;
@@ -125,7 +128,11 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 	 * stetement uses the database connection to create a generic JDBC Java statement.
 	 */
 	public AndroidRawStatement constructStatement( final String query, final String[] parameters ) throws SQLException {
-		return new AndroidRawStatement(ccpDatabase, query, parameters);
+		return new AndroidRawStatement(this.getSDEDatabase(), query, parameters);
+	}
+
+	protected SQLiteDatabase getSDEDatabase() {
+		return this.ccpDatabase;
 	}
 
 	@Override
