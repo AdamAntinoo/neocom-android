@@ -40,34 +40,34 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class NeoComApplication extends Application {
-	public enum EVariants {
-		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
-		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
-		SKILLS_QUEUE, SKILLS_TRAINED,
-		SHIPS_BYTYPE
-	}
+//	public enum EVariants {
+//		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
+//		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
+//		SKILLS_QUEUE, SKILLS_TRAINED,
+//		SHIPS_BYTYPE
+//	}
 
 	private static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
 
-	/** Market Data Downloader service. It is imeplemtned with threads and not as Android service. */
-	public static MarketDataServer mdServer = null;
-	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
-	private static BroadcastReceiver timeTickReceiver = null;
-	private static TimedUpdater timedService;
-
-	/** Direct entry point to fire a timer tick event . */
-	public static void runTimer() {
-		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
-	}
-
-	public static void setTimedUpdater( final TimedUpdater service ) {
-		timedService = service;
-	}
-
-	public static void runTicker() {
-		if (null == timedService) timedService = NeoComComponentFactory.getSingleton().getTimedService();
-		if (null != timedService) timedService.timeTick();
-	}
+//	/** Market Data Downloader service. It is implemented with threads and not as Android service. */
+//	public static MarketDataServer mdServer = null;
+//	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
+//	private static BroadcastReceiver timeTickReceiver = null;
+//	private static TimedUpdater timedService;
+//
+//	/** Direct entry point to fire a timer tick event . */
+//	public static void runTimer() {
+//		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
+//	}
+//
+//	public static void setTimedUpdater( final TimedUpdater service ) {
+//		timedService = service;
+//	}
+//
+//	public static void runTicker() {
+//		if (null == timedService) timedService = NeoComComponentFactory.getSingleton().getTimedService();
+//		if (null != timedService) timedService.timeTick();
+//	}
 
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
@@ -78,12 +78,12 @@ public class NeoComApplication extends Application {
 	}
 
 	// - F I E L D - S E C T I O N
-	private NeoComComponentFactory neocom;
+//	private NeoComComponentFactory neocom;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public NeoComApplication() {
-		super();
-	}
+//	public NeoComApplication() {
+//		super();
+//	}
 
 	// - M E T H O D - S E C T I O N
 
@@ -176,7 +176,7 @@ public class NeoComApplication extends Application {
 		super.onCreate();
 		NeoComComponentFactory.initialiseSingleton(this); // Create the component factory but empty of contents.
 		//		Stetho.initializeWithDefaults(this);
-		this.oldInitialization();
+//		this.oldInitialization();
 		// Do global injections
 		//		EsiItemV2.injectEveItemProvider(NeoComComponentFactory.getSingleton(.get));
 		//		EsiItemV2.injectDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService());
@@ -189,21 +189,21 @@ public class NeoComApplication extends Application {
 		//		}
 
 		// Connect the Timed Updater scan.
-		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
+//		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
 		//		startTimer();
 		logger.info("<< [NeoComApp.onCreate]");
 	}
 
-	/**
-	 * Events called during the Application life cycle.
-	 */
-	@Override
-	public void onTerminate() {
-		logger.info(">> [NeoComApp.onTerminate]");
-		this.unregisterReceiver(timeTickReceiver);
-		super.onTerminate();
-		logger.info("<< [NeoComApp.onTerminate]");
-	}
+//	/**
+//	 * Events called during the Application life cycle.
+//	 */
+//	@Override
+//	public void onTerminate() {
+//		logger.info(">> [NeoComApp.onTerminate]");
+//		this.unregisterReceiver(timeTickReceiver);
+//		super.onTerminate();
+//		logger.info("<< [NeoComApp.onTerminate]");
+//	}
 
 	// --- P R I V A T E   S E C T I O N
 
@@ -245,24 +245,22 @@ public class NeoComApplication extends Application {
 		}
 	}
 
-	public void copyPreloadFiles() {
-		try {
-			for (String name : AndroidGlobalDataManager.getApplication().getAssets().list("preloadcache")) {
-				copyFromAssets("preloadcache/" + name);
-			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("NeoComApplication [ ");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
-	}
+//	public void copyPreloadFiles() {
+//		try {
+//			for (String name : AndroidGlobalDataManager.getApplication().getAssets().list("preloadcache")) {
+//				copyFromAssets("preloadcache/" + name);
+//			}
+//		} catch (IOException ioe) {
+//			ioe.printStackTrace();
+//		}
+//	}
+//
+//	@Override
+//	public String toString() {
+//		StringBuffer buffer = new StringBuffer("NeoComApplication [ ");
+//		buffer.append("name: ").append(0);
+//		buffer.append("]");
+//		buffer.append("->").append(super.toString());
+//		return buffer.toString();
+//	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

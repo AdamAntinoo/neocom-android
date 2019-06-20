@@ -10,11 +10,10 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
-import org.dimensinfin.eveonline.neocom.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
@@ -39,22 +38,24 @@ public class NeoComComponentFactory {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 
-	private static NeoComComponentFactory singleton;
-	private static Application application;
+	private static NeoComComponentFactory singleton; // The singleton for the factory. This should be created at start time and setting the application.
+	private static Application application; // The link to the application that is required by the component factory.
 
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	private IGlobalPreferencesManager preferencesProvider;
-//	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
-	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
+	private TimedUpdater timedService;
+	private NeoComAndroidDBHelper neocomDBHelper;
 	private CredentialRepository credentialRepository;
 	private MiningRepository miningRepository;
-	private TimedUpdater timedService;
+	private NeoComSDEDBHelper SDEDBHelper;
+	private PlanetaryRepository planetaryRepository;
 
 	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
+		Objects.requireNonNull(newApplication);
 		application = newApplication;
 		if (null == singleton) singleton = new NeoComComponentFactory();
 		return singleton;
@@ -68,7 +69,7 @@ public class NeoComComponentFactory {
 
 	public Application getApplication() {
 		if (null == application)
-			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
+			throw new NeoComRuntimeException("NeoCom application is not associated to factory. Please complete initialisation.");
 		return application;
 	}
 
@@ -100,13 +101,13 @@ public class NeoComComponentFactory {
 		return this.fileSystemAdapter;
 	}
 
-//	public ESIGlobalAdapter getEsiAdapter() {
-//		if (null == this.esiAdapter) {
-//			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
-//					             .build();
-//		}
-//		return this.esiAdapter;
-//	}
+	//	public ESIGlobalAdapter getEsiAdapter() {
+	//		if (null == this.esiAdapter) {
+	//			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
+	//					             .build();
+	//		}
+	//		return this.esiAdapter;
+	//	}
 
 	public ESIDataAdapter getEsiDataAdapter() {
 		if (null == this.esiDataAdapter) {
@@ -202,20 +203,31 @@ public class NeoComComponentFactory {
 		return this.neocomDBHelper;
 	}
 
-	public void SDE() {
-
+	public NeoComSDEDBHelper getSDEDBHelper() {
+		if (null == this.SDEDBHelper) {
+			try {
+				SDEDBHelper = new NeoComSDEDBHelper.Builder()
+						              .withAppContext(application)
+						              .withFileSystem(this.getFileSystemAdapter())
+						              //						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
+						              .setDatabaseName(application.getResources().getString(R.string.sdedatabasefilename))
+						              .setDatabaseVersion(Integer.valueOf(application.getResources().getString(
+								              R.string.appdatabaseversion)))
+						              .build();
+			} catch (SQLException sqle) {
+				SDEDBHelper = null;
+				Objects.requireNonNull(SDEDBHelper);
+			}
+		}
+		return this.SDEDBHelper;
 	}
 
-	/*
-
-
-		// Load the SDE data
-		//		SDEExternalDataManager.loadSDEData();
-
-
-		// Connect the NeoCom database.
-		logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
-		//		try {
-		AndroidGlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.Builder().build());
-*/
+	public PlanetaryRepository getPlanetaryRepository() {
+		if (null == this.planetaryRepository) {
+			this.planetaryRepository = new PlanetaryRepository.Builder()
+					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                           .build();
+		}
+		return this.planetaryRepository;
+	}
 }

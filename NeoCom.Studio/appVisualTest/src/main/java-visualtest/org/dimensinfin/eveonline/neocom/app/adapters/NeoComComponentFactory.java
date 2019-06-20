@@ -8,8 +8,10 @@ import android.app.Application;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -19,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
 
+import org.mockito.internal.matchers.And;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,11 +45,14 @@ public class NeoComComponentFactory {
 	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
-	private NeoComAndroidDBHelper neocomDBHelper;
 	private ESIDataPersistenceService persistenceService;
+	private TimedUpdater timedService;
+
+	private NeoComAndroidDBHelper neocomDBHelper;
+	private ISDEDatabaseAdapter sdeDatabaseAdapter;
 	private CredentialRepository credentialRepository;
 	private MiningRepository miningRepository;
-	private TimedUpdater timedService;
+	private PlanetaryRepository planetaryRepository;
 
 	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
 		application = newApplication;
@@ -167,21 +173,20 @@ public class NeoComComponentFactory {
 		}
 		return this.neocomDBHelper;
 	}
-
-	public void SDE() {
-
+	public ISDEDatabaseAdapter getSDEDatabaseAdapter(){
+		if (null == this.sdeDatabaseAdapter) {
+			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
+//					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                           .build();
+		}
+		return this.sdeDatabaseAdapter;
 	}
-
-	/*
-
-
-		// Load the SDE data
-		//		SDEExternalDataManager.loadSDEData();
-
-
-		// Connect the NeoCom database.
-		logger.info("-- [NeoComApp.onCreate]> Connecting NeoCom private database...");
-		//		try {
-		AndroidGlobalDataManager.connectNeoComDBConnector(new NeoComAndroidDBHelper.Builder().build());
-*/
+	public PlanetaryRepository getPlanetaryRepository() {
+		if (null == this.planetaryRepository) {
+			this.planetaryRepository = new PlanetaryRepository.Builder()
+					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                           .build();
+		}
+		return this.planetaryRepository;
+	}
 }

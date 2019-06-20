@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import android.content.Context;
 import android.os.Environment;
@@ -72,6 +73,8 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 		private AndroidFileSystemAdapter onConstruction;
 
 		public Builder( final String applicationStoreDirectory, final Context applicationContext ) {
+			Objects.requireNonNull(applicationStoreDirectory);
+			Objects.requireNonNull(applicationContext);
 			this.onConstruction = new AndroidFileSystemAdapter(applicationStoreDirectory, applicationContext);
 		}
 

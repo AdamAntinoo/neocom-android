@@ -55,6 +55,7 @@ android {
             resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom"
+            resValue "string", "sdedatabasefilename", "sde.db"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
 
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"

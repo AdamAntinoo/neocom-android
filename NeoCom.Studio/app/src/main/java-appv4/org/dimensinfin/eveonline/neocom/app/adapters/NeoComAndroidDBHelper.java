@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.database;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.*;
