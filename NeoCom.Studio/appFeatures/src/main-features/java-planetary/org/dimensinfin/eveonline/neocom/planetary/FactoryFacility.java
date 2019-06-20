@@ -5,59 +5,20 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 
 public class FactoryFacility extends PlanetaryFacilityWrapper {
-//	public enum ExtractorState {
-//		EXTRACTING, IDLE
-//	}
+	private ISDEDatabaseAdapter sdeDatabaseAdapter;
+	private Integer schematicId;
+	private PlanetarySchematic schematic;
 
 	private List<FactoryInputs> inputs = new ArrayList<>();
 
 	public List<FactoryInputs> getInputs() {
 		return this.inputs;
 	}
-	//	private GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails;
-	//	private DateTime installTime;
-	//	private ExtractorState state = ExtractorState.IDLE;
-	//	private EveItem extractionType;
-
-	//	public ExtractorState getState() {
-	//		return this.state;
-	//	}
-	//
-	//	public Integer getCycleTime() {
-	//		if (this.state == ExtractorState.EXTRACTING)
-	//			return this.extractorDetails.getCycleTime();
-	//		else return 0;
-	//	}
-	//
-	//	/**
-	//	 * Extractors can be extracting cycling until the whole extraction cycle completes. This long cycle can last for days but the small
-	//	 * cycle is about to last 2 or 3 hours.
-	//	 * Extractors can be stopped so the cycle information may be invalid when the complete cycle is not specified.
-	//	 *
-	//	 * @return the date time of the last cycle start instant.
-	//	 */
-	//	public DateTime getLastCycleStart() {
-	//		return this.planetaryFacility.getLastCycleStart();
-	//	}
-	//
-	//	//		@Override
-	//	//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-	//	//		return this.planetaryFacility.pinDelegate.getExtractorDetails();
-	//	//	}
-	//
-	//	public String getExtractingResourceName() {
-	//		//		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails details = this.extractorDetails();
-	//		this.extractionType = new EveItem(this.extractorDetails.getProductTypeId());
-	//		return this.extractionType.getName();
-	//	}
-	//
-	//	public String getExtractingResourceURLForItem() {
-	//		return this.extractionType.getURLForItem();
-	//	}
 
 	// - I C O L L A B O R A T I O N
 	@Override
@@ -83,26 +44,26 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			return this;
 		}
 
-		//		public Builder withExtractorDetails( final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin ) {
-		//			// Read facility data to check the extractor state.
-		//			this.onConstruction.extractorDetails = pin.getExtractorDetails();
-		//			this.onConstruction.installTime = pin.getInstallTime();
-		//			if (null != this.onConstruction.installTime) {
-		//				// Check expired extractors
-		//				final DateTime expiryTime = pin.getExpiryTime();
-		//				if (null == expiryTime) return this;
-		//				if (expiryTime.isBefore(DateTime.now())) return this;
-		//				final Integer extractTypeId = this.onConstruction.extractorDetails.getProductTypeId();
-		//				if (null == extractTypeId) return this;
-		//				this.onConstruction.extractionType = new EveItem(extractTypeId);
-		//				this.onConstruction.state = ExtractorState.EXTRACTING;
-		//			}
-		//			return this;
-		//		}
+		public Builder withSDEDatabaseAdapter( final ISDEDatabaseAdapter sdeDatabaseAdapter ) {
+			Objects.requireNonNull(sdeDatabaseAdapter);
+			this.onConstruction.sdeDatabaseAdapter = sdeDatabaseAdapter;
+			return this;
+		}
+
+		public Builder withSchematics( final Integer schematicId ) {
+			Objects.requireNonNull(schematicId);
+			this.onConstruction.schematicId = schematicId;
+			return this;
+		}
 
 		public FactoryFacility build() {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
-			//			Objects.requireNonNull(this.onConstruction.extractorDetails);
+			Objects.requireNonNull(this.onConstruction.schematicId);
+			Objects.requireNonNull(this.onConstruction.sdeDatabaseAdapter);
+			// Initialize the schematic
+			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
+					                                .withSDEDatabaseAdapter(this.onConstruction.sdeDatabaseAdapter)
+					                                .build();
 			return this.onConstruction;
 		}
 	}

@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
@@ -9,6 +10,7 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
@@ -23,6 +25,7 @@ import org.joda.time.DateTime;
 
 public class VisualTestsDataSource extends AMVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
+	private ISDEDatabaseAdapter sdeDatabaseAdapter;
 	private ColonyPack colonyPack;
 	private List<IPlanetaryFacility> facilities = new ArrayList<>();
 
@@ -192,13 +195,13 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withPin(extractorExpiredPin)
 				               .build();
 		final ExtractorFacility extractorExpiredFacility = new ExtractorFacility.Builder()
-				                                            .withPlanetaryFacility(baseFacility)
-				                                            .withExtractorDetails(extractorExpiredPin)
-				                                            .build();
+				                                                   .withPlanetaryFacility(baseFacility)
+				                                                   .withExtractorDetails(extractorExpiredPin)
+				                                                   .build();
 		facilities.add(extractorExpiredFacility);
 
 		// - BASE INDUSTRY FACILITY
-		 GetCharactersCharacterIdPlanetsPlanetIdOkPins baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		GetCharactersCharacterIdPlanetsPlanetIdOkPins baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		baseIndustryPin.setPinId(1023355532557L);
 		baseIndustryPin.setTypeId(2492);
 		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:40:35Z"));
@@ -216,8 +219,10 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withPin(baseIndustryPin)
 				               .build();
 		final FactoryFacility baseIndustryFacility = new FactoryFacility.Builder()
-				                                            .withPlanetaryFacility(baseFacility)
-				                                            .build();
+				                                             .withPlanetaryFacility(baseFacility)
+				                                             .withSchematics(baseIndustryPin.getSchematicId())
+				                                             .withSDEDatabaseAdapter(this.sdeDatabaseAdapter)
+				                                             .build();
 		facilities.add(baseIndustryFacility);
 
 		// - BASE INDUSTRY FACILITY EMPTY
@@ -239,8 +244,10 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withPin(baseIndustryPin)
 				               .build();
 		final FactoryFacility baseIndustryFacility2 = new FactoryFacility.Builder()
-				                                             .withPlanetaryFacility(baseFacility)
-				                                             .build();
+				                                              .withPlanetaryFacility(baseFacility)
+				                                              .withSchematics(baseIndustryPin.getSchematicId())
+				                                              .withSDEDatabaseAdapter(this.sdeDatabaseAdapter)
+				                                              .build();
 		facilities.add(baseIndustryFacility2);
 
 		colony.setNumPins(facilities.size());
@@ -287,6 +294,12 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
+		}
+
+		public Builder withSDEDatabaseAdapter( final ISDEDatabaseAdapter sdeDatabaseAdapter ) {
+			Objects.requireNonNull(sdeDatabaseAdapter);
+			this.onConstruction.sdeDatabaseAdapter = sdeDatabaseAdapter;
 			return this;
 		}
 	}
