@@ -42,4 +42,5 @@ ext {
     ormliteVersion = '4.48'
     retrofitVersion = '2.3.0'
     powermockVersion = '2.0.2'
+    loggerVersion = '1.7.12'
 }

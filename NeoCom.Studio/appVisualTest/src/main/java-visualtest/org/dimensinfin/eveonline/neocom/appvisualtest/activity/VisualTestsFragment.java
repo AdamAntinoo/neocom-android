@@ -22,7 +22,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 					   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-					   .withSDEDatabaseAdapter(NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter())
+					   .withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				       .build();
 	}
 

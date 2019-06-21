@@ -19,11 +19,11 @@ public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
 				       .addIdentifier(this.getVariant())
 				       .addIdentifier(this.getTitle())
 				       .addIdentifier("VISUAL TESTS")
-				       .addIdentifier("LAYOUTS")
-				       .withVariant(EVariants.PLANET_FACILITIES.name())
+				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 				       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+				       .withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				       .build();
 	}
 

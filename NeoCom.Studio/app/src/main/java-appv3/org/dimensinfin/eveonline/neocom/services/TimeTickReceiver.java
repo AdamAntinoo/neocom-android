@@ -59,9 +59,10 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			if (countdown <= 0) {
 				// Reset the counter and fire the tick.
 				countdown = countdownTarget;
-				NeoComApplication.runTicker();
-				// Write down cached data.
-				NeoComApplication.mdServer.writeMarketDataCacheToStorage();
+				// TODO - This should be reactivated once the tocker is ready to be run again.
+//				NeoComApplication.runTicker();
+//				// Write down cached data.
+//				NeoComApplication.mdServer.writeMarketDataCacheToStorage();
 				//			AndroidGlobalDataManager.writeLocationsDatacache();
 			}
 		} finally {

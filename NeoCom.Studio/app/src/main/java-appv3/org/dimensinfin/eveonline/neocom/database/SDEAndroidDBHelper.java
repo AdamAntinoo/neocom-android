@@ -1,11 +1,11 @@
 package org.dimensinfin.eveonline.neocom.database;
 
+import java.util.Objects;
+
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-
-import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,18 +17,19 @@ import org.slf4j.LoggerFactory;
 public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDatabaseAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
+
+	private SQLiteDatabase ccpDatabase;
+	private boolean isOpen = false;
+	private String databasePath = "/";
+	private String databaseName = "sde.db";
 	//	private static final String CCPDATABASE_URL = "jdbc:sqlite:src/main/resources/eve.db-this reference is platform specific-";
 	//private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:sqlite:src/main/resources/eve.db";
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String schema = "jdbc:sqlite";
-	private String databasePath = "/";
-	private String databaseName = "sde.db";
 	private int databaseVersion = 0;
 	private boolean databaseValid = false;
-	private boolean isOpen = false;
 	//	private Connection connectionSource = null;
-	private SQLiteDatabase ccpDatabase = null;
 
 	//	private final Hashtable<Integer, EveItem> itemCache = new Hashtable<Integer, EveItem>(1000);
 	//	private final Hashtable<Long, EveLocation> locationsCache = new Hashtable<Long, EveLocation>(200);
@@ -38,7 +39,14 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 		super();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	protected SQLiteDatabase getSDEDatabase() {
+		if (null == this.ccpDatabase) {
+			//			if (this.databaseIsValid())
+			this.openSDEDB();
+		}
+		return this.ccpDatabase;
+	}
+
 	public ISDEDBHelper setDatabaseSchema( final String newschema ) {
 		this.schema = newschema;
 		return this;
@@ -74,7 +82,7 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 	}
 
 	public boolean databaseIsValid() {
-		if (isOpen)
+		if (this.isOpen)
 			if (databaseValid)
 				if (null != ccpDatabase) return true;
 		return false;
@@ -84,16 +92,22 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 	 * Open a new pooled JDBC datasource connection list and stores its reference for use of the whole set of
 	 * services. Being a pooled connection it can create as many connections as required to do requests in
 	 * parallel to the database instance. This only is effective for MySql databases.
+	 *
+	 * Check database definition before trying to open the database.
 	 */
-	private boolean openSDEDB() {
+	protected boolean openSDEDB() {
 		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
-		if (!isOpen) {
-			if (null == ccpDatabase) {
-				final String path = Environment.getExternalStorageDirectory() + "/" + databasePath + databaseName;
-				if (AndroidGlobalDataManager.sdcardAvailable()) {
-					ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+		if (!this.isOpen) {
+			if (null == this.ccpDatabase) {
+				if (this.isDatabaseDefinitionValid()) {
+					final String path = Environment.getExternalStorageDirectory() + databasePath + databaseName;
+					// TODO - Network and card validation should be done at a higher level.
+					//					if (AndroidGlobalDataManager.sdcardAvailable()) {
+					this.ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+					Objects.requireNonNull(this.ccpDatabase);
 					logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}."
 							, path, databaseVersion);
+					//					}
 				} else
 					return true;
 				return false;
@@ -101,9 +115,13 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 			return true;
 		}
 		logger.info("<< [SDEAndroidDBHelper.openSDEDB]");
-		return isOpen;
+		return this.isOpen;
 	}
 
+	protected boolean isDatabaseDefinitionValid() {
+		if ((null != databasePath) && (null != this.databaseName)) return true;
+		return false;
+	}
 	//	private void createConnectionSource() throws SQLException {
 	////		final String localConnectionDescriptor = schema + ":" + databasePath + databaseName;
 	//		if (databaseValid) {
@@ -128,7 +146,7 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 	 * stetement uses the database connection to create a generic JDBC Java statement.
 	 */
 	public AndroidRawStatement constructStatement( final String query, final String[] parameters ) throws SQLException {
-		return new AndroidRawStatement(ccpDatabase, query, parameters);
+		return new AndroidRawStatement(this.getSDEDatabase(), query, parameters);
 	}
 
 	@Override
@@ -226,7 +244,18 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 			this.onConstruction = new SDEAndroidDBHelper();
 		}
 
+		public Builder withDatabasePath( final String databasePath ) {
+			this.onConstruction.databasePath = databasePath;
+			return this;
+		}
+		public Builder withDatabaseName( final String databaseName ) {
+			this.onConstruction.databaseName = databaseName;
+			return this;
+		}
+
 		public ISDEDatabaseAdapter build() {
+			Objects.requireNonNull(this.onConstruction.databasePath);
+			Objects.requireNonNull(this.onConstruction.databaseName);
 			return this.onConstruction;
 		}
 	}

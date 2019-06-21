@@ -92,6 +92,9 @@ android {
         debug.res{
             srcDirs += 'src/main/res-planetary'
         }
+        test.java {
+            srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
+        }
     }
     compileOptions {
         sourceCompatibility = '1.8'
@@ -179,7 +182,7 @@ dependencies {
 // - P R O J E C T    D E P E N D E N C I E S
 dependencies {
     // C O R E
-    implementation 'org.slf4j:slf4j-android:1.7.25'
+    implementation "org.slf4j:slf4j-android:$loggerVersion"
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'org.apache.commons:commons-lang3:3.7'
 
@@ -246,10 +249,10 @@ dependencies {
 // - N E O C O M . D A T A M A N A G E M E N T
 dependencies {
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
+//    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
     testImplementation 'joda-time:joda-time:2.3'
     testImplementation 'com.openpojo:openpojo:0.8.12'
-    testImplementation 'org.mockito:mockito-core:2.22.0'
+//    testImplementation 'org.mockito:mockito-core:2.22.0'
 }
 // - T E S T I N G
 dependencies {
@@ -257,7 +260,7 @@ dependencies {
 //    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
     testImplementation 'joda-time:joda-time:2.9.9'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
-    testImplementation 'org.mockito:mockito-core:2.22.0'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
@@ -269,12 +272,10 @@ dependencies {
 
 // - A N D R O I D   T E S T I N G
 dependencies {
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test:rules:1.2.0-alpha03'
-//    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
-//    androidTestImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation ('org.mockito:mockito-android:2.23.0') {
         exclude group: 'net.bytebuddy', module: 'byte-buddy'
         exclude group: 'net.bytebuddy', module: 'byte-buddy-android'

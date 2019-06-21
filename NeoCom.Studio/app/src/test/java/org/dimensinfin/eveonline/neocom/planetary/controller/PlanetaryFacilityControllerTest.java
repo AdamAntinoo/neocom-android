@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.controller;
 import android.content.Context;
 
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
@@ -32,7 +33,7 @@ public class PlanetaryFacilityControllerTest {
 		final PlanetaryFacility facility = Mockito.mock(PlanetaryFacility.class);
 		Mockito.when(facility.getFacilityType()).thenReturn(PlanetaryFacilityType.COMMAND_CENTER);
 		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(facility, factory)
-				                                                                             .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANETS_LIST.name());
+				                                                                             .setRenderMode(EVariants.PLANETS_LIST.name());
 		final Context context = Mockito.mock(Context.class);
 		final IRender obtained = controller.buildRender(context);
 		Assert.assertNotNull(obtained);
@@ -44,7 +45,7 @@ public class PlanetaryFacilityControllerTest {
 		final IPlanetaryFacility model = Mockito.mock(IPlanetaryFacility.class);
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
 		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(model, factory)
-				                                                                             .setRenderMode(PlanetaryColoniesActivity.EPlanetaryVariants.PLANET_FACILITIES.name());
+				                                                                             .setRenderMode(EVariants.PLANET_FACILITIES.name());
 		final Context context = Mockito.mock(Context.class);
 		final IRender obtained = controller.buildRender(context);
 		Assert.assertNotNull(obtained);

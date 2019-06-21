@@ -176,11 +176,12 @@ public class NeoComComponentFactory {
 	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
 		if (null == this.sdeDatabaseAdapter) {
 			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
-					                          //					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                          .withFileSystemAdapter(this.getFileSystemAdapter())
 					                          .build();
 		}
 		return this.sdeDatabaseAdapter;
 	}
+
 	public PlanetaryRepository getPlanetaryRepository() {
 		if (null == this.planetaryRepository) {
 			this.planetaryRepository = new PlanetaryRepository.Builder()

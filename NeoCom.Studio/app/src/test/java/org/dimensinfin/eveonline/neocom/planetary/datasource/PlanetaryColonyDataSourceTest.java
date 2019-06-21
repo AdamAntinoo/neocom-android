@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Bundle;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
@@ -19,13 +20,13 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class PlanetaryColonyDataSourceTest {
-	private static ESIGlobalAdapter esiAdapter;
+	private static ESIDataAdapter esiAdapter;
 	private static Credential credential;
 	private static PlanetaryControllerFactory factory;
 
 	@Before
 	public void setUp() throws Exception {
-		esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
+		esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		credential = new Credential()
 				             .setAccountId(92223647)
 				             .setRefreshToken("TEST REFRESH TOKEN")
@@ -58,9 +59,7 @@ public class PlanetaryColonyDataSourceTest {
 		pinList.add(pin2);
 		Mockito.when(extras.getInt(Mockito.anyString())).thenReturn(4321);
 		Mockito.when(extras.getString(Mockito.anyString())).thenReturn("TEMPERATE");
-		Mockito.when(esiAdapter.getUniversePlanetsPlanetId(Mockito.anyInt()
-				, Mockito.anyString()
-				, Mockito.anyString())).thenReturn(planet);
+		Mockito.when(esiAdapter.getUniversePlanetsPlanetId(Mockito.anyInt())).thenReturn(planet);
 		Mockito.when(esiAdapter.getCharactersCharacterIdPlanetsPlanetId(Mockito.anyInt()
 				, Mockito.anyInt()
 				, Mockito.anyString()

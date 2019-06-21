@@ -40,12 +40,12 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class NeoComApplication extends Application {
-//	public enum EVariants {
-//		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
-//		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
-//		SKILLS_QUEUE, SKILLS_TRAINED,
-//		SHIPS_BYTYPE
-//	}
+	public enum EVariants {
+		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
+		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
+		SKILLS_QUEUE, SKILLS_TRAINED,
+		SHIPS_BYTYPE
+	}
 
 	private static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
 
@@ -87,26 +87,26 @@ public class NeoComApplication extends Application {
 
 	// - M E T H O D - S E C T I O N
 
-	/**
-	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
-	 * checking elements that should be updated because they are obsolete. New updates will be launched as
-	 * separate async tasks.
-	 */
-	public void startTimer() {
-		if (null == timeTickReceiver) {
-			final boolean tickActivate = Boolean.valueOf(
-					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
-							, "true"));
-			final int tickTime = Integer.valueOf(
-					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
-							, "5"));
-			timeTickReceiver = new TimeTickReceiver.Builder(this)
-					                   .withTickActivate(tickActivate)
-					                   .withTickTime(tickTime)
-					                   .build();
-			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
-		}
-	}
+//	/**
+//	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
+//	 * checking elements that should be updated because they are obsolete. New updates will be launched as
+//	 * separate async tasks.
+//	 */
+//	public void startTimer() {
+//		if (null == timeTickReceiver) {
+//			final boolean tickActivate = Boolean.valueOf(
+//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
+//							, "true"));
+//			final int tickTime = Integer.valueOf(
+//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
+//							, "5"));
+//			timeTickReceiver = new TimeTickReceiver.Builder(this)
+//					                   .withTickActivate(tickActivate)
+//					                   .withTickTime(tickTime)
+//					                   .build();
+//			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+//		}
+//	}
 
 	//	private TimedUpdater getTimedService() {
 	//		if (null == timedService)
@@ -160,9 +160,9 @@ public class NeoComApplication extends Application {
 		}
 		ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
 
-		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
-		mdServer = new MarketDataServer().start();
-		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
+//		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
+//		mdServer = new MarketDataServer().start();
+//		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
 	}
 
 	/**

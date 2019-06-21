@@ -11,6 +11,7 @@ import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
@@ -25,7 +26,7 @@ import org.joda.time.DateTime;
 
 public class VisualTestsDataSource extends AMVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
-	private ISDEDatabaseAdapter sdeDatabaseAdapter;
+	private PlanetaryRepository planetaryRepository;
 	private ColonyPack colonyPack;
 	private List<IPlanetaryFacility> facilities = new ArrayList<>();
 
@@ -221,7 +222,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final FactoryFacility baseIndustryFacility = new FactoryFacility.Builder()
 				                                             .withPlanetaryFacility(baseFacility)
 				                                             .withSchematics(baseIndustryPin.getSchematicId())
-				                                             .withSDEDatabaseAdapter(this.sdeDatabaseAdapter)
+				                                             .withPlanetaryRepository(this.planetaryRepository)
 				                                             .build();
 		facilities.add(baseIndustryFacility);
 
@@ -246,7 +247,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final FactoryFacility baseIndustryFacility2 = new FactoryFacility.Builder()
 				                                              .withPlanetaryFacility(baseFacility)
 				                                              .withSchematics(baseIndustryPin.getSchematicId())
-				                                              .withSDEDatabaseAdapter(this.sdeDatabaseAdapter)
+				                                              .withPlanetaryRepository(this.planetaryRepository)
 				                                              .build();
 		facilities.add(baseIndustryFacility2);
 
@@ -297,9 +298,9 @@ public class VisualTestsDataSource extends AMVCDataSource {
 			return this;
 		}
 
-		public Builder withSDEDatabaseAdapter( final ISDEDatabaseAdapter sdeDatabaseAdapter ) {
-			Objects.requireNonNull(sdeDatabaseAdapter);
-			this.onConstruction.sdeDatabaseAdapter = sdeDatabaseAdapter;
+		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			Objects.requireNonNull(planetaryRepository);
+			this.onConstruction.planetaryRepository = planetaryRepository;
 			return this;
 		}
 	}

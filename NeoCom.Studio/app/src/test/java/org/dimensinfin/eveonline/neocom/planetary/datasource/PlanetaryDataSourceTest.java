@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
@@ -27,13 +28,13 @@ import static org.mockito.ArgumentMatchers.any;
  * by programmatically generated GetCharactersCharacterIdPlanets200Ok and GetCharactersCharacterIdPlanetsPlanetIdOk.
  */
 public class PlanetaryDataSourceTest {
-	private static ESIGlobalAdapter esiAdapter;
+	private static ESIDataAdapter esiAdapter;
 	private static List<GetCharactersCharacterIdPlanets200Ok> mockColoniesData = new ArrayList<>();
 	private Credential credential;
 
 	@Before
 	public void setUp() throws Exception {
-		esiAdapter = Mockito.mock(ESIGlobalAdapter.class);
+		esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		credential = new Credential()
 				             .setAccountId(92223647)
 				             .setRefreshToken("TEST REFRESH TOKEN")

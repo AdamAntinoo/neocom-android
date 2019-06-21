@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 
 public class FactoryFacility extends PlanetaryFacilityWrapper {
-	private ISDEDatabaseAdapter sdeDatabaseAdapter;
+	private PlanetaryRepository planetaryRepository;
 	private Integer schematicId;
 	private PlanetarySchematic schematic;
 
@@ -44,9 +44,8 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			return this;
 		}
 
-		public Builder withSDEDatabaseAdapter( final ISDEDatabaseAdapter sdeDatabaseAdapter ) {
-			Objects.requireNonNull(sdeDatabaseAdapter);
-			this.onConstruction.sdeDatabaseAdapter = sdeDatabaseAdapter;
+		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			this.onConstruction.planetaryRepository = planetaryRepository;
 			return this;
 		}
 
@@ -59,10 +58,10 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 		public FactoryFacility build() {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
 			Objects.requireNonNull(this.onConstruction.schematicId);
-			Objects.requireNonNull(this.onConstruction.sdeDatabaseAdapter);
+			Objects.requireNonNull(this.onConstruction.planetaryRepository);
 			// Initialize the schematic
 			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
-					                                .withSDEDatabaseAdapter(this.onConstruction.sdeDatabaseAdapter)
+					                                .withPlanetaryRepository(this.onConstruction.planetaryRepository)
 					                                .build();
 			return this.onConstruction;
 		}

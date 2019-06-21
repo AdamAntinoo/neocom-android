@@ -7,7 +7,7 @@ public class CommandCenterFacilityTest {
 
 	@Test
 	public void powerOutput() {
-		final IPlanetaryFacility planetaryFacility = Mockito.mock(IPlanetaryFacility.class);
+		final PlanetaryFacility planetaryFacility = Mockito.mock(PlanetaryFacility.class);
 		final CommandCenterFacility facility = new CommandCenterFacility.Builder()
 													   .withPlanetaryFacility(planetaryFacility)
 				.build();

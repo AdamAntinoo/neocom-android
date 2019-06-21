@@ -18,6 +18,7 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.activity.core.APublicCredentialActivity;
 //import org.dimensinfin.eveonline.neocom.core.NeoComException;
@@ -78,7 +79,7 @@ public class RefiningDetailActivity extends APublicCredentialActivity {
 
 			this.addPage(new RefiningDetailFragment()
 					.setResourceTypeId(resourceTypeId)
-					.setVariant(NeoComApplication.EVariants.MINING_EXTRACTIONS_TODAY.name()));
+					.setVariant(EVariants.MINING_EXTRACTIONS_TODAY.name()));
 			//			} else {
 			//				AndroidGlobalDataManager.registerException("MiningLedgerActivity.onCreate"
 			//						, new NeoComException("[MiningLedgerActivity.onCreate]> Credential id " + pilotIdentifier
