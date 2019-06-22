@@ -11,7 +11,7 @@ import android.graphics.Paint;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.planetary.FacilityStructureInfo;
+import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
@@ -109,7 +109,7 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 	//	private static final int icon_size = facilityring_width + facilityring_width + facilityring_width + CYCLE_WIDTH;
 
 	// - F I E L D S
-	private FacilityStructureInfo facilityClass = FacilityStructureInfo.BASIC_INDUSTRY;
+	private FactoryType facilityClass = FactoryType.BASIC_INDUSTRY;
 	private Map<Integer, FactorySection> factorySections = new HashMap<>();
 
 	//	private final FactorySection factoryProductionSectionA = new FactorySection();
@@ -145,9 +145,9 @@ public class FacilityImageView extends APlanetaryStructureImageView implements I
 		super.setPlanetaryFacility(planetaryFacility);
 		// Detect the right facility type to setup the different graphic variants.
 		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.BASIC_INDUSTRY)
-			this.facilityClass = FacilityStructureInfo.BASIC_INDUSTRY;
+			this.facilityClass = FactoryType.BASIC_INDUSTRY;
 		if (this.planetaryFacility.getFacilityType() == PlanetaryFacilityType.ADVANCED_INDUSTRY)
-			this.facilityClass = FacilityStructureInfo.facility4Schematics(this.planetaryFacility.getSchematicId());
+			this.facilityClass = FactoryType.facility4Schematics(this.planetaryFacility.getSchematicId());
 		// TODO - The contents re only valid for some type of calities so this code should be reconstructed.
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = null;
 		//		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = ((PlanetaryFacility)this.planetaryFacility).getContents();

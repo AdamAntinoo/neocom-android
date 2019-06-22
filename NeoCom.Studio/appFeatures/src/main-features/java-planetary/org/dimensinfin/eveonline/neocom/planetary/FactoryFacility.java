@@ -10,11 +10,12 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 
 public class FactoryFacility extends PlanetaryFacilityWrapper {
-	private PlanetaryRepository planetaryRepository;
 	private Integer schematicId;
 	private PlanetarySchematic schematic;
-
 	private List<FactoryInputs> inputs = new ArrayList<>();
+	private FactoryType factoryType = FactoryType.BASIC_INDUSTRY;
+
+	private PlanetaryRepository planetaryRepository;
 
 	public List<FactoryInputs> getInputs() {
 		return this.inputs;
@@ -24,6 +25,19 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		return new ArrayList<>();
+	}
+
+	public FactoryType getFactoryType() {
+		return this.factoryType;
+	}
+
+	protected void setFactoryType() {
+		final PlanetaryResourceTierType tierType = PlanetaryResourceTierType.searchTierType4Group(this.schematic.getOutput().getGroupName());
+		if (tierType == PlanetaryResourceTierType.TIER1) this.factoryType = FactoryType.BASIC_INDUSTRY;
+		if (tierType == PlanetaryResourceTierType.TIER3) this.factoryType = FactoryType.HIGH_INDUSTRY;
+
+		if ( (tierType == PlanetaryResourceTierType.TIER2) || (tierType == PlanetaryResourceTierType.TIER3))
+			this.factoryType = FactoryType.facility4Schematics(this.schematicId);
 	}
 
 	// - B U I L D E R
@@ -59,14 +73,16 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
 			Objects.requireNonNull(this.onConstruction.schematicId);
 			Objects.requireNonNull(this.onConstruction.planetaryRepository);
-			// Initialize the schematic
+			// Initialize the schematic.
 			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
 					                                .withPlanetaryRepository(this.onConstruction.planetaryRepository)
 					                                .build();
+			this.onConstruction.setFactoryType(); // Setup the factory factoryType.
 			return this.onConstruction;
 		}
 	}
 
+	// - F A C T O R Y I N P U T S
 	public static class FactoryInputs {
 		private GetCharactersCharacterIdPlanetsPlanetIdOkContents planetaryContent;
 		private EveItem itemDelegate;

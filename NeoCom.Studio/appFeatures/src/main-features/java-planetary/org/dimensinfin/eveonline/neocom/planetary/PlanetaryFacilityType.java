@@ -12,22 +12,22 @@ public enum PlanetaryFacilityType {
 			, R.color.pi_commandcentericoncolor, R.color.pi_commandcenterringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	STORAGE(R.drawable.storage80_white
-			, R.color.pi_storageiconcolor,R.color.pi_storageringcolor
+			, R.color.pi_storageiconcolor, R.color.pi_storageringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	LAUNCHPAD(R.drawable.launchpad80_white
-			, R.color.pi_storageiconcolor,R.color.pi_storageringcolor
+			, R.color.pi_storageiconcolor, R.color.pi_storageringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	BASIC_INDUSTRY(R.drawable.facility80_white
-			, R.color.pi_factoryiconcolor,R.color.pi_factoryringcolor
+			, R.color.pi_factoryiconcolor, R.color.pi_factoryringcolor
 			, TimeUnit.MINUTES.toSeconds(30)),
 	ADVANCED_INDUSTRY(R.drawable.facility80_white
-			, R.color.pi_factoryiconcolor,R.color.pi_factoryringcolor
+			, R.color.pi_factoryiconcolor, R.color.pi_factoryringcolor
 			, TimeUnit.MINUTES.toSeconds(60)),
 	EXTRACTOR_HEAD(R.drawable.extractor80_white
-			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
+			, R.color.pi_extractoriconcolor, R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(5)),
 	EXTRACTOR_CONTROL_UNIT(R.drawable.extractor80_white
-			, R.color.pi_extractoriconcolor,R.color.pi_extractorringcolor
+			, R.color.pi_extractoriconcolor, R.color.pi_extractorringcolor
 			, TimeUnit.MINUTES.toSeconds(60));
 
 	public static PlanetaryFacilityType getTypeByStructureGroup( final int structureGroup ) {
@@ -70,7 +70,7 @@ public enum PlanetaryFacilityType {
 		return this.structureRingColorReference;
 	}
 
-	public long getCycleDuration() {
-		return this.cycleDuration;
-	}
+//	public long getCycleDuration() {
+//		return this.cycleDuration;
+//	}
 }

@@ -26,7 +26,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	// - C O M M A N D C E N T E R
 	@Override
 	public String getName() {
-		return CommandCenterType.getTypeByLevel(level).getName(this.getPlanetType());
+		return CommandCenterType2LevelConverter.getTypeByLevel(level).getName(this.getPlanetType());
 	}
 
 	public Integer getUpgradeLevel() {
@@ -108,8 +108,8 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 
 		public Builder withLevel( final int level ) {
 			this.onConstruction.level = level;
-			this.onConstruction.cpuCapacity = CommandCenterType.getTypeByLevel(level).getCpuCapacity();
-			this.onConstruction.powerOutput = CommandCenterType.getTypeByLevel(level).getPowerOutput();
+			this.onConstruction.cpuCapacity = CommandCenterType2LevelConverter.getTypeByLevel(level).getCpuCapacity();
+			this.onConstruction.powerOutput = CommandCenterType2LevelConverter.getTypeByLevel(level).getPowerOutput();
 			return this;
 		}
 

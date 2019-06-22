@@ -3,41 +3,41 @@ package org.dimensinfin.eveonline.neocom.planetary;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandCenterType {
-	private static Map<Integer, CommandCenterType> commandCenterTypesMap = new HashMap<>();
+public class CommandCenterType2LevelConverter {
+	private static Map<Integer, CommandCenterType2LevelConverter> commandCenterTypesMap = new HashMap<>();
 
 	static {
-		commandCenterTypesMap.put(0, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(0, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(0)
 				                             .withPrefix("")
 				                             .withCpuCapacity(1675)
 				                             .withPowerOutput(6000)
 				                             .build());
-		commandCenterTypesMap.put(1, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(1, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(1)
 				                             .withPrefix("Limited")
 				                             .withCpuCapacity(7057)
 				                             .withPowerOutput(9000)
 				                             .build());
-		commandCenterTypesMap.put(2, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(2, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(2)
 				                             .withPrefix("Standard")
 				                             .withCpuCapacity(12136)
 				                             .withPowerOutput(12000)
 				                             .build());
-		commandCenterTypesMap.put(3, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(3, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(3)
 				                             .withPrefix("Improved")
 				                             .withCpuCapacity(17215)
 				                             .withPowerOutput(15000)
 				                             .build());
-		commandCenterTypesMap.put(4, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(4, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(4)
 				                             .withPrefix("Advanced")
 				                             .withCpuCapacity(21315)
 				                             .withPowerOutput(17000)
 				                             .build());
-		commandCenterTypesMap.put(5, new CommandCenterType.Builder()
+		commandCenterTypesMap.put(5, new CommandCenterType2LevelConverter.Builder()
 				                             .withLevel(5)
 				                             .withPrefix("Elite")
 				                             .withCpuCapacity(25415)
@@ -45,7 +45,7 @@ public class CommandCenterType {
 				                             .build());
 	}
 
-	public static CommandCenterType getTypeByLevel( int level ) {
+	public static CommandCenterType2LevelConverter getTypeByLevel( int level ) {
 		if (level < 0) level = 0;
 		if (level > 5) level = 5;
 		return commandCenterTypesMap.get(level);
@@ -57,7 +57,7 @@ public class CommandCenterType {
 	private int cpuCapacity;
 	private int powerOutput;
 
-	private CommandCenterType() { }
+	private CommandCenterType2LevelConverter() { }
 
 	public String getName( final PlanetType planetType ) {
 		return this.prefix + " " + planetType.getPrefix() + " Command Center";
@@ -77,10 +77,10 @@ public class CommandCenterType {
 
 	// - B U I L D E R
 	protected static class Builder {
-		private CommandCenterType onConstruction;
+		private CommandCenterType2LevelConverter onConstruction;
 
 		public Builder() {
-			this.onConstruction = new CommandCenterType();
+			this.onConstruction = new CommandCenterType2LevelConverter();
 		}
 
 		public Builder withLevel( final int level ) {
@@ -103,7 +103,7 @@ public class CommandCenterType {
 			return this;
 		}
 
-		public CommandCenterType build() {
+		public CommandCenterType2LevelConverter build() {
 			return this.onConstruction;
 		}
 	}

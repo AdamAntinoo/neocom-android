@@ -251,6 +251,31 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                                              .build();
 		facilities.add(baseIndustryFacility2);
 
+		// - ADVANCED INDUSTRY FACILITY EMPTY
+		baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		baseIndustryPin.setPinId(1023415101256L);
+		baseIndustryPin.setTypeId(2494);
+		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:10:35Z"));
+		baseIndustryPin.setSchematicId(66);
+		baseIndustryPin.setLatitude(2.25494623457F);
+		baseIndustryPin.setLongitude(1.897539911F);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(2390);
+		content.setAmount(40L);
+		baseIndustryPin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
+				               .withPin(baseIndustryPin)
+				               .build();
+		final FactoryFacility baseIndustryFacility3 = new FactoryFacility.Builder()
+				                                              .withPlanetaryFacility(baseFacility)
+				                                              .withSchematics(baseIndustryPin.getSchematicId())
+				                                              .withPlanetaryRepository(this.planetaryRepository)
+				                                              .build();
+		facilities.add(baseIndustryFacility3);
+
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
 				             .withCapsuleerIdentifier(123456)
