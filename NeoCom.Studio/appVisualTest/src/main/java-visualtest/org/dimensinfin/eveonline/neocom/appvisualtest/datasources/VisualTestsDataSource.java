@@ -10,7 +10,6 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
-import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
@@ -21,6 +20,11 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlane
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.*;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 import org.joda.time.DateTime;
 

@@ -6,7 +6,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 
 public class CommandCenterImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
 	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_commandcenterringcolor;

@@ -9,6 +9,8 @@ import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepositor
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.support.TestAdapterReadyUp;
 
 import org.junit.Assert;

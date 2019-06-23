@@ -6,13 +6,20 @@ import java.util.List;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.*;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIDataAdapter esiDataAdapter;
+	protected PlanetaryRepository planetaryRepository;
 
 	protected ESIDataAdapter getEsiDataAdapter() {
 		return this.esiDataAdapter;
@@ -66,9 +73,11 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 							               .withExtractorDetails(facility)
 							               .build());
 					break;
-				case BASIC_INDUSTRY:
+				case PLANETARY_FACTORY:
 					facilities.add(new FactoryFacility.Builder()
 							               .withPlanetaryFacility(baseFacility)
+							               .withSchematics(baseFacility.getSchematicId())
+							.withPlanetaryRepository(this.planetaryRepository)
 							               .build());
 					break;
 				default:

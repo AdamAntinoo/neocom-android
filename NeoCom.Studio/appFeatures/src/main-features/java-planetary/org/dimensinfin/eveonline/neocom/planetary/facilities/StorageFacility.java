@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.planetary;
+package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,10 @@ import java.util.Objects;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 
 public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
 	private PlanetaryStorage planetaryStorage;

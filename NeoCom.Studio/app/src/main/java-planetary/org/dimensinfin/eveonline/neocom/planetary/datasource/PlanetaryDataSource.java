@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -79,6 +79,12 @@ public class PlanetaryDataSource extends PlanetaryCommonDataSource {
 
 		public Builder withEsiAdapter( final ESIDataAdapter esiDataAdapter ) {
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
+		}
+
+		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			Objects.requireNonNull(planetaryRepository);
+			this.onConstruction.planetaryRepository = planetaryRepository;
 			return this;
 		}
 

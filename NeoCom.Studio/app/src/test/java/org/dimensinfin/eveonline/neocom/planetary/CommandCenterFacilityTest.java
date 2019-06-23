@@ -1,5 +1,8 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 

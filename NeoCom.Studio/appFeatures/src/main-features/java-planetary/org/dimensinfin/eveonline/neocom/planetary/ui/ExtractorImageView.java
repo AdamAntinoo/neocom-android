@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;

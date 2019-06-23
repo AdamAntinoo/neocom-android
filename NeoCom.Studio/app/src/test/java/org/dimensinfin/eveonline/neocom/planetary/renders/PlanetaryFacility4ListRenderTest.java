@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
 
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 import org.joda.time.DateTime;

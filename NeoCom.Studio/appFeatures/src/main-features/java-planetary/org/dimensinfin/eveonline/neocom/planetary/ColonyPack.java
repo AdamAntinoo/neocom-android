@@ -10,6 +10,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 
 public class ColonyPack extends NeoComExpandableNode {
 	private int capsuleerIdentifier = 0; // Use this identifier to identify the owner of the colony when clicking on the item.

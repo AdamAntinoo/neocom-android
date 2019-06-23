@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 import org.joda.time.DateTime;

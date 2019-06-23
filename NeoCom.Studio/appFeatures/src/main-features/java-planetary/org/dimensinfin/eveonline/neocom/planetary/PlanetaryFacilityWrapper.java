@@ -5,6 +5,7 @@ import java.util.List;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 
 import org.joda.time.DateTime;
 

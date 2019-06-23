@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 public class CommandCenterRender extends ResourceFacetedRender {

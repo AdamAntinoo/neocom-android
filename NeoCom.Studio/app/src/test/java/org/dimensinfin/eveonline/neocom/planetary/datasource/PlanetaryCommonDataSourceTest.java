@@ -6,11 +6,11 @@ import java.util.List;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 import org.junit.Assert;
 import org.junit.Test;

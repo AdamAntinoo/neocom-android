@@ -1,16 +1,13 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 
 public class StorageRender extends ResourceFacetedRender {

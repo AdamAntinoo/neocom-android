@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.planetary;
+package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,14 @@ import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
 import org.joda.time.DateTime;
 

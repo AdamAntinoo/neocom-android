@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.planetary;
+package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,10 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
 
 public class FactoryFacility extends PlanetaryFacilityWrapper {
 	private Integer schematicId;
@@ -15,6 +19,7 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	private List<FactoryInputs> inputs = new ArrayList<>();
 	private FactoryType factoryType = FactoryType.BASIC_INDUSTRY;
 
+	// -  C O M P O N E N T S
 	private PlanetaryRepository planetaryRepository;
 
 	public List<FactoryInputs> getInputs() {

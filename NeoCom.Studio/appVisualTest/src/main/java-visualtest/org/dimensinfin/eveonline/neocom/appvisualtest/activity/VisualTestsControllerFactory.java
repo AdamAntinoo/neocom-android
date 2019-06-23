@@ -3,21 +3,19 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.ExtractorFacility;
-import org.dimensinfin.eveonline.neocom.planetary.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
-import org.dimensinfin.eveonline.neocom.planetary.StorageFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
-import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryRender;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {

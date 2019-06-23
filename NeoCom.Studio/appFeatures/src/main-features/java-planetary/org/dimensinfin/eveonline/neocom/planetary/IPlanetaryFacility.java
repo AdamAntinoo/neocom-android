@@ -5,7 +5,6 @@ import java.util.List;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 
 import org.joda.time.DateTime;
@@ -44,6 +43,4 @@ public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 	void setCommandCenterPosition( final FacilityGeoPosition commandCenterPosition );
 
 	GetUniverseTypesTypeIdOkDogmaAttributes getDogmaAttributeById( final int attributeId );
-
-//	GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails();
 }

@@ -7,6 +7,8 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
 import org.dimensinfin.eveonline.neocom.support.TestConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.support.TestFileSystem;

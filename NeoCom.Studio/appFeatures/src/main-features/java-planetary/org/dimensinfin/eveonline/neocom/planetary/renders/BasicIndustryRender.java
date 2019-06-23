@@ -3,8 +3,6 @@ package org.dimensinfin.eveonline.neocom.planetary.renders;
 import java.util.List;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,10 +10,9 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ProgressRingImageView;
-import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 import com.squareup.picasso.Picasso;
 
