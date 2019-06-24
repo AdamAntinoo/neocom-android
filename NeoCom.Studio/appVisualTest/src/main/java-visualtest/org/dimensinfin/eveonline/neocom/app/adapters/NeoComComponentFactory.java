@@ -19,7 +19,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
-import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
+import org.dimensinfin.eveonline.neocom.services.UpdaterSchedulerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class NeoComComponentFactory {
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
 	private ESIDataPersistenceService persistenceService;
-	private TimedUpdater timedService;
+	private UpdaterSchedulerService timedService;
 
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;

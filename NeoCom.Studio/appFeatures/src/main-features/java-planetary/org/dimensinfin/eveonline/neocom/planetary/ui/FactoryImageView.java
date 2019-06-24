@@ -18,43 +18,15 @@ import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
 public class FactoryImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
-	//	private static final int ICON_REFERENCE_ID = R.drawable.facility80_white;
-	//	private static final int ICON_COLOR_REFERENCE = R.color.pi_factoryiconcolor;
-	//		private static final int RING_COLOR_REFERENCE = R.color.pi_factoryringcolor;
-	//		private static final int FACTORY_RING_FILL_COLOR = R.color.pi_factoryringfillcolor;
-
-	//	private static final int FACTORY_COLOR = R.color.pi_factoryiconcolor;
-	//	private static final int facilityring_width = 10;
-	//	private static final float facilityInputDimensionNeg = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue();
-	//	private static final float facilityInputDimensionPos = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue();
-	//	private static final int cycle_radius = STRUCTURE_SIZE / 2 - facilityring_width - facilityring_width;
-	//	private static final int cycle_border_distance = (STRUCTURE_SIZE / 2) - cycle_radius;
-	//	private static final float cycleDimensionNeg = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue() + cycle_border_distance;
-	//	private static final float cycleDimensionPos = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue() - cycle_border_distance;
-	//	private static final int icon_size = facilityring_width + facilityring_width + facilityring_width + CYCLE_WIDTH;
-
 	// - F I E L D S
 	private FactoryType facilityClass = FactoryType.BASIC_INDUSTRY;
 	private Map<Integer, FactorySection> factorySections = new HashMap<>();
-
-	private float endAngleA = 0.0f;
-	private float endAngleB = 120.0f;
-	private float endAngleC = 240.0f;
-	//	private long cycleDuration ;
-	//	private long cycleElapsed = 1;
-	//	private float cycleAngle = 0.0f;
-	//	private int structureIconColor = Color.WHITE;
-	//	private Rect structureIconDestination = null;
-	//	private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-
 	// - C O N S T R U C T O R S
 	protected FactoryImageView( final Context context ) {
 		super(context);
 	}
 
 	// - C O N T E N T   A P I
-	//	@Override
 	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		super.setPlanetaryFacility(planetaryFacility);
 		this.facilityClass = ((FactoryFacility) planetaryFacility).getFactoryType();
@@ -168,8 +140,8 @@ public class FactoryImageView extends APlanetaryStructureImageView implements IP
 	 */
 	private void drawCycleRing( Canvas canvas ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
-		paint.setColor(this.getColor(R.color.pi_factoryringfillcolor));
-		paint.setStrokeWidth(FACILITY_RING_WIDTH);
+		paint.setColor(this.getColor(R.color.appwhite));
+		paint.setStrokeWidth(CYCLE_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);
 		paint.setStyle(Paint.Style.STROKE);

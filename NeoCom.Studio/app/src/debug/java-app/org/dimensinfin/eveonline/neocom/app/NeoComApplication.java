@@ -1,12 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.SQLException;
-
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,17 +8,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManagerExceptions;
-import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
-import org.dimensinfin.eveonline.neocom.services.MarketDataServer;
-import org.dimensinfin.eveonline.neocom.services.TimeTickReceiver;
-import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
-import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.services.MinuteTickReceiver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,26 +32,26 @@ public class NeoComApplication extends Application {
 	}
 
 	private static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
+	private BroadcastReceiver timeTickReceiver;
 
-//	/** Market Data Downloader service. It is implemented with threads and not as Android service. */
-//	public static MarketDataServer mdServer = null;
-//	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
-//	private static BroadcastReceiver timeTickReceiver = null;
-//	private static TimedUpdater timedService;
-//
-//	/** Direct entry point to fire a timer tick event . */
-//	public static void runTimer() {
-//		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
-//	}
-//
-//	public static void setTimedUpdater( final TimedUpdater service ) {
-//		timedService = service;
-//	}
-//
-//	public static void runTicker() {
-//		if (null == timedService) timedService = NeoComComponentFactory.getSingleton().getTimedService();
-//		if (null != timedService) timedService.timeTick();
-//	}
+	//	/** Market Data Downloader service. It is implemented with threads and not as Android service. */
+	//	public static MarketDataServer mdServer = null;
+	//	/** Background receiver to process pending jobs. Wakes every minute to fire download pending checks. */
+	//	private static TimedUpdater timedService;
+	//
+	//	/** Direct entry point to fire a timer tick event . */
+	//	public static void runTimer() {
+	//		timeTickReceiver.onReceive(AndroidGlobalDataManager.getAppContext(), null);
+	//	}
+	//
+	//	public static void setTimedUpdater( final TimedUpdater service ) {
+	//		timedService = service;
+	//	}
+	//
+	//	public static void runTicker() {
+	//		if (null == timedService) timedService = NeoComComponentFactory.getSingleton().getBackgroundUpdater();
+	//		if (null != timedService) timedService.timeTick();
+	//	}
 
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
@@ -77,93 +61,99 @@ public class NeoComApplication extends Application {
 		return false;
 	}
 
+	public static boolean checkSDCardAvailability() {
+		// TODO - This should be implemented.
+		return true;
+	}
+
 	// - F I E L D - S E C T I O N
-//	private NeoComComponentFactory neocom;
+	//	private NeoComComponentFactory neocom;
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	public NeoComApplication() {
-//		super();
-//	}
+	//	public NeoComApplication() {
+	//		super();
+	//	}
 
 	// - M E T H O D - S E C T I O N
 
-//	/**
-//	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
-//	 * checking elements that should be updated because they are obsolete. New updates will be launched as
-//	 * separate async tasks.
-//	 */
-//	public void startTimer() {
-//		if (null == timeTickReceiver) {
-//			final boolean tickActivate = Boolean.valueOf(
-//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
-//							, "true"));
-//			final int tickTime = Integer.valueOf(
-//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
-//							, "5"));
-//			timeTickReceiver = new TimeTickReceiver.Builder(this)
-//					                   .withTickActivate(tickActivate)
-//					                   .withTickTime(tickTime)
-//					                   .build();
-//			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
-//		}
-//	}
+	//	/**
+	//	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
+	//	 * checking elements that should be updated because they are obsolete. New updates will be launched as
+	//	 * separate async tasks.
+	//	 */
+	//	public void startTimer() {
+	//		if (null == timeTickReceiver) {
+	//			final boolean tickActivate = Boolean.valueOf(
+	//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.timer"
+	//							, "true"));
+	//			final int tickTime = Integer.valueOf(
+	//					NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("R.runtime.downloadTick.cycleTime"
+	//							, "5"));
+	//			timeTickReceiver = new TimeTickReceiver.Builder(this)
+	//					                   .withTickActivate(tickActivate)
+	//					                   .withTickTime(tickTime)
+	//					                   .build();
+	//			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+	//		}
+	//	}
 
-	//	private TimedUpdater getTimedService() {
+	//	private TimedUpdater getBackgroundUpdater() {
 	//		if (null == timedService)
 	//			timedService = new TimedUpdater.Singletoner()
 	//					               .withESIAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 	//					               .build();
 	//		return timedService;
 	//	}
+	//	private void oldInitialization() {
+	//		//		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
+	//		//				                                      .build();
+	//		// Connect the application to the global context to be able to use all the resources.
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
+	//		AndroidGlobalDataManager.setApplicationContext(this);
+	//
+	//		// Connect the file system to be able to read the assets and other application resources stored externally.
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
+	//		AndroidGlobalDataManager.installFileSystem(NeoComComponentFactory.getSingleton().getFileSystemAdapter());
+	//
+	//		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
+	//		AndroidGlobalDataManager.connectConfigurationManager(NeoComComponentFactory.getSingleton().getConfigurationProvider());
+	//
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
+	//		AndroidGlobalDataManager.connectPreferencesManager(NeoComComponentFactory.getSingleton().getPreferencesProvider());
+	//		AndroidGlobalDataManager.connectNeoComDBConnector(NeoComComponentFactory.getSingleton().getNeoComDBHelper());
+	//
+	//		// Initialize the Model with the current global instance.
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
+	//		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
+	//				, NeoComComponentFactory.getSingleton().getFileSystemAdapter()
+	//				, new ESIGlobalAdapter.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
+	//				, NeoComComponentFactory.getSingleton().getFileSystemAdapter())
+	//						  .build())
+	//				                            .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+	//				                            .build());
+	//
+	//		// Connect the SDE database.
+	//		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
+	//		try {
+	//			AndroidGlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
+	//					                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.databaseschema"))
+	//					                                               .setDatabasePath(AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname) + "/")
+	//					                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))
+	//					                                               .build()
+	//			);
+	//		} catch (SQLException sqle) {
+	//			AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
+	//			sqle.printStackTrace();
+	//		}
+	//		ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
+	//
+	////		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
+	////		mdServer = new MarketDataServer().start();
+	////		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
+	//	}
+
 	// - A P P L I C A T I O N   L I F E   C Y C L E
-	private void oldInitialization() {
-		//		final IFileSystem fileSystemAdapter = new AndroidFileSystemAdapter.Builder(this.getResources().getString(R.string.appname), this)
-		//				                                      .build();
-		// Connect the application to the global context to be able to use all the resources.
-		logger.info("-- [NeoComApp.onCreate]> Connecting the Context to the Global...");
-		AndroidGlobalDataManager.setApplicationContext(this);
-
-		// Connect the file system to be able to read the assets and other application resources stored externally.
-		logger.info("-- [NeoComApp.onCreate]> Connecting the File System to Global...");
-		AndroidGlobalDataManager.installFileSystem(NeoComComponentFactory.getSingleton().getFileSystemAdapter());
-
-		// Connect the Configuration manager. Do this after the file system because it reads configuration files.
-		logger.info("-- [NeoComApp.onCreate]> Connecting the Configuration Manager...");
-		AndroidGlobalDataManager.connectConfigurationManager(NeoComComponentFactory.getSingleton().getConfigurationProvider());
-
-		logger.info("-- [NeoComApp.onCreate]> Connecting the Preferences Manager...");
-		AndroidGlobalDataManager.connectPreferencesManager(NeoComComponentFactory.getSingleton().getPreferencesProvider());
-		AndroidGlobalDataManager.connectNeoComDBConnector(NeoComComponentFactory.getSingleton().getNeoComDBHelper());
-
-		// Initialize the Model with the current global instance.
-		logger.info("-- [NeoComApp.onCreate]> Connecting Global to Model...");
-		ANeoComEntity.connectGlobal(new AndroidGlobalDataManager.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
-				, NeoComComponentFactory.getSingleton().getFileSystemAdapter()
-				, new ESIGlobalAdapter.Builder(NeoComComponentFactory.getSingleton().getConfigurationProvider()
-				, NeoComComponentFactory.getSingleton().getFileSystemAdapter())
-						  .build())
-				                            .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-				                            .build());
-
-		// Connect the SDE database.
-		logger.info("-- [NeoComApp.onCreate]> Connecting SDE database...");
-		try {
-			AndroidGlobalDataManager.connectSDEDBConnector(new SDEAndroidDBHelper()
-					                                               .setDatabaseSchema(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.databaseschema"))
-					                                               .setDatabasePath(AndroidGlobalDataManager.getApplication().getResources().getString(R.string.appname) + "/")
-					                                               .setDatabaseName(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))
-					                                               .build()
-			);
-		} catch (SQLException sqle) {
-			AndroidGlobalDataManager.registerException("NeoComApp.onCreate", sqle, GlobalDataManagerExceptions.EExceptionSeverity.SEVERE);
-			sqle.printStackTrace();
-		}
-		ANeoComEntity.connectSDEHelper(AndroidGlobalDataManager.getSingleton().getSDEDBHelper());
-
-//		logger.info("-- [NeoComMicroServiceApplication.main]> Starting Market Data service...");
-//		mdServer = new MarketDataServer().start();
-//		GlobalDataManager.getSingleton().connectMarketDataManager(mdServer);
-	}
 
 	/**
 	 * This Application lifecycle event is only called when the application is started or completely removed from memory.
@@ -174,93 +164,92 @@ public class NeoComApplication extends Application {
 	public void onCreate() {
 		logger.info(">> [NeoComApplication.onCreate]");
 		super.onCreate();
+		logger.info("-- [NeoComApplication.onCreate]> Connect Component Factory to application...");
 		NeoComComponentFactory.initialiseSingleton(this); // Create the component factory but empty of contents.
-		//		Stetho.initializeWithDefaults(this);
-//		this.oldInitialization();
-		// Do global injections
-		//		EsiItemV2.injectEveItemProvider(NeoComComponentFactory.getSingleton(.get));
-		//		EsiItemV2.injectDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService());
-
-		//		// Check if the SDE database file is at the right place. If not copy it.
-		//		if (!AndroidGlobalDataManager.checkAppFile(
-		//				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
-		//			// TODO The CCP database is not distributed with the application. If not available then close the App
-		//			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
-		//		}
-
-		// Connect the Timed Updater scan.
-//		logger.info("-- [NeoComApp.main]> Connecting the background timed download scanner...");
-		//		startTimer();
-		logger.info("<< [NeoComApp.onCreate]");
+		logger.info("-- [NeoComApplication.onCreate]> Start job scheduler...");
+		this.startScheduler(); // Start the job scheduler
+		logger.info("<< [NeoComApplication.onCreate]");
 	}
 
-//	/**
-//	 * Events called during the Application life cycle.
-//	 */
-//	@Override
-//	public void onTerminate() {
-//		logger.info(">> [NeoComApp.onTerminate]");
-//		this.unregisterReceiver(timeTickReceiver);
-//		super.onTerminate();
-//		logger.info("<< [NeoComApp.onTerminate]");
-//	}
-
-	// --- P R I V A T E   S E C T I O N
-
+	@Override
+	public void onTerminate() {
+		logger.info(">> [NeoComApplication.onTerminate]");
+		this.terminateScheduler();
+		super.onTerminate();
+		logger.info("<< [NeoComApplication.onTerminate]");
+	}
 
 	/**
-	 * Copies the parameter files from the assets installation directory to the user application directory.
-	 * Current contents are the static database and the initial API list if found.
+	 * Start the background broadcast receiver to intercept the minute tick and process the data structures
+	 * checking elements that should be updated because they are obsolete. New updates will be launched as
+	 * separate job processes controlled by the scheduler.
 	 */
-	private void copyFromAssets( final String sourceFileName ) {
-		InputStream istream = null;
-		OutputStream ostream = null;
-		//		String resourceName = NeoComAppConnector.getSingleton().getResourceString(resourceId);
-		//		final Context context = singleton.getApplicationContext();
-		try {
-			istream = AndroidGlobalDataManager.openAsset4Input(sourceFileName);
-			final File destination = new File(AndroidGlobalDataManager.accessResource4Path(sourceFileName));
-			destination.createNewFile();
-			ostream = new FileOutputStream(destination);
-			final byte[] buffer = new byte[8192];
-			int length;
-			while ((length = istream.read(buffer)) > 0) {
-				ostream.write(buffer, 0, length);
-			}
-			ostream.flush();
-			logger.info("-- [NeoComApp.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]");
-		} catch (final Exception e) {
-			e.printStackTrace();
-			logger.error("E> [NeoComApp.copyFromAssets] Failed to copy resource: " + sourceFileName);
-		} finally {
-			try {
-				if (ostream != null) {
-					ostream.close();
-				}
-				if (istream != null) {
-					istream.close();
-				}
-			} catch (final IOException e) {
-			}
+	protected void startScheduler() {
+		if (null == this.timeTickReceiver) {
+			this.timeTickReceiver = new MinuteTickReceiver.Builder(this).build();
+			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 
-//	public void copyPreloadFiles() {
-//		try {
-//			for (String name : AndroidGlobalDataManager.getApplication().getAssets().list("preloadcache")) {
-//				copyFromAssets("preloadcache/" + name);
-//			}
-//		} catch (IOException ioe) {
-//			ioe.printStackTrace();
-//		}
-//	}
-//
-//	@Override
-//	public String toString() {
-//		StringBuffer buffer = new StringBuffer("NeoComApplication [ ");
-//		buffer.append("name: ").append(0);
-//		buffer.append("]");
-//		buffer.append("->").append(super.toString());
-//		return buffer.toString();
-//	}
+	protected void terminateScheduler() {
+		if (null != this.timeTickReceiver) this.unregisterReceiver(this.timeTickReceiver);
+	}
+	// --- P R I V A T E   S E C T I O N
+
+
+	//	/**
+	//	 * Copies the parameter files from the assets installation directory to the user application directory.
+	//	 * Current contents are the static database and the initial API list if found.
+	//	 */
+	//	private void copyFromAssets( final String sourceFileName ) {
+	//		InputStream istream = null;
+	//		OutputStream ostream = null;
+	//		//		String resourceName = NeoComAppConnector.getSingleton().getResourceString(resourceId);
+	//		//		final Context context = singleton.getApplicationContext();
+	//		try {
+	//			istream = AndroidGlobalDataManager.openAsset4Input(sourceFileName);
+	//			final File destination = new File(AndroidGlobalDataManager.accessResource4Path(sourceFileName));
+	//			destination.createNewFile();
+	//			ostream = new FileOutputStream(destination);
+	//			final byte[] buffer = new byte[8192];
+	//			int length;
+	//			while ((length = istream.read(buffer)) > 0) {
+	//				ostream.write(buffer, 0, length);
+	//			}
+	//			ostream.flush();
+	//			logger.info("-- [NeoComApp.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]");
+	//		} catch (final Exception e) {
+	//			e.printStackTrace();
+	//			logger.error("E> [NeoComApp.copyFromAssets] Failed to copy resource: " + sourceFileName);
+	//		} finally {
+	//			try {
+	//				if (ostream != null) {
+	//					ostream.close();
+	//				}
+	//				if (istream != null) {
+	//					istream.close();
+	//				}
+	//			} catch (final IOException e) {
+	//			}
+	//		}
+	//	}
+
+	//	public void copyPreloadFiles() {
+	//		try {
+	//			for (String name : AndroidGlobalDataManager.getApplication().getAssets().list("preloadcache")) {
+	//				copyFromAssets("preloadcache/" + name);
+	//			}
+	//		} catch (IOException ioe) {
+	//			ioe.printStackTrace();
+	//		}
+	//	}
+	//
+	//	@Override
+	//	public String toString() {
+	//		StringBuffer buffer = new StringBuffer("NeoComApplication [ ");
+	//		buffer.append("name: ").append(0);
+	//		buffer.append("]");
+	//		buffer.append("->").append(super.toString());
+	//		return buffer.toString();
+	//	}
 }

@@ -23,7 +23,7 @@ import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
-import org.dimensinfin.eveonline.neocom.services.TimedUpdater;
+import org.dimensinfin.eveonline.neocom.services.UpdaterSchedulerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class NeoComComponentFactory {
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
 	private ESIDataPersistenceService persistenceService;
-	private TimedUpdater timedService;
+//	private UpdaterSchedulerService backgroundUpdater;
 
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
@@ -130,18 +130,18 @@ public class NeoComComponentFactory {
 		return this.downloaderService;
 	}
 
-	public TimedUpdater getTimedService() {
-		if (null == this.timedService) {
-			timedService = new TimedUpdater.Builder()
-					               .withESIAdapter(this.getEsiDataAdapter())
-					               .withPreferencesProvider(this.getPreferencesProvider())
-					               .withESIDataPersistenceService(this.getPersistenceService())
-					               .withCredentialRepository(this.getCredentialRepository())
-					               .build();
-
-		}
-		return this.timedService;
-	}
+//	public UpdaterSchedulerService getBackgroundUpdater() {
+//		if (null == this.backgroundUpdater) {
+//			backgroundUpdater = new UpdaterSchedulerService.Builder()
+//					               .withESIAdapter(this.getEsiDataAdapter())
+//					               .withPreferencesProvider(this.getPreferencesProvider())
+//					               .withESIDataPersistenceService(this.getPersistenceService())
+//					               .withCredentialRepository(this.getCredentialRepository())
+//					               .build();
+//
+//		}
+//		return this.backgroundUpdater;
+//	}
 
 	public ESIDataPersistenceService getPersistenceService() {
 		if (null == this.persistenceService) {

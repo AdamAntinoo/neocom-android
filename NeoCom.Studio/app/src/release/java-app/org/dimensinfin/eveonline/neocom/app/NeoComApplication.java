@@ -108,7 +108,7 @@ public class NeoComApplication extends Application {
 		}
 	}
 
-	//	private TimedUpdater getTimedService() {
+	//	private TimedUpdater getBackgroundUpdater() {
 	//		if (null == timedService)
 	//			timedService = new TimedUpdater.Singletoner()
 	//					               .withESIAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
