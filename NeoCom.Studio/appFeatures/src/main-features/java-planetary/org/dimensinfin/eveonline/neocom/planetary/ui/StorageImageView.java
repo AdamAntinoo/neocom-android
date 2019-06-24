@@ -8,7 +8,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 public class StorageImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
-	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_storageringfillcolor;
+//	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_storageringfillcolor;
 
 	// - C O N S T R U C T O R S
 	protected StorageImageView( final Context context ) {
@@ -30,26 +30,17 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 
 	protected void drawFacilityFill( final Canvas canvas ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		final double fillLevel = ((StorageFacility)this.planetaryFacility).getTotalVolume();
-		final int angle = Double.valueOf((fillLevel / ((StorageFacility)this.planetaryFacility).getStorageCapacity()) * 360.0).intValue();
-		paint.setColor(this.getColor(FACTORY_RING_FILL_COLOR));
-		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
-				, -90.0F, angle, true, paint);
-		// Use background color to clean up the drawing that should not be seen.
-		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
-	}
+		paint.setColor(this.getColor(R.color.pi_storageringfillcolor));
+		paint.setStrokeWidth(FACILITY_RING_WIDTH);
+		paint.setAntiAlias(true);
+		paint.setStrokeCap(Paint.Cap.BUTT);
+		paint.setStyle(Paint.Style.STROKE);
 
-//	/**
-//	 * Draws each of the 3 facility inputs. If the facility does not have that input we draw nothing but the code
-//	 * is shared for the 3 facilities.
-//	 */
-//	private void drawStorageFillRing( Canvas canvas ) {
-//		float startAngle = -90.0f;
-//		float endAngle = 100;
-//		paint.setColor(getResources().getColor(R.color.pi_storagefill));
-//		canvas.drawArc(STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_POS, STRUCTURE_INPUTDIMENSION_POS, startAngle, endAngle, true, paint);
-//	}
+		final Float fillLevel = ((StorageFacility) this.planetaryFacility).getTotalVolume();
+		final Float angle = fillLevel / ((StorageFacility)this.planetaryFacility).getStorageCapacity() * 360.0F;
+		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION
+				, -90.0F, angle, false, paint);
+	}
 
 	// - B U I L D E R
 	public static class Builder extends APlanetaryStructureImageView.BaseBuilder<StorageImageView, StorageImageView.Builder> {

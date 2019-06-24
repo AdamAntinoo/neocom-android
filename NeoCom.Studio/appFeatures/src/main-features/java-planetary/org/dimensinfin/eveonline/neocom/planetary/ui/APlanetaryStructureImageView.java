@@ -15,9 +15,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,19 +31,19 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected static final int DIMENSION = Float.valueOf(STRUCTURE_SIZE / 2).intValue();
 	protected static final int FACILITY_RING_WIDTH = 10;
 	protected static final int CYCLE_WIDTH = 5;
-//	protected static final int ICON_SIZE = FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + CYCLE_WIDTH;
-//	protected static final int DIMENSION_NEG = -DIMENSION + ICON_SIZE;
-//	protected static final int DIMENSION_POS = DIMENSION - ICON_SIZE;
-//	protected static final int STRUCTURE_RING_WIDTH = 12;
+	//	protected static final int ICON_SIZE = FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + CYCLE_WIDTH;
+	//	protected static final int DIMENSION_NEG = -DIMENSION + ICON_SIZE;
+	//	protected static final int DIMENSION_POS = DIMENSION - ICON_SIZE;
+	//	protected static final int STRUCTURE_RING_WIDTH = 12;
 	protected static final int STRUCTURE_ICON_DIMENSION = 30;
-//	protected static final float STRUCTURE_INPUTDIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue();
-//	protected static final float STRUCTURE_INPUTDIMENSION_POS = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue();
+	//	protected static final float STRUCTURE_INPUTDIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue();
+	//	protected static final float STRUCTURE_INPUTDIMENSION_POS = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue();
 	protected static final int CYCLE_RADIUS = STRUCTURE_SIZE / 2 - FACILITY_RING_WIDTH - FACILITY_RING_WIDTH;
 	protected static final int CYCLE_BORDER_DISTANCE = (STRUCTURE_SIZE / 2) - CYCLE_RADIUS;
-//	protected static final float CYCLE_DIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue() + CYCLE_BORDER_DISTANCE;
+	//	protected static final float CYCLE_DIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue() + CYCLE_BORDER_DISTANCE;
 	protected static final float CYCLE_DIMENSION = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue() - CYCLE_BORDER_DISTANCE;
-//	protected static final Rect STRUCTURE_ICON_RECT = new Rect(0, 0, DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
-//	protected static final Rect STRUCTURE_ICON_DESTINATION_RECT = new Rect(DIMENSION_NEG, DIMENSION_POS, DIMENSION_POS, DIMENSION_NEG);
+	//	protected static final Rect STRUCTURE_ICON_RECT = new Rect(0, 0, DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+	//	protected static final Rect STRUCTURE_ICON_DESTINATION_RECT = new Rect(DIMENSION_NEG, DIMENSION_POS, DIMENSION_POS, DIMENSION_NEG);
 
 	// - F I E L D S
 	//	protected FacilityGeoPosition deltaPosition = new FacilityGeoPosition();
@@ -58,7 +56,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
 	protected IPlanetaryFacility planetaryFacility;
 	/** The resource identifier for the icon that represents the planetaryFacility. */
-//	protected int drawableId ;
+	//	protected int drawableId ;
 	//	/** Set the default to a Processing Facility. */
 	//	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 	protected double scale = 1.0;
@@ -98,7 +96,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
-//		this.drawableId = this.planetaryFacility.getIconReferenceId();
+		//		this.drawableId = this.planetaryFacility.getIconReferenceId();
 	}
 
 	public void setScale( final double newscale ) {
@@ -161,10 +159,10 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		return resultBitmap;
 	}
 
-//	/** Return the number of seconds elapsed on the current cycle. */
-//	protected long getCycleElapsed() {
-//		return Instant.now().getMillis() / 1000 - this.planetaryFacility.getLastCycleStart().getMillis() / 1000;
-//	}
+	//	/** Return the number of seconds elapsed on the current cycle. */
+	//	protected long getCycleElapsed() {
+	//		return Instant.now().getMillis() / 1000 - this.planetaryFacility.getLastCycleStart().getMillis() / 1000;
+	//	}
 
 	// - B U I L D E R
 	protected static abstract class BaseBuilder<T extends APlanetaryStructureImageView, B extends APlanetaryStructureImageView.BaseBuilder> {
