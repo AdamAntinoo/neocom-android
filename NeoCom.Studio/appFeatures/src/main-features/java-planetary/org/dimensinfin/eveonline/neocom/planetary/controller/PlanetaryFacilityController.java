@@ -10,10 +10,12 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.renders.AdvancedIndustryRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryRender;
-import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.CommandCenterRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ExtractorRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.StorageRender;
 
@@ -45,8 +47,15 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 					return new StorageRender(this, context);
 				case EXTRACTOR_CONTROL_UNIT:
 					return new ExtractorRender(this, context);
-				case BASIC_INDUSTRY:
-					return new BasicIndustryRender(this, context);
+				case PLANETARY_FACTORY:
+					switch (((FactoryFacility) this.getModel()).getFactoryType()) {
+						case BASIC_INDUSTRY:
+							return new BasicIndustryRender(this, context);
+						case ADVANCED_INDUSTRY:
+							return new AdvancedIndustryRender(this, context);
+						default:
+							return new BasicIndustryRender(this, context);
+					}
 				default:
 					return new PlanetaryFacility4ListRender(this, context);
 			}

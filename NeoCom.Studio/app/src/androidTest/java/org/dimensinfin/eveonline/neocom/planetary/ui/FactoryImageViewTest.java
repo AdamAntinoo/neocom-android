@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class FacilityImageViewTest {
+public class FactoryImageViewTest {
 	@Rule
 	public ActivityTestRule<PlanetaryColonyLayoutActivity> mActivityRule = new ActivityTestRule<>(PlanetaryColonyLayoutActivity.class);
 

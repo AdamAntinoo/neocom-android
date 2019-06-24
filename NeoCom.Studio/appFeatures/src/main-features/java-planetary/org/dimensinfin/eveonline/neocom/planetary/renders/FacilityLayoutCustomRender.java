@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.ui.CommandCenterImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
-import org.dimensinfin.eveonline.neocom.planetary.ui.FacilityImageView;
+import org.dimensinfin.eveonline.neocom.planetary.ui.FactoryImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.IPlanetaryImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
 
@@ -65,10 +65,7 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 			case EXTRACTOR_CONTROL_UNIT:
 				this.structureImage = new ExtractorImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
-				// Start the extraction cycle animation.
-				//					handler.postDelayed(animateCycle, TimeUnit.SECONDS.toMillis(10));
 				break;
 			case STORAGE:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
@@ -79,13 +76,11 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 			case LAUNCHPAD:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
-			default:
-				this.structureImage = new FacilityImageView.Builder(this.getContext())
+			case PLANETARY_FACTORY:
+				this.structureImage = new FactoryImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 		}
 		this.layoutStructureContainer.addView((ImageView) this.structureImage);

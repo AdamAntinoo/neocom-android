@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -56,6 +57,16 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 
 	public String getExtractingResourceURLForItem() {
 		return this.extractionType.getURLForItem();
+	}
+
+	@Override
+	public int getIconReferenceId() {
+		return R.drawable.extractor80_white;
+	}
+
+	@Override
+	public int getIconColorReference() {
+		return R.color.pi_extractoriconcolor;
 	}
 
 	// - I C O L L A B O R A T I O N

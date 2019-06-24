@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
@@ -20,12 +21,12 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 	}
 
 	public Float getStorageCapacity() {
-		if (this.planetaryStorage.storageCapacity < 0) {
+		if (this.planetaryStorage.getStorageCapacity() < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
 			if (null == storage) return 0.0F;
-			else this.planetaryStorage.storageCapacity = storage.getValue();
+			else this.planetaryStorage.setStorageCapacity(storage.getValue());
 		}
-		return this.planetaryStorage.storageCapacity;
+		return this.planetaryStorage.getStorageCapacity();
 	}
 
 	public Float getTotalVolume() {
@@ -34,6 +35,16 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 
 	public double getTotalValue() {
 		return this.planetaryStorage.getTotalValue();
+	}
+
+	@Override
+	public int getIconReferenceId() {
+		return R.drawable.storage80_white;
+	}
+
+	@Override
+	public int getIconColorReference() {
+		return R.color.pi_storageiconcolor;
 	}
 
 	// - I C O L L A B O R A T I O N

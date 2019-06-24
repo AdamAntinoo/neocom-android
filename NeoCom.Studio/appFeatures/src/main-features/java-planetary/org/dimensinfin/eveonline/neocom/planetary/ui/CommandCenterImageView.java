@@ -23,7 +23,7 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	protected void onDraw( final Canvas canvas ) {
 		logger.info(">> [CommandCenterImageView.onDraw]");
 		this.centerCanvas4CommandCenter(canvas); // Command center goes to the center of the canvas
-		this.drawFacilityRing(canvas);
+		this.drawFacilityRing(canvas,R.color.pi_commandcenterringcolor);
 		this.drawCpuInUseRing(canvas);
 		this.drawPowerInUseRing(canvas);
 		this.drawFacilityFill(canvas);

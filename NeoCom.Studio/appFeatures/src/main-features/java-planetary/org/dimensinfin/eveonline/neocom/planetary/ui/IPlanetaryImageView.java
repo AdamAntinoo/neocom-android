@@ -6,5 +6,5 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 public interface IPlanetaryImageView {
 //	void setDeltaPosition( final FacilityGeoPosition deltaPosition );
 
-	void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility );
+//	void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility );
 }

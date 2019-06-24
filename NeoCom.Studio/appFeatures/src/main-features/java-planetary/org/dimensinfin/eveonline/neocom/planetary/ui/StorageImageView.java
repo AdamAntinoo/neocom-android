@@ -21,7 +21,7 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 		logger.info(">> [StorageImageView.onDraw]");
 		// Move canvas to center to allow drawing symmetries. Paint all area transparent.
 		this.centerCanvas(canvas);
-		this.drawFacilityRing(canvas);
+		this.drawFacilityRing(canvas, R.color.pi_storageringcolor);
 		this.drawFacilityFill(canvas);
 		this.drawFacilityIcon(canvas);
 		super.onDraw(canvas);

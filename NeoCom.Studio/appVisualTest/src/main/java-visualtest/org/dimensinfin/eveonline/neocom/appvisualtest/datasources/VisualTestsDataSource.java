@@ -60,8 +60,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		pin.setPinId(1012696414582L);
 		pin.setTypeId(2524);
-		pin.setLatitude(0.0F);
-		pin.setLongitude(0.0F);
+		pin.setLatitude(2.25581721989F);
+		pin.setLongitude(1.92512624408F);
 
 		GetCharactersCharacterIdPlanetsPlanetIdOkContents content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
 		content.setTypeId(3689);
@@ -85,8 +85,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		final GetCharactersCharacterIdPlanetsPlanetIdOkPins storagePin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		storagePin.setPinId(1024811499528L);
 		storagePin.setTypeId(2536);
-		storagePin.setLatitude(0.001F);
-		storagePin.setLongitude(0.020F);
+		storagePin.setLatitude(2.24360776989F);
+		storagePin.setLongitude(1.9253451294F);
 		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
 		content.setTypeId(9836);
 		content.setAmount(1000L);
@@ -112,8 +112,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPinInactive.setPinId(1024811499533L);
 		extractorPinInactive.setTypeId(2848);
 		extractorPinInactive.setLastCycleStart(new DateTime("2019-06-14T23:07:15Z"));
-		extractorPinInactive.setLatitude(-0.001F);
-		extractorPinInactive.setLongitude(0.030F);
+		extractorPinInactive.setLatitude(2.23147946851F);
+		extractorPinInactive.setLongitude(1.92579924956F);
 		GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
 		GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads extractorHead = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads();
 		extractorHead.setHeadId(0);
@@ -142,8 +142,8 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPin.setInstallTime(new DateTime("2019-06-14T23:33:07Z"));
 		extractorPin.setExpiryTime(DateTime.now().plus(TimeUnit.DAYS.toMillis(1)));
 		extractorPin.setLastCycleStart(DateTime.now().minusHours(1));
-		extractorPin.setLatitude(-0.002F);
-		extractorPin.setLongitude(-0.030F);
+		extractorPin.setLatitude(2.28056793197F);
+		extractorPin.setLongitude(1.92444325504F);
 		extractorDetails = new GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails();
 		extractorDetails.setCycleTime(7200);
 		extractorDetails.setProductTypeId(2270);

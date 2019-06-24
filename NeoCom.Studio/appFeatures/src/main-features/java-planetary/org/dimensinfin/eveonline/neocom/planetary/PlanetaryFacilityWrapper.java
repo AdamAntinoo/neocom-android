@@ -34,19 +34,21 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 	}
 
 	@Override
-	public int getIconReferenceId() {
-		return planetaryFacility.getIconReferenceId();
-	}
+	public abstract int getIconReferenceId();
+//	{
+//		return planetaryFacility.getIconReferenceId();
+//	}
 
 	@Override
-	public int getIconColorReference() {
-		return planetaryFacility.getIconColorReference();
-	}
+	public abstract int getIconColorReference();
+//	{
+//		return planetaryFacility.getIconColorReference();
+//	}
 
-	@Override
-	public int getStructureColorReference() {
-		return planetaryFacility.getStructureColorReference();
-	}
+//	@Override
+//	public int getStructureColorReference() {
+//		return planetaryFacility.getStructureColorReference();
+//	}
 
 	@Override
 	public FacilityGeoPosition getGeoPosition() {

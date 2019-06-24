@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ProgressRingImageView;
 
 import com.squareup.picasso.Picasso;
@@ -62,29 +62,19 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 			final ImageView inputResourceAvailable = this.generateInputResourceRing(input1);
 			this.input1ResourceBlock.addView((ImageView) inputResourceAvailable);
 		}
-//		final Handler _handler = new Handler(Looper.getMainLooper());
-//		;
-//		_handler.post(() -> {
-//		});
-
-		//		this.cycleStart.setText(this.getController().getModel().getLastCycleStart().toString());
-		//		this.cycleElapsed.setText(this.accessElapsedCycle());
 	}
 
-	//	protected String accessElapsedCycle(){
-	//		return Long.valueOf(( DateTime.now().getMillis()-this.getController().getModel().getLastCycleStart().getMillis())/1000/60).toString()
-	//				+" minutes";
-	//	}
 	protected String accessResourceQuantity( final int contentIndex ) {
 		final List<FactoryFacility.FactoryInputs> contents = ((FactoryFacility) this.getController().getModel()).getInputs();
 		final FactoryFacility.FactoryInputs input1 = contents.get(0);
 		return input1.getAmount() + " / " + "3000";
 	}
-	protected ImageView generateInputResourceRing( final FactoryFacility.FactoryInputs resource ){
+
+	protected ImageView generateInputResourceRing( final FactoryFacility.FactoryInputs resource ) {
 		return new ProgressRingImageView.Builder(this.getContext())
 				       .withUsage(resource.getAmount().floatValue())
 				       .withCapacity(3000F)
-					   .withColour(R.color.appyellow)
+				       .withColour(R.color.appyellow)
 				       .build();
 	}
 }

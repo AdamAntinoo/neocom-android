@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterType2LevelConverter;
@@ -86,16 +87,26 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	}
 
 	public Float getStorageCapacity() {
-		if (this.planetaryStorage.storageCapacity < 0) {
+		if (this.planetaryStorage.getStorageCapacity() < 0) {
 			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
 			if (null == storage) return 0.0F;
-			else this.planetaryStorage.storageCapacity = storage.getValue();
+			else this.planetaryStorage.setStorageCapacity(storage.getValue());
 		}
-		return this.planetaryStorage.storageCapacity;
+		return this.planetaryStorage.getStorageCapacity();
 	}
 
 	public Float getTotalVolume() {
 		return this.planetaryStorage.getTotalVolume();
+	}
+
+	@Override
+	public int getIconReferenceId() {
+		return R.drawable.commandcenter80_white;
+	}
+
+	@Override
+	public int getIconColorReference() {
+		return R.color.pi_commandcentericoncolor;
 	}
 
 	// - B U I L D E R

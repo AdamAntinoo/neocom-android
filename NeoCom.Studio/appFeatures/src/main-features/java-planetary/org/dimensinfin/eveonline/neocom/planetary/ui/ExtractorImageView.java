@@ -21,7 +21,7 @@ public class ExtractorImageView extends APlanetaryStructureImageView implements 
 		logger.info(">> [ExtractorImageView.onDraw]");
 		// Move canvas to center to allow drawing symmetries. Paint all area transparent.
 		this.centerCanvas(canvas);
-		this.drawFacilityRing(canvas); // Draw the planetaryFacility ring
+		this.drawFacilityRing(canvas, R.color.pi_extractorringcolor); // Draw the planetaryFacility ring
 		this.drawCycleRing(canvas); // Draw the extraction cycle ring
 		this.drawFacilityIcon(canvas); // Draw the facility icon
 		super.onDraw(canvas);

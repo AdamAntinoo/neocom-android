@@ -58,7 +58,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
 	protected IPlanetaryFacility planetaryFacility;
 	/** The resource identifier for the icon that represents the planetaryFacility. */
-	protected int drawableId = PlanetaryFacilityType.DEFAULT.getIconReferenceId();
+//	protected int drawableId ;
 	//	/** Set the default to a Processing Facility. */
 	//	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 	protected double scale = 1.0;
@@ -98,7 +98,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	public void setPlanetaryFacility( final IPlanetaryFacility planetaryFacility ) {
 		this.planetaryFacility = planetaryFacility;
 		this.setImageBitmap(this.createBitmap());
-		this.drawableId = this.planetaryFacility.getIconReferenceId();
+//		this.drawableId = this.planetaryFacility.getIconReferenceId();
 	}
 
 	public void setScale( final double newscale ) {
@@ -119,9 +119,9 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	/**
 	 * Draw the facility color ring. Has no data information, just a ring to set the facility coverage area.
 	 */
-	protected void drawFacilityRing( final Canvas canvas ) {
+	protected void drawFacilityRing( final Canvas canvas, final int colorReference ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(this.getColor(this.planetaryFacility.getStructureColorReference()));
+		paint.setColor(this.getColor(colorReference));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);
@@ -133,7 +133,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected void drawFacilityIcon( final Canvas canvas ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_OVER));
-		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.drawableId);
+		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.planetaryFacility.getIconReferenceId());
 		structureIconBitmap = this.changeImageColor(structureIconBitmap, this.getColor(this.planetaryFacility.getIconColorReference()));
 		final Rect structureIconRect = new Rect(0, 0, structureIconBitmap.getWidth(), structureIconBitmap.getHeight());
 		final Rect structureIconDestination = new Rect(-STRUCTURE_ICON_DIMENSION, -STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION);

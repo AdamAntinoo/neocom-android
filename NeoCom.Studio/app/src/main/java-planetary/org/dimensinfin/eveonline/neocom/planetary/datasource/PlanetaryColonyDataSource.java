@@ -89,7 +89,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 			final IPlanetaryFacility facility = structures.getValue().get(0);
 			this.addHeaderContents(new PlanetaryFacilitySummary.Builder(facility.getName())
 					                       .withGroupId(facility.getGroupId())
-					                       .withIconReference(PlanetaryFacilityType.getTypeByStructureGroup(facility.getGroupId()).getIconReferenceId())
+					                       .withIconReference(facility.getIconReferenceId())
 					                       .withGroupCount(structures.getValue().size())
 					                       .build());
 		}

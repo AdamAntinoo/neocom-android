@@ -24,7 +24,7 @@ public interface IPlanetaryFacility extends ICollaboration, IItemFacet {
 
 	int getIconColorReference();
 
-	int getStructureColorReference();
+//	int getStructureColorReference();
 
 	FacilityGeoPosition getGeoPosition();
 

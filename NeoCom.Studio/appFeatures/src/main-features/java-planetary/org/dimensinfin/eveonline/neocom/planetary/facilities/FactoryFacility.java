@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -41,8 +42,22 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 		if (tierType == PlanetaryResourceTierType.TIER1) this.factoryType = FactoryType.BASIC_INDUSTRY;
 		if (tierType == PlanetaryResourceTierType.TIER3) this.factoryType = FactoryType.HIGH_INDUSTRY;
 
-		if ( (tierType == PlanetaryResourceTierType.TIER2) || (tierType == PlanetaryResourceTierType.TIER3))
+		if ((tierType == PlanetaryResourceTierType.TIER2) || (tierType == PlanetaryResourceTierType.TIER3))
 			this.factoryType = FactoryType.facility4Schematics(this.schematicId);
+	}
+
+	public int getCycleTime() {
+		return this.schematic.getCycleTime();
+	}
+
+	@Override
+	public int getIconReferenceId() {
+		return R.drawable.facility80_white;
+	}
+
+	@Override
+	public int getIconColorReference() {
+		return R.color.pi_factoryiconcolor;
 	}
 
 	// - B U I L D E R

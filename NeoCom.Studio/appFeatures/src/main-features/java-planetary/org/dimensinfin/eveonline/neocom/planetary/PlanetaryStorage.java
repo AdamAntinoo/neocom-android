@@ -8,7 +8,7 @@ import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 
 public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource> {
-	protected Float storageCapacity=-1.0F;
+	private Float storageCapacity=-1.0F;
 	private List<PlanetaryResource> contents = new ArrayList<>();
 
 	/**
@@ -36,6 +36,11 @@ public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>
 
 	public Float getStorageCapacity() {
 		return this.storageCapacity;
+	}
+
+	public PlanetaryStorage setStorageCapacity( final Float storageCapacity ) {
+		this.storageCapacity = storageCapacity;
+		return this;
 	}
 
 	public double getTotalValue() {

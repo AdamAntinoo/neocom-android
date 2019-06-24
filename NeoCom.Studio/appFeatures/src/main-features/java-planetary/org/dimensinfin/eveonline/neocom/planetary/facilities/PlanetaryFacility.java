@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
@@ -104,16 +105,14 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return planetType.getBackgroundColor();
 	}
 
+	@Override
 	public int getIconReferenceId() {
-		return this.getFacilityType().getIconReferenceId();
+		return R.drawable.commandcenter80_white;
 	}
 
+	@Override
 	public int getIconColorReference() {
-		return this.getFacilityType().getIconColorReference();
-	}
-
-	public int getStructureColorReference() {
-		return this.getFacilityType().getStructureRingColorReference();
+		return R.color.pi_commandcentericoncolor;
 	}
 
 	public DateTime getLastCycleStart() {
