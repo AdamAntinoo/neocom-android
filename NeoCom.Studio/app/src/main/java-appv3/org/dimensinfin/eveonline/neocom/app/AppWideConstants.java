@@ -7,7 +7,7 @@
 //                  libraries and code with other application designed for alternate platforms.
 //                  The model management is shown using a generic Model View Controller that allows make the
 //                  rendering of the model data similar on all the platforms used.
-package org.dimensinfin.eveonline.neocom.constant;
+package org.dimensinfin.eveonline.neocom.app;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 

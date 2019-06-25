@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.eveonline.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
@@ -33,32 +34,6 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 	protected void onStart() {
 		super.onStart();
 		this.validatePermissions();
-	}
-
-	public void setupActionBar( final View actionBarView ) {
-		logger.info(">> [ANeoComActivity.setupActionBar]");
-		try {
-			ActionBar actionbar = getActionBar();
-			if (null != actionbar) {
-				actionbar.show();
-				actionbar.setDisplayHomeAsUpEnabled(true);
-				// Activate the custom ActionBar
-				actionbar.setDisplayShowCustomEnabled(true);
-				actionbar.setDisplayShowTitleEnabled(false);
-				this.neocomActionBar = actionBarView;
-				this.getActionBar().setCustomView(actionBarView);
-			}
-		} catch (RuntimeException rtex) {
-			logger.info("EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
-		}
-		logger.info("<< [ANeoComActivity.setupActionBar]");
-	}
-
-	protected View generateActionBar( final IAndroidController controller ) {
-		final IRender holder = controller.buildRender(this);
-		final View actionBarView = holder.getView();
-		holder.updateContent();
-		return actionBarView;
 	}
 
 	@Override
@@ -173,6 +148,7 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 	}
 
 	protected void validatePermissions() {
+//		if (BuildConfig.DEBUG) return;
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				    != PackageManager.PERMISSION_GRANTED) {
 			// Permission is not granted

@@ -16,7 +16,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new VisualTestsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       .addIdentifier(this.getTitle())
+//				       .addIdentifier(this.getTitle())
 				       .addIdentifier("VISUAL TESTS")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
@@ -25,14 +25,14 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 					   .withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				       .build();
 	}
-
-	@Override
-	public String getSubtitle() {
-		return null;
-	}
-
-	@Override
-	public String getTitle() {
-		return null;
-	}
+//
+//	@Override
+//	public String getSubtitle() {
+//		return null;
+//	}
+//
+//	@Override
+//	public String getTitle() {
+//		return null;
+//	}
 }

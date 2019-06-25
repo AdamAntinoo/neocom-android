@@ -21,11 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class PanelTitleRenderTest {
@@ -56,8 +51,9 @@ public class PanelTitleRenderTest {
 
 	@Test
 	public void updateContent() {
-		final Credential credential = new Credential.Builder(123).build()
-				                              .setAccountName("TEST ACCOUNT");
+		final Credential credential = new Credential.Builder(123)
+				                              .withCharacterName("TEST ACCOUNT")
+				                              .build();
 		final MiningLedgerFragment fragment = Mockito.mock(MiningLedgerFragment.class);
 		final MiningLedgerDataSourceToday dataSource = Mockito.mock(MiningLedgerDataSourceToday.class);
 		Mockito.when(fragment.createDS()).thenReturn(dataSource);

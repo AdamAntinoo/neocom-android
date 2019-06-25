@@ -14,22 +14,9 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-		this.setupActionBar(this.generateActionBar());
+//		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColoniesFragment()
 				             .setCredential(this.getCredential())
 				             .setVariant(EVariants.PLANETS_LIST.name()));
-	}
-
-	protected View generateActionBar() {
-		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
-				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(EVariants.PLANETS_LIST.getTitle())
-				                                     .withActivityIconRef(R.drawable.planets)
-				                                     .withPilotIdentifier(this.getCredential().getAccountId())
-				                                     .build();
-		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EVariants.PLANETS_LIST.name())
-				                                                                               .createController(actionBar);
-		return super.generateActionBar(controller);
 	}
 }

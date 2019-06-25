@@ -22,7 +22,7 @@ public class AppSplashActivity extends ANeoComActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		this.injectComponents();
 		super.onCreate(savedInstanceState);
-		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
+//		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
 		this.addPage(new AppSplashFragment());
 	}
 
@@ -33,18 +33,6 @@ public class AppSplashActivity extends ANeoComActivity {
 		this.createAppDir();
 		this.createCacheDirectories();
 	}
-
-	protected View generateActionBar() {
-		// Create the bar content model.
-		final SplashActionBar actionBar = new SplashActionBar.Builder()
-				                                  .withPreferences(PreferenceManager.getDefaultSharedPreferences(this))
-				                                  .build();
-		// Get a controller from the model, then the view from the render.
-		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory("SPLASH")
-				                                                                         .createController(actionBar);
-		return super.generateActionBar(controller);
-	}
-
 	/**
 	 * Creates the application directory if it already does not exist on the sdcard.
 	 */

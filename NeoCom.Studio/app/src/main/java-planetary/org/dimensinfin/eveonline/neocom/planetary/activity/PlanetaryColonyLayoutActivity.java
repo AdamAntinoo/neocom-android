@@ -28,23 +28,10 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 	public void onCreate( final Bundle savedInstanceState ) {
 		logger.info(">> [PlanetaryColonyLayoutActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		this.setupActionBar(this.generateActionBar());
+//		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColonyLayoutFragment()
 				             .setCredential(this.getCredential())
 				             .setVariant(EVariants.PLANET_FACILITIES.name()));
 		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
-	}
-
-	private View generateActionBar() {
-		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
-				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle("-Planet Name-")
-				                                     .withActivityIconRef(R.drawable.planets)
-				                                     .withPilotIdentifier(this.getCredential().getAccountId())
-				                                     .build();
-		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EVariants.PLANET_FACILITIES.name())
-				                                                                               .createController(actionBar);
-		return super.generateActionBar(controller);
 	}
 }

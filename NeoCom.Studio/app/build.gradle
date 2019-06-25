@@ -36,7 +36,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 118
-        versionName "0.15.3"
+        versionName "0.15.4"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -67,6 +67,7 @@ android {
             debuggable true
             minifyEnabled false
             useProguard false
+            testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.14.0"
         }
     }

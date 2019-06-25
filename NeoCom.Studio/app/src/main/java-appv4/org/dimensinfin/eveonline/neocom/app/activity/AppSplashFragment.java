@@ -3,9 +3,13 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.preference.PreferenceManager;
+import android.view.View;
+
 import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
@@ -13,29 +17,28 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.exception.EErrorType;
-import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
 public class AppSplashFragment extends AMVCPagerFragment {
 	// - O V E R R I D E S
-	@Override
-	public String getSubtitle() {
-		return null;
-	}
-
-	@Override
-	public String getTitle() {
-		return this.getActivityContext().getResources().getString(R.string.appname);
-	}
+	//	@Override
+	//	public String getSubtitle() {
+	//		return null;
+	//	}
+	//
+	//	@Override
+	//	public String getTitle() {
+	//		return this.getActivityContext().getResources().getString(R.string.appname);
+	//	}
 
 	@Override
 	public IControllerFactory createFactory() {
@@ -48,7 +51,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new SplashActionsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       .addIdentifier(this.getTitle())
+				       //				       .addIdentifier(this.getTitle())
 				       .addIdentifier("SPLASH")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
@@ -60,6 +63,18 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
 				       .build();
+	}
+
+	@Override
+	public View generateActionBarView() {
+		// Create the bar content model.
+		final SplashActionBar actionBar = new SplashActionBar.Builder()
+				                                  .withPreferences(PreferenceManager.getDefaultSharedPreferences(this.getActivityContext()))
+				                                  .build();
+		// Get a controller from the model, then the view from the render.
+		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory("SPLASH")
+				                                                                         .createController(actionBar);
+		return this.convertActionBarView(controller);
 	}
 
 	/**
@@ -83,158 +98,138 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 		private List<InitialisationTask> initializationTasksList = new ArrayList<>();
 
-		//		private SplashActionsDataSource setName( final String name ) {
-		//			this.name = name;
-		//			return this;
-		//		}
-		//
-		//		private SplashActionsDataSource setVersion( final String version ) {
-		//			this.version = version;
-		//			return this;
-		//		}
-
-		//		public Context getApplicationContext() {
-		//			return applicationContext;
-		//		}
-
-		//		public SplashActionsDataSource setApplicationContext( final Context applicationContext ) {
-		//			this.applicationContext = applicationContext;
-		//			return this;
-		//		}
-
 		@Override
 		public void prepareModel() {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
 			// Change the contents depending on the network status
 			// TODO - Move this to the isolation layer and remove dependecy to harcoded code.
-			if (NeoComApplication.checkNetworkAccess()) {
-				//				if (BuildConfig.DEBUG) {
-				//					initializationTasksList.add(new InitialisationTask.Builder()
-				//							                            .withTaskName("Minute waiting")
-				//							                            .withTask(() -> {
-				//								                            // This is a test task that will last for one minute to check the different states.
-				//								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
-				//								                            return new ArrayList<>();
-				//							                            })
-				//							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-				//							                            .build(1));
-				//				}
-				// - C O P Y   S D E   D A T A B A S E
-				//				initializationTasksList.add(new InitialisationTask.Builder()
-				//						                            .withTaskName("Downloading Market Prices")
-				//						                            .withTask(() -> {
-				//							                            final List<NeoComError> exceptionList = new ArrayList<>();
-				//							                            try {
-				//								                            		// Check if the SDE database file is at the right place. If not copy it.
-				//								                            		if (!AndroidGlobalDataManager.checkAppFile(
-				//								                            				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
-				//								                            			// TODO The CCP database is not distributed with the application. If not available then close the App
-				//								                            			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
-				//								                            		}
-				//							                            } catch (RuntimeException rtex) {
-				//								                            exceptionList.add(new NeoComError.Builder(rtex)
-				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
-				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-				//										                                              .build());
-				//							                            } catch (Exception ex) {
-				//								                            exceptionList.add(new NeoComError.Builder(ex)
-				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
-				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-				//										                                              .build());
-				//							                            }
-				//							                            return exceptionList;
-				//						                            })
-				//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-				//						                            .build(2));
-				// - D O W N L O A D - M A R K E T P R I C E S
-				initializationTasksList.add(new InitialisationTask.Builder()
-						                            .withTaskName("Downloading Market Prices")
-						                            .withTask(() -> {
-							                            final List<NeoComError> exceptionList = new ArrayList<>();
-							                            try {
-								                            this.esiDataAdapter.downloadItemPrices();
-							                            } catch (RuntimeException rtex) {
-								                            exceptionList.add(new NeoComError.Builder(rtex)
-										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
-										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            } catch (Exception ex) {
-								                            exceptionList.add(new NeoComError.Builder(ex)
-										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
-										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            }
-							                            return exceptionList;
-						                            })
-						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-						                            .build(2));
-				// - D O W N L O A D - P I L O T F A M I L Y
-				initializationTasksList.add(new InitialisationTask.Builder()
-						                            .withTaskName("Downloading Pilot Family data")
-						                            .withTask(() -> {
-							                            final List<NeoComError> exceptionList = new ArrayList<>();
-							                            try {
-								                            this.esiDataAdapter.downloadPilotFamilyData();
-							                            } catch (RuntimeException rtex) {
-								                            exceptionList.add(new NeoComError.Builder(rtex)
-										                                              .withType(EErrorType.RUNTIME)
-										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            } catch (Exception ex) {
-								                            exceptionList.add(new NeoComError.Builder(ex)
-										                                              .withType(EErrorType.EXCEPTION)
-										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-										                                              .build());
-							                            }
-							                            return exceptionList;
-						                            })
-						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-						                            .build(2));
-				// - D O W N L O A D - C I T A D E L S
-				//				initializationTasksList.add(new InitialisationTask.Builder()
-				//						                            .withTaskName("Downloading Citadels")
-				//						                            .withTask(() -> {
-				//							                            final List<NeoComError> exceptionList = new ArrayList<>();
-				//							                            try {
-				//								                            AndroidGlobalDataManager.readLocationsDataCache();
-				//							                            } catch (RuntimeException rtex) {
-				//								                            exceptionList.add(new NeoComError.Builder(rtex)
-				//										                                              .withType(EErrorType.RUNTIME)
-				//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-				//										                                              .build());
-				//							                            } catch (Exception ex) {
-				//								                            exceptionList.add(new NeoComError.Builder(ex)
-				//										                                              .withType(EErrorType.EXCEPTION)
-				//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
-				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
-				//										                                              .build());
-				//							                            }
-				//							                            return exceptionList;
-				//						                            })
-				//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
-				//						                            .build(2));
-			} else {
-				this.addHeaderContents(new AppVersion()
-						                       .setName(this.name)
-						                       .setVersion(this.version));
-				this.addHeaderContents(new WarningPanel.Builder()
-						                       .withType("WARNING")
-						                       .withDescription("The is no network connection. Application functionality in hold.")
-						                       .build());
-			}
+			//			if (NeoComApplication.checkNetworkAccess()) {
+			//				//				if (BuildConfig.DEBUG) {
+			//				//					initializationTasksList.add(new InitialisationTask.Builder()
+			//				//							                            .withTaskName("Minute waiting")
+			//				//							                            .withTask(() -> {
+			//				//								                            // This is a test task that will last for one minute to check the different states.
+			//				//								                            Thread.sleep(TimeUnit.SECONDS.toMillis(15));
+			//				//								                            return new ArrayList<>();
+			//				//							                            })
+			//				//							                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+			//				//							                            .build(1));
+			//				//				}
+			//				// - C O P Y   S D E   D A T A B A S E
+			//				//				initializationTasksList.add(new InitialisationTask.Builder()
+			//				//						                            .withTaskName("Downloading Market Prices")
+			//				//						                            .withTask(() -> {
+			//				//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+			//				//							                            try {
+			//				//								                            		// Check if the SDE database file is at the right place. If not copy it.
+			//				//								                            		if (!AndroidGlobalDataManager.checkAppFile(
+			//				//								                            				AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"))) {
+			//				//								                            			// TODO The CCP database is not distributed with the application. If not available then close the App
+			//				//								                            			this.copyFromAssets(AndroidGlobalDataManager.getResourceString("P.database.sdedatabase.database.name"));
+			//				//								                            		}
+			//				//							                            } catch (RuntimeException rtex) {
+			//				//								                            exceptionList.add(new NeoComError.Builder(rtex)
+			//				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
+			//				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//				//										                                              .build());
+			//				//							                            } catch (Exception ex) {
+			//				//								                            exceptionList.add(new NeoComError.Builder(ex)
+			//				//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
+			//				//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//				//										                                              .build());
+			//				//							                            }
+			//				//							                            return exceptionList;
+			//				//						                            })
+			//				//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+			//				//						                            .build(2));
+			//				// - D O W N L O A D - M A R K E T P R I C E S
+			//				initializationTasksList.add(new InitialisationTask.Builder()
+			//						                            .withTaskName("Downloading Market Prices")
+			//						                            .withTask(() -> {
+			//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+			//							                            try {
+			//								                            this.esiDataAdapter.downloadItemPrices();
+			//							                            } catch (RuntimeException rtex) {
+			//								                            exceptionList.add(new NeoComError.Builder(rtex)
+			//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_RUNTIME_ERROR)
+			//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//										                                              .build());
+			//							                            } catch (Exception ex) {
+			//								                            exceptionList.add(new NeoComError.Builder(ex)
+			//										                                              .withErrorInfo(NeoComError.ErroInfo.INITIALIZATION_EXCEPTION_ERROR)
+			//										                                              //										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//										                                              .build());
+			//							                            }
+			//							                            return exceptionList;
+			//						                            })
+			//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+			//						                            .build(2));
+			//				// - D O W N L O A D - P I L O T F A M I L Y
+			//				initializationTasksList.add(new InitialisationTask.Builder()
+			//						                            .withTaskName("Downloading Pilot Family data")
+			//						                            .withTask(() -> {
+			//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+			//							                            try {
+			//								                            this.esiDataAdapter.downloadPilotFamilyData();
+			//							                            } catch (RuntimeException rtex) {
+			//								                            exceptionList.add(new NeoComError.Builder(rtex)
+			//										                                              .withType(EErrorType.RUNTIME)
+			//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//										                                              .build());
+			//							                            } catch (Exception ex) {
+			//								                            exceptionList.add(new NeoComError.Builder(ex)
+			//										                                              .withType(EErrorType.EXCEPTION)
+			//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//										                                              .build());
+			//							                            }
+			//							                            return exceptionList;
+			//						                            })
+			//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+			//						                            .build(2));
+			//				// - D O W N L O A D - C I T A D E L S
+			//				//				initializationTasksList.add(new InitialisationTask.Builder()
+			//				//						                            .withTaskName("Downloading Citadels")
+			//				//						                            .withTask(() -> {
+			//				//							                            final List<NeoComError> exceptionList = new ArrayList<>();
+			//				//							                            try {
+			//				//								                            AndroidGlobalDataManager.readLocationsDataCache();
+			//				//							                            } catch (RuntimeException rtex) {
+			//				//								                            exceptionList.add(new NeoComError.Builder(rtex)
+			//				//										                                              .withType(EErrorType.RUNTIME)
+			//				//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//				//										                                              .build());
+			//				//							                            } catch (Exception ex) {
+			//				//								                            exceptionList.add(new NeoComError.Builder(ex)
+			//				//										                                              .withType(EErrorType.EXCEPTION)
+			//				//										                                              .withCode("neocom.error.initialization.runtime.exception.component.instantiation")
+			//				//										                                              //										                                              .withOrigin("SplashActionsDataSource.collaborate2Model")
+			//				//										                                              .build());
+			//				//							                            }
+			//				//							                            return exceptionList;
+			//				//						                            })
+			//				//						                            .withExecutor(GlobalDataManager.getBackgroundExecutor())
+			//				//						                            .build(2));
+			//			} else {
+			//				this.addHeaderContents(new AppVersion()
+			//						                       .setName(this.name)
+			//						                       .setVersion(this.version));
+			//				this.addHeaderContents(new WarningPanel.Builder()
+			//						                       .withType("WARNING")
+			//						                       .withDescription("The is no network connection. Application functionality in hold.")
+			//						                       .build());
+			//			}
 			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
 		@Override
 		public void collaborate2Model() {
-			//			if (NeoComApplication.checkNetworkAccess()) {
 			try {
 				logger.info(">> [SplashActionsDataSource.collaborate2Model]");
 				// - S E C T I O N   H E A D E R
@@ -242,6 +237,12 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				this.addHeaderContents(new AppVersion()
 						                       .setName(this.name)
 						                       .setVersion(this.version));
+				if (!NeoComApplication.checkNetworkAccess()) {
+					this.addHeaderContents(new WarningPanel.Builder()
+							                       .withType("WARNING")
+							                       .withDescription("The is no network connection. Application functionality in hold.")
+							                       .build());
+				}
 				for (InitialisationTask task : this.initializationTasksList) {
 					this.addModelContents(task.schedule(2));
 				}
@@ -260,6 +261,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				this.addModelContents(new NewLoginAction());
 			} catch (RuntimeException runtime) {
 				logger.info("-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage());
+				this.addModelContents(new ExceptionReport(runtime));
 				// Add the node to display the new New Login Button.
 				this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
 				this.addModelContents(new NewLoginAction());

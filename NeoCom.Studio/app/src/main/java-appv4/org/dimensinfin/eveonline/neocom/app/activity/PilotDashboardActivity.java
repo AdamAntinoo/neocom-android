@@ -22,20 +22,8 @@ public class PilotDashboardActivity extends ACredentialActivity {
 		logger.info(">> [PilotDashboardActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		Objects.requireNonNull(this.getCredential());
-		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
+//		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
 		this.addPage(new PilotDashboardFragment().setCredential(this.getCredential()));
 		logger.info("<< [PilotDashboardActivity.onCreate]");
-	}
-
-	private View generateActionBar() {
-		final NeoComActionBarV2 actionBar = new NeoComActionBarV2.Builder()
-				                                    .withTitleTopLeft(this.getResources().getString(R.string.appname))
-				                                    .withTitleTopRight(this.getResources().getString(R.string.appversionname))
-				                                    .withSubtitle(this.getCredential().getAccountName())
-				                                    .build();
-		// Get a controller from the model, then the view from the render.
-		final NeoComActionBarController controller = (NeoComActionBarController) new AppControllerFactory("SPLASH")
-				                                                                         .createController(actionBar);
-		return super.generateActionBar(controller);
 	}
 }

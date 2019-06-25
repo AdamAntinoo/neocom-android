@@ -17,7 +17,7 @@ public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
 	public IDataSource createDS() {
 		return new VisualTestsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       .addIdentifier(this.getTitle())
+//				       .addIdentifier(this.getTitle())
 				       .addIdentifier("VISUAL TESTS")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
@@ -26,14 +26,14 @@ public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
 				       .withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				       .build();
 	}
-
-	@Override
-	public String getSubtitle() {
-		return null;
-	}
-
-	@Override
-	public String getTitle() {
-		return null;
-	}
+//
+//	@Override
+//	public String getSubtitle() {
+//		return null;
+//	}
+//
+//	@Override
+//	public String getTitle() {
+//		return null;
+//	}
 }

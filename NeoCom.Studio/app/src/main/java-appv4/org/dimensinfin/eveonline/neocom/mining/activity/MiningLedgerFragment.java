@@ -57,13 +57,13 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 		return this;
 	}
 
-	@Override
-	public String getSubtitle() {
-		return null;
-	}
-
-	@Override
-	public String getTitle() {
-		return null;
-	}
+//	@Override
+//	public String getSubtitle() {
+//		return null;
+//	}
+//
+//	@Override
+//	public String getTitle() {
+//		return null;
+//	}
 }

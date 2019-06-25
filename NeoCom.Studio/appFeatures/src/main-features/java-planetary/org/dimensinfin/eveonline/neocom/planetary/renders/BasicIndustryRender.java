@@ -74,7 +74,7 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 		return new ProgressRingImageView.Builder(this.getContext())
 				       .withUsage(resource.getAmount().floatValue())
 				       .withCapacity(3000F)
-				       .withColour(R.color.appyellow)
+				       .withColour(R.color.appwhite)
 				       .build();
 	}
 }
