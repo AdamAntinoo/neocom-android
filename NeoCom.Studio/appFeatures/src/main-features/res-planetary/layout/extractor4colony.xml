@@ -103,5 +103,44 @@
 					android:text="@string/default_idle_extractor_head"
 					android:visibility="visible"/>
 		</RelativeLayout>
+
+		<LinearLayout
+				android:id="@+id/productionCycleBlock"
+				android:layout_width="wrap_content"
+				android:layout_height="@dimen/nodeiconsize"
+				android:layout_below="@+id/currentCycleBlock"
+				android:layout_toRightOf="@+id/nodeIconBlock"
+				android:orientation="vertical">
+
+			<org.dimensinfin.android.mvc.fonts.Din1451TextView
+					android:id="@+id/extractionTimeRemainingLabel"
+					style="@style/AppTheme.TextView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/default_message"
+					android:visibility="visible"
+					android:textSize="12sp"/>
+
+			<org.dimensinfin.android.mvc.fonts.Din1451TextView
+					android:id="@+id/extractionTimeRemainingTime"
+					style="@style/AppTheme.TextView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/default_time"
+					android:visibility="visible"
+					android:textSize="12sp"/>
+		</LinearLayout>
+
+		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/extractionCycleOutputValue"
+				style="@style/AppTheme.TextView"
+				android:layout_below="@+id/currentCycleBlock"
+				android:layout_toRightOf="@+id/productionCycleBlock"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Output: 34067 units"
+				android:visibility="visible"
+				android:textSize="12sp"/>
+
 	</RelativeLayout>
 </LinearLayout>

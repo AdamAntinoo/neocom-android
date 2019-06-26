@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
@@ -296,11 +296,11 @@ public class VisualTestsDataSource extends AMVCDataSource {
 			this.addModelContents(new AppVersion());
 			this.addModelContents(new AppVersion().setName("NeoCom").setVersion("v 0.16 VT"));
 		}
-		if (this.getVariant().equalsIgnoreCase(EVariants.PLANETS_LIST.name())) {
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name())) {
 			// -  P L A N E T A R Y
 			this.addModelContents(colonyPack);
 		}
-		if (this.getVariant().equalsIgnoreCase(EVariants.PLANET_FACILITIES.name())) {
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name())) {
 			for (IPlanetaryFacility facility : this.facilities) {
 				this.addModelContents(facility);
 			}

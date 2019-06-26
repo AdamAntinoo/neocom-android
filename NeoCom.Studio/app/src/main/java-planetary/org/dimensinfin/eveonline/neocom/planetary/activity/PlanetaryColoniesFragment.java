@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -25,7 +25,7 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(EVariants.PLANETS_LIST.name()))
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
 			return new PlanetaryDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -42,12 +42,12 @@ public class PlanetaryColoniesFragment extends AMVCPagerFragment {
 	public View generateActionBarView() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
 				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(EVariants.PLANETS_LIST.getTitle())
+				                                     .withSubtitle(PageNamesType.PLANETS_LIST.getPageTitle())
 				                                     .withActivityIconRef(org.dimensinfin.eveonline.neocom.R.drawable.planets)
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EVariants.PLANETS_LIST.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PageNamesType.PLANETS_LIST.name())
 				                                                                               .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}

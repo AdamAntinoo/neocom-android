@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -23,7 +23,7 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 //	}
 //
 //	@Override
-//	public String getTitle() {
+//	public String getPageTitle() {
 //		return "PLANETARY DATA";
 //	}
 
@@ -34,7 +34,7 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(EVariants.PLANET_FACILITIES.name()))
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name()))
 			return new PlanetaryColonyDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -55,7 +55,7 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(EVariants.PLANET_FACILITIES.name())
+		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PageNamesType.PLANET_FACILITIES.name())
 				                                                                               .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}

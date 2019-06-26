@@ -4,7 +4,7 @@ import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -23,7 +23,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(EVariants.MINING_EXTRACTIONS_TODAY.name()))
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_TODAY.name()))
 			return new MiningLedgerDataSourceToday.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -34,7 +34,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 					       .withCredential(this.getCredential())
 					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
-		if (this.getVariant().equalsIgnoreCase(EVariants.MINING_EXTRACTIONS_ALL.name()))
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_ALL.name()))
 			return new MiningLedgerDataSourceAll.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -63,7 +63,7 @@ public class MiningLedgerFragment extends AMVCPagerFragment {
 //	}
 //
 //	@Override
-//	public String getTitle() {
+//	public String getPageTitle() {
 //		return null;
 //	}
 }

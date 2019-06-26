@@ -64,7 +64,7 @@
 						style="@style/AppTheme.TextView"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="@string/default_resource"
+						android:text="@string/default_qtyoverqty"
 						android:visibility="visible"
 						android:textSize="12sp"/>
 			</LinearLayout>
@@ -108,11 +108,74 @@
 						style="@style/AppTheme.TextView"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="@string/default_resource"
+						android:text="@string/default_qtyoverqty"
 						android:visibility="visible"
 						android:textSize="12sp"/>
 			</LinearLayout>
 
+			<LinearLayout
+					android:id="@+id/resourceOutputBlock"
+					android:layout_width="wrap_content"
+					android:layout_height="@dimen/nodeiconsize"
+					android:layout_marginLeft="@dimen/standardmargin"
+					android:layout_toRightOf="@+id/resource1nameBlock"
+					android:orientation="horizontal">
+
+				<org.dimensinfin.android.mvc.fonts.Din1451TextView
+						android:id="@+id/outputResourceName"
+						style="@style/AppTheme.TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/default_resource"
+						android:visibility="visible"
+						android:textSize="12sp"/>
+
+				<ImageView
+						android:id="@+id/outputResourceIcon"
+						android:layout_gravity="center"
+						style="@style/AppTheme.NodeIcon"
+						android:layout_width="@dimen/nodeiconsizesmall"
+						android:layout_height="@dimen/nodeiconsizesmall"
+						android:src="@drawable/defaulticonplaceholder"
+						android:visibility="visible"/>
+			</LinearLayout>
+
+			<LinearLayout
+					android:id="@+id/productionCycleBlock"
+					android:layout_width="wrap_content"
+					android:layout_height="@dimen/nodeiconsize"
+					android:layout_alignParentRight="true"
+					android:orientation="vertical">
+
+				<org.dimensinfin.android.mvc.fonts.Din1451TextView
+						android:id="@+id/productionCycleMessage"
+						style="@style/AppTheme.TextView"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/default_message"
+						android:visibility="visible"
+						android:textSize="12sp"/>
+
+				<ProgressBar
+						android:id="@+id/currentCycleProgress"
+						style="?android:attr/progressBarStyleHorizontal"
+						android:layout_width="match_parent"
+						android:layout_height="8dp"
+						android:backgroundTint="@color/uipanelborder"
+						android:max="100"
+						android:min="0"
+						android:progress="0"
+						android:progressTint="@color/appwhite"/>
+
+				<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+						android:id="@+id/currentCycleTime"
+						style="@style/AppTheme.Label.Big"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/currentCycleProgress"
+						android:text="@string/default_idle_extractor_head"
+						android:visibility="visible"/>
+			</LinearLayout>
 		</RelativeLayout>
 
 		<org.dimensinfin.android.mvc.fonts.Din1451TextView

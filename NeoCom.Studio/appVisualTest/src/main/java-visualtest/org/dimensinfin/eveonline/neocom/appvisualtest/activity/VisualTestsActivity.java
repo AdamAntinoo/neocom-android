@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
@@ -26,8 +26,8 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.injectComponents();
 		this.validatePermissions();
 		this.validateSDEDatabase();
-		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(EVariants.PLANET_FACILITIES.name()));
-		this.addPage(new VisualTestsFragment().setVariant(EVariants.PLANETS_LIST.name()));
+		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
+		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
 		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
 	}
 

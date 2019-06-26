@@ -1,14 +1,9 @@
 package org.dimensinfin.eveonline.neocom.planetary.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
-import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
-import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 /**
  * This Proof Of Concept project will show the Planetary Colony detailed planetaryFacility inside a two component view using the standard MVC
@@ -31,7 +26,7 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 //		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColonyLayoutFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(EVariants.PLANET_FACILITIES.name()));
+				             .setVariant(PageNamesType.PLANET_FACILITIES.name()));
 		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
 	}
 }

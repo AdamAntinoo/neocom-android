@@ -36,7 +36,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	//	}
 	//
 	//	@Override
-	//	public String getTitle() {
+	//	public String getPageTitle() {
 	//		return this.getActivityContext().getResources().getString(R.string.appname);
 	//	}
 
@@ -51,7 +51,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new SplashActionsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       //				       .addIdentifier(this.getTitle())
+				       //				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("SPLASH")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())

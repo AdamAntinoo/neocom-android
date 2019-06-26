@@ -9,10 +9,9 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 
 public class ResourceController extends AAndroidController<Resource> {
 	// - C O N S T R U C T O R
@@ -23,7 +22,7 @@ public class ResourceController extends AAndroidController<Resource> {
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {
-		if (this.getRenderMode().equalsIgnoreCase(EVariants.MINING_EXTRACTIONS_TODAY.name()))
+		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_TODAY.name()))
 			return new MiningExtractionResourceRender(this, context);
 		else
 			return new MiningExtractionResourceRender(this, context);

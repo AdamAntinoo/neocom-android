@@ -16,7 +16,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new VisualTestsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-//				       .addIdentifier(this.getTitle())
+//				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("VISUAL TESTS")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
@@ -32,7 +32,7 @@ public class VisualTestsFragment extends AMVCPagerFragment {
 //	}
 //
 //	@Override
-//	public String getTitle() {
+//	public String getPageTitle() {
 //		return null;
 //	}
 }

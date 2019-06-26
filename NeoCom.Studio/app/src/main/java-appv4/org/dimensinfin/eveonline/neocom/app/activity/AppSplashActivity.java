@@ -22,7 +22,6 @@ public class AppSplashActivity extends ANeoComActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		this.injectComponents();
 		super.onCreate(savedInstanceState);
-//		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
 		this.addPage(new AppSplashFragment());
 	}
 

@@ -38,7 +38,7 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 //	}
 //
 //	@Override
-//	public String getTitle() {
+//	public String getPageTitle() {
 //		return null;
 //	}
 
@@ -51,7 +51,7 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new PilotDashboardDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-//				       .addIdentifier(this.getTitle())
+//				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("PILOT-DASHBOARD")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())

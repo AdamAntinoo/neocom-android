@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 
 public class MiningLedgerActivity extends ACredentialActivity {
@@ -11,9 +11,9 @@ public class MiningLedgerActivity extends ACredentialActivity {
 		super.onCreate(savedInstanceState);
 		this.addPage(new MiningLedgerFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(EVariants.MINING_EXTRACTIONS_TODAY.name()));
+				             .setVariant(PageNamesType.MINING_EXTRACTIONS_TODAY.name()));
 		this.addPage(new MiningLedgerFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(EVariants.MINING_EXTRACTIONS_ALL.name()));
+				             .setVariant(PageNamesType.MINING_EXTRACTIONS_ALL.name()));
 	}
 }

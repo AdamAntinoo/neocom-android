@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.datasources.VisualTestsDataSource;
 
@@ -17,7 +16,7 @@ public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
 	public IDataSource createDS() {
 		return new VisualTestsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-//				       .addIdentifier(this.getTitle())
+//				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("VISUAL TESTS")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
@@ -33,7 +32,7 @@ public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
 //	}
 //
 //	@Override
-//	public String getTitle() {
+//	public String getPageTitle() {
 //		return null;
 //	}
 }

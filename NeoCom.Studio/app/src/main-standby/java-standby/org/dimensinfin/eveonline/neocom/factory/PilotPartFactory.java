@@ -29,7 +29,6 @@ import org.dimensinfin.eveonline.neocom.model.PilotV1;
 import org.dimensinfin.eveonline.neocom.part.AssetsManagerPart;
 import org.dimensinfin.eveonline.neocom.part.BlueprintManagerPart;
 import org.dimensinfin.eveonline.neocom.part.CredentialPart;
-import org.dimensinfin.eveonline.neocom.part.NewLoginActionPart;
 import org.dimensinfin.eveonline.neocom.part.PilotInfoPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

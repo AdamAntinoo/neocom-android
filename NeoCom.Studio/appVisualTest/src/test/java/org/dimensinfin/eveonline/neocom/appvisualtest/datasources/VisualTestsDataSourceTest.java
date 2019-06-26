@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
@@ -23,11 +23,11 @@ public class VisualTestsDataSourceTest {
 		final ESIDataAdapter esiDataAdapter = new ESIDataAdapter.Builder(configurationProvider, fileSystem).build();
 		final ISDEDatabaseAdapter sdeDatabaseAdapter = Mockito.mock(ISDEDatabaseAdapter.class);
 		EveItem.injectEsiDataAdapter(esiDataAdapter);
-		final VisualTestsControllerFactory factory = new VisualTestsControllerFactory(EVariants.PLANETS_LIST.name());
+		final VisualTestsControllerFactory factory = new VisualTestsControllerFactory(PageNamesType.PLANETS_LIST.name());
 
 		ds = new VisualTestsDataSource.Builder()
 				     .addIdentifier("TEST DATA SOURCE")
-				     .withVariant(EVariants.PLANETS_LIST.name())
+				     .withVariant(PageNamesType.PLANETS_LIST.name())
 				     .withFactory(factory)
 				     .withEsiDataAdapter(esiDataAdapter)
 				     .withSDEDatabaseAdapter(sdeDatabaseAdapter)

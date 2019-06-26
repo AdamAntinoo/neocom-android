@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EVariants;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterType2LevelConverter;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
@@ -25,7 +25,7 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
-		if (variant.equalsIgnoreCase(EVariants.PLANET_FACILITIES.name())) return new ArrayList<>();
+		if (variant.equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name())) return new ArrayList<>();
 		return new ArrayList<>(this.planetaryStorage.getContents());
 	}
 
