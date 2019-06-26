@@ -3,8 +3,11 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
+import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
@@ -27,6 +30,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		logger.info("-- [VisualTestsControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
+		}
+		if (node instanceof Credential) {
+			return new CredentialController.Builder((Credential) node, this, NeoComComponentFactory.getSingleton().getDownloaderService()).build();
 		}
 		if (node instanceof ColonyPack) {
 			return new ColonyPackController((ColonyPack) node, this);

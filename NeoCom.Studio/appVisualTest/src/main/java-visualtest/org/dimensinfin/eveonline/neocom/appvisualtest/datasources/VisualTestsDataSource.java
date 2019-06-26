@@ -291,7 +291,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 	@Override
 	public void collaborate2Model() {
-		if (this.getVariant().equalsIgnoreCase(VisualTestsActivity.VisualTestPages.SPLASH.name())) {
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.SPLASH.name())) {
 			// - S P L A S H
 			this.addModelContents(new AppVersion());
 			this.addModelContents(new AppVersion().setName("NeoCom").setVersion("v 0.16 VT"));

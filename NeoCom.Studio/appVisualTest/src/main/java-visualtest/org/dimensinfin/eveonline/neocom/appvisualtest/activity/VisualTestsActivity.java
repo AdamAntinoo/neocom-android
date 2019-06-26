@@ -13,11 +13,6 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 public class VisualTestsActivity extends AMVCMultiPageActivity {
-	public enum VisualTestPages {
-		SPLASH, PLANETARY_COMMANDCENTER,
-		PLANETARY_LAYOUT
-	}
-
 	private IFileSystem fileSystem;
 
 	@Override
@@ -26,9 +21,10 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.injectComponents();
 		this.validatePermissions();
 		this.validateSDEDatabase();
-		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
-		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
-		this.addPage(new VisualTestsFragment().setVariant(VisualTestPages.SPLASH.name()));
+		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
+//		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
+//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
+//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
 	}
 
 	protected void validatePermissions() {

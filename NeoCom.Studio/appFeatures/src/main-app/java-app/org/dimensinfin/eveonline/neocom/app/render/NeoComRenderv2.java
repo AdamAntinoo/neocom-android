@@ -8,6 +8,7 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
@@ -73,6 +74,8 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	}
 
 	// - F I E L D - S E C T I O N
+	protected ViewGroup actuatorsBlock;
+	protected ImageView separator;
 	protected ImageView _rightArrow;
 	protected ImageView menuIcon;
 
@@ -88,6 +91,8 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	// - I R E N D E R   I N T E R F A C E
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
+		this.actuatorsBlock= this.getView().findViewById(R.id.actuatorsBlock);
+		this.separator = this.getView().findViewById(R.id.separator);
 		this._rightArrow = this.getView().findViewById(R.id.rightArrow);
 		//		this._rightArrow.setVisibility(View.INVISIBLE);
 		this.menuIcon = this.getView().findViewById(R.id.menuIcon);
@@ -101,32 +106,28 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	public void updateContent() {
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = this.getBaseController().getModel();
-		if (null != _rightArrow) {
+		if  ( null != this.actuatorsBlock ){
 			if (targetModel instanceof IExpandable) {
-				_rightArrow.setVisibility(View.VISIBLE);
+				this.actuatorsBlock.setVisibility(View.VISIBLE);
+				this.separator.setVisibility(View.GONE);
+
+				this._rightArrow.setVisibility(View.VISIBLE);
 				if (((IExpandable) targetModel).isExpanded()) {
 					_rightArrow.setImageResource(R.drawable.arrowdown);
 				} else {
 					_rightArrow.setImageResource(R.drawable.arrowright);
 				}
+			} else {
+				this.actuatorsBlock.setVisibility(View.GONE);
+				this.separator.setVisibility(View.VISIBLE);
 
-				// Check if the click is running and then replace the right arrow by an spinner.
-				// TODO - Activate back the click running for the NewCom expandable controllers
-				//				if (getController().clickRunning()) {
-				//					if (null != _rightArrow) {
-				//						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
-				//						_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
-				//						Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
-				//						rotation.setRepeatCount(Animation.INFINITE);
-				//						_rightArrow.startAnimation(rotation);
-				//					}
-				//				}
-			} else _rightArrow.setVisibility(View.GONE);
-		}
-		if (null != menuIcon) {
-			if (targetModel instanceof View.OnLongClickListener) {
-				menuIcon.setVisibility(View.VISIBLE);
-			} else this.menuIcon.setVisibility(View.INVISIBLE);
+				_rightArrow.setVisibility(View.GONE);
+			}
+			if (null != this.menuIcon) {
+				if (targetModel instanceof View.OnLongClickListener) {
+					this.menuIcon.setVisibility(View.VISIBLE);
+				} else this.menuIcon.setVisibility(View.INVISIBLE);
+			}
 		}
 	}
 
