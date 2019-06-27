@@ -22,9 +22,9 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.validatePermissions();
 		this.validateSDEDatabase();
 		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
-//		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
-//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
-//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
+		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
+		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
+		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
 	}
 
 	protected void validatePermissions() {

@@ -79,20 +79,8 @@ public class CredentialRender extends NeoComRenderv2 {
 		this.assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
 		this.race.setText(this.accessPilotRaceName());
 		this.accessRaceIcon();
-		//		cloneType.setText(this.accessPilotRaceName());
-		// Obtain the values to be set on the fields. This second task should be done on the UI thread.
-		//			final String walletAmount = getPart().getTWalletAmount();
-		//			final String assetcount = getPart().getTAssetsCount();
-		//			final String racename = getPart().getTRaceName();
-		//			accountBalance.setText(walletAmount);
-		//			assetsCount.setText(assetcount);
-		//			race.setText(racename);
-		//		final String link = this.getController().getURLForPilotAvatar();
-		//		if (null != link) {
-		////			if (null != node) {
-		////				Picasso.get().load(link).into(targetIcon);
-		////			}
-		////		}
+
+		this.assetsCount.setBackgroundColor(this.getColor(R.color.pi_extractorringcolor));
 	}
 
 	protected String accessAssetsCount() {

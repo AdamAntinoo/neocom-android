@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -31,12 +30,10 @@ import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,11 +156,12 @@ public class AuthorizationFlowActivity extends Activity {
 					// Create the credential and store it on the application repository.
 					final CredentialRepository credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
-					final Credential credential = new Credential.Builder(newAccountIdentifier).build();
-					credential.setAccountName(verificationResponse.body().getCharacterName())
-							.setAccessToken(token.getAccessToken())
+					final Credential credential = new Credential.Builder(newAccountIdentifier)
+							                              .withCharacterName(verificationResponse.body().getCharacterName())
+							                              .build();
+					credential.setAccessToken(token.getAccessToken())
 							.setTokenType(token.getTokenType())
-							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
+							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 							.setRefreshToken(token.getRefreshToken())
 							.setDataSource(esiServer.toUpperCase())
 							.setScope(this.esiAdapter.getStringScopes());

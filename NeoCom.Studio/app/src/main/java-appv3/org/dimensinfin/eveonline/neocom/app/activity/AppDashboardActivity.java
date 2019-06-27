@@ -23,7 +23,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ALinearActivity;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.fragment.AppDashboardFragment;
-import org.dimensinfin.eveonline.neocom.fragment.CredentialListFragment;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 
 import androidx.fragment.app.Fragment;
@@ -107,7 +106,7 @@ public class AppDashboardActivity extends ALinearActivity {
 		// Create and add the fragment to the layout container.
 		this.addLinear(new AppDashboardFragment());
 		//			this.addLinear(new EveOnlineNotificationsFragment());
-		this.addLinear(new CredentialListFragment());
+//		this.addLinear(new CredentialListFragment());
 		logger.info("<< [AppDashboardActivity.onCreate]");
 	}
 

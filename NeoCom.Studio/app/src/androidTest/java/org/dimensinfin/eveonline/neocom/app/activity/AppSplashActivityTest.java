@@ -48,10 +48,10 @@ public class AppSplashActivityTest {
 	}
 
 	//	@Test
-	public void generateActionBar() {
-		final View actionBar = mActivityRule.getActivity().generateActionBar();
-		Assert.assertNotNull("Action bar view should not be null.", actionBar);
-	}
+//	public void generateActionBar() {
+//		final View actionBar = mActivityRule.getActivity().generateActionBar();
+//		Assert.assertNotNull("Action bar view should not be null.", actionBar);
+//	}
 
 	@Test
 	public void createAppDir() {

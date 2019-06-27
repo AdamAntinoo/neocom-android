@@ -20,13 +20,10 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.squareup.picasso.Picasso;
 
@@ -91,7 +88,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	// - I R E N D E R   I N T E R F A C E
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
-		this.actuatorsBlock= this.getView().findViewById(R.id.actuatorsBlock);
+		this.actuatorsBlock = this.getView().findViewById(R.id.actuatorsBlock);
 		this.separator = this.getView().findViewById(R.id.separator);
 		this._rightArrow = this.getView().findViewById(R.id.rightArrow);
 		//		this._rightArrow.setVisibility(View.INVISIBLE);
@@ -106,7 +103,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	public void updateContent() {
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = this.getBaseController().getModel();
-		if  ( null != this.actuatorsBlock ){
+		if (null != this.actuatorsBlock) {
 			if (targetModel instanceof IExpandable) {
 				this.actuatorsBlock.setVisibility(View.VISIBLE);
 				this.separator.setVisibility(View.GONE);
@@ -300,6 +297,10 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 			}
 			Picasso.get().load(link).into(targetIcon);
 		}
+	}
+
+	protected int getColor( final int colorReference ) {
+		return this.getContext().getResources().getColor(colorReference);
 	}
 
 	protected String getURLForItem( final int typeID ) {
