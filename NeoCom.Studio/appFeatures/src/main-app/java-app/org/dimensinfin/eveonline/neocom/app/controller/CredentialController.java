@@ -6,31 +6,23 @@ import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
-import com.squareup.picasso.Picasso;
-
 public class CredentialController extends AAndroidController<Credential> implements PropertyChangeListener, View.OnClickListener {
+	private NeoComUpdater<Credential> updater;
 	private Context context;
 	private DataDownloaderService downloaderService;
 
@@ -38,12 +30,20 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	private PilotV3 pilot;
 
 	// - C O N S T R U C T O R S
+	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
+		super(model, factory);
+		this.updater = ((INeoComControllerFactory)this.getControllerFactory()).getUpdater(model);
+//		this.downloaderService = downloaderService;
+		// Controller creation is the place where to request extended model data.
+		//		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
+		//		this.pilot.addPropertyChangeListener(this);
+	}
 	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory, final DataDownloaderService downloaderService ) {
 		super(model, factory);
 		this.downloaderService = downloaderService;
 		// Controller creation is the place where to request extended model data.
-		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
-		this.pilot.addPropertyChangeListener(this);
+		//		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
+		//		this.pilot.addPropertyChangeListener(this);
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R
@@ -75,6 +75,7 @@ public class CredentialController extends AAndroidController<Credential> impleme
 	@Override
 	public IRender buildRender( final Context context ) {
 		this.context = context;
+		this.updater.refresh(); // Signal the updater to start the refresh activity.
 		return new CredentialRender(this, context);
 	}
 
