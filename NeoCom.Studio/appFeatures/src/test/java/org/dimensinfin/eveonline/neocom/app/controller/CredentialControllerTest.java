@@ -14,7 +14,6 @@ public class CredentialControllerTest {
 	@Test
 	public void CredentialController_constructor() {
 		final Credential model = new Credential();
-//		final UpdaterJobManager manager = Mockito.mock(UpdaterJobManager.class);
 		final INeoComControllerFactory factory = new TestUpdaterFactory("UNIT-TEST");
 		final CredentialController controller = new CredentialController(model, factory);
 		final CredentialController spy = Mockito.spy(controller);
