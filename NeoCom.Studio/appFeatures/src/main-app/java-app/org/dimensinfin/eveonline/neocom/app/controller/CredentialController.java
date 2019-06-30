@@ -2,48 +2,29 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Objects;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
-public class CredentialController extends AAndroidController<Credential> implements PropertyChangeListener, View.OnClickListener {
-	private NeoComUpdater<Credential> updater;
+public class CredentialController extends NeoComUpdatableController<Credential> implements PropertyChangeListener, View.OnClickListener {
 	private Context context;
-	private DataDownloaderService downloaderService;
 
 	// - E X T E N D E D   M O D E L
-	private PilotV3 pilot;
+//	private PilotV3 pilot;
 
 	// - C O N S T R U C T O R S
 	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		this.updater = ((INeoComControllerFactory)this.getControllerFactory()).getUpdater(model);
-//		this.downloaderService = downloaderService;
-		// Controller creation is the place where to request extended model data.
-		//		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
-		//		this.pilot.addPropertyChangeListener(this);
-	}
-	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory, final DataDownloaderService downloaderService ) {
-		super(model, factory);
-		this.downloaderService = downloaderService;
-		// Controller creation is the place where to request extended model data.
-		//		this.pilot = new PilotV3.Builder(model, this.downloaderService).build();
-		//		this.pilot.addPropertyChangeListener(this);
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R
@@ -93,41 +74,41 @@ public class CredentialController extends AAndroidController<Credential> impleme
 		return Integer.valueOf(this.getModel().getAccountId()).toString();
 	}
 
-	public double getPilotAccountBalance() {
-		return this.accessPilot().getAccountBalance();
-	}
+//	public double getPilotAccountBalance() {
+//		return this.accessPilot().getAccountBalance();
+//	}
+//
+//	public long getPilotAssetsCount() {
+//		return this.accessPilot().getTotalAssetsNumber();
+//	}
+//
+//	public String getURLForPilotAvatar() {
+//		return this.accessPilot().getUrlforAvatar();
+//	}
 
-	public long getPilotAssetsCount() {
-		return this.accessPilot().getTotalAssetsNumber();
-	}
-
-	public String getURLForPilotAvatar() {
-		return this.accessPilot().getUrlforAvatar();
-	}
-
-	public PilotV3 accessPilot() {
-		Objects.requireNonNull(this.pilot);
-		return this.pilot;
-	}
+//	public PilotV3 accessPilot() {
+//		Objects.requireNonNull(this.pilot);
+//		return this.pilot;
+//	}
 
 	// - B U I L D E R
-	public static class Builder {
-		private CredentialController onConstuction;
-
-		public Builder( @NonNull final Credential model
-				, @NonNull final IControllerFactory factory
-				, final DataDownloaderService downloaderService ) {
-			this.onConstuction = new CredentialController(model, factory, downloaderService);
-		}
-
-		//		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
-		//			this.onConstuction.downloaderService = downloaderService;
-		//			return this;
-		//		}
-
-		public CredentialController build() {
-			Objects.requireNonNull(this.onConstuction.downloaderService);
-			return this.onConstuction;
-		}
-	}
+//	public static class Builder {
+//		private CredentialController onConstuction;
+//
+//		public Builder( @NonNull final Credential model
+//				, @NonNull final IControllerFactory factory
+//				, final DataDownloaderService downloaderService ) {
+//			this.onConstuction = new CredentialController(model, factory, downloaderService);
+//		}
+//
+//		//		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
+//		//			this.onConstuction.downloaderService = downloaderService;
+//		//			return this;
+//		//		}
+//
+//		public CredentialController build() {
+//			Objects.requireNonNull(this.onConstuction.downloaderService);
+//			return this.onConstuction;
+//		}
+//	}
 }

@@ -146,7 +146,7 @@ public class JobsListFragment extends AbstractPagerFragment {
 			AbstractGenerator.logger.info(">> [JobListGenerator.collaborate2Model]");
 			// Check if the model is already generated.
 			if ( cacheIsInvalid() ) {
-				// Get the list of Futures from the UpdateJobManager and collect their info.
+				// Get the list of Futures from the UpdaterJobManager and collect their info.
 				final Hashtable<String, Future<?>> jobs = TimeTickReceiver.UpdateJobManager.runningJobs;
 				final Enumeration<String> jobElements = jobs.keys();
 				while (jobElements.hasMoreElements()) {

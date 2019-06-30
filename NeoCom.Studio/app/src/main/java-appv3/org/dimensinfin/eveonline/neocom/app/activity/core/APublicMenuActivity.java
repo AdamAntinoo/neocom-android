@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.services.UpdateJobManager;
+import org.dimensinfin.eveonline.neocom.services.UpdaterJobManager;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
 /**
@@ -213,7 +213,7 @@ public class APublicMenuActivity extends APublicActionBarActivity {
 
 	private String backgroundCountersData() {
 		int marketJobs = AndroidGlobalDataManager.currentMarketDataManager().reportMarketDataJobs();
-		int backgroundJobs = UpdateJobManager.getPendingJobsCount();
+		int backgroundJobs = UpdaterJobManager.getPendingJobsCount();
 		return backgroundJobs + "." + marketJobs;
 	}
 }
