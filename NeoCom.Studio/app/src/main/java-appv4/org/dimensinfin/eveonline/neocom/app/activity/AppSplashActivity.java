@@ -33,11 +33,10 @@ public class AppSplashActivity extends ANeoComActivity {
 	 */
 	protected boolean createAppDir() {
 		// Create file application directory if it doesn't exist
-		final File sdcarddir = new File(Environment.getExternalStorageDirectory()
+		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
 				, this.getResources().getString(R.string.appname));
-		if (!sdcarddir.exists())
-			sdcarddir.mkdir();
-		return sdcarddir.exists();
+		if (!sdCardDir.exists()) sdCardDir.mkdir();
+		return sdCardDir.exists();
 	}
 
 	protected boolean createCacheDirectories() {

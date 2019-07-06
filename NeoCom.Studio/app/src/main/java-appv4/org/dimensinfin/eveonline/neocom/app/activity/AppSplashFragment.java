@@ -29,17 +29,6 @@ import org.dimensinfin.eveonline.neocom.database.repositories.CredentialReposito
 import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
 
 public class AppSplashFragment extends AMVCPagerFragment {
-	// - O V E R R I D E S
-	//	@Override
-	//	public String getSubtitle() {
-	//		return null;
-	//	}
-	//
-	//	@Override
-	//	public String getPageTitle() {
-	//		return this.getActivityContext().getResources().getString(R.string.appname);
-	//	}
-
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())
@@ -51,15 +40,12 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new SplashActionsDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       //				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("SPLASH")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
-				       //				       .withCacheStatus(true)
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
-				       //				       .withApplicationContext(this.getActivityContext().getApplicationContext())
 				       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
 				       .build();
