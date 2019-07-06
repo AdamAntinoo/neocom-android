@@ -1,17 +1,15 @@
 package org.dimensinfin.eveonline.neocom.app.pilot;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.IPilotDataDownloadCallback;
+import org.dimensinfin.eveonline.neocom.domain.PilotDataSections;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.model.PilotV2;
-import org.dimensinfin.eveonline.neocom.domain.IPilotDataDownloadCallback;
-import org.dimensinfin.eveonline.neocom.domain.PilotDataSections;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
 import org.joda.time.LocalDateTime;
@@ -120,15 +118,15 @@ public class PilotV3 extends PilotV2 implements IPilotDataDownloadCallback {
 		switch (section) {
 			case PILOT_PUBLICDATA:
 				this.setPublicData((GetCharactersCharacterIdOk) completedData);
-				this.sendChangeEvent(new PropertyChangeEvent(this
-						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
-						, null, completedData));
+//				this.sendChangeEvent(new PropertyChangeEvent(this
+//						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
+//						, null, completedData));
 				break;
 			case PILOT_RACE:
 				this.setRace((GetUniverseRaces200Ok) completedData);
-				this.sendChangeEvent(new PropertyChangeEvent(this
-						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
-						, null, completedData));
+//				this.sendChangeEvent(new PropertyChangeEvent(this
+//						, EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name()
+//						, null, completedData));
 				break;
 		}
 	}

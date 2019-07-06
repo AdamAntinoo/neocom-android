@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.controller;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +13,10 @@ import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
+import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class CredentialController extends NeoComUpdatableController<Credential> implements PropertyChangeListener, View.OnClickListener {
+public class CredentialController extends NeoComUpdatableController<Credential> implements View.OnClickListener {
 	private Context context;
 
 	// - C O N S T R U C T O R S
@@ -24,10 +24,11 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 		super(model, factory);
 	}
 
-	// - P R O P E R T Y C H A N G E L I S T E N E R
+	// - I E V E N T R E C E I V E R
 	@Override
-	public void propertyChange( final PropertyChangeEvent evt ) {
-		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
+	public void eventReceived( final NeoComEvent event ) {
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
+			this.sendChangeEvent(new PropertyChangeEvent(this, event.getPropertyName(),this,this));
 			this.notifyDataModelChange();
 		}
 	}
@@ -53,7 +54,7 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 	@Override
 	public IRender buildRender( final Context context ) {
 		this.context = context;
-		this.updater.refresh(); // Signal the updater to start the refresh activity.
+//		this.updater.refresh(); // Signal the updater to start the refresh activity.
 		return new CredentialRender(this, context);
 	}
 

@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.render;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class CredentialRender extends NeoComRenderv2 {
 
 	// - L A Y O U T   F I E L D S
 	private ViewGroup nodeIconBlock;
-	//	private ImageView targetIcon;
+	private ViewGroup pilotRaceDetailBlock;
 
 	// - C O N S T R U C T O R S
 	public CredentialRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -50,8 +51,8 @@ public class CredentialRender extends NeoComRenderv2 {
 	public void initializeViews() {
 		super.initializeViews();
 		// Layout fields
-		nodeIconBlock = this.getView().findViewById(R.id.nodeIconBlock);
-		//		targetIcon = this.getView().findViewById(R.id.targetIcon);
+		this.nodeIconBlock = this.getView().findViewById(R.id.nodeIconBlock);
+		this.pilotRaceDetailBlock = this.getView().findViewById(R.id.pilotRaceDetailBlock);
 		// Content  fields.
 		this.nodeIcon = this.getView().findViewById(R.id.nodeIcon);
 		this.pilotName = this.getView().findViewById(R.id.pilotName);
@@ -79,8 +80,11 @@ public class CredentialRender extends NeoComRenderv2 {
 		this.assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
 		this.race.setText(this.accessPilotRaceName());
 		this.accessRaceIcon();
+		// TODO - Remove temporarilly the race data until I decide if to read more capsuleer data.
+		this.pilotRaceDetailBlock.setVisibility(View.GONE);
+//		this.raceIcon.setVisibility(View.GONE);
 
-		this.assetsCount.setBackgroundColor(this.getColor(R.color.pi_extractorringcolor));
+//		this.assetsCount.setBackgroundColor(this.getColor(R.color.pi_extractorringcolor));
 	}
 
 	protected String accessAssetsCount() {

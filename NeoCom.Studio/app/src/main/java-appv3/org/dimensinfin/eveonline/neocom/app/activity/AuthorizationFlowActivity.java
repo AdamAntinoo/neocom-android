@@ -28,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
+import org.dimensinfin.eveonline.neocom.core.updaters.CredentialUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -66,7 +67,7 @@ public class AuthorizationFlowActivity extends Activity {
 
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
-	private ESIDataAdapter esiAdapter;
+	private ESIDataAdapter esiDataAdapter;
 	private ImageView spinner = null;
 
 	/**
@@ -77,8 +78,8 @@ public class AuthorizationFlowActivity extends Activity {
 	protected void onFireAuth() {
 		this.runOnUiThread(() -> {
 			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComComponentFactory.DEFAULT_ESI_SERVER);
-			this.esiAdapter.activateEsiServer(esiServer);
-			final Uri url = Uri.parse(this.esiAdapter.getAuthorizationUrl4Server(esiServer));
+			this.esiDataAdapter.activateEsiServer(esiServer);
+			final Uri url = Uri.parse(this.esiDataAdapter.getAuthorizationUrl4Server(esiServer));
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
 			intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
 			startActivity(intent);
@@ -156,18 +157,34 @@ public class AuthorizationFlowActivity extends Activity {
 					// Create the credential and store it on the application repository.
 					final CredentialRepository credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
-					// TODO - Upgrade to the new Credential implementation using a Builder.
 					final Credential credential = new Credential.Builder(newAccountIdentifier)
-							                              .withCharacterName(verificationResponse.body().getCharacterName())
+							                              .withAccountId(newAccountIdentifier)
+							                              .withAccountName(verificationResponse.body().getCharacterName())
+														  .withTokenType ( token.getTokenType())
+							                              .withAccessToken(token.getAccessToken())
+							                              .withRefreshToken(token.getRefreshToken())
+							                              .withDataSource(esiServer)
+							                              .withScope(this.esiDataAdapter.getStringScopes())
 							                              .build();
-					credential.setAccessToken(token.getAccessToken())
-							.setTokenType(token.getTokenType())
-							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
-							.setRefreshToken(token.getRefreshToken())
-							.setDataSource(esiServer.toUpperCase())
-							.setScope(this.esiAdapter.getStringScopes());
+							// Update the additional render fields.
+					new CredentialUpdater(credential).onRun();
+
+
+//							new Credential.Builder(newAccountIdentifier)
+//							                              .withCharacterName(verificationResponse.body().getCharacterName())
+//							                              .build();
+
+					// TODO - Upgrade to the new Credential implementation using a Builder.
+//					credential.setAccessToken(token.getAccessToken())
+//							.setTokenType(token.getTokenType())
+//							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
+//							.setRefreshToken(token.getRefreshToken())
+//							.setDataSource(esiServer.toUpperCase())
+//							.setScope(this.esiDataAdapter.getStringScopes());
 					try {
 						credentialRepository.persist(credential);
+						logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Credential #{}-{} created successfully."
+						,credential.getAccountId(), credential.getAccountName());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -332,6 +349,6 @@ public class AuthorizationFlowActivity extends Activity {
 	private void injectComponents() {
 		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		this.esiAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 	}
 }

@@ -1,5 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.controller;
 
+import java.beans.PropertyChangeListener;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -13,12 +15,21 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 
 	public NeoComUpdatableController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		this.updater = NeoComUpdaterFactory.buildUpdater(model); // Create the updater for this model.
-		this.updater.addEventListener(this);
-		this.updater.refresh(); // Start the refresh process if required before leaving this thread.
 	}
 
 	public NeoComUpdater<M> getUpdater() {
 		return this.updater;
+	}
+
+	/**
+	 * Connect the updater just after the Controller is linked to the DataSource.
+	 * @param listener the new listener to connect to this instance messages.
+	 */
+	@Override
+	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
+		super.addPropertyChangeListener(listener);
+		this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
+		this.updater.addEventListener(this);
+		this.updater.refresh(); // Start the refresh process if required before leaving this thread.
 	}
 }

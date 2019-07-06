@@ -1,6 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -14,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.core.EventEmitter;
+import org.dimensinfin.eveonline.neocom.core.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.exception.EErrorType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
@@ -134,8 +134,12 @@ public class InitialisationTask implements ICollaboration {
 		this.eventEmitter.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
 	}
 
-	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
-		eventEmitter.addPropertyChangeListener(listener);
+//	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
+//		eventEmitter.addPropertyChangeListener(listener);
+//	}
+
+	public void addEventListener( final IEventReceiver listener ) {
+		eventEmitter.addEventListener(listener);
 	}
 
 	// - B U I L D E R
