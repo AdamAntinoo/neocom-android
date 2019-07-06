@@ -1,18 +1,12 @@
+# - Android Studio
 *.iml
 .gradle
-.DS_Store
-.externalNativeBuild
 
-/.idea/workspace.xml
-/.idea/modules.xml
-/.idea/sonarIssues.xml
-/.idea/sonarlint
-/.idea/libraries
-/.idea/caches
-
-/local.properties
+.idea/workspace.xml
+.idea/sonarIssues.xml
+.idea/sonarlint/
+.idea/libraries/
+.idea/caches/
 build/
-/captures
-app/coverage/
 app/build/
-coverage/
+appFeatures/build/

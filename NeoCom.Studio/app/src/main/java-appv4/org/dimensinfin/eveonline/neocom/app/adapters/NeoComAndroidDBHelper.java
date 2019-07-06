@@ -40,7 +40,7 @@ import com.j256.ormlite.table.TableUtils;
  */
 public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements INeoComDBHelper {
 	private static Logger logger = LoggerFactory.getLogger(NeoComAndroidDBHelper.class);
-	private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:mysql://localhost:3306/neocom?user=NEOCOMTEST&password=01.Alpha";
+//	private static String DEFAULT_CONNECTION_DESCRIPTOR = "jdbc:mysql://localhost:3306/neocom?user=NEOCOMTEST&password=01.Alpha";
 	private static NeoComAndroidDBHelper singleton;
 
 	// - F I E L D - S E C T I O N
@@ -174,24 +174,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, ApiKey.class);
-		//		} catch (SQLException sqle) {
-		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-		//		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, ColonyStorage.class);
-		//		} catch (SQLException sqle) {
-		//			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-		//		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, ResourceList.class);
-		//		} catch (SQLException sqle) {
-		//		}
-		//		try {
-		//			TableUtils.createTableIfNotExists(databaseConnection, PlanetaryResource.class);
-		//		} catch (SQLException sqle) {
-		//		}
 		this.loadSeedData();
 		logger.info("<< [NeoComAndroidDBHelper.onCreate]");
 	}
@@ -335,6 +317,23 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
 				logger.error("E> Error dropping table NeoComAsset on Database new version.");
+				sqle.printStackTrace();
+			}
+		}
+		if (oldVersion < 119) {
+			// Drop Credential table because reconstruction.
+			try {
+				TableUtils.dropTable(databaseConnection, Credential.class, true);
+				try {
+					TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
+				} catch (SQLException sqle) {
+					logger.warn("SQL [NeoComAndroidDBHelper.onUpgrade]> SQL NeoComDatabase: {}", sqle.getMessage());
+				}
+			} catch (RuntimeException rtex) {
+				logger.error("E [NeoComAndroidDBHelper.onUpgrade]> Error upgrading to version 119.");
+				rtex.printStackTrace();
+			} catch (SQLException sqle) {
+				logger.error("E [NeoComAndroidDBHelper.onUpgrade]> Error upgrading to version 119.");
 				sqle.printStackTrace();
 			}
 		}

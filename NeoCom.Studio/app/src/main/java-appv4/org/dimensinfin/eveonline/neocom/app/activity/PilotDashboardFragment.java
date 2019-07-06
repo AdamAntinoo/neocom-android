@@ -9,11 +9,11 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
-import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
 /**
@@ -32,15 +32,15 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 	}
 
 	// - O V E R R I D E S
-//	@Override
-//	public String getSubtitle() {
-//		return null;
-//	}
-//
-//	@Override
-//	public String getPageTitle() {
-//		return null;
-//	}
+	//	@Override
+	//	public String getSubtitle() {
+	//		return null;
+	//	}
+	//
+	//	@Override
+	//	public String getPageTitle() {
+	//		return null;
+	//	}
 
 	@Override
 	public IControllerFactory createFactory() {
@@ -51,7 +51,7 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new PilotDashboardDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-//				       .addIdentifier(this.getPageTitle())
+				       //				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("PILOT-DASHBOARD")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())

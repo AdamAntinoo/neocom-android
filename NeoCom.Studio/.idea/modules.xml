@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../android-mvc/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/../../android-mvc/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement/NeoCom.DataManagement.iml" filepath="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement/NeoCom.DataManagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests/NeoCom.DataManagement.AcceptanceTests.iml" filepath="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests/NeoCom.DataManagement.AcceptanceTests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.Support/NeoCom.DataManagement.Support.iml" filepath="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.Support/NeoCom.DataManagement.Support.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NeoCom.Studio.iml" filepath="$PROJECT_DIR$/.idea/NeoCom.Studio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appFeatures/appFeatures.iml" filepath="$PROJECT_DIR$/appFeatures/appFeatures.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appVisualTest/appVisualTest.iml" filepath="$PROJECT_DIR$/appVisualTest/appVisualTest.iml" />
+    </modules>
+  </component>
+</project>

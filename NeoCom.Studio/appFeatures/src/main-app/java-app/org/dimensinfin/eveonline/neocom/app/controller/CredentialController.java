@@ -8,29 +8,26 @@ import android.content.Intent;
 import android.view.View;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
+import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
 public class CredentialController extends NeoComUpdatableController<Credential> implements PropertyChangeListener, View.OnClickListener {
 	private Context context;
 
-	// - E X T E N D E D   M O D E L
-//	private PilotV3 pilot;
-
 	// - C O N S T R U C T O R S
-	protected CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
+	public CredentialController( @NonNull final Credential model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R
 	@Override
 	public void propertyChange( final PropertyChangeEvent evt ) {
-		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
 			this.notifyDataModelChange();
 		}
 	}
@@ -73,42 +70,4 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 	public String getPilotIdentifier() {
 		return Integer.valueOf(this.getModel().getAccountId()).toString();
 	}
-
-//	public double getPilotAccountBalance() {
-//		return this.accessPilot().getAccountBalance();
-//	}
-//
-//	public long getPilotAssetsCount() {
-//		return this.accessPilot().getTotalAssetsNumber();
-//	}
-//
-//	public String getURLForPilotAvatar() {
-//		return this.accessPilot().getUrlforAvatar();
-//	}
-
-//	public PilotV3 accessPilot() {
-//		Objects.requireNonNull(this.pilot);
-//		return this.pilot;
-//	}
-
-	// - B U I L D E R
-//	public static class Builder {
-//		private CredentialController onConstuction;
-//
-//		public Builder( @NonNull final Credential model
-//				, @NonNull final IControllerFactory factory
-//				, final DataDownloaderService downloaderService ) {
-//			this.onConstuction = new CredentialController(model, factory, downloaderService);
-//		}
-//
-//		//		public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
-//		//			this.onConstuction.downloaderService = downloaderService;
-//		//			return this;
-//		//		}
-//
-//		public CredentialController build() {
-//			Objects.requireNonNull(this.onConstuction.downloaderService);
-//			return this.onConstuction;
-//		}
-//	}
 }

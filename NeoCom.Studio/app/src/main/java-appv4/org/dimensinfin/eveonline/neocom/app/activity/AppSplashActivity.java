@@ -4,15 +4,10 @@ import java.io.File;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.view.View;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
-import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 
 public class AppSplashActivity extends ANeoComActivity {
@@ -32,6 +27,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		this.createAppDir();
 		this.createCacheDirectories();
 	}
+
 	/**
 	 * Creates the application directory if it already does not exist on the sdcard.
 	 */

@@ -5,3 +5,7 @@ include ':AndroidMVCLibrary'
 project(':AndroidMVCLibrary').projectDir = new File('/home/adam/Development/NeoCom/android-mvc/AndroidMVCLibrary')
 include ':NeoCom.DataManagement'
 project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
+include ':NeoCom.DataManagement.AcceptanceTests'
+project(':NeoCom.DataManagement.AcceptanceTests').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests')
+include ':NeoCom.DataManagement.Support'
+project(':NeoCom.DataManagement.Support').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement.Support')

@@ -156,6 +156,7 @@ public class AuthorizationFlowActivity extends Activity {
 					// Create the credential and store it on the application repository.
 					final CredentialRepository credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 					final int newAccountIdentifier = Long.valueOf(verificationResponse.body().getCharacterID()).intValue();
+					// TODO - Upgrade to the new Credential implementation using a Builder.
 					final Credential credential = new Credential.Builder(newAccountIdentifier)
 							                              .withCharacterName(verificationResponse.body().getCharacterName())
 							                              .build();

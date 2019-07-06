@@ -4,6 +4,11 @@
     <bytecodeTargetLevel>
       <module name="ESI.SwaggerApi_main" target="1.8" />
       <module name="ESI.SwaggerApi_test" target="1.8" />
+      <module name="NeoCom.DataManagement.AcceptanceTests_cucumberTest" target="1.8" />
+      <module name="NeoCom.DataManagement.AcceptanceTests_main" target="1.8" />
+      <module name="NeoCom.DataManagement.AcceptanceTests_test" target="1.8" />
+      <module name="NeoCom.DataManagement.Support_main" target="1.8" />
+      <module name="NeoCom.DataManagement.Support_test" target="1.8" />
       <module name="NeoCom.DataManagement_main" target="1.8" />
       <module name="NeoCom.DataManagement_test" target="1.8" />
       <module name="org.dimensinfin.neocom.datamanagement.acceptancetest_cucumberTest" target="1.8" />

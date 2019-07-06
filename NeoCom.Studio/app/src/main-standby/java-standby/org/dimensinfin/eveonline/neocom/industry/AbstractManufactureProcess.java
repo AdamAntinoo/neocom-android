@@ -170,7 +170,7 @@ public class AbstractManufactureProcess extends AbstractComplexNode {
 
 	public void setRuns(final int runs) {
 		this.runs = runs;
-		//		firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, this, this);
+		//		fireEvent(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, this, this);
 	}
 
 	@Override

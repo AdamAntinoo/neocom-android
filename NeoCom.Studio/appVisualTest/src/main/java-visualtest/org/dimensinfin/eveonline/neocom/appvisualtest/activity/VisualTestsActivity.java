@@ -1,5 +1,7 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 
+import java.io.File;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -52,14 +54,14 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 	}
 
 	protected void validateSDEDatabase() {
-		if (this.sdeDatabaseExists()) {
+		if (!this.sdeDatabaseExists()) {
 			// Just copy the assets to the application directory.
 			this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
 		}
 	}
 
 	protected boolean sdeDatabaseExists() {
-		return true;
+		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename))).exists();
 	}
 
 	protected void injectComponents() {

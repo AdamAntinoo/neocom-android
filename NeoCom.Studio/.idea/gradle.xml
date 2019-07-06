@@ -13,10 +13,11 @@
             <option value="$PROJECT_DIR$/appFeatures" />
             <option value="$PROJECT_DIR$/appVisualTest" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
+            <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests" />
+            <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.Support" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
-        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
