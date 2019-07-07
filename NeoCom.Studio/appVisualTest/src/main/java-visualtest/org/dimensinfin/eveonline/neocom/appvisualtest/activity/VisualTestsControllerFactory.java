@@ -5,8 +5,10 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
@@ -27,11 +29,15 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		logger.info("-- [VisualTestsControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
-		if (node instanceof AppVersion) {
-			return new AppVersionController((AppVersion) node, this);
+		if (node instanceof Pilot) {
+			return new PilotController((Pilot) node, this)
+					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof Credential) {
 			return new CredentialController((Credential) node, this);
+		}
+		if (node instanceof AppVersion) {
+			return new AppVersionController((AppVersion) node, this);
 		}
 		if (node instanceof ColonyPack) {
 			return new ColonyPackController((ColonyPack) node, this);

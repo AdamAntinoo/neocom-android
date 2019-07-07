@@ -21,7 +21,7 @@ public class MiningExtractionAggregatorController extends AAndroidController<Min
 	// - C O N S T R U C T O R
 	public MiningExtractionAggregatorController( @NonNull final MiningExtractionAggregatorAsPanelTitle model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		model.addPropertyChangeListener(this);
+//		model.addPropertyChangeListener(this);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E

@@ -9,7 +9,7 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
+import org.dimensinfin.eveonline.neocom.domain.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;

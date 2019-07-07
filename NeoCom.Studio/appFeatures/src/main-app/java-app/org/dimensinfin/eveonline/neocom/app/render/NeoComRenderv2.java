@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -76,7 +77,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 	protected ImageView _rightArrow;
 	protected ImageView menuIcon;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R S
 	public NeoComRenderv2( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
@@ -91,7 +92,6 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		this.actuatorsBlock = this.getView().findViewById(R.id.actuatorsBlock);
 		this.separator = this.getView().findViewById(R.id.separator);
 		this._rightArrow = this.getView().findViewById(R.id.rightArrow);
-		//		this._rightArrow.setVisibility(View.INVISIBLE);
 		this.menuIcon = this.getView().findViewById(R.id.menuIcon);
 	}
 
@@ -126,6 +126,34 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 				} else this.menuIcon.setVisibility(View.INVISIBLE);
 			}
 		}
+	}
+
+	// - C O M P L E M E N T A R Y
+	public void setAvatarIcon( final ImageView target, final int pilotIdentifier ) {
+		if (null != target) {
+			final String link = this.getUrl4Avatar(pilotIdentifier);
+			Picasso.get().load(link).into(target);
+		}
+	}
+
+	protected String getUrl4Avatar( final int pilotIdentifier ) {
+		return "http://image.eveonline.com/character/" + pilotIdentifier + "_256.jpg";
+	}
+	protected Drawable getRaceIcon(final String raceName) {
+		if (null != raceName)
+			switch (raceName.toUpperCase()) {
+				case "MINMATAR":
+					return this.getDrawable(R.drawable.minmatar);
+				case "CALDARI":
+					return this.getDrawable(R.drawable.caldari);
+				case "AMARR":
+					return this.getDrawable(R.drawable.amarr);
+				case "GALLENTE":
+					return this.getDrawable(R.drawable.gallente);
+				default:
+					return this.getDrawable(R.drawable.defaulticonplaceholder);
+			}
+		else return this.getDrawable(R.drawable.defaulticonplaceholder);
 	}
 
 	protected Spanned colorFormat( final String data, final String color, final String suffix ) {

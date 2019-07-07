@@ -93,46 +93,17 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
 
     implementation 'me.relex:circleindicator:2.1.0'
+
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
-//    implementation 'org.dimensinfin:NeoCom.DataManagement:0.14.0'
-
-//    implementation project(':ESI.SwaggerApi')
     implementation project(':NeoCom.DataManagement')
     implementation project(':AndroidMVCLibrary')
 
     // N E O C O M
     implementation 'com.jakewharton:disklrucache:2.0.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // D A T A B A S E
-//    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
 }
-// - L I B R A R Y   D E P E N D E N C I E S
-//dependencies {
-//    // N E O C O M . M O D E L
-//    implementation 'com.beimin:eveapi:6.0.6'
-//    implementation "com.fasterxml.jackson.core:jackson-annotations:$fasterxmlJackson"
-//    implementation "com.fasterxml.jackson.core:jackson-databind:$fasterxmlJackson"
-//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$fasterxmlJackson"
-//    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$fasterxmlJackson"
-//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-json-org:$fasterxmlJackson"
-//    implementation 'org.modelmapper:modelmapper:1.1.0'
-//    implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-////    implementation 'com.j256.ormlite:ormlite-core:4.48'
-//    implementation 'com.annimon:stream:1.1.9'
-//
-//    // N E O C O M . D A T A M A N A G E M E N T
-//    implementation 'org.htmlparser:htmlparser:2.1'
-//    implementation 'com.github.scribejava:scribejava-core:5.4.0'
-//    implementation 'com.annimon:stream:1.1.9'
-//    implementation 'org.apache.commons:commons-lang3:3.7'
-////    implementation 'com.j256.ormlite:ormlite-core:4.48'
-////    implementation 'com.j256.ormlite:ormlite-jdbc:4.48'
-//    implementation 'org.xerial:sqlite-jdbc:3.16.1'
-//
-//}
+
 // - T E S T I N G
 dependencies {
     testImplementation 'junit:junit:4.12'

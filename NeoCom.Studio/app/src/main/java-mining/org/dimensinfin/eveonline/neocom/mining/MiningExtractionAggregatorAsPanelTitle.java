@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
@@ -52,9 +51,9 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	// - P R O P E R T Y C H A N G E L I S T E N E R
 	@Override
 	public void propertyChange( final PropertyChangeEvent evt ) {
-		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
-			this.sendChangeEvent(evt);
-		}
+//		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+//			this.sendChangeEvent(evt);
+//		}
 	}
 
 	// - I E X P A N D A B L E

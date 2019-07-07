@@ -23,6 +23,7 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.injectComponents();
 		this.validatePermissions();
 		this.validateSDEDatabase();
+		this.addPage(new VTPilotFragment().setVariant(PageNamesType.PILOT_DASHBOARD.name()));
 		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
 		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES.name()));
 		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));

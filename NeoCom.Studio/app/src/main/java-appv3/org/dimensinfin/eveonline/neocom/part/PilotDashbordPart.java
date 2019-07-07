@@ -21,12 +21,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.AllianceV1;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 
 /**
@@ -83,8 +81,9 @@ public class PilotDashbordPart extends NeoComAbstractPart<PilotV2> {
 	 */
 	@WorkerThread
 	public String getTAssetsCount() {
-		final long totalAssets = this.getCastedModel().getTotalAssetsNumber();
-		return NeoComAbstractPart.qtyFormatter.format(totalAssets);
+//		final long totalAssets = this.getCastedModel().getTotalAssetsNumber();
+//		return NeoComAbstractPart.qtyFormatter.format(totalAssets);
+		return "2";
 	}
 
 	@WorkerThread
@@ -94,10 +93,10 @@ public class PilotDashbordPart extends NeoComAbstractPart<PilotV2> {
 //		return NeoComAbstractPart.upperCaseFirst(this.getCastedModel().getRace().getName().toLowerCase());
 	}
 
-	@WorkerThread
-	public String getURLForAvatar() {
-		return this.getCastedModel().getUrlforAvatar();
-	}
+//	@WorkerThread
+//	public String getURLForAvatar() {
+//		return this.getCastedModel().getUrlforAvatar();
+//	}
 
 	@Override
 	public String toString() {
@@ -152,9 +151,9 @@ public class PilotDashbordPart extends NeoComAbstractPart<PilotV2> {
 
 		@Override
 		public void updateContent() {
-			final String link = getPart().getURLForAvatar();
-			if ( (null != link) && (null != targetIcon) )
-				Picasso.get().load(link).into(targetIcon);
+//			final String link = getPart().getURLForAvatar();
+//			if ( (null != link) && (null != targetIcon) )
+//				Picasso.get().load(link).into(targetIcon);
 			toprightDecorator.setImageResource(R.drawable.omega);
 			toprightDecorator.setVisibility(View.VISIBLE);
 			AllianceV1 alliance = this.getPart().getCastedModel().getAlliance();

@@ -26,7 +26,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.fragment.core.ApplicationExceptionReportFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.interfaces.IPilotActivity;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 
 /**
  * This special class contains the common code for all the Activities that have access to the Credential. The code will store the

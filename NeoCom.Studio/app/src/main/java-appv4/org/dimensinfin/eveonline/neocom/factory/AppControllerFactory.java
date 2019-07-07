@@ -8,7 +8,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
+import org.dimensinfin.eveonline.neocom.domain.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;

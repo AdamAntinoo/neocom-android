@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.activity.core;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,9 +19,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
@@ -148,7 +144,7 @@ public class ANeoComActivity extends AMVCMultiPageActivity {
 	}
 
 	protected void validatePermissions() {
-//		if (BuildConfig.DEBUG) return;
+		//		if (BuildConfig.DEBUG) return;
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				    != PackageManager.PERMISSION_GRANTED) {
 			// Permission is not granted

@@ -9,7 +9,6 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsActivity;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
@@ -19,7 +18,10 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.*;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
+import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
@@ -223,11 +225,36 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
 				               .withPin(baseIndustryPin)
 				               .build();
-		final FactoryFacility baseIndustryFacility = new FactoryFacility.Builder()
-				                                             .withPlanetaryFacility(baseFacility)
-				                                             .withSchematics(baseIndustryPin.getSchematicId())
-				                                             .withPlanetaryRepository(this.planetaryRepository)
-				                                             .build();
+		FactoryFacility baseIndustryFacility = new FactoryFacility.Builder()
+				                                       .withPlanetaryFacility(baseFacility)
+				                                       .withSchematics(baseIndustryPin.getSchematicId())
+				                                       .withPlanetaryRepository(this.planetaryRepository)
+				                                       .build();
+		facilities.add(baseIndustryFacility);
+
+		// - BASE INDUSTRY FACILITY
+		baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		baseIndustryPin.setPinId(1023355532557L);
+		baseIndustryPin.setTypeId(2492);
+		baseIndustryPin.setLastCycleStart(new DateTime("2019-06-02T08:40:35Z"));
+		baseIndustryPin.setSchematicId(123);
+		baseIndustryPin.setLatitude(2.2622209669F);
+		baseIndustryPin.setLongitude(1.93942649917F);
+		content = new GetCharactersCharacterIdPlanetsPlanetIdOkContents();
+		content.setTypeId(2309);
+		content.setAmount(3000L);
+		baseIndustryPin.addContentsItem(content);
+		baseFacility = new PlanetaryFacility.Builder()
+				               .withEsiDataAdapter(esiDataAdapter)
+				               .withPlanetType(PlanetType.GAS)
+				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
+				               .withPin(baseIndustryPin)
+				               .build();
+		baseIndustryFacility = new FactoryFacility.Builder()
+				                       .withPlanetaryFacility(baseFacility)
+				                       .withSchematics(baseIndustryPin.getSchematicId())
+				                       .withPlanetaryRepository(this.planetaryRepository)
+				                       .build();
 		facilities.add(baseIndustryFacility);
 
 		// - BASE INDUSTRY FACILITY EMPTY

@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 
 import java.util.ArrayList;

@@ -46,7 +46,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.model.PilotV2;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;

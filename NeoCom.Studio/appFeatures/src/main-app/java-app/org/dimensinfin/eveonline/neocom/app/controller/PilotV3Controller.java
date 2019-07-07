@@ -8,9 +8,8 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.app.pilot.PilotV3;
-import org.dimensinfin.eveonline.neocom.app.render.PanelTitleRender;
-import org.dimensinfin.eveonline.neocom.app.render.PilotV3Render;
+import org.dimensinfin.eveonline.neocom.domain.PilotV3;
+import org.dimensinfin.eveonline.neocom.app.render.PilotRender;
 
 public class PilotV3Controller extends AAndroidController<PilotV3> {
 	protected String variant;
@@ -22,7 +21,7 @@ public class PilotV3Controller extends AAndroidController<PilotV3> {
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {
-		return new PilotV3Render(this, context);
+		return new PilotRender(this, context);
 	}
 
 	@Override
