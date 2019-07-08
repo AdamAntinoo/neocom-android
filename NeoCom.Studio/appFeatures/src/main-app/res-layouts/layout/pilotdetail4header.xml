@@ -21,18 +21,18 @@
 
 		<ImageView
 				android:id="@+id/corporationIconSmall"
-				android:layout_width="16dp"
-				android:layout_height="16dp"
+				android:layout_width="@dimen/nodeiconsizecomplementary"
+				android:layout_height="@dimen/nodeiconsizecomplementary"
 				android:layout_gravity="left|top"
 				android:layout_marginBottom="0dp"
 				android:layout_marginLeft="2dp"
 				android:src="@drawable/xml_icon"
-				android:visibility="invisible"/>
+				android:visibility="gone"/>
 
 		<ImageView
 				android:id="@+id/allianceIconSmall"
-				android:layout_width="24dp"
-				android:layout_height="24dp"
+				android:layout_width="@dimen/nodeiconsizecomplementary"
+				android:layout_height="@dimen/nodeiconsizecomplementary"
 				android:layout_gravity="right|top"
 				android:layout_marginRight="4dp"
 				android:layout_marginTop="2dp"
@@ -42,8 +42,8 @@
 
 		<ImageView
 				android:id="@+id/raceIconSmall"
-				android:layout_width="12dp"
-				android:layout_height="12dp"
+				android:layout_width="@dimen/nodeiconsizecomplementary"
+				android:layout_height="@dimen/nodeiconsizecomplementary"
 				android:layout_gravity="right|bottom"
 				android:layout_marginBottom="2dp"
 				android:layout_marginRight="4dp"
@@ -52,11 +52,11 @@
 
 		<ImageView
 				android:id="@+id/cloneIconSmall"
-				android:layout_width="16dp"
-				android:layout_height="16dp"
+				android:layout_width="@dimen/nodeiconsizecomplementary"
+				android:layout_height="@dimen/nodeiconsizecomplementary"
 				android:layout_gravity="left|bottom"
-				android:layout_marginBottom="0dp"
-				android:layout_marginLeft="2dp"
+				android:layout_marginBottom="2dp"
+				android:layout_marginLeft="4dp"
 				android:src="@drawable/omega"
 				android:visibility="visible"/>
 	</FrameLayout>
@@ -104,15 +104,14 @@
 
 			<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
 					android:id="@+id/pilotName"
-					style="@style/AppTheme.NeoComText.Green"
+					style="@style/AppTheme.NeoComText"
 					android:text="Adam Antinoo"/>
 
 			<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
 					android:id="@+id/pilotIdentifier"
-					style="@style/AppTheme.TextView"
+					style="@style/AppTheme.NeoComText.Identifier"
 					android:layout_marginLeft="4dp"
-					android:text="[60014089]"
-					android:textSize="12sp"/>
+					android:text="[60014089]"/>
 		</LinearLayout>
 
 	</LinearLayout>
@@ -127,16 +126,12 @@
 
 		<org.dimensinfin.android.mvc.fonts.PrototypeTextView
 				android:id="@+id/accountBalance"
+				style="@style/AppTheme.NeoComText.Pilot.Amount"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignBaseline="@+id/assetsCount"
 				android:layout_alignParentLeft="true"
-				android:layout_marginBottom="@dimen/bottomline_correction"
-				android:ellipsize="marquee"
-				android:singleLine="true"
-				android:text="123,345,556.98 ISK"
-				android:textColor="@android:color/white"
-				android:textSize="14sp"/>
+				android:visibility="visible"
+				android:text="123,345,556.98 ISK"/>
 
 		<TextView
 				android:id="@+id/accountBalanceLabel"
@@ -156,17 +151,14 @@
 
 		<org.dimensinfin.android.mvc.fonts.PrototypeTextView
 				android:id="@+id/skillPoints"
+				style="@style/AppTheme.NeoComText.Pilot.Amount"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentTop="true"
-				android:layout_marginBottom="@dimen/bottomline_correction"
-				android:ellipsize="marquee"
 				android:gravity="right"
-				android:singleLine="true"
-				android:text="@string/default_skillpoints"
-				android:textColor="@android:color/white"
-				android:textSize="14sp"/>
+				android:visibility="visible"
+				android:text="@string/default_skillpoints"/>
 
 		<TextView
 				android:id="@+id/assetsCountLabel"
@@ -183,6 +175,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"
+			android:layout_marginRight="@dimen/standardmargin"
 			android:layout_marginLeft="@dimen/standardmargin"
 			android:gravity="right"
 			android:orientation="vertical"
@@ -196,13 +189,8 @@
 
 		<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
 				android:id="@+id/raceName"
-				style="@style/AppTheme.TextView"
-				android:layout_alignParentRight="true"
-				android:layout_marginTop="-4dp"
-				android:gravity="right"
-				android:text="Minmatar"
-				android:textColor="@color/apporange"
-				android:textSize="11sp"/>
+				style="@style/AppTheme.NeoComText.Pilot.RaceName"
+				android:text="Minmatar"/>
 
 		<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
 				android:id="@+id/cloneType"

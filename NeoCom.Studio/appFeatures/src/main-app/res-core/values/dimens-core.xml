@@ -5,6 +5,7 @@
     <dimen name="nodeiconsize">36dp</dimen>
     <dimen name="nodeiconsizesmall">18dp</dimen>
     <dimen name="nodeiconsizebig">72dp</dimen>
+    <dimen name="nodeiconsizecomplementary">24dp</dimen>
     <dimen name="arrowsize">28dp</dimen>
     <dimen name="neocommenusize">32dp</dimen>
 

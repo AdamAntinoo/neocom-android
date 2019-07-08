@@ -187,6 +187,7 @@ dependencies {
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation project(':AndroidMVCLibrary')
     implementation project(':appFeatures')
+    implementation project(':NeoCom.DataManagement')
 
     // D A T A B A S E
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
