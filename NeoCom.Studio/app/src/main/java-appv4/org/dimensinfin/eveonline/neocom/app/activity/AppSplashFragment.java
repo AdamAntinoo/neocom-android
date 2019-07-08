@@ -1,5 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
+import java.beans.PropertyChangeEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,16 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
+import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
+import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
@@ -257,6 +262,30 @@ public class AppSplashFragment extends AMVCPagerFragment {
 
 		private boolean validateCredential( final Credential credential ) {
 			return !credential.getRefreshToken().equalsIgnoreCase("-TOKEN-");
+		}
+		/**
+		 * Detect events from the controllers and if the affect the Credentials (because they have updaters) then try to persist the
+		 * new instance values on the repository.
+		 *
+		 * @param event the event to be processed. Event have a property name that is used as a selector.
+		 */
+		@Override
+		public synchronized void propertyChange( final PropertyChangeEvent event ) {
+			if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
+				final Object target = event.getNewValue();
+				if ((null != target) && (target instanceof CredentialController)) { // This only applies to Credentials
+					try {
+						new CredentialPersistent.Builder()
+								.withCredentialRepository(this.credentialRepository)
+								.build()
+								.persist(((CredentialController) target).getModel());
+					} catch (SQLException sqle) {
+						logger.info("EX [VTCredentialsDataSource.propertyChange]> Exception persisting Credential update: {}", sqle.getMessage());
+					}
+				}
+				return;
+			}
+			super.propertyChange(event);
 		}
 
 		// - B U I L D E R

@@ -61,10 +61,20 @@ import retrofit2.http.POST;
  * @author Adam Antinoo
  */
 public class AuthorizationFlowActivity extends Activity {
-	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
+	public interface VerifyCharacter {
+		@GET("/oauth/verify")
+		Call<VerifyCharacterResponse> getVerification( @Header("Authorization") String token );
+	}
+	public interface GetAccessToken {
+		//		@POST("/persistPerson")
+		@POST("/oauth/token")
+		Call<TokenTranslationResponse> getAccessToken( @Header("Authorization") String token
+				, @Header("Content-Type") String contentType
+				, @Body TokenRequestBody body );
+	}
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
-
+	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
 	private ESIDataAdapter esiDataAdapter;
@@ -85,6 +95,7 @@ public class AuthorizationFlowActivity extends Activity {
 			startActivity(intent);
 		});
 	}
+	// - A C T I V I T Y   L I F E C Y C L E
 
 	/**
 	 * Registering by converting the one use authorization token into a usable token that will bet stored with the
@@ -160,31 +171,31 @@ public class AuthorizationFlowActivity extends Activity {
 					final Credential credential = new Credential.Builder(newAccountIdentifier)
 							                              .withAccountId(newAccountIdentifier)
 							                              .withAccountName(verificationResponse.body().getCharacterName())
-														  .withTokenType ( token.getTokenType())
+							                              .withTokenType(token.getTokenType())
 							                              .withAccessToken(token.getAccessToken())
 							                              .withRefreshToken(token.getRefreshToken())
 							                              .withDataSource(esiServer)
 							                              .withScope(this.esiDataAdapter.getStringScopes())
 							                              .build();
-							// Update the additional render fields.
+					// Update the additional render fields.
 					new CredentialUpdater(credential).onRun();
 
 
-//							new Credential.Builder(newAccountIdentifier)
-//							                              .withCharacterName(verificationResponse.body().getCharacterName())
-//							                              .build();
+					//							new Credential.Builder(newAccountIdentifier)
+					//							                              .withCharacterName(verificationResponse.body().getCharacterName())
+					//							                              .build();
 
 					// TODO - Upgrade to the new Credential implementation using a Builder.
-//					credential.setAccessToken(token.getAccessToken())
-//							.setTokenType(token.getTokenType())
-//							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
-//							.setRefreshToken(token.getRefreshToken())
-//							.setDataSource(esiServer.toUpperCase())
-//							.setScope(this.esiDataAdapter.getStringScopes());
+					//					credential.setAccessToken(token.getAccessToken())
+					//							.setTokenType(token.getTokenType())
+					//							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
+					//							.setRefreshToken(token.getRefreshToken())
+					//							.setDataSource(esiServer.toUpperCase())
+					//							.setScope(this.esiDataAdapter.getStringScopes());
 					try {
 						credentialRepository.persist(credential);
 						logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Credential #{}-{} created successfully."
-						,credential.getAccountId(), credential.getAccountName());
+								, credential.getAccountId(), credential.getAccountName());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -241,7 +252,6 @@ public class AuthorizationFlowActivity extends Activity {
 			rtex.printStackTrace();
 		}
 	}
-	// - A C T I V I T Y   L I F E C Y C L E
 
 	/**
 	 * Create a default Activity that shows the authorization progress while we wait for the ESI CCP callback or while we do the rest of the
@@ -331,19 +341,6 @@ public class AuthorizationFlowActivity extends Activity {
 		}
 		connectUI();
 		logger.info("<< [AuthorizationFlowActivity.onNewIntent]");
-	}
-
-	public interface VerifyCharacter {
-		@GET("/oauth/verify")
-		Call<VerifyCharacterResponse> getVerification( @Header("Authorization") String token );
-	}
-
-	public interface GetAccessToken {
-		//		@POST("/persistPerson")
-		@POST("/oauth/token")
-		Call<TokenTranslationResponse> getAccessToken( @Header("Authorization") String token
-				, @Header("Content-Type") String contentType
-				, @Body TokenRequestBody body );
 	}
 
 	private void injectComponents() {

@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+
+{
+   "Accept-Language": "en-US,en;q=0.8",
+   "Host": "headers.jsontest.com",
+   "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+   "body": [
+  {
+    "last_update": "2019-06-14T23:34:54Z",
+    "num_pins": 11,
+    "owner_id": 92223647,
+    "planet_id": 40208073,
+    "planet_type": "barren",
+    "solar_system_id": 30003280,
+    "upgrade_level": 4
+  }
+]
+}

@@ -9,7 +9,6 @@ import java.util.Objects;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -37,7 +36,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	/**
 	 * To prepare the model for a colony we only should have to read the planet installations for the selected colony. This information should be
 	 * present on the extras bundle received and processed by the Activity.
-	 * But using the same code to gel the colony information allows to connect the facilities and share infromation.
+	 * But using the same code to gel the colony information allows to connect the facilities and share information.
 	 */
 	@Override
 	public void prepareModel() {

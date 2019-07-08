@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.eveonline.neocom.auth.NeoComOAuth20;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitHTTP;
-import org.dimensinfin.eveonline.neocom.datamngmt.MockInterceptor;
+import org.dimensinfin.eveonline.neocom.auth.mock.MockInterceptor;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;

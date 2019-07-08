@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -101,33 +102,6 @@ public class VTCredentialsDataSource extends AMVCDataSource {
 			Objects.requireNonNull(credentialRepository);
 			this.onConstruction.credentialRepository = credentialRepository;
 			return this;
-		}
-	}
-
-	public static class CredentialPersistent {
-		private CredentialRepository credentialRepository;
-
-		public void persist( final Credential credential ) throws SQLException {
-			this.credentialRepository.persist(credential);
-		}
-
-		// - B U I L D E R
-		public static class Builder {
-			private CredentialPersistent onConstruction;
-
-			public Builder() {
-				this.onConstruction = new CredentialPersistent();
-			}
-
-			public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
-				this.onConstruction.credentialRepository = credentialRepository;
-				return this;
-			}
-
-			public CredentialPersistent build() {
-				Objects.requireNonNull(this.onConstruction.credentialRepository);
-				return this.onConstruction;
-			}
 		}
 	}
 }

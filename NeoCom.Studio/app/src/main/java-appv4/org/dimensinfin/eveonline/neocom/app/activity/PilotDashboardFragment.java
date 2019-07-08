@@ -7,40 +7,28 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
-import org.dimensinfin.eveonline.neocom.domain.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.Pilot;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 
-/**
- * @author Adam Antinoo
- */
 public class PilotDashboardFragment extends AMVCPagerFragment {
 	private Credential credential;
 
 	public Credential getCredential() {
-		return credential;
+		return this.credential;
 	}
 
 	public PilotDashboardFragment setCredential( final Credential credential ) {
 		this.credential = credential;
 		return this;
 	}
-
-	// - O V E R R I D E S
-	//	@Override
-	//	public String getSubtitle() {
-	//		return null;
-	//	}
-	//
-	//	@Override
-	//	public String getPageTitle() {
-	//		return null;
-	//	}
 
 	@Override
 	public IControllerFactory createFactory() {
@@ -51,13 +39,12 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 	public IDataSource createDS() {
 		return new PilotDashboardDataSource.Builder()
 				       .addIdentifier(this.getVariant())
-				       //				       .addIdentifier(this.getPageTitle())
 				       .addIdentifier("PILOT-DASHBOARD")
 				       .withVariant(this.getVariant())
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 				       .withCredential(this.getCredential())
-				       .withDownloaderService(NeoComComponentFactory.getSingleton().getDownloaderService())
+				       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				       .build();
 	}
 
@@ -74,31 +61,39 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 		return this.convertActionBarView(controller);
 	}
 
-	// - P I L O T D A S H B O A R D D A T A S O U C E
+	// - P I L O T D A S H B O A R D D A T A S O U R C E
 	public static class PilotDashboardDataSource extends AMVCDataSource {
 		// -  S H A R E D   C O M P O N E N T S
 		private Credential credential;
-		private DataDownloaderService downloaderService;
+		private ESIDataAdapter esiDataAdapter;
+		//		private DataDownloaderService downloaderService;
 
-		public Credential getCredential() {
-			return this.credential;
-		}
+		//		public Credential getCredential() {
+		//			return this.credential;
+		//		}
 
-		public PilotDashboardDataSource setCredential( final Credential credential ) {
-			this.credential = credential;
-			return this;
-		}
+		//		public PilotDashboardDataSource setCredential( final Credential credential ) {
+		//			this.credential = credential;
+		//			return this;
+		//		}
 
-		public PilotDashboardDataSource setDownloaderService( final DataDownloaderService downloaderService ) {
-			this.downloaderService = downloaderService;
-			return this;
-		}
+		//		public PilotDashboardDataSource setDownloaderService( final DataDownloaderService downloaderService ) {
+		//			this.downloaderService = downloaderService;
+		//			return this;
+		//		}
 
 		@Override
 		public void prepareModel() {
 			logger.info(">> [PilotDashboardDataSource.prepareModel]");
-			this.addHeaderContents(new PilotV3.Builder(this.getCredential(), this.downloaderService).build());
-			this.addHeaderContents(new NeoComMenuBar(this.getCredential()));
+			final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId(this.credential.getAccountId()
+					, this.credential.getRefreshToken(), this.credential.getDataSource());
+			final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace(publicData.getRaceId());
+			this.addHeaderContents(new Pilot.Builder()
+					                       .withPilotIdentifier(this.credential.getAccountId())
+					                       .withCharacterPublicData(publicData)
+					                       .withRaceData(raceData)
+					                       .build());
+			this.addHeaderContents(new NeoComMenuBar(this.credential));
 			logger.info("<< [PilotDashboardDataSource.prepareModel]");
 		}
 
@@ -122,12 +117,12 @@ public class PilotDashboardFragment extends AMVCPagerFragment {
 			}
 
 			public Builder withCredential( final Credential credential ) {
-				this.getActual().setCredential(credential);
+				this.onConstruction.credential = credential;
 				return this;
 			}
 
-			public Builder withDownloaderService( final DataDownloaderService downloaderService ) {
-				this.getActual().setDownloaderService(downloaderService);
+			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+				this.onConstruction.esiDataAdapter = esiDataAdapter;
 				return this;
 			}
 		}

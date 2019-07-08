@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- T E X T   S T Y L E S -->
+	<!--Q U A N T I T I E S -->
+	<style name="AppTheme.NeoComText.Pilot.Amount" parent="AppTheme.NeoComText">
+		<item name="android:layout_marginBottom">@dimen/bottomline_correction</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:visibility">visible</item>
+		<item name="android:textColor">@android:color/white</item>
+		<item name="android:textSize">16sp</item>
+	</style>
+
+	<style name="AppTheme.NeoComText.Pilot.RaceName" parent="AppTheme.NeoComText">
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_marginTop">-4dp</item>
+		<item name="android:gravity">right</item>
+		<item name="android:visibility">visible</item>
+		<item name="android:textColor">@color/appgreylight</item>
+		<item name="android:textSize">11sp</item>
+	</style>
+
+	<style name="AppTheme.NeoComText.Pilot.CloneType" parent="AppTheme.NeoComText">
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_marginTop">-4dp</item>
+		<item name="android:gravity">right</item>
+		<item name="android:visibility">visible</item>
+		<item name="android:textColor">@color/apporange</item>
+		<item name="android:textSize">11sp</item>
+	</style>
+</resources>

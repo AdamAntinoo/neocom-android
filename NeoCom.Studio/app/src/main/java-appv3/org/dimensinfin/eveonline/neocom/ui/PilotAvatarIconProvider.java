@@ -18,7 +18,7 @@ package org.dimensinfin.eveonline.neocom.ui;
 //import org.dimensinfin.eveonline.neocom.core.NeoComException;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
-import org.dimensinfin.eveonline.neocom.domain.PilotV2;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,8 @@ public class PilotAvatarIconProvider implements IURLIconProvider {
 	public String getIconUrlLocation() throws NeoComException {
 		if(this.pilotIdentifier<0) throw new NeoComException("[PilotAvatarIconProvider.getIconUrlLocation]> Pilot identifier is not " +
 				"valid. Show default avatar in place.");
-		return PilotV2.getUrlforAvatar(this.pilotIdentifier);
+//		return PilotV2.getUrlforAvatar(this.pilotIdentifier);
+		return "-";
 	}
 
 	@Override

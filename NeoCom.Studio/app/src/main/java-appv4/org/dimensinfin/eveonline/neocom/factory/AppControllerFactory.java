@@ -8,12 +8,12 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.domain.PilotV3;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 public class AppControllerFactory extends ControllerFactory {
@@ -31,6 +31,9 @@ public class AppControllerFactory extends ControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		logger.info("-- [AppControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
+		if (node instanceof Pilot) {
+			return new PilotController((Pilot) node, this);
+		}
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
 		}
@@ -49,11 +52,11 @@ public class AppControllerFactory extends ControllerFactory {
 					       .build();
 		}
 
-		if (node instanceof PilotV3) {
-			return new PilotV3Controller.Builder((PilotV3) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
+//		if (node instanceof PilotV3) {
+//			return new PilotV3Controller.Builder((PilotV3) node, this)
+//					       .withVariant(this.getVariant())
+//					       .build();
+//		}
 		if (node instanceof NeoComMenuBar) {
 			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
 					       .withVariant(this.getVariant())

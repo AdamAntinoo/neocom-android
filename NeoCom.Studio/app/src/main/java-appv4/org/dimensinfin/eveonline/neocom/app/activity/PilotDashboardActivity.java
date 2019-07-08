@@ -17,7 +17,6 @@ public class PilotDashboardActivity extends ACredentialActivity {
 		logger.info(">> [PilotDashboardActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 		Objects.requireNonNull(this.getCredential());
-		//		this.setupActionBar(this.generateActionBar()); // Set the page action bar component
 		this.addPage(new PilotDashboardFragment().setCredential(this.getCredential()));
 		logger.info("<< [PilotDashboardActivity.onCreate]");
 	}

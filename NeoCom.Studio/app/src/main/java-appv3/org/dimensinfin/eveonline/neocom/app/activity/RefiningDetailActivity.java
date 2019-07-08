@@ -18,10 +18,9 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.APublicCredentialActivity;
-//import org.dimensinfin.eveonline.neocom.core.NeoComException;
-import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.fragment.RefiningDetailFragment;

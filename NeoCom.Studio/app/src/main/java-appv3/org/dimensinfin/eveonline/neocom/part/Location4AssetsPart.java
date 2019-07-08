@@ -15,6 +15,11 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -29,33 +34,29 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-//import org.dimensinfin.eveonline.neocom.entity.Credential;
-//import org.dimensinfin.eveonline.neocom.entity.Property;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
-import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import com.squareup.picasso.Picasso;
+
+//import org.dimensinfin.eveonline.neocom.entity.Credential;
+//import org.dimensinfin.eveonline.neocom.entity.Property;
 
 /**
  * @author Adam Antinoo
@@ -170,12 +171,12 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 			final EveLocation theSelectedLocation = getCastedModel();
 			if (null != pilot) {
 				if (null != roles) {
-					if (menuItemIndex == R.id.context_locationrole_clear)
-						pilot.clearLocationRoles(theSelectedLocation);
-					else {
-						final Property role = pilot.addLocationRole(theSelectedLocation, menuItemTitle.toString());
-						roles.add(role);
-					}
+//					if (menuItemIndex == R.id.context_locationrole_clear)
+//						pilot.clearLocationRoles(theSelectedLocation);
+//					else {
+//						final Property role = pilot.addLocationRole(theSelectedLocation, menuItemTitle.toString());
+//						roles.add(role);
+//					}
 				}
 			}
 			invalidate();
