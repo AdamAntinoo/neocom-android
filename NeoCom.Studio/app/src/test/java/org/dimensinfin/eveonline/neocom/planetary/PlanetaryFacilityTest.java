@@ -46,7 +46,6 @@ public class PlanetaryFacilityTest {
 	public void builder_allfields() {
 		final ESIDataAdapter esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
-//		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
@@ -198,11 +197,11 @@ public class PlanetaryFacilityTest {
 		Assert.assertEquals("Check the color identifier.", 2131099717, reference);
 	}
 
-	@Test
-	public void getStructureColorReference() {
-		final int reference = globalFacility.getStructureColorReference();
-		Assert.assertEquals("Check the color identifier.", 2131099718, reference);
-	}
+//	@Test
+//	public void getStructureColorReference() {
+//		final int reference = globalFacility.getStructureColorReference();
+//		Assert.assertEquals("Check the color identifier.", 2131099718, reference);
+//	}
 
 	@Test
 	public void compareTo_less() {

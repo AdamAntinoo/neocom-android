@@ -1,21 +1,19 @@
 package org.dimensinfin.eveonline.neocom.planetary.ui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
-
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FactoryImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
 	// - F I E L D S
@@ -33,8 +31,9 @@ public class FactoryImageView extends APlanetaryStructureImageView implements IP
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = this.planetaryFacility.getContents();
 		if (null != contents) {
 			for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
+				// BUG - Capacity does not come form the Factory type. It should come from the schematics output.
 				final FactorySection section = new FactorySection.Builder(resource)
-						                               .withCapacity(this.facilityClass.getCapacity())
+						                               .withCapacity(((FactoryFacility) planetaryFacility).getRequiredQuantity())
 						                               .build();
 				this.factorySections.put(resource.getTypeId(), section);
 			}

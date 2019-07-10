@@ -1,18 +1,13 @@
-package org.dimensinfin.eveonline.neocom.planetary;
-
-import java.util.List;
+package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
 import org.dimensinfin.eveonline.neocom.support.TestConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.support.TestFileSystem;
-
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +16,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.List;
 
 public class ExtractorFacilityTest {
 	private static PlanetaryFacility facility;

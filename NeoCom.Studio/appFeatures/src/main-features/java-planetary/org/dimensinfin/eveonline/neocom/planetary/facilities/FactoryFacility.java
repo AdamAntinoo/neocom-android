@@ -1,9 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
@@ -14,7 +10,12 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class FactoryFacility extends PlanetaryFacilityWrapper {
+	private static final long serialVersionUID = -4614362639541002313L;
 	private Integer schematicId;
 	private PlanetarySchematic schematic;
 	private List<FactoryInputs> inputs = new ArrayList<>();
@@ -48,6 +49,10 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 
 	public int getCycleTime() {
 		return this.schematic.getCycleTime();
+	}
+
+	public int getRequiredQuantity() {
+		return this.schematic.getInputRequiredQuantity();
 	}
 
 	@Override
@@ -95,8 +100,8 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			Objects.requireNonNull(this.onConstruction.planetaryRepository);
 			// Initialize the schematic.
 			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
-					                                .withPlanetaryRepository(this.onConstruction.planetaryRepository)
-					                                .build();
+					.withPlanetaryRepository(this.onConstruction.planetaryRepository)
+					.build();
 			this.onConstruction.setFactoryType(); // Setup the factory factoryType.
 			return this.onConstruction;
 		}
