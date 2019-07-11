@@ -116,4 +116,77 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 		final int obtained = factory.getRequiredQuantity();
 		Assert.assertEquals("The factory input quantity for ADVANCED is 10.", 10, obtained);
 	}
+
+	@Test
+	public void checkFacilityTypes_basic() {
+		FactoryFacility facility = this.createFacility4Schematic(2473, 135);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 1800, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 3000, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.BASIC_INDUSTRY, facility.getFactoryType());
+	}
+
+	@Test
+	public void checkFacilityTypes_advanced() {
+		FactoryFacility facility = this.createFacility4Schematic(2474, 79);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 3600, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 40, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.ADVANCED_INDUSTRY, facility.getFactoryType());
+
+		facility = this.createFacility4Schematic(2474, 88);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 3600, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 40, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.ADVANCED_INDUSTRY, facility.getFactoryType());
+
+		facility = this.createFacility4Schematic(2474, 91);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 3600, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 10, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.ADVANCED_INDUSTRY, facility.getFactoryType());
+
+		facility = this.createFacility4Schematic(2474, 104);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 3600, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 10, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.ADVANCED_INDUSTRY_MULTICOMPONENT, facility.getFactoryType());
+	}
+
+	@Test
+	public void checkFacilityTypes_high() {
+		FactoryFacility facility = this.createFacility4Schematic(2475, 118);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 3600, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 6, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.HIGH_INDUSTRY, facility.getFactoryType());
+	}
+
+	protected FactoryFacility createFacility4Schematic( final int factoryTypeId, final int schematicId ) {
+		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
+		pin.setTypeId(factoryTypeId);
+		pin.setPinId(1022847372295L);
+		pin.setLastCycleStart(DateTime.now());
+		pin.setLatitude(2.27239886788F);
+		pin.setLongitude(1.97163458582F);
+		pin.setSchematicId(schematicId);
+		final EveItem facilityItem = new EveItem(pin.getTypeId()); // The item for this facility.
+		final PlanetaryFacility facility = new PlanetaryFacility.Builder()
+				.withPin(pin)
+				.withPlanetType(TEST_PLANET_TYPE_BARREN)
+				.withFacilityItem(facilityItem)
+				.withEsiDataAdapter(esiDataAdapter)
+				.build();
+		return new FactoryFacility.Builder()
+				.withPlanetaryFacility(facility)
+				.withPlanetaryRepository(planetaryRepository)
+				.withSchematics(schematicId)
+				.build();
+	}
 }

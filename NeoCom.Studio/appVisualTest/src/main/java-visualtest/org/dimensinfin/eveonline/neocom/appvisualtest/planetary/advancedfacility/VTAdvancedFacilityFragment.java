@@ -1,14 +1,13 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.datasources.VisualTestsDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class VTAdvancedFacilityFragment extends AMVCPagerFragment {
+public class VTAdvancedFacilityFragment extends ASimplePagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());

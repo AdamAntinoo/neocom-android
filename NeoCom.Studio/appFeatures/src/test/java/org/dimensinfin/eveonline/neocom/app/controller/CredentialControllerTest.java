@@ -4,7 +4,7 @@ import org.dimensinfin.eveonline.neocom.core.IEventEmitter;
 import org.dimensinfin.eveonline.neocom.core.updaters.CredentialUpdater;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.support.TestUpdaterFactory;
+import org.dimensinfin.eveonline.neocom.support.TestControllerUpdaterFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class CredentialControllerTest {
 	@Test
 	public void CredentialController_constructor() {
 		final Credential model = new Credential();
-		final INeoComControllerFactory factory = new TestUpdaterFactory("UNIT-TEST");
+		final TestControllerUpdaterFactory factory = new TestControllerUpdaterFactory("TEST-VARIANT");
 		final CredentialController controller = new CredentialController(model, factory);
 		final CredentialController spy = Mockito.spy(controller);
 
