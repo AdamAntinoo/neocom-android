@@ -1,26 +1,25 @@
-package org.dimensinfin.eveonline.neocom.app.adapters;
-
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Objects;
+package org.dimensinfin.eveonline.neocom.app.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.entities.DatabaseVersion;
-import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.entities.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 
 public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements INeoComDBHelper*/ {
 	private static Logger logger = LoggerFactory.getLogger(NeoComAndroidDBHelper.class);

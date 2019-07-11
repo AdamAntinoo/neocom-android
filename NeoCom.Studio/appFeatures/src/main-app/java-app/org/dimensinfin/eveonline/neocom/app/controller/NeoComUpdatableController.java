@@ -18,18 +18,23 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 	}
 
 	public NeoComUpdater<M> getUpdater() {
+		if (null == this.updater) {
+			this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
+			this.updater.addEventListener(this);
+		}
 		return this.updater;
 	}
 
 	/**
 	 * Connect the updater just after the Controller is linked to the DataSource.
+	 *
 	 * @param listener the new listener to connect to this instance messages.
 	 */
 	@Override
 	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
 		super.addPropertyChangeListener(listener);
-		this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
-		this.updater.addEventListener(this);
-		this.updater.refresh(); // Start the refresh process if required before leaving this thread.
+//		this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
+//		this.updater.addEventListener(this);
+		this.getUpdater().refresh(); // Start the refresh process if required before leaving this thread.
 	}
 }
