@@ -31,7 +31,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 
 public class AppSplashFragment extends AMVCPagerFragment {
 	@Override

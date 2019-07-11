@@ -7,8 +7,6 @@ import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.conf.AndroidConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.conf.GlobalAndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.SDEAndroidDBHelper;
@@ -23,7 +21,6 @@ import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
-import org.dimensinfin.eveonline.neocom.services.UpdaterSchedulerService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.conf;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.annimon.stream.Stream;
+
+import org.dimensinfin.eveonline.neocom.conf.GlobalConfigurationProvider;
 
 /**
  * @author Adam Antinoo

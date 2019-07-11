@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;

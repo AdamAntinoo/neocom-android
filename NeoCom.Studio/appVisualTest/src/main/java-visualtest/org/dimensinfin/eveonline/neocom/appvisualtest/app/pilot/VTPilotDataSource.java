@@ -1,8 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+package org.dimensinfin.eveonline.neocom.appvisualtest.app.pilot;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -10,6 +6,10 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class VTPilotDataSource extends AMVCDataSource {
 	private List<Pilot> testPilots = new ArrayList<>();
@@ -24,9 +24,10 @@ public class VTPilotDataSource extends AMVCDataSource {
 				, this.credential.getRefreshToken()
 				, this.credential.getDataSource());
 		final Pilot pilot = new Pilot.Builder()
-									.withPilotIdentifier(this.credential.getAccountId())
-				                    .withCharacterPublicData(characterPublicData)
-				                    .build();
+				.withPilotIdentifier(this.credential.getAccountId())
+				.withCharacterPublicData(characterPublicData)
+				.withCredential(this.credential)
+				.build();
 		this.testPilots.add(pilot);
 	}
 

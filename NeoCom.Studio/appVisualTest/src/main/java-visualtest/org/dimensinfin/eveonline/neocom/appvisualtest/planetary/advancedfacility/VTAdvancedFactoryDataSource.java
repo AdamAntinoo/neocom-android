@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
+	private VTAdvancedFacilityFragment fragment;
+	private GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum planetType;
+	private  GetUniversePlanetsPlanetIdOk planetData;
 	private List<IPlanetaryFacility> advancedFactories = new ArrayList<>();
 
 	/**
@@ -47,7 +50,8 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 		final int planetIdentifier = 40237824;
 		for (final GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
 			if (planetIdentifier == colonyEsi.getPlanetId()) {
-				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+				this.planetType = colonyEsi.getPlanetType();
+				 this.planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
 				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
 						credential.getAccountId(),
 						colonyEsi.getPlanetId(),
@@ -77,6 +81,7 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 		for (final IPlanetaryFacility facility : this.advancedFactories) {
 			this.addModelContents(facility);
 		}
+		this.fragment.setBackground(this.planetType);
 	}
 
 	// - B U I L D E R
@@ -118,6 +123,11 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 		public VTAdvancedFactoryDataSource.Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
 			Objects.requireNonNull(planetaryRepository);
 			this.onConstruction.planetaryRepository = planetaryRepository;
+			return this;
+		}
+		public VTAdvancedFactoryDataSource.Builder withFragment( final VTAdvancedFacilityFragment fragment ) {
+			Objects.requireNonNull(fragment);
+			this.onConstruction.fragment = fragment;
 			return this;
 		}
 	}

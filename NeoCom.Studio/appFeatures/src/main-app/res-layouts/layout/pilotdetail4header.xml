@@ -1,218 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/uipanelborderdarkblue">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderdarkblue">
 
-	<FrameLayout
-			android:id="@+id/nodeIconBlock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:layout_centerInParent="false">
+    <FrameLayout
+        android:id="@+id/nodeIconBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="false">
 
-		<ImageView
-				android:id="@+id/avatarIcon"
-				style="@style/AppTheme.NodeIcon"
-				android:layout_width="@dimen/nodeiconsizebig"
-				android:layout_height="@dimen/nodeiconsizebig"
-				android:src="@drawable/nopilot"/>
+        <ImageView
+            android:id="@+id/avatarIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizebig"
+            android:layout_height="@dimen/nodeiconsizebig"
+            android:src="@drawable/nopilot" />
 
-		<ImageView
-				android:id="@+id/corporationIconSmall"
-				android:layout_width="@dimen/nodeiconsizecomplementary"
-				android:layout_height="@dimen/nodeiconsizecomplementary"
-				android:layout_gravity="left|top"
-				android:layout_marginBottom="0dp"
-				android:layout_marginLeft="2dp"
-				android:src="@drawable/xml_icon"
-				android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/corporationIconSmall"
+            android:layout_width="@dimen/nodeiconsizecomplementary"
+            android:layout_height="@dimen/nodeiconsizecomplementary"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/xml_icon"
+            android:visibility="gone" />
 
-		<ImageView
-				android:id="@+id/allianceIconSmall"
-				android:layout_width="@dimen/nodeiconsizecomplementary"
-				android:layout_height="@dimen/nodeiconsizecomplementary"
-				android:layout_gravity="right|top"
-				android:layout_marginRight="4dp"
-				android:layout_marginTop="2dp"
-				android:src="@drawable/defaulticonplaceholder"
-				android:visibility="visible"/>
+        <ImageView
+            android:id="@+id/allianceIconSmall"
+            android:layout_width="@dimen/nodeiconsizecomplementary"
+            android:layout_height="@dimen/nodeiconsizecomplementary"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/defaulticonplaceholder"
+            android:visibility="visible" />
 
 
-		<ImageView
-				android:id="@+id/raceIconSmall"
-				android:layout_width="@dimen/nodeiconsizecomplementary"
-				android:layout_height="@dimen/nodeiconsizecomplementary"
-				android:layout_gravity="right|bottom"
-				android:layout_marginBottom="2dp"
-				android:layout_marginRight="4dp"
-				android:src="@drawable/hamburger_icon_white"
-				android:visibility="visible"/>
+        <ImageView
+            android:id="@+id/raceIconSmall"
+            android:layout_width="@dimen/nodeiconsizecomplementary"
+            android:layout_height="@dimen/nodeiconsizecomplementary"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/hamburger_icon_white"
+            android:visibility="visible" />
 
-		<ImageView
-				android:id="@+id/cloneIconSmall"
-				android:layout_width="@dimen/nodeiconsizecomplementary"
-				android:layout_height="@dimen/nodeiconsizecomplementary"
-				android:layout_gravity="left|bottom"
-				android:layout_marginBottom="2dp"
-				android:layout_marginLeft="4dp"
-				android:src="@drawable/omega"
-				android:visibility="visible"/>
-	</FrameLayout>
+        <ImageView
+            android:id="@+id/cloneIconSmall"
+            android:layout_width="@dimen/nodeiconsizecomplementary"
+            android:layout_height="@dimen/nodeiconsizecomplementary"
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/omega"
+            android:visibility="visible" />
+    </FrameLayout>
 
-	<ImageView
-			android:id="@+id/allianceIcon"
-			android:layout_width="@dimen/nodeiconsize"
-			android:layout_height="@dimen/nodeiconsize"
-			android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/nodeIconBlock"
-			android:src="@drawable/defaulticonplaceholder"/>
+    <ImageView
+        android:id="@+id/allianceIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
 
-	<ImageView
-			android:id="@+id/corporationIcon"
-			android:layout_width="@dimen/nodeiconsize"
-			android:layout_height="@dimen/nodeiconsize"
-			android:layout_below="@+id/allianceIcon"
-			android:layout_toRightOf="@+id/nodeIconBlock"
-			android:src="@drawable/defaulticonplaceholder"/>
+    <ImageView
+        android:id="@+id/corporationIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_below="@+id/allianceIcon"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder" />
 
-	<ImageView
-			android:id="@+id/raceIcon"
-			android:layout_width="@dimen/nodeiconsize"
-			android:layout_height="@dimen/nodeiconsize"
-			android:layout_below="@+id/corporationIcon"
-			android:layout_toRightOf="@+id/nodeIconBlock"
-			android:visibility="gone"
-			android:src="@drawable/defaulticonplaceholder"/>
+    <ImageView
+        android:id="@+id/raceIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_below="@+id/corporationIcon"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:src="@drawable/defaulticonplaceholder"
+        android:visibility="gone" />
 
-	<LinearLayout
-			android:id="@+id/pilotInformationBlock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="false"
-			android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/corporationIcon"
-			android:orientation="vertical"
-			android:visibility="visible">
+    <LinearLayout
+        android:id="@+id/pilotInformationBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/corporationIcon"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-		<LinearLayout
-				android:id="@+id/pilotNameBlock"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/pilotNameBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-			<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
-					android:id="@+id/pilotName"
-					style="@style/AppTheme.NeoComText"
-					android:text="Adam Antinoo"/>
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+                android:id="@+id/pilotName"
+                style="@style/AppTheme.NeoComText"
+                android:text="Adam Antinoo" />
 
-			<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-					android:id="@+id/pilotIdentifier"
-					style="@style/AppTheme.NeoComText.Identifier"
-					android:layout_marginLeft="4dp"
-					android:text="[60014089]"/>
-		</LinearLayout>
+            <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+                android:id="@+id/pilotIdentifier"
+                style="@style/AppTheme.NeoComText.Identifier"
+                android:layout_marginLeft="4dp"
+                android:text="[60014089]" />
+        </LinearLayout>
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<LinearLayout
-			android:id="@+id/pilotWalletDataBlock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_below="@+id/nodeIconBlock"
-			android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/pilotWalletDataBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nodeIconBlock"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-		<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-				android:id="@+id/accountBalance"
-				style="@style/AppTheme.NeoComText.Pilot.Amount"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:visibility="visible"
-				android:text="123,345,556.98 ISK"/>
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/accountBalance"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="123,345,556.98 ISK"
+            android:visibility="visible" />
 
-		<TextView
-				android:id="@+id/accountBalanceLabel"
-				style="@style/AppTheme.Label.TopLine"
-				android:layout_alignParentLeft="true"
-				android:gravity="left"
-				android:text="BALANCE"/>
+        <TextView
+            android:id="@+id/accountBalanceLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:text="BALANCE" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<RelativeLayout
-			android:id="@+id/pilotSkillPointsBlock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_below="@+id/nodeIconBlock">
+    <RelativeLayout
+        android:id="@+id/pilotSkillPointsBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nodeIconBlock"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:orientation="horizontal">
 
-		<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-				android:id="@+id/skillPoints"
-				style="@style/AppTheme.NeoComText.Pilot.Amount"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentTop="true"
-				android:gravity="right"
-				android:visibility="visible"
-				android:text="@string/default_skillpoints"/>
+        <ImageView
+            android:id="@+id/skillsIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizesmall"
+            android:layout_height="@dimen/nodeiconsizesmall"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/skills"
+            android:visibility="visible" />
 
-		<TextView
-				android:id="@+id/assetsCountLabel"
-				style="@style/AppTheme.Label.TopLine"
-				android:layout_alignParentRight="true"
-				android:layout_below="@+id/skillPoints"
-				android:gravity="right"
-				android:text="SKILL POINTS"/>
-	</RelativeLayout>
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/skillsTitle"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:layout_toRightOf="@+id/skillsIcon"
+            android:text="SKILLS"
+            android:visibility="visible" />
 
-	<LinearLayout
-			android:id="@+id/pilotRaceBlock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_alignParentTop="true"
-			android:layout_marginRight="@dimen/standardmargin"
-			android:layout_marginLeft="@dimen/standardmargin"
-			android:gravity="right"
-			android:orientation="vertical"
-			android:visibility="visible">
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/skillPoints"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="@string/default_skillpoints"
+            android:visibility="visible" />
 
-		<org.dimensinfin.android.mvc.fonts.ElementalEndTextView
-				android:id="@+id/nodeClass"
-				style="@style/AppTheme.NodeClass"
-				android:gravity="right"
-				android:text="PILOT"/>
+        <TextView
+            android:id="@+id/skillPointsLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_below="@+id/skillPoints"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="SKILL POINTS" />
+    </RelativeLayout>
 
-		<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-				android:id="@+id/raceName"
-				style="@style/AppTheme.NeoComText.Pilot.RaceName"
-				android:text="Minmatar"/>
+    <RelativeLayout
+        android:id="@+id/pilotWalletBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pilotSkillPointsBlock"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:orientation="horizontal">
 
-		<org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-				android:id="@+id/cloneType"
-				style="@style/AppTheme.TextView"
-				android:layout_alignParentRight="true"
-				android:layout_marginTop="-4dp"
-				android:gravity="right"
-				android:singleLine="false"
-				android:text="Clone Grade Alpha"
-				android:textColor="@color/appwhite"
-				android:textSize="11sp"/>
+        <ImageView
+            android:id="@+id/walletIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizesmall"
+            android:layout_height="@dimen/nodeiconsizesmall"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/wallet"
+            android:visibility="visible" />
 
-		<org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
-				android:id="@+id/expirationTime"
-				style="@style/AppTheme.TextView"
-				android:layout_alignParentRight="true"
-				android:layout_marginTop="-4dp"
-				android:gravity="right"
-				android:singleLine="false"
-				android:text="Expired"
-				android:textColor="@color/appred"
-				android:textSize="10sp"
-				android:visibility="gone"/>
-	</LinearLayout>
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/walletTitle"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:layout_toRightOf="@+id/walletIcon"
+            android:text="WALLET"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/walletAmount"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="@string/default_skillpoints"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/walletAmountLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_below="@+id/walletAmount"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="WALLET AMOUNT" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pilotRaceBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+            android:id="@+id/nodeClass"
+            style="@style/AppTheme.NodeClass"
+            android:gravity="right"
+            android:text="PILOT" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/raceName"
+            style="@style/AppTheme.NeoComText.Pilot.RaceName"
+            android:text="Minmatar" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            android:id="@+id/cloneType"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Clone Grade Alpha"
+            android:textColor="@color/appwhite"
+            android:textSize="11sp" />
+
+        <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+            android:id="@+id/expirationTime"
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Expired"
+            android:textColor="@color/appred"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </LinearLayout>
 </RelativeLayout>

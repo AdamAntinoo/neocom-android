@@ -24,18 +24,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
-import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
-
-import com.squareup.picasso.Picasso;
 
 /**
  * @author Adam Antinoo

@@ -3,29 +3,30 @@ package org.dimensinfin.eveonline.neocom.app.render;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
+
+import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetAlliancesAllianceIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCorporationsCorporationIdOk;
 
 public class PilotRender extends NeoComRenderv2 {
 	private ImageView avatarIcon;
-	//	private ImageView corporationIconSmall;
-	//	private ImageView allianceIconSmall;
 	private ImageView cloneIconSmall;
 	private ImageView raceIconSmall;
 	private ImageView corporationIcon;
 	private ImageView allianceIcon;
-	//	private ImageView cloneIcon;
-	//	private ImageView raceIcon;
 	private TextView pilotName;
 	private TextView pilotIdentifier;
 	private TextView raceName;
 	private TextView cloneType;
+	private TextView skillPoints;
+	private TextView walletAmount;
 
 	// - C O N S T R U C T O R S
-	public PilotRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public PilotRender( final IAndroidController controller, final Context context ) {
 		super(controller, context);
 	}
 
@@ -52,6 +53,8 @@ public class PilotRender extends NeoComRenderv2 {
 		this.pilotIdentifier = this.getView().findViewById(R.id.pilotIdentifier);
 		this.raceName = this.getView().findViewById(R.id.raceName);
 		this.cloneType = this.getView().findViewById(R.id.cloneType);
+		this.skillPoints = this.getView().findViewById(R.id.skillPoints);
+		this.walletAmount = this.getView().findViewById(R.id.walletAmount);
 	}
 
 	@Override
@@ -63,5 +66,23 @@ public class PilotRender extends NeoComRenderv2 {
 		this.raceIconSmall.setImageDrawable(this.getRaceIcon(raceName));
 		this.pilotName.setText(this.getController().getModel().getName());
 		this.pilotIdentifier.setText("[#" + this.getController().getModel().getPilotIdentifier() + "]");
+
+		this.accessCorporationData();
+	}
+
+	protected void accessCorporationData() {
+		final GetCorporationsCorporationIdOk corporationData = this.getController().getModel().getCorporationData();
+		if (null != corporationData) {
+			final String link = this.getController().getModel().getCorporationIconUrl();
+			Picasso.get().load(link).into(corporationIcon);
+		}
+	}
+
+	protected void accessAlliancenData() {
+		final GetAlliancesAllianceIdOk allianceData = this.getController().getModel().getAllianceData();
+		if (null != allianceData) {
+			final String link = this.getController().getModel().getAllianceIconUrl();
+			Picasso.get().load(link).into(allianceIcon);
+		}
 	}
 }

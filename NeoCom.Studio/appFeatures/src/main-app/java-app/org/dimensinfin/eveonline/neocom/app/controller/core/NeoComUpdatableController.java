@@ -1,6 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.controller;
-
-import java.beans.PropertyChangeListener;
+package org.dimensinfin.eveonline.neocom.app.controller.core;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +8,8 @@ import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdaterFactory;
 import org.dimensinfin.eveonline.neocom.core.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 
+import java.beans.PropertyChangeListener;
+
 public abstract class NeoComUpdatableController<M extends ICollaboration> extends NeoComController<M> implements IEventReceiver {
 	protected NeoComUpdater<M> updater;
 
@@ -17,7 +17,7 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 		super(model, factory);
 	}
 
-	public NeoComUpdater<M> getUpdater() {
+	protected NeoComUpdater<M> getUpdater() {
 		if (null == this.updater) {
 			this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
 			this.updater.addEventListener(this);
@@ -33,8 +33,6 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 	@Override
 	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
 		super.addPropertyChangeListener(listener);
-//		this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
-//		this.updater.addEventListener(this);
 		this.getUpdater().refresh(); // Start the refresh process if required before leaving this thread.
 	}
 }

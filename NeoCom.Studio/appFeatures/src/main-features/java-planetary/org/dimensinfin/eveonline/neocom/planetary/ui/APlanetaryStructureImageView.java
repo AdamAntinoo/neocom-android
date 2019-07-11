@@ -25,9 +25,9 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	// - D R A W I N G   C O N S T A N T S
 	protected static final Float CONVERSION_LONGITUDE_MULTIPLIER = 10500.0F / 9.0F * 7.0F;
 	protected static final Float CONVERSION_LATITUDE_MULTIPLIER = 10500.0F;
-	protected static final int DEFAULT_ICON_WIDTH = 32;
-	protected static final int DEFAULT_ICON_HEIGHT = 32;
-	protected static final int STRUCTURE_SIZE = 110;
+//	protected static final int DEFAULT_ICON_WIDTH = 32;
+//	protected static final int DEFAULT_ICON_HEIGHT = 32;
+	protected static final int STRUCTURE_SIZE = 114;
 	protected static final int DIMENSION = Float.valueOf(STRUCTURE_SIZE / 2).intValue();
 	protected static final int FACILITY_RING_WIDTH = 10;
 	protected static final int CYCLE_WIDTH = 5;

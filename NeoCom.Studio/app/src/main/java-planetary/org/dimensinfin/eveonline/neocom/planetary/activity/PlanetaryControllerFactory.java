@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;

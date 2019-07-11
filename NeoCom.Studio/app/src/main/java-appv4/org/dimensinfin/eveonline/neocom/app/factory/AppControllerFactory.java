@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.factory;
+package org.dimensinfin.eveonline.neocom.app.factory;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;

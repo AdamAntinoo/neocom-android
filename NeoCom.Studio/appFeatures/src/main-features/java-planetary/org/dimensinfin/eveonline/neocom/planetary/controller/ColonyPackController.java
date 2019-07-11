@@ -3,11 +3,10 @@ package org.dimensinfin.eveonline.neocom.planetary.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -15,7 +14,7 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.controller.NeoComController;
+import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPack4ListRender;
 

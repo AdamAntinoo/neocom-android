@@ -1,9 +1,11 @@
 //               runtime implementation provided by the Application.
-package org.dimensinfin.eveonline.neocom.conf;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 
 /**
  * This class is specific for the Data Management and the pure java instances. It will replicate the Preferences interface

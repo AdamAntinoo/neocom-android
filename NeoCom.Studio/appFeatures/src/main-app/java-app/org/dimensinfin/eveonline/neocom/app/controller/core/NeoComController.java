@@ -1,6 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.controller;
-
-import java.util.List;
+package org.dimensinfin.eveonline.neocom.app.controller.core;
 
 import androidx.annotation.NonNull;
 
@@ -13,6 +11,8 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
+
+import java.util.List;
 
 public abstract class NeoComController<M extends ICollaboration> extends AAndroidController<M> {
 	private Separator.ESeparatorType theme = Separator.ESeparatorType.DEFAULT;
@@ -73,6 +73,10 @@ public abstract class NeoComController<M extends ICollaboration> extends AAndroi
 				return R.drawable.uipanelborderyellow;
 			case LINE_GREEN:
 				return R.drawable.uipanelbordergreen;
+			case LINE_LIGHTBLUE:
+				return R.drawable.uipanelborderlightblue;
+			case LINE_DARKBLUE:
+				return R.drawable.uipanelborderdarkblue;
 			case LINE_PURPLE:
 				return R.drawable.uipanelborderpurple;
 		}

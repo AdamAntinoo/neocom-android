@@ -1,20 +1,22 @@
 package org.dimensinfin.eveonline.neocom.app.controller;
 
-import java.beans.PropertyChangeEvent;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableController;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+
+import java.beans.PropertyChangeEvent;
 
 public class CredentialController extends NeoComUpdatableController<Credential> implements View.OnClickListener {
 	private Context context;
