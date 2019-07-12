@@ -56,7 +56,7 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 	@Override
 	public IRender buildRender( final Context context ) {
 		this.context = context;
-//		this.updater.refresh(); // Signal the updater to start the refresh activity.
+		this.updater.refresh(); // Signal the updater to start the refresh activity.
 		return new CredentialRender(this, context);
 	}
 

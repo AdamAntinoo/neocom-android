@@ -20,9 +20,7 @@ public class VTPilotDataSource extends AMVCDataSource {
 
 	@Override
 	public void prepareModel() {
-		final GetCharactersCharacterIdOk characterPublicData = this.esiDataAdapter.getCharactersCharacterId(this.credential.getAccountId()
-				, this.credential.getRefreshToken()
-				, this.credential.getDataSource());
+		final GetCharactersCharacterIdOk characterPublicData = this.esiDataAdapter.getCharactersCharacterId(this.credential.getAccountId());
 		final Pilot pilot = new Pilot.Builder()
 				.withPilotIdentifier(this.credential.getAccountId())
 				.withCharacterPublicData(characterPublicData)
@@ -34,7 +32,7 @@ public class VTPilotDataSource extends AMVCDataSource {
 	@Override
 	public void collaborate2Model() {
 		for (Pilot pilot : this.testPilots) {
-			this.addHeaderContents(pilot);
+			this.addModelContents(pilot);
 		}
 	}
 

@@ -23,11 +23,8 @@ public abstract class NeoComUpdatableAuthorizedController<M extends ICollaborati
 
 	@Override
 	public AAndroidController setDataSource( final IDataSource dataSource ) {
-		if ( dataSource instanceof AuthenticatedDataSource)
+		if (dataSource instanceof AuthenticatedDataSource)
 			this.credential = ((AuthenticatedDataSource) dataSource).getCredential();
 		return super.setDataSource(dataSource);
 	}
-//	public void setCredential( final Credential credential ) {
-//		this.credential = credential;
-//	}
 }

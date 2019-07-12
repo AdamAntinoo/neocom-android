@@ -184,7 +184,7 @@
         <TextView
             android:id="@+id/skillPointsLabel"
             style="@style/AppTheme.Label.TopLine"
-            android:layout_below="@+id/skillPoints"
+            android:layout_below="@+id/skillsIcon"
             android:layout_alignParentRight="true"
             android:gravity="right"
             android:text="SKILL POINTS" />
@@ -231,7 +231,7 @@
         <TextView
             android:id="@+id/walletAmountLabel"
             style="@style/AppTheme.Label.TopLine"
-            android:layout_below="@+id/walletAmount"
+            android:layout_below="@+id/walletIcon"
             android:layout_alignParentRight="true"
             android:gravity="right"
             android:text="WALLET AMOUNT" />

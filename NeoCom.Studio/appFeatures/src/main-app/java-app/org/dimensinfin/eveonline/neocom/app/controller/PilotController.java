@@ -9,7 +9,6 @@ import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAutho
 import org.dimensinfin.eveonline.neocom.app.render.PilotRender;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
-import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 
 import java.beans.PropertyChangeEvent;
@@ -22,12 +21,12 @@ public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> 
 	}
 
 
-	@Override
-	protected NeoComUpdater getUpdater() {
-		final NeoComUpdater localUpdater = super.getUpdater();
-//		((PilotUpdater) localUpdater).setCredential(this.getCredential());
-		return this.updater;
-	}
+//	@Override
+//	protected NeoComUpdater getUpdater() {
+//		final NeoComUpdater localUpdater = super.getUpdater();
+////		((PilotUpdater) localUpdater).setCredential(this.getCredential());
+//		return this.updater;
+//	}
 
 	// - I E V E N T R E C E I V E R
 	@Override
