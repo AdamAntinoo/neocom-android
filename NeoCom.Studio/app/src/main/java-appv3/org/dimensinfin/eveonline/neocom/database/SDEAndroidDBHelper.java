@@ -1,15 +1,14 @@
 package org.dimensinfin.eveonline.neocom.database;
 
-import java.util.Objects;
-
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * @author Adam Antinoo
@@ -47,35 +46,35 @@ public class SDEAndroidDBHelper extends SDEDatabaseManager implements ISDEDataba
 		return this.ccpDatabase;
 	}
 
-	public ISDEDBHelper setDatabaseSchema( final String newschema ) {
-		this.schema = newschema;
-		return this;
-	}
+//	public ISDEDBHelper setDatabaseSchema( final String newschema ) {
+//		this.schema = newschema;
+//		return this;
+//	}
+//
+//	public ISDEDBHelper setDatabasePath( final String newpath ) {
+//		this.databasePath = newpath;
+//		return this;
+//	}
+//
+//	public ISDEDBHelper setDatabaseName( final String instanceName ) {
+//		this.databaseName = instanceName;
+//		return this;
+//	}
+//
+//	public ISDEDBHelper setDatabaseVersion( final int newVersion ) {
+//		this.databaseVersion = newVersion;
+//		return this;
+//	}
 
-	public ISDEDBHelper setDatabasePath( final String newpath ) {
-		this.databasePath = newpath;
-		return this;
-	}
-
-	public ISDEDBHelper setDatabaseName( final String instanceName ) {
-		this.databaseName = instanceName;
-		return this;
-	}
-
-	public ISDEDBHelper setDatabaseVersion( final int newVersion ) {
-		this.databaseVersion = newVersion;
-		return this;
-	}
-
-	public ISDEDBHelper build() throws SQLException {
-		if (StringUtils.isEmpty(schema))
-			throw new SQLException("Cannot create connection: 'schema' is empty.");
-		if (StringUtils.isEmpty(databaseName))
-			throw new SQLException("Cannot create connection: 'databaseName' is empty.");
-		databaseValid = true;
-		openSDEDB();
-		return this;
-	}
+//	public ISDEDBHelper build() throws SQLException {
+//		if (StringUtils.isEmpty(schema))
+//			throw new SQLException("Cannot create connection: 'schema' is empty.");
+//		if (StringUtils.isEmpty(databaseName))
+//			throw new SQLException("Cannot create connection: 'databaseName' is empty.");
+//		databaseValid = true;
+//		openSDEDB();
+//		return this;
+//	}
 
 	public String getConnectionDescriptor() {
 		return schema + ":" + databasePath + databaseName;

@@ -210,7 +210,7 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:1.1.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-//    implementation 'com.annimon:stream:1.1.9'
+    implementation 'com.annimon:stream:1.1.9'
     implementation 'org.htmlparser:htmlparser:2.1'
     implementation 'com.github.scribejava:scribejava-core:5.4.0'
 //    implementation 'org.xerial:sqlite-jdbc:3.16.1'

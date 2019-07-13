@@ -9,7 +9,6 @@ public class PlanetaryColoniesActivity extends ACredentialActivity {
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-//		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColoniesFragment()
 				             .setCredential(this.getCredential())
 				             .setVariant(PageNamesType.PLANETS_LIST.name()));

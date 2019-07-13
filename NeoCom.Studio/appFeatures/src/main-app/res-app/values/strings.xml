@@ -5,4 +5,5 @@
 	<string name="default_qtyoverqty">30/40</string>
 	<string name="default_message">Waiting for resources</string>
 	<string name="sdedatabasefilename">sde.db</string>
+    <string name="default_name">Default Name</string>
 </resources>

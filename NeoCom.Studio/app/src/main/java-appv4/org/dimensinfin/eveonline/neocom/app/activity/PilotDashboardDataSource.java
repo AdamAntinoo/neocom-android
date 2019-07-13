@@ -1,9 +1,10 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
+import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.datasource.AuthenticatedDataSource;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
@@ -11,17 +12,21 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PilotDashboardDataSource extends AuthenticatedDataSource {
+public class PilotDashboardDataSource extends AMVCDataSource {
 	// -  C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
+	private Credential credential;
+
+	public Credential getCredential() {
+		return credential;
+	}
 
 	@Override
 	public void prepareModel() {
 		logger.info(">> [PilotDashboardDataSource.prepareModel]");
-		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId(this.getCredential().getAccountId()
-				, this.getCredential().getRefreshToken(), this.getCredential().getDataSource());
+		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId(this.getCredential().getAccountId());
 		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace(publicData.getRaceId());
-		this.addHeaderContents(new Pilot.Builder()
+		this.addModelContents(new Pilot.Builder()
 				.withPilotIdentifier(this.getCredential().getAccountId())
 				.withCharacterPublicData(publicData)
 				.withRaceData(raceData)
@@ -40,7 +45,7 @@ public class PilotDashboardDataSource extends AuthenticatedDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AuthenticatedDataSource.Builder<PilotDashboardDataSource, Builder> {
+	public static class Builder extends AMVCDataSource.BaseBuilder<PilotDashboardDataSource, Builder> {
 		private PilotDashboardDataSource onConstruction;
 
 		@Override
@@ -56,6 +61,11 @@ public class PilotDashboardDataSource extends AuthenticatedDataSource {
 
 		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
+		}
+
+		public Builder withCredential( final Credential credential ) {
+			this.onConstruction.credential = credential;
 			return this;
 		}
 	}

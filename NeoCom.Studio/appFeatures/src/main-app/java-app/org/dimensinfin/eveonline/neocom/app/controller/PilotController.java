@@ -17,16 +17,7 @@ public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> 
 	public PilotController( final Pilot model, final IControllerFactory factory ) {
 		super(model, factory);
 		this.setTheme(Separator.ESeparatorType.LINE_LIGHTBLUE);
-//		this.setCredential(((AuthenticatedDataSource) this.getDataSource()).getCredential());
 	}
-
-
-//	@Override
-//	protected NeoComUpdater getUpdater() {
-//		final NeoComUpdater localUpdater = super.getUpdater();
-////		((PilotUpdater) localUpdater).setCredential(this.getCredential());
-//		return this.updater;
-//	}
 
 	// - I E V E N T R E C E I V E R
 	@Override

@@ -1,29 +1,28 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 
-public class PlanetaryDataSource extends PlanetaryCommonDataSource {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 	protected List<ColonyPack> colonies = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
-	protected PlanetaryDataSource() {}
+	protected PlanetaryColoniesDataSource() {}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 	@Override
 	public void prepareModel() {
-		logger.info(">> [PlanetaryDataSource.prepareModel]");
+		logger.info(">> [PlanetaryColoniesDataSource.prepareModel]");
 		// Read the colony data and generate the support structureContainer, both for the header and for the main.
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId()
@@ -46,7 +45,7 @@ public class PlanetaryDataSource extends PlanetaryCommonDataSource {
 						                  .build());
 			}
 		}
-		logger.info("<< [PlanetaryDataSource.prepareModel]");
+		logger.info("<< [PlanetaryColoniesDataSource.prepareModel]");
 	}
 
 	// - I C O L L A B O R A T I O N
@@ -57,13 +56,13 @@ public class PlanetaryDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<PlanetaryDataSource, Builder> {
-		private PlanetaryDataSource onConstruction;
+	public static class Builder extends AMVCDataSource.BaseBuilder<PlanetaryColoniesDataSource, Builder> {
+		private PlanetaryColoniesDataSource onConstruction;
 
 		@Override
-		protected PlanetaryDataSource getActual() {
+		protected PlanetaryColoniesDataSource getActual() {
 			if (null == this.onConstruction)
-				this.onConstruction = new PlanetaryDataSource();
+				this.onConstruction = new PlanetaryColoniesDataSource();
 			return this.onConstruction;
 		}
 
@@ -82,16 +81,16 @@ public class PlanetaryDataSource extends PlanetaryCommonDataSource {
 			return this;
 		}
 
-		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
-			Objects.requireNonNull(planetaryRepository);
-			this.onConstruction.planetaryRepository = planetaryRepository;
-			return this;
-		}
+//		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+//			Objects.requireNonNull(planetaryRepository);
+//			this.onConstruction.planetaryRepository = planetaryRepository;
+//			return this;
+//		}
 
 		@Override
-		public PlanetaryDataSource build() {
+		public PlanetaryColoniesDataSource build() {
 			// Check additional mandatory fields.
-			final PlanetaryDataSource target = super.build();
+			final PlanetaryColoniesDataSource target = super.build();
 			Objects.requireNonNull(target.credential);
 			Objects.requireNonNull(target.esiDataAdapter);
 			return target;
