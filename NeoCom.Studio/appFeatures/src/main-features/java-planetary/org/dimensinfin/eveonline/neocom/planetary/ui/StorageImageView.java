@@ -8,8 +8,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 public class StorageImageView extends APlanetaryStructureImageView implements IPlanetaryImageView {
-//	private static final int FACTORY_RING_FILL_COLOR = R.color.pi_storageringfillcolor;
-
 	// - C O N S T R U C T O R S
 	protected StorageImageView( final Context context ) {
 		super(context);

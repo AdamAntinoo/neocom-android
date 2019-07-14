@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
-import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyDataSource;
+import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyLayoutDataSource;
 
 public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 	private Credential credential;
@@ -25,29 +25,30 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 	@Override
 	public IDataSource createDS() {
 		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name()))
-			return new PlanetaryColonyDataSource.Builder()
-					       .addIdentifier(this.getVariant())
-					       .addIdentifier(this.getCredential().getAccountId())
-					       .withExtras(this.getExtras())
-					       .withFactory(this.createFactory())
-					       .withCredential(this.getCredential())
-					       .withEsiAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-					       .build();
+			return new PlanetaryColonyLayoutDataSource.Builder()
+					.addIdentifier(this.getVariant())
+					.addIdentifier(this.getCredential().getAccountId())
+					.withExtras(this.getExtras())
+					.withFactory(this.createFactory())
+					.withCredential(this.getCredential())
+					.withEsiAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+					.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
+					.build();
 		throw new NeoComRuntimeException("Planetary variant has not defined Data Source to generate content.");
 	}
 
 	@Override
 	public View generateActionBarView() {
 		final PlanetaryActionBar actionBar = new PlanetaryActionBar.Builder()
-				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle("-Planet Name-")
-				                                     .withActivityIconRef(R.drawable.planets)
-				                                     .withPilotIdentifier(this.getCredential().getAccountId())
-				                                     .build();
+				.withTitleTopLeft(this.getCredential().getAccountName())
+				.withSubtitle(PageNamesType.PLANET_FACILITIES_LAYOUT.getPageTitle())
+				.withActivityIconRef(R.drawable.planets)
+				.withPilotIdentifier(this.getCredential().getAccountId())
+				.build();
 		// Get a controller from the model, then the view from the render.
 		final PlanetaryActionBarController controller =
 				(PlanetaryActionBarController) new PlanetaryControllerFactory(PageNamesType.PLANET_FACILITIES_LAYOUT.name())
-				                                                                               .createController(actionBar);
+						.createController(actionBar);
 		return this.convertActionBarView(controller);
 	}
 

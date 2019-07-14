@@ -14,13 +14,13 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import java.util.List;
 import java.util.Objects;
 
-public class PlanetaryColoniesContentsDataSource extends PlanetaryCommonDataSource {
+public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource {
 	protected int targetPlanetId;
 	private List<IPlanetaryFacility> facilities;
 	private ColonyPack colony;
 
 	// - C O N S T R U C T O R S
-	protected PlanetaryColoniesContentsDataSource() {}
+	protected PlanetaryColonyContentsDataSource() {}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 	@Override
@@ -64,13 +64,13 @@ public class PlanetaryColoniesContentsDataSource extends PlanetaryCommonDataSour
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<PlanetaryColoniesContentsDataSource, Builder> {
-		private PlanetaryColoniesContentsDataSource onConstruction;
+	public static class Builder extends BaseBuilder<PlanetaryColonyContentsDataSource, Builder> {
+		private PlanetaryColonyContentsDataSource onConstruction;
 
 		@Override
-		protected PlanetaryColoniesContentsDataSource getActual() {
+		protected PlanetaryColonyContentsDataSource getActual() {
 			if (null == this.onConstruction)
-				this.onConstruction = new PlanetaryColoniesContentsDataSource();
+				this.onConstruction = new PlanetaryColonyContentsDataSource();
 			return this.onConstruction;
 		}
 
@@ -96,9 +96,9 @@ public class PlanetaryColoniesContentsDataSource extends PlanetaryCommonDataSour
 		}
 
 		@Override
-		public PlanetaryColoniesContentsDataSource build() {
+		public PlanetaryColonyContentsDataSource build() {
 			// Check additional mandatory fields.
-			final PlanetaryColoniesContentsDataSource target = super.build();
+			final PlanetaryColonyContentsDataSource target = super.build();
 			Objects.requireNonNull(target.credential);
 			Objects.requireNonNull(target.esiDataAdapter);
 			Objects.requireNonNull(target.planetaryRepository);

@@ -23,48 +23,22 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected static Logger logger = LoggerFactory.getLogger(APlanetaryStructureImageView.class);
 
 	// - D R A W I N G   C O N S T A N T S
-	protected static final Float CONVERSION_LONGITUDE_MULTIPLIER = 10500.0F / 9.0F * 7.0F;
+	protected static final Float CONVERSION_LONGITUDE_MULTIPLIER = 10500.0F / 9.0F * 9.0F;
 	protected static final Float CONVERSION_LATITUDE_MULTIPLIER = 10500.0F;
-//	protected static final int DEFAULT_ICON_WIDTH = 32;
-//	protected static final int DEFAULT_ICON_HEIGHT = 32;
-	protected static final int STRUCTURE_SIZE = 114;
+	protected static final int STRUCTURE_SIZE = 118;
 	protected static final int DIMENSION = Float.valueOf(STRUCTURE_SIZE / 2).intValue();
 	protected static final int FACILITY_RING_WIDTH = 10;
 	protected static final int CYCLE_WIDTH = 5;
-	//	protected static final int ICON_SIZE = FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + FACILITY_RING_WIDTH + CYCLE_WIDTH;
-	//	protected static final int DIMENSION_NEG = -DIMENSION + ICON_SIZE;
-	//	protected static final int DIMENSION_POS = DIMENSION - ICON_SIZE;
-	//	protected static final int STRUCTURE_RING_WIDTH = 12;
 	protected static final int STRUCTURE_ICON_DIMENSION = 30;
-	//	protected static final float STRUCTURE_INPUTDIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue();
-	//	protected static final float STRUCTURE_INPUTDIMENSION_POS = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue();
 	protected static final int CYCLE_RADIUS = STRUCTURE_SIZE / 2 - FACILITY_RING_WIDTH - FACILITY_RING_WIDTH;
 	protected static final int CYCLE_BORDER_DISTANCE = (STRUCTURE_SIZE / 2) - CYCLE_RADIUS;
-	//	protected static final float CYCLE_DIMENSION_NEG = Integer.valueOf(-STRUCTURE_SIZE / 2).floatValue() + CYCLE_BORDER_DISTANCE;
 	protected static final float CYCLE_DIMENSION = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue() - CYCLE_BORDER_DISTANCE;
-	//	protected static final Rect STRUCTURE_ICON_RECT = new Rect(0, 0, DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
-	//	protected static final Rect STRUCTURE_ICON_DESTINATION_RECT = new Rect(DIMENSION_NEG, DIMENSION_POS, DIMENSION_POS, DIMENSION_NEG);
 
 	// - F I E L D S
-	//	protected FacilityGeoPosition deltaPosition = new FacilityGeoPosition();
-	//	/** Delta location for the current planetaryFacility from the command center. */
-	//	protected double longitudeDelta = 0.0;
-	//	protected double latitudeDelta = 0.0;
-	//	/** Position of the delta to the Control Center in pixels. */
-	//	protected long posx = 0;
-	//	protected long posy = 0;
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
 	protected IPlanetaryFacility planetaryFacility;
-	/** The resource identifier for the icon that represents the planetaryFacility. */
-	//	protected int drawableId ;
-	//	/** Set the default to a Processing Facility. */
-	//	protected Bitmap structureIconBitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 	protected double scale = 1.0;
 	protected Bitmap bitmap;
-
-	/** The color to be used to simulate transparency by using the same background color. */
-	//	protected int eraserColor = this.getResources().getColor(R.color.pi_barren_backgroundcolor);
-	//	protected Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // The painting brush.
 
 	// - C O N S T R U C T O R S
 	protected APlanetaryStructureImageView( final Context context ) {
@@ -72,22 +46,6 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	}
 
 	// - C O N T E N T   A P I
-
-	//	/**
-	//	 * This should be called before setting the planetaryFacility. This method calculates the displacement to set this facility relative
-	//	 * to the Command Center position so the command center is centered and this facility is draw close to it.
-	//	 * There are some constants to adjust for the facility drawing size so they are touching without overlapping like the real coordinates
-	//	 * on the planetary interaction game.
-	//	 */
-	//	public void setDeltaPosition( final FacilityGeoPosition deltaPosition ) {
-	//		this.deltaPosition = deltaPosition;
-	//		// Calculate canvas location from delta location that is referenced to center.
-	//		this.longitudeDelta = this.deltaPosition.getLongitude();
-	//		this.latitudeDelta = this.deltaPosition.getLatitude();
-	//		this.posx = Math.round(this.longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER);
-	//		this.posy = Math.round(this.latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER);
-	//	}
-
 	/**
 	 * Get the model from where to get all the parameters and calculations instead having a lot of methods
 	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
@@ -109,7 +67,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		// Convert the facility location to pixel location being the Command Center the center of coordinates.
 		final float longitudeDelta = this.planetaryFacility.getGeoPosition().getLongitude() - this.planetaryFacility.getCommandCenterPosition().getLongitude();
 		final float latitudeDelta = this.planetaryFacility.getGeoPosition().getLatitude() - this.planetaryFacility.getCommandCenterPosition().getLatitude();
-		final int posx = Math.round(longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER);
+		final int posx = -1* Math.round(longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER);
 		final int posy = Math.round(latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER);
 		canvas.translate(posx, posy);
 	}

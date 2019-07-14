@@ -18,7 +18,7 @@ public class PlanetaryColoniesFragment extends AuthenticatedFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new PlanetaryControllerFactory(this.getVariant())
-				.registerActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), PlanetaryColoniesContentsActivity.class)
+				.registerActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), PlanetaryColonyContentsActivity.class)
 				.registerActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), PlanetaryColonyLayoutActivity.class);
 	}
 

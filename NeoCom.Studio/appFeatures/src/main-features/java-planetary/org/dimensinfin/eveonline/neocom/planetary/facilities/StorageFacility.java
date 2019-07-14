@@ -6,6 +6,7 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
 
@@ -37,8 +38,17 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 		return this.planetaryStorage.getTotalValue();
 	}
 
+	/**
+	 * Change the icon dependng on the storage type.
+	 *
+	 * @return the storage type icon reference identifier.
+	 */
 	@Override
 	public int getIconReferenceId() {
+		if (this.getFacilityType() == PlanetaryFacilityType.STORAGE)
+			return R.drawable.storage80_white;
+		if (this.getFacilityType() == PlanetaryFacilityType.LAUNCHPAD)
+			return R.drawable.launchpad80_white;
 		return R.drawable.storage80_white;
 	}
 

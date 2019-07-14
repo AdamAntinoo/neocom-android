@@ -1,13 +1,12 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.List;
-
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
-
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPlanetaryFacility {
 	protected PlanetaryFacility planetaryFacility;
@@ -35,20 +34,9 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 
 	@Override
 	public abstract int getIconReferenceId();
-//	{
-//		return planetaryFacility.getIconReferenceId();
-//	}
 
 	@Override
 	public abstract int getIconColorReference();
-//	{
-//		return planetaryFacility.getIconColorReference();
-//	}
-
-//	@Override
-//	public int getStructureColorReference() {
-//		return planetaryFacility.getStructureColorReference();
-//	}
 
 	@Override
 	public FacilityGeoPosition getGeoPosition() {
@@ -69,11 +57,6 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 	public List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> getContents() {
 		return this.planetaryFacility.getContents();
 	}
-
-	//	@Override
-	//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-	//		return this.planetaryFacility.getExtractorDetails();
-	//	}
 
 	@Override
 	public PlanetType getPlanetType() {

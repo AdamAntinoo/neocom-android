@@ -48,7 +48,7 @@
 			android:label="Planetary Colonies">
 		</activity>
 		<activity
-			android:name=".neocom.planetary.activity.PlanetaryColoniesContentsActivity"
+			android:name=".neocom.planetary.activity.PlanetaryColonyContentsActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="Planetary Colony Contents">
 		</activity>

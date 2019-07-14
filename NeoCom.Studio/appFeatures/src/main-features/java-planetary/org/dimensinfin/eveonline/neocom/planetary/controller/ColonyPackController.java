@@ -11,11 +11,10 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
-import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPack4ListRender;
 
-public class ColonyPackController extends NeoComController<ColonyPack> implements View.OnClickListener {
+public class ColonyPackController extends ColonyPackController4Header implements View.OnClickListener {
 	private Context context;
 
 	public ColonyPackController( @NonNull final ColonyPack model, @NonNull final IControllerFactory factory ) {

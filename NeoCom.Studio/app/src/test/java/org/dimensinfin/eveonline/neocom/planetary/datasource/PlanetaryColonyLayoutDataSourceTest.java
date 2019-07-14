@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -19,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class PlanetaryColonyDataSourceTest {
+public class PlanetaryColonyLayoutDataSourceTest {
 	private static ESIDataAdapter esiAdapter;
 	private static Credential credential;
 	private static PlanetaryControllerFactory factory;
@@ -36,7 +35,7 @@ public class PlanetaryColonyDataSourceTest {
 
 	@Test
 	public void builder_ok() {
-		final PlanetaryColonyDataSource datasource = new PlanetaryColonyDataSource.Builder()
+		final PlanetaryColonyLayoutDataSource datasource = new PlanetaryColonyLayoutDataSource.Builder()
 				                                             .addIdentifier("TEST PLANETARY DATASOURCE")
 				                                             .withVariant("TEST VARIANT")
 				                                             .withFactory(factory)
@@ -68,7 +67,7 @@ public class PlanetaryColonyDataSourceTest {
 		Mockito.when(colonyLayout.getPins()).thenReturn(pinList);
 		Mockito.when(pin1.getTypeId()).thenReturn(2254);
 		Mockito.when(pin1.getSchematicId()).thenReturn(null);
-		final PlanetaryColonyDataSource datasource = new PlanetaryColonyDataSource.Builder()
+		final PlanetaryColonyLayoutDataSource datasource = new PlanetaryColonyLayoutDataSource.Builder()
 				                                             .addIdentifier("TEST PLANETARY DATASOURCE")
 				                                             .withVariant("TEST VARIANT")
 				                                             .withExtras(extras)

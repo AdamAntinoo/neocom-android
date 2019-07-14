@@ -82,10 +82,9 @@
 
 			<ProgressBar
 					android:id="@+id/currentCycleProgress"
-					style="?android:attr/progressBarStyleHorizontal"
+					style="@android:style/Widget.ProgressBar.Horizontal"
 					android:layout_width="match_parent"
-					android:layout_height="8dp"
-					android:layout_centerVertical="true"
+					android:layout_height="5dp"
 					android:layout_toLeftOf="@+id/rightBlock"
 					android:layout_below="@+id/currentCycleLabel"
 					android:backgroundTint="@color/uipanelborder"

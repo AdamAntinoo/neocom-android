@@ -1,14 +1,11 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.annimon.stream.Stream;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -18,9 +15,13 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
-import com.annimon.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
+public class PlanetaryColonyLayoutDataSource extends PlanetaryCommonDataSource {
 	private ColonyPack colony;
 	/**
 	 * Aggregation map for the selected planet structures. Each entry on the map aggregates the instances and the number of the
@@ -29,7 +30,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	private Map<PlanetaryFacilityType, List<IPlanetaryFacility>> facilityMap = new HashMap<>();
 
 	// - C O N S T R U C T O R S
-	protected PlanetaryColonyDataSource() {}
+	protected PlanetaryColonyLayoutDataSource() {}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 
@@ -40,7 +41,7 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	 */
 	@Override
 	public void prepareModel() {
-		logger.info(">> [PlanetaryColonyDataSource.prepareModel]");
+		logger.info(">> [PlanetaryColonyLayoutDataSource.prepareModel]");
 		// Read the colony data and generate the support structureContainer, both for the header and for the main.
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId()
@@ -98,13 +99,13 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<PlanetaryColonyDataSource, Builder> {
-		private PlanetaryColonyDataSource onConstruction;
+	public static class Builder extends BaseBuilder<PlanetaryColonyLayoutDataSource, Builder> {
+		private PlanetaryColonyLayoutDataSource onConstruction;
 
 		@Override
-		protected PlanetaryColonyDataSource getActual() {
+		protected PlanetaryColonyLayoutDataSource getActual() {
 			if (null == this.onConstruction)
-				this.onConstruction = new PlanetaryColonyDataSource();
+				this.onConstruction = new PlanetaryColonyLayoutDataSource();
 			return this.onConstruction;
 		}
 
@@ -122,13 +123,19 @@ public class PlanetaryColonyDataSource extends PlanetaryCommonDataSource {
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
+		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			Objects.requireNonNull(planetaryRepository);
+			this.onConstruction.planetaryRepository = planetaryRepository;
+			return this;
+		}
 
 		@Override
-		public PlanetaryColonyDataSource build() {
+		public PlanetaryColonyLayoutDataSource build() {
 			// Check additional mandatory fields.
-			final PlanetaryColonyDataSource target = super.build();
+			final PlanetaryColonyLayoutDataSource target = super.build();
 			Objects.requireNonNull(target.credential);
 			Objects.requireNonNull(target.esiDataAdapter);
+			Objects.requireNonNull(target.planetaryRepository);
 			return target;
 		}
 	}

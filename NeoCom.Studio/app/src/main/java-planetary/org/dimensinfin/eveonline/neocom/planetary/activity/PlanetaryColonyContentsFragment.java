@@ -10,9 +10,9 @@ import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
-import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColoniesContentsDataSource;
+import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyContentsDataSource;
 
-public class PlanetaryColoniesContentsFragment extends AuthenticatedFragment {
+public class PlanetaryColonyContentsFragment extends AuthenticatedFragment {
 
 	@Override
 	public IControllerFactory createFactory() {
@@ -21,7 +21,7 @@ public class PlanetaryColoniesContentsFragment extends AuthenticatedFragment {
 
 	@Override
 	public IDataSource createDS() {
-		return new PlanetaryColoniesContentsDataSource.Builder()
+		return new PlanetaryColonyContentsDataSource.Builder()
 				.addIdentifier(this.getVariant())
 				.addIdentifier(this.getCredential().getAccountId())
 				.addIdentifier(this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name()))
