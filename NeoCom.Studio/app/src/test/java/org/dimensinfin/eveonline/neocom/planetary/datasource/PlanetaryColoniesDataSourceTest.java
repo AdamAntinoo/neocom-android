@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
@@ -27,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
  * WARNING: This cannot be done since the Applciation is a requirement and cannot be mocked properly. I should replace the output
  * by programmatically generated GetCharactersCharacterIdPlanets200Ok and GetCharactersCharacterIdPlanetsPlanetIdOk.
  */
-public class PlanetaryDataSourceTest {
+public class PlanetaryColoniesDataSourceTest {
 	private static ESIDataAdapter esiAdapter;
 	private static List<GetCharactersCharacterIdPlanets200Ok> mockColoniesData = new ArrayList<>();
 	private Credential credential;
@@ -54,7 +53,7 @@ public class PlanetaryDataSourceTest {
 	@Test
 	public void builder_ok() {
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
-		final PlanetaryDataSource datasource = new PlanetaryDataSource.Builder()
+		final PlanetaryColoniesDataSource datasource = new PlanetaryColoniesDataSource.Builder()
 				                                       .addIdentifier("TEST PLANETARY DATASOURCE")
 				                                       .withVariant("TEST VARIANT")
 				                                       .withFactory(factory)
@@ -67,7 +66,7 @@ public class PlanetaryDataSourceTest {
 	@Test(expected = NullPointerException.class)
 	public void builder_missingMandatory() {
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
-		final PlanetaryDataSource datasource = new PlanetaryDataSource.Builder()
+		final PlanetaryColoniesDataSource datasource = new PlanetaryColoniesDataSource.Builder()
 				                                       .addIdentifier("TEST PLANETARY DATASOURCE")
 				                                       .withVariant("TEST VARIANT")
 				                                       .withFactory(factory)
@@ -91,7 +90,7 @@ public class PlanetaryDataSourceTest {
 				, any(String.class)
 				, any(String.class)
 		)).thenReturn(structure);
-		final PlanetaryDataSource datasource = new PlanetaryDataSource.Builder()
+		final PlanetaryColoniesDataSource datasource = new PlanetaryColoniesDataSource.Builder()
 				                                       .addIdentifier("TEST PLANETARY DATASOURCE")
 				                                       .withVariant("TEST VARIANT")
 				                                       .withFactory(new PlanetaryControllerFactory("TESTING"))

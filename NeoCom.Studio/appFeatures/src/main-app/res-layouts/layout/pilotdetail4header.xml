@@ -186,8 +186,8 @@
         android:layout_below="@+id/nodeIconBlock"
         android:layout_marginLeft="@dimen/standardmargin"
         android:layout_marginRight="@dimen/standardmargin"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/skillsIcon"
@@ -299,14 +299,8 @@
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
             android:id="@+id/cloneType"
-            style="@style/AppTheme.TextView"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="-4dp"
-            android:gravity="right"
-            android:singleLine="false"
-            android:text="Clone Grade Alpha"
-            android:textColor="@color/appwhite"
-            android:textSize="11sp" />
+            style="@style/AppTheme.NeoComText.Pilot.CloneType"
+            android:text="@string/clone_type_alpha" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
             android:id="@+id/expirationTime"

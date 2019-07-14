@@ -73,7 +73,7 @@ public class PilotRender extends NeoComRenderv2 {
 		super.updateContent();
 		this.setAvatarIcon(this.avatarIcon, this.getController().getModel().getPilotIdentifier());
 		final String raceName = this.getController().getModel().getRaceName();
-		this.raceName.setText(raceName);
+		this.raceName.setText(raceName.toUpperCase());
 		this.raceIconSmall.setImageDrawable(this.getRaceIcon(raceName));
 		this.pilotName.setText(this.getController().getModel().getName());
 		this.pilotIdentifier.setText("[#" + this.getController().getModel().getPilotIdentifier() + "]");

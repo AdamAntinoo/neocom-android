@@ -2,6 +2,8 @@ package org.dimensinfin.eveonline.neocom.app.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.slf4j.Logger;
@@ -13,7 +15,7 @@ import java.util.Objects;
 /**
  * @author Adam Antinoo
  */
-public class SDEAndroidDBHelper /*extends SDEDatabaseManager*/ implements ISDEDatabaseAdapter {
+public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
 	private IFileSystem fileSystemAdapter;
 
@@ -39,7 +41,7 @@ public class SDEAndroidDBHelper /*extends SDEDatabaseManager*/ implements ISDEDa
 	 * <p>
 	 * Check database definition before trying to open the database.
 	 */
-	protected void openSDEDB() throws SQLException {
+	protected void openSDEDB()  {
 		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
 			if (null == this.ccpDatabase) {
 				if (this.isDatabaseDefinitionValid()) {
@@ -61,20 +63,21 @@ public class SDEAndroidDBHelper /*extends SDEDatabaseManager*/ implements ISDEDa
 	/**
 	 * This is the specific SpringBoot implementation for the SDE database adaptation. We can create compatible
 	 * <code>RawStatements</code> that can isolate the generic database access code from the platform specific. This
-	 * stetement uses the database connection to create a generic JDBC Java statement.
+	 * statement uses the database connection to create a generic JDBC Java statement.
 	 */
 	public AndroidRawStatement constructStatement( final String query, final String[] parameters ) throws SQLException {
 		return new AndroidRawStatement(this.getSDEDatabase(), query, parameters);
 	}
 
+	// - C O R E
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("NeoComAndroidDBHelper [");
-		final String localConnectionDescriptor = schema + ":" + databasePath + databaseName;
-		buffer.append("Descriptor: ").append(localConnectionDescriptor);
-		buffer.append("]");
-		//		buffer.append("->").append(super.toString());
-		return buffer.toString();
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				.append("schema", schema)
+				.append("databasePath", databasePath)
+				.append("databaseName", databaseName)
+				.append("databaseVersion", databaseVersion)
+				.toString();
 	}
 
 	// - B U I L D E R

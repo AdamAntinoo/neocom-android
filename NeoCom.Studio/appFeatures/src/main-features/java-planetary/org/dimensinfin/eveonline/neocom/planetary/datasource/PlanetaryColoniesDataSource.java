@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.planetary.datasource;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -81,11 +82,11 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 			return this;
 		}
 
-//		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
-//			Objects.requireNonNull(planetaryRepository);
-//			this.onConstruction.planetaryRepository = planetaryRepository;
-//			return this;
-//		}
+		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			Objects.requireNonNull(planetaryRepository);
+			this.onConstruction.planetaryRepository = planetaryRepository;
+			return this;
+		}
 
 		@Override
 		public PlanetaryColoniesDataSource build() {
@@ -93,6 +94,7 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 			final PlanetaryColoniesDataSource target = super.build();
 			Objects.requireNonNull(target.credential);
 			Objects.requireNonNull(target.esiDataAdapter);
+			Objects.requireNonNull(target.planetaryRepository);
 			return target;
 		}
 	}

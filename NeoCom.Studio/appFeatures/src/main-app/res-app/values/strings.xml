@@ -6,4 +6,6 @@
 	<string name="default_message">Waiting for resources</string>
 	<string name="sdedatabasefilename">sde.db</string>
     <string name="default_name">Default Name</string>
+	<string name="clone_type_alpha">Clone Grade Alpha</string>
+	<string name="clone_type_omega">Clone Grade Omega</string>
 </resources>

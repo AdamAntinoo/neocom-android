@@ -1,10 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import java.beans.PropertyChangeEvent;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.preference.PreferenceManager;
 import android.view.View;
 
@@ -26,12 +21,17 @@ import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+
+import java.beans.PropertyChangeEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppSplashFragment extends AMVCPagerFragment {
 	@Override
@@ -80,10 +80,8 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	public static class SplashActionsDataSource extends AMVCDataSource {
 		private String name;
 		private String version;
-		//		private Context applicationContext;
-		//		private SharedPreferences preferences;
 
-		// -  S H A R E D   C O M P O N E N T S
+		// -  C O M P O N E N T S
 		private ESIDataAdapter esiDataAdapter;
 		private CredentialRepository credentialRepository;
 

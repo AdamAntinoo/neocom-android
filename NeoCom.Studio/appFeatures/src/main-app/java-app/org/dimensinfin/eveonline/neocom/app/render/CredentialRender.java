@@ -2,17 +2,17 @@ package org.dimensinfin.eveonline.neocom.app.render;
 
 import android.content.Context;
 import android.os.Build;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
+import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
-
-import com.squareup.picasso.Picasso;
 
 public class CredentialRender extends NeoComRenderv2 {
 	// - U I   F I E L D S
@@ -75,16 +75,11 @@ public class CredentialRender extends NeoComRenderv2 {
 		this.accessPilotIcon();
 		this.nodeClass.setText("CREDENTIAL");
 		this.pilotName.setText(this.getController().getPilotName());
-		this.pilotIdentifier.setText("[" + this.getController().getModel().getAccountId() + "]");
+		this.pilotIdentifier.setText("[#" + this.getController().getModel().getAccountId() + "]");
 		this.accountBalance.setText(this.accessAccountBalance());
 		this.assetsCount.setText(this.accessAssetsCount()); // Set a default value while we get the real from the database.
 		this.race.setText(this.accessPilotRaceName());
 		this.accessRaceIcon();
-		// TODO - Remove temporarilly the race data until I decide if to read more capsuleer data.
-		this.pilotRaceDetailBlock.setVisibility(View.GONE);
-//		this.raceIcon.setVisibility(View.GONE);
-
-//		this.assetsCount.setBackgroundColor(this.getColor(R.color.pi_extractorringcolor));
 	}
 
 	protected String accessAssetsCount() {
