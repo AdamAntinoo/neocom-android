@@ -26,24 +26,24 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 		logger.info(">> [PlanetaryColoniesDataSource.prepareModel]");
 		// Read the colony data and generate the support structureContainer, both for the header and for the main.
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
-				credential.getAccountId()
-				, credential.getRefreshToken()
-				, credential.getDataSource());
+				credential.getAccountId(),
+				credential.getRefreshToken(),
+				credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
 			final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
 			final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-					credential.getAccountId()
-					, colonyEsi.getPlanetId()
-					, credential.getRefreshToken()
-					, credential.getDataSource());
+					credential.getAccountId(),
+					colonyEsi.getPlanetId(),
+					credential.getRefreshToken(),
+					credential.getDataSource());
 			if (null != structureContainer) {
 				this.colonies.add(new ColonyPack.Builder()
-						                  .withColony(colonyEsi)
-						                  .withPlanetData(planetData)
-						                  .withFacilities(this.convertPin2Facility(structureContainer.getPins()
-								                  , PlanetType.valueOf(colonyEsi.getPlanetType().name())))
-						                  .withCapsuleerIdentifier(this.credential.getAccountId())
-						                  .build());
+						.withColony(colonyEsi)
+						.withPlanetData(planetData)
+						.withFacilities(this.convertPin2Facility(structureContainer.getPins(),
+								PlanetType.valueOf(colonyEsi.getPlanetType().name())))
+						.withCapsuleerIdentifier(this.credential.getAccountId())
+						.build());
 			}
 		}
 		logger.info("<< [PlanetaryColoniesDataSource.prepareModel]");

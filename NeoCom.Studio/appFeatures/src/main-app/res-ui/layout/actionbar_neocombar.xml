@@ -39,11 +39,10 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="4dp"
         android:layout_toRightOf="@+id/upperIcon"
-        android:ellipsize="end"
         android:maxLines="1"
         android:text="NEOCOM"
         android:textColor="@color/apporange"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
         android:id="@+id/toolBarTitleRight"
@@ -57,7 +56,8 @@
         android:maxLines="1"
         android:text="v 1.0.0"
         android:textColor="@color/appyellow"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:visibility="gone" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
         android:id="@+id/toolBarSubTitle"

@@ -1,18 +1,17 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 
-public class ColonyPack extends NeoComExpandableNode {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class ColonyPack extends NeoComNode {
 	private int capsuleerIdentifier = 0; // Use this identifier to identify the owner of the colony when clicking on the item.
 	private GetCharactersCharacterIdPlanets200Ok colony;
 	private GetUniversePlanetsPlanetIdOk planetData;
@@ -53,11 +52,11 @@ public class ColonyPack extends NeoComExpandableNode {
 		return this.facilities;
 	}
 
-	// - I E X P A N D A B L E
-	@Override
-	public boolean isEmpty() {
-		return this.facilities.isEmpty();
-	}
+//	// - I E X P A N D A B L E
+//	@Override
+//	public boolean isEmpty() {
+//		return this.facilities.isEmpty();
+//	}
 
 	// - I C O L L A B O R A T I O N
 
@@ -71,7 +70,8 @@ public class ColonyPack extends NeoComExpandableNode {
 	 */
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
-		return new ArrayList<ICollaboration>((Collection<? extends ICollaboration>) this.facilities);
+//		return new ArrayList<ICollaboration>((Collection<? extends ICollaboration>) this.facilities);
+		return new ArrayList<>();
 	}
 
 	// - C O R E

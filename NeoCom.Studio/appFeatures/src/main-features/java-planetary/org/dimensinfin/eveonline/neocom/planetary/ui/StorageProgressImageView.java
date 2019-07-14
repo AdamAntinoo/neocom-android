@@ -46,7 +46,7 @@ public class StorageProgressImageView extends ImageView {
 
 	protected void drawCycleRing( Canvas canvas ) {
 		final Integer dimension = (canvas.getWidth() - MARGIN_WIDTH * 3) / 2;
-		paint.setColor(getResources().getColor(R.color.appblue));
+		paint.setColor(getResources().getColor(R.color.appwhite));
 		paint.setStrokeWidth(MARGIN_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);

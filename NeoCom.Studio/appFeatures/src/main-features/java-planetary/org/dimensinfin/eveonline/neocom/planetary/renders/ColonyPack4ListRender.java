@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -19,14 +20,14 @@ import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 // - C O L O N Y P A C K 4 L I S T R E N D E R
 public class ColonyPack4ListRender extends NeoComRenderv2 {
 	// - U I   F I E L D S
-	private ViewGroup colony4listContainer;
+	private ViewGroup nodeFrameContainer;
 	private TextView solarSystemName;
 	private TextView planetType;
 	private TextView installationsNumber;
-	private FrameLayout mapCanvas;
 	private ImageView nodeIcon;
 	private ImageView levelDecorator;
 	private TextView storageUsed;
+	private FrameLayout colonyStorageCanvas;
 
 	// - C O N S T R U C T O R S
 	public ColonyPack4ListRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -47,20 +48,22 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		this.colony4listContainer = this.getView().findViewById(R.id.colony4listContainer);
+		this.nodeFrameContainer = this.getView().findViewById(R.id.nodeFrameContainer);
 		this.solarSystemName = this.getView().findViewById(R.id.solarSystemName);
 		this.planetType = this.getView().findViewById(R.id.planetType);
 		this.installationsNumber = this.getView().findViewById(R.id.installationsNumber);
-		this.mapCanvas = this.getView().findViewById(R.id.mapCanvas);
+		this.colonyStorageCanvas = this.getView().findViewById(R.id.colonyStorageCanvas);
 		this.nodeIcon = this.getView().findViewById(R.id.planetIcon);
 		this.levelDecorator = this.getView().findViewById(R.id.bottomrightDecorator);
 		this.storageUsed = this.getView().findViewById(R.id.storageUsed);
+//		this.colonyStorageCanvas = this.generateStorageImage();
+//		this.colonyStorageCanvas.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.colony4listContainer.setBackground(this.getContext().getResources().getDrawable(this.getController().drawableBorder()));
+		this.nodeFrameContainer.setBackground(this.getContext().getResources().getDrawable(this.getController().drawableBorder()));
 		this.solarSystemName.setText(this.getController().getModel().getName());
 		this.planetType.setText(this.getController().getModel().getPlanetType().name().toUpperCase());
 		this.installationsNumber.setText(this.accessInstallations());
@@ -86,13 +89,12 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		}
 		this.setPlanetIcon();
 		final Handler _handler = new Handler(Looper.getMainLooper());
-		;
 		_handler.post(() -> {
 			final ImageView storageImage = this.generateStorageImage();
-			this.mapCanvas.addView((ImageView) storageImage);
+			this.colonyStorageCanvas.addView((ImageView) storageImage);
 		});
-		if (this.getController().getModel().isEmpty())
-			_rightArrow.setVisibility(View.GONE); // Hide the right arrow while the number on contents is zero.
+//		if (this.getController().getModel().isEmpty())
+//			_rightArrow.setVisibility(View.GONE); // Hide the right arrow while the number on contents is zero.
 	}
 
 	private ImageView generateStorageImage() {

@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary.controller;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
@@ -34,9 +35,10 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 	// - I A N D R O I D C O N T R O L L E R
 	@Override
 	public IRender buildRender( final Context context ) {
-		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name()))
+		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name()))
 			return new FacilityLayoutCustomRender(this, context);
-		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name())) {
+		if ((this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
+				|| (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_DETAILS.name()))) {
 			// Choose the render depending on the facility.
 			switch (this.getModel().getFacilityType()) {
 				case COMMAND_CENTER:

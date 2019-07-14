@@ -1,9 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
@@ -12,6 +8,10 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
 	private PlanetaryStorage planetaryStorage;
@@ -50,7 +50,7 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
-		if (variant.equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name())) return new ArrayList<>();
+		if (variant.equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name())) return new ArrayList<>();
 		return new ArrayList<>(this.planetaryStorage.getContents());
 	}
 

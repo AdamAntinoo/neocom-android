@@ -17,16 +17,6 @@ import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyData
 public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 	private Credential credential;
 
-//	@Override
-//	public String getSubtitle() {
-//		return "POC Single Colony";
-//	}
-//
-//	@Override
-//	public String getPageTitle() {
-//		return "PLANETARY DATA";
-//	}
-
 	@Override
 	public IControllerFactory createFactory() {
 		return new PlanetaryControllerFactory(this.getVariant());
@@ -34,7 +24,7 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 
 	@Override
 	public IDataSource createDS() {
-		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name()))
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name()))
 			return new PlanetaryColonyDataSource.Builder()
 					       .addIdentifier(this.getVariant())
 					       .addIdentifier(this.getCredential().getAccountId())
@@ -55,7 +45,8 @@ public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
 				                                     .withPilotIdentifier(this.getCredential().getAccountId())
 				                                     .build();
 		// Get a controller from the model, then the view from the render.
-		final PlanetaryActionBarController controller = (PlanetaryActionBarController) new PlanetaryControllerFactory(PageNamesType.PLANET_FACILITIES.name())
+		final PlanetaryActionBarController controller =
+				(PlanetaryActionBarController) new PlanetaryControllerFactory(PageNamesType.PLANET_FACILITIES_LAYOUT.name())
 				                                                                               .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}

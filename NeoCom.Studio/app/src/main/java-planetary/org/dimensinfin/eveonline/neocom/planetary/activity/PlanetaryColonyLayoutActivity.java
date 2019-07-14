@@ -26,7 +26,7 @@ public class PlanetaryColonyLayoutActivity extends ACredentialActivity {
 //		this.setupActionBar(this.generateActionBar());
 		this.addPage(new PlanetaryColonyLayoutFragment()
 				             .setCredential(this.getCredential())
-				             .setVariant(PageNamesType.PLANET_FACILITIES.name()));
+				             .setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
 		logger.info("<< [PlanetaryColonyLayoutActivity.onCreate]");
 	}
 }

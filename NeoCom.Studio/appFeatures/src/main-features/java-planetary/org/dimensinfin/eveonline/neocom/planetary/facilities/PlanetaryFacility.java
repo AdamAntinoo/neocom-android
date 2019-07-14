@@ -1,9 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
@@ -17,8 +13,11 @@ import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
-
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The class is responsible to keep the data and the logic to be used on the planetary installation programmatic view generation. This
@@ -231,12 +230,6 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
 			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
-//			if (null != this.onConstruction.pinDelegate.getSchematicId()) {
-//				this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.pinDelegate.getSchematicId())
-//						                                .withSchematic(this.onConstruction.esiDataAdapter.getUniversePlanetarySchematicsById(this.onConstruction.pinDelegate.getSchematicId()))
-//						                                .build();
-//			}
-			//			this.onConstruction.contentsVolume = this.onConstruction.calculateContentsVolume();
 			return this.onConstruction;
 		}
 	}
