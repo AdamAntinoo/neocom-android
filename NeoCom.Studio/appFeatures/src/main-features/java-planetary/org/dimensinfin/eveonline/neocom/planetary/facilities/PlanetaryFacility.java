@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.planetary.facilities;
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
@@ -25,7 +24,7 @@ import java.util.Objects;
  */
 public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility, ICollaboration, IUniqueModel {
 	// TODO - Remove this dependency required only to calculate schematics this is not required for base facilities.
-	protected ESIDataAdapter esiDataAdapter;
+//	protected ESIDataAdapter esiDataAdapter;
 	protected GetCharactersCharacterIdPlanetsPlanetIdOkPins pinDelegate; // The facility esi data.
 	private EveItem planetItemDelegate; // The item data for the installation referenced.
 	private FacilityGeoPosition commandCenterPosition;
@@ -215,10 +214,10 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
-			this.onConstruction.esiDataAdapter = esiDataAdapter;
-			return this;
-		}
+//		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+//			this.onConstruction.esiDataAdapter = esiDataAdapter;
+//			return this;
+//		}
 
 		/**
 		 * This builder method sets the schematic identifier that is the schematic to be used on the production plan for this facility.
@@ -229,7 +228,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			Objects.requireNonNull(this.onConstruction.pinDelegate);
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
-			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
+//			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			return this.onConstruction;
 		}
 	}

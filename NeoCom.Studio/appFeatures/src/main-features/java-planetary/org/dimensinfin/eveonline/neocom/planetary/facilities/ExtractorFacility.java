@@ -1,17 +1,16 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
-
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	public enum ExtractorState {
@@ -67,6 +66,20 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	@Override
 	public int getIconColorReference() {
 		return R.color.pi_extractoriconcolor;
+	}
+
+	@Override
+	public int getCpuUsage() {
+		int cpu = super.getCpuUsage();
+		cpu += this.extractorDetails.getHeads().size() * 110;
+		return cpu;
+	}
+
+	@Override
+	public int getPowerUsage() {
+		int power = super.getPowerUsage();
+		power += this.extractorDetails.getHeads().size() * 550;
+		return power;
 	}
 
 	// - I C O L L A B O R A T I O N

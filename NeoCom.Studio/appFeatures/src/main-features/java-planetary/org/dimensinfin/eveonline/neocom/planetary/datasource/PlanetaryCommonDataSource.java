@@ -28,6 +28,10 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 		return this.esiDataAdapter;
 	}
 
+	protected Credential getCredential() {
+		return credential;
+	}
+
 	/**
 	 * Convert the list of facilities received from ESI to out own model structures. Facilities should be interconnected in another way
 	 * to allow the access to some other functions. Also there are special characteristics only available on some facilities depending
@@ -49,7 +53,7 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 					                                       .withPin(facility)
 					                                       .withPlanetType(planetType)
 					                                       .withFacilityItem(facilityItem)
-					                                       .withEsiDataAdapter(this.getEsiDataAdapter())
+//					                                       .withEsiDataAdapter(this.getEsiDataAdapter())
 					                                       .build();
 			switch (facilityType) {
 				case COMMAND_CENTER:

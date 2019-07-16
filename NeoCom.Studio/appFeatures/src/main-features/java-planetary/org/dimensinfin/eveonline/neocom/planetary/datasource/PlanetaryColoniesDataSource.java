@@ -42,7 +42,7 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 						.withPlanetData(planetData)
 						.withFacilities(this.convertPin2Facility(structureContainer.getPins(),
 								PlanetType.valueOf(colonyEsi.getPlanetType().name())))
-						.withCapsuleerIdentifier(this.credential.getAccountId())
+						.withPilotIdentifier(this.credential.getAccountId())
 						.build());
 			}
 		}

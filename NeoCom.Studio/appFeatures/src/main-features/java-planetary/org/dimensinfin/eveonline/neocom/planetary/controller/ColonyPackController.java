@@ -34,7 +34,7 @@ public class ColonyPackController extends ColonyPackController4Header implements
 		logger.info(">> [ColonyPackController.onClick]");
 		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), this.context);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
-				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
+				, this.getModel().getPilotIdentifier()); // Credential account identifier
 		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
 				, this.getModel().getPlanetId()); // The colony/planet identifier
 		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
@@ -56,7 +56,7 @@ public class ColonyPackController extends ColonyPackController4Header implements
 ////				.show();
 //		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), this.context);
 //		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
-//				, this.getModel().getCapsuleerIdentifier()); // Credential account identifier
+//				, this.getModel().getPilotIdentifier()); // Credential account identifier
 //		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
 //				, this.getModel().getPlanetId()); // The colony/planet identifier
 //		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()

@@ -15,12 +15,12 @@
         android:title="Download Data"
         android:visible="false"
         android:showAsAction="always" />
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/searchmarket"
-        android:title="Search..."
-        android:actionViewClass="android.widget.SearchView"
-        android:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_search"-->
+        <!--android:icon="@drawable/searchmarket"-->
+        <!--android:title="Search..."-->
+        <!--android:actionViewClass="android.widget.SearchView"-->
+        <!--android:showAsAction="always" />-->
     <!--<item-->
     <!--android:id="@+id/action_fullreload"-->
     <!--android:orderInCategory="300"-->

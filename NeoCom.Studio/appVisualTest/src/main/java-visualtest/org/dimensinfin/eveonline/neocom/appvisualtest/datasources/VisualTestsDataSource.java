@@ -309,7 +309,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 
 		colony.setNumPins(facilities.size());
 		colonyPack = new ColonyPack.Builder()
-				             .withCapsuleerIdentifier(123456)
+				             .withPilotIdentifier(123456)
 				             .withColony(colony)
 				             .withPlanetData(planetData)
 				             .withFacilities(facilities)

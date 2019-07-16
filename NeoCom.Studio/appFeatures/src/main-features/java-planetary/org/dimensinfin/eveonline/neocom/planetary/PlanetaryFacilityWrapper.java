@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
@@ -8,7 +9,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPlanetaryFacility {
+public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPlanetaryFacility, IItemFacet {
 	protected PlanetaryFacility planetaryFacility;
 
 	// - I P L A N E T A R Y F A C I L I T Y
@@ -19,7 +20,7 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 
 	@Override
 	public int getGroupId() {
-		return planetaryFacility.getGroupId();
+		return this.planetaryFacility.getGroupId();
 	}
 
 	@Override
@@ -33,19 +34,13 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 	}
 
 	@Override
-	public abstract int getIconReferenceId();
-
-	@Override
-	public abstract int getIconColorReference();
-
-	@Override
 	public FacilityGeoPosition getGeoPosition() {
-		return planetaryFacility.getGeoPosition();
+		return this.planetaryFacility.getGeoPosition();
 	}
 
 	@Override
 	public Integer getSchematicId() {
-		return planetaryFacility.getSchematicId();
+		return this.planetaryFacility.getSchematicId();
 	}
 
 	@Override
@@ -80,7 +75,7 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 
 	@Override
 	public void setCommandCenterPosition( final FacilityGeoPosition commandCenterPosition ) {
-		planetaryFacility.setCommandCenterPosition(commandCenterPosition);
+		this.planetaryFacility.setCommandCenterPosition(commandCenterPosition);
 	}
 
 	@Override

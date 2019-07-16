@@ -5,11 +5,9 @@ import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,22 +32,28 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 				credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
 			if (colonyEsi.getPlanetId() == this.targetPlanetId) {
-				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
-				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-						credential.getAccountId(),
-						colonyEsi.getPlanetId(),
-						credential.getRefreshToken(),
-						credential.getDataSource());
-				if (null != structureContainer) {
-					this.facilities = this.convertPin2Facility(structureContainer.getPins(),
-							PlanetType.valueOf(colonyEsi.getPlanetType().name()));
-				}
-				this.colony = new ColonyPack.Builder()
-						.withColony(colonyEsi)
-						.withPlanetData(planetData)
-						.withFacilities(this.facilities)
-						.withCapsuleerIdentifier(this.credential.getAccountId())
-						.build();
+				this.colony = new ColonyFactory.Builder()
+						.withEsiDataAdapter(this.getEsiDataAdapter())
+						.withCredential(this.getCredential())
+						.build()
+						.accessColony(colonyEsi);
+
+//				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+//				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
+//						credential.getAccountId(),
+//						colonyEsi.getPlanetId(),
+//						credential.getRefreshToken(),
+//						credential.getDataSource());
+//				if (null != structureContainer) {
+//					this.facilities = this.convertPin2Facility(structureContainer.getPins(),
+//							PlanetType.valueOf(colonyEsi.getPlanetType().name()));
+//				}
+//				this.colony = new ColonyPack.Builder()
+//						.withColony(colonyEsi)
+//						.withPlanetData(planetData)
+//						.withFacilities(this.facilities)
+//						.withPilotIdentifier(this.credential.getAccountId())
+//						.build();
 			}
 		}
 		logger.info("<< [PlanetaryColoniesDataSource.prepareModel]");
