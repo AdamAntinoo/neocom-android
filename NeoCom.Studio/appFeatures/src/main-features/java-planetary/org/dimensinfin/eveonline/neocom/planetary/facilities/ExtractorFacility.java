@@ -26,6 +26,12 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 		return this.state;
 	}
 
+	public ExtractorFacility setInstallTime( final DateTime installTime ) {
+		this.planetaryFacility.pinDelegate.setInstallTime(installTime);
+		this.state = ExtractorState.EXTRACTING;
+		return this;
+	}
+
 	public Integer getCycleTime() {
 		if (this.state == ExtractorState.EXTRACTING)
 			return this.extractorDetails.getCycleTime();

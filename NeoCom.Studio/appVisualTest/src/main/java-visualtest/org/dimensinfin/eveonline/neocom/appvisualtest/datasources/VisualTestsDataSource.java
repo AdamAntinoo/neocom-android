@@ -1,10 +1,5 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
@@ -27,8 +22,12 @@ import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
-
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class VisualTestsDataSource extends AMVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
@@ -71,15 +70,15 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		pin.addContentsItem(content);
 
 		PlanetaryFacility baseFacility = new PlanetaryFacility.Builder()
-				                                 .withEsiDataAdapter(esiDataAdapter)
+//				                                 .withEsiDataAdapter(esiDataAdapter)
 				                                 .withPlanetType(PlanetType.GAS)
 				                                 .withFacilityItem(new EveItem(facilityCommandCenterItem.getTypeId()))
 				                                 .withPin(pin)
 				                                 .build();
 		final CommandCenterFacility commandCenter = new CommandCenterFacility.Builder()
-				                                            .withLevel(colony.getUpgradeLevel())
+//				                                            .wit(colony.getUpgradeLevel())
 				                                            .withPlanetaryFacility(baseFacility)
-				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+				                                            .withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 				                                            .build();
 		facilities.add(commandCenter);
 
@@ -98,14 +97,14 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content.setAmount(1227L);
 		storagePin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(2536))
 				               .withPin(storagePin)
 				               .build();
 		final StorageFacility storageFacility = new StorageFacility.Builder()
 				                                        .withPlanetaryFacility(baseFacility)
-				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents(), this.esiDataAdapter))
+				                                        .withPlanetaryStorage(new PlanetaryStorage(storagePin.getContents()))
 				                                        .build();
 		facilities.add(storageFacility);
 
@@ -126,7 +125,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPinInactive.setExtractorDetails(extractorDetails);
 
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(extractorPinInactive.getTypeId()))
 				               .withPin(extractorPinInactive)
@@ -161,7 +160,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorPin.setExtractorDetails(extractorDetails);
 
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(extractorPin.getTypeId()))
 				               .withPin(extractorPin)
@@ -196,7 +195,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		extractorExpiredPin.setExtractorDetails(extractorDetails);
 
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(extractorExpiredPin.getTypeId()))
 				               .withPin(extractorExpiredPin)
@@ -220,7 +219,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content.setAmount(2950L);
 		baseIndustryPin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
 				               .withPin(baseIndustryPin)
@@ -245,7 +244,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content.setAmount(3000L);
 		baseIndustryPin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
 				               .withPin(baseIndustryPin)
@@ -270,7 +269,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content.setAmount(1350L);
 		baseIndustryPin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
 				               .withPin(baseIndustryPin)
@@ -295,7 +294,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 		content.setAmount(40L);
 		baseIndustryPin.addContentsItem(content);
 		baseFacility = new PlanetaryFacility.Builder()
-				               .withEsiDataAdapter(esiDataAdapter)
+//				               .withEsiDataAdapter(esiDataAdapter)
 				               .withPlanetType(PlanetType.GAS)
 				               .withFacilityItem(new EveItem(baseIndustryPin.getTypeId()))
 				               .withPin(baseIndustryPin)
@@ -327,7 +326,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 			// -  P L A N E T A R Y
 			this.addModelContents(colonyPack);
 		}
-		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES.name())) {
+		if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name())) {
 			for (IPlanetaryFacility facility : this.facilities) {
 				this.addModelContents(facility);
 			}

@@ -7,11 +7,10 @@ import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryCommonDataSource;
 
@@ -22,8 +21,9 @@ import java.util.Objects;
 public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 	private VTAdvancedFacilityFragment fragment;
 	private GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum planetType;
-	private  GetUniversePlanetsPlanetIdOk planetData;
+	private GetUniversePlanetsPlanetIdOk planetData;
 	private List<IPlanetaryFacility> advancedFactories = new ArrayList<>();
+	private int planetIdentifier;
 
 	/**
 	 * To test the factories I should read a configuration file that describes the facilities. I should use the same code as in the
@@ -41,39 +41,51 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 	public void prepareModel() {
 		NeoComRetrofitFactory.add2MockList("getCharactersCharacterIdPlanets");
 		NeoComRetrofitFactory.add2MockList("getCharactersCharacterIdPlanetsPlanetId");
-		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+		planetIdentifier = 40237824;
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId(),
 				credential.getRefreshToken(),
 				credential.getDataSource());
-		// Search for the selected planet and then construct the facilities.
-		final int planetIdentifier = 40237824;
-		for (final GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
-			if (planetIdentifier == colonyEsi.getPlanetId()) {
-				this.planetType = colonyEsi.getPlanetType();
-				 this.planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
-				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-						credential.getAccountId(),
-						colonyEsi.getPlanetId(),
-						credential.getRefreshToken(),
-						credential.getDataSource());
-				if (null != structureContainer) {
-					final List<IPlanetaryFacility> facilities = this.convertPin2Facility(structureContainer.getPins()
-							, PlanetType.valueOf(colonyEsi.getPlanetType().name()));
-					Stream.of(facilities)
-							.filter(facility -> (facility.getFacilityType() == PlanetaryFacilityType.PLANETARY_FACTORY
-									|| facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER))
-							.forEach(advancedFactories::add);
-					new ColonyPack.Builder()
-							.withColony(colonyEsi)
-							.withPlanetData(planetData)
-							.withFacilities(advancedFactories)
-							.withPilotIdentifier(this.credential.getAccountId())
-							.build();
-				}
-				break;
+		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
+			if (colonyEsi.getPlanetId() == this.planetIdentifier) { // Only process the colony for the selected planet
+				final ColonyPack colony = new ColonyFactory.Builder()
+						.withEsiDataAdapter(this.getEsiDataAdapter())
+						.withCredential(this.getCredential())
+						.build()
+						.accessColony(colonyEsi);
+				Stream.of(colony.getFacilities())
+				      .filter(facility -> (facility.getFacilityType() == PlanetaryFacilityType.PLANETARY_FACTORY
+						      || facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER))
+				      .forEach(advancedFactories::add);
 			}
 		}
+
+//		for (final GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
+//			if (planetIdentifier == colonyEsi.getPlanetId()) {
+//				this.planetType = colonyEsi.getPlanetType();
+//				this.planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+//				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
+//						credential.getAccountId(),
+//						colonyEsi.getPlanetId(),
+//						credential.getRefreshToken(),
+//						credential.getDataSource());
+//				if (null != structureContainer) {
+//					final List<IPlanetaryFacility> facilities = this.convertPin2Facility(structureContainer.getPins()
+//							, PlanetType.valueOf(colonyEsi.getPlanetType().name()));
+//					Stream.of(facilities)
+//					      .filter(facility -> (facility.getFacilityType() == PlanetaryFacilityType.PLANETARY_FACTORY
+//							      || facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER))
+//					      .forEach(advancedFactories::add);
+//					new ColonyPack.Builder()
+//							.withColony(colonyEsi)
+//							.withPlanetData(planetData)
+//							.withFacilities(advancedFactories)
+//							.withPilotIdentifier(this.credential.getAccountId())
+//							.build();
+//				}
+//				break;
+//			}
+//		}
 	}
 
 	@Override
@@ -125,6 +137,7 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 			this.onConstruction.planetaryRepository = planetaryRepository;
 			return this;
 		}
+
 		public VTAdvancedFactoryDataSource.Builder withFragment( final VTAdvancedFacilityFragment fragment ) {
 			Objects.requireNonNull(fragment);
 			this.onConstruction.fragment = fragment;

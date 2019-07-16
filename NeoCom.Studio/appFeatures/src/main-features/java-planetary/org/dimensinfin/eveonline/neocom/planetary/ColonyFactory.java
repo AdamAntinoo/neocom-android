@@ -95,19 +95,19 @@ public class ColonyFactory {
 			case COMMAND_CENTER:
 				facilities.add(new CommandCenterFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
-						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 						.build());
 				break;
 			case STORAGE:
 				facilities.add(new StorageFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
-						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 						.build());
 				break;
 			case LAUNCHPAD:
 				facilities.add(new StorageFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
-						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents(), this.esiDataAdapter))
+						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 						.build());
 				break;
 			case EXTRACTOR_CONTROL_UNIT:

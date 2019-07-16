@@ -1,9 +1,11 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandCenterType2LevelConverter {
+public class CommandCenterType2LevelConverter implements Serializable {
+	private static final long serialVersionUID = 8607618856117516126L;
 	private static Map<Integer, CommandCenterType2LevelConverter> commandCenterTypesMap = new HashMap<>();
 
 	static {
@@ -49,7 +51,6 @@ public class CommandCenterType2LevelConverter {
 		if (level < 0) level = 0;
 		if (level > 5) level = 5;
 		return commandCenterTypesMap.get(level);
-		//		return typesByLevel.get(planetType);
 	}
 
 	private int level;
