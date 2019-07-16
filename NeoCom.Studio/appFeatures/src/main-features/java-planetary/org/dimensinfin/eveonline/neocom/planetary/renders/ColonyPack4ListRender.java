@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
-import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController4Header;
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 // - C O L O N Y P A C K 4 L I S T R E N D E R
@@ -35,8 +35,8 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	}
 
 	@Override
-	public ColonyPackController getController() {
-		return (ColonyPackController) super.getController();
+	public ColonyPackController4Header getController() {
+		return (ColonyPackController4Header) super.getController();
 	}
 
 	// - I R E N D E R   I N T E R F A C E
@@ -56,8 +56,6 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		this.nodeIcon = this.getView().findViewById(R.id.planetIcon);
 		this.levelDecorator = this.getView().findViewById(R.id.bottomrightDecorator);
 		this.storageUsed = this.getView().findViewById(R.id.storageUsed);
-//		this.colonyStorageCanvas = this.generateStorageImage();
-//		this.colonyStorageCanvas.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -93,8 +91,6 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 			final ImageView storageImage = this.generateStorageImage();
 			this.colonyStorageCanvas.addView((ImageView) storageImage);
 		});
-//		if (this.getController().getModel().isEmpty())
-//			_rightArrow.setVisibility(View.GONE); // Hide the right arrow while the number on contents is zero.
 	}
 
 	private ImageView generateStorageImage() {

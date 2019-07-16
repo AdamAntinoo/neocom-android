@@ -1,22 +1,30 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.database.UpdatableNode;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-public class ColonyPack extends NeoComNode {
-	private int capsuleerIdentifier = 0; // Use this identifier to identify the owner of the colony when clicking on the item.
-	private GetCharactersCharacterIdPlanets200Ok colony;
-	private GetUniversePlanetsPlanetIdOk planetData;
-	private List<IPlanetaryFacility> facilities;
-	private CommandCenterFacility commandCenter;
+public class ColonyPack extends UpdatableNode {
+	private static final long COLONY_CACHE_TIME = TimeUnit.MINUTES.toMillis(15);
+	private static final int CPU_20KMLINK = 22;
+	private static final int POWER_20KMLINK = 16;
+
+	private Integer pilotIdentifier; // Use this identifier to identify the owner of the planet when clicking on the item.
+	private GetCharactersCharacterIdPlanetsPlanetIdOk planetFacilities; // The raw data for the colony structures
+	private GetCharactersCharacterIdPlanets200Ok planet; // Some colony and planet data
+	private GetUniversePlanetsPlanetIdOk planetData; // Planet location and generic planet data
+	private List<IPlanetaryFacility> facilities; // NeoCom instances for the colony facilities with all extended data
+	private CommandCenterFacility commandCenter; // The colony Command center to be used to center the colony installations.
 
 	// - C O N S T R U C T O R S
 	private ColonyPack() {}
@@ -29,11 +37,11 @@ public class ColonyPack extends NeoComNode {
 	}
 
 	public Integer getPlanetId() {
-		return colony.getPlanetId();
+		return planet.getPlanetId();
 	}
 
 	public GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum getPlanetType() {
-		return this.colony.getPlanetType();
+		return this.planet.getPlanetType();
 	}
 
 	public int getInstallationsCount() {
@@ -41,32 +49,36 @@ public class ColonyPack extends NeoComNode {
 	}
 
 	public Integer getUpgradeLevel() {
-		return this.colony.getUpgradeLevel();
+		return this.planet.getUpgradeLevel();
 	}
 
-	public int getCapsuleerIdentifier() {
-		return capsuleerIdentifier;
+	public int getPilotIdentifier() {
+		return pilotIdentifier;
 	}
 
 	public List<IPlanetaryFacility> getFacilities() {
 		return this.facilities;
 	}
 
-//	// - I E X P A N D A B L E
+	//	// - I E X P A N D A B L E
 //	@Override
 //	public boolean isEmpty() {
 //		return this.facilities.isEmpty();
 //	}
-
+	public boolean needsRefresh() {
+		if (this.getLastUpdateTime().plus(COLONY_CACHE_TIME).isBefore(DateTime.now()))
+			return true;
+		return false;
+	}
 	// - I C O L L A B O R A T I O N
 
 	/**
-	 * Generate the list of facilities as the collaboration to the model list. Colonies will collaborate with the colony
+	 * Generate the list of facilities as the collaboration to the model list. Colonies will collaborate with the planet
 	 * components that are the list of facilities.
 	 * To be able to integrate this list into the application I should adapt the ESI data to the MVC model so a converter is required.
 	 *
 	 * @param variation an string to differentiate the environment. This will allow to generate different contents on different environments.
-	 * @return the list of colony facilities.
+	 * @return the list of planet facilities.
 	 */
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
@@ -78,7 +90,7 @@ public class ColonyPack extends NeoComNode {
 	@Override
 	public int compareTo( final Object o ) {
 		if (o instanceof ColonyPack)
-			return this.capsuleerIdentifier - ((ColonyPack) o).capsuleerIdentifier;
+			return this.pilotIdentifier - ((ColonyPack) o).pilotIdentifier;
 		return 0;
 	}
 
@@ -96,11 +108,11 @@ public class ColonyPack extends NeoComNode {
 			if (facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER)
 				return (CommandCenterFacility) facility;
 		}
-		throw new NeoComRuntimeException("There is no command center facility for this colony. Unable to process initialisation.");
+		throw new NeoComRuntimeException("There is no command center facility for this planet. Unable to process initialisation.");
 	}
 
 	protected int calculateUsedCpu() {
-		int usedCpu = 0;
+		int usedCpu = this.planetFacilities.getLinks().size() * CPU_20KMLINK;
 		for (IPlanetaryFacility facility : this.facilities) {
 			usedCpu += facility.getCpuUsage();
 		}
@@ -108,7 +120,7 @@ public class ColonyPack extends NeoComNode {
 	}
 
 	protected int calculateUsedPower() {
-		int usedPower = 0;
+		int usedPower = this.planetFacilities.getLinks().size() * POWER_20KMLINK;
 		for (IPlanetaryFacility facility : this.facilities) {
 			usedPower += facility.getPowerUsage();
 		}
@@ -123,6 +135,7 @@ public class ColonyPack extends NeoComNode {
 		}
 		return storage;
 	}
+
 	public Float getStorageCapacity() {
 		Float storage = 0.0F;
 		for (IPlanetaryFacility facility : this.facilities) {
@@ -140,13 +153,18 @@ public class ColonyPack extends NeoComNode {
 			this.onConstruction = new ColonyPack();
 		}
 
-		public Builder withCapsuleerIdentifier( final int capsuleerIdentifier ) {
-			this.onConstruction.capsuleerIdentifier = capsuleerIdentifier;
+		public Builder withPilotIdentifier( final int pilotIdentifier ) {
+			this.onConstruction.pilotIdentifier = pilotIdentifier;
+			return this;
+		}
+
+		public Builder withPlanetFacilities( final GetCharactersCharacterIdPlanetsPlanetIdOk planetFacilities ) {
+			this.onConstruction.planetFacilities = planetFacilities;
 			return this;
 		}
 
 		public Builder withColony( final GetCharactersCharacterIdPlanets200Ok colony ) {
-			this.onConstruction.colony = colony;
+			this.onConstruction.planet = colony;
 			return this;
 		}
 
@@ -161,9 +179,13 @@ public class ColonyPack extends NeoComNode {
 		}
 
 		public ColonyPack build() {
-			Objects.requireNonNull(this.onConstruction.colony);
+			Objects.requireNonNull(this.onConstruction.pilotIdentifier);
+			Objects.requireNonNull(this.onConstruction.planetFacilities);
+			Objects.requireNonNull(this.onConstruction.planet);
 			Objects.requireNonNull(this.onConstruction.planetData);
 			Objects.requireNonNull(this.onConstruction.facilities);
+			if (this.onConstruction.facilities.size() < 1)
+				throw new NeoComRuntimeException("There are no facilities on this planet.");
 			// Do other initialisations like calculating the power and cpu used.
 			this.onConstruction.initialise();
 			return this.onConstruction;

@@ -1,18 +1,17 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColonyPackTest {
 	@Test
@@ -26,11 +25,11 @@ public class ColonyPackTest {
 		final GetUniversePlanetsPlanetIdOk planet = Mockito.mock(GetUniversePlanetsPlanetIdOk.class);
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		final ColonyPack colonyPack = new ColonyPack.Builder()
-				                              .withCapsuleerIdentifier(9222)
-				                              .withColony(colony)
-				                              .withPlanetData(planet)
-				                              .withFacilities(facilities)
-				                              .build();
+				.withPilotIdentifier(9222)
+				.withColony(colony)
+				.withPlanetData(planet)
+				.withFacilities(facilities)
+				.build();
 		Assert.assertNotNull(colonyPack);
 	}
 
@@ -39,10 +38,10 @@ public class ColonyPackTest {
 		final GetCharactersCharacterIdPlanets200Ok colony = Mockito.mock(GetCharactersCharacterIdPlanets200Ok.class);
 		final GetUniversePlanetsPlanetIdOk planet = Mockito.mock(GetUniversePlanetsPlanetIdOk.class);
 		final ColonyPack colonyPack = new ColonyPack.Builder()
-				                              .withCapsuleerIdentifier(9222)
-				                              .withColony(colony)
-				                              .withPlanetData(planet)
-				                              .build();
+				.withPilotIdentifier(9222)
+				.withColony(colony)
+				.withPlanetData(planet)
+				.build();
 		Assert.assertNotNull(colonyPack);
 	}
 
@@ -55,11 +54,11 @@ public class ColonyPackTest {
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		facilities.add(facility);
 		final ColonyPack colonyPack = new ColonyPack.Builder()
-				                              .withColony(colony)
-				                              .withPlanetData(planetData)
-				                              .withCapsuleerIdentifier(123)
-				                              .withFacilities(facilities)
-				                              .build();
+				.withColony(colony)
+				.withPlanetData(planetData)
+				.withPilotIdentifier(123)
+				.withFacilities(facilities)
+				.build();
 
 		final CommandCenterFacility commandCenter = colonyPack.accessCommandCenter();
 		Assert.assertNotNull(commandCenter);
@@ -71,15 +70,15 @@ public class ColonyPackTest {
 		final GetCharactersCharacterIdPlanets200Ok colony = Mockito.mock(GetCharactersCharacterIdPlanets200Ok.class);
 		final GetUniversePlanetsPlanetIdOk planetData = Mockito.mock(GetUniversePlanetsPlanetIdOk.class);
 		final CommandCenterFacility facility = Mockito.mock(CommandCenterFacility.class);
-		Mockito.when(facility.getFacilityType()).thenReturn(PlanetaryFacilityType.ADVANCED_INDUSTRY);
+		Mockito.when(facility.getFacilityType()).thenReturn(PlanetaryFacilityType.PLANETARY_FACTORY);
 		final List<IPlanetaryFacility> facilities = new ArrayList<>();
 		facilities.add(facility);
 		final ColonyPack colonyPack = new ColonyPack.Builder()
-				                              .withColony(colony)
-				                              .withPlanetData(planetData)
-				                              .withCapsuleerIdentifier(123)
-				                              .withFacilities(facilities)
-				                              .build();
+				.withColony(colony)
+				.withPlanetData(planetData)
+				.withPilotIdentifier(123)
+				.withFacilities(facilities)
+				.build();
 
 		final CommandCenterFacility commandCenter = colonyPack.accessCommandCenter();
 		Assert.assertNotNull(commandCenter);
@@ -99,13 +98,14 @@ public class ColonyPackTest {
 		facilities.add(facility);
 		facilities.add(facility);
 		final ColonyPack colonyPack = new ColonyPack.Builder()
-				                              .withColony(colony)
-				                              .withPlanetData(planetData)
-				                              .withCapsuleerIdentifier(123)
-				                              .withFacilities(facilities)
-				                              .build();
+				.withColony(colony)
+				.withPlanetData(planetData)
+				.withPilotIdentifier(123)
+				.withFacilities(facilities)
+				.build();
 
 		final int cpu = colonyPack.calculateUsedCpu();
 		Assert.assertEquals(2000, cpu);
 	}
+
 }
