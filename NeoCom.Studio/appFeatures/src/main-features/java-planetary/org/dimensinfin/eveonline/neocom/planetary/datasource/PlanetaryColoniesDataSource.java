@@ -5,10 +5,8 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,28 +22,43 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 	@Override
 	public void prepareModel() {
 		logger.info(">> [PlanetaryColoniesDataSource.prepareModel]");
-		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+//		this.planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId(),
 				credential.getRefreshToken(),
 				credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
-			final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
-			final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-					credential.getAccountId(),
-					colonyEsi.getPlanetId(),
-					credential.getRefreshToken(),
-					credential.getDataSource());
-			if (null != structureContainer) {
-				this.colonies.add(new ColonyPack.Builder()
-						.withColony(colonyEsi)
-						.withPlanetData(planetData)
-						.withFacilities(this.convertPin2Facility(structureContainer.getPins(),
-								PlanetType.valueOf(colonyEsi.getPlanetType().name())))
-						.withPilotIdentifier(this.credential.getAccountId())
-						.build());
-			}
+//			if (colonyEsi.getPlanetId() == this.planetIdentifier) { // Only process the colony for the selected planet
+			this.colonies.add( new ColonyFactory.Builder()
+						.withEsiDataAdapter(this.getEsiDataAdapter())
+						.withCredential(this.getCredential())
+						.build()
+						.accessColony(colonyEsi));
+//			}
 		}
+
+		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+//		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
+//				credential.getAccountId(),
+//				credential.getRefreshToken(),
+//				credential.getDataSource());
+//		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
+//			final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+//			final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
+//					credential.getAccountId(),
+//					colonyEsi.getPlanetId(),
+//					credential.getRefreshToken(),
+//					credential.getDataSource());
+//			if (null != structureContainer) {
+//				this.colonies.add(new ColonyPack.Builder()
+//						.withColony(colonyEsi)
+//						.withPlanetData(planetData)
+//						.withFacilities(this.convertPin2Facility(structureContainer.getPins(),
+//								PlanetType.valueOf(colonyEsi.getPlanetType().name())))
+//						.withPilotIdentifier(this.credential.getAccountId())
+//						.build());
+//			}
+//		}
 		logger.info("<< [PlanetaryColoniesDataSource.prepareModel]");
 	}
 

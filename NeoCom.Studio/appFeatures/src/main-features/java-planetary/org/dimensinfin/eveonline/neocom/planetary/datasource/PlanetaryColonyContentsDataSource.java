@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource {
-	protected int targetPlanetId;
+	private int planetIdentifier;
 	private List<IPlanetaryFacility> facilities;
 	private ColonyPack colony;
 
@@ -24,36 +24,18 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 	@Override
 	public void prepareModel() {
 		logger.info(">> [PlanetaryColoniesDataSource.prepareModel]");
-		this.targetPlanetId = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
-		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+		this.planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
 				credential.getAccountId(),
 				credential.getRefreshToken(),
 				credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
-			if (colonyEsi.getPlanetId() == this.targetPlanetId) {
+			if (colonyEsi.getPlanetId() == this.planetIdentifier) { // Only process the colony for the selected planet
 				this.colony = new ColonyFactory.Builder()
 						.withEsiDataAdapter(this.getEsiDataAdapter())
 						.withCredential(this.getCredential())
 						.build()
 						.accessColony(colonyEsi);
-
-//				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
-//				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-//						credential.getAccountId(),
-//						colonyEsi.getPlanetId(),
-//						credential.getRefreshToken(),
-//						credential.getDataSource());
-//				if (null != structureContainer) {
-//					this.facilities = this.convertPin2Facility(structureContainer.getPins(),
-//							PlanetType.valueOf(colonyEsi.getPlanetType().name()));
-//				}
-//				this.colony = new ColonyPack.Builder()
-//						.withColony(colonyEsi)
-//						.withPlanetData(planetData)
-//						.withFacilities(this.facilities)
-//						.withPilotIdentifier(this.credential.getAccountId())
-//						.build();
 			}
 		}
 		logger.info("<< [PlanetaryColoniesDataSource.prepareModel]");

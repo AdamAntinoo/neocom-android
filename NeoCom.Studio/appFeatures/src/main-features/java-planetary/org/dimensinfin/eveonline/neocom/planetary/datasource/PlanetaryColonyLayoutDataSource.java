@@ -1,27 +1,23 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import com.annimon.stream.Stream;
-
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class PlanetaryColonyLayoutDataSource extends PlanetaryCommonDataSource {
+	private int planetIdentifier;
 	private ColonyPack colony;
 	/**
 	 * Aggregation map for the selected planet structures. Each entry on the map aggregates the instances and the number of the
@@ -42,45 +38,60 @@ public class PlanetaryColonyLayoutDataSource extends PlanetaryCommonDataSource {
 	@Override
 	public void prepareModel() {
 		logger.info(">> [PlanetaryColonyLayoutDataSource.prepareModel]");
-		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+		this.planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
 		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
-				credential.getAccountId()
-				, credential.getRefreshToken()
-				, credential.getDataSource());
-		// Search for the selected planet and then construct the facilities.
-		final int planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
+				credential.getAccountId(),
+				credential.getRefreshToken(),
+				credential.getDataSource());
 		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
-			if (planetIdentifier == colonyEsi.getPlanetId()) {
-				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
-				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
-						credential.getAccountId()
-						, colonyEsi.getPlanetId()
-						, credential.getRefreshToken()
-						, credential.getDataSource());
-				if (null != structureContainer) {
-					final List<IPlanetaryFacility> facilities = this.convertPin2Facility(structureContainer.getPins()
-							, PlanetType.valueOf(colonyEsi.getPlanetType().name()));
-					Stream.of(facilities)
-							.map(facility -> {
-								// Aggregate pins of identical type into a pin map.
-								List<IPlanetaryFacility> found = this.facilityMap.get(facility.getFacilityType());
-								if (null == found) {
-									found = new ArrayList<>();
-									found.add(facility);
-									this.facilityMap.put(facility.getFacilityType(), found);
-								} else found.add(facility);
-								return facility;
-							});
-					colony = new ColonyPack.Builder()
-							         .withColony(colonyEsi)
-							         .withPlanetData(planetData)
-							         .withFacilities(facilities)
-							         .withPilotIdentifier(this.credential.getAccountId())
-							         .build();
-				}
-				break;
+			if (colonyEsi.getPlanetId() == this.planetIdentifier) { // Only process the colony for the selected planet
+				this.colony = new ColonyFactory.Builder()
+						.withEsiDataAdapter(this.getEsiDataAdapter())
+						.withCredential(this.getCredential())
+						.build()
+						.accessColony(colonyEsi);
 			}
 		}
+//
+//		// Read the colony data and generate the support structureContainer, both for the header and for the main.
+////		final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.getEsiDataAdapter().getCharactersCharacterIdPlanets(
+////				credential.getAccountId()
+////				, credential.getRefreshToken()
+////				, credential.getDataSource());
+//		// Search for the selected planet and then construct the facilities.
+////		final int planetIdentifier = this.getExtras().getInt(EExtras.PLANET_IDENTIFIER.name());
+//		for (GetCharactersCharacterIdPlanets200Ok colonyEsi : esiColonies) {
+//			if (planetIdentifier == colonyEsi.getPlanetId()) {
+//				final GetUniversePlanetsPlanetIdOk planetData = this.getEsiDataAdapter().getUniversePlanetsPlanetId(colonyEsi.getPlanetId());
+//				final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.getEsiDataAdapter().getCharactersCharacterIdPlanetsPlanetId(
+//						credential.getAccountId()
+//						, colonyEsi.getPlanetId()
+//						, credential.getRefreshToken()
+//						, credential.getDataSource());
+//				if (null != structureContainer) {
+//					final List<IPlanetaryFacility> facilities = this.convertPin2Facility(structureContainer.getPins()
+//							, PlanetType.valueOf(colonyEsi.getPlanetType().name()));
+//					Stream.of(facilities)
+//							.map(facility -> {
+//								// Aggregate pins of identical type into a pin map.
+//								List<IPlanetaryFacility> found = this.facilityMap.get(facility.getFacilityType());
+//								if (null == found) {
+//									found = new ArrayList<>();
+//									found.add(facility);
+//									this.facilityMap.put(facility.getFacilityType(), found);
+//								} else found.add(facility);
+//								return facility;
+//							});
+//					colony = new ColonyPack.Builder()
+//							         .withColony(colonyEsi)
+//							         .withPlanetData(planetData)
+//							         .withFacilities(facilities)
+//							         .withPilotIdentifier(this.credential.getAccountId())
+//							         .build();
+//				}
+//				break;
+//			}
+//		}
 	}
 
 	@Override
