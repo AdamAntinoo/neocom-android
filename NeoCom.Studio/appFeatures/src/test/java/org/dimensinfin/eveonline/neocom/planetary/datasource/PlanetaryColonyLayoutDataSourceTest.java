@@ -1,36 +1,35 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
-import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
-
+import org.dimensinfin.eveonline.neocom.support.CredentialSupportTest;
+import org.dimensinfin.eveonline.neocom.support.TestFeaturesControllerFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class PlanetaryColonyLayoutDataSourceTest {
-	private static ESIDataAdapter esiAdapter;
-	private static Credential credential;
-	private static PlanetaryControllerFactory factory;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlanetaryColonyLayoutDataSourceTest extends CredentialSupportTest {
+//	private static ESIDataAdapter esiAdapter;
+//	private static Credential credential;
+	private  TestFeaturesControllerFactory factory;
 
 	@Before
-	public void setUp() throws Exception {
-		esiAdapter = Mockito.mock(ESIDataAdapter.class);
-		credential = new Credential()
-				             .setAccountId(92223647)
-				             .setRefreshToken("TEST REFRESH TOKEN")
-				             .setDataSource("tranquility");
-		factory = Mockito.mock(PlanetaryControllerFactory.class);
+	public void setUp()  {
+		super.setUp();
+//		esiAdapter = Mockito.mock(ESIDataAdapter.class);
+//		credential = new Credential()
+//				             .setAccountId(92223647)
+//				             .setRefreshToken("TEST REFRESH TOKEN")
+//				             .setDataSource("tranquility");
+		factory = new TestFeaturesControllerFactory("TEST-VARIANT");
 	}
 
 	@Test
@@ -40,7 +39,7 @@ public class PlanetaryColonyLayoutDataSourceTest {
 				                                             .withVariant("TEST VARIANT")
 				                                             .withFactory(factory)
 				                                             .withCredential(credential)
-				                                             .withEsiAdapter(esiAdapter)
+				                                             .withEsiAdapter(esiDataAdapter)
 				                                             .build();
 		Assert.assertNotNull("Check the data source is properly created.", datasource);
 	}
@@ -58,12 +57,12 @@ public class PlanetaryColonyLayoutDataSourceTest {
 		pinList.add(pin2);
 		Mockito.when(extras.getInt(Mockito.anyString())).thenReturn(4321);
 		Mockito.when(extras.getString(Mockito.anyString())).thenReturn("TEMPERATE");
-		Mockito.when(esiAdapter.getUniversePlanetsPlanetId(Mockito.anyInt())).thenReturn(planet);
-		Mockito.when(esiAdapter.getCharactersCharacterIdPlanetsPlanetId(Mockito.anyInt()
+		Mockito.when(esiDataAdapter.getUniversePlanetsPlanetId(Mockito.anyInt())).thenReturn(planet);
+		Mockito.when(esiDataAdapter.getCharactersCharacterIdPlanetsPlanetId(Mockito.anyInt()
 				, Mockito.anyInt()
 				, Mockito.anyString()
 				, Mockito.anyString())).thenReturn(colonyLayout);
-		Mockito.when(esiAdapter.getUniverseTypeById(Mockito.anyInt())).thenReturn(planetItem);
+		Mockito.when(esiDataAdapter.getUniverseTypeById(Mockito.anyInt())).thenReturn(planetItem);
 		Mockito.when(colonyLayout.getPins()).thenReturn(pinList);
 		Mockito.when(pin1.getTypeId()).thenReturn(2254);
 		Mockito.when(pin1.getSchematicId()).thenReturn(null);
@@ -73,7 +72,7 @@ public class PlanetaryColonyLayoutDataSourceTest {
 				                                             .withExtras(extras)
 				                                             .withFactory(factory)
 				                                             .withCredential(credential)
-				                                             .withEsiAdapter(esiAdapter)
+				                                             .withEsiAdapter(esiDataAdapter)
 				                                             .build();
 		datasource.prepareModel();
 		//		datasource.collaborate2Model();

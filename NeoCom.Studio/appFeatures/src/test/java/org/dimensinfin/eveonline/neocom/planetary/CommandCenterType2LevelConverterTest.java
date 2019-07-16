@@ -7,11 +7,11 @@ public class CommandCenterType2LevelConverterTest {
 	@Test
 	public void build() {
 		final CommandCenterType2LevelConverter type = new CommandCenterType2LevelConverter.Builder()
-				                               .withLevel(0)
-				                               .withPrefix("")
-				                               .withCpuCapacity(1675)
-				                               .withPowerOutput(6000)
-				                               .build();
+				.withLevel(0)
+				.withPrefix("")
+				.withCpuCapacity(1675)
+				.withPowerOutput(6000)
+				.build();
 		Assert.assertNotNull(type);
 	}
 

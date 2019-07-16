@@ -49,7 +49,7 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 				.withPin(advancedFactoryPin)
 				.withPlanetType(TEST_PLANET_TYPE_BARREN)
 				.withFacilityItem(facilityItem)
-				.withEsiDataAdapter(esiDataAdapter)
+//				.withEsiDataAdapter(esiDataAdapter)
 				.build();
 		final FactoryFacility factory = new FactoryFacility.Builder()
 				.withPlanetaryFacility(facility)
@@ -67,7 +67,7 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 				.withPin(advancedFactoryPin)
 				.withPlanetType(TEST_PLANET_TYPE_BARREN)
 				.withFacilityItem(facilityItem)
-				.withEsiDataAdapter(esiDataAdapter)
+//				.withEsiDataAdapter(esiDataAdapter)
 				.build();
 		final FactoryFacility factory = new FactoryFacility.Builder()
 				.withPlanetaryFacility(facility)
@@ -86,7 +86,7 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 				.withPin(advancedFactoryPin)
 				.withPlanetType(TEST_PLANET_TYPE_BARREN)
 				.withFacilityItem(facilityItem)
-				.withEsiDataAdapter(esiDataAdapter)
+//				.withEsiDataAdapter(esiDataAdapter)
 				.build();
 		final FactoryFacility factory = new FactoryFacility.Builder()
 				.withPlanetaryFacility(facility)
@@ -105,7 +105,7 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 				.withPin(advancedFactoryPin)
 				.withPlanetType(TEST_PLANET_TYPE_BARREN)
 				.withFacilityItem(facilityItem)
-				.withEsiDataAdapter(esiDataAdapter)
+//				.withEsiDataAdapter(esiDataAdapter)
 				.build();
 		final FactoryFacility factory = new FactoryFacility.Builder()
 				.withPlanetaryFacility(facility)
@@ -118,8 +118,57 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 	}
 
 	@Test
+	public void getCpuUsage() {
+		// Basic factory
+		FactoryFacility facility = this.createFacility4Schematic(2473, 135);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 200, facility.getCpuUsage());
+
+		// Advanced factory
+		facility = this.createFacility4Schematic(2474, 84);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 500, facility.getCpuUsage());
+
+		// High factory
+		facility = this.createFacility4Schematic(2475, 119);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 1100, facility.getCpuUsage());
+	}
+
+	@Test
+	public void getPowerUsage() {
+		// Basic factory
+		FactoryFacility facility = this.createFacility4Schematic(2473, 135);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 800, facility.getPowerUsage());
+
+		// Advanced factory
+		facility = this.createFacility4Schematic(2474, 84);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 700, facility.getPowerUsage());
+
+		// High factory
+		facility = this.createFacility4Schematic(2475, 119);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the CPU used.", 400, facility.getPowerUsage());
+	}
+
+	@Test
 	public void checkFacilityTypes_basic() {
 		FactoryFacility facility = this.createFacility4Schematic(2473, 135);
+
+		Assert.assertNotNull(facility);
+		Assert.assertEquals("Check the cycle time.", 1800, facility.getCycleTime());
+		Assert.assertEquals("Check the resource quantity required.", 3000, facility.getRequiredQuantity());
+		Assert.assertEquals("Check the resource quantity required.", FactoryType.BASIC_INDUSTRY, facility.getFactoryType());
+
+		facility = this.createFacility4Schematic(2473, 131);
 
 		Assert.assertNotNull(facility);
 		Assert.assertEquals("Check the cycle time.", 1800, facility.getCycleTime());
@@ -181,7 +230,6 @@ public class FactoryFacilityTest extends TestEsiAdapterReady {
 				.withPin(pin)
 				.withPlanetType(TEST_PLANET_TYPE_BARREN)
 				.withFacilityItem(facilityItem)
-				.withEsiDataAdapter(esiDataAdapter)
 				.build();
 		return new FactoryFacility.Builder()
 				.withPlanetaryFacility(facility)
