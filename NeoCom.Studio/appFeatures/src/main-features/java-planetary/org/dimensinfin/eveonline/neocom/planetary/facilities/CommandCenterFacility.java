@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.planetary.facilities;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterType2LevelConverter;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
@@ -78,14 +77,14 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.powerInUse;
 	}
 
-	public Float getStorageCapacity() {
-		if (this.planetaryStorage.getStorageCapacity() < 0) {
-			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
-			if (null == storage) return 0.0F;
-			else this.planetaryStorage.setStorageCapacity(storage.getValue());
-		}
-		return this.planetaryStorage.getStorageCapacity();
-	}
+//	public Float getStorageCapacity() {
+//		if (this.planetaryStorage.getStorageCapacity() < 0) {
+//			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
+//			if (null == storage) return 0.0F;
+//			else this.planetaryStorage.setStorageCapacity(storage.getValue());
+//		}
+//		return this.planetaryStorage.getStorageCapacity();
+//	}
 
 	public Float getTotalVolume() {
 		return this.planetaryStorage.getTotalVolume();

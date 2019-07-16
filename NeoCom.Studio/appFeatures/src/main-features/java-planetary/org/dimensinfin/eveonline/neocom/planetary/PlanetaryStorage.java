@@ -1,32 +1,22 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 
-public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource> {
-	private Float storageCapacity=-1.0F;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>, Serializable {
+	private static final long serialVersionUID = 110028978014639183L;
+//	private Float storageCapacity=-1.0F;
 	private List<PlanetaryResource> contents = new ArrayList<>();
 
-	/**
-	 * Transform the default esi data into an aggregator data to be used on facilities.
-	 */
-	//	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents ) {
-	//		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
-	//			int quantity = 0;
-	//			if (null != resource.getAmount()) quantity = resource.getAmount().intValue();
-	//			this.contents.add(new PlanetaryResource.Builder()
-	//					                  .withEveItem())
-	//		}
-	//	}
-	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents, final ESIDataAdapter esiDataAdapter ) {
+	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents) {
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 			int quantity = 0;
 			if (null != resource.getAmount()) quantity = resource.getAmount().intValue();
-			this.contents.add(new PlanetaryResource(resource.getTypeId(), quantity));
+			this.addPack(new PlanetaryResource(resource.getTypeId(), quantity));
 		}
 	}
 
@@ -34,14 +24,14 @@ public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>
 		return this.contents;
 	}
 
-	public Float getStorageCapacity() {
-		return this.storageCapacity;
-	}
-
-	public PlanetaryStorage setStorageCapacity( final Float storageCapacity ) {
-		this.storageCapacity = storageCapacity;
-		return this;
-	}
+//	public Float getStorageCapacity() {
+//		return this.storageCapacity;
+//	}
+//
+//	public PlanetaryStorage setStorageCapacity( final Float storageCapacity ) {
+//		this.storageCapacity = storageCapacity;
+//		return this;
+//	}
 
 	public double getTotalValue() {
 		double total = 0.0;

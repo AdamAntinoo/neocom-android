@@ -28,6 +28,11 @@ public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPl
 		return this.planetaryFacility.getFacilityType();
 	}
 
+	//	@Override
+	public Float getStorageCapacity() {
+		return this.planetaryFacility.getStorageCapacity();
+	}
+
 	@Override
 	public int getBackgroundColor() {
 		return planetaryFacility.getBackgroundColor();
