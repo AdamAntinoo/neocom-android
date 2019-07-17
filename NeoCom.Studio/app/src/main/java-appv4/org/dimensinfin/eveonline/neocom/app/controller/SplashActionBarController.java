@@ -55,7 +55,7 @@ public class SplashActionBarController extends AAndroidController<SplashActionBa
 			this.appName = this.getView().findViewById(R.id.appName);
 			this.appVersion = this.getView().findViewById(R.id.appVersion);
 			this.serverName = this.getView().findViewById(R.id.serverName);
-			this.serverStatus = this.getView().findViewById(R.id.toolBarSubTitle);
+			this.serverStatus = this.getView().findViewById(R.id.serverStatus);
 			this.capsuleersNumber = this.getView().findViewById(R.id.capsuleersNumber);
 		}
 
