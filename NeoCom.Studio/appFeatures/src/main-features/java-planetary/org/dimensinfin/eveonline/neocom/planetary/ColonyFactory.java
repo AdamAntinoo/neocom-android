@@ -78,11 +78,8 @@ public class ColonyFactory {
 	 * The colony is required by a command center to be able to request the used power and cpu. The colony is the only able to scan all
 	 * the facilities and get such information.
 	 */
-	protected IPlanetaryFacility convertPin2Facility( final GetCharactersCharacterIdPlanetsPlanetIdOkPins pins
-			, final PlanetType planetType ) {
-		final List<IPlanetaryFacility> facilities = new ArrayList<>();
-		final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin = pins;
-//		for (GetCharactersCharacterIdPlanetsPlanetIdOkPins facility : pins) {
+	protected IPlanetaryFacility convertPin2Facility( final GetCharactersCharacterIdPlanetsPlanetIdOkPins pin,
+	                                                  final PlanetType planetType ) {
 		final EveItem facilityItem = new EveItem(pin.getTypeId()); // The item for this facility.
 		// Create the right facility class depending on the type.
 		final PlanetaryFacilityType facilityType = PlanetaryFacilityType.getTypeByStructureGroup(facilityItem.getGroupId());
@@ -93,17 +90,15 @@ public class ColonyFactory {
 				.build();
 		switch (facilityType) {
 			case COMMAND_CENTER:
-				facilities.add(new CommandCenterFacility.Builder()
+				return new CommandCenterFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
 						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
-						.build());
-				break;
+						.build();
 			case STORAGE:
-				facilities.add(new StorageFacility.Builder()
+				return new StorageFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
 						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
-						.build());
-				break;
+						.build();
 			case LAUNCHPAD:
 				facilities.add(new StorageFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
@@ -111,23 +106,18 @@ public class ColonyFactory {
 						.build());
 				break;
 			case EXTRACTOR_CONTROL_UNIT:
-				facilities.add(new ExtractorFacility.Builder()
+				return new ExtractorFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
 						.withExtractorDetails(pin)
-						.build());
-				break;
+						.build();
 			case PLANETARY_FACTORY:
-				facilities.add(new FactoryFacility.Builder()
+				return new FactoryFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
 						.withSchematics(baseFacility.getSchematicId())
 						.withPlanetaryRepository(this.planetaryRepository)
-						.build());
-				break;
-			default:
-				facilities.add(baseFacility);
+						.build();
 		}
-//		}
-		return facilities.get(0);
+		return baseFacility;
 	}
 
 	// - B U I L D E R

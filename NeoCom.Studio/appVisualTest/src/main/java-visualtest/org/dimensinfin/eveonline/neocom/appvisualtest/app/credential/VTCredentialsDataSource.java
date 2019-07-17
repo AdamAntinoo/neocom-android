@@ -1,10 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
-
-import java.beans.PropertyChangeEvent;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+package org.dimensinfin.eveonline.neocom.appvisualtest.app.credential;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -13,6 +7,12 @@ import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
+
+import java.beans.PropertyChangeEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class VTCredentialsDataSource extends AMVCDataSource {
 	private ESIDataAdapter esiDataAdapter;

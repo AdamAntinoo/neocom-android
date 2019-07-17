@@ -110,7 +110,7 @@ public class FactoryImageView extends APlanetaryStructureImageView implements IP
 		paint.setStrokeCap(Paint.Cap.BUTT);
 		paint.setStyle(Paint.Style.STROKE);
 		// Get the facility type.
-		logger.info("-- [FacilityImageView.drawFacilityFill]> {}", facilityClass.name());
+		logger.info("-- [FacilityImageView.drawStorageUsed]> {}", facilityClass.name());
 		int sectionCounter = 0;
 		for (FactorySection section : this.factorySections.values()) {
 			switch (facilityClass) {

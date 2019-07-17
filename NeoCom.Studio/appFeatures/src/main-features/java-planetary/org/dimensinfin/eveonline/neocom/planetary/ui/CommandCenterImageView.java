@@ -1,9 +1,14 @@
 package org.dimensinfin.eveonline.neocom.planetary.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
@@ -23,10 +28,11 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	protected void onDraw( final Canvas canvas ) {
 		logger.info(">> [CommandCenterImageView.onDraw]");
 		this.centerCanvas4CommandCenter(canvas); // Command center goes to the center of the canvas
-		this.drawFacilityRing(canvas,R.color.pi_commandcenterringcolor);
+		this.drawFacilityRing(canvas, R.color.pi_commandcenterringcolor);
+		this.drawGeneratorRing(canvas);
 		this.drawCpuInUseRing(canvas);
 		this.drawPowerInUseRing(canvas);
-		this.drawFacilityFill(canvas);
+		this.drawStorageUsed(canvas);
 		this.drawFacilityIcon(canvas);
 		super.onDraw(canvas);
 		logger.info("<< [CommandCenterImageView.onDraw]");
@@ -36,20 +42,29 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 		canvas.translate((canvas.getWidth() / 2), (canvas.getHeight() / 2));
 	}
 
-	protected void drawCpuInUseRing( final Canvas canvas ) {
-		// Draw the circle indicators.
+	protected void drawGeneratorRing( final Canvas canvas ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcenterringcolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setPathEffect(new DashPathEffect(new float[]{3, 2}, 5));
+		paint.setPathEffect(new DashPathEffect(new float[]{ 3, 2 }, 5));
 		canvas.drawArc(-DIMENSION + 2 * FACILITY_RING_WIDTH, -DIMENSION + 2 * FACILITY_RING_WIDTH
-				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, 90.0F
-				, 180.0F, false, paint);
-		// Draw the cpu in use.
+				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, -90.0F
+				, 360.0F, false, paint);
+	}
+
+	protected void drawCpuInUseRing( final Canvas canvas ) {
+		// Draw the circle indicators.
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcentercpucolor));
+		paint.setStrokeWidth(FACILITY_RING_WIDTH);
+		paint.setAntiAlias(true);
+		paint.setStrokeCap(Paint.Cap.BUTT);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setPathEffect(new DashPathEffect(new float[]{ 3, 2 }, 5));
+		// Draw the cpu in use.
 		canvas.drawArc(-DIMENSION + 2 * FACILITY_RING_WIDTH, -DIMENSION + 2 * FACILITY_RING_WIDTH
 				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, 90.0F
 				, this.getCpuUsageAngle(), false, paint);
@@ -58,19 +73,15 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	protected void drawPowerInUseRing( final Canvas canvas ) {
 		// Draw the circle indicators.
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
-		paint.setColor(this.getColor(R.color.pi_commandcenterringcolor));
+		paint.setColor(this.getColor(R.color.pi_commandcenterpowercolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setPathEffect(new DashPathEffect(new float[]{3, 2}, 5));
+		paint.setPathEffect(new DashPathEffect(new float[]{ 3, 2 }, 5));
+		// Draw the power in use.
 		canvas.drawArc(-DIMENSION + 2 * FACILITY_RING_WIDTH, -DIMENSION + 2 * FACILITY_RING_WIDTH
-				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, 90.0F
-				, -180.0F, false, paint);
-		// Draw the cpu in use.
-		paint.setColor(this.getColor(R.color.pi_commandcenterpowercolor));
-		canvas.drawArc(-DIMENSION + 2 * FACILITY_RING_WIDTH, -DIMENSION + 2 * FACILITY_RING_WIDTH
-				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, 90.0F
+				, DIMENSION - 2 * FACILITY_RING_WIDTH, DIMENSION - 2 * FACILITY_RING_WIDTH, -90.0F
 				, this.getPowerUsageAngle(), false, paint);
 	}
 
@@ -81,22 +92,37 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	}
 
 	private Float getPowerUsageAngle() {
-		final Float powerUse = Float.valueOf(((CommandCenterFacility) this.planetaryFacility).powerInUse());
-		final Float powerOutput = Float.valueOf(((CommandCenterFacility) this.planetaryFacility).getPowerOutput());
-		return powerUse / powerOutput * -180.0F;
+		final Float powerUse = ((CommandCenterFacility) this.planetaryFacility).powerInUse().floatValue();
+		final Float powerOutput = ((CommandCenterFacility) this.planetaryFacility).getPowerOutput().floatValue();
+		return powerUse / powerOutput * 180.0F;
 	}
 
-	protected void drawFacilityFill( final Canvas canvas ) {
+	protected void drawStorageUsed( final Canvas canvas ) {
 		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
 		paint.setColor(this.getColor(R.color.pi_commandcenterstorageusedcolor));
 		paint.setStrokeWidth(FACILITY_RING_WIDTH);
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.BUTT);
 		paint.setStyle(Paint.Style.STROKE);
-		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION, -90.0F, this.getStorageUsageAngle(), false, paint);
-		// Use background color to clean up the drawing that should not be seen.
-		//		paint.setColor(this.getColor(this.planetaryFacility.getBackgroundColor()));
-		//		canvas.drawCircle(0.0F, 0.0F, DIMENSION - FACILITY_RING_WIDTH, paint);
+		canvas.drawArc(-DIMENSION, -DIMENSION, DIMENSION, DIMENSION, -90.0F,
+				this.getStorageUsageAngle(), false, paint);
+	}
+
+	protected void drawFacilityIcon( final Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // Initialise the paint.
+		paint.setColor(this.getColor(R.color.appblack));
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.FILL);
+		canvas.drawArc(-40, -40, 40, 40, -90.0F,
+				360.0F, false, paint); // Draw the black circle background
+
+//		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+		Bitmap structureIconBitmap = BitmapFactory.decodeResource(this.getResources(), this.planetaryFacility.getIconReferenceId());
+		structureIconBitmap = this.changeImageColor(structureIconBitmap, this.getColor(this.planetaryFacility.getIconColorReference()));
+		final Rect structureIconRect = new Rect(0, 0, structureIconBitmap.getWidth(), structureIconBitmap.getHeight());
+		final Rect structureIconDestination = new Rect(-STRUCTURE_ICON_DIMENSION, -STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION, STRUCTURE_ICON_DIMENSION);
+		canvas.drawBitmap(structureIconBitmap, structureIconRect, structureIconDestination, paint);
 	}
 
 	private Float getStorageUsageAngle() {
@@ -104,17 +130,6 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 		final Float usage = ((CommandCenterFacility) this.planetaryFacility).getTotalVolume();
 		return usage / capacity * 360.0F;
 	}
-
-	//	/**
-	//	 * Draws each of the 3 facility inputs. If the facility does not have that input we draw nothing but the code
-	//	 * is shared for the 3 facilities.
-	//	 */
-	//	private void drawStorageFillRing( Canvas canvas ) {
-	//		float startAngle = -90.0f;
-	//		float endAngle = 100;
-	//		paint.setColor(getResources().getColor(R.color.pi_storagefill));
-	//		canvas.drawArc(STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_NEG, STRUCTURE_INPUTDIMENSION_POS, STRUCTURE_INPUTDIMENSION_POS, startAngle, endAngle, true, paint);
-	//	}
 
 	// - B U I L D E R
 	public static class Builder extends BaseBuilder<CommandCenterImageView, CommandCenterImageView.Builder> {

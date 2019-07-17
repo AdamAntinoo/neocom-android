@@ -47,11 +47,11 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.planetaryFacility.getPlanetType();
 	}
 
-	public int getCpuCapacity() {
+	public Integer getCpuCapacity() {
 		return this.commandCenterLevel.getCpuCapacity();
 	}
 
-	public int getPowerOutput() {
+	public Integer getPowerOutput() {
 		return this.commandCenterLevel.getPowerOutput();
 	}
 
@@ -69,22 +69,13 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 	 * Get the CPU already used by the planet facilities. This calculation requires to scan through all the facilities and add the used capacities
 	 * from each of them.
 	 */
-	public int cpuInUse() {
+	public Integer cpuInUse() {
 		return this.cpuInUse;
 	}
 
-	public int powerInUse() {
+	public Integer powerInUse() {
 		return this.powerInUse;
 	}
-
-//	public Float getStorageCapacity() {
-//		if (this.planetaryStorage.getStorageCapacity() < 0) {
-//			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
-//			if (null == storage) return 0.0F;
-//			else this.planetaryStorage.setStorageCapacity(storage.getValue());
-//		}
-//		return this.planetaryStorage.getStorageCapacity();
-//	}
 
 	public Float getTotalVolume() {
 		return this.planetaryStorage.getTotalVolume();

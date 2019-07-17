@@ -11,8 +11,7 @@ import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.app.pilot.VTPilotFragment;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility.VTAdvancedFacilityFragment;
+import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter.VTCommandCenterFragment;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import java.io.File;
@@ -26,13 +25,14 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.injectComponents();
 		this.validatePermissions();
 		this.validateSDEDatabase();
-		this.addPage(new VTPilotFragment().setVariant(PageNamesType.PILOT_DASHBOARD.name()));
+		this.addPage(new VTCommandCenterFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+//		this.addPage(new VTPilotFragment().setVariant(PageNamesType.PILOT_DASHBOARD.name()));
 
-		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
-		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
-		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
+//		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+//		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
+//		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.PLANETS_LIST.name()));
+//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
 	}
 
 	protected void validatePermissions() {
