@@ -256,7 +256,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 				                       .build();
 		facilities.add(baseIndustryFacility);
 
-		// - BASE INDUSTRY FACILITY EMPTY
+		// - BASE INDUSTRY FACILITY EMPTY - USED FOR POSITIONING
 		baseIndustryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		baseIndustryPin.setPinId(1023355532557L);
 		baseIndustryPin.setTypeId(2492);

@@ -10,7 +10,6 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryCommonDataSource;
@@ -76,12 +75,12 @@ public class VTCommandCenterDataSource extends PlanetaryCommonDataSource {
 		for (int i = 0; i < this.commandCenterFactories.size(); i++) {
 			// Change the data fr each of the command centers.
 			final CommandCenterFacility commandCenter = (CommandCenterFacility) this.commandCenterFactories.get(i);
-//			if (0 == i) {
-//				commandCenter.setUpgradeLevel(2);
-//				commandCenter.setCpuInUse(5000);
-//				commandCenter.setPowerInUse(8000);
-//				this.addModelContents(commandCenter);
-//			}
+			if (0 == i) {
+				commandCenter.setUpgradeLevel(2);
+				commandCenter.setCpuInUse(5000);
+				commandCenter.setPowerInUse(8000);
+				this.addModelContents(commandCenter);
+			}
 //			if (1 == i) {
 //				commandCenter.setUpgradeLevel(2);
 //				commandCenter.setCpuInUse(12136);
@@ -91,15 +90,15 @@ public class VTCommandCenterDataSource extends PlanetaryCommonDataSource {
 //						.setLongitude(1.99885095517));
 //				this.addModelContents(commandCenter);
 //			}
-			if (2 == i) {
-				commandCenter.setUpgradeLevel(2);
-				commandCenter.setCpuInUse(0);
-				commandCenter.setPowerInUse(0);
-				commandCenter.setCommandCenterPosition(new FacilityGeoPosition()
-						.setLatitude(2.30938039038)
-						.setLongitude(1.99885095517));
-				this.addModelContents(commandCenter);
-			}
+//			if (2 == i) {
+//				commandCenter.setUpgradeLevel(2);
+//				commandCenter.setCpuInUse(0);
+//				commandCenter.setPowerInUse(0);
+//				commandCenter.setCommandCenterPosition(new FacilityGeoPosition()
+//						.setLatitude(2.30938039038)
+//						.setLongitude(1.99885095517));
+//				this.addModelContents(commandCenter);
+//			}
 		}
 	}
 

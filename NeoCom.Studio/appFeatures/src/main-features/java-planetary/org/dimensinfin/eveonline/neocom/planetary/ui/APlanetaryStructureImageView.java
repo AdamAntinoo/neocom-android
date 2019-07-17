@@ -11,11 +11,11 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,16 +23,16 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	protected static Logger logger = LoggerFactory.getLogger(APlanetaryStructureImageView.class);
 
 	// - D R A W I N G   C O N S T A N T S
-	protected static final Float CONVERSION_LONGITUDE_MULTIPLIER = 10500.0F / 9.0F * 9.0F;
-	protected static final Float CONVERSION_LATITUDE_MULTIPLIER = 10500.0F;
-	protected static final int STRUCTURE_SIZE = 118;
-	protected static final int DIMENSION = Float.valueOf(STRUCTURE_SIZE / 2).intValue();
+	protected static final int STRUCTURE_SIZE = 120;
+	protected static final int DIMENSION = STRUCTURE_SIZE / 2;
+	protected static final Float LATITUDE_MULTIPLIER = (1.0F / 0.005608293F) * DIMENSION;
+	protected static final Float LONGITUDE_MULTIPLIER = (1.0F / 0.013409427F) * STRUCTURE_SIZE;
 	protected static final int FACILITY_RING_WIDTH = 10;
 	protected static final int CYCLE_WIDTH = 5;
 	protected static final int STRUCTURE_ICON_DIMENSION = 30;
 	protected static final int CYCLE_RADIUS = STRUCTURE_SIZE / 2 - FACILITY_RING_WIDTH - FACILITY_RING_WIDTH;
 	protected static final int CYCLE_BORDER_DISTANCE = (STRUCTURE_SIZE / 2) - CYCLE_RADIUS;
-	protected static final float CYCLE_DIMENSION = Integer.valueOf(STRUCTURE_SIZE / 2).floatValue() - CYCLE_BORDER_DISTANCE;
+	protected static final int CYCLE_DIMENSION = STRUCTURE_SIZE / 2 - CYCLE_BORDER_DISTANCE;
 
 	// - F I E L D S
 	/** This is the planetaryFacility to be rendered. This data should contain all the data required for the rendering. */
@@ -46,6 +46,7 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 	}
 
 	// - C O N T E N T   A P I
+
 	/**
 	 * Get the model from where to get all the parameters and calculations instead having a lot of methods
 	 * to enter that data. This way we are sure we have all the parameter set before the <code>onDraw</code>
@@ -67,8 +68,8 @@ public abstract class APlanetaryStructureImageView extends ImageView {
 		// Convert the facility location to pixel location being the Command Center the center of coordinates.
 		final float longitudeDelta = this.planetaryFacility.getGeoPosition().getLongitude() - this.planetaryFacility.getCommandCenterPosition().getLongitude();
 		final float latitudeDelta = this.planetaryFacility.getGeoPosition().getLatitude() - this.planetaryFacility.getCommandCenterPosition().getLatitude();
-		final int posx = -1* Math.round(longitudeDelta * CONVERSION_LONGITUDE_MULTIPLIER);
-		final int posy = Math.round(latitudeDelta * CONVERSION_LATITUDE_MULTIPLIER);
+		final int posx = -1 * Math.round(longitudeDelta * LONGITUDE_MULTIPLIER);
+		final int posy = Math.round(latitudeDelta * LATITUDE_MULTIPLIER);
 		canvas.translate(posx, posy);
 	}
 

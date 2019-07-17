@@ -1,5 +1,10 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -36,5 +41,15 @@ public class VTCommandCenterFragment extends ASimplePagerFragment {
 				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				.build();
+	}
+
+	@Override
+	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
+		try {
+			return super.onCreateView(inflater, container, savedInstanceState);
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();
+		}
+		return null;
 	}
 }
