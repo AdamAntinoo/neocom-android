@@ -4,74 +4,78 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/activityIcon"
-        style="@style/AppTheme.ActionBarActivityIcon"
-        android:layout_width="@dimen/nodeiconsize"
-        android:layout_height="@dimen/nodeiconsize"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:src="@drawable/defaulticonplaceholder" />
-
-    <ImageView
-        android:id="@+id/upperIcon"
-        style="@style/AppTheme.ActionBarComplementaryIcon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:layout_toRightOf="@+id/activityIcon"
-        android:src="@drawable/defaulticonplaceholder" />
-
-    <ImageView
-        android:id="@+id/lowerIcon"
-        style="@style/AppTheme.ActionBarComplementaryIcon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/activityIcon"
-        android:src="@drawable/defaulticonplaceholder" />
-
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
-        android:id="@+id/toolBarTitleLeft"
+        android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="@dimen/standardmargin"
         android:layout_marginTop="4dp"
-        android:layout_toRightOf="@+id/upperIcon"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="NEOCOM"
+        android:text="@string/appname"
         android:textColor="@color/apporange"
         android:textSize="16sp" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
-        android:id="@+id/toolBarTitleRight"
+        android:id="@+id/appVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/toolBarTitleLeft"
+        android:layout_alignBaseline="@+id/appName"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="3dp"
-        android:layout_toRightOf="@+id/toolBarTitleLeft"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/appName"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="v 1.0.0"
+        android:text="@string/appversionname"
         android:textColor="@color/appyellow"
-        android:textSize="12dp" />
+        android:textSize="12sp" />
 
     <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-        android:id="@+id/toolBarSubTitle"
+        android:id="@+id/serverName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolBarTitleLeft"
-        android:layout_marginLeft="3dp"
-        android:layout_toRightOf="@+id/upperIcon"
+        android:layout_below="@+id/appName"
+        android:layout_marginLeft="@dimen/standardmargin"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Tranquility: 23.056 capsuleers    ONLINE"
+        android:text="@string/servername"
         android:textColor="@color/appgreylight"
-        android:textSize="11dp" />
+        android:textSize="11sp" />
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+        android:id="@+id/serverStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appName"
+        android:layout_toRightOf="@+id/serverName"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/serverstatus"
+        android:textColor="@color/appgreenalien"
+        android:textSize="11sp" />
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+        android:id="@+id/capsuleersLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appName"
+        android:layout_toRightOf="@+id/serverStatus"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="CAPSULEERS"
+        android:textColor="@color/appgreylight"
+        android:textSize="11sp" />
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+        android:id="@+id/capsuleersNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appName"
+        android:layout_toRightOf="@+id/capsuleersLabel"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="CAPSULEERS"
+        android:textColor="@color/apporangebrilliant"
+        android:textSize="11sp" />
 </RelativeLayout>

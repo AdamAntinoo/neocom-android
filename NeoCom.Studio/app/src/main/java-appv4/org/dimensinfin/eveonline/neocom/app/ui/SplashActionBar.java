@@ -1,16 +1,16 @@
 package org.dimensinfin.eveonline.neocom.app.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import android.content.SharedPreferences;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class SplashActionBar implements ICollaboration {
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
-	private static final String DEFAULT_ESI_SERVER = "tranquility";
+	private static final String DEFAULT_ESI_SERVER = "tranquility".toUpperCase();
 
 	private SharedPreferences preferences;
 
@@ -21,7 +21,7 @@ public class SplashActionBar implements ICollaboration {
 	}
 
 	public String getServerStatus() {
-		return "active";
+		return "active".toUpperCase();
 	}
 
 	// - I C O L L A B O R A T I O N
@@ -50,8 +50,6 @@ public class SplashActionBar implements ICollaboration {
 
 		public SplashActionBar build() {
 			Objects.requireNonNull(this.onConstruction.preferences);
-			// Access the server to get the status and the number of pilots.
-
 			return this.onConstruction;
 		}
 	}

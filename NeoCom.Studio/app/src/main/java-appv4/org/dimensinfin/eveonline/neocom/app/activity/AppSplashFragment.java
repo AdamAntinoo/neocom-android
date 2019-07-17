@@ -311,11 +311,6 @@ public class AppSplashFragment extends AMVCPagerFragment {
 				return this;
 			}
 
-			//			public Builder withApplicationContext( final Context applicationContext ) {
-			//				this.getActual().setApplicationContext(applicationContext);
-			//				return this;
-			//			}
-
 			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
 				this.onConstruction.esiDataAdapter = esiDataAdapter;
 				return this;

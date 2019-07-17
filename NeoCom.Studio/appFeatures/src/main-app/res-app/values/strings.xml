@@ -8,4 +8,6 @@
     <string name="default_name">Default Name</string>
 	<string name="clone_type_alpha">Clone Grade Alpha</string>
 	<string name="clone_type_omega">Clone Grade Omega</string>
+    <string name="servername">TRANQUILITY</string>
+    <string name="serverstatus">ACTIVE</string>
 </resources>
