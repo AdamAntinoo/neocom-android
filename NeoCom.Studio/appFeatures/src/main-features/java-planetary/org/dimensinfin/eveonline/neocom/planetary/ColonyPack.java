@@ -112,7 +112,8 @@ public class ColonyPack extends UpdatableNode {
 	}
 
 	protected int calculateUsedCpu() {
-		int usedCpu = this.planetFacilities.getLinks().size() * CPU_20KMLINK;
+		int usedCpu = 0;
+		if (null != this.planetFacilities) usedCpu += this.planetFacilities.getLinks().size() * CPU_20KMLINK;
 		for (IPlanetaryFacility facility : this.facilities) {
 			usedCpu += facility.getCpuUsage();
 		}
@@ -120,7 +121,8 @@ public class ColonyPack extends UpdatableNode {
 	}
 
 	protected int calculateUsedPower() {
-		int usedPower = this.planetFacilities.getLinks().size() * POWER_20KMLINK;
+		int usedPower = 0;
+		if (null != this.planetFacilities) usedPower += this.planetFacilities.getLinks().size() * POWER_20KMLINK;
 		for (IPlanetaryFacility facility : this.facilities) {
 			usedPower += facility.getPowerUsage();
 		}
@@ -180,7 +182,7 @@ public class ColonyPack extends UpdatableNode {
 
 		public ColonyPack build() {
 			Objects.requireNonNull(this.onConstruction.pilotIdentifier);
-			Objects.requireNonNull(this.onConstruction.planetFacilities);
+//			Objects.requireNonNull(this.onConstruction.planetFacilities);
 			Objects.requireNonNull(this.onConstruction.planet);
 			Objects.requireNonNull(this.onConstruction.planetData);
 			Objects.requireNonNull(this.onConstruction.facilities);
