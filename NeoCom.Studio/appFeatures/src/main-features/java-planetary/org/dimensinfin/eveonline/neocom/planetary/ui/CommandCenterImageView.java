@@ -88,13 +88,13 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	private Float getCpuUsageAngle() {
 		final Float cpuUse = new Float(((CommandCenterFacility) this.planetaryFacility).cpuInUse());
 		final Float cpuCapacity = new Float(((CommandCenterFacility) this.planetaryFacility).getCpuCapacity());
-		return cpuUse / cpuCapacity * 180.0F;
+		return Math.min(cpuUse / cpuCapacity * 180.0F, 180.0F);
 	}
 
 	private Float getPowerUsageAngle() {
 		final Float powerUse = ((CommandCenterFacility) this.planetaryFacility).powerInUse().floatValue();
 		final Float powerOutput = ((CommandCenterFacility) this.planetaryFacility).getPowerOutput().floatValue();
-		return powerUse / powerOutput * 180.0F;
+		return Math.min(powerUse / powerOutput * 180.0F, 180.0F);
 	}
 
 	protected void drawStorageUsed( final Canvas canvas ) {

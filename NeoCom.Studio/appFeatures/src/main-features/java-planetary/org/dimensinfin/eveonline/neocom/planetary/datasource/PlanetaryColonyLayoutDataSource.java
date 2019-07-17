@@ -48,6 +48,7 @@ public class PlanetaryColonyLayoutDataSource extends PlanetaryCommonDataSource {
 				this.colony = new ColonyFactory.Builder()
 						.withEsiDataAdapter(this.getEsiDataAdapter())
 						.withCredential(this.getCredential())
+						.withPlanetaryRepository(this.planetaryRepository)
 						.build()
 						.accessColony(colonyEsi);
 			}

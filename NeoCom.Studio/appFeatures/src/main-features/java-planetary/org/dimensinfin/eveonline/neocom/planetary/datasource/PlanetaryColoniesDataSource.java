@@ -32,6 +32,7 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 			this.colonies.add( new ColonyFactory.Builder()
 						.withEsiDataAdapter(this.getEsiDataAdapter())
 						.withCredential(this.getCredential())
+						.withPlanetaryRepository(this.planetaryRepository)
 						.build()
 						.accessColony(colonyEsi));
 //			}

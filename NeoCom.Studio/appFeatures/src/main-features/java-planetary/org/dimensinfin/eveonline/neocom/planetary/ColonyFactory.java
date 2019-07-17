@@ -26,19 +26,20 @@ import java.util.Objects;
  * and setup.
  */
 public class ColonyFactory {
+	private static Map<Integer, ColonyPack> colonyCache = new HashMap<>();
+
 	// - C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
 	private Credential credential;
 	private PlanetaryRepository planetaryRepository;
 
-	private Map<Integer, ColonyPack> colonyCache = new HashMap<>();
 	private List<IPlanetaryFacility> facilities = new ArrayList<>();
 
 	public ColonyPack accessColony( final GetCharactersCharacterIdPlanets200Ok esiColonyData ) {
-		if (this.colonyCache.containsKey(esiColonyData.getPlanetId())) {
-			final ColonyPack colony = this.colonyCache.get(esiColonyData.getPlanetId());
+		if (colonyCache.containsKey(esiColonyData.getPlanetId())) {
+			final ColonyPack colony = colonyCache.get(esiColonyData.getPlanetId());
 			if (colony.needsRefresh()) return this.createColony(esiColonyData);
-			else return this.colonyCache.get(esiColonyData.getPlanetId());
+			else return colony;
 		} else return this.createColony(esiColonyData);
 	}
 
@@ -64,7 +65,7 @@ public class ColonyFactory {
 				.withFacilities(this.facilities)
 				.build();
 		colony.timeStamp();
-		this.colonyCache.put(esiColonyData.getPlanetId(), colony);
+		colonyCache.put(esiColonyData.getPlanetId(), colony);
 		return colony;
 	}
 
@@ -100,11 +101,10 @@ public class ColonyFactory {
 						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
 						.build();
 			case LAUNCHPAD:
-				facilities.add(new StorageFacility.Builder()
+				return new StorageFacility.Builder()
 						.withPlanetaryFacility(baseFacility)
 						.withPlanetaryStorage(new PlanetaryStorage(baseFacility.getContents()))
-						.build());
-				break;
+						.build();
 			case EXTRACTOR_CONTROL_UNIT:
 				return new ExtractorFacility.Builder()
 						.withPlanetaryFacility(baseFacility)

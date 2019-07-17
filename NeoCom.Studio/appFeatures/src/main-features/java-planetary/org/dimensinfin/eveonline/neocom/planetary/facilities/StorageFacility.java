@@ -30,7 +30,8 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 //	}
 
 	public Float getTotalVolume() {
-		return this.planetaryStorage.getTotalVolume();
+		if ( null != this.planetaryStorage) return this.planetaryStorage.getTotalVolume();
+		else return 0.0F;
 	}
 
 	public double getTotalValue() {

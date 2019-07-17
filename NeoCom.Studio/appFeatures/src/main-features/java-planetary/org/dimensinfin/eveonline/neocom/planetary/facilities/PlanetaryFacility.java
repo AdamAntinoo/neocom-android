@@ -77,12 +77,9 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	}
 
 	public Float getStorageCapacity() {
-//		if (this.planetaryStorage.getStorageCapacity() < 0) {
 		final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.getDogmaAttributeById(38);
 		if (null == storage) return 0.0F;
 		else return storage.getValue();
-//		}
-//		return this.planetaryStorage.getStorageCapacity();
 	}
 
 	// - D E L E G A T I O N
@@ -138,10 +135,6 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return this.pinDelegate.getLongitude();
 	}
 
-//	public Float getStorageCapacity() {
-//		return this.planetItemDelegate.getCapacity();
-//	}
-
 	public Integer getSchematicId() {
 		return this.pinDelegate.getSchematicId();
 	}
@@ -158,21 +151,11 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		return this.planetItemDelegate.getGroupId();
 	}
 
-//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-//		return this.pinDelegate.getExtractorDetails();
-//	}
-
 	// - I U N I Q U E M O D E L
 	@Override
 	public long getUniqueModelIdentifier() {
 		return this.pinDelegate.getPinId();
 	}
-
-	// - I C O L L A B O R A T I O N
-	//	@Override
-	//	public List<ICollaboration> collaborate2Model( final String variation ) {
-	//		return new ArrayList<>();
-	//	}
 
 	// - C O R E
 
@@ -186,16 +169,6 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 		}
 		return 0;
 	}
-
-	//	private double calculateContentsVolume() {
-	//		double volumeUsed = 0.0;
-	//		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents cont : this.getContents()) {
-	//			final GetUniverseTypesTypeIdOk contentItem = this.esiDataAdapter.getUniverseTypeById(cont.getTypeId());
-	//			if (null == contentItem) volumeUsed += cont.getAmount() * contentItem.getVolume();
-	//			else volumeUsed += cont.getAmount() * contentItem.getVolume();
-	//		}
-	//		return volumeUsed;
-	//	}
 
 	// - B U I L D E R
 	public static class Builder {
@@ -220,11 +193,6 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			return this;
 		}
 
-//		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
-//			this.onConstruction.esiDataAdapter = esiDataAdapter;
-//			return this;
-//		}
-
 		/**
 		 * This builder method sets the schematic identifier that is the schematic to be used on the production plan for this facility.
 		 * Not all structures have the ability to handle schematics to this is an optional method that should code gracefully with the
@@ -234,7 +202,6 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 			Objects.requireNonNull(this.onConstruction.pinDelegate);
 			Objects.requireNonNull(this.onConstruction.planetItemDelegate);
 			Objects.requireNonNull(this.onConstruction.planetType);
-//			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			return this.onConstruction;
 		}
 	}

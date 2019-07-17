@@ -1,11 +1,10 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -18,6 +17,8 @@ import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.FactoryImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.IPlanetaryImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
+
+import java.util.concurrent.TimeUnit;
 
 public class FacilityLayoutCustomRender extends AMVCRender {
 	private FacilityGeoPosition mapCenter;
@@ -70,7 +71,6 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 			case STORAGE:
 				this.structureImage = new StorageImageView.Builder(this.getContext())
 						                      .withFacility(this.getController().getModel())
-//						                      .withDeltaPosition(this.mapCenter)
 						                      .build();
 				break;
 			case LAUNCHPAD:

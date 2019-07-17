@@ -96,6 +96,7 @@ public class ColonyPack extends UpdatableNode {
 
 	protected void initialise() {
 		this.commandCenter = this.accessCommandCenter();
+		this.commandCenter.setUpgradeLevel(this.planet.getUpgradeLevel());
 		this.commandCenter.setCpuInUse(this.calculateUsedCpu());
 		this.commandCenter.setPowerInUse(this.calculateUsedPower());
 		for (IPlanetaryFacility facility : this.facilities) {

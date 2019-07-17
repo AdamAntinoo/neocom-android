@@ -34,6 +34,7 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 				this.colony = new ColonyFactory.Builder()
 						.withEsiDataAdapter(this.getEsiDataAdapter())
 						.withCredential(this.getCredential())
+						.withPlanetaryRepository(this.planetaryRepository)
 						.build()
 						.accessColony(colonyEsi);
 			}
@@ -45,7 +46,7 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 	@Override
 	public void collaborate2Model() {
 		this.addHeaderContents(this.colony);
-		for (IPlanetaryFacility facility : this.facilities)
+		for (IPlanetaryFacility facility : this.colony.getFacilities())
 			this.addModelContents(facility);
 	}
 
