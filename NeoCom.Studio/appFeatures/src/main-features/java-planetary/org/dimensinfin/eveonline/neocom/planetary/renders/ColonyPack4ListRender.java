@@ -28,6 +28,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	private ImageView levelDecorator;
 	private TextView storageUsed;
 	private FrameLayout colonyStorageCanvas;
+	private TextView resourcesMarketValue;
 
 	// - C O N S T R U C T O R S
 	public ColonyPack4ListRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -56,6 +57,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		this.nodeIcon = this.getView().findViewById(R.id.planetIcon);
 		this.levelDecorator = this.getView().findViewById(R.id.bottomrightDecorator);
 		this.storageUsed = this.getView().findViewById(R.id.storageUsed);
+		this.resourcesMarketValue = this.getView().findViewById(R.id.resourcesMarketValue);
 	}
 
 	@Override
@@ -68,6 +70,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		this.storageUsed.setText(this.accessStorageUsed());
 		this.nodeIcon.setImageResource(R.drawable.planets);
 		this.levelDecorator.setVisibility(View.VISIBLE);
+		this.resourcesMarketValue.setText(this.accessResourcesMarketvalue());
 		switch (this.getController().getModel().getUpgradeLevel()) {
 			case 1:
 				levelDecorator.setImageResource(R.drawable.level1white);
@@ -84,12 +87,14 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 			case 5:
 				levelDecorator.setImageResource(R.drawable.level5white);
 				break;
+			default:
+				levelDecorator.setImageResource(R.drawable.level1white);
 		}
 		this.setPlanetIcon();
-		final Handler _handler = new Handler(Looper.getMainLooper());
-		_handler.post(() -> {
+		final Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(() -> {
 			final ImageView storageImage = this.generateStorageImage();
-			this.colonyStorageCanvas.addView((ImageView) storageImage);
+			this.colonyStorageCanvas.addView( storageImage);
 		});
 	}
 
@@ -100,7 +105,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 				       .build();
 	}
 
-	protected void setPlanetIcon() {
+	private void setPlanetIcon() {
 		// Get the planet type name and set the icon depending on that value.
 		final String planetTypeName = this.getController().getModel().getPlanetType().name().toLowerCase();
 		if (planetTypeName.equalsIgnoreCase("barren"))
@@ -129,5 +134,8 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		final Float storageInUse = this.getController().getModel().getStorageInUse();
 		final Float storageCapacity = this.getController().getModel().getStorageCapacity();
 		return volumeFormatter.format(storageInUse) + " m3/" + volumeFormatter.format(storageCapacity) + " m3";
+	}
+	private String accessResourcesMarketvalue(){
+		return this.generatePriceString(this.getController().getModel().getResourcesMarketValue());
 	}
 }

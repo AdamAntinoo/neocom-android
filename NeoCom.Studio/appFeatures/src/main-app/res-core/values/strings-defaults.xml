@@ -8,12 +8,10 @@
     <string name="default_resource">Tritanium</string>
     <string name="default_volume">1.234,54 m3</string>
     <string name="default_biginteger">32.814</string>
-    <string name="default_itemprice">68.32 ISK</string>
     <string name="default_refinepercentage">58.20%</string>
     <string name="default_quantity">91,077</string>
     <string name="default_mineralname">Tritanium</string>
     <string name="default_extractionhour">HOUR: 09</string>
-    <string name="default_isk">234,567,809.52 ISK</string>
     <string name="default_skillpoints">5,872,567</string>
     <string name="default_number">50.32</string>
     <string name="default_stocknumber">1,684</string>
@@ -45,6 +43,12 @@
     <string name="default_groupcategory">Mining Laser/Module</string>
     <string name="default_assetidentifier">1003457663</string>
     <string name="default_completedskills">2 of 18 skills</string>
+    <string name="default_constellationname">Contellation</string>
+
+    <string name="default_isk">234,567,809.52 ISK</string>
+    <string name="default_isk_intermediate">132.45M ISK</string>
+    <string name="default_isk_big">600.32B ISK</string>
+    <string name="default_itemprice">68.32 ISK</string>
 
 
 

@@ -34,7 +34,7 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 		else return 0.0F;
 	}
 
-	public double getTotalValue() {
+	public Double getTotalValue() {
 		return this.planetaryStorage.getTotalValue();
 	}
 

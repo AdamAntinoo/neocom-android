@@ -28,7 +28,7 @@ public class CommandCenterFacilityTest extends EsiDataAdapterSupportTest {
 		final CommandCenterFacility facility = this.createFacility4CommandCenter(BARREN_COMMAND_CENTER_TYPE);
 		facility.setUpgradeLevel(2);
 		Assert.assertNotNull(facility);
-		Assert.assertEquals("Check the CPU capacity.", 12136, facility.getCpuCapacity());
+		Assert.assertEquals("Check the CPU capacity.", 12136L, facility.getCpuCapacity().longValue());
 	}
 
 	@Test
@@ -36,7 +36,7 @@ public class CommandCenterFacilityTest extends EsiDataAdapterSupportTest {
 		final CommandCenterFacility facility = this.createFacility4CommandCenter(BARREN_COMMAND_CENTER_TYPE);
 		facility.setUpgradeLevel(3);
 		Assert.assertNotNull(facility);
-		Assert.assertEquals("Check the Power output.", 15000, facility.getPowerOutput());
+		Assert.assertEquals("Check the Power output.", 15000L, facility.getPowerOutput().longValue());
 	}
 
 	protected CommandCenterFacility createFacility4CommandCenter( final int factoryTypeId ) {

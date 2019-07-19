@@ -81,6 +81,10 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.planetaryStorage.getTotalVolume();
 	}
 
+	public Double getTotalValue() {
+		return this.planetaryStorage.getTotalValue();
+	}
+
 	@Override
 	public int getIconReferenceId() {
 		return R.drawable.commandcenter80_white;

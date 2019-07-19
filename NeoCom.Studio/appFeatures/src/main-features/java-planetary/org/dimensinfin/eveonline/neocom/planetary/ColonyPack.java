@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.database.UpdatableNode;
+import org.dimensinfin.eveonline.neocom.domain.UpdatableNode;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
@@ -60,16 +60,30 @@ public class ColonyPack extends UpdatableNode {
 		return this.facilities;
 	}
 
-	//	// - I E X P A N D A B L E
-//	@Override
-//	public boolean isEmpty() {
-//		return this.facilities.isEmpty();
-//	}
+	/**
+	 * Add the market values for all the resources on any of the colony facilities with storage.
+	 */
+	public Double getResourcesMarketValue() {
+		Double resourcesMarketValue = 0.0;
+		for (IPlanetaryFacility facility : this.getFacilities()) {
+			final PlanetaryFacilityType facilityType = facility.getFacilityType();
+			if ((facilityType == PlanetaryFacilityType.COMMAND_CENTER) ||
+					(facilityType == PlanetaryFacilityType.STORAGE) ||
+					(facilityType == PlanetaryFacilityType.LAUNCHPAD)) {
+				resourcesMarketValue += ((IPlanetaryStorage) facility).getTotalValue();
+			}
+		}
+		return resourcesMarketValue;
+	}
+
+	// - I U P D A T A B L E
+	@Override
 	public boolean needsRefresh() {
 		if (this.getLastUpdateTime().plus(COLONY_CACHE_TIME).isBefore(DateTime.now()))
 			return true;
 		return false;
 	}
+
 	// - I C O L L A B O R A T I O N
 
 	/**

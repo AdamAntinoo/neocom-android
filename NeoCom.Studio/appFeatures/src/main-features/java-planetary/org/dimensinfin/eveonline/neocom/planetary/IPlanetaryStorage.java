@@ -4,4 +4,6 @@ public interface IPlanetaryStorage {
 	Float getStorageCapacity();
 
 	Float getTotalVolume();
+
+	Double getTotalValue();
 }

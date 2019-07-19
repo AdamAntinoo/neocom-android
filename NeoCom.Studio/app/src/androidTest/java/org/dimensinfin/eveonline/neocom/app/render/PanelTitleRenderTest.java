@@ -52,7 +52,7 @@ public class PanelTitleRenderTest {
 	@Test
 	public void updateContent() {
 		final Credential credential = new Credential.Builder(123)
-				                              .withCharacterName("TEST ACCOUNT")
+				                              .withAccountName("TEST ACCOUNT")
 				                              .build();
 		final MiningLedgerFragment fragment = Mockito.mock(MiningLedgerFragment.class);
 		final MiningLedgerDataSourceToday dataSource = Mockito.mock(MiningLedgerDataSourceToday.class);

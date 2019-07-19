@@ -114,42 +114,36 @@
 
     <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
         android:id="@+id/solarSystemName"
-        style="@style/AppTheme.NeoComText.Click"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/AppTheme.NeoComText.Planetary.SystemName"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/planetIconBlock"
-        android:text="@string/default_planetname"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:layout_toRightOf="@+id/planetIconBlock" />
 
-    <TextView
+    <org.dimensinfin.android.mvc.fonts.Din1451TextView
+        android:id="@+id/constellationName"
+        style="@style/AppTheme.NeoComText.Planetary.ConstellationName"
+        android:layout_alignBaseline="@+id/solarSystemName"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/solarSystemName" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/installationsNumber"
+        style="@style/AppTheme.NeoComText.Planetary.Number"
+        android:layout_below="@+id/solarSystemName"
+        android:layout_toRightOf="@+id/planetIconBlock" />
+
+    <org.dimensinfin.android.mvc.fonts.Din1451TextView
         android:id="@+id/installationsLabel"
-        style="@style/AppTheme.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/AppTheme.NeoComText.Planetary.Label"
         android:layout_alignBaseline="@+id/installationsNumber"
         android:layout_marginLeft="@dimen/uilefttextmargin"
         android:layout_toRightOf="@+id/installationsNumber"
         android:text="Installations" />
 
-    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-        android:id="@+id/installationsNumber"
-        style="@style/AppTheme.NeoComText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/solarSystemName"
-        android:layout_toRightOf="@+id/planetIconBlock"
-        android:text="@string/default_smallnumber" />
-
     <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
         android:id="@+id/planetType"
         style="@style/AppTheme.NodeClass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/rightBlock"
-        android:gravity="right"
         android:text="@string/default_planettype" />
 
     <LinearLayout
@@ -188,7 +182,38 @@
             android:layout_marginTop="3dip"
             android:gravity="right"
             android:text="1.345 m3/12.500 m3"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/resourcesValueBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/storageUsedBlock"
+        android:layout_toRightOf="@+id/planetIconBlock"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/walletIcon"
+            style="@style/AppTheme.NodeIcon.NoBorder"
+            android:layout_width="@dimen/halfnodeiconsize"
+            android:layout_height="@dimen/halfnodeiconsize"
+            android:src="@drawable/wallet"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/resourcesValueLabel"
+            style="@style/AppTheme.NeoComText.Planetary.Label"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:text="Total Resources market value:" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/resourcesMarketValue"
+            style="@style/AppTheme.ISKAmount"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </RelativeLayout>

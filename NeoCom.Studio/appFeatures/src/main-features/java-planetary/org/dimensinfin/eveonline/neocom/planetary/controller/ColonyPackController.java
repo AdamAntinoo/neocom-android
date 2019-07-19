@@ -42,27 +42,4 @@ public class ColonyPackController extends ColonyPackController4Header implements
 		this.context.startActivity(intent);
 		logger.info("<< [ColonyPackController.onClick]");
 	}
-
-//	protected void toggleExpanded() {
-//		final ICollaboration model = this.getModel();
-//		if (model instanceof IExpandable)
-//			this.getModel().toggleExpand();
-//	}
-//
-//	@Override
-//	public boolean onLongClick( final View v ) {
-//		logger.info(">> [ColonyPackController.onClick]");
-////		Toast.makeText(this.context, "Activating Colony layout", Toast.LENGTH_LONG)
-////				.show();
-//		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), this.context);
-//		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
-//				, this.getModel().getPilotIdentifier()); // Credential account identifier
-//		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()
-//				, this.getModel().getPlanetId()); // The colony/planet identifier
-//		intent.putExtra(EExtras.PLANET_TYPE_NAME.name()
-//				, this.getModel().getPlanetType().name()); // The planet type as string
-//		this.context.startActivity(intent);
-//		logger.info("<< [ColonyPackController.onClick]");
-//		return true;
-//	}
 }

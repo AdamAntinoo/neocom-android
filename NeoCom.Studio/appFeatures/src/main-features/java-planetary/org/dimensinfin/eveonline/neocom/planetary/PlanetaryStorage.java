@@ -9,10 +9,9 @@ import java.util.List;
 
 public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>, Serializable {
 	private static final long serialVersionUID = 110028978014639183L;
-//	private Float storageCapacity=-1.0F;
 	private List<PlanetaryResource> contents = new ArrayList<>();
 
-	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents) {
+	public PlanetaryStorage( final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents ) {
 		for (GetCharactersCharacterIdPlanetsPlanetIdOkContents resource : contents) {
 			int quantity = 0;
 			if (null != resource.getAmount()) quantity = resource.getAmount().intValue();
@@ -23,15 +22,6 @@ public class PlanetaryStorage implements IContainerAggregator<PlanetaryResource>
 	public List<PlanetaryResource> getContents() {
 		return this.contents;
 	}
-
-//	public Float getStorageCapacity() {
-//		return this.storageCapacity;
-//	}
-//
-//	public PlanetaryStorage setStorageCapacity( final Float storageCapacity ) {
-//		this.storageCapacity = storageCapacity;
-//		return this;
-//	}
 
 	public double getTotalValue() {
 		double total = 0.0;

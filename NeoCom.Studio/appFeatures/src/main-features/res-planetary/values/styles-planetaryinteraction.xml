@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--P L A N E T A R Y   I N T E R A C T I O N-->
+    <style name="AppTheme.NeoComText.Planetary.SystemName" parent="AppTheme.NeoComText.Click">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/default_planetname</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.Planetary.ConstellationName" parent="AppTheme.NeoComText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/default_constellationname</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.Planetary.Label" parent="AppTheme.NeoComText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/default_label</item>
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.Planetary.Number" parent="AppTheme.NeoComText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/default_smallnumber</item>
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>
