@@ -64,7 +64,7 @@ public class ColonyFactory {
 				.withPlanetData(planetData)
 				.withFacilities(this.facilities)
 				.build();
-		colony.timeStamp();
+//		colony.timeStamp();
 		colonyCache.put(esiColonyData.getPlanetId(), colony);
 		return colony;
 	}

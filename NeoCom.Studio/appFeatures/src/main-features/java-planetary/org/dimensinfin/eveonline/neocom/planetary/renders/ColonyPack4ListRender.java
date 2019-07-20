@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
-import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController4Header;
+import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 // - C O L O N Y P A C K 4 L I S T R E N D E R
@@ -36,8 +36,8 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	}
 
 	@Override
-	public ColonyPackController4Header getController() {
-		return (ColonyPackController4Header) super.getController();
+	public ColonyPackController getController() {
+		return (ColonyPackController) super.getController();
 	}
 
 	// - I R E N D E R   I N T E R F A C E
@@ -94,15 +94,15 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		final Handler handler = new Handler(Looper.getMainLooper());
 		handler.post(() -> {
 			final ImageView storageImage = this.generateStorageImage();
-			this.colonyStorageCanvas.addView( storageImage);
+			this.colonyStorageCanvas.addView(storageImage);
 		});
 	}
 
 	private ImageView generateStorageImage() {
 		return new StorageProgressImageView.Builder(this.getContext())
-				       .withUsedVolume(this.getController().getModel().getStorageInUse())
-				       .withCapacity(this.getController().getModel().getStorageCapacity())
-				       .build();
+				.withUsedVolume(this.getController().getModel().getStorageInUse())
+				.withCapacity(this.getController().getModel().getStorageCapacity())
+				.build();
 	}
 
 	private void setPlanetIcon() {
@@ -135,7 +135,10 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 		final Float storageCapacity = this.getController().getModel().getStorageCapacity();
 		return volumeFormatter.format(storageInUse) + " m3/" + volumeFormatter.format(storageCapacity) + " m3";
 	}
-	private String accessResourcesMarketvalue(){
-		return this.generatePriceString(this.getController().getModel().getResourcesMarketValue());
+
+	private String accessResourcesMarketvalue() {
+		final Double value = this.getController().getModel().getTotalValue();
+		if (value < 0.0) return "-";
+		else return this.generatePriceString(value);
 	}
 }

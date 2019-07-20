@@ -4,6 +4,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.planetary.CommandCenterType2LevelConverter;
+import org.dimensinfin.eveonline.neocom.planetary.ICommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage {
+public class CommandCenterFacility extends PlanetaryFacilityWrapper implements IPlanetaryStorage, ICommandCenterFacility {
 	private int upgradeLevel = 0;
 	private int cpuInUse = -1;
 	private int powerInUse = -1;
@@ -37,10 +38,10 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.upgradeLevel;
 	}
 
-	public CommandCenterFacility setUpgradeLevel( final int upgradeLevel ) {
+	public void setUpgradeLevel( final int upgradeLevel ) {
 		this.upgradeLevel = upgradeLevel;
 		this.commandCenterLevel = CommandCenterType2LevelConverter.getTypeByLevel(this.upgradeLevel);
-		return this;
+//		return this;
 	}
 
 	public PlanetType getPlanetType() {
@@ -55,14 +56,14 @@ public class CommandCenterFacility extends PlanetaryFacilityWrapper implements I
 		return this.commandCenterLevel.getPowerOutput();
 	}
 
-	public CommandCenterFacility setCpuInUse( final int cpuInUse ) {
+	public void setCpuInUse( final int cpuInUse ) {
 		this.cpuInUse = cpuInUse;
-		return this;
+//		return this;
 	}
 
-	public CommandCenterFacility setPowerInUse( final int powerInUse ) {
+	public void setPowerInUse( final int powerInUse ) {
 		this.powerInUse = powerInUse;
-		return this;
+//		return this;
 	}
 
 	/**

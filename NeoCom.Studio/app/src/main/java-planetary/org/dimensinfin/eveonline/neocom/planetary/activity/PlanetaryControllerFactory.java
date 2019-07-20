@@ -2,14 +2,12 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
-import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController4Header;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilitySummaryController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
@@ -28,9 +26,7 @@ public class PlanetaryControllerFactory extends AppControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof ColonyPack) { // Diferentiate on the controller for the header and the one for the list
-			if (this.getVariant().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
-				return new ColonyPackController((ColonyPack) node, this);
-			else return new ColonyPackController4Header((ColonyPack) node, this);
+			return new ColonyPackController((ColonyPack) node, this);
 		}
 		if (node instanceof PlanetaryFacilitySummary) {
 			return new PlanetaryFacilitySummaryController((PlanetaryFacilitySummary) node, this);

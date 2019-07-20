@@ -11,10 +11,12 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPack4ListRender;
 
-public class ColonyPackController extends ColonyPackController4Header implements View.OnClickListener {
+public class ColonyPackController extends NeoComUpdatableAuthorizedController<ColonyPack> implements View.OnClickListener {
 	private Context context;
 
 	public ColonyPackController( @NonNull final ColonyPack model, @NonNull final IControllerFactory factory ) {
@@ -26,7 +28,10 @@ public class ColonyPackController extends ColonyPackController4Header implements
 	@Override
 	public IRender buildRender( final Context context ) {
 		this.context = context;
-		return new ColonyPack4ListRender(this, context);
+		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
+			return new ColonyPack4ListRender(this, context);
+		else
+			return new ColonyPack4ListRender(this, context);
 	}
 
 	@Override
