@@ -1,145 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-	<RelativeLayout
-			android:id="@+id/nodeContainer"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="@drawable/uipanelborderred">
+    <RelativeLayout
+        android:id="@+id/nodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/uipanelborderred">
 
-		<include layout="@layout/nodebase4expandnew"/>
+        <include layout="@layout/nodebase4expandnew" />
 
-		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-				android:id="@+id/facilityName"
-				style="@style/AppTheme.NeoComText"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentTop="true"
-				android:layout_toRightOf="@+id/nodeIconBlock"
-				android:text="Command Center"
-				android:textSize="14sp"
-				android:textStyle="bold"/>
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/facilityName"
+            style="@style/AppTheme.NeoComText.Planetary.FacilityName"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:text="Extractor Control Unit" />
 
-		<RelativeLayout
-				android:id="@+id/extractingBlock"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/facilityName"
-				android:layout_toRightOf="@+id/nodeIconBlock">
+        <RelativeLayout
+            android:id="@+id/extractingBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/facilityName"
+            android:layout_toRightOf="@+id/nodeIconBlock">
 
-			<ImageView
-					android:id="@+id/extractingResourceIcon"
-					style="@style/AppTheme.NodeIcon"
-					android:layout_width="@dimen/nodeiconsizesmall"
-					android:layout_height="@dimen/nodeiconsizesmall"
-					android:src="@drawable/defaulticonplaceholder"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentTop="true"
-					android:visibility="visible"/>
+            <ImageView
+                android:id="@+id/extractingResourceIcon"
+                style="@style/AppTheme.NodeIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/defaulticonplaceholder"
+                android:visibility="visible" />
 
-			<org.dimensinfin.android.mvc.fonts.Din1451TextView
-					android:id="@+id/extractingLabel"
-					style="@style/AppTheme.Label.Big"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentTop="true"
-					android:layout_toRightOf="@+id/extractingResourceIcon"
-					android:text="Extracting"
-					android:visibility="visible"/>
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/extractorStatus"
+                style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/extractingResourceIcon"
+                android:text="Extracting" />
 
-			<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-					android:id="@+id/extractingResourceName"
-					style="@style/AppTheme.Label.Big"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toRightOf="@+id/extractingResourceIcon"
-					android:layout_below="@+id/extractingLabel"
-					android:text="@string/default_resource"
-					android:visibility="visible"/>
-		</RelativeLayout>
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/extractingResourceName"
+                style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                android:layout_below="@+id/extractorStatus"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/extractingResourceIcon"
+                android:text="@string/default_resource" />
+        </RelativeLayout>
 
-		<RelativeLayout
-				android:id="@+id/currentCycleBlock"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/facilityName"
-				android:layout_toLeftOf="@+id/rightBlock"
-				android:layout_marginLeft="10dp"
-				android:layout_toRightOf="@+id/extractingBlock">
+        <RelativeLayout
+            android:id="@+id/currentCycleBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/facilityName"
+            android:layout_marginLeft="6dp"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_toRightOf="@+id/extractingBlock">
 
 
-			<org.dimensinfin.android.mvc.fonts.Din1451TextView
-					android:id="@+id/currentCycleLabel"
-					style="@style/AppTheme.Label.Big"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentTop="true"
-					android:text="Current cycle"
-					android:visibility="visible"/>
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/currentCycleLabel"
+                style="@style/AppTheme.Label.Big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Current cycle"
+                android:visibility="visible" />
 
-			<ProgressBar
-					android:id="@+id/currentCycleProgress"
-					style="@android:style/Widget.ProgressBar.Horizontal"
-					android:layout_width="match_parent"
-					android:layout_height="5dp"
-					android:layout_toLeftOf="@+id/rightBlock"
-					android:layout_below="@+id/currentCycleLabel"
-					android:backgroundTint="@color/uipanelborder"
-					android:max="100"
-					android:min="0"
-					android:progress="0"
-					android:progressTint="@color/appwhite"/>
+            <ProgressBar
+                android:id="@+id/currentCycleProgress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/currentCycleLabel"
+                android:layout_toLeftOf="@+id/rightBlock"
+                android:backgroundTint="@color/uipanelborder"
+                android:max="100"
+                android:min="0"
+                android:progress="0"
+                android:progressTint="@color/appwhite" />
 
-			<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-					android:id="@+id/currentCycleTime"
-					style="@style/AppTheme.Label.Big"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_below="@+id/currentCycleProgress"
-					android:text="@string/default_idle_extractor_head"
-					android:visibility="visible"/>
-		</RelativeLayout>
+            <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+                android:id="@+id/currentCycleTime"
+                style="@style/AppTheme.Label.Big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/currentCycleProgress"
+                android:text="@string/default_idle_extractor_head"
+                android:visibility="visible" />
+        </RelativeLayout>
 
-		<LinearLayout
-				android:id="@+id/productionCycleBlock"
-				android:layout_width="wrap_content"
-				android:layout_height="@dimen/nodeiconsize"
-				android:layout_below="@+id/currentCycleBlock"
-				android:layout_toRightOf="@+id/nodeIconBlock"
-				android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/productionCycleBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nodeiconsize"
+            android:layout_below="@+id/currentCycleBlock"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-			<org.dimensinfin.android.mvc.fonts.Din1451TextView
-					android:id="@+id/extractionTimeRemainingLabel"
-					style="@style/AppTheme.TextView"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/default_message"
-					android:visibility="visible"
-					android:textSize="12sp"/>
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/extractionTimeRemainingLabel"
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_message"
+                android:textSize="12sp"
+                android:visibility="visible" />
 
-			<org.dimensinfin.android.mvc.fonts.Din1451TextView
-					android:id="@+id/extractionTimeRemainingTime"
-					style="@style/AppTheme.TextView"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/default_time"
-					android:visibility="visible"
-					android:textSize="12sp"/>
-		</LinearLayout>
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/extractionTimeRemainingTime"
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_time"
+                android:textSize="12sp"
+                android:visibility="visible" />
+        </LinearLayout>
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
-				android:id="@+id/extractionCycleOutputValue"
-				style="@style/AppTheme.TextView"
-				android:layout_below="@+id/currentCycleBlock"
-				android:layout_toRightOf="@+id/productionCycleBlock"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Output: 34067 units"
-				android:visibility="visible"
-				android:textSize="12sp"/>
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/extractionCycleOutputValue"
+            style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+            android:layout_below="@+id/currentCycleBlock"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:layout_toRightOf="@+id/productionCycleBlock"
+            android:text="Next Output: 34067 units" />
 
-	</RelativeLayout>
+        <org.dimensinfin.android.mvc.fonts.Din1451TextView
+            android:id="@+id/cycleExpirationTime"
+            style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+            android:layout_below="@+id/currentCycleBlock"
+            android:layout_marginRight="@dimen/standardmargin"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/productionCycleBlock"
+            android:gravity="right"
+            android:text="Extraction Ends: 2019-07-24T18:30:00Z" />
+
+    </RelativeLayout>
 </LinearLayout>

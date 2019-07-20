@@ -18,8 +18,10 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	}
 
 	private GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails extractorDetails;
-	private DateTime installTime;
 	private ExtractorState state = ExtractorState.IDLE;
+	private DateTime installTime;
+	private DateTime expiryTime;
+
 	private EveItem extractionType;
 
 	public ExtractorState getState() {
@@ -49,11 +51,6 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 		return this.planetaryFacility.getLastCycleStart();
 	}
 
-	//		@Override
-	//	public GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails getExtractorDetails() {
-	//		return this.planetaryFacility.pinDelegate.getExtractorDetails();
-	//	}
-
 	public String getExtractingResourceName() {
 		//		final GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails details = this.extractorDetails();
 		this.extractionType = new EveItem(this.extractorDetails.getProductTypeId());
@@ -62,6 +59,15 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 
 	public String getExtractingResourceURLForItem() {
 		return this.extractionType.getURLForItem();
+	}
+
+	public int getNextOutput() {
+		if (null != this.extractorDetails) return this.extractorDetails.getQtyPerCycle();
+		else return 0;
+	}
+
+	public String getCycleExpirationTime() {
+		return this.expiryTime.toString();
 	}
 
 	@Override
@@ -111,23 +117,41 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 			// Read facility data to check the extractor state.
 			this.onConstruction.extractorDetails = pin.getExtractorDetails();
 			this.onConstruction.installTime = pin.getInstallTime();
-			if (null != this.onConstruction.installTime) {
-				// Check expired extractors
-				final DateTime expiryTime = pin.getExpiryTime();
-				if (null == expiryTime) return this;
-				if (expiryTime.isBefore(DateTime.now())) return this;
-				final Integer extractTypeId = this.onConstruction.extractorDetails.getProductTypeId();
-				if (null == extractTypeId) return this;
-				this.onConstruction.extractionType = new EveItem(extractTypeId);
-				this.onConstruction.state = ExtractorState.EXTRACTING;
-			}
+			this.onConstruction.expiryTime = pin.getExpiryTime();
+//			if (null != this.onConstruction.installTime) {
+//				// Check expired extractors
+//				final DateTime expiryTime = pin.getExpiryTime();
+//				if (null == expiryTime) return this;
+//				if (expiryTime.isBefore(DateTime.now())) return this;
+////				final Integer extractTypeId = this.onConstruction.extractorDetails.getProductTypeId();
+////				if (null == extractTypeId) return this;
+////				this.onConstruction.extractionType = new EveItem(extractTypeId);
+//				this.onConstruction.state = ExtractorState.EXTRACTING;
+//			}
 			return this;
 		}
 
 		public ExtractorFacility build() {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
 			Objects.requireNonNull(this.onConstruction.extractorDetails);
+			this.updateExtractorStatus();
+			this.setExtractionProductType();
 			return this.onConstruction;
+		}
+
+		private void updateExtractorStatus() {
+			this.onConstruction.state = ExtractorState.IDLE;
+			if (null != this.onConstruction.installTime) {
+				if (null == this.onConstruction.expiryTime) return;
+				if (this.onConstruction.expiryTime.isBefore(DateTime.now())) return;
+				this.onConstruction.state = ExtractorState.EXTRACTING;
+			}
+		}
+
+		private void setExtractionProductType() {
+			final Integer extractTypeId = this.onConstruction.extractorDetails.getProductTypeId();
+			if (null == extractTypeId) return;
+			this.onConstruction.extractionType = new EveItem(extractTypeId);
 		}
 	}
 }
