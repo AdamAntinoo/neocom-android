@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPack4ListRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPackRender;
 
 public class ColonyPackController extends NeoComUpdatableAuthorizedController<ColonyPack> implements View.OnClickListener {
 	private Context context;
@@ -29,9 +29,9 @@ public class ColonyPackController extends NeoComUpdatableAuthorizedController<Co
 	public IRender buildRender( final Context context ) {
 		this.context = context;
 		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
-			return new ColonyPack4ListRender(this, context);
+			return new ColonyPackRender(this, context);
 		else
-			return new ColonyPack4ListRender(this, context);
+			return new ColonyPackRender(this, context);
 	}
 
 	@Override

@@ -163,16 +163,6 @@
             android:src="@drawable/storage80_white"
             android:visibility="visible" />
 
-        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-            android:id="@+id/storageUsedLabel"
-            style="@style/AppTheme.NeoComText.Category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/uilefttextmargin"
-            android:layout_marginTop="2dp"
-            android:gravity="right"
-            android:text="Total Storage in use:" />
-
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/storageUsed"
             style="@style/AppTheme.StockCounter"
@@ -183,14 +173,24 @@
             android:gravity="right"
             android:text="1.345 m3/12.500 m3"
             android:textSize="14sp" />
-
     </LinearLayout>
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/storageUsedLabel"
+        style="@style/AppTheme.Label.TopLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/storageUsedBlock"
+        android:layout_marginLeft="@dimen/halfnodeiconsize"
+        android:layout_marginRight="32dp"
+        android:layout_toRightOf="@+id/planetIconBlock"
+        android:text="Total Storage in use" />
 
     <LinearLayout
         android:id="@+id/resourcesValueBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/storageUsedBlock"
+        android:layout_below="@+id/storageUsedLabel"
         android:layout_toRightOf="@+id/planetIconBlock"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -203,12 +203,6 @@
             android:src="@drawable/wallet"
             android:visibility="visible" />
 
-        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-            android:id="@+id/resourcesValueLabel"
-            style="@style/AppTheme.NeoComText.Planetary.Label"
-            android:layout_marginLeft="@dimen/standardmargin"
-            android:text="Total Resources market value:" />
-
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/resourcesMarketValue"
             style="@style/AppTheme.ISKAmount"
@@ -216,4 +210,15 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/resourcesValueLabel"
+        style="@style/AppTheme.Label.TopLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resourcesValueBlock"
+        android:layout_marginLeft="@dimen/halfnodeiconsize"
+        android:layout_marginRight="32dp"
+        android:layout_toRightOf="@+id/planetIconBlock"
+        android:text="Total Resources market value" />
 </RelativeLayout>

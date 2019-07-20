@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackControlle
 import org.dimensinfin.eveonline.neocom.planetary.ui.StorageProgressImageView;
 
 // - C O L O N Y P A C K 4 L I S T R E N D E R
-public class ColonyPack4ListRender extends NeoComRenderv2 {
+public class ColonyPackRender extends NeoComRenderv2 {
 	// - U I   F I E L D S
 	private ViewGroup nodeFrameContainer;
 	private TextView solarSystemName;
@@ -31,7 +31,7 @@ public class ColonyPack4ListRender extends NeoComRenderv2 {
 	private TextView resourcesMarketValue;
 
 	// - C O N S T R U C T O R S
-	public ColonyPack4ListRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public ColonyPackRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 
