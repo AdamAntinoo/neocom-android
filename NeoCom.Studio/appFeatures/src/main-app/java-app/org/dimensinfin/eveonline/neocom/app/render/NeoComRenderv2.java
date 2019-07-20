@@ -248,7 +248,7 @@ public abstract class NeoComRenderv2 extends AMVCRender {
 		return timeLeftCountdown.toFormatter().print(new Instant(millis));
 	}
 
-	protected String generatePriceString( final double price ) {
+	public String generatePriceString( final double price ) {
 		return this.generatePriceString(price, true, true);
 	}
 

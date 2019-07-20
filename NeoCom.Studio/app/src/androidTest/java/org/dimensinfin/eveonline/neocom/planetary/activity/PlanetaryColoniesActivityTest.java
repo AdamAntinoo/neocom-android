@@ -11,15 +11,21 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
+import org.dimensinfin.eveonline.neocom.planetary.renders.ColonyPackRender;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 public class PlanetaryColoniesActivityTest {
+	private static final int CAPSULEER_IDENTIFIER = 93813310;
 	private Credential credential;
 
 	static {
@@ -29,15 +35,15 @@ public class PlanetaryColoniesActivityTest {
 	@Rule
 	public ActivityTestRule<PlanetaryColoniesActivity> mActivityRule =
 			new ActivityTestRule<PlanetaryColoniesActivity>(PlanetaryColoniesActivity.class) {
-		@Override
-		protected Intent getActivityIntent() {
-			Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-			Intent intent = new Intent(targetContext, PlanetaryColoniesActivity.class);
-			intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
-					, 93813310); // Credential account identifier
-			return intent;
-		}
-	};
+				@Override
+				protected Intent getActivityIntent() {
+					Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+					Intent intent = new Intent(targetContext, PlanetaryColoniesActivity.class);
+					intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
+							, 93813310); // Credential account identifier
+					return intent;
+				}
+			};
 
 	@Before
 	public void setUp() {
@@ -52,20 +58,15 @@ public class PlanetaryColoniesActivityTest {
 				.withWalletBalance(6.309543632E8)
 				.withRaceName("Amarr")
 				.build();
-
 	}
 
 	@Test
-	public void resourcesMarketValue() {
-		final int identifier = this.credential.getAccountId();
-		final Intent intent = new Intent(this.mActivityRule.getActivity(), PlanetaryColoniesActivity.class);
-		// Add all the identification chain as in the backend Angular calls. This is currently the Credential identifier
-		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name(), identifier);
-		mActivityRule.launchActivity(intent);
-
-		// Search
+	public void resourcesMarketValue_initialValue() {
 		final PlanetaryColoniesFragment fragment = (PlanetaryColoniesFragment) this.mActivityRule.getActivity().accessPageAdapter().getItem(0); // Get the first page
 		final ListView container = fragment.accessDataSectionContainer();
+		Assert.assertTrue("The container should have elements.", container.getCount() > 0);
+		final View colonyView = this.getViewByPosition(0, container);
+		Assert.assertNotNull("Check there is at least a colony view.", colonyView);
 		final IAndroidController controller = (IAndroidController) container.getAdapter().getItem(0); // Get the first colony
 		Assert.assertNotNull("Check there is at least a colony.", controller);
 		final View panelView = controller.getViewCache();
@@ -73,11 +74,44 @@ public class PlanetaryColoniesActivityTest {
 		final TextView resourcesMarketValueView = panelView.findViewById(R.id.resourcesMarketValue);
 		Assert.assertNotNull("Verify that panel has the right field.", resourcesMarketValueView);
 
-		final String expected = this.mActivityRule.getActivity().getResources().getString(R.string.default_isk_intermediate);
+		final String expected = "-";
 		final CharSequence obtained = resourcesMarketValueView.getText();
-		Assert.assertEquals("Check the value on the field.", expected , obtained);
+		Assert.assertEquals("Check the value on the field.", expected, obtained);
 	}
 
+	@Test
+	public void resourcesMarketValue_afterUpdater() throws InterruptedException {
+		Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+		final PlanetaryColoniesFragment fragment = (PlanetaryColoniesFragment) this.mActivityRule.getActivity().accessPageAdapter().getItem(0); // Get the first page
+		final ListView container = fragment.accessDataSectionContainer();
+		Assert.assertTrue("The container should have elements.", container.getCount() > 0);
+		final View colonyView = this.getViewByPosition(0, container);
+		Assert.assertNotNull("Check there is at least a colony view.", colonyView);
+		final IAndroidController controller = (IAndroidController) container.getAdapter().getItem(0); // Get the first colony
+		Assert.assertNotNull("Check there is at least a colony.", controller);
+		final View panelView = controller.getViewCache();
+		Assert.assertNotNull("The controller should have a view.", panelView);
+		final IRender render = ((ColonyPackController) controller).buildRender(this.mActivityRule.getActivity());
+		final TextView resourcesMarketValueView = panelView.findViewById(R.id.resourcesMarketValue);
+		Assert.assertNotNull("Verify that panel has the right field.", resourcesMarketValueView);
+
+		final String expected =
+				((ColonyPackRender) render).generatePriceString(((ColonyPackController) controller).getModel().getTotalValue());
+		final CharSequence obtained = resourcesMarketValueView.getText();
+		Assert.assertEquals("Check the value on the field.", expected, obtained);
+	}
+
+	private View getViewByPosition( int position, ListView listView ) {
+		final int firstListItemPosition = listView.getFirstVisiblePosition();
+		final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+		if (position < firstListItemPosition || position > lastListItemPosition) {
+			return listView.getAdapter().getView(position, listView.getChildAt(position), listView);
+		} else {
+			final int childIndex = position - firstListItemPosition;
+			return listView.getChildAt(childIndex);
+		}
+	}
 //	@Test
 //	public void generateActionBar() {
 //		final View actionBar = mActivityRule.getActivity().generateActionBar();

@@ -5,6 +5,8 @@ import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 
+import java.util.Objects;
+
 public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 	protected Credential credential;
 	protected ESIDataAdapter esiDataAdapter;
@@ -16,5 +18,37 @@ public abstract class PlanetaryCommonDataSource extends AMVCDataSource {
 
 	protected Credential getCredential() {
 		return credential;
+	}
+
+	// - B U I L D E R
+	protected static abstract class Builder<T extends AMVCDataSource, B extends BaseBuilder> extends AMVCDataSource.BaseBuilder<T, B> {
+		private Credential credential;
+		private ESIDataAdapter esiDataAdapter;
+		private PlanetaryRepository planetaryRepository;
+
+		public B withCredential( final Credential credential ) {
+			Objects.requireNonNull(credential);
+			this.credential = credential;
+			return this.actualClassBuilder;
+		}
+
+		public B withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			Objects.requireNonNull(esiDataAdapter);
+			this.esiDataAdapter = esiDataAdapter;
+			return this.actualClassBuilder;
+		}
+
+		public B withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+			Objects.requireNonNull(planetaryRepository);
+			this.planetaryRepository = planetaryRepository;
+			return this.actualClassBuilder;
+		}
+
+		public T build() {
+			((PlanetaryCommonDataSource) this.getActual()).credential = this.credential;
+			((PlanetaryCommonDataSource) this.getActual()).esiDataAdapter = this.esiDataAdapter;
+			((PlanetaryCommonDataSource) this.getActual()).planetaryRepository = this.planetaryRepository;
+			return this.getActual();
+		}
 	}
 }

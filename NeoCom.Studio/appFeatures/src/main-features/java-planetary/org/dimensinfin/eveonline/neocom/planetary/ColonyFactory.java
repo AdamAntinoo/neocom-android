@@ -45,6 +45,7 @@ public class ColonyFactory {
 
 	protected ColonyPack createColony( final GetCharactersCharacterIdPlanets200Ok esiColonyData ) {
 		final GetUniversePlanetsPlanetIdOk planetData = this.esiDataAdapter.getUniversePlanetsPlanetId(esiColonyData.getPlanetId());
+		Objects.requireNonNull(planetData);
 		final GetCharactersCharacterIdPlanetsPlanetIdOk structureContainer = this.esiDataAdapter.getCharactersCharacterIdPlanetsPlanetId(
 				credential.getAccountId(),
 				esiColonyData.getPlanetId(),

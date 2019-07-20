@@ -1,18 +1,13 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter;
+package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.extractor;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
+import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class VTCommandCenterFragment extends ASimplePagerFragment {
+public class VTExtractorFragment  extends AMVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());
@@ -31,7 +26,7 @@ public class VTCommandCenterFragment extends ASimplePagerFragment {
 				.withWalletBalance(6.309543632E8)
 				.withRaceName("Amarr")
 				.build();
-		return new VTCommandCenterDataSource.Builder()
+		return new VTExtractorDataSource.Builder()
 				.addIdentifier(this.getVariant())
 				.addIdentifier("VISUAL TESTS")
 				.withVariant(this.getVariant())
@@ -41,15 +36,5 @@ public class VTCommandCenterFragment extends ASimplePagerFragment {
 				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				.build();
-	}
-
-	@Override
-	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
-		try {
-			return super.onCreateView(inflater, container, savedInstanceState);
-		} catch (RuntimeException rte) {
-			rte.printStackTrace();
-		}
-		return null;
 	}
 }
