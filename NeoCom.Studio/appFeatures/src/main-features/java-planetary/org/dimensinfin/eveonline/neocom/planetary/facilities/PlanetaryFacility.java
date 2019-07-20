@@ -165,7 +165,7 @@ public class PlanetaryFacility extends NeoComNode implements IPlanetaryFacility,
 	@Override
 	public int compareTo( final Object o ) {
 		if (o instanceof IPlanetaryFacility) {
-			return this.getName().compareTo(((IPlanetaryFacility) o).getName());
+			return this.getFacilityType().getFacilityOrderIndex() - ((IPlanetaryFacility) o).getFacilityType().getFacilityOrderIndex();
 		}
 		return 0;
 	}

@@ -9,6 +9,8 @@ import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,8 +48,13 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 	@Override
 	public void collaborate2Model() {
 		this.addHeaderContents(this.colony);
+//		this.sortPlanetaryFacilities(); // Order the facilities.
 		for (IPlanetaryFacility facility : this.colony.getFacilities())
 			this.addModelContents(facility);
+	}
+
+	private void sortPlanetaryFacilities() {
+		Collections.sort(this.facilities, new SortByFacilityIndex());
 	}
 
 	// - B U I L D E R
@@ -90,6 +97,14 @@ public class PlanetaryColonyContentsDataSource extends PlanetaryCommonDataSource
 			Objects.requireNonNull(target.esiDataAdapter);
 			Objects.requireNonNull(target.planetaryRepository);
 			return target;
+		}
+	}
+
+	public static class SortByFacilityIndex implements Comparator<IPlanetaryFacility> {
+
+		@Override
+		public int compare( final IPlanetaryFacility pf1, final IPlanetaryFacility pf2 ) {
+			return pf1.getFacilityType().getFacilityOrderIndex() - pf2.getFacilityType().getFacilityOrderIndex();
 		}
 	}
 }
