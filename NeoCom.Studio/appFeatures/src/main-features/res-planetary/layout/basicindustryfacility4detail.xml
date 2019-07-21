@@ -14,9 +14,7 @@
 
 		<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
 				android:id="@+id/facilityName"
-				style="@style/AppTheme.NeoComText"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/AppTheme.NeoComText.Planetary.FacilityName"
 				android:layout_alignParentTop="true"
 				android:layout_toRightOf="@+id/nodeIconBlock"
 				android:text="@string/basic_industry_facility_name"/>
@@ -50,21 +48,18 @@
 					android:orientation="vertical">
 
 				<org.dimensinfin.android.mvc.fonts.Din1451TextView
-						android:id="@+id/input1ResourceName"
-						style="@style/AppTheme.TextView"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="@string/default_resource"
-						android:visibility="visible"
-						android:textSize="12sp"/>
+					android:id="@+id/input1ResourceName"
+					style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+					android:layout_alignParentTop="true"
+					android:layout_toRightOf="@+id/extractingResourceIcon"
+					android:text="@string/default_resource" />
+
 				<org.dimensinfin.android.mvc.fonts.Din1451TextView
-						android:id="@+id/input1Quantity"
-						style="@style/AppTheme.TextView"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="@string/default_resource"
-						android:visibility="visible"
-						android:textSize="12sp"/>
+					android:id="@+id/input1Quantity"
+					style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+					android:layout_below="@+id/extractorStatus"
+					android:layout_toRightOf="@+id/extractingResourceIcon"
+					android:text="123/3456" />
 			</LinearLayout>
 
 			<FrameLayout
@@ -103,28 +98,43 @@
 
 		</RelativeLayout>
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
-				android:id="@+id/cycleStart"
-				style="@style/AppTheme.TextView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_toRightOf="@+id/nodeIconBlock"
-				android:layout_below="@+id/facilityName"
-				android:text="@string/default_cyclestart"
-				android:visibility="gone"
-				android:textSize="12sp"/>
+		<RelativeLayout
+			android:id="@+id/currentCycleBlock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/facilityName"
+			android:layout_marginLeft="6dp"
+			android:layout_toLeftOf="@+id/rightBlock"
+			android:layout_toRightOf="@+id/inputsBlock">
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
-				android:id="@+id/cycleElapsed"
-				style="@style/AppTheme.TextView"
+
+			<org.dimensinfin.android.mvc.fonts.Din1451TextView
+				android:id="@+id/currentCycleLabel"
+				style="@style/AppTheme.Label.Big"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_toRightOf="@+id/cycleStart"
-				android:layout_below="@+id/facilityName"
-				android:text="@string/default_cyclestart"
-				android:gravity="right"
-				android:visibility="gone"
-				android:textSize="12sp"/>
+				android:layout_alignParentTop="true"
+				android:text="Current cycle"
+				android:visibility="visible" />
+
+			<ProgressBar
+				android:id="@+id/currentCycleProgress"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="5dp"
+				android:layout_below="@+id/currentCycleLabel"
+				android:layout_toLeftOf="@+id/rightBlock"
+				android:backgroundTint="@color/uipanelborder"
+				android:max="100"
+				android:min="0"
+				android:progress="0"
+				android:progressTint="@color/pi_factoryringfillcolor" />
+
+			<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+				android:id="@+id/currentCycleTime"
+				style="@style/AppTheme.Label.Big"
+				android:layout_below="@+id/currentCycleProgress"
+				android:text="@string/default_idle_extractor_head" />
+		</RelativeLayout>
 	</RelativeLayout>
 </LinearLayout>

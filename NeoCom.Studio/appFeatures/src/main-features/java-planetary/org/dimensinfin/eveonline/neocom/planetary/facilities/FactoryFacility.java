@@ -10,6 +10,7 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,15 +37,6 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 
 	public FactoryType getFactoryType() {
 		return this.factoryType;
-	}
-
-	protected void setFactoryType() {
-		final PlanetaryResourceTierType tierType = PlanetaryResourceTierType.searchTierType4Group(this.schematic.getOutput().getGroupName());
-		if (tierType == PlanetaryResourceTierType.TIER1) this.factoryType = FactoryType.BASIC_INDUSTRY;
-		if (tierType == PlanetaryResourceTierType.TIER3) this.factoryType = FactoryType.HIGH_INDUSTRY;
-
-		if ((tierType == PlanetaryResourceTierType.TIER2) || (tierType == PlanetaryResourceTierType.TIER3))
-			this.factoryType = FactoryType.facility4Schematics(this.schematicId);
 	}
 
 	public int getCycleTime() {
@@ -102,17 +94,27 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
 					.withPlanetaryRepository(this.onConstruction.planetaryRepository)
 					.build();
-			this.onConstruction.setFactoryType(); // Setup the factory factoryType.
+			this.withFactoryType(this.onConstruction.schematic.getOutput().getGroupName()); // Setup the factory factoryType.
 			return this.onConstruction;
+		}
+
+		private void withFactoryType( final String groupName ) {
+			final PlanetaryResourceTierType tierType = PlanetaryResourceTierType.searchTierType4Group(groupName);
+			if (tierType == PlanetaryResourceTierType.TIER1) this.onConstruction.factoryType = FactoryType.BASIC_INDUSTRY;
+			if (tierType == PlanetaryResourceTierType.TIER3) this.onConstruction.factoryType = FactoryType.HIGH_INDUSTRY;
+
+			if ((tierType == PlanetaryResourceTierType.TIER2) || (tierType == PlanetaryResourceTierType.TIER3))
+				this.onConstruction.factoryType = FactoryType.facility4Schematics(this.onConstruction.schematicId);
 		}
 	}
 
 	// - F A C T O R Y I N P U T S
-	public static class FactoryInputs {
-		private GetCharactersCharacterIdPlanetsPlanetIdOkContents planetaryContent;
+	public static class FactoryInputs implements Serializable {
+		private static final long serialVersionUID = -6257539970882239251L;
+		private transient GetCharactersCharacterIdPlanetsPlanetIdOkContents planetaryContent;
 		private EveItem itemDelegate;
 
-		public FactoryInputs( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
+		FactoryInputs( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
 			this.planetaryContent = content;
 			this.itemDelegate = new EveItem(this.planetaryContent.getTypeId());
 		}
@@ -131,10 +133,6 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 
 		public double getVolume() {
 			return itemDelegate.getVolume();
-		}
-
-		public String getCategoryName() {
-			return itemDelegate.getCategoryName();
 		}
 
 		public String getGroupName() {

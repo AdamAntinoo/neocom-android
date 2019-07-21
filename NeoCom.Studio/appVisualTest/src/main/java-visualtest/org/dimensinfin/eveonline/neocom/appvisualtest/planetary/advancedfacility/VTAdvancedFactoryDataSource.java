@@ -51,6 +51,7 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 				final ColonyPack colony = new ColonyFactory.Builder()
 						.withEsiDataAdapter(this.getEsiDataAdapter())
 						.withCredential(this.getCredential())
+						.withPlanetaryRepository(this.planetaryRepository)
 						.build()
 						.accessColony(colonyEsi);
 				Stream.of(colony.getFacilities())
