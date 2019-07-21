@@ -94,7 +94,7 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 		for (final IPlanetaryFacility facility : this.advancedFactories) {
 			this.addModelContents(facility);
 		}
-		this.fragment.setBackground(this.planetType);
+//		this.fragment.setBackground(this.planetType);
 	}
 
 	// - B U I L D E R

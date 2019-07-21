@@ -7,6 +7,8 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBar;
+import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
@@ -64,6 +66,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof PlanetaryResource) {
 			return new PlanetaryResourceController((PlanetaryResource) node, this);
+		}
+		if (node instanceof VisualTestActionBar) {
+			return new VisualTestActionBarController((VisualTestActionBar) node, this);
 		}
 		return super.createController(node);
 	}

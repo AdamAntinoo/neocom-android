@@ -1,20 +1,19 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
+import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
+import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBar;
+import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 
-public class VTAdvancedFacilityFragment extends ASimplePagerFragment {
+public class VTAdvancedFacilityFragment extends AMVCPagerFragment {
 	private ViewGroup backgroundContainer;
 
 	@Override
@@ -41,25 +40,20 @@ public class VTAdvancedFacilityFragment extends ASimplePagerFragment {
 				.withCredential(credential)
 				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
-				.withFragment(this)
 				.build();
 	}
 
 	@Override
-	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
-		final View view = super.onCreateView(inflater, container, savedInstanceState);
-		// Locate the background view.
-		this.backgroundContainer = view.findViewById(R.id.activityContainer);
-		return view;
-	}
-
-	public void setBackground( final GetCharactersCharacterIdPlanets200Ok.PlanetTypeEnum backgroundType ) {
-		switch (backgroundType) {
-			case BARREN:
-//				this.backgroundContainer.setBackground(this.getActivity().getDrawable(R.drawable.barren_planet));
-				break;
-			default:
-//				this.backgroundContainer.setBackground(this.getActivity().getDrawable(R.drawable.barren_planet));
-		}
+	public View generateActionBarView() {
+		// Create the bar content model.
+		final VisualTestActionBar actionBar = new VisualTestActionBar.Builder()
+				.withActivityIconReference(R.drawable.planets)
+				.withPageName("Advanced Facility Details")
+				.build();
+		// Get a controller from the model, then the view from the render.
+		final VisualTestActionBarController controller =
+				(VisualTestActionBarController) new VisualTestsControllerFactory(this.getVariant())
+						.createController(actionBar);
+		return this.convertActionBarView(controller);
 	}
 }

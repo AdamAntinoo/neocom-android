@@ -44,16 +44,10 @@ android {
     }
     sourceSets {
         main.java {
-//            srcDirs += 'src/main/java-mockedclasses'
             srcDirs += 'src/main/java-visualtest'
         }
-        debug.java {
-        }
-        release.java {
-        }
         main.res {
-        }
-        debug.res {
+            srcDirs += 'src/main/res-visualtest'
         }
         test.java {
             srcDir project(':NeoCom.DataManagement').file("src/test/java-support")

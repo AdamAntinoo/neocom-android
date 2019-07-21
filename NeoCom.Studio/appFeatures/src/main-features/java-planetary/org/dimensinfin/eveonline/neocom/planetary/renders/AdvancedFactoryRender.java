@@ -1,12 +1,13 @@
 package org.dimensinfin.eveonline.neocom.planetary.renders;
 
-import java.util.List;
-
 import android.content.Context;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
+import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
@@ -15,9 +16,9 @@ import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityCo
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ProgressRingImageView;
 
-import com.squareup.picasso.Picasso;
+import java.util.List;
 
-public class AdvancedIndustryRender extends ResourceFacetedRender {
+public class AdvancedFactoryRender extends ResourceFacetedRender {
 	private TextView facilityName;
 	private FrameLayout input1ResourceBlock;
 	private ImageView input1ResourceIcon;
@@ -28,7 +29,7 @@ public class AdvancedIndustryRender extends ResourceFacetedRender {
 	private TextView input2ResourceName;
 	private TextView input2Quantity;
 
-	public AdvancedIndustryRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public AdvancedFactoryRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 
@@ -40,7 +41,7 @@ public class AdvancedIndustryRender extends ResourceFacetedRender {
 	// - I R E N D E R
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.advancedindustryfacility4detail;
+		return R.layout.advancedindustryfactory4detail;
 	}
 
 	@Override
