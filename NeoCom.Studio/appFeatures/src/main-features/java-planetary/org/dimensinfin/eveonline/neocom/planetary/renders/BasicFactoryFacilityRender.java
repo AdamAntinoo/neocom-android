@@ -5,7 +5,6 @@ import android.text.Html;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,37 +13,31 @@ import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.FactoryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.ui.ProgressRingImageView;
-import org.joda.time.DateTime;
-import org.joda.time.Seconds;
 
 import java.util.List;
 
-public class BasicIndustryRender extends ResourceFacetedRender {
+public class BasicFactoryFacilityRender extends FactoryFacilityRender {
 	private TextView facilityName;
 	private FrameLayout input1ResourceBlock;
 	private ImageView input1ResourceIcon;
 	private TextView input1ResourceName;
 	private TextView input1Quantity;
-	private TextView currentCycleLabel;
-	private ProgressBar currentCycleProgress;
-	private TextView currentCycleTime;
 
-	public BasicIndustryRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public BasicFactoryFacilityRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 
 	@Override
-	public PlanetaryFacilityController getController() {
-		return (PlanetaryFacilityController) super.getController();
+	public FactoryFacilityController getController() {
+		return (FactoryFacilityController) super.getController();
 	}
 
 	// - I R E N D E R
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.basicindustryfacility4detail;
+		return R.layout.basicfactoryfacility4detail;
 	}
 
 	@Override
@@ -55,9 +48,6 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 		this.input1ResourceIcon = this.getView().findViewById(R.id.input1ResourceIcon);
 		this.input1ResourceName = this.getView().findViewById(R.id.input1ResourceName);
 		this.input1Quantity = this.getView().findViewById(R.id.input1Quantity);
-		this.currentCycleLabel = this.getView().findViewById(R.id.currentCycleLabel);
-		this.currentCycleProgress = this.getView().findViewById(R.id.currentCycleProgress);
-		this.currentCycleTime = this.getView().findViewById(R.id.currentCycleTime);
 	}
 
 	/**
@@ -75,9 +65,9 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 	public void updateContent() {
 		super.updateContent();
 		this.facilityName.setText(this.getController().getModel().getName());
-		final List<FactoryFacility.FactoryInputs> contents = ((FactoryFacility) this.getController().getModel()).getInputs();
+		final List<FactoryFacility.FactoryInput> contents = ((FactoryFacility) this.getController().getModel()).getInputs();
 		if (contents.size() > 0) { // Fill the input number 1
-			final FactoryFacility.FactoryInputs input1 = contents.get(0);
+			final FactoryFacility.FactoryInput input1 = contents.get(0);
 			if (input1.getAmount() < 1)  // The facility is empty
 				this.cleanFacility();
 			else {
@@ -101,34 +91,5 @@ public class BasicIndustryRender extends ResourceFacetedRender {
 		this.currentCycleProgress.setProgress(0);
 		final Integer cycle = ((FactoryFacility) this.getController().getModel()).getCycleTime();
 		this.currentCycleTime.setText(this.format2hms(0) + " / " + this.format2hms(cycle));
-	}
-
-	private int accessCycleProgress() {
-		final Integer cycle = ((FactoryFacility) this.getController().getModel()).getCycleTime();
-		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
-		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
-		return 100 * (elapsed.getSeconds() % cycle) / cycle;
-	}
-
-	private String accessCycleTime() {
-		final Integer cycle = ((FactoryFacility) this.getController().getModel()).getCycleTime();
-		final DateTime lastCycleStart = this.getController().getModel().getLastCycleStart();
-		final Seconds elapsed = Seconds.secondsBetween(lastCycleStart, DateTime.now());
-		return this.format2hms(elapsed.getSeconds() % cycle) + " / " + this.format2hms(cycle);
-	}
-
-	private String accessResourceQuantity( final int contentIndex ) {
-		final List<FactoryFacility.FactoryInputs> contents = ((FactoryFacility) this.getController().getModel()).getInputs();
-		final FactoryFacility.FactoryInputs input1 = contents.get(contentIndex);
-		final Long required = ((FactoryFacility) this.getController().getModel()).getFactoryType().getCapacity();
-		return qtyFormatter.format(input1.getAmount()) + " / " + qtyFormatter.format(required);
-	}
-
-	private ImageView generateInputResourceRing( final FactoryFacility.FactoryInputs resource ) {
-		return new ProgressRingImageView.Builder(this.getContext())
-				.withUsage(resource.getAmount().floatValue())
-				.withCapacity(((FactoryFacility) this.getController().getModel()).getFactoryType().getCapacity().floatValue())
-				.withColour(R.color.appwhite)
-				.build();
 	}
 }

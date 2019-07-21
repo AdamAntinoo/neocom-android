@@ -61,41 +61,6 @@
 					android:layout_toRightOf="@+id/extractingResourceIcon"
 					android:text="123/3456" />
 			</LinearLayout>
-
-			<FrameLayout
-					android:id="@+id/input2ResourceBlock"
-					android:layout_below="@+id/input1ResourceBlock"
-					android:visibility="gone"
-					android:layout_width="@dimen/nodeiconsize"
-					android:layout_height="@dimen/nodeiconsize">
-
-				<ImageView
-						android:id="@+id/input2ResourceIcon"
-						android:layout_gravity="center"
-						style="@style/AppTheme.NodeIcon"
-						android:layout_width="@dimen/nodeiconsizesmall"
-						android:layout_height="@dimen/nodeiconsizesmall"
-						android:src="@drawable/defaulticonplaceholder"
-						android:visibility="visible"/>
-			</FrameLayout>
-
-			<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_below="@+id/input1ResourceName"
-					android:layout_toRightOf="@+id/input2ResourceBlock"
-					android:orientation="vertical">
-
-				<org.dimensinfin.android.mvc.fonts.Din1451TextView
-						android:id="@+id/input2ResourceName"
-						style="@style/AppTheme.TextView"
-						android:layout_width="wrap_content"
-						android:layout_height="@dimen/nodeiconsize"
-						android:text="@string/default_resource"
-						android:visibility="gone"
-						android:textSize="12sp"/>
-			</LinearLayout>
-
 		</RelativeLayout>
 
 		<RelativeLayout

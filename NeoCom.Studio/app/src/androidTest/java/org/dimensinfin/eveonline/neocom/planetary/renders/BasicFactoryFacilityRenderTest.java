@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BasicIndustryRenderTest {
+public class BasicFactoryFacilityRenderTest {
 	static {
 		System.setProperty("org.mockito.android.target", ApplicationProvider.getApplicationContext().getCacheDir().getPath());
 	}
@@ -63,7 +63,7 @@ public class BasicIndustryRenderTest {
 	@Test
 	public void accessLayoutReference() {
 		final PlanetaryFacilityController controller = Mockito.mock(PlanetaryFacilityController.class);
-		final BasicIndustryRender render = new BasicIndustryRender(controller, mActivityRule.getActivity());
+		final BasicFactoryFacilityRender render = new BasicFactoryFacilityRender(controller, mActivityRule.getActivity());
 		Assert.assertNotNull("Render is not null.", render);
 		final int id = render.accessLayoutReference();
 		Assert.assertTrue(id > 0);

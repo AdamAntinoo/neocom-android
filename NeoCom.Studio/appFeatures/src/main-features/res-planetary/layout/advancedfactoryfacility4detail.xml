@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/nodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/uipanelborderdarkblue">
+
+        <include layout="@layout/nodebase4expandnew" />
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/facilityName"
+            style="@style/AppTheme.NeoComText.Planetary.FacilityName"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/nodeIconBlock"
+            android:text="@string/basic_industry_facility_name" />
+
+        <RelativeLayout
+            android:id="@+id/inputsBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/facilityName"
+            android:layout_toRightOf="@+id/nodeIconBlock">
+
+            <FrameLayout
+                android:id="@+id/input1ResourceBlock"
+                android:layout_width="@dimen/nodeiconsize"
+                android:layout_height="@dimen/nodeiconsize">
+
+                <ImageView
+                    android:id="@+id/input1ResourceIcon"
+                    style="@style/AppTheme.NodeIcon"
+                    android:layout_width="@dimen/nodeiconsizesmall"
+                    android:layout_height="@dimen/nodeiconsizesmall"
+                    android:layout_gravity="center"
+                    android:src="@drawable/defaulticonplaceholder"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_toRightOf="@+id/input1ResourceBlock"
+                android:orientation="vertical">
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/input1ResourceName"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="@string/default_resource" />
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/input1Quantity"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_below="@+id/extractorStatus"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="123/3456" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/input2ResourceBlock"
+                android:layout_width="@dimen/nodeiconsize"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_below="@+id/input1ResourceBlock">
+
+                <ImageView
+                    android:id="@+id/input2ResourceIcon"
+                    style="@style/AppTheme.NodeIcon"
+                    android:layout_width="@dimen/nodeiconsizesmall"
+                    android:layout_height="@dimen/nodeiconsizesmall"
+                    android:layout_gravity="center"
+                    android:src="@drawable/defaulticonplaceholder"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_below="@+id/input1ResourceBlock"
+                android:layout_toRightOf="@+id/input1ResourceBlock"
+                android:orientation="vertical">
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/input2ResourceName"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="@string/default_resource" />
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/input2Quantity"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_below="@+id/extractorStatus"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="123/3456" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/productionCycleBlock"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/productionCycleMessage"
+                    style="@style/AppTheme.TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_message"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/curErentCycleProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:backgroundTint="@color/uipanelborder"
+                    android:max="100"
+                    android:min="0"
+                    android:progress="0"
+                    android:progressTint="@color/appwhite" />
+
+                <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+                    android:id="@+id/curErentCycleTime"
+                    style="@style/AppTheme.Label.Big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/currentCycleProgress"
+                    android:text="@string/default_idle_extractor_head"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/currentCycleBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/facilityName"
+            android:layout_marginLeft="6dp"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_toRightOf="@+id/inputsBlock">
+
+            <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                android:id="@+id/currentCycleLabel"
+                style="@style/AppTheme.Label.Big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Current cycle"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/currentCycleProgress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/currentCycleLabel"
+                android:layout_toLeftOf="@+id/rightBlock"
+                android:backgroundTint="@color/uipanelborder"
+                android:max="100"
+                android:min="0"
+                android:progress="0"
+                android:progressTint="@color/pi_factoryringfillcolor" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+                android:id="@+id/currentCycleTime"
+                style="@style/AppTheme.Label.Big"
+                android:layout_below="@+id/currentCycleProgress"
+                android:text="@string/default_idle_extractor_head" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/resourceOutputBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/currentCycleBlock"
+            android:layout_marginLeft="6dp"
+            android:layout_toLeftOf="@+id/rightBlock"
+            android:layout_toRightOf="@+id/inputsBlock"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <FrameLayout
+                android:id="@+id/outputResourceBlock"
+                android:layout_width="@dimen/nodeiconsize"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_below="@+id/input1ResourceBlock">
+
+                <ImageView
+                    android:id="@+id/outputResourceIcon"
+                    style="@style/AppTheme.NodeIcon"
+                    android:layout_width="@dimen/nodeiconsizesmall"
+                    android:layout_height="@dimen/nodeiconsizesmall"
+                    android:layout_gravity="center"
+                    android:src="@drawable/defaulticonplaceholder"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nodeiconsize"
+                android:layout_below="@+id/input1ResourceBlock"
+                android:layout_toRightOf="@+id/input1ResourceBlock"
+                android:orientation="vertical">
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/outputResourceName"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="@string/default_resource" />
+
+                <org.dimensinfin.android.mvc.fonts.Din1451TextView
+                    android:id="@+id/outputQuantity"
+                    style="@style/AppTheme.NeoComText.Planetary.DataLabel"
+                    android:layout_below="@+id/extractorStatus"
+                    android:layout_toRightOf="@+id/extractingResourceIcon"
+                    android:text="123/3456" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

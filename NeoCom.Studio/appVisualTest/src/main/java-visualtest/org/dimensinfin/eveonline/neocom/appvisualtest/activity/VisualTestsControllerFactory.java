@@ -15,6 +15,7 @@ import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.controller.ColonyPackController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.FactoryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
@@ -57,7 +58,7 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof FactoryFacility) {
-			return new PlanetaryFacilityController((IPlanetaryFacility) node, this)
+			return new FactoryFacilityController((FactoryFacility) node, this)
 					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof PlanetaryFacility) {

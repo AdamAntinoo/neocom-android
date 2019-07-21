@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
+import org.dimensinfin.eveonline.neocom.planetary.Schematics;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,14 +20,20 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	private static final long serialVersionUID = -4614362639541002313L;
 	private Integer schematicId;
 	private PlanetarySchematic schematic;
-	private List<FactoryInputs> inputs = new ArrayList<>();
+	private List<FactoryInput> inputs = new ArrayList<>();
+//	private Schematics output;
 	private FactoryType factoryType = FactoryType.BASIC_INDUSTRY;
 
 	// -  C O M P O N E N T S
 	private PlanetaryRepository planetaryRepository;
 
-	public List<FactoryInputs> getInputs() {
+	public List<FactoryInput> getInputs() {
 		return this.inputs;
+	}
+
+	public Schematics getOutput() {
+		if (null != this.schematic) return this.schematic.getOutput();
+		else return null;
 	}
 
 	// - I C O L L A B O R A T I O N
@@ -70,7 +77,7 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			Objects.requireNonNull(this.onConstruction.planetaryFacility);
 			// Convert the contents to the factory list of contents and get Schematics data from repositories.
 			for (GetCharactersCharacterIdPlanetsPlanetIdOkContents content : this.onConstruction.planetaryFacility.getContents()) {
-				this.onConstruction.inputs.add(new FactoryInputs(content));
+				this.onConstruction.inputs.add(new FactoryInput(content));
 			}
 			return this;
 		}
@@ -94,6 +101,7 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			this.onConstruction.schematic = new PlanetarySchematic.Builder(this.onConstruction.schematicId)
 					.withPlanetaryRepository(this.onConstruction.planetaryRepository)
 					.build();
+//			this.onConstruction.output = this.onConstruction.schematic.getOutput();
 			this.withFactoryType(this.onConstruction.schematic.getOutput().getGroupName()); // Setup the factory factoryType.
 			return this.onConstruction;
 		}
@@ -109,12 +117,12 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	}
 
 	// - F A C T O R Y I N P U T S
-	public static class FactoryInputs implements Serializable {
+	public static class FactoryInput implements Serializable {
 		private static final long serialVersionUID = -6257539970882239251L;
 		private transient GetCharactersCharacterIdPlanetsPlanetIdOkContents planetaryContent;
 		private EveItem itemDelegate;
 
-		FactoryInputs( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
+		FactoryInput( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
 			this.planetaryContent = content;
 			this.itemDelegate = new EveItem(this.planetaryContent.getTypeId());
 		}
@@ -143,4 +151,12 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 			return this.planetaryContent.getAmount();
 		}
 	}
+
+//	public static class FactoryOutput extends FactoryInput implements Serializable {
+//		private static final long serialVersionUID = -4730030220635006541L;
+//
+//		FactoryOutput( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
+//			super(content);
+//		}
+//	}
 }

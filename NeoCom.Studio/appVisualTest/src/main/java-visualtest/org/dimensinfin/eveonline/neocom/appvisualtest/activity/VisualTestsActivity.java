@@ -31,10 +31,10 @@ public class VisualTestsActivity extends AMVCMultiPageActivity {
 		this.validateSDEDatabase();
 
 		this.addPage(new VTPlanetaryFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
-		this.addPage(new VTExtractorFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
-		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
 		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
 		this.addPage(new VTAdvancedFacilityLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+		this.addPage(new VTExtractorFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
+		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
 
 
 //		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));

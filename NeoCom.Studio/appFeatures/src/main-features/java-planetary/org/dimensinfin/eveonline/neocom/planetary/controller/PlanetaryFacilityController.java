@@ -13,8 +13,8 @@ import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.renders.AdvancedFactoryRender;
-import org.dimensinfin.eveonline.neocom.planetary.renders.BasicIndustryRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.AdvancedFactoryFacilityRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.BasicFactoryFacilityRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.CommandCenterRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.ExtractorRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
@@ -55,11 +55,11 @@ public class PlanetaryFacilityController extends NeoComController<IPlanetaryFaci
 				case PLANETARY_FACTORY:
 					switch (((FactoryFacility) this.getModel()).getFactoryType()) {
 						case BASIC_INDUSTRY:
-							return new BasicIndustryRender(this, context);
+							return new BasicFactoryFacilityRender(this, context);
 						case ADVANCED_INDUSTRY:
-							return new AdvancedFactoryRender(this, context);
+							return new AdvancedFactoryFacilityRender(this, context);
 						default:
-							return new BasicIndustryRender(this, context);
+							return new BasicFactoryFacilityRender(this, context);
 					}
 				default:
 					return new PlanetaryFacility4ListRender(this, context);
