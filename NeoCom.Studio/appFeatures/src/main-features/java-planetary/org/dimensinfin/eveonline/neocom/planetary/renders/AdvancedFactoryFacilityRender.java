@@ -23,13 +23,16 @@ public class AdvancedFactoryFacilityRender extends FactoryFacilityRender {
 	private TextView facilityName;
 	private FrameLayout input1ResourceBlock;
 	private ImageView input1ResourceIcon;
+	private TextView input1Tier;
 	private TextView input1ResourceName;
 	private TextView input1Quantity;
 	private FrameLayout input2ResourceBlock;
 	private ImageView input2ResourceIcon;
+	private TextView input2Tier;
 	private TextView input2ResourceName;
 	private TextView input2Quantity;
 	private ImageView outputResourceIcon;
+	private TextView outputTier;
 	private TextView outputResourceName;
 	private TextView outputQuantity;
 
@@ -54,20 +57,26 @@ public class AdvancedFactoryFacilityRender extends FactoryFacilityRender {
 		this.facilityName = this.getView().findViewById(R.id.facilityName);
 		this.input1ResourceBlock = this.getView().findViewById(R.id.input1ResourceBlock);
 		this.input1ResourceIcon = this.getView().findViewById(R.id.input1ResourceIcon);
+		this.input1Tier = this.getView().findViewById(R.id.input1Tier);
 		this.input1ResourceName = this.getView().findViewById(R.id.input1ResourceName);
 		this.input1Quantity = this.getView().findViewById(R.id.input1Quantity);
 		this.input2ResourceBlock = this.getView().findViewById(R.id.input2ResourceBlock);
 		this.input2ResourceIcon = this.getView().findViewById(R.id.input2ResourceIcon);
+		this.input2Tier = this.getView().findViewById(R.id.input2Tier);
 		this.input2ResourceName = this.getView().findViewById(R.id.input2ResourceName);
 		this.input2Quantity = this.getView().findViewById(R.id.input2Quantity);
 		this.outputResourceIcon = this.getView().findViewById(R.id.outputResourceIcon);
+		this.outputTier = this.getView().findViewById(R.id.outputTier);
 		this.outputResourceName = this.getView().findViewById(R.id.outputResourceName);
 		this.outputQuantity = this.getView().findViewById(R.id.outputQuantity);
 
+		this.input1Tier.setVisibility(View.INVISIBLE);
 		this.input1ResourceName.setVisibility(View.INVISIBLE);
 		this.input1Quantity.setVisibility(View.INVISIBLE);
+		this.input2Tier.setVisibility(View.INVISIBLE);
 		this.input2ResourceName.setVisibility(View.INVISIBLE);
 		this.input2Quantity.setVisibility(View.INVISIBLE);
+		this.outputTier.setVisibility(View.INVISIBLE);
 		this.outputResourceName.setVisibility(View.INVISIBLE);
 		this.outputQuantity.setVisibility(View.INVISIBLE);
 	}
@@ -85,13 +94,16 @@ public class AdvancedFactoryFacilityRender extends FactoryFacilityRender {
 		if ( null != output){
 			String link = this.getURLForItem(output.getTypeId());
 			Picasso.get().load(link).into(this.outputResourceIcon);
+			this.outputTier.setVisibility(View.VISIBLE);
 			this.outputResourceName.setVisibility(View.VISIBLE);
 			this.outputQuantity.setVisibility(View.VISIBLE);
 			this.outputResourceName.setText(output.getName());
 			this.outputQuantity.setText(qtyFormatter.format(output.getQuantity()));
+			this.outputTier.setText(output.getTier().getTypeCode());
 		}
 		if (contents.size() > 0) { // Fill the input number 1
 			final FactoryFacility.FactoryInput input1 = contents.get(0);
+			this.input1Tier.setVisibility(View.VISIBLE);
 			this.input1ResourceName.setVisibility(View.VISIBLE);
 			this.input1Quantity.setVisibility(View.VISIBLE);
 			String link = this.getURLForItem(input1.getTypeId());
@@ -100,9 +112,11 @@ public class AdvancedFactoryFacilityRender extends FactoryFacilityRender {
 			this.input1Quantity.setText(this.accessResourceQuantity(0));
 			final ImageView inputResourceAvailable = this.generateInputResourceRing(input1);
 			this.input1ResourceBlock.addView(inputResourceAvailable);
+			this.input1Tier.setText(input1.getTier().getTypeCode());
 		}
 		if (contents.size() > 1) { // Fill the input number 2
 			final FactoryFacility.FactoryInput input2 = contents.get(0);
+			this.input2Tier.setVisibility(View.VISIBLE);
 			this.input2ResourceName.setVisibility(View.VISIBLE);
 			this.input2Quantity.setVisibility(View.VISIBLE);
 			String link = this.getURLForItem(input2.getTypeId());
@@ -111,6 +125,7 @@ public class AdvancedFactoryFacilityRender extends FactoryFacilityRender {
 			this.input2Quantity.setText(this.accessResourceQuantity(0));
 			final ImageView inputResourceAvailable = this.generateInputResourceRing(input2);
 			this.input2ResourceBlock.addView(inputResourceAvailable);
+			this.input2Tier.setText(input2.getTier().getTypeCode());
 		}
 		if (contents.size() < 2) { // A resource is missing from input. Factory idle
 			this.currentCycleLabel.setText(Html.fromHtml("<font color='#FF0000'>Waiting resources</font>"));

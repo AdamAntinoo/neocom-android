@@ -4,9 +4,9 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
@@ -21,7 +21,7 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	private Integer schematicId;
 	private PlanetarySchematic schematic;
 	private List<FactoryInput> inputs = new ArrayList<>();
-//	private Schematics output;
+	//	private Schematics output;
 	private FactoryType factoryType = FactoryType.BASIC_INDUSTRY;
 
 	// -  C O M P O N E N T S
@@ -120,36 +120,38 @@ public class FactoryFacility extends PlanetaryFacilityWrapper {
 	public static class FactoryInput implements Serializable {
 		private static final long serialVersionUID = -6257539970882239251L;
 		private transient GetCharactersCharacterIdPlanetsPlanetIdOkContents planetaryContent;
-		private EveItem itemDelegate;
+		private PlanetaryResource resource;
 
 		FactoryInput( final GetCharactersCharacterIdPlanetsPlanetIdOkContents content ) {
 			this.planetaryContent = content;
-			this.itemDelegate = new EveItem(this.planetaryContent.getTypeId());
+			this.resource = new PlanetaryResource(this.planetaryContent.getTypeId(), this.planetaryContent.getAmount().intValue());
 		}
 
 		public int getTypeId() {
-			return itemDelegate.getTypeId();
+			return this.resource.getTypeId();
 		}
 
 		public String getName() {
-			return itemDelegate.getName();
+			return this.resource.getName();
 		}
 
 		public double getPrice() {
-			return itemDelegate.getPrice();
+			return this.resource.getPrice();
 		}
 
 		public double getVolume() {
-			return itemDelegate.getVolume();
+			return this.resource.getVolume();
 		}
 
 		public String getGroupName() {
-			return itemDelegate.getGroupName();
+			return this.resource.getGroupName();
 		}
 
 		public Long getAmount() {
 			return this.planetaryContent.getAmount();
 		}
+
+		public PlanetaryResourceTierType getTier() {return resource.getTier();}
 	}
 
 //	public static class FactoryOutput extends FactoryInput implements Serializable {

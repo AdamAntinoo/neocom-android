@@ -39,6 +39,20 @@
                     android:layout_gravity="center"
                     android:src="@drawable/defaulticonplaceholder"
                     android:visibility="visible" />
+
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                    android:id="@+id/input1Tier"
+                    style="@style/AppTheme.TextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:paddingRight="11dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="T1"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
             </FrameLayout>
 
             <LinearLayout
@@ -76,6 +90,20 @@
                     android:layout_gravity="center"
                     android:src="@drawable/defaulticonplaceholder"
                     android:visibility="visible" />
+
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                    android:id="@+id/input2Tier"
+                    style="@style/AppTheme.TextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:paddingRight="11dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="T1"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
             </FrameLayout>
 
             <LinearLayout
@@ -191,18 +219,29 @@
 
             <FrameLayout
                 android:id="@+id/outputResourceBlock"
-                android:layout_width="@dimen/nodeiconsize"
-                android:layout_height="@dimen/nodeiconsize"
-                android:layout_below="@+id/input1ResourceBlock">
+                android:layout_width="20dp"
+                android:layout_height="20dp">
 
                 <ImageView
                     android:id="@+id/outputResourceIcon"
                     style="@style/AppTheme.NodeIcon"
                     android:layout_width="@dimen/nodeiconsizesmall"
                     android:layout_height="@dimen/nodeiconsizesmall"
-                    android:layout_gravity="center"
-                    android:src="@drawable/defaulticonplaceholder"
-                    android:visibility="visible" />
+                    android:src="@drawable/defaulticonplaceholder" />
+
+                <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+                    android:id="@+id/outputTier"
+                    style="@style/AppTheme.TextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="T1"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
             </FrameLayout>
 
             <LinearLayout
