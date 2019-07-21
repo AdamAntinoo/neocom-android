@@ -10,7 +10,30 @@
         android:layout_height="wrap_content"
         android:background="@drawable/uipanelborderred">
 
-        <include layout="@layout/nodebase4expandnew" />
+        <FrameLayout
+            android:id="@+id/nodeIconBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:id="@+id/nodeIcon"
+                style="@style/AppTheme.NodeIcon"
+                android:layout_width="@dimen/nodeiconsize"
+                android:layout_height="@dimen/nodeiconsize"
+                android:src="@drawable/defaulticonplaceholder"
+                android:visibility="visible" />
+
+            <org.dimensinfin.eveonline.neocom.planetary.ui.HeadsCountImageView
+                android:id="@+id/headsCounter"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="visible" />
+        </FrameLayout>
 
         <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
             android:id="@+id/facilityName"
@@ -134,8 +157,8 @@
             android:id="@+id/cycleExpirationTime"
             style="@style/AppTheme.NeoComText.Planetary.DataLabel"
             android:layout_below="@+id/currentCycleBlock"
-            android:layout_marginRight="@dimen/standardmargin"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/standardmargin"
             android:layout_toRightOf="@+id/productionCycleBlock"
             android:gravity="right"
             android:text="Extraction Ends: 2019-07-24T18:30:00Z" />

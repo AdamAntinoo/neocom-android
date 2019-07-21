@@ -16,6 +16,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.ui.HeadsCountImageView;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
@@ -28,6 +29,7 @@ public class ExtractorRender extends ResourceFacetedRender {
 	private TextView currentCycleTime;
 	private TextView extractionCycleOutputValue;
 	private TextView cycleExpirationTime;
+	private ImageView headsCounter;
 
 	public ExtractorRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
@@ -55,6 +57,7 @@ public class ExtractorRender extends ResourceFacetedRender {
 		this.currentCycleTime = this.getView().findViewById(R.id.currentCycleTime);
 		this.extractionCycleOutputValue = this.getView().findViewById(R.id.extractionCycleOutputValue);
 		this.cycleExpirationTime = this.getView().findViewById(R.id.cycleExpirationTime);
+		this.headsCounter = this.getView().findViewById(R.id.headsCounter);
 	}
 
 	@Override
@@ -74,11 +77,20 @@ public class ExtractorRender extends ResourceFacetedRender {
 			this.extractorStatus.setText(Html.fromHtml("<font color='#FF0000'>Extractor not running.</font>"));
 			this.extractingResourceName.setVisibility(View.INVISIBLE);
 			this.currentCycleProgress.setProgress(0);
-//			this.currentCycleTime.setVisibility(View.INVISIBLE);
 			this.currentCycleTime.setText(this.accessCycleTimeWhenIdle());
 			this.extractionCycleOutputValue.setVisibility(View.INVISIBLE);
 			this.cycleExpirationTime.setVisibility(View.INVISIBLE);
 		}
+		final int headsCount = ((ExtractorFacility) this.getController().getModel()).getHeadsCount();
+		((HeadsCountImageView) this.headsCounter).setHeadsCount(headsCount);
+//		final ImageView headsCountView = new HeadsCountImageView.Builder(this.getContext())
+//				.withHeadsCount(headsCount)
+//				.build();
+//		final Drawable headsDrawable = headsCountView.getDrawable();
+//		bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+//		Canvas canvas = new Canvas(bitmap);
+//		d.draw(canvas);
+//		this.headsCountImage.setImageBitmap(inputResourceAvailable.getIma);
 	}
 
 	private String accessCycleExpirationTime() {

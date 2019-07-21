@@ -18,7 +18,7 @@ public class StorageProgressImageView extends ImageView {
 	private Context context;
 	private Float inUse;
 	private Float capacity;
-	private Paint paint;
+//	private Paint paint;
 
 	public StorageProgressImageView( final Context context ) {
 		super(context);
@@ -41,10 +41,10 @@ public class StorageProgressImageView extends ImageView {
 	// - D R A W I N G
 	protected void centerCanvas( final Canvas canvas ) {
 		canvas.translate((canvas.getWidth() / 2), (canvas.getHeight() / 2));
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	}
 
 	protected void drawCycleRing( Canvas canvas ) {
+		final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		final Integer dimension = (canvas.getWidth() - MARGIN_WIDTH * 3) / 2;
 		paint.setColor(getResources().getColor(R.color.appwhite));
 		paint.setStrokeWidth(MARGIN_WIDTH);

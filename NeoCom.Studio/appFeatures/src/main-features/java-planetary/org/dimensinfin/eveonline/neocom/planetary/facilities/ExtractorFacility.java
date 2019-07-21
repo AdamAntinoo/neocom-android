@@ -24,6 +24,7 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 
 	private EveItem extractionType;
 
+	// - G E T T E R S   &   S E T T E R S
 	public ExtractorState getState() {
 		return this.state;
 	}
@@ -68,6 +69,11 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 
 	public String getCycleExpirationTime() {
 		return this.expiryTime.toString();
+	}
+
+	public int getHeadsCount() {
+		if (null != this.extractorDetails) return this.extractorDetails.getHeads().size();
+		else return 0;
 	}
 
 	@Override
