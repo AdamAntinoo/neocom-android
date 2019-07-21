@@ -4,11 +4,12 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
@@ -20,7 +21,7 @@ import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRe
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.StorageRender;
 
-public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFacility> implements IContainer {
+public class PlanetaryFacilityController extends NeoComController<IPlanetaryFacility> implements IContainer {
 	// - C O N S T R U C T O R S
 	public PlanetaryFacilityController( @NonNull final IPlanetaryFacility model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
@@ -44,8 +45,10 @@ public class PlanetaryFacilityController extends AAndroidController<IPlanetaryFa
 				case COMMAND_CENTER:
 					return new CommandCenterRender(this, context);
 				case STORAGE:
+					this.setTheme(Separator.ESeparatorType.LINE_YELLOW);
 					return new StorageRender(this, context);
 				case LAUNCHPAD:
+					this.setTheme(Separator.ESeparatorType.LINE_YELLOW);
 					return new StorageRender(this, context);
 				case EXTRACTOR_CONTROL_UNIT:
 					return new ExtractorRender(this, context);

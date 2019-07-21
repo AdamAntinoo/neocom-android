@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
@@ -20,17 +21,8 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 		return this.planetaryFacility.getPlanetType();
 	}
 
-//	public Float getStorageCapacity() {
-//		if (this.planetaryStorage.getStorageCapacity() < 0) {
-//			final GetUniverseTypesTypeIdOkDogmaAttributes storage = this.planetaryFacility.getDogmaAttributeById(38);
-//			if (null == storage) return 0.0F;
-//			else this.planetaryStorage.setStorageCapacity(storage.getValue());
-//		}
-//		return this.planetaryStorage.getStorageCapacity();
-//	}
-
 	public Float getTotalVolume() {
-		if ( null != this.planetaryStorage) return this.planetaryStorage.getTotalVolume();
+		if (null != this.planetaryStorage) return this.planetaryStorage.getTotalVolume();
 		else return 0.0F;
 	}
 
@@ -39,7 +31,7 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 	}
 
 	/**
-	 * Change the icon dependng on the storage type.
+	 * Change the icon depending on the storage type.
 	 *
 	 * @return the storage type icon reference identifier.
 	 */
@@ -61,7 +53,13 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		if (variant.equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name())) return new ArrayList<>();
-		return new ArrayList<>(this.planetaryStorage.getContents());
+		else {
+			final List<ICollaboration> collaboration = new ArrayList<>();
+//			collaboration.add(new Separator().setType(Separator.ESeparatorType.LINE_YELLOW));
+			collaboration.addAll(this.planetaryStorage.getContents());
+			collaboration.add(new Separator().setType(Separator.ESeparatorType.LINE_YELLOW));
+			return collaboration;
+		}
 	}
 
 	// - B U I L D E R

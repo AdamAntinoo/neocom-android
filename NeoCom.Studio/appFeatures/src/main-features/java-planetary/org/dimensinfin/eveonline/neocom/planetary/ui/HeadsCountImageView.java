@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 public class HeadsCountImageView extends ImageView {
 	protected static Logger logger = LoggerFactory.getLogger(HeadsCountImageView.class);
+	private static final int TEXT_OFFSET_X = -6;
+	private static final int TEXT_OFFSET_Y = 12;
 	private int headsCount = 0;
 
 	public HeadsCountImageView( final Context context ) {
@@ -62,8 +64,8 @@ public class HeadsCountImageView extends ImageView {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 		paint.setStyle(Paint.Style.FILL);
-		paint.setTextSize(40);
+		paint.setTextSize(42);
 		paint.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/alte-din-1451-mittelschrift.bold.ttf"));
-		canvas.drawText(Integer.valueOf(this.headsCount).toString(), 0, 5, paint);
+		canvas.drawText(Integer.valueOf(this.headsCount).toString(), TEXT_OFFSET_X, TEXT_OFFSET_Y, paint);
 	}
 }

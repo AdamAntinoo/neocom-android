@@ -2,7 +2,9 @@ package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -11,9 +13,10 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
 
 public class PlanetaryResourceRender extends ResourceFacetedRender {
+	private ViewGroup nodeIconBlock;
+	private TextView tier;
 	private TextView resourceName;
 	private TextView resourceTypeId;
-	private TextView tier;
 	private TextView volume;
 	private TextView quantity;
 	private TextView value;
@@ -36,9 +39,10 @@ public class PlanetaryResourceRender extends ResourceFacetedRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
+		this.nodeIconBlock = this.getView().findViewById(R.id.nodeIconBlock);
+		this.tier = this.getView().findViewById(R.id.tier);
 		this.resourceName = this.getView().findViewById(R.id.resourceName);
 		this.resourceTypeId = this.getView().findViewById(R.id.resourceTypeId);
-		this.tier = this.getView().findViewById(R.id.tier);
 		this.volume = this.getView().findViewById(R.id.volume);
 		this.quantity = this.getView().findViewById(R.id.quantity);
 		this.value = this.getView().findViewById(R.id.value);

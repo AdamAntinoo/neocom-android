@@ -1,79 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/uipanelborderrose">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderrose">
 
-	<include layout="@layout/nodebase_decoratedsmall"/>
+    <FrameLayout
+        android:id="@+id/nodeIconBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/nodeiconsize">
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/tier"
-			style="@style/AppTheme.TextView"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/nodeIconBlock"
-			android:layout_alignParentLeft="true"
-			android:singleLine="true"
-			android:text="T1"
-			android:textColor="@android:color/white"
-			android:textSize="10sp"/>
+        <ImageView
+            android:id="@+id/nodeIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizesmall"
+            android:layout_height="@dimen/nodeiconsizesmall"
+            android:src="@drawable/defaulticonplaceholder"
+            android:visibility="visible" />
 
-	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-			android:id="@+id/resourceName"
-			style="@style/AppTheme.NeoComText"
-			android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/nodeIconBlock"
-			android:text="@string/default_resource"
-			android:textSize="12sp"/>
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/tier"
+            style="@style/AppTheme.TextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:gravity="right"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="4dp"
+            android:text="T1"
+            android:textColor="@android:color/white"
+            android:textSize="10sp" />
+    </FrameLayout>
 
-	<org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
-			android:id="@+id/resourceTypeId"
-			style="@style/AppTheme.NeoComText.ItemType"
-			android:layout_alignParentTop="true"
-			android:layout_marginLeft="@dimen/standardmargin"
-			android:layout_toRightOf="@+id/resourceName"
-			android:text="@string/default_typeid"/>
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/resourceName"
+        style="@style/AppTheme.NeoComText"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="@string/default_resource"
+        android:textSize="12sp" />
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/volume"
-			style="@style/AppTheme.TextView"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/resourceName"
-			android:layout_toRightOf="@+id/nodeIconBlock"
-			android:ellipsize="marquee"
-			android:singleLine="true"
-			android:text="@string/default_volume"
-			android:textColor="@android:color/white"
-			android:textSize="12sp"/>
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+        android:id="@+id/resourceTypeId"
+        style="@style/AppTheme.NeoComText.ItemType"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/resourceName"
+        android:text="@string/default_typeid" />
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/quantity"
-			style="@style/AppTheme.StockCounter"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_marginBottom="-4px"
-			android:layout_toLeftOf="@id/rightBlock"
-			android:ellipsize="marquee"
-			android:gravity="right"
-			android:singleLine="true"
-			android:text="125 items"
-			android:textColor="@android:color/white"
-			android:textSize="14sp"/>
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/volume"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resourceName"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/default_volume"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/value"
-			style="@style/AppTheme.StockCounter"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/resourceName"
-			android:layout_toLeftOf="@id/rightBlock"
-			android:ellipsize="marquee"
-			android:gravity="right"
-			android:singleLine="true"
-			android:text="@string/default_isk"
-			android:textColor="@android:color/white"
-			android:textSize="14sp"/>
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/quantity"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="-4px"
+        android:layout_alignParentRight="true"
+        android:ellipsize="marquee"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="125 items"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/value"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resourceName"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:ellipsize="marquee"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="@string/default_isk"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
 
 </RelativeLayout>
