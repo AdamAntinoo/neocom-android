@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderwhite">
+
+    <RelativeLayout
+        android:id="@+id/pilotSectionBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginRight="@dimen/standardmargin">
+
+        <ImageView
+            android:id="@+id/sectionIcon"
+            style="@style/AppTheme.NodeIcon"
+            android:layout_width="@dimen/nodeiconsizesmall"
+            android:layout_height="@dimen/nodeiconsizesmall"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/wallet"/>
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+            android:id="@+id/sectionTitle"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/standardmargin"
+            android:layout_toRightOf="@+id/sectionIcon"
+            android:text="WALLET"
+            android:visibility="visible" />
+
+        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+            android:id="@+id/sectionData"
+            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="@string/default_skillpoints"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/sectionLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_below="@+id/sectionData"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="WALLET AMOUNT" />
+    </RelativeLayout>
+
+</RelativeLayout>

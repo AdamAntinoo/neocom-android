@@ -11,7 +11,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.AMVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
-import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryFacilityController;
+import org.dimensinfin.eveonline.neocom.planetary.controller.FactoryFacilityController;
 import org.dimensinfin.eveonline.neocom.planetary.ui.CommandCenterImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.ExtractorImageView;
 import org.dimensinfin.eveonline.neocom.planetary.ui.FactoryImageView;
@@ -31,8 +31,8 @@ public class FacilityLayoutCustomRender extends AMVCRender {
 	}
 
 	@Override
-	public PlanetaryFacilityController getController() {
-		return (PlanetaryFacilityController) super.getController();
+	public FactoryFacilityController getController() {
+		return (FactoryFacilityController) super.getController();
 	}
 
 	// - I R E N D E R

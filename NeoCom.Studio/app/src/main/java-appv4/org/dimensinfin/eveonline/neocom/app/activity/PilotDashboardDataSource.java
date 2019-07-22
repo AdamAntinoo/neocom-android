@@ -1,12 +1,20 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
+import android.content.Context;
+
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.app.NeoComDataProvider;
+import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
+import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 
 import java.util.ArrayList;
@@ -16,8 +24,9 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 	// -  C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
 	private Credential credential;
+	private List<PilotSection> sections = new ArrayList<>();
 
-	public Credential getCredential() {
+	private Credential getCredential() {
 		return credential;
 	}
 
@@ -26,12 +35,29 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 		logger.info(">> [PilotDashboardDataSource.prepareModel]");
 		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId(this.getCredential().getAccountId());
 		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace(publicData.getRaceId());
-		this.addModelContents(new Pilot.Builder()
+		final Pilot pilot = new Pilot.Builder()
 				.withPilotIdentifier(this.getCredential().getAccountId())
 				.withCharacterPublicData(publicData)
 				.withRaceData(raceData)
 				.withCredential(this.getCredential())
+				.build();
+		this.addModelContents(pilot);
+
+		this.sections.add(new PilotSection.Builder()
+				.withSectionIcon(R.drawable.wallet)
+				.withTitle("WALLET")
+				.withLabel("Wallet Balance")
+				.withDataProvider(new WalletAmountDataProvider.Builder().withPilot(pilot).build())
 				.build());
+		this.sections.add(new PilotSection.Builder()
+				.withSectionIcon(R.drawable.wallet)
+				.withTitle("PLANETARY INTERACTION")
+				.withLabel("Available Colonies")
+				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
+						.withPilot(pilot)
+						.withEsiDataAdapter(this.esiDataAdapter).build())
+				.build());
+
 		this.addHeaderContents(new NeoComMenuBar(this.getCredential()));
 		logger.info("<< [PilotDashboardDataSource.prepareModel]");
 	}
@@ -80,6 +106,87 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 		@Override
 		public int compareTo( final Object o ) {
 			return 0;
+		}
+	}
+
+	// - W A L L E T D A T A P R O V I D E R
+	public static class WalletAmountDataProvider extends NeoComDataProvider implements IDataProvider {
+		private Pilot pilot;
+
+		private WalletAmountDataProvider() {
+			super(null, null);
+		}
+
+		public WalletAmountDataProvider( final IAndroidController controller, final Context context ) {
+			super(controller, context);
+		}
+
+		public String getDataFormatted() {
+			return this.generatePriceString(this.pilot.getCredential().getWalletBalance());
+		}
+
+		// - B U I L D E R
+		public static class Builder {
+			private WalletAmountDataProvider onConstruction;
+
+			public Builder() {
+				this.onConstruction = new WalletAmountDataProvider();
+			}
+
+			public Builder withPilot( final Pilot pilot ) {
+				this.onConstruction.pilot = pilot;
+				return this;
+			}
+
+			public WalletAmountDataProvider build() {
+				return this.onConstruction;
+			}
+		}
+	}
+
+	public static class PlanetaryColonyCountDataProvider extends NeoComDataProvider implements IDataProvider {
+		private Pilot pilot;
+		private ESIDataAdapter esiDataAdapter;
+
+		private PlanetaryColonyCountDataProvider() {
+			super(null, null);
+		}
+
+		public PlanetaryColonyCountDataProvider( final IAndroidController controller, final Context context ) {
+			super(controller, context);
+		}
+
+		public Credential getCredential() {return this.pilot.getCredential();}
+
+		public String getDataFormatted() {
+			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.esiDataAdapter.getCharactersCharacterIdPlanets(
+					this.getCredential().getAccountId(),
+					this.getCredential().getRefreshToken(),
+					this.getCredential().getDataSource());
+			return (qtyFormatter.format(esiColonies.size()) + " colonies").toUpperCase();
+		}
+
+		// - B U I L D E R
+		public static class Builder {
+			private PlanetaryColonyCountDataProvider onConstruction;
+
+			public Builder() {
+				this.onConstruction = new PlanetaryColonyCountDataProvider();
+			}
+
+			public Builder withPilot( final Pilot pilot ) {
+				this.onConstruction.pilot = pilot;
+				return this;
+			}
+
+			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+				this.onConstruction.esiDataAdapter = esiDataAdapter;
+				return this;
+			}
+
+			public PlanetaryColonyCountDataProvider build() {
+				return this.onConstruction;
+			}
 		}
 	}
 }

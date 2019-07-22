@@ -3,11 +3,21 @@ package org.dimensinfin.eveonline.neocom.app.factory;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.controller.*;
+import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
+import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
+import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
+import org.dimensinfin.eveonline.neocom.app.controller.NeoComDashboardMenuController;
+import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
+import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
+import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
@@ -59,8 +69,11 @@ public class AppControllerFactory extends ControllerFactory {
 //		}
 		if (node instanceof NeoComMenuBar) {
 			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
+					.withVariant(this.getVariant())
+					.build();
+		}
+		if (node instanceof PilotSection) {
+			return new PilotSectionController((PilotSection) node, this);
 		}
 
 		// - A C T I O N B A R S

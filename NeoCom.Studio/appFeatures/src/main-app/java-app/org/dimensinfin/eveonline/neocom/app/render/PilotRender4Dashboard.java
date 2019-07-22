@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetAlliancesAllianceIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCorporationsCorporationIdOk;
 
-public class PilotRender extends NeoComRenderv2 {
+public class PilotRender4Dashboard extends NeoComRenderv2 {
 	private ImageView avatarIcon;
 	private ImageView cloneIconSmall;
 	private ImageView raceIconSmall;
@@ -33,7 +33,7 @@ public class PilotRender extends NeoComRenderv2 {
 	private TextView walletAmount;
 
 	// - C O N S T R U C T O R S
-	public PilotRender( final IAndroidController controller, final Context context ) {
+	public PilotRender4Dashboard( final IAndroidController controller, final Context context ) {
 		super(controller, context);
 	}
 

@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
-import org.dimensinfin.eveonline.neocom.app.render.PilotRender;
+import org.dimensinfin.eveonline.neocom.app.render.PilotRender4Dashboard;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
@@ -31,6 +31,6 @@ public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {
-		return new PilotRender(this, context);
+		return new PilotRender4Dashboard(this, context);
 	}
 }
