@@ -1,16 +1,12 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import android.content.Context;
-
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
+import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
@@ -58,7 +54,7 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 						.withEsiDataAdapter(this.esiDataAdapter).build())
 				.build());
 
-		this.addHeaderContents(new NeoComMenuBar(this.getCredential()));
+//		this.addHeaderContents(new NeoComMenuBar(this.getCredential()));
 		logger.info("<< [PilotDashboardDataSource.prepareModel]");
 	}
 
@@ -67,7 +63,8 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 	 */
 	@Override
 	public void collaborate2Model() {
-		this.addModelContents(new PlanetaryDashboardManager());
+		for (PilotSection section : this.sections)
+			this.addModelContents(section);
 	}
 
 	// - B U I L D E R
@@ -113,13 +110,7 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 	public static class WalletAmountDataProvider extends NeoComDataProvider implements IDataProvider {
 		private Pilot pilot;
 
-		private WalletAmountDataProvider() {
-			super(null, null);
-		}
-
-		public WalletAmountDataProvider( final IAndroidController controller, final Context context ) {
-			super(controller, context);
-		}
+		private WalletAmountDataProvider() {}
 
 		public String getDataFormatted() {
 			return this.generatePriceString(this.pilot.getCredential().getWalletBalance());
@@ -148,13 +139,7 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 		private Pilot pilot;
 		private ESIDataAdapter esiDataAdapter;
 
-		private PlanetaryColonyCountDataProvider() {
-			super(null, null);
-		}
-
-		public PlanetaryColonyCountDataProvider( final IAndroidController controller, final Context context ) {
-			super(controller, context);
-		}
+		private PlanetaryColonyCountDataProvider() {}
 
 		public Credential getCredential() {return this.pilot.getCredential();}
 
