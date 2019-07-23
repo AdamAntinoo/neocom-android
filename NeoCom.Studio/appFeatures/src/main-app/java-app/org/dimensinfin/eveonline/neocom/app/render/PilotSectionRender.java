@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 
@@ -45,6 +46,10 @@ public class PilotSectionRender extends NeoComRenderv2 {
 		this.sectionIcon.setImageDrawable(this.getContext().getDrawable(this.getController().getModel().getIconReference()));
 		this.sectionTitle.setText(this.getController().getModel().getTitle());
 		this.sectionLabel.setText(this.getController().getModel().getLabel());
-		this.sectionData.setText(this.getController().getModel().getDataFormatted());
+		this.sectionData.setText("-");
+		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+			final String data = this.getController().getModel().getDataFormatted();
+			handler.post(() -> this.sectionData.setText(data));
+		});
 	}
 }
