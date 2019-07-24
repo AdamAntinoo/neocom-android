@@ -75,7 +75,7 @@ public class PilotDashboardSupportTest {
 	protected View searchPanelByClass( final Class filterClass, final ListView container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
-			final View target = this.getViewByPosition(0, container);
+			final View target = this.getViewByPosition(i, container);
 			final IAndroidController controller = (IAndroidController) target.getTag();
 			final Object model = controller.getModel();
 			if (model.getClass() == filterClass) return target;

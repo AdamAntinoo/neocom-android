@@ -12,10 +12,12 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 
 public class PilotSectionRender extends NeoComRenderv2 {
-	private ImageView sectionIcon;
-	private TextView sectionTitle;
-	private TextView sectionData;
-	private TextView sectionLabel;
+	public static boolean awaitingRender = false;
+
+	protected ImageView sectionIcon;
+	protected TextView sectionTitle;
+	protected TextView sectionData;
+	protected TextView sectionLabel;
 
 	public PilotSectionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
@@ -51,5 +53,6 @@ public class PilotSectionRender extends NeoComRenderv2 {
 			final String data = this.getController().getModel().getDataFormatted();
 			handler.post(() -> this.sectionData.setText(data));
 		});
+		awaitingRender=true;
 	}
 }

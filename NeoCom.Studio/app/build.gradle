@@ -230,10 +230,10 @@ dependencies {
 
     testImplementation project(':appFeatures')
 }
-dependencies {
-    testImplementation 'androidx.arch.core:core-testing:2.0.1'
-    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
-}
+//dependencies {
+//    testImplementation 'androidx.arch.core:core-testing:2.0.1'
+//    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
+//}
 
 // - A N D R O I D   T E S T I N G
 dependencies {
@@ -241,6 +241,9 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    androidTestImplementation 'org.awaitility:awaitility:3.1.6'
+
     androidTestImplementation ('org.mockito:mockito-android:2.23.0') {
         exclude group: 'net.bytebuddy', module: 'byte-buddy'
         exclude group: 'net.bytebuddy', module: 'byte-buddy-android'
