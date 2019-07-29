@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.app.pilot;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VTPilotDataSource extends AMVCDataSource {
+public class VTPilotDataSource extends MVCDataSource {
 	private List<Pilot> testPilots = new ArrayList<>();
 
 	private Credential credential;
@@ -37,7 +37,7 @@ public class VTPilotDataSource extends AMVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<VTPilotDataSource, VTPilotDataSource.Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<VTPilotDataSource, VTPilotDataSource.Builder> {
 		private VTPilotDataSource onConstruction;
 
 		@Override

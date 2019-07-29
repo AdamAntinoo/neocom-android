@@ -18,11 +18,11 @@ import android.view.View;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
+import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
-public class ANeoComActivity extends AMVCMultiPageActivity {
+public class ANeoComActivity extends MVCMultiPageActivity {
 	private static Menu activityMenu = null;
 	private View neocomActionBar;
 

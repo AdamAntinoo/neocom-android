@@ -98,7 +98,8 @@ dependencies {
     compileOnly 'org.dimensinfin:CoreBase.core:3.0.1'
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation project(':NeoCom.DataManagement')
-    implementation project(':AndroidMVCLibrary') // Required for Renders and Controllers
+    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
+//    implementation project(':AndroidMVCLibrary') // Required for Renders and Controllers
 
     // N E O C O M
     implementation 'com.jakewharton:disklrucache:2.0.2'

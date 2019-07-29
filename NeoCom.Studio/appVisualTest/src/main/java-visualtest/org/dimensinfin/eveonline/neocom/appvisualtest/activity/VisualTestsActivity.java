@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import org.dimensinfin.android.mvc.activity.AMVCMultiPageActivity;
+import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
@@ -20,7 +20,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import java.io.File;
 
-public class VisualTestsActivity extends AMVCMultiPageActivity {
+public class VisualTestsActivity extends MVCMultiPageActivity {
 	private IFileSystem fileSystem;
 
 	@Override

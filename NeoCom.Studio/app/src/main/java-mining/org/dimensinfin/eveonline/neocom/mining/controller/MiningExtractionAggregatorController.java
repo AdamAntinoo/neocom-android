@@ -7,7 +7,7 @@ import android.content.Context;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 
-public class MiningExtractionAggregatorController extends AAndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
+public class MiningExtractionAggregatorController extends AndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
 
 	// - C O N S T R U C T O R
 	public MiningExtractionAggregatorController( @NonNull final MiningExtractionAggregatorAsPanelTitle model, @NonNull final IControllerFactory factory ) {

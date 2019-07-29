@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacilit
 
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
+import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.R;
@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBar;
 import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class VTAdvancedFacilityLayoutFragment extends ASimplePagerFragment {
+public class VTAdvancedFacilityLayoutFragment extends CanvasPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());

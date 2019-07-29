@@ -1,12 +1,12 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 
-import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
+import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.datasources.VisualTestsDataSource;
 
-public class VisualTestsPlanetaryLayoutFragment extends ASimplePagerFragment {
+public class VisualTestsPlanetaryLayoutFragment extends CanvasPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());

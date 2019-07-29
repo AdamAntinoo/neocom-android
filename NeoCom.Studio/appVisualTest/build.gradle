@@ -130,7 +130,8 @@ dependencies {
 
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
-    implementation project(':AndroidMVCLibrary')
+    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
+//    implementation project(':AndroidMVCLibrary')
     implementation project(':NeoCom.DataManagement')
     implementation project(':appFeatures')
 

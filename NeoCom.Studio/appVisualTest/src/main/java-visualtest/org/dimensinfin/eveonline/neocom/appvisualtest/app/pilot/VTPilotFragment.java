@@ -1,13 +1,13 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.app.pilot;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class VTPilotFragment extends AMVCPagerFragment {
+public class VTPilotFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());

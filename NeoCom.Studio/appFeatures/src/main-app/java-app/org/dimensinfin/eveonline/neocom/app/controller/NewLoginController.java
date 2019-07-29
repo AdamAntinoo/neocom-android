@@ -8,17 +8,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 
-public class NewLoginController extends AAndroidController<NewLoginAction> implements View.OnClickListener {
+public class NewLoginController extends AndroidController<NewLoginAction> implements View.OnClickListener {
 	private Context context;
 
 	public NewLoginController( @NonNull final NewLoginAction model, @NonNull final IControllerFactory factory ) {
@@ -63,7 +63,7 @@ public class NewLoginController extends AAndroidController<NewLoginAction> imple
 	}
 
 	// - N E W L O G I N A C T I O N R E N D E R
-	public static class NewLoginActionRender extends AMVCRender {
+	public static class NewLoginActionRender extends MVCRender {
 		private ImageView nodeIcon = null;
 
 		public NewLoginActionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {

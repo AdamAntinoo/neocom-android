@@ -1,8 +1,8 @@
 include ':app'
 include ':appFeatures'
 include ':appVisualTest'
-include ':AndroidMVCLibrary'
-project(':AndroidMVCLibrary').projectDir = new File('/home/adam/Development/NeoCom/android-mvc/AndroidMVCLibrary')
+//include ':AndroidMVCLibrary'
+//project(':AndroidMVCLibrary').projectDir = new File('/home/adam/Development/NeoCom/android-mvc/AndroidMVCLibrary')
 include ':NeoCom.DataManagement'
 project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
 include ':NeoCom.DataManagement.AcceptanceTests'

@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.app.credential;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VTCredentialsDataSource extends AMVCDataSource {
+public class VTCredentialsDataSource extends MVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
 	private CredentialRepository credentialRepository;
 	private List<Credential> testCredentials = new ArrayList<>();
@@ -78,7 +78,7 @@ public class VTCredentialsDataSource extends AMVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<VTCredentialsDataSource, VTCredentialsDataSource.Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<VTCredentialsDataSource, VTCredentialsDataSource.Builder> {
 		private VTCredentialsDataSource onConstruction;
 
 		@Override

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.controller.FactoryFacilityController;
@@ -20,7 +20,7 @@ import org.dimensinfin.eveonline.neocom.planetary.ui.StorageImageView;
 
 import java.util.concurrent.TimeUnit;
 
-public class FacilityLayoutCustomRender extends AMVCRender {
+public class FacilityLayoutCustomRender extends MVCRender {
 	private FacilityGeoPosition mapCenter;
 	private IPlanetaryImageView structureImage;
 	private FrameLayout layoutStructureContainer;

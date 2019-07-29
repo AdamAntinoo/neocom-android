@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.app.render.InitialisationTaskRender;
 import org.dimensinfin.eveonline.neocom.core.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 
-public class InitialisationTaskController extends AAndroidController<InitialisationTask> implements IEventReceiver {
+public class InitialisationTaskController extends AndroidController<InitialisationTask> implements IEventReceiver {
 	public InitialisationTaskController( @NonNull final InitialisationTask model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 		model.addEventListener(this);

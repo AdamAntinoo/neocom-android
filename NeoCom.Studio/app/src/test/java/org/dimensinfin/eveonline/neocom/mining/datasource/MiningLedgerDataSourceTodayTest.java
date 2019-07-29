@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
@@ -35,7 +35,7 @@ public class MiningLedgerDataSourceTodayTest {
 	private Credential credential;
 	private MiningRepository miningRepository;
 	private ControllerFactory factory;
-	private AAndroidController controller;
+	private AndroidController controller;
 
 	@Before
 	public void setUp() throws Exception {

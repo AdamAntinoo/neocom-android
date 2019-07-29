@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.mining.controller;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -11,7 +11,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
-public class TableHeaderController extends AAndroidController<TableHeader> {
+public class TableHeaderController extends AndroidController<TableHeader> {
 
 	// - C O N S T R U C T O R
 	public TableHeaderController( @NonNull final TableHeader model, @NonNull final IControllerFactory factory ) {

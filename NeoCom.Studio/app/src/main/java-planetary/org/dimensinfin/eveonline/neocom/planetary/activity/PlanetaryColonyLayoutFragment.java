@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary.activity;
 
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.ASimplePagerFragment;
+import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryColonyLayoutDataSource;
 
-public class PlanetaryColonyLayoutFragment extends ASimplePagerFragment {
+public class PlanetaryColonyLayoutFragment extends CanvasPagerFragment {
 	private Credential credential;
 
 	@Override

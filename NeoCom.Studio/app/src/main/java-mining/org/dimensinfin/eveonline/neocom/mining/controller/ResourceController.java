@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 
-public class ResourceController extends AAndroidController<Resource> {
+public class ResourceController extends AndroidController<Resource> {
 	// - C O N S T R U C T O R
 	public ResourceController( @NonNull final Resource model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);

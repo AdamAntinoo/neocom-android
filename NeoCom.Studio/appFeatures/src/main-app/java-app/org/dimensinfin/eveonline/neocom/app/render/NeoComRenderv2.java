@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
@@ -28,7 +28,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 
 import com.squareup.picasso.Picasso;
 
-public abstract class NeoComRenderv2 extends AMVCRender {
+public abstract class NeoComRenderv2 extends MVCRender {
 	// - C H A R A C T E R S
 	public static final String FLOW_ARROW_RIGHT = " ► ";
 	public static final String FLOW_ARROW_LEFT = " ◄ ";

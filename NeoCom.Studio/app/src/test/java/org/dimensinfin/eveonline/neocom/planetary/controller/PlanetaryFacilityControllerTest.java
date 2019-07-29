@@ -44,7 +44,7 @@ public class PlanetaryFacilityControllerTest {
 		final IPlanetaryFacility model = Mockito.mock(IPlanetaryFacility.class);
 		final PlanetaryControllerFactory factory = Mockito.mock(PlanetaryControllerFactory.class);
 		final PlanetaryFacilityController controller = (PlanetaryFacilityController) new PlanetaryFacilityController(model, factory)
-				                                                                             .setRenderMode(PageNamesType.PLANET_FACILITIES.name());
+				                                                                             .setRenderMode(PageNamesType.PLANET_FACILITIES_LAYOUT.name());
 		final Context context = Mockito.mock(Context.class);
 		final IRender obtained = controller.buildRender(context);
 		Assert.assertNotNull(obtained);

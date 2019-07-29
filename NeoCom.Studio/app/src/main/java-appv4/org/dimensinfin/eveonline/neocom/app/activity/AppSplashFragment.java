@@ -3,8 +3,8 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -33,7 +33,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppSplashFragment extends AMVCPagerFragment {
+public class AppSplashFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())
@@ -77,7 +77,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 	 * state of that detection.
 	 */
 	// - C R E D E N T I A L   D A T A S O U R C E
-	public static class SplashActionsDataSource extends AMVCDataSource {
+	public static class SplashActionsDataSource extends MVCDataSource {
 		private String name;
 		private String version;
 
@@ -287,7 +287,7 @@ public class AppSplashFragment extends AMVCPagerFragment {
 		}
 
 		// - B U I L D E R
-		public static class Builder extends AMVCDataSource.BaseBuilder<SplashActionsDataSource, Builder> {
+		public static class Builder extends MVCDataSource.BaseBuilder<SplashActionsDataSource, Builder> {
 			private SplashActionsDataSource onConstruction;
 
 			@Override

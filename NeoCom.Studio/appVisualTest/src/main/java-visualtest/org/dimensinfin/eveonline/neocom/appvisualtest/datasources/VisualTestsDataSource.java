@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class VisualTestsDataSource extends AMVCDataSource {
+public class VisualTestsDataSource extends MVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
 	private PlanetaryRepository planetaryRepository;
 	private ColonyPack colonyPack;
@@ -334,7 +334,7 @@ public class VisualTestsDataSource extends AMVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<VisualTestsDataSource, Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<VisualTestsDataSource, Builder> {
 		private VisualTestsDataSource onConstruction;
 
 		@Override

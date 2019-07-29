@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.controller.core;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.R;
 
 import java.util.List;
 
-public abstract class NeoComController<M extends ICollaboration> extends AAndroidController<M> {
+public abstract class NeoComController<M extends ICollaboration> extends AndroidController<M> {
 	private Separator.ESeparatorType theme = Separator.ESeparatorType.DEFAULT;
 
 	public NeoComController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
@@ -28,12 +28,12 @@ public abstract class NeoComController<M extends ICollaboration> extends AAndroi
 	 */
 	@Override
 	public void collaborate2View( final List<IAndroidController> contentCollector ) {
-		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
+		logger.info(">< [AndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.getModel() instanceof IExpandable) {
 			// --- This is the section that is different for any AndroidController.
 			List<IAndroidController> ch = this.orderingFeature(this.getChildren());
-			logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
+			logger.info("-- [AndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
 			if (((IExpandable) this.getModel()).isExpanded())
 				contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));

@@ -23,7 +23,7 @@ import android.os.Bundle;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSourcev3;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -98,7 +98,7 @@ public class EveOnlineNotificationsFragment extends AbstractPagerFragment {
 	//...........................................................................................................
 
 	//- CLASS IMPLEMENTATION ...................................................................................
-	public static class EveOnlineNotificationsDataSource extends MVCDataSource {
+	public static class EveOnlineNotificationsDataSource extends MVCDataSourcev3 {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................

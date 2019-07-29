@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 
 import com.squareup.picasso.Picasso;
 
-public class MiningExtractionController extends AAndroidController<MiningExtraction> {
+public class MiningExtractionController extends AndroidController<MiningExtraction> {
 	public MiningExtractionController( @NonNull final MiningExtraction model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 //		model.addPropertyChangeListener(this);

@@ -6,15 +6,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 
-public class NeoComActionBarController extends AAndroidController<NeoComActionBarV2> {
+public class NeoComActionBarController extends AndroidController<NeoComActionBarV2> {
 	public NeoComActionBarController( @NonNull final NeoComActionBarV2 model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
@@ -31,7 +31,7 @@ public class NeoComActionBarController extends AAndroidController<NeoComActionBa
 	}
 
 	// - N E O C O M A C T I O N B A R R E N D E R
-	public static class NeoComActionBarRender extends AMVCRender {
+	public static class NeoComActionBarRender extends MVCRender {
 		// - U I   F I E L D S
 		protected ImageView activityIcon;
 		protected ImageView upperIcon;

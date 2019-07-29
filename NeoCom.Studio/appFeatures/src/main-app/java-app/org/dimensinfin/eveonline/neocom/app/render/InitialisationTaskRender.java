@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-public class InitialisationTaskRender extends AMVCRender {
+public class InitialisationTaskRender extends MVCRender {
 	// - U I   F I E L D S
 	private TextView taskName;
 	private TextView status;

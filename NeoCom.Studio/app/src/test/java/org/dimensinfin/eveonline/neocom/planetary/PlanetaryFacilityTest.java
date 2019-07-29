@@ -1,8 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
@@ -10,11 +7,13 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseSchematicsSc
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlanetaryFacilityTest {
 	private static IPlanetaryFacility globalFacility;
@@ -32,7 +31,7 @@ public class PlanetaryFacilityTest {
 		globalFacility = new PlanetaryFacility.Builder()
 				                 .withPin(pin)
 				                 .withFacilityItem(planetItem)
-				                 .withEsiDataAdapter(esiAdapter)
+//				                 .withEsiDataAdapter(esiAdapter)
 				                 .withPlanetType(PlanetType.GAS)
 				                 .build();
 	}
@@ -51,7 +50,7 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(planetItem)
-				                                   .withEsiDataAdapter(esiAdapter)
+//				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		Assert.assertNotNull(facility);
@@ -79,7 +78,7 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(resourceItem)
-				                                   .withEsiDataAdapter(esiAdapter)
+//				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		final String name = facility.getName();
@@ -94,7 +93,7 @@ public class PlanetaryFacilityTest {
 		final PlanetaryFacility facility = (PlanetaryFacility) new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(resourceItem)
-				                                   .withEsiDataAdapter(esiAdapter)
+//				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		final Float capacity = facility.getStorageCapacity();
@@ -108,7 +107,6 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(planetItem)
-				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		final Integer schematic = facility.getSchematicId();
@@ -125,7 +123,6 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(planetItem)
-				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		final Integer schematicId = facility.getSchematicId();
@@ -141,7 +138,6 @@ public class PlanetaryFacilityTest {
 		final PlanetaryFacility facility = (PlanetaryFacility) new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(planetItem)
-				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 		final long id = facility.getUniqueModelIdentifier();
@@ -154,8 +150,6 @@ public class PlanetaryFacilityTest {
 		final GetCharactersCharacterIdPlanetsPlanetIdOkContents planetContent = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkContents.class);
 		Mockito.when(pin.getSchematicId()).thenReturn(null);
 		Mockito.when(esiAdapter.getUniversePlanetarySchematicsById(111)).thenReturn(schematic);
-//		Mockito.when(esiAdapter.getUniverseTypeById(any(Integer.class))).thenReturn(resourceItem);
-//		Mockito.when(resourceItem.getVolume()).thenReturn((float) 0.38);
 		Mockito.when(schematic.getSchematicName()).thenReturn("TEST SCHEMATIC");
 		Mockito.when(schematic.getCycleTime()).thenReturn(3600);
 		final List<GetCharactersCharacterIdPlanetsPlanetIdOkContents> contents = new ArrayList<>();
@@ -166,7 +160,6 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facility = new PlanetaryFacility.Builder()
 				                                   .withPin(pin)
 				                                   .withFacilityItem(resourceItem)
-				                                   .withEsiDataAdapter(esiAdapter)
 				                                   .withPlanetType(PlanetType.GAS)
 				                                   .build();
 //		final double obtained = facility.getContentsVolume();
@@ -179,11 +172,11 @@ public class PlanetaryFacilityTest {
 		Assert.assertNotNull(position);
 	}
 
-	@Test
-	public void getBackgroundColor() {
-		final int color = globalFacility.getBackgroundColor();
-		Assert.assertEquals("Check the color identifier.", 2131099715, color);
-	}
+//	@Test
+//	public void getBackgroundColor() {
+//		final int color = globalFacility.getBackgroundColor();
+//		Assert.assertEquals("Check the color identifier.", 2131099715, color);
+//	}
 
 	@Test
 	public void getIconReferenceId() {
@@ -213,13 +206,11 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemA)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final IPlanetaryFacility facilityB = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemB)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final int comparison = facilityA.compareTo(facilityB);
@@ -236,13 +227,11 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemA)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final IPlanetaryFacility facilityB = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemB)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final int comparison = facilityA.compareTo(facilityB);
@@ -259,13 +248,11 @@ public class PlanetaryFacilityTest {
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemA)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final IPlanetaryFacility facilityB = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemB)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final int comparison = facilityA.compareTo(facilityB);
@@ -274,13 +261,11 @@ public class PlanetaryFacilityTest {
 
 	@Test
 	public void compareTo_other() {
-//		final ESIDataAdapter esiAdapter = Mockito.mock(ESIDataAdapter.class);
 		final EveItem resourceItemA = Mockito.mock(EveItem.class);
 		Mockito.when(resourceItemA.getName()).thenReturn("TEST FACILITY - B");
 		final IPlanetaryFacility facilityA = new PlanetaryFacility.Builder()
 				                                    .withPin(pin)
 				                                    .withFacilityItem(resourceItemA)
-				                                    .withEsiDataAdapter(esiAdapter)
 				                                    .withPlanetType(PlanetType.GAS)
 				                                    .build();
 		final int comparison = facilityA.compareTo("NOT PLANETARY FACILITY");

@@ -6,14 +6,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 
-public class VisualTestActionBarController extends AAndroidController<VisualTestActionBar> {
+public class VisualTestActionBarController extends AndroidController<VisualTestActionBar> {
 	public VisualTestActionBarController( @NonNull final VisualTestActionBar model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}

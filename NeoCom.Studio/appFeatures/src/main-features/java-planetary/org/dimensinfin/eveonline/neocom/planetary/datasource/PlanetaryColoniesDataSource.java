@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
@@ -71,7 +71,7 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<PlanetaryColoniesDataSource, Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<PlanetaryColoniesDataSource, Builder> {
 		private PlanetaryColoniesDataSource onConstruction;
 
 		@Override

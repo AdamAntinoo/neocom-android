@@ -5,13 +5,13 @@ import java.util.Objects;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.render.PanelTitleRender;
 
-public class PanelTitleController extends AAndroidController<PanelTitle> {
+public class PanelTitleController extends AndroidController<PanelTitle> {
 	protected String variant;
 
 	protected PanelTitleController( @NonNull final PanelTitle model, @NonNull final IControllerFactory factory ) {

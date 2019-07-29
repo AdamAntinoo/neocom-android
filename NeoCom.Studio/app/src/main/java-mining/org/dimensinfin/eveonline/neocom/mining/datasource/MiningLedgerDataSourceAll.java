@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.mining.datasource;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
@@ -51,7 +51,7 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<MiningLedgerDataSourceAll, Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<MiningLedgerDataSourceAll, Builder> {
 		private MiningLedgerDataSourceAll onConstruction;
 
 		@Override

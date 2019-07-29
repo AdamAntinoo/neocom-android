@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PilotDashboardDataSource extends AMVCDataSource {
+public class PilotDashboardDataSource extends MVCDataSource {
 	// -  C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
 	private Credential credential;
@@ -68,7 +68,7 @@ public class PilotDashboardDataSource extends AMVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<PilotDashboardDataSource, Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<PilotDashboardDataSource, Builder> {
 		private PilotDashboardDataSource onConstruction;
 
 		@Override

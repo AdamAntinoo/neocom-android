@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanel
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
-public class MiningLedgerDataSourceToday extends AMVCDataSource {
+public class MiningLedgerDataSourceToday extends MVCDataSource {
 	protected Credential credential;
 	protected ESIDataAdapter esiDataAdapter;
 	protected MiningRepository miningRepository; // The mining persistence repository definition.
@@ -163,7 +163,7 @@ public class MiningLedgerDataSourceToday extends AMVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AMVCDataSource.BaseBuilder<MiningLedgerDataSourceToday, MiningLedgerDataSourceToday.Builder> {
+	public static class Builder extends MVCDataSource.BaseBuilder<MiningLedgerDataSourceToday, MiningLedgerDataSourceToday.Builder> {
 		private MiningLedgerDataSourceToday onConstruction;
 
 		@Override

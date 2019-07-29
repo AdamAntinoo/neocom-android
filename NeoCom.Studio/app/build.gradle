@@ -1,34 +1,12 @@
 // - P L U G I N S
-plugins {
-    id "org.sonarqube" version "2.7"
-}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
+apply from: './jacoco.gradle'
 
 android {
-//    signingConfigs {
-//        release {
-//            storeFile file('signing-store')
-//            storePassword '01.passwd.store'
-//            keyAlias = 'alias'
-//            keyPassword 'password'
-//        }
-//        debug {
-//            storeFile file('debug-store')
-//            storePassword '01.password'
-//            keyAlias = 'alias'
-//            keyPassword 'password'
-//        }
-//    }
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-            returnDefaultValues = true
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
@@ -39,7 +17,8 @@ android {
         versionName "0.15.6"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.app.NeoComJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -71,6 +50,19 @@ android {
             resValue "string", "appdatabasefilename", "neocomv0.15"
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    lintOptions {
+        abortOnError false
+        quiet true
+    }
+    dexOptions {
+        javaMaxHeapSize "4G"
+        jumboMode true
+        preDexLibraries true
+    }
     sourceSets {
         main.java {
             srcDirs += 'src/main/java-appv3'
@@ -90,39 +82,18 @@ android {
         main.res {
             srcDirs += 'src/main/res-fitting'
         }
-        debug.res{
+        debug.res {
             srcDirs += 'src/main/res-planetary'
         }
         test.java {
             srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
         }
     }
-    compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-    }
 
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${android.defaultConfig.project.archivesBaseName}-${android.defaultConfig.versionName}.apk"
         }
-    }
-    //    signingConfigs {
-//        release {
-//            storeFile file("my-release-key.jks")
-//            storePassword "password"
-//            keyAlias "my-alias"
-//            keyPassword "password"
-//        }
-//    }
-    lintOptions {
-        abortOnError false
-        quiet true
-    }
-    dexOptions {
-        javaMaxHeapSize "4G"
-        jumboMode true
-        preDexLibraries true
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -134,10 +105,9 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
-//    dynamicFeatures = [":mining"]
 }
 
-//--- T A S K S   C O M P L E M E N T A R Y
+// - T A S K S   C O M P L E M E N T A R Y
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
 task copyResources(type: Copy) {
     copy {
@@ -147,13 +117,13 @@ task copyResources(type: Copy) {
     }
 }
 // Create the sde setup version data with the configured version contents.
-task generateVersionSQL()  {
+task generateVersionSQL() {
     doLast {
         new File("./src/main/sh/setVersion.sql").text = "INSERT INTO `version` VALUES (${SDE_DB_VERSION});"
     }
 }
 // Generate the SDE database if does not exist or the version does not match
-task generateSDEDatabase(type: Exec){
+task generateSDEDatabase(type: Exec) {
     println 'Generate the Version data...'
     workingDir './src/main/sh'
     commandLine './create-sde.sh'
@@ -185,7 +155,7 @@ dependencies {
 
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
-    implementation project(':AndroidMVCLibrary')
+    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
     implementation project(':appFeatures')
     implementation project(':NeoCom.DataManagement')
 
@@ -218,22 +188,21 @@ dependencies {
     implementation 'com.jakewharton:disklrucache:2.0.2'
 }
 
-// - T E S T I N G
+// - U N I T   T E S T I N G
 dependencies {
+    // - C O R E
     testImplementation 'junit:junit:4.12'
     testImplementation 'joda-time:joda-time:2.9.9'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    // T E S T F R A M E W O R K
     testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    testImplementation 'com.openpojo:openpojo:0.8.12'
 
     testImplementation project(':appFeatures')
 }
-//dependencies {
-//    testImplementation 'androidx.arch.core:core-testing:2.0.1'
-//    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
-//}
 
 // - A N D R O I D   T E S T I N G
 dependencies {
@@ -244,7 +213,7 @@ dependencies {
 
     androidTestImplementation 'org.awaitility:awaitility:3.1.6'
 
-    androidTestImplementation ('org.mockito:mockito-android:2.23.0') {
+    androidTestImplementation('org.mockito:mockito-android:2.23.0') {
         exclude group: 'net.bytebuddy', module: 'byte-buddy'
         exclude group: 'net.bytebuddy', module: 'byte-buddy-android'
         exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'

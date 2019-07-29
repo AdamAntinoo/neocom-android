@@ -6,12 +6,10 @@ import android.view.View;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryControllerFactory;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.verification.Times;
 
 public class ColonyPackControllerTest {
 	private static ColonyPack colony;
@@ -33,16 +31,16 @@ public class ColonyPackControllerTest {
 	}
 
 //	@Test
-	public void onLongClick() {
-		final View view = Mockito.mock(View.class);
-		controller.onLongClick(view);
-	}
+//	public void onLongClick() {
+//		final View view = Mockito.mock(View.class);
+//		controller.onLongClick(view);
+//	}
 
-	@Test
-	public void toggleExpanded() {
-		controller.toggleExpanded();
-		Mockito.verify(colony, new Times(1)).toggleExpand();
-	}
+//	@Test
+//	public void toggleExpanded() {
+//		controller.toggleExpanded();
+//		Mockito.verify(colony, new Times(1)).toggleExpand();
+//	}
 
 	@Test
 	public void buildRender() {

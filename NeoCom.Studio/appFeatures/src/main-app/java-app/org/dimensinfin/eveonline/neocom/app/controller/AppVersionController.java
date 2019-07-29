@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -12,7 +12,7 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 
-public class AppVersionController extends AAndroidController<AppVersion> {
+public class AppVersionController extends AndroidController<AppVersion> {
 	// - C O N S T R U C T O R S
 	public AppVersionController( @NonNull final AppVersion model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);

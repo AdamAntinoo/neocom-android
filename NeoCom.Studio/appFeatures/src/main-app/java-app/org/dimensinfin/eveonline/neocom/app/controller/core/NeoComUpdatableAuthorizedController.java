@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.controller.core;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -25,7 +25,7 @@ public abstract class NeoComUpdatableAuthorizedController<M extends ICollaborati
 	}
 
 	@Override
-	public AAndroidController setDataSource( final IDataSource dataSource ) {
+	public AndroidController setDataSource( final IDataSource dataSource ) {
 		if (dataSource instanceof AuthenticatedDataSource)
 			this.credential = ((AuthenticatedDataSource) dataSource).getCredential();
 		return super.setDataSource(dataSource);

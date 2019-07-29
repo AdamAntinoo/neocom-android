@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 
-public class PilotDashboardFragment extends AMVCPagerFragment {
+public class PilotDashboardFragment extends MVCPagerFragment {
 	private Credential credential;
 
 	public Credential getCredential() {

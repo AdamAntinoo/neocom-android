@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.activity;
 
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 
-public class MiningLedgerFragment extends AMVCPagerFragment {
+public class MiningLedgerFragment extends MVCPagerFragment {
 	private Credential credential;
 
 	@Override

@@ -1,0 +1,82 @@
+apply plugin: 'jacoco'
+
+jacoco {
+//    toolVersion "0.8.4"
+    toolVersion "0.7.6.201602180812"
+}
+android {
+    testOptions {
+        // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
+        // in the path_to_your_project/module_name/build/outputs/reports/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        reportDir "$rootDir/reports/test-reports"
+        // Changes the directory where Gradle saves test results. By default, Gradle saves test results
+        // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        resultsDir "$rootDir/reports/test-results"
+        unitTests {
+            // By default, local unit tests throw an exception any time the code you are testing tries to access
+            // Android platform APIs (unless you mock Android dependencies yourself or with a testing
+            // framework like Mockito). However, you can enable the following property so that the test
+            // returns either null or zero when accessing platform APIs, rather than throwing an exception.
+            returnDefaultValues true
+            includeAndroidResources = true
+
+            // Encapsulates options for controlling how Gradle executes local unit tests. For a list
+            // of all the options you can specify, read Gradle's reference documentation.
+            all {
+                // Sets JVM argument(s) for the test JVM(s).
+                jvmArgs '-XX:MaxPermSize=256m'
+
+                // You can also check the task name to apply options to only the tests you specify.
+                if (it.name == 'testDebugUnitTest') {
+                    systemProperty 'debug', 'true'
+                }
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
+    }
+}
+// -  T A S K S
+task codeCoverageReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def androidExclusion = ['**/R.class',
+                            '**/R$*.class',
+                            '**/BuildConfig.*',
+                            '**/Manifest*.*',
+                            'android/**/*.*',
+                            '**/androidx/**/*.*',
+                            '**/databinding/**/*.*',
+                            '**/android/databinding/*Binding.*',
+                            '**/*Fragment*.*',
+                            '**/*Activity*.*',
+                            '**/*Adapter*.*',
+                            '**/*ViewPager*.*',
+                            '**/*ViewHolder*.*',
+                            '**/*Module*.*'
+    ]
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac", excludes: androidExclusion)
+    def mainSrc = "${project.projectDir}/src/main/java"
+    mainSrc += "${project.projectDir}/src/main/java-appv3"
+    mainSrc += "${project.projectDir}/src/main/java-appv4"
+    mainSrc += "${project.projectDir}/src/main/java-app"
+    mainSrc += "${project.projectDir}/src/main/java-industry"
+    mainSrc += "${project.projectDir}/src/main/java-mining"
+    mainSrc += "${project.projectDir}/src/main/java-planetary"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+}
+task getCoverage(type: Exec, dependsOn: 'codeCoverageReport') {
+    group = "Reporting"
+    commandLine "xdg-open", "$buildDir/reports/jacoco/codeCoverageReport/html/index.html"
+}
