@@ -27,7 +27,7 @@ public class PlanetaryFacilityControllerTest {
 		factory = Mockito.mock(PlanetaryControllerFactory.class);
 	}
 
-	@Test
+//	@Test
 	public void buildRender_variantA() {
 		final PlanetaryFacility facility = Mockito.mock(PlanetaryFacility.class);
 		Mockito.when(facility.getFacilityType()).thenReturn(PlanetaryFacilityType.COMMAND_CENTER);

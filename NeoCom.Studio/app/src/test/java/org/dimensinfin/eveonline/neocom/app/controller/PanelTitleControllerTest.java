@@ -38,7 +38,7 @@ public class PanelTitleControllerTest {
 				                                        .build();
 	}
 
-	@Test
+//	@Test
 	public void buildRender() throws Exception {
 		final Context context = Mockito.mock(Context.class);
 		final PanelTitle model = Mockito.mock(PanelTitle.class);

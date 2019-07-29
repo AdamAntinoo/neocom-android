@@ -4,21 +4,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
-apply from: './jacoco.gradle'
+//apply from: './jacoco.gradle'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         minSdkVersion 21 // Required because the colony drawing.
-        targetSdkVersion 28
+        targetSdkVersion 29
         multiDexEnabled true
         versionCode 119
         versionName "0.15.6"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
-        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.app.NeoComJUnitRunner"
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.app.NeoComJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -46,7 +46,7 @@ android {
             debuggable true
             minifyEnabled false
             useProguard false
-            testCoverageEnabled true
+//            testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.15"
         }
     }
@@ -139,7 +139,7 @@ build.dependsOn copySDEDatabase
 
 // - A N D R O I D    S U P P O R T
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

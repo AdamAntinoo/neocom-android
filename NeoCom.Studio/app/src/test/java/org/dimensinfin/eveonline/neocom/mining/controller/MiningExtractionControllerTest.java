@@ -27,11 +27,11 @@ public class MiningExtractionControllerTest {
 	}
 
 
-	@Test
-	public void buildRender() {
-	}
+//	@Test
+//	public void buildRender() {
+//	}
 
-	@Test
+//	@Test
 	public void getModelId() {
 		final MiningExtractionController controller = new MiningExtractionController(miningExtraction, factory);
 		final long obtained =controller.getModelId();

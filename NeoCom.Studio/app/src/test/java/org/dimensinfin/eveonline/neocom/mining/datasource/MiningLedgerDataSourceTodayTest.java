@@ -1,8 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.datasource;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.j256.ormlite.dao.Dao;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
@@ -10,17 +8,16 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.INeoComDBHelper;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.datamngmt.GlobalDataManager;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningControllerFactory;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionAggregatorController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
 import org.dimensinfin.eveonline.neocom.model.ANeoComEntity;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
@@ -28,7 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.j256.ormlite.dao.Dao;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MiningLedgerDataSourceTodayTest {
 	private List<MiningExtraction> extractions4Test = new ArrayList<>();
@@ -75,7 +74,7 @@ public class MiningLedgerDataSourceTodayTest {
 		Assert.assertEquals("Number of extractions processed.", 0, obtained);
 	}
 
-	@Test
+//	@Test
 	public void testExtractions5Hours() throws SQLException {
 		extractions4Test.clear();
 		this.generateExtractionsT1();

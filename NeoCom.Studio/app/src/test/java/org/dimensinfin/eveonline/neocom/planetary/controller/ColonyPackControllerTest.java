@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.planetary.controller;
 
 import android.content.Context;
-import android.view.View;
 
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
@@ -24,11 +23,11 @@ public class ColonyPackControllerTest {
 		Assert.assertNotNull(controller);
 	}
 
-	@Test
-	public void onClick() {
-		final View view = Mockito.mock(View.class);
-		controller.onClick(view);
-	}
+//	@Test
+//	public void onClick() {
+//		final View view = Mockito.mock(View.class);
+//		controller.onClick(view);
+//	}
 
 //	@Test
 //	public void onLongClick() {

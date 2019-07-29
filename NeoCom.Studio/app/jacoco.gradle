@@ -1,19 +1,19 @@
 apply plugin: 'jacoco'
 
 jacoco {
-//    toolVersion "0.8.4"
-    toolVersion "0.7.6.201602180812"
+    toolVersion "0.8.4"
+//    toolVersion "0.7.6.201602180812"
 }
 android {
     testOptions {
         // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
         // in the path_to_your_project/module_name/build/outputs/reports/ directory.
         // '$rootDir' sets the path relative to the root directory of the current project.
-        reportDir "$rootDir/reports/test-reports"
+//        reportDir "$rootDir/reports/test-reports"
         // Changes the directory where Gradle saves test results. By default, Gradle saves test results
         // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
         // '$rootDir' sets the path relative to the root directory of the current project.
-        resultsDir "$rootDir/reports/test-results"
+//        resultsDir "$rootDir/reports/test-results"
         unitTests {
             // By default, local unit tests throw an exception any time the code you are testing tries to access
             // Android platform APIs (unless you mock Android dependencies yourself or with a testing
@@ -26,12 +26,12 @@ android {
             // of all the options you can specify, read Gradle's reference documentation.
             all {
                 // Sets JVM argument(s) for the test JVM(s).
-                jvmArgs '-XX:MaxPermSize=256m'
+//                jvmArgs '-XX:MaxPermSize=256m'
 
                 // You can also check the task name to apply options to only the tests you specify.
-                if (it.name == 'testDebugUnitTest') {
-                    systemProperty 'debug', 'true'
-                }
+//                if (it.name == 'testDebugUnitTest') {
+//                    systemProperty 'debug', 'true'
+//                }
                 jacoco {
                     includeNoLocationClasses = true
                 }
@@ -71,8 +71,9 @@ task codeCoverageReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     mainSrc += "${project.projectDir}/src/main/java-industry"
     mainSrc += "${project.projectDir}/src/main/java-mining"
     mainSrc += "${project.projectDir}/src/main/java-planetary"
+    def mainSrc2 = "${project.projectDir}/src/main/java-appv4"
 
-    sourceDirectories = files([mainSrc])
+    sourceDirectories = files([mainSrc2])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
 }

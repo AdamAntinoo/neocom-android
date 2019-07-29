@@ -4,13 +4,11 @@ import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.mockito.Mockito;
 
 public class NeoComComponentFactoryTest {
-	@Test
+//	@Test
 	public void getSDEDatabaseAdapter() {
 		final Application application = Mockito.mock(Application.class);
 		NeoComComponentFactory.initialiseSingleton(application);
@@ -18,7 +16,7 @@ public class NeoComComponentFactoryTest {
 		Assert.assertNotNull(adapter);
 	}
 
-	@Test
+//	@Test
 	public void getPlanetaryRepository() {
 		final Application application = Mockito.mock(Application.class);
 		NeoComComponentFactory.initialiseSingleton(application);
