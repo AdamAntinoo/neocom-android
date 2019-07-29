@@ -13,7 +13,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.renders.AdvancedFactoryFacilityRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.BasicFactoryFacilityRender;
-import org.dimensinfin.eveonline.neocom.planetary.renders.FacilityLayoutCustomRender;
+import org.dimensinfin.eveonline.neocom.planetary.renders.FactoryFacilityLayoutCustomRender;
 import org.dimensinfin.eveonline.neocom.planetary.renders.PlanetaryFacility4ListRender;
 
 public class FactoryFacilityController extends NeoComController<FactoryFacility> implements IContainer {
@@ -32,7 +32,7 @@ public class FactoryFacilityController extends NeoComController<FactoryFacility>
 	@Override
 	public IRender buildRender( final Context context ) {
 		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name()))
-			return new FacilityLayoutCustomRender(this, context);
+			return new FactoryFacilityLayoutCustomRender(this, context);
 		if ((this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
 				|| (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_DETAILS.name()))) {
 			// Choose the render depending on the facility.
