@@ -4,20 +4,21 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderwhite">
 
+    <ImageView
+        android:id="@+id/sectionIcon"
+        style="@style/AppTheme.NodeIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:src="@drawable/wallet" />
+
     <RelativeLayout
         android:id="@+id/pilotSectionBlock"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/standardmargin"
-        android:layout_marginRight="@dimen/standardmargin">
-
-        <ImageView
-            android:id="@+id/sectionIcon"
-            style="@style/AppTheme.NodeIcon"
-            android:layout_width="@dimen/nodeiconsizesmall"
-            android:layout_height="@dimen/nodeiconsizesmall"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/wallet"/>
+        android:layout_marginRight="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/sectionIcon">
 
         <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
             android:id="@+id/sectionTitle"
@@ -25,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/standardmargin"
-            android:layout_toRightOf="@+id/sectionIcon"
             android:text="WALLET"
             android:visibility="visible" />
 
@@ -34,7 +34,7 @@
             style="@style/AppTheme.NeoComText.Pilot.Amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/clickBlock"
             android:gravity="right"
             android:text="@string/default_skillpoints"
             android:visibility="visible" />
@@ -43,9 +43,23 @@
             android:id="@+id/sectionLabel"
             style="@style/AppTheme.Label.TopLine"
             android:layout_below="@+id/sectionData"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/clickBlock"
             android:gravity="right"
             android:text="WALLET AMOUNT" />
-    </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/clickBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pointIcon1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="@dimen/standardmargin"
+                android:src="@drawable/multiarrowright" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package org.dimensinfin.eveonline.neocom.app.render;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,12 +14,12 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 
 public class PilotSectionRender extends NeoComRenderv2 {
-	public static boolean awaitingRender = false;
-
-	protected ImageView sectionIcon;
-	protected TextView sectionTitle;
-	protected TextView sectionData;
-	protected TextView sectionLabel;
+	// - U I   F I E L D S
+	private ImageView sectionIcon;
+	private TextView sectionTitle;
+	private TextView sectionData;
+	private TextView sectionLabel;
+	private ViewGroup clickBlock;
 
 	public PilotSectionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
@@ -40,6 +42,8 @@ public class PilotSectionRender extends NeoComRenderv2 {
 		this.sectionTitle = this.getView().findViewById(R.id.sectionTitle);
 		this.sectionData = this.getView().findViewById(R.id.sectionData);
 		this.sectionLabel = this.getView().findViewById(R.id.sectionLabel);
+		this.clickBlock = this.getView().findViewById(R.id.clickBlock);
+		this.clickBlock.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -53,6 +57,11 @@ public class PilotSectionRender extends NeoComRenderv2 {
 			final String data = this.getController().getModel().getDataFormatted();
 			handler.post(() -> this.sectionData.setText(data));
 		});
-		awaitingRender=true;
+		this.activateActivityLauncher();
+	}
+
+	private void activateActivityLauncher() {
+		if (null != this.getController().getModel().getClickTarget())
+			this.clickBlock.setVisibility(View.VISIBLE);
 	}
 }

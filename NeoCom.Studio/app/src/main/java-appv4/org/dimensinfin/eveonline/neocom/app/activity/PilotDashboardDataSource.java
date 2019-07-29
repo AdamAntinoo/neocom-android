@@ -4,6 +4,7 @@ import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
@@ -44,6 +45,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withTitle("WALLET")
 				.withLabel("Wallet Balance")
 				.withDataProvider(new WalletAmountDataProvider.Builder().withPilot(pilot).build())
+				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
 				.withSectionIcon(R.drawable.wallet)
@@ -52,6 +54,8 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
 						.withPilot(pilot)
 						.withEsiDataAdapter(this.esiDataAdapter).build())
+				.withClickTarget(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY)
+				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 
 //		this.addHeaderContents(new NeoComMenuBar(this.getCredential()));

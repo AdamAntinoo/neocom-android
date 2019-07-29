@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
+import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import java.util.Objects;
@@ -8,10 +9,11 @@ public class PilotSection extends NeoComNode {
 	private int iconReference;
 	private String title;
 	private String label;
+	private Integer pilotIdentifier;
 	private IDataProvider dataProvider;
+	private EActivities clickTarget;
 
 	// - G E T T E R S   &   S E T T E R S
-
 	public int getIconReference() {
 		return this.iconReference;
 	}
@@ -24,7 +26,15 @@ public class PilotSection extends NeoComNode {
 		return this.label;
 	}
 
+	public Integer getPilotIdentifier() {
+		return this.pilotIdentifier;
+	}
+
 	public String getDataFormatted() {return this.dataProvider.getDataFormatted();}
+
+	public EActivities getClickTarget() {
+		return this.clickTarget;
+	}
 
 	// - B U I L D E R
 	public static class Builder {
@@ -49,12 +59,24 @@ public class PilotSection extends NeoComNode {
 			return this;
 		}
 
+		public Builder withPilotIdentifier( final Integer pilotIdentifier ) {
+			Objects.requireNonNull(pilotIdentifier);
+			this.onConstruction.pilotIdentifier = pilotIdentifier;
+			return this;
+		}
+
 		public Builder withDataProvider( final IDataProvider dataProvider ) {
 			this.onConstruction.dataProvider = dataProvider;
 			return this;
 		}
 
+		public Builder withClickTarget( final EActivities clickTarget ) {
+			this.onConstruction.clickTarget = clickTarget;
+			return this;
+		}
+
 		public PilotSection build() {
+			Objects.requireNonNull(this.onConstruction.pilotIdentifier);
 			Objects.requireNonNull(this.onConstruction.dataProvider);
 			return this.onConstruction;
 		}

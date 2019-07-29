@@ -227,53 +227,6 @@
             android:text="SKILL POINTS" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/pilotWalletBlock"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pilotSkillPointsBlock"
-        android:layout_marginLeft="@dimen/standardmargin"
-        android:layout_marginRight="@dimen/standardmargin"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/walletIcon"
-            style="@style/AppTheme.NodeIcon"
-            android:layout_width="@dimen/nodeiconsizesmall"
-            android:layout_height="@dimen/nodeiconsizesmall"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/wallet"
-            android:visibility="visible" />
-
-        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
-            android:id="@+id/walletTitle"
-            style="@style/AppTheme.NeoComText.Pilot.Amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/standardmargin"
-            android:layout_toRightOf="@+id/walletIcon"
-            android:text="WALLET"
-            android:visibility="visible" />
-
-        <org.dimensinfin.android.mvc.fonts.PrototypeTextView
-            android:id="@+id/walletAmount"
-            style="@style/AppTheme.NeoComText.Pilot.Amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:text="@string/default_skillpoints"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/walletAmountLabel"
-            style="@style/AppTheme.Label.TopLine"
-            android:layout_below="@+id/walletIcon"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:text="WALLET AMOUNT" />
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/pilotRaceBlock"
         android:layout_width="wrap_content"

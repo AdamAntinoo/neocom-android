@@ -30,7 +30,7 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 	private TextView raceName;
 	private TextView cloneType;
 	private TextView skillPoints;
-	private TextView walletAmount;
+//	private TextView walletAmount;
 
 	// - C O N S T R U C T O R S
 	public PilotRender4Dashboard( final IAndroidController controller, final Context context ) {
@@ -65,7 +65,7 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 		this.raceName = this.getView().findViewById(R.id.raceName);
 		this.cloneType = this.getView().findViewById(R.id.cloneType);
 		this.skillPoints = this.getView().findViewById(R.id.skillPoints);
-		this.walletAmount = this.getView().findViewById(R.id.walletAmount);
+//		this.walletAmount = this.getView().findViewById(R.id.walletAmount);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 
 		this.accessCorporationData();
 		this.accessAlliancenData();
-		this.walletAmount.setText(this.accessWalletAmount());
+//		this.walletAmount.setText(this.accessWalletAmount());
 	}
 
 	protected void accessCorporationData() {
