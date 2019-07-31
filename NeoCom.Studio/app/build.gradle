@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
 apply from: './dependencies.gradle'
-//apply from: './jacoco.gradle'
+apply from: './acceptance.gradle'
 
 android {
     compileSdkVersion 29
@@ -87,6 +87,9 @@ android {
         }
         test.java {
             srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
+        }
+        androidTest.java {
+            srcDir += 'src/androidTest-acceptance'
         }
     }
 
