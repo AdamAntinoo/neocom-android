@@ -30,13 +30,12 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdSkillsOkSkills;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.model.SkillGroupContainer;
@@ -235,18 +234,18 @@ public class SkillsFragment extends AbstractPagerFragment {
 				final HashMap<Integer, SkillGroupContainer> groups = new HashMap<>();
 				// Get the skills trained and group them on skill groups before rendering.
 				final GetCharactersCharacterIdSkillsOk pilotSkillsData = AndroidGlobalDataManager.downloadSkillsTrained4Credential(credential);
-				for (GetCharactersCharacterIdSkillsOkSkills skillOk : pilotSkillsData.getSkills()) {
-					final SkillTrained newskill = AndroidGlobalDataManager.modelMapper.map(skillOk, SkillTrained.class);
-					int groupId = newskill.getGroupId();
-					SkillGroupContainer hit = groups.get(groupId);
-					if ( null == hit ) {
-						// New group.
-						hit = new SkillGroupContainer(newskill.getGroupName());
-						groups.put(groupId, hit);
-						this.addModelContents(hit);
-					}
-					hit.addSkill(newskill);
-				}
+//				for (GetCharactersCharacterIdSkillsOkSkills skillOk : pilotSkillsData.getSkills()) {
+////					final SkillTrained newskill = AndroidGlobalDataManager.modelMapper.map(skillOk, SkillTrained.class);
+//					int groupId = newskill.getGroupId();
+//					SkillGroupContainer hit = groups.get(groupId);
+//					if ( null == hit ) {
+//						// New group.
+//						hit = new SkillGroupContainer(newskill.getGroupName());
+//						groups.put(groupId, hit);
+//						this.addModelContents(hit);
+//					}
+//					hit.addSkill(newskill);
+//				}
 			}
 			scheduleRefresh(this.refreshTime);
 			logger.info("<< [SkillsTrainedDataSource.collaborate2Model]");

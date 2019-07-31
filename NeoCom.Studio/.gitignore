@@ -9,6 +9,6 @@
 .idea/libraries/
 .idea/caches/
 .idea/codeStyles/
-build/
-app/build/
-appFeatures/build/
+/build/
+/app/build/
+/appFeatures/build/

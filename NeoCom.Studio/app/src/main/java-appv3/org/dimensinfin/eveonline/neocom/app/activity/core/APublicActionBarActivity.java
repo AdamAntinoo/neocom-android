@@ -3,7 +3,9 @@ package org.dimensinfin.eveonline.neocom.app.activity.core;
 import android.app.ActionBar;
 import android.text.Html;
 import android.text.Spanned;
-import android.view.View;
+
+import androidx.annotation.WorkerThread;
+import androidx.fragment.app.Fragment;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
@@ -14,10 +16,6 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
 import org.dimensinfin.eveonline.neocom.interfaces.IURLIconProvider;
 import org.dimensinfin.eveonline.neocom.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.ui.PilotAvatarIconProvider;
-
-import androidx.annotation.WorkerThread;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * @author Adam Antinoo
@@ -66,51 +64,51 @@ public class APublicActionBarActivity extends AbstractPagerActivity {
 	@Override
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
-		if (null != _indicator) {
-			_indicator.setVisibility(View.VISIBLE);
-			_indicator.setViewPager(_pageContainer);
-			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
-				}
-
-				public void onPageScrollStateChanged( final int arg0 ) {
-				}
-
-				public void onPageSelected( final int position ) {
-					if (null != _actionBar) {
-						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
-						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
-							neocomActionBarView.setSubtitle("");
-						} else {
-							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
-						}
-					}
-				}
-			});
-		} else {
-			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
-				}
-
-				public void onPageScrollStateChanged( final int arg0 ) {
-				}
-
-				public void onPageSelected( final int position ) {
-					if (null != _actionBar) {
-						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
-						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
-							neocomActionBarView.setSubtitle("");
-						} else {
-							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
-						}
-					}
-				}
-			});
-		}
+//		if (null != _indicator) {
+////			_indicator.setVisibility(View.VISIBLE);
+//			_indicator.setViewPager(_pageContainer);
+//			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
+//				}
+//
+//				public void onPageScrollStateChanged( final int arg0 ) {
+//				}
+//
+//				public void onPageSelected( final int position ) {
+//					if (null != _actionBar) {
+//						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
+//						// Clear empty subtitles.
+//						if ("" == _pageAdapter.getSubTitle(position)) {
+//							neocomActionBarView.setSubtitle("");
+//						} else {
+//							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
+//						}
+//					}
+//				}
+//			});
+//		} else {
+//			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
+//				}
+//
+//				public void onPageScrollStateChanged( final int arg0 ) {
+//				}
+//
+//				public void onPageSelected( final int position ) {
+//					if (null != _actionBar) {
+//						neocomActionBarView.setTitleLeft(_pageAdapter.getTitle(position));
+//						// Clear empty subtitles.
+//						if ("" == _pageAdapter.getSubTitle(position)) {
+//							neocomActionBarView.setSubtitle("");
+//						} else {
+//							neocomActionBarView.setSubtitle(_pageAdapter.getSubTitle(position));
+//						}
+//					}
+//				}
+//			});
+//		}
 	}
 
 	@Override

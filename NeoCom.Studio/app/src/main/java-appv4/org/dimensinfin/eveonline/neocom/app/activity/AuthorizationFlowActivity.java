@@ -1,10 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,34 +15,35 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.auth.GetAccessToken;
 import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
+import org.dimensinfin.eveonline.neocom.auth.VerifyCharacter;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.core.updaters.CredentialUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
 
 /**
  * Activity entry points are <b>onCreate()</b> and <b>onNewIntent()</b>. The difference is that onNewIntent is called when the Activity
@@ -61,17 +57,6 @@ import retrofit2.http.POST;
  * @author Adam Antinoo
  */
 public class AuthorizationFlowActivity extends Activity {
-	public interface VerifyCharacter {
-		@GET("/oauth/verify")
-		Call<VerifyCharacterResponse> getVerification( @Header("Authorization") String token );
-	}
-	public interface GetAccessToken {
-		//		@POST("/persistPerson")
-		@POST("/oauth/token")
-		Call<TokenTranslationResponse> getAccessToken( @Header("Authorization") String token
-				, @Header("Content-Type") String contentType
-				, @Body TokenRequestBody body );
-	}
 	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
@@ -111,11 +96,12 @@ public class AuthorizationFlowActivity extends Activity {
 		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComComponentFactory.DEFAULT_ESI_SERVER).toLowerCase();
 		try {
 			// Create a Retrofit request service to encapsulate the call.
+			// TODO - Check that the call dop not require converters
 			final GetAccessToken serviceGetAccessToken = new Retrofit.Builder()
 					                                             .baseUrl(this.configurationProvider.getResourceString("P.esi."
 							                                                                                                   + esiServer.toLowerCase()
 							                                                                                                   + ".authorization.server"))
-					                                             .addConverterFactory(JacksonConverterFactory.create())
+//					                                             .addConverterFactory(JacksonConverterFactory.create())
 					                                             .build()
 					                                             .create(GetAccessToken.class);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request body.");
@@ -156,7 +142,7 @@ public class AuthorizationFlowActivity extends Activity {
 						                                            .baseUrl(this.configurationProvider.getResourceString("P.esi."
 								                                                                                                  + esiServer.toLowerCase()
 								                                                                                                  + ".authorization.server"))
-						                                            .addConverterFactory(JacksonConverterFactory.create())
+//						                                            .addConverterFactory(JacksonConverterFactory.create())
 						                                            .client(verifyClient.build())
 						                                            .build()
 						                                            .create(VerifyCharacter.class);

@@ -1,0 +1,95 @@
+// - A N D R O I D    S U P P O R T
+dependencies {
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+}
+// - K O T L I N
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+// - P R O J E C T
+dependencies {
+    // C O R E
+    implementation "org.slf4j:slf4j-android:$loggerVersion"
+    implementation "joda-time:joda-time:$jodaTimeVersion"
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.annimon:stream:1.1.9'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+
+    // L I B R A R I E S
+    implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
+//    implementation 'me.relex:circleindicator:2.1.0'
+    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
+    implementation project(':appFeatures')
+    implementation project(':NeoCom.DataManagement')
+
+    // D A T A B A S E
+    implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
+
+    // A N N O T A T I O N S
+//    implementation 'org.aspectj:aspectjrt:1.9.4'
+
+}
+
+// - L I B R A R Y   D E P E N D E N C I E S
+//dependencies {
+//    // N E O C O M . D A T A M A N A G E M E N T
+//    implementation 'com.beimin:eveapi:6.0.6'
+//    implementation "com.fasterxml.jackson.core:jackson-annotations:$fasterxmlJackson"
+//    implementation "com.fasterxml.jackson.core:jackson-databind:$fasterxmlJackson"
+//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$fasterxmlJackson"
+//    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$fasterxmlJackson"
+//    implementation "com.fasterxml.jackson.datatype:jackson-datatype-json-org:$fasterxmlJackson"
+//    implementation 'org.modelmapper:modelmapper:1.1.0'
+//    implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
+//    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+//    implementation 'com.annimon:stream:1.1.9'
+//    implementation 'org.htmlparser:htmlparser:2.1'
+//    implementation 'com.github.scribejava:scribejava-core:5.4.0'
+////    implementation 'org.xerial:sqlite-jdbc:3.16.1'
+//
+//    implementation 'com.jakewharton:disklrucache:2.0.2'
+//}
+
+// - U N I T   T E S T I N G
+dependencies {
+    // - C O R E
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'joda-time:joda-time:2.9.9'
+    testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    // T E S T F R A M E W O R K
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
+    testImplementation 'com.openpojo:openpojo:0.8.12'
+
+    testImplementation project(':appFeatures')
+}
+
+// - A N D R O I D   T E S T I N G
+dependencies {
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    androidTestImplementation 'org.awaitility:awaitility:3.1.6'
+
+    androidTestImplementation('org.mockito:mockito-android:2.23.0') {
+        exclude group: 'net.bytebuddy', module: 'byte-buddy'
+        exclude group: 'net.bytebuddy', module: 'byte-buddy-android'
+        exclude group: 'net.bytebuddy', module: 'byte-buddy-agent'
+    }
+// Explicitly include byte-buddy 1.8.22 to fix a build error with Mockito 2.23
+    androidTestImplementation 'net.bytebuddy:byte-buddy:1.8.22'
+    androidTestImplementation 'net.bytebuddy:byte-buddy-android:1.8.22'
+    androidTestImplementation 'net.bytebuddy:byte-buddy-agent:1.8.22'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0-alpha03'
+
+    androidTestImplementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
+}

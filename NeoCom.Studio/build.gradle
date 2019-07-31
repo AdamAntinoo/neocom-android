@@ -35,12 +35,13 @@ task clean(type: Delete) {
 
 // - P R O D U C T   V E R S I O N S
 ext {
-    supportLibraryVersion = '28.0.0'
+    supportLibraryVersion = '29.0.0'
     jodaTimeVersion = '2.3'
+    loggerVersion = '1.7.26'
     jacksonVersion = '2.9.4'
     fasterxmlJackson = '2.9.4'
     ormliteVersion = '4.48'
     retrofitVersion = '2.3.0'
     powermockVersion = '2.0.2'
-    loggerVersion = '1.7.12'
+    retrofitVersion = '2.5.0'
 }
