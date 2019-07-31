@@ -15,11 +15,11 @@ import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 
 public class PilotSectionRender extends NeoComRenderv2 {
 	// - U I   F I E L D S
-	private ImageView sectionIcon;
-	private TextView sectionTitle;
-	private TextView sectionData;
-	private TextView sectionLabel;
-	private ViewGroup clickBlock;
+	protected ImageView sectionIcon;
+	protected TextView sectionTitle;
+	protected TextView sectionData;
+	protected TextView sectionLabel;
+	protected ViewGroup clickBlock;
 
 	public PilotSectionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);

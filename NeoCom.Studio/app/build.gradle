@@ -88,9 +88,6 @@ android {
         test.java {
             srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
         }
-        androidTest.java {
-            srcDir += 'src/androidTest-acceptance'
-        }
     }
 
     applicationVariants.all { variant ->

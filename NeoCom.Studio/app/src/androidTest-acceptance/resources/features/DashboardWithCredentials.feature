@@ -1,4 +1,4 @@
-@SplashActivity
+SplashActivity
 Feature: The dashboard will show the list of Credentials and the button to create new credentials.
 
   @MVCPanel
