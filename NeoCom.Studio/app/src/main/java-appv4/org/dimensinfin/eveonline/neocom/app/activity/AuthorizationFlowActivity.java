@@ -44,6 +44,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
  * Activity entry points are <b>onCreate()</b> and <b>onNewIntent()</b>. The difference is that onNewIntent is called when the Activity
@@ -101,7 +102,7 @@ public class AuthorizationFlowActivity extends Activity {
 					                                             .baseUrl(this.configurationProvider.getResourceString("P.esi."
 							                                                                                                   + esiServer.toLowerCase()
 							                                                                                                   + ".authorization.server"))
-//					                                             .addConverterFactory(JacksonConverterFactory.create())
+					                                             .addConverterFactory(JacksonConverterFactory.create())
 					                                             .build()
 					                                             .create(GetAccessToken.class);
 			logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating request body.");
@@ -142,7 +143,7 @@ public class AuthorizationFlowActivity extends Activity {
 						                                            .baseUrl(this.configurationProvider.getResourceString("P.esi."
 								                                                                                                  + esiServer.toLowerCase()
 								                                                                                                  + ".authorization.server"))
-//						                                            .addConverterFactory(JacksonConverterFactory.create())
+						                                            .addConverterFactory(JacksonConverterFactory.create())
 						                                            .client(verifyClient.build())
 						                                            .build()
 						                                            .create(VerifyCharacter.class);

@@ -42,7 +42,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 	}
 
-	private void createApplicationDirectories() {
+	protected void createApplicationDirectories() {
 		this.createAppDir();
 		this.createCacheDirectories();
 	}
@@ -50,7 +50,7 @@ public class AppSplashActivity extends ANeoComActivity {
 	/**
 	 * Creates the application directory if it already does not exist on the sdcard.
 	 */
-	private boolean createAppDir() {
+	protected boolean createAppDir() {
 		// Create file application directory if it doesn't exist
 		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
 				, this.getResources().getString(R.string.appname));
@@ -58,7 +58,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		return sdCardDir.exists();
 	}
 
-	private boolean createCacheDirectories() {
+	protected boolean createCacheDirectories() {
 		File cachedir = new File(Environment.getExternalStorageDirectory()
 				, this.getResources().getString(R.string.appname)
 				+ "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
@@ -66,7 +66,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		return cachedir.exists();
 	}
 
-	private void injectComponents() {
+	protected void injectComponents() {
 		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	}

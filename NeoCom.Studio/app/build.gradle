@@ -46,7 +46,7 @@ android {
             debuggable true
             minifyEnabled false
             useProguard false
-//            testCoverageEnabled true
+            testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.15"
         }
     }
