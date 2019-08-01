@@ -1,11 +1,23 @@
 package org.dimensinfin.eveonline.neocom.app.support;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 
 public class StepFramework {
+	protected View searchPanelByClass( final Class filterClass, final ViewGroup container ) {
+		final int contentCount = container.getChildCount();
+		for (int i = 0; i < contentCount; i++) {
+			final View target = container.getChildAt(i);
+			final IAndroidController controller = (IAndroidController) target.getTag();
+			final Object model = controller.getModel();
+			if (model.getClass() == filterClass) return target;
+		}
+		return null;
+	}
+
 	protected View searchPanelByClass( final Class filterClass, final ListView container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {

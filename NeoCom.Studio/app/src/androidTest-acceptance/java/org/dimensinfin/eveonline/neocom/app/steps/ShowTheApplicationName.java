@@ -1,11 +1,12 @@
 package org.dimensinfin.eveonline.neocom.app.steps;
 
 import android.view.View;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -17,11 +18,9 @@ import org.dimensinfin.eveonline.neocom.app.support.StepFramework;
 import org.dimensinfin.eveonline.neocom.app.support.worlds.AppSplashActivityWorld;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +28,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
+@SmallTest
 public class ShowTheApplicationName extends StepFramework {
 	private AppSplashActivityWorld world;
 
@@ -50,57 +49,53 @@ public class ShowTheApplicationName extends StepFramework {
 	@Before
 	public void setUp() throws Exception {
 		this.world = new AppSplashActivityWorld();
+		Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 	}
 
 	@Test
 	public void launchShowTheApplicationName() throws InterruptedException {
-//		final ShowTheApplicationName test = new ShowTheApplicationName();
-		A_the_activity_AppSplashActivity();
-		B_the_activity_is_started();
-		Z_we_have_an_application_panel();
-		C_that_panel_has_an_ApplicationName_field();
-		D_that_field_shows_the_application_name_that_matches("NeoCom");
+		the_activity_AppSplashActivity();
+		the_activity_is_started();
+		we_have_an_application_panel();
+		that_panel_has_an_ApplicationName_field();
+		that_field_shows_the_application_name_that_matches("NeoCom");
 	}
 
 	@Given("the activity AppSplashActivity")
-	public void A_the_activity_AppSplashActivity() {
+	public void the_activity_AppSplashActivity() {
 		final AppSplashActivity activity = this.mActivityRule.getActivity();
 		Assert.assertNotNull("Activity exists.", activity);
 		this.world.setActivity(activity);
 		final AppSplashFragment fragment = (AppSplashFragment) activity.accessPageAdapter().getItem(0); // Get the first page
 		Assert.assertNotNull("Fragment exists.", fragment);
 		this.world.setFragment(fragment);
-		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
-		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
-		this.world.setDataSectionContainer(dataSectionContainer);
-		Assert.assertTrue("The container should have elements.", dataSectionContainer.getCount() > 0);
+		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+		Assert.assertNotNull("Container ListView exists.", headerContainer);
+		this.world.setHeaderContainer(headerContainer);
+		Assert.assertTrue("The container should have elements.", headerContainer.getChildCount() > 0);
 	}
 
-	@Test
 	@When("the activity is started")
-	public void B_the_activity_is_started() throws InterruptedException {
+	public void the_activity_is_started() throws InterruptedException {
 		Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Wait some time to stabilize the activity
 	}
 
-	@Test
 	@Then("we have an application panel")
-	public void Z_we_have_an_application_panel() {
-		final View panel = this.searchPanelByClass(AppVersion.class, this.world.getDataSectionContainer());
+	public void we_have_an_application_panel() {
+		final View panel = this.searchPanelByClass(AppVersion.class, this.world.getHeaderContainer());
 		Assert.assertNotNull("Application version panel exists.", panel);
 		this.world.setAppVersionPanel(panel);
 	}
 
-	@Test
 	@Then("that panel has an ApplicationName field")
-	public void C_that_panel_has_an_ApplicationName_field() {
+	public void that_panel_has_an_ApplicationName_field() {
 		final View appPanel = this.world.getAppVersionPanel();
 		final TextView appNameView = appPanel.findViewById(R.id.applicationName);
 		Assert.assertNotNull(appNameView);
 	}
 
-	@Test
 	@Then("that field shows the application name that matches {string}")
-	public void D_that_field_shows_the_application_name_that_matches( final String string ) {
+	public void that_field_shows_the_application_name_that_matches( final String string ) {
 		final View appPanel = this.world.getAppVersionPanel();
 		final TextView appNameView = appPanel.findViewById(R.id.applicationName);
 		final TextView appVersionView = appPanel.findViewById(R.id.applicationVersion);

@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.support.worlds;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
@@ -13,6 +14,7 @@ public class AppSplashActivityWorld {
 	private AppSplashActivity spyActivity;
 	private AppSplashFragment fragment;
 	private ListView dataSectionContainer;
+	private ViewGroup headerContainer;
 	private View appVersionPanel;
 
 	public Activity getActivity() {
@@ -34,6 +36,15 @@ public class AppSplashActivityWorld {
 
 	public AppSplashActivityWorld setFragment( final AppSplashFragment fragment ) {
 		this.fragment = fragment;
+		return this;
+	}
+
+	public ViewGroup getHeaderContainer() {
+		return headerContainer;
+	}
+
+	public AppSplashActivityWorld setHeaderContainer( final ViewGroup headerContainer ) {
+		this.headerContainer = headerContainer;
 		return this;
 	}
 
