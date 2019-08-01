@@ -42,10 +42,10 @@ ext {
 dependencies {
 //    androidTestImplementation "io.cucumber:cucumber-jvm:$cucumberVersion"
 //    androidTestImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    androidTestImplementation "io.cucumber:cucumber-android:$cucumberVersion"
     androidTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
 //    androidTestImplementation "io.cucumber:cucumber-core:$cucumberVersion"
 // https://mvnrepository.com/artifact/io.cucumber/cucumber-android
-    androidTestImplementation "io.cucumber:cucumber-android:$cucumberVersion"
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberVersion"
 }
 //dependencies {
