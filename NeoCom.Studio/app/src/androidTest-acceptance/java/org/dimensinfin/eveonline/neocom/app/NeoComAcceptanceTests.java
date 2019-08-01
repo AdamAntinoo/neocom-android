@@ -1,4 +1,4 @@
-package java.org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.app;
 
 import org.junit.runner.RunWith;
 
