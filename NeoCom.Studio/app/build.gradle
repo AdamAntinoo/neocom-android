@@ -18,7 +18,7 @@ android {
         versionName "0.16.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.app.support.CucumberTestRunner"
     }
     buildTypes {
         release {
@@ -48,6 +48,8 @@ android {
             useProguard false
             testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.15"
+            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
+            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
         }
     }
     compileOptions {
