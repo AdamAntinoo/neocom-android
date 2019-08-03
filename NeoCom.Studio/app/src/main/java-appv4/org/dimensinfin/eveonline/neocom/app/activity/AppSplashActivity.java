@@ -37,7 +37,7 @@ public class AppSplashActivity extends ANeoComActivity {
 		logger.info("-- [AppSplashActivity.onStart]> Creating application directories...");
 		this.createApplicationDirectories(); // Create any application storage directories on the SD card.
 		this.validateSDEDatabase();
-		// Connect special classes tot the ESI to allow internal access tot game data
+		// Connect special classes to the ESI to allow internal access to game data
 		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 	}

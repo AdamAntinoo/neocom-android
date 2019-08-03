@@ -8,11 +8,11 @@ apply from: './dependencies.gradle'
 apply from: './acceptance.gradle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         minSdkVersion 21 // Required because the colony drawing.
-        targetSdkVersion 29
+        targetSdkVersion 28
         multiDexEnabled true
         versionCode 119
         versionName "0.16.0"

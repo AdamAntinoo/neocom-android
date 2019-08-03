@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.steps;
 
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -69,9 +69,14 @@ public class ShowTheApplicationName extends StepFramework {
 		final AppSplashFragment fragment = (AppSplashFragment) activity.accessPageAdapter().getItem(0); // Get the first page
 		Assert.assertNotNull("Fragment exists.", fragment);
 		this.world.setFragment(fragment);
-		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+		// TODO - Temporarily set the read to the data section container
+		final ListView headerContainer = fragment.accessDataSectionContainer();
 		Assert.assertNotNull("Container ListView exists.", headerContainer);
-		this.world.setHeaderContainer(headerContainer);
+		this.world.setDataSectionContainer(headerContainer);
+//		this.world.setHeaderContainer(headerContainer);
+//		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+//		Assert.assertNotNull("Container ListView exists.", headerContainer);
+//		this.world.setHeaderContainer(headerContainer);
 		Assert.assertTrue("The container should have elements.", headerContainer.getChildCount() > 0);
 	}
 
@@ -82,7 +87,8 @@ public class ShowTheApplicationName extends StepFramework {
 
 	@Then("we have an application panel")
 	public void we_have_an_application_panel() {
-		final View panel = this.searchPanelByClass(AppVersion.class, this.world.getHeaderContainer());
+		// TODO - Temporarily set the read to the data section container
+		final View panel = this.searchPanelByClass(AppVersion.class, this.world.getDataSectionContainer());
 		Assert.assertNotNull("Application version panel exists.", panel);
 		this.world.setAppVersionPanel(panel);
 	}
