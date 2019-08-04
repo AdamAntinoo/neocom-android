@@ -87,7 +87,8 @@ android {
             srcDirs += 'src/main/res-planetary'
         }
         test.java {
-            srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
+            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
+            srcDirs += 'src/test/java-support'
         }
     }
 

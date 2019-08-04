@@ -48,7 +48,6 @@ public class NeoComComponentFactory {
 
 	private DataDownloaderService downloaderService;
 	private ESIDataPersistenceService persistenceService;
-//	private UpdaterSchedulerService backgroundUpdater;
 
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
@@ -222,5 +221,9 @@ public class NeoComComponentFactory {
 					.build();
 		}
 		return this.planetaryRepository;
+	}
+
+	public void replaceCredentialRepository( final CredentialRepository newCredentialRepository ) {
+		this.credentialRepository = newCredentialRepository;
 	}
 }

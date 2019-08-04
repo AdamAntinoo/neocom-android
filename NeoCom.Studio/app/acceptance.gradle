@@ -8,20 +8,12 @@ android {
     sourceSets {
         androidTest.java {
             srcDirs += 'src/androidTest-acceptance/java'
+            srcDirs += 'src/androidTest-acceptance/java-support'
         }
         androidTest.resources {
             srcDirs += 'src/androidTest-acceptance/resources'
         }
     }
-//    defaultConfig {
-//        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.app.support.CucumberTestRunner"
-//    }
-//    buildTypes {
-//        debug {
-//            buildConfigField "String", "TEST_TAGS", "@SplashActivity"
-//            buildConfigField "String", "TEST_SCENARIO", "@MVCPanel"
-//        }
-//    }
 }
 ext {
     cucumberVersion = '3.0.2'

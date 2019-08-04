@@ -1,20 +1,27 @@
 package org.dimensinfin.eveonline.neocom.app.support.worlds;
 
-import android.app.Activity;
-
-import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
-import org.mockito.Mockito;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class NeoComWorld {
-	private Activity targetActivity;
-	private Activity spyActivity;
+	private ViewGroup headerContainer;
+	private ListView dataSectionContainer;
 
-	public Activity getTargetActivity() {
-		return this.targetActivity;
+	public ViewGroup getHeaderContainer() {
+		return this.headerContainer;
 	}
 
-	public void setTargetActivity( final AppSplashActivity activity ) {
-		this.targetActivity = activity;
-		this.spyActivity = Mockito.spy(this.targetActivity);
+	public NeoComWorld setHeaderContainer( final ViewGroup headerContainer ) {
+		this.headerContainer = headerContainer;
+		return this;
+	}
+
+	public ListView getDataSectionContainer() {
+		return this.dataSectionContainer;
+	}
+
+	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
+		this.dataSectionContainer = dataSectionContainer;
+		return this;
 	}
 }

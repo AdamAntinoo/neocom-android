@@ -21,6 +21,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +33,8 @@ import cucumber.api.java.en.When;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class ShowTheApplicationName extends StepFramework {
+	private static Logger logger = LoggerFactory.getLogger(ShowTheApplicationName.class);
+
 	private AppSplashActivityWorld world;
 
 	static {
@@ -63,6 +67,7 @@ public class ShowTheApplicationName extends StepFramework {
 
 	@Given("the activity AppSplashActivity")
 	public void the_activity_AppSplashActivity() {
+		logger.info("[ShowTheApplicationName.the_activity_AppSplashActivity]");
 		final AppSplashActivity activity = this.mActivityRule.getActivity();
 		Assert.assertNotNull("Activity exists.", activity);
 		this.world.setActivity(activity);

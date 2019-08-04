@@ -4,9 +4,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.eveonline.neocom.app.support.worlds.NeoComWorld;
+import org.junit.Assert;
 
-public class StepFramework {
+public class StepFramework /*extends AppCredentialSupportTest*/ {
 	protected View searchPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
@@ -40,4 +43,14 @@ public class StepFramework {
 			return listView.getChildAt(childIndex);
 		}
 	}
+
+	protected void accessDataContainers( final MVCPagerFragment fragment, final NeoComWorld world ) {
+		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
+		world.setHeaderContainer(headerContainer);
+		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
+		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
+		world.setDataSectionContainer(dataSectionContainer);
+	}
+
 }
