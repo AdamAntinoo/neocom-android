@@ -1,7 +1,6 @@
-package org.dimensinfin.eveonline.neocom.app.activity;
+package org.dimensinfin.eveonline.neocom.app.datasource;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
@@ -21,10 +20,10 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	// -  C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
 	private Credential credential;
-	private List<PilotSection> sections = new ArrayList<>();
+	protected List<PilotSection> sections = new ArrayList<>();
 
 	private Credential getCredential() {
-		return credential;
+		return this.credential;
 	}
 
 	@Override
@@ -48,7 +47,14 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
-				.withSectionIcon(R.drawable.wallet)
+				.withSectionIcon(R.drawable.assets)
+				.withTitle("ASSETS")
+				.withLabel("Asset Count")
+				.withDataProvider(new AssetCountDataProvider.Builder().withPilot(pilot).build())
+				.withPilotIdentifier(this.credential.getAccountId())
+				.build());
+		this.sections.add(new PilotSection.Builder()
+				.withSectionIcon(R.drawable.planets)
 				.withTitle("PLANETARY INTERACTION")
 				.withLabel("Available Colonies")
 				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
@@ -57,8 +63,6 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withClickTarget(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY)
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
-
-//		this.addHeaderContents(new NeoComMenuBar(this.getCredential()));
 		logger.info("<< [PilotDashboardDataSource.prepareModel]");
 	}
 
@@ -97,19 +101,6 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		}
 	}
 
-	public static class PlanetaryDashboardManager implements ICollaboration {
-
-		@Override
-		public List<ICollaboration> collaborate2Model( final String variation ) {
-			return new ArrayList<>();
-		}
-
-		@Override
-		public int compareTo( final Object o ) {
-			return 0;
-		}
-	}
-
 	// - W A L L E T D A T A P R O V I D E R
 	public static class WalletAmountDataProvider extends NeoComDataProvider implements IDataProvider {
 		private Pilot pilot;
@@ -134,6 +125,34 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public WalletAmountDataProvider build() {
+				return this.onConstruction;
+			}
+		}
+	}
+
+	public static class AssetCountDataProvider extends NeoComDataProvider implements IDataProvider {
+		private Pilot pilot;
+
+		private AssetCountDataProvider() {}
+
+		public String getDataFormatted() {
+			return this.generatePriceString(this.pilot.getCredential().getAssetsCount());
+		}
+
+		// - B U I L D E R
+		public static class Builder {
+			private AssetCountDataProvider onConstruction;
+
+			public Builder() {
+				this.onConstruction = new AssetCountDataProvider();
+			}
+
+			public Builder withPilot( final Pilot pilot ) {
+				this.onConstruction.pilot = pilot;
+				return this;
+			}
+
+			public AssetCountDataProvider build() {
 				return this.onConstruction;
 			}
 		}

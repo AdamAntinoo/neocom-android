@@ -7,7 +7,6 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
-import org.dimensinfin.eveonline.neocom.app.controller.NeoComDashboardMenuController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
@@ -19,7 +18,6 @@ import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComMenuBar;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -67,11 +65,11 @@ public class AppControllerFactory extends ControllerFactory {
 //					       .withVariant(this.getVariant())
 //					       .build();
 //		}
-		if (node instanceof NeoComMenuBar) {
-			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
-					.withVariant(this.getVariant())
-					.build();
-		}
+//		if (node instanceof NeoComMenuBar) {
+//			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
+//					.withVariant(this.getVariant())
+//					.build();
+//		}
 		if (node instanceof PilotSection) {
 			return new PilotSectionController((PilotSection) node, this);
 		}

@@ -16,7 +16,9 @@ import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility
 import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility.VTAdvancedFacilityLayoutFragment;
 import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter.VTCommandCenterLayoutFragment;
 import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.extractor.VTExtractorFragment;
+import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
 
 import java.io.File;
 
@@ -29,6 +31,8 @@ public class VisualTestsActivity extends MVCMultiPageActivity {
 		this.injectComponents();
 		this.validatePermissions();
 		this.validateSDEDatabase();
+		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
+		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 
 		this.addPage(new VTPlanetaryFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
 		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));

@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
+import org.dimensinfin.eveonline.neocom.app.datasource.PilotDashboardDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
