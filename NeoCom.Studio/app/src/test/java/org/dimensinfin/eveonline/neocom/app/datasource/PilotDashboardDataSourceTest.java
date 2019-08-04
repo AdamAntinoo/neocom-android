@@ -59,7 +59,7 @@ public class PilotDashboardDataSourceTest extends AppCredentialSupportTest {
 	public void prepareModel() {
 		Assert.assertNotNull(this.datasource);
 		this.datasource.prepareModel();
-		Assert.assertEquals("The number of sections should be the expected.", 3, this.datasource.sections.size());
+		Assert.assertEquals("The number of sections should be the expected.", 4, this.datasource.sections.size());
 		Assert.assertEquals("The number of model on the header section.", 0, this.datasource.getHeaderModelRoot().size());
 		Assert.assertEquals("The number of model on the data section.", 1, this.datasource.getDataModelRoot().size());
 	}
@@ -70,7 +70,7 @@ public class PilotDashboardDataSourceTest extends AppCredentialSupportTest {
 		this.datasource.prepareModel();
 		this.datasource.collaborate2Model();
 		Assert.assertEquals("The number of model on the header section.", 0, this.datasource.getHeaderModelRoot().size());
-		Assert.assertEquals("The number of model on the data section.", 1+3, this.datasource.getDataModelRoot().size());
+		Assert.assertEquals("The number of model on the data section.", 1+4, this.datasource.getDataModelRoot().size());
 	}
 
 	@Test

@@ -37,7 +37,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginRight="4dp"
             android:src="@drawable/defaulticonplaceholder"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
 
         <ImageView
@@ -47,7 +47,7 @@
             android:layout_gravity="right|bottom"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="2dp"
-            android:src="@drawable/hamburger_icon_white"
+            android:src="@drawable/amarr"
             android:visibility="visible" />
 
         <ImageView
@@ -231,10 +231,7 @@
         android:id="@+id/pilotRaceBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/standardmargin"
-        android:layout_marginRight="@dimen/standardmargin"
         android:gravity="right"
         android:orientation="vertical"
         android:visibility="visible">
@@ -242,18 +239,48 @@
         <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
             android:id="@+id/nodeClass"
             style="@style/AppTheme.NodeClass"
+            android:layout_alignParentRight="true"
             android:gravity="right"
-            android:text="PILOT" />
+            android:text="PILOT"
+            android:textColor="@color/appwhite" />
 
-        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
-            android:id="@+id/raceName"
-            style="@style/AppTheme.NeoComText.Pilot.RaceName"
-            android:text="Minmatar" />
+        <LinearLayout
+            android:id="@+id/pilotRaceDetailBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-        <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+            <ImageView
+                android:id="@+id/raceIconName"
+                style="@style/AppTheme.NodeIcon"
+                android:layout_width="@dimen/nodeiconsizesmall"
+                android:layout_height="@dimen/nodeiconsizesmall"
+                android:src="@drawable/defaulticonplaceholder"
+                android:visibility="visible" />
+
+            <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+                android:id="@+id/raceName"
+                style="@style/AppTheme.TextView"
+                android:layout_marginTop="3dp"
+                android:gravity="right"
+                android:text="Minmatar"
+                android:textColor="@color/appgreylight"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
             android:id="@+id/cloneType"
-            style="@style/AppTheme.NeoComText.Pilot.CloneType"
-            android:text="@string/clone_type_alpha" />
+            style="@style/AppTheme.TextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:gravity="right"
+            android:singleLine="false"
+            android:text="Clone Grade Alpha"
+            android:textColor="@color/apporangemedium"
+            android:textSize="11sp" />
 
         <org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
             android:id="@+id/expirationTime"

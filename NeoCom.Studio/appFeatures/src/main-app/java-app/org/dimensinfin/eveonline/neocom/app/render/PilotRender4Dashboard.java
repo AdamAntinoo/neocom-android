@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetAlliancesAllianceIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCorporationsCorporationIdOk;
 
@@ -27,10 +26,10 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 	private TextView allianceName;
 	private TextView pilotName;
 	private TextView pilotIdentifier;
+	private ImageView raceIconName;
 	private TextView raceName;
 	private TextView cloneType;
 	private TextView skillPoints;
-//	private TextView walletAmount;
 
 	// - C O N S T R U C T O R S
 	public PilotRender4Dashboard( final IAndroidController controller, final Context context ) {
@@ -62,10 +61,10 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 		this.allianceName = this.getView().findViewById(R.id.allianceName);
 		this.pilotName = this.getView().findViewById(R.id.pilotName);
 		this.pilotIdentifier = this.getView().findViewById(R.id.pilotIdentifier);
+		this.raceIconName = this.getView().findViewById(R.id.raceIconName);
 		this.raceName = this.getView().findViewById(R.id.raceName);
 		this.cloneType = this.getView().findViewById(R.id.cloneType);
 		this.skillPoints = this.getView().findViewById(R.id.skillPoints);
-//		this.walletAmount = this.getView().findViewById(R.id.walletAmount);
 	}
 
 	@Override
@@ -74,13 +73,13 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 		this.setAvatarIcon(this.avatarIcon, this.getController().getModel().getPilotIdentifier());
 		final String raceName = this.getController().getModel().getRaceName();
 		this.raceName.setText(raceName.toUpperCase());
+		this.raceIconName.setImageDrawable(this.getRaceIcon(raceName));
 		this.raceIconSmall.setImageDrawable(this.getRaceIcon(raceName));
 		this.pilotName.setText(this.getController().getModel().getName());
 		this.pilotIdentifier.setText("[#" + this.getController().getModel().getPilotIdentifier() + "]");
 
 		this.accessCorporationData();
-		this.accessAlliancenData();
-//		this.walletAmount.setText(this.accessWalletAmount());
+		this.accessAllianceData();
 	}
 
 	protected void accessCorporationData() {
@@ -92,19 +91,12 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 		} else this.corporationDataBlock.setVisibility(View.GONE);
 	}
 
-	protected void accessAlliancenData() {
+	protected void accessAllianceData() {
 		final GetAlliancesAllianceIdOk allianceData = this.getController().getModel().getAllianceData();
 		if (null != allianceData) {
 			final String link = this.getController().getModel().getAllianceIconUrl();
 			Picasso.get().load(link).into(allianceIcon);
 			this.allianceName.setText(allianceData.getName());
 		} else this.allianceDataBlock.setVisibility(View.GONE);
-	}
-
-	protected String accessWalletAmount() {
-		final Credential credential = this.getController().getModel().getCredential();
-		if (null != credential)
-			return this.generatePriceString(credential.getWalletBalance());
-		else return "-";
 	}
 }

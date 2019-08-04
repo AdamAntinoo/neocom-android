@@ -670,7 +670,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 
 	private void recreateTable( final ConnectionSource databaseConnection, final Class tableType, final int version ) {
 		try {
-			TableUtils.dropTable(databaseConnection, Credential.class, true);
+			TableUtils.dropTable(databaseConnection, tableType, true);
 			try {
 				TableUtils.createTableIfNotExists(databaseConnection, tableType);
 			} catch (SQLException sqle) {

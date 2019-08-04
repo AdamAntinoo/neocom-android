@@ -54,6 +54,16 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
+				.withSectionIcon(R.drawable.miningledger)
+				.withTitle("MINING DATA")
+				.withLabel("Mining Resources market value")
+				.withDataProvider(new MiningResourcesValueDataProvider.Builder()
+						.withPilot(pilot)
+						.withEsiDataAdapter(this.esiDataAdapter).build())
+				.withClickTarget(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY)
+				.withPilotIdentifier(this.credential.getAccountId())
+				.build());
+		this.sections.add(new PilotSection.Builder()
 				.withSectionIcon(R.drawable.planets)
 				.withTitle("PLANETARY INTERACTION")
 				.withLabel("Available Colonies")
@@ -136,7 +146,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		private AssetCountDataProvider() {}
 
 		public String getDataFormatted() {
-			return this.generatePriceString(this.pilot.getCredential().getAssetsCount());
+			return qtyFormatter.format(this.pilot.getCredential().getAssetsCount()) + " ITEMS";
 		}
 
 		// - B U I L D E R
@@ -193,6 +203,49 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public PlanetaryColonyCountDataProvider build() {
+				return this.onConstruction;
+			}
+		}
+	}
+
+	public static class MiningResourcesValueDataProvider extends NeoComDataProvider implements IDataProvider {
+		private Pilot pilot;
+		private ESIDataAdapter esiDataAdapter;
+
+		private MiningResourcesValueDataProvider() {}
+
+		/**
+		 * The returned value is the estimated value of all the mineral resources found on the pilot belongings.
+		 * This is a quite extensive data processing task since it should retrieve all the assets, filter them and evaluate
+		 * its value. Then add all the value to get the final result.
+		 *
+		 * This is obviously a task for an updater that should store the information on the Credential so it will only be
+		 * updated when the values become stale.
+		 * @return the estimated value of all the mineral assets as stored on the Credential or '-'.
+		 */
+		public String getDataFormatted() {
+			return this.generatePriceString(this.pilot.getCredential().getMiningResourcesEstimatedValue());
+		}
+
+		// - B U I L D E R
+		public static class Builder {
+			private MiningResourcesValueDataProvider onConstruction;
+
+			public Builder() {
+				this.onConstruction = new MiningResourcesValueDataProvider();
+			}
+
+			public Builder withPilot( final Pilot pilot ) {
+				this.onConstruction.pilot = pilot;
+				return this;
+			}
+
+			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+				this.onConstruction.esiDataAdapter = esiDataAdapter;
+				return this;
+			}
+
+			public MiningResourcesValueDataProvider build() {
 				return this.onConstruction;
 			}
 		}
