@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
@@ -37,7 +36,7 @@ public class ColonyPackController extends NeoComUpdatableAuthorizedController<Co
 	@Override
 	public void onClick( final View v ) {
 		logger.info(">> [ColonyPackController.onClick]");
-		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), this.context);
+		final Intent intent = this.getControllerFactory().prepareActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), this.context);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getPilotIdentifier()); // Credential account identifier
 		intent.putExtra(EExtras.PLANET_IDENTIFIER.name()

@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableController;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
 import org.dimensinfin.eveonline.neocom.core.EEvents;
@@ -45,7 +45,7 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 	 */
 	public void onClick( final View view ) {
 		logger.info(">> [CredentialController.onClick]");
-		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.PILOT_DASHBOARD_ACTIVITY.name(), this.context);
+		final Intent intent = this.getControllerFactory().prepareActivity(PageNamesType.PILOT_DASHBOARD.name(), this.context);
 		intent.putExtra(EExtras.CAPSULEER_IDENTIFIER.name()
 				, this.getModel().getAccountId()); // Credential account identifier
 		view.getContext().startActivity(intent);

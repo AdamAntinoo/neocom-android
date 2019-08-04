@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.eveonline.neocom.app.EActivities;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import java.util.Objects;
@@ -11,7 +11,7 @@ public class PilotSection extends NeoComNode {
 	private String label;
 	private Integer pilotIdentifier;
 	private IDataProvider dataProvider;
-	private EActivities clickTarget;
+	private PageNamesType clickTarget;
 
 	// - G E T T E R S   &   S E T T E R S
 	public int getIconReference() {
@@ -32,7 +32,7 @@ public class PilotSection extends NeoComNode {
 
 	public String getDataFormatted() {return this.dataProvider.getDataFormatted();}
 
-	public EActivities getClickTarget() {
+	public PageNamesType getClickTarget() {
 		return this.clickTarget;
 	}
 
@@ -70,7 +70,7 @@ public class PilotSection extends NeoComNode {
 			return this;
 		}
 
-		public Builder withClickTarget( final EActivities clickTarget ) {
+		public Builder withClickTarget( final PageNamesType clickTarget ) {
 			this.onConstruction.clickTarget = clickTarget;
 			return this;
 		}

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
@@ -14,8 +15,8 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 
 public class NewLoginController extends AndroidController<NewLoginAction> implements View.OnClickListener {
@@ -42,7 +43,7 @@ public class NewLoginController extends AndroidController<NewLoginAction> implem
 		Toast.makeText(this.context, "New Credential action fired.", Toast.LENGTH_LONG)
 				.show();
 		// Launch the Authorization Flow so the display is blocked while we authorize a new Credential.
-		final Intent intent = this.getControllerFactory().prepareActivity(EActivities.AUTHORIZATION_ACTIVITY.name(), this.context);
+		final Intent intent = this.getControllerFactory().prepareActivity(PageNamesType.AUTHORIZATION.name(), this.context);
 		// Tag this intent request with a flag to know we are firing it from the new login action part.
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(EExtras.FIRE_AUTHORIZATION_FLOW.name(), "NEW-LOGIN-PART");

@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.app.datasource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
@@ -60,7 +60,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withDataProvider(new MiningResourcesValueDataProvider.Builder()
 						.withPilot(pilot)
 						.withEsiDataAdapter(this.esiDataAdapter).build())
-				.withClickTarget(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY)
+				.withClickTarget(PageNamesType.MINING_LEDGER)
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
@@ -70,7 +70,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
 						.withPilot(pilot)
 						.withEsiDataAdapter(this.esiDataAdapter).build())
-				.withClickTarget(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY)
+				.withClickTarget(PageNamesType.PLANET_FACILITIES_DETAILS)
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		logger.info("<< [PilotDashboardDataSource.prepareModel]");

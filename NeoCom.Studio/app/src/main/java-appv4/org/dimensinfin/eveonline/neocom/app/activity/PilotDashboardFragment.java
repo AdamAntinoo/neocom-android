@@ -6,13 +6,14 @@ import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.R;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.datasource.PilotDashboardDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.planetary.activity.PlanetaryColoniesActivity;
 
 public class PilotDashboardFragment extends MVCPagerFragment {
@@ -30,7 +31,8 @@ public class PilotDashboardFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())
-				.registerActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), PlanetaryColoniesActivity.class);
+				.registerActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), PlanetaryColoniesActivity.class)
+				.registerActivity(PageNamesType.MINING_LEDGER.name(), MiningLedgerActivity.class);
 	}
 
 	@Override

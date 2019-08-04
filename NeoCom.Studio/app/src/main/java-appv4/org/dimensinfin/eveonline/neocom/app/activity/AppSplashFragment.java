@@ -10,8 +10,8 @@ import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
@@ -33,8 +33,8 @@ public class AppSplashFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())
-				.registerActivity(EActivities.PILOT_DASHBOARD_ACTIVITY.name(), PilotDashboardActivity.class)
-				.registerActivity(EActivities.AUTHORIZATION_ACTIVITY.name(), AuthorizationFlowActivity.class);
+				.registerActivity(PageNamesType.PILOT_DASHBOARD.name(), PilotDashboardActivity.class)
+				.registerActivity(PageNamesType.AUTHORIZATION.name(), AuthorizationFlowActivity.class);
 	}
 
 	@Override

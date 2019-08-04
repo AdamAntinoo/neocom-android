@@ -4,7 +4,6 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.EActivities;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
@@ -18,8 +17,8 @@ public class PlanetaryColoniesFragment extends AuthenticatedFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new PlanetaryControllerFactory(this.getVariant())
-				.registerActivity(EActivities.PLANETARY_COLONY_CONTENTS_ACTIVITY.name(), PlanetaryColonyContentsActivity.class)
-				.registerActivity(EActivities.PLANETARY_COLONY_LAYOUT_ACTIVITY.name(), PlanetaryColonyLayoutActivity.class);
+				.registerActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), PlanetaryColonyContentsActivity.class)
+				.registerActivity(PageNamesType.PLANET_FACILITIES_LAYOUT.name(), PlanetaryColonyLayoutActivity.class);
 	}
 
 	@Override
