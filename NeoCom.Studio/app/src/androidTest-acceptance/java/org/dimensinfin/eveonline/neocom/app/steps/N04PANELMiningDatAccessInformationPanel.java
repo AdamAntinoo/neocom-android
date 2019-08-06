@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -31,10 +30,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -45,7 +41,6 @@ import cucumber.api.java.en.When;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class N04PANELMiningDatAccessInformationPanel extends StepFramework {
-	private static Logger logger = LoggerFactory.getLogger(ShowTheApplicationName.class);
 
 	private PilotDashboardActivityWorld world;
 
@@ -157,18 +152,6 @@ public class N04PANELMiningDatAccessInformationPanel extends StepFramework {
 		final ViewGroup activator = miningDataPanel.findViewById(R.id.clickBlock);
 		Assert.assertNotNull(activator);
 		Assert.assertTrue(activator.isEnabled());
-	}
-
-	private List<View> accessPanelsOfClass( final Class filterClass, final ListView container ) {
-		final List<View> panels = new ArrayList<>();
-		final int contentCount = container.getChildCount();
-		for (int i = 0; i < contentCount; i++) {
-			final View target = this.getViewByPosition(i, container);
-			final IAndroidController controller = (IAndroidController) target.getTag();
-			final Object model = controller.getModel();
-			if (model.getClass() == filterClass) panels.add(target);
-		}
-		return panels;
 	}
 
 	private boolean pilotSectionTitleFilter( final View target, final String title ) {

@@ -1,5 +1,7 @@
 @PilotDashboardActivity
-Feature: This activity shows the current selected pilot information such as the race information, the corporation and other basic information. Along with this data and icons there is a list of data areas like wallet or industry each of them represented by a panel with the are key information.
+Feature: This activity shows the current selected pilot information such as the race information, the corporation and other basic
+  information. Along with this data and icons there is a list of data areas like wallet or industry each of them represented by a
+  panel with the are key information.
 
   @MVCPanel
   Scenario: [N04][PANEL] Mining data access information panel.

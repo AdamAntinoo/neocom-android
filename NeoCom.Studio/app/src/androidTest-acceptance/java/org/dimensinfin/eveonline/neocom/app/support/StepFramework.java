@@ -8,8 +8,22 @@ import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.support.worlds.NeoComWorld;
 import org.junit.Assert;
+import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class StepFramework /*extends AppCredentialSupportTest*/ {
+	protected static Logger logger = LoggerFactory.getLogger(StepFramework.class);
+
+	@Before
+	public void setUp() throws Exception {
+		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+	}
+
 	protected View searchPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
@@ -53,4 +67,26 @@ public class StepFramework /*extends AppCredentialSupportTest*/ {
 		world.setDataSectionContainer(dataSectionContainer);
 	}
 
+	protected List<View> accessPanelsOfClass( final Class filterClass, final ListView container ) {
+		final List<View> panels = new ArrayList<>();
+		final int contentCount = container.getChildCount();
+		for (int i = 0; i < contentCount; i++) {
+			final View target = this.getViewByPosition(i, container);
+			final IAndroidController controller = (IAndroidController) target.getTag();
+			final Object model = controller.getModel();
+			if (model.getClass() == filterClass) panels.add(target);
+		}
+		return panels;
+	}
+	protected List<View> accessPanelsOfClass( final Class filterClass, final ViewGroup container ) {
+		final List<View> panels = new ArrayList<>();
+		final int contentCount = container.getChildCount();
+		for (int i = 0; i < contentCount; i++) {
+			final View target = container.getChildAt(i);
+			final IAndroidController controller = (IAndroidController) target.getTag();
+			final Object model = controller.getModel();
+			if (model.getClass() == filterClass) panels.add(target);
+		}
+		return panels;
+	}
 }
