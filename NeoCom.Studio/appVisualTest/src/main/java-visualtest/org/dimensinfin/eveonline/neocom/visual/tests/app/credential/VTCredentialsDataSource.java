@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.app.credential;
+package org.dimensinfin.eveonline.neocom.visual.tests.app.credential;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;

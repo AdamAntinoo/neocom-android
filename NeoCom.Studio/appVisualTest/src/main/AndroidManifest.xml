@@ -21,7 +21,7 @@
 
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
-				android:name=".appvisualtest.activity.VisualTestsActivity"
+				android:name=".app.activity.VisualTestsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Visual Testing"
 				android:theme="@style/AppTheme.NoActionBar">
