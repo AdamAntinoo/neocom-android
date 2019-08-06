@@ -11,6 +11,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.entities.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
@@ -36,6 +37,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	private Dao<DatabaseVersion, String> versionDao;
 	private Dao<TimeStamp, String> timeStampDao;
 	private Dao<Credential, String> credentialDao;
+	private Dao<MiningExtraction, String> miningExtractionDao;
 
 	// - C O N S T R U C T O R S
 	private NeoComAndroidDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
@@ -102,6 +104,11 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
+		try {
+			TableUtils.createTableIfNotExists(databaseConnection, MiningExtraction.class);
+		} catch (SQLException sqle) {
+			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+		}
 		this.loadSeedData();
 		logger.info("<< [NeoComAndroidDBHelper.onCreate]");
 	}
@@ -123,7 +130,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		logger.info("<< [NeoComAndroidDBHelper.loadSeedData]");
 	}
 
-//	@Override
 	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
 		if (null == versionDao) {
 			versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
@@ -131,7 +137,6 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		return versionDao;
 	}
 
-//	@Override
 	public Dao<TimeStamp, String> getTimeStampDao() throws SQLException {
 		if (null == timeStampDao) {
 			timeStampDao = DaoManager.createDao(this.getConnectionSource(), TimeStamp.class);
@@ -139,12 +144,18 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		return timeStampDao;
 	}
 
-//	@Override
 	public Dao<Credential, String> getCredentialDao() throws SQLException {
 		if (null == credentialDao) {
 			credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
 		}
 		return credentialDao;
+	}
+
+	public Dao<MiningExtraction, String> getMiningExtractionDao() throws SQLException {
+		if (null == this.miningExtractionDao) {
+			this.miningExtractionDao = DaoManager.createDao(this.getConnectionSource(), MiningExtraction.class);
+		}
+		return this.miningExtractionDao;
 	}
 
 	// -  B U I L D E R

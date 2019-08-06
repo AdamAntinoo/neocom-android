@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.visual.app;
 
 import android.app.Application;
 
@@ -9,7 +9,5 @@ public class VisualTestApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		NeoComComponentFactory.initialiseSingleton(this);
-//		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
-//		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 	}
 }

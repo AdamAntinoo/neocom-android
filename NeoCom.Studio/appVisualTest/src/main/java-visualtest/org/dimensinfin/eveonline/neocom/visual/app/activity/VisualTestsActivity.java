@@ -11,14 +11,15 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday.VTMiningExtractionsTodayFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.VTPlanetaryFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityLayoutFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter.VTCommandCenterLayoutFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.extractor.VTExtractorFragment;
-import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
 
 import java.io.File;
 
@@ -33,6 +34,8 @@ public class VisualTestsActivity extends MVCMultiPageActivity {
 		this.validateSDEDatabase();
 		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
 		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
+
+		this.addPage(new VTMiningExtractionsTodayFragment().setVariant(PageNamesType.MINING_EXTRACTIONS_TODAY.name()));
 
 		this.addPage(new VTPlanetaryFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
 		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));

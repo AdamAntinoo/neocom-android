@@ -17,8 +17,6 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
-import org.dimensinfin.eveonline.neocom.services.UpdaterSchedulerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +43,8 @@ public class NeoComComponentFactory {
 	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
 	private DataDownloaderService downloaderService;
-	private ESIDataPersistenceService persistenceService;
-	private UpdaterSchedulerService timedService;
+//	private ESIDataPersistenceService persistenceService;
+//	private UpdaterSchedulerService timedService;
 
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
@@ -75,7 +73,7 @@ public class NeoComComponentFactory {
 	// - A C C E S S O R S
 	public IConfigurationProvider getConfigurationProvider() {
 		if (null == this.configurationProvider) {
-			this.configurationProvider = new AndroidConfigurationProvider.Builder(
+			this.configurationProvider = new org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider.Builder(
 					application.getResources().getString(R.string.propertiesLocation))
 					.withApplicationContext(application)
 					.build();
@@ -86,7 +84,7 @@ public class NeoComComponentFactory {
 	@Deprecated
 	public IGlobalPreferencesManager getPreferencesProvider() {
 		if (null == this.preferencesProvider) {
-			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
+			preferencesProvider = new org.dimensinfin.eveonline.neocom.app.adapters.GlobalAndroidPreferencesProvider.Builder()
 					.withApplication(this.getApplication())
 					.build();
 		}
@@ -96,7 +94,7 @@ public class NeoComComponentFactory {
 
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter) {
-			fileSystemAdapter = new AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname), application)
+			fileSystemAdapter = new org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname), application)
 					.build();
 		}
 		return this.fileSystemAdapter;
@@ -141,19 +139,19 @@ public class NeoComComponentFactory {
 		return this.credentialRepository;
 	}
 
-	//	public MiningRepository getMiningRepository() {
-	//		if (null == this.miningRepository) {
-	//			try {
-	//				miningRepository = new MiningRepository.Builder()
-	//						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
-	//						                   .build();
-	//			} catch (SQLException sqle) {
-	//				miningRepository = null;
-	//				Objects.requireNonNull(miningRepository);
-	//			}
-	//		}
-	//		return this.miningRepository;
-	//	}
+		public MiningRepository getMiningRepository() {
+			if (null == this.miningRepository) {
+				try {
+					miningRepository = new MiningRepository.Builder()
+							                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
+							                   .build();
+				} catch (SQLException sqle) {
+					miningRepository = null;
+					Objects.requireNonNull(miningRepository);
+				}
+			}
+			return this.miningRepository;
+		}
 
 	public NeoComAndroidDBHelper getNeoComDBHelper() {
 		if (null == this.neocomDBHelper) {
