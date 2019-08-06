@@ -1,17 +1,27 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdMining200Ok;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.mockito.Mockito;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	private MiningRepository miningRepository;
 	private Credential credential;
+	private List<MiningExtraction> extractions;
 
 	/**
 	 * The preparation should generate two sets of data. One for the header (the list of resources mined) and the other for the
@@ -22,14 +32,14 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 		this.miningRepository = Mockito.mock(MiningRepository.class);
 		Mockito.when(this.miningRepository.accessTodayMiningExtractions4Pilot(Mockito.any(Credential.class)))
 		       .thenReturn(this.generateMockExtractions());
-
-		final List<MiningExtraction> extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
-
+		this.extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
 	}
 
 	@Override
 	public void collaborate2Model() {
-
+		for (MiningExtraction extraction : this.extractions) {
+			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+		}
 	}
 
 	// - B U I L D E R
@@ -70,7 +80,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	}
 
 	private List<MiningExtraction> generateMockExtractions() {
-		final List<MiningExtraction> extractions4Test = new MiningExtractionGenerator()
+		final List<MiningExtraction> extractions4Test = new MiningExtractionConverter()
 				                                                .generateExtraction("93813310-12-30", 12);
 		return extractions4Test;
 //		extractions4Test.clear();
@@ -79,7 +89,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 //		extractions4Test.addAll(this.extractionGenerator(45498, 10000));
 	}
 
-//	private List<MiningExtraction> extractionGenerator( final int typeId, final int quantity ) {
+	//	private List<MiningExtraction> extractionGenerator( final int typeId, final int quantity ) {
 //		final List<MiningExtraction> todayExtractions = new ArrayList<>();
 //		// Generate 5 different hours for today.
 //		for (int i = 5; i > 0; i--) {
@@ -96,4 +106,32 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 //		}
 //		return todayExtractions;
 //	}
+	public static class MiningExtractionConverter {
+		public static final ObjectMapper jsonMapper = new ObjectMapper();
+
+		static {
+			jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
+			jsonMapper.registerModule(new JodaModule());
+		}
+
+		public List<MiningExtraction> generateExtraction( final String identifier, final int hour ) {
+			final String extractionSource = new MiningExtractionGenerator().searchExtraction(identifier, hour);
+			List<GetCharactersCharacterIdMining200Ok> minings = new ArrayList<>();
+			try {
+				minings = jsonMapper.readValue(extractionSource,
+				                               new TypeReference<List<GetCharactersCharacterIdMining200Ok>>() {
+				                               });
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+//			() {})
+//		val gson = Gson()
+//		val minings = gson?.fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
+			final List<MiningExtraction> results = new ArrayList<MiningExtraction>();
+			for (GetCharactersCharacterIdMining200Ok mine : minings) {
+				results.add(new MiningExtraction.Builder().withExtractionHour(hour).fromMining(mine).build());
+			}
+			return results;
+		}
+	}
 }

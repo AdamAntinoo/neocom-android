@@ -8,6 +8,9 @@ import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControlle
 import org.dimensinfin.eveonline.neocom.visual.app.adapters.NeoComComponentFactory;
 
 public class VTMiningExtractionsTodayFragment extends MVCPagerFragment {
+	static {
+		System.setProperty("org.mockito.android.target", NeoComComponentFactory.getSingleton().getApplication().getCacheDir().getPath());
+	}
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());

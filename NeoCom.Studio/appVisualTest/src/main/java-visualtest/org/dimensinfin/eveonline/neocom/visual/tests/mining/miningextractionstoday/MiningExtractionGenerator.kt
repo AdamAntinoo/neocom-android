@@ -1,14 +1,24 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.joda.JodaModule
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdMining200Ok
 
 class MiningExtractionGenerator {
+	val jsonMapper = ObjectMapper()
+	fun searchExtraction(extractionIdentifier: String, hour: Int): String {
+		return matchRequest(extractionIdentifier)
+	}
+
 	fun generateExtraction(extractionIdentifier: String, hour: Int): List<MiningExtraction> {
+		jsonMapper.registerModule(JodaModule())
 		var extractionSource = matchRequest(extractionIdentifier)
+//		val mapper = ObjectMapper()
+		var minings = jsonMapper.readValue<GetCharactersCharacterIdMining200Ok>(extractionSource, object : TypeReference<List<GetCharactersCharacterIdMining200Ok>>() {})
 //		val gson = Gson()
-		val minings = Gson().fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
+//		val minings = gson?.fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
 		val results = mutableListOf<MiningExtraction>()
 		for (mine in minings) {
 			results.add(MiningExtraction.Builder().withExtractionHour(hour).fromMining(mine).build())
@@ -48,20 +58,24 @@ class MiningExtractionGenerator {
 	}
 }
 
+private operator fun GetCharactersCharacterIdMining200Ok.iterator(): Iterator<GetCharactersCharacterIdMining200Ok> {
+	TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+}
+
 // - M O C K   D A T A
 const val extraction1230 = """
 [
   {
     "date": "2019-08-06",
     "quantity": 1566,
-    "solar_system_id": 30001735,
-    "type_id": 17471
+    "solarSystemId": 30001735,
+    "typeId": 17471
   },
   {
     "date": "2019-08-06",
     "quantity": 421,
-    "solar_system_id": 30001735,
-    "type_id": 17459
+    "solarSystemId": 30001735,
+    "typeId": 17459
   }
 ]
 """
@@ -71,13 +85,13 @@ const val extraction1300 = """
   {
     "date": "2019-08-06",
     "quantity": 19276,
-    "solar_system_id": 30001735,
+    "solarSystemId": 30001735,
     "type_id": 17471
   },
   {
     "date": "2019-08-06",
     "quantity": 5894,
-    "solar_system_id": 30001735,
+    "solarSystemId": 30001735,
     "type_id": 17459
   }
 ]
@@ -88,19 +102,19 @@ const val extraction1330 = """
   {
     "date": "2019-08-06",
     "quantity": 25432,
-    "solar_system_id": 30001735,
+    "solarSystemId": 30001735,
     "type_id": 17471
   },
   {
     "date": "2019-08-06",
     "quantity": 23576,
-    "solar_system_id": 30001735,
+    "solarSystemId": 30001735,
     "type_id": 17459
   },
   {
     "date": "2019-08-06",
     "quantity": 30348,
-    "solar_system_id": 30001735,
+    "solarSystemId": 30001735,
     "type_id": 17464
   }
 ]
