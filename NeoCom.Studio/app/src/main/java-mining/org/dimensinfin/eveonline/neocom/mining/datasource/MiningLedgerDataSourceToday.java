@@ -1,11 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.datasource;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import android.util.SparseArray;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -17,30 +12,24 @@ import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends MVCDataSource {
-	protected Credential credential;
-	protected ESIDataAdapter esiDataAdapter;
-	protected MiningRepository miningRepository; // The mining persistence repository definition.
-	//	private PanelTitle sectionTitle; // The panel title for the data section
-	protected List<MiningExtraction> extractions;
-	//	private int extractionsCount = 0; // Number of extractions processed
-	protected List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
-	private Map<Integer, Resource> resources = new HashMap<>();
+	private Credential credential;
+	private ESIDataAdapter esiDataAdapter;
+	private MiningRepository miningRepository; // The mining persistence repository definition.
+	private List<MiningExtraction> extractions;
+	private List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
+	private SparseArray<Resource> resources = new SparseArray<>();
 
 	// - C O N S T R U C T O R S
 	protected MiningLedgerDataSourceToday() {}
-
-	// - B U I L D E R   S E T T E R S
-	//	protected MiningLedgerDataSourceToday setCredential( final Credential credential ) {
-	//		this.credential = credential;
-	//		return this;
-	//	}
-	//
-	//	protected MiningLedgerDataSourceToday setMiningRepository( final MiningRepository miningRepository ) {
-	//		this.miningRepository = miningRepository;
-	//		return this;
-	//	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 
@@ -57,17 +46,17 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	public void prepareModel() {
 		logger.info(">> [MiningLedgerDataSource.prepareModel]");
 		try {
-			extractions = this.miningRepository.accessTodayMiningExtractions4PilotMock(credential);
+			this.extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
 			final Map<String, MiningExtraction> ids = new HashMap();
-			for (MiningExtraction extraction : extractions)  // Create a map of all the record ids to search for previous hours
+			for (MiningExtraction extraction : this.extractions)  // Create a map of all the record ids to search for previous
+				// hours
 				ids.put(extraction.getId(), extraction);
 
 			// - Process the records in order. Aggregate by system.
 			int processingSystem = -1; // Set the flag that we have not currently created any system.
 			MiningExtractionAggregatorAsPanelTitle systemAggregator = null;
-			for (MiningExtraction extraction : extractions) {
+			for (MiningExtraction extraction : this.extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
-				//				if (this.search4PreviousHour(extraction, ids)) continue;
 				this.search4PreviousHour(extraction, ids);
 				final int system = extraction.getSolarSystemId(); // Add the record but aggregate by system.
 				if (processingSystem != system) {
@@ -103,16 +92,15 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	public void collaborate2Model() {
 		// - H E A D E R   S E C T I O N
 		this.addHeaderContents(new TableHeader()); // Add the resource table header
-		for (Resource resource : this.resources.values()) {
+		for (int i = 0, arraySize = this.resources.size(); i < arraySize; i++) {
+			final Resource resource = this.resources.valueAt(i);
 			this.addHeaderContents(resource);
 		}
 
 		// - D A T A   S E C T I O N
 		final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
-		if (extractions.size() < 1)
-			title.setTitle("There are no Mining Extractions Today.");
-		else
-			title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
+		if (extractions.size() < 1) title.setTitle("There are no Mining Extractions Today.");
+		else title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
 		this.addModelContents(title);
 		for (MiningExtractionAggregatorAsPanelTitle panel : this.extractionsPanels)
 			this.addModelContents(panel);
@@ -123,7 +111,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 		return this.extractions.size();
 	}
 
-	public Map<Integer, Resource> getResources() {
+	public SparseArray<Resource> getResources() {
 		return this.resources;
 	}
 
@@ -135,7 +123,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	 */
 	private void accountResource( final int typeId, final long quantity ) {
 		final int qty = Long.valueOf(quantity).intValue();
-		if (this.resources.containsKey(typeId)) {
+		if (null != this.resources.valueAt(typeId)) {
 			final Resource hit = this.resources.get(typeId);
 			hit.add(qty);
 		} else this.resources.put(typeId, new Resource(typeId, qty));

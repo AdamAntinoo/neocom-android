@@ -1,19 +1,16 @@
 package org.dimensinfin.eveonline.neocom.mining.activity;
 
-import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 
-public class MiningLedgerFragment extends MVCPagerFragment {
-	private Credential credential;
-
+public class MiningLedgerFragment extends AuthenticatedFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new MiningControllerFactory(this.getVariant())
@@ -43,14 +40,5 @@ public class MiningLedgerFragment extends MVCPagerFragment {
 					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
 		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
-	}
-
-	public Credential getCredential() {
-		return this.credential;
-	}
-
-	public MiningLedgerFragment setCredential( final Credential credential ) {
-		this.credential = credential;
-		return this;
 	}
 }
