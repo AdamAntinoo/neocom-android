@@ -1,11 +1,10 @@
-package org.dimensinfin.eveonline.neocom.app.adapters;
+package org.dimensinfin.eveonline.neocom.visual.app.adapters;
 
 import android.app.Application;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.database.NeoComAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.app.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -17,6 +16,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.visual.app.database.SDEAndroidDBHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public class NeoComComponentFactory {
 	// - A C C E S S O R S
 	public IConfigurationProvider getConfigurationProvider() {
 		if (null == this.configurationProvider) {
-			this.configurationProvider = new org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider.Builder(
+			this.configurationProvider = new AndroidConfigurationProvider.Builder(
 					application.getResources().getString(R.string.propertiesLocation))
 					.withApplicationContext(application)
 					.build();
@@ -84,7 +84,7 @@ public class NeoComComponentFactory {
 	@Deprecated
 	public IGlobalPreferencesManager getPreferencesProvider() {
 		if (null == this.preferencesProvider) {
-			preferencesProvider = new org.dimensinfin.eveonline.neocom.app.adapters.GlobalAndroidPreferencesProvider.Builder()
+			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
 					.withApplication(this.getApplication())
 					.build();
 		}
@@ -94,7 +94,7 @@ public class NeoComComponentFactory {
 
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter) {
-			fileSystemAdapter = new org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname), application)
+			fileSystemAdapter = new AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname), application)
 					.build();
 		}
 		return this.fileSystemAdapter;

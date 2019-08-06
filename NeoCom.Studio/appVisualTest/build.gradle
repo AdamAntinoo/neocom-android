@@ -131,7 +131,6 @@ dependencies {
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
-//    implementation project(':AndroidMVCLibrary')
     implementation project(':NeoCom.DataManagement')
     implementation project(':appFeatures')
 
@@ -139,7 +138,7 @@ dependencies {
     implementation "com.j256.ormlite:ormlite-android:$ormliteVersion"
     implementation 'org.xerial:sqlite-jdbc:3.16.1'
 
-//    implementation 'org.mockito:mockito-core:2.23.0'
+    implementation 'org.mockito:mockito-core:2.23.4' // Allow to use mock in visual test code
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

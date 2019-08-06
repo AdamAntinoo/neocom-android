@@ -3,9 +3,9 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.visual.tests.app.credential.VTCredentialsDataSource;
 import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;
+import org.dimensinfin.eveonline.neocom.visual.app.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.visual.tests.app.credential.VTCredentialsDataSource;
 
 public class VTCredentialsFragment extends MVCPagerFragment {
 	@Override

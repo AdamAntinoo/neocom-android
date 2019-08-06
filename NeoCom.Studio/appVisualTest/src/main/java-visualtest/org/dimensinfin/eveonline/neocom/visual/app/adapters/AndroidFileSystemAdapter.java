@@ -1,4 +1,11 @@
-package org.dimensinfin.eveonline.neocom.app.adapters;
+package org.dimensinfin.eveonline.neocom.visual.app.adapters;
+
+import android.content.Context;
+import android.os.Environment;
+
+import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,14 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import android.content.Context;
-import android.os.Environment;
-
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AndroidFileSystemAdapter implements IFileSystem {
 	private static Logger logger = LoggerFactory.getLogger(AndroidFileSystemAdapter.class);

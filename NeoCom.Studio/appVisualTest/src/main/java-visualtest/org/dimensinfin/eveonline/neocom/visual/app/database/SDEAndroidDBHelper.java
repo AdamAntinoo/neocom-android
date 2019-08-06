@@ -1,9 +1,10 @@
-package org.dimensinfin.eveonline.neocom.app.database;
+package org.dimensinfin.eveonline.neocom.visual.app.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.slf4j.Logger;

@@ -1,5 +1,4 @@
-//               runtime implementation provided by the Application.
-package org.dimensinfin.eveonline.neocom.app.adapters;
+package org.dimensinfin.eveonline.neocom.visual.app.adapters;
 
 import android.app.Application;
 import android.content.SharedPreferences;
