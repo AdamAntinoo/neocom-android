@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
+package org.dimensinfin.eveonline.neocom.visual.app.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -11,11 +11,11 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.VTPlanetaryFragment;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility.VTAdvancedFacilityFragment;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility.VTAdvancedFacilityLayoutFragment;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter.VTCommandCenterLayoutFragment;
-import org.dimensinfin.eveonline.neocom.appvisualtest.planetary.extractor.VTExtractorFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.planetary.VTPlanetaryFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityLayoutFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter.VTCommandCenterLayoutFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.planetary.extractor.VTExtractorFragment;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.model.EveItem;

@@ -1,13 +1,18 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary;
+package org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter;
 
-import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
+import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public class VTPlanetaryFragment extends MVCPagerFragment {
+public class VTCommandCenterLayoutFragment extends CanvasPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new VisualTestsControllerFactory(this.getVariant());
@@ -26,7 +31,7 @@ public class VTPlanetaryFragment extends MVCPagerFragment {
 				.withWalletBalance(6.309543632E8)
 				.withRaceName("Amarr")
 				.build();
-		return new VTPlanetaryDataSource.Builder()
+		return new VTCommandCenterDataSource.Builder()
 				.addIdentifier(this.getVariant())
 				.addIdentifier("VISUAL TESTS")
 				.withVariant(this.getVariant())
@@ -36,5 +41,15 @@ public class VTPlanetaryFragment extends MVCPagerFragment {
 				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 				.build();
+	}
+
+	@Override
+	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
+		try {
+			return super.onCreateView(inflater, container, savedInstanceState);
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();
+		}
+		return null;
 	}
 }

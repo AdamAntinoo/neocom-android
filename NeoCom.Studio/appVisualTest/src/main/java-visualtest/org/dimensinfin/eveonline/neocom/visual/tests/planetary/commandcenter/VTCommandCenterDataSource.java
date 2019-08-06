@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.commandcenter;
+package org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter;
 
 import com.annimon.stream.Stream;
 

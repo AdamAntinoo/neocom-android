@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility;
+package org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +8,9 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
-import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBar;
-import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBarController;
+import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBar;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
 public class VTAdvancedFacilityFragment extends MVCPagerFragment {

@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.ui;
+package org.dimensinfin.eveonline.neocom.visual.tests.ui;
 
 import android.content.Context;
 import android.widget.ImageView;

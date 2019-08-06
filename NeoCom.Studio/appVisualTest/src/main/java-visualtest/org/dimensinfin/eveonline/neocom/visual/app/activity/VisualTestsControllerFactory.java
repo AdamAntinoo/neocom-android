@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
+package org.dimensinfin.eveonline.neocom.visual.app.activity;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -7,8 +7,8 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBar;
-import org.dimensinfin.eveonline.neocom.appvisualtest.ui.VisualTestActionBarController;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBar;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;

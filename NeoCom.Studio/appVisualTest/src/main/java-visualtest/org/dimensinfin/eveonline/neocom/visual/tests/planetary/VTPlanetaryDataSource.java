@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.extractor;
+package org.dimensinfin.eveonline.neocom.visual.tests.planetary;
 
 import com.annimon.stream.Stream;
 
@@ -7,17 +7,16 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityType;
 import org.dimensinfin.eveonline.neocom.planetary.datasource.PlanetaryCommonDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VTExtractorDataSource extends PlanetaryCommonDataSource {
-	private static final int EXTRACTOR_TEST_PLANET_IDENTIFIER = 40208351;
+public class VTPlanetaryDataSource extends PlanetaryCommonDataSource {
+	private static final int EXTRACTOR_TEST_PLANET_IDENTIFIER = 40208303;
 	private int planetIdentifier;
-	private List<IPlanetaryFacility> extractorFactories = new ArrayList<>();
+	private List<IPlanetaryFacility> factories = new ArrayList<>();
 
 	/**
 	 * To test the factories I should read a configuration file that describes the facilities. I should use the same code as in the
@@ -50,35 +49,35 @@ public class VTExtractorDataSource extends PlanetaryCommonDataSource {
 				.build()
 				.accessColony(colonyEsi);
 		Stream.of(colony.getFacilities())
-		      .filter(facility -> (facility.getFacilityType() == PlanetaryFacilityType.EXTRACTOR_CONTROL_UNIT
-				      || facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER))
-		      .forEach(extractorFactories::add);
+//		      .filter(facility -> (facility.getFacilityType() == PlanetaryFacilityType.EXTRACTOR_CONTROL_UNIT
+//				      || facility.getFacilityType() == PlanetaryFacilityType.COMMAND_CENTER))
+		      .forEach(factories::add);
 	}
 
 	@Override
 	public void collaborate2Model() {
-		for ( IPlanetaryFacility extractor : this.extractorFactories)
+		for ( IPlanetaryFacility extractor : this.factories)
 			this.addModelContents(extractor);
 	}
 
 	// - B U I L D E R
-	public static class Builder extends PlanetaryCommonDataSource.Builder<VTExtractorDataSource, VTExtractorDataSource.Builder> {
-		private VTExtractorDataSource onConstruction;
+	public static class Builder extends PlanetaryCommonDataSource.Builder<VTPlanetaryDataSource, VTPlanetaryDataSource.Builder> {
+		private VTPlanetaryDataSource onConstruction;
 
 		@Override
-		protected VTExtractorDataSource getActual() {
-			if (null == this.onConstruction) this.onConstruction = new VTExtractorDataSource();
+		protected VTPlanetaryDataSource getActual() {
+			if (null == this.onConstruction) this.onConstruction = new VTPlanetaryDataSource();
 			return this.onConstruction;
 		}
 
 		@Override
-		protected VTExtractorDataSource.Builder getActualBuilder() {
+		protected VTPlanetaryDataSource.Builder getActualBuilder() {
 			return this;
 		}
 
 		@Override
-		public VTExtractorDataSource build() {
-			final VTExtractorDataSource ds = super.build();
+		public VTPlanetaryDataSource build() {
+			final VTPlanetaryDataSource ds = super.build();
 			Objects.requireNonNull(this.onConstruction.credential);
 			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			Objects.requireNonNull(this.onConstruction.planetaryRepository);

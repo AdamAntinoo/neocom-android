@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.planetary.advancedfacility;
+package org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility;
 
 import com.annimon.stream.Stream;
 

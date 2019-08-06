@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.appvisualtest.activity;
+package org.dimensinfin.eveonline.neocom.visual.app.activity;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;

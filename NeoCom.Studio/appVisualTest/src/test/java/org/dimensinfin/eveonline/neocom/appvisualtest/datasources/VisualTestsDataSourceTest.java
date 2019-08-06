@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.appvisualtest.datasources;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.appvisualtest.activity.VisualTestsControllerFactory;
+import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.support.TestConfigurationProvider;
