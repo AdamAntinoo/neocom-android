@@ -1,20 +1,12 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdMining200Ok;
-import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.mockito.Mockito;
+import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.joda.time.DateTime;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +14,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	private MiningRepository miningRepository;
 	private Credential credential;
 	private List<MiningExtraction> extractions;
+	private MiningExtractionDatabaseRecordGenerator miningExtractionDatabaseRecordGenerator ;
 
 	/**
 	 * The preparation should generate two sets of data. One for the header (the list of resources mined) and the other for the
@@ -29,16 +22,18 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	 */
 	@Override
 	public void prepareModel() {
-		this.miningRepository = Mockito.mock(MiningRepository.class);
-		Mockito.when(this.miningRepository.accessTodayMiningExtractions4Pilot(Mockito.any(Credential.class)))
-		       .thenReturn(this.generateMockExtractions());
-		this.extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
+		this.extractions = this.miningExtractionDatabaseRecordGenerator.accessTodayMiningExtractions4Pilot(this.credential);
 	}
 
 	@Override
 	public void collaborate2Model() {
+		this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
+				                       .withCredential(this.credential)
+				                       .withMiningRepository(this.miningRepository)
+				                       .withTargetDate(new DateTime("2019-08-07"))
+				                       .build());
 		for (MiningExtraction extraction : this.extractions) {
-			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+//			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
 		}
 	}
 
@@ -73,21 +68,23 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 		public VTMiningExtractionsTodayDataSource build() {
 			final VTMiningExtractionsTodayDataSource ds = super.build();
 			Objects.requireNonNull(this.onConstruction.credential);
-//			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			Objects.requireNonNull(this.onConstruction.miningRepository);
+			this.onConstruction.miningExtractionDatabaseRecordGenerator= new MiningExtractionDatabaseRecordGenerator.Builder()
+																				 .withMiningRepository(this.onConstruction.miningRepository)
+					                                                             .build();
 			return ds;
 		}
 	}
 
-	private List<MiningExtraction> generateMockExtractions() {
-		final List<MiningExtraction> extractions4Test = new MiningExtractionConverter()
-				                                                .generateExtraction("93813310-12-30", 12);
-		return extractions4Test;
-//		extractions4Test.clear();
-//		// Generate 5 different hours for today.
-//		extractions4Test.addAll(this.extractionGenerator(34, 10000));
-//		extractions4Test.addAll(this.extractionGenerator(45498, 10000));
-	}
+//	private List<MiningExtraction> generateMockExtractions() {
+//		final List<MiningExtraction> extractions4Test = new MiningExtractionConverter()
+//				                                                .generateExtraction("93813310-12-30", 12);
+//		return extractions4Test;
+////		extractions4Test.clear();
+////		// Generate 5 different hours for today.
+////		extractions4Test.addAll(this.extractionGenerator(34, 10000));
+////		extractions4Test.addAll(this.extractionGenerator(45498, 10000));
+//	}
 
 	//	private List<MiningExtraction> extractionGenerator( final int typeId, final int quantity ) {
 //		final List<MiningExtraction> todayExtractions = new ArrayList<>();
@@ -106,32 +103,41 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 //		}
 //		return todayExtractions;
 //	}
-	public static class MiningExtractionConverter {
-		public static final ObjectMapper jsonMapper = new ObjectMapper();
+//	public static class MiningExtractionConverter {
+//		public static final ObjectMapper jsonMapper = new ObjectMapper();
+//
+//		static {
+//			jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
+//			jsonMapper.registerModule(new JodaModule());
+//		}
+//
+//		public List<MiningExtraction> generateExtraction( final String identifier, final int hour ) {
+//			final String extractionSource = new MiningExtractionGenerator().searchExtraction(identifier, hour);
+//			List<GetCharactersCharacterIdMining200Ok> minings = new ArrayList<>();
+//			try {
+//				minings = jsonMapper.readValue(extractionSource,
+//				                               new TypeReference<List<GetCharactersCharacterIdMining200Ok>>() {
+//				                               });
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+////			() {})
+////		val gson = Gson()
+////		val minings = gson?.fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
+//			final List<MiningExtraction> results = new ArrayList<MiningExtraction>();
+//			for (GetCharactersCharacterIdMining200Ok mine : minings) {
+//				results.add(new MiningExtraction.Builder().withExtractionHour(hour).fromMining(mine).build());
+//			}
+//			return results;
+//		}
+//	}
+//
+//	protected void setupMiningRepositoryRecords() throws SQLException {
+//		final List<Map<String, String>> dataTable = this.generateDataTable(recordSource);
+//		for (Map<String, String> row : dataTable) {
+//			final MiningExtraction extraction = this.dataTableToMiningExtractionConverter.convert(row);
+//			this.miningRepository.persist(extraction);
+//		}
+//	}
 
-		static {
-			jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-			jsonMapper.registerModule(new JodaModule());
-		}
-
-		public List<MiningExtraction> generateExtraction( final String identifier, final int hour ) {
-			final String extractionSource = new MiningExtractionGenerator().searchExtraction(identifier, hour);
-			List<GetCharactersCharacterIdMining200Ok> minings = new ArrayList<>();
-			try {
-				minings = jsonMapper.readValue(extractionSource,
-				                               new TypeReference<List<GetCharactersCharacterIdMining200Ok>>() {
-				                               });
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-//			() {})
-//		val gson = Gson()
-//		val minings = gson?.fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
-			final List<MiningExtraction> results = new ArrayList<MiningExtraction>();
-			for (GetCharactersCharacterIdMining200Ok mine : minings) {
-				results.add(new MiningExtraction.Builder().withExtractionHour(hour).fromMining(mine).build());
-			}
-			return results;
-		}
-	}
 }

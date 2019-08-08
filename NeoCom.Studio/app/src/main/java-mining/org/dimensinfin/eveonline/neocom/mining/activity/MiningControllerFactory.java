@@ -9,7 +9,7 @@ import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanel
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionAggregatorController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionController;
-import org.dimensinfin.eveonline.neocom.mining.controller.ResourceController;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
 import org.dimensinfin.eveonline.neocom.mining.controller.TableHeaderController;
 
 /**
@@ -32,7 +32,7 @@ public class MiningControllerFactory extends AppControllerFactory {
 			return new TableHeaderController((TableHeader) node, this);
 		}
 		if (node instanceof Resource) {
-			return new ResourceController((Resource) node, this).setRenderMode(this.getVariant());
+			return new MiningResourceController((Resource) node, this).setRenderMode(this.getVariant());
 		}
 		return super.createController(node);
 	}

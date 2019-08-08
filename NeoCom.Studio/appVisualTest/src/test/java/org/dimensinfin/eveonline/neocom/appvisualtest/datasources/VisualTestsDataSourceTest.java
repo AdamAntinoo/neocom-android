@@ -30,7 +30,7 @@ public class VisualTestsDataSourceTest {
 				     .withVariant(PageNamesType.PLANETS_LIST.name())
 				     .withFactory(factory)
 				     .withEsiDataAdapter(esiDataAdapter)
-				     .withSDEDatabaseAdapter(sdeDatabaseAdapter)
+//				     .withSDEDatabaseAdapter(sdeDatabaseAdapter)
 				     .build();
 	}
 

@@ -13,9 +13,9 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 
-public class ResourceController extends AndroidController<Resource> {
+public class MiningResourceController extends AndroidController<Resource> {
 	// - C O N S T R U C T O R
-	public ResourceController( @NonNull final Resource model, @NonNull final IControllerFactory factory ) {
+	public MiningResourceController( @NonNull final Resource model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 
@@ -46,8 +46,8 @@ public class ResourceController extends AndroidController<Resource> {
 		}
 
 		@Override
-		public ResourceController getController() {
-			return (ResourceController) super.getController();
+		public MiningResourceController getController() {
+			return (MiningResourceController) super.getController();
 		}
 
 		// - I R E N D E R   I N T E R F A C E

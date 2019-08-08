@@ -7,10 +7,12 @@ import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBar;
-import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBarController;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
@@ -23,6 +25,8 @@ import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBar;
+import org.dimensinfin.eveonline.neocom.visual.tests.ui.VisualTestActionBarController;
 
 public class VisualTestsControllerFactory extends ControllerFactory {
 	public VisualTestsControllerFactory( final String selectedVariant ) {
@@ -70,6 +74,12 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof VisualTestActionBar) {
 			return new VisualTestActionBarController((VisualTestActionBar) node, this);
+		}
+		if (node instanceof DailyExtractionResourcesContainer) {
+			return new DailyExtractionResourcesContainerController((DailyExtractionResourcesContainer) node, this);
+		}
+		if (node instanceof Resource) {
+			return new MiningResourceController((Resource) node, this);
 		}
 		return super.createController(node);
 	}

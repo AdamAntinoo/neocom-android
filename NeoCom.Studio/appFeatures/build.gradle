@@ -44,8 +44,8 @@ android {
     sourceSets {
         main.java {
             srcDirs += 'src/main-app/java-app'
-
             srcDirs += 'src/main-features/java-planetary'
+            srcDirs += 'src/main-features/java-mining'
         }
         main.res {
             srcDirs += 'src/main-app/res-app'
@@ -93,13 +93,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.annimon:stream:1.1.9'
 
-//    implementation 'me.relex:circleindicator:2.1.0'
-
     compileOnly 'org.dimensinfin:CoreBase.core:3.0.1'
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
-//    implementation project(':AndroidMVCLibrary') // Required for Renders and Controllers
 
     // N E O C O M
     implementation 'com.jakewharton:disklrucache:2.0.2'
