@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.mining.controller;
 
 import android.content.Context;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
@@ -10,8 +11,8 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.planetary.renders.ResourceFacetedRender;
 
 public class MiningResourceController extends AndroidController<Resource> {
 	// - C O N S T R U C T O R
@@ -34,9 +35,10 @@ public class MiningResourceController extends AndroidController<Resource> {
 	}
 
 	// - R E S O U R C E R E N D E R
-	public static class MiningExtractionResourceRender extends NeoComRenderv2 {
+	public static class MiningExtractionResourceRender extends ResourceFacetedRender {
 		// - U I   F I E L D S
 		private TextView resourceName;
+		private TextView resourceIdentifier;
 		private TextView quantity;
 		private TextView value;
 
@@ -58,17 +60,20 @@ public class MiningResourceController extends AndroidController<Resource> {
 
 		@Override
 		public void initializeViews() {
-			resourceName = this.getView().findViewById(R.id.resourceName);
-			quantity = this.getView().findViewById(R.id.quantity);
-			value = this.getView().findViewById(R.id.value);
+			super.initializeViews();
+			this.resourceName = this.getView().findViewById(R.id.resourceName);
+			this.resourceIdentifier = this.getView().findViewById(R.id.resourceIdentifier);
+			this.quantity = this.getView().findViewById(R.id.quantity);
+			this.value = this.getView().findViewById(R.id.value);
 		}
 
 		@Override
 		public void updateContent() {
-			resourceName.setText(this.getController().getModel().getName());
-			//			resourceTypeId.setText("[#" + this.getController().getModel().getTypeId() + "]");
-			quantity.setText(this.accessQuantity());
-			value.setText(this.accessResourceValue());
+			super.updateContent();
+			this.resourceName.setText(this.getController().getModel().getName());
+			this.resourceIdentifier.setText("#[" + this.getController().getModel().getTypeId() + "]");
+			this.quantity.setText(this.accessQuantity());
+			this.value.setText(this.accessResourceValue());
 		}
 
 		private String accessQuantity() {
@@ -76,7 +81,8 @@ public class MiningResourceController extends AndroidController<Resource> {
 		}
 
 		private String accessResourceValue() {
-			final double value = this.getController().getModel().getItem().getPrice() * this.getController().getModel().getQuantity();
+			final double value = this.getController().getModel().getItem().getPrice() * this.getController().getModel()
+			                                                                                .getQuantity();
 			return this.generatePriceString(value, true, true);
 		}
 	}

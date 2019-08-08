@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/uipanelborderyellow">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderyellow">
 
-	<org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
-			android:id="@+id/resourceName"
-			style="@style/AppTheme.NeoComText.Orange"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentStart="true"
-			android:singleLine="true"
-			android:text="@string/default_resource"/>
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/AppTheme.NodeIcon"
+        android:layout_width="@dimen/halfnodeiconsize"
+        android:layout_height="@dimen/halfnodeiconsize"
+        android:src="@drawable/defaulticonplaceholder"
+        android:visibility="visible" />
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/quantity"
-			style="@style/AppTheme.StockCounter"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_toLeftOf="@+id/value"
-			android:singleLine="true"
-			android:gravity="right"
-			android:text="@string/default_quantity"
-			android:textSize="12sp"/>
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/resourceName"
+        style="@style/AppTheme.NeoComText.Mining.ResourceName.Glow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginTop="@dimen/standardmargin"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:singleLine="true"
+        android:text="@string/default_resource" />
 
-	<org.dimensinfin.android.mvc.fonts.PrototypeTextView
-			android:id="@+id/value"
-			style="@style/AppTheme.StockCounter"
-			android:layout_width="150dip"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentEnd="true"
-			android:singleLine="true"
-			android:gravity="right"
-			android:text="@string/default_bignumber"
-			android:textSize="12sp"/>
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaThinTextView
+        android:id="@+id/resourceIdentifier"
+        style="@style/AppTheme.TextView"
+        android:layout_alignBaseline="@+id/resourceName"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/resourceName"
+        android:text="[60014089]"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/quantity"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/resourceName"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/value"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="@string/default_quantity"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/value"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/resourceName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="@string/default_bignumber"
+        android:textSize="12sp" />
 </RelativeLayout>

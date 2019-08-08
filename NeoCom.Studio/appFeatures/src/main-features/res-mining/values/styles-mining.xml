@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--P L A N E T A R Y   I N T E R A C T I O N-->
+    <style name="AppTheme.NeoComText.Mining.ResourceName" parent="AppTheme.NeoComText.Click">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/default_planetname</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.NeoComText.Mining.ResourceName.Glow" parent="AppTheme.NeoComText.Mining.ResourceName">
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+</resources>

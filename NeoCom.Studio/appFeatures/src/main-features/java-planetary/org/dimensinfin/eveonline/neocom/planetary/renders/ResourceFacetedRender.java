@@ -2,14 +2,15 @@ package org.dimensinfin.eveonline.neocom.planetary.renders;
 
 import android.content.Context;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
+
+import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
-
-import com.squareup.picasso.Picasso;
 
 public abstract class ResourceFacetedRender extends NeoComRenderv2 {
 	private ImageView nodeIcon;
@@ -19,10 +20,10 @@ public abstract class ResourceFacetedRender extends NeoComRenderv2 {
 	}
 
 	// - I R E N D E R
-	@Override
-	public int accessLayoutReference() {
-		return R.layout.commandcenter4colony;
-	}
+//	@Override
+//	public int accessLayoutReference() {
+//		return R.layout.commandcenter4colony;
+//	}
 
 	@Override
 	public void initializeViews() {
