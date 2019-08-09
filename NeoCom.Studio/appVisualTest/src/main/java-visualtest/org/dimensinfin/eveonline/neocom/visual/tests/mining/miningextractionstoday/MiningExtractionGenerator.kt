@@ -119,3 +119,56 @@ const val extraction1330 = """
   }
 ]
 """
+
+const val extraction1400= """
+[
+  {
+    "date": "2019-08-06",
+    "quantity": 25432,
+    "solar_system_id": 30001735,
+    "type_id": 17471
+  },
+  {
+    "date": "2019-08-06",
+    "quantity": 24609,
+    "solar_system_id": 30001735,
+    "type_id": 17459
+  },
+  {
+    "date": "2019-08-06",
+    "quantity": 32667,
+    "solar_system_id": 30001735,
+    "type_id": 17464
+  },
+  {
+    "date": "2019-08-08",
+    "quantity": 14511,
+    "solar_system_id": 30001735,
+    "type_id": 17459
+  },
+  {
+    "date": "2019-08-09",
+    "quantity": 6285,
+    "solar_system_id": 30001740,
+    "type_id": 17453
+  },
+  {
+    "date": "2019-08-09",
+    "quantity": 11312,
+    "solar_system_id": 30001740,
+    "type_id": 17460
+  },
+  {
+    "date": "2019-08-09",
+    "quantity": 31207,
+    "solar_system_id": 30001740,
+    "type_id": 17464
+  },
+  {
+    "date": "2019-08-09",
+    "quantity": 20240,
+    "solar_system_id": 30001740,
+    "type_id": 17471
+  }
+]
+"""

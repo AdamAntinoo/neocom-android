@@ -9,6 +9,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregator;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
@@ -55,6 +56,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 			// - Process the records in order. Aggregate by system.
 			int processingSystem = -1; // Set the flag that we have not currently created any system.
 			MiningExtractionAggregatorAsPanelTitle systemAggregator = null;
+			MiningExtractionAggregator<MiningExtraction> sAggregator = null;
 			for (MiningExtraction extraction : this.extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
 				this.search4PreviousHour(extraction, ids);
