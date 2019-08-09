@@ -1,12 +1,8 @@
 package org.dimensinfin.eveonline.neocom.steps;
 
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.support.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.support.miningExtractions.CucumberTableToMiningExtractionConverter;
-import org.dimensinfin.eveonline.neocom.support.miningExtractions.MiningExtractionsWorld;
 import org.junit.Assert;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,10 +15,10 @@ public class GivenTheNextRecordsOnTheMiningRepository {
 	private CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter;
 //	private MiningRepository miningRepository;
 
-	@Autowired
+//	@Autowired
 	public GivenTheNextRecordsOnTheMiningRepository( /*final MiningExtractionsWorld miningExtractionsWorld,*/
 	                                                 final CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter ) {
-		this.miningExtractionsWorld = miningExtractionsWorld;
+//		this.miningExtractionsWorld = miningExtractionsWorld;
 		this.cucumberTableToMiningExtractionConverter = cucumberTableToMiningExtractionConverter;
 //		this.miningRepository = NeoComComponentFactory.getSingleton().getMiningRepository();
 	}
