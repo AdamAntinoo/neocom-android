@@ -40,9 +40,9 @@ Feature: [DM03] Read the extraction records and aggregate the results to be rend
 	  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | 2019-08-07         | 11             | 92223647 |
 	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 1566     | 0     | 2019-08-07         | 10             | 92223647 |
 	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 421      | 0     | 2019-08-07         | 10             | 92223647 |
-#	And the today date being "2019-08-07"
-#	And the pilot is "92223647"
-#	When the request to get today extraction records is fired
+	And today date being "2019-08-07"
+	And the pilot is "92223647"
+	When the request to get today extraction records is fired
 #	Then there are the next system aggregators
 #	  | solarSystemId | solarSystemName |
 #	  | 30001735      | Uhodoh          |

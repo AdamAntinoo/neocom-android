@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.steps;
 
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.support.miningExtractions.CucumberTableToMiningExtractionConverter;
+import org.dimensinfin.eveonline.neocom.support.miningExtractions.MiningExtractionsWorld;
 import org.junit.Assert;
 
 import java.sql.SQLException;
@@ -11,16 +12,13 @@ import java.util.Map;
 import cucumber.api.java.en.Given;
 
 public class GivenTheNextRecordsOnTheMiningRepository {
-//	private MiningExtractionsWorld miningExtractionsWorld;
+	private MiningExtractionsWorld miningExtractionsWorld;
 	private CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter;
-//	private MiningRepository miningRepository;
 
-//	@Autowired
-	public GivenTheNextRecordsOnTheMiningRepository( /*final MiningExtractionsWorld miningExtractionsWorld,*/
+	public GivenTheNextRecordsOnTheMiningRepository( final MiningExtractionsWorld miningExtractionsWorld,
 	                                                 final CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter ) {
-//		this.miningExtractionsWorld = miningExtractionsWorld;
+		this.miningExtractionsWorld = miningExtractionsWorld;
 		this.cucumberTableToMiningExtractionConverter = cucumberTableToMiningExtractionConverter;
-//		this.miningRepository = NeoComComponentFactory.getSingleton().getMiningRepository();
 	}
 
 	@Given("the next records on the MiningRepository")
@@ -28,7 +26,7 @@ public class GivenTheNextRecordsOnTheMiningRepository {
 		for (Map<String, String> row : cucumberTable) {
 			final MiningExtraction extraction = this.cucumberTableToMiningExtractionConverter.convert(row);
 			Assert.assertNotNull("The record is created.", extraction);
-//			this.miningRepository.persist(extraction);
+			this.miningExtractionsWorld.getMiningRepository().persist(extraction);
 		}
 	}
 }

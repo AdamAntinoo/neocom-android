@@ -13,7 +13,6 @@ import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregator;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,11 +75,11 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 			//				scheduleRefresh(this.refreshTime);
 			//					}
 
-		} catch (SQLException sqle) {
-			// TODO REPLACE BY ANOTHER PATTERN
-			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
-			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			sqle.printStackTrace();
+//		} catch (SQLException sqle) {
+//			// TODO REPLACE BY ANOTHER PATTERN
+//			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
+//			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			sqle.printStackTrace();
 		} catch (RuntimeException rtex) {
 			//			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerDataSource.collaborate2Model"
 			//					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
