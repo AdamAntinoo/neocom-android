@@ -1,5 +1,9 @@
+//plugins {
+//    id "com.github.samueltbrown.cucumber" version "0.9"
+//}
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
+apply from: 'cucumber.gradle'
 
 android {
     testOptions {
