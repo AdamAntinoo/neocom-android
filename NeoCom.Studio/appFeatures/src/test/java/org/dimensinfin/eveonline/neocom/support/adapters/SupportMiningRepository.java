@@ -5,6 +5,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.joda.time.LocalDate;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -20,6 +21,14 @@ public class SupportMiningRepository extends MiningRepository {
 			return 0;
 		}
 	}
+
+	public void remapTodayDate( final LocalDate targetDate ) throws SQLException {
+		this.miningExtractionDao.updateRaw(
+				this.miningExtractionDao.updateBuilder().updateColumnValue("extractionDateName",
+				                                                           targetDate.toString(MiningExtraction.EXTRACTION_DATE_FORMAT))
+				                        .prepareStatementString());
+	}
+
 
 	// - B U I L D E R
 	public static class Builder {

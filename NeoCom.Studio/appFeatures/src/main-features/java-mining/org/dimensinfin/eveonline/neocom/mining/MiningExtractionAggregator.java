@@ -5,11 +5,12 @@ import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiningExtractionAggregator <T extends IAggregableItem>  {
+public class MiningExtractionAggregator<T extends IAggregableItem> extends AggregatorContainer {
 	protected List<T> contents = new ArrayList<>();
-//	@Override
-	public int addPack( final T itemPack ) {
-		this.contents.add(itemPack);
-		return contents.size();
-	}
+
+//		@Override
+//	public int addPack( final T itemPack ) {
+//		this.contents.add(itemPack);
+//		return contents.size();
+//	}
 }

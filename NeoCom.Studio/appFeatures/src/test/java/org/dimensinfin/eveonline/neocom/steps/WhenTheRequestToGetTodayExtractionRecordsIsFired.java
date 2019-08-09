@@ -7,7 +7,13 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 import org.dimensinfin.eveonline.neocom.support.miningExtractions.MiningExtractionsWorld;
+import org.joda.time.LocalDate;
+import org.junit.Assert;
 import org.mockito.Mockito;
+
+import java.sql.SQLException;
+
+import cucumber.api.java.en.When;
 
 public class WhenTheRequestToGetTodayExtractionRecordsIsFired {
 	private MiningExtractionsWorld miningExtractionsWorld;
@@ -16,18 +22,21 @@ public class WhenTheRequestToGetTodayExtractionRecordsIsFired {
 		this.miningExtractionsWorld = miningExtractionsWorld;
 	}
 
-	//	@When("the request to get today extraction records is fired")
-	public void theRequestToGetTodayExtractionRecordsIsFired() {
-		final MiningLedgerDataSourceToday dataSource = new MiningLedgerDataSourceToday.Builder()
-				                                               .addIdentifier(this.getVariant())
-				                                               .addIdentifier(this.getCredential().getAccountId())
-				                                               .withVariant(this.getVariant())
-				                                               .withExtras(this.getExtras())
-				                                               .withFactory(this.createFactory())
-				                                               .withCredential(this.getCredential())
-				                                               .withMiningRepository(this.miningExtractionsWorld.getMiningRepository())
-				                                               .build();
-		dataSource.prepareModel();
+	@When("the request to get today extraction records is fired")
+	public void theRequestToGetTodayExtractionRecordsIsFired() throws SQLException {
+		this.miningExtractionsWorld.setTodayMiningDataSource(new MiningLedgerDataSourceToday.Builder()
+				                                                     .addIdentifier(this.getVariant())
+				                                                     .addIdentifier(this.getCredential().getAccountId())
+				                                                     .withVariant(this.getVariant())
+				                                                     .withExtras(this.getExtras())
+				                                                     .withFactory(this.createFactory())
+				                                                     .withCredential(this.getCredential())
+				                                                     .withMiningRepository(
+						                                                     this.miningExtractionsWorld.getMiningRepository())
+				                                                     .build());
+		Assert.assertNotNull(this.miningExtractionsWorld.getTodayMiningDataSource());
+		this.miningExtractionsWorld.getMiningRepository().remapTodayDate(LocalDate.now());
+		this.miningExtractionsWorld.getTodayMiningDataSource().prepareModel();
 	}
 
 	private Credential getCredential() {

@@ -1,6 +1,8 @@
 @DM03
-Feature: [DM03] Read the extraction records and aggregate the results to be rendered. Fetch the list of extractions for the date
-  of today and aggregate the resources mined on that period into a class that will control all these resources and the rendering.
+Feature: [DM03] Read the extraction records and aggregate the results to be rendered.
+
+  Fetch the list of extractions for the date of today and aggregate the resources mined on that period into a class that
+  will control all these resources and the rendering.
 
 #  @DM03.01
 #  Scenario: [DM03][01] Aggregate the records from all the extractions of the date of today to ge the list of extracted resources
@@ -26,7 +28,7 @@ Feature: [DM03] Read the extraction records and aggregate the results to be rend
 #	  | 17471  | 25432    | 10.0  | 254320 |
 
   @DM03.02
-  Scenario: [DM03][02] Read today's extractions to ge the extraction timetable for the date
+  Scenario: [DM03][02] Read today's extractions to get the extraction timetable for the date
 	Given the next records on the MiningRepository
 	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
 	  | 2019-08-07:14-30001740-17464-92223647 | 17464  | 30001740      | 843      | 0     | 2019-08-07         | 14             | 92223647 |
@@ -43,10 +45,10 @@ Feature: [DM03] Read the extraction records and aggregate the results to be rend
 	And today date being "2019-08-07"
 	And the pilot is "92223647"
 	When the request to get today extraction records is fired
-#	Then there are the next system aggregators
-#	  | solarSystemId | solarSystemName |
-#	  | 30001735      | Uhodoh          |
-#	  | 30001740      | Arakor          |
+	Then there are the next system aggregators
+	  | solarSystemId | solarSystemName |
+	  | 30001735      | Uhodoh          |
+	  | 30001740      | Arakor          |
 #	And system aggregator "30001740" having the next hourly records
 #	  | typeId | solarSystemId | quantity | hour |
 #	  | 17459  | 30001735      | 38087    | 13   |

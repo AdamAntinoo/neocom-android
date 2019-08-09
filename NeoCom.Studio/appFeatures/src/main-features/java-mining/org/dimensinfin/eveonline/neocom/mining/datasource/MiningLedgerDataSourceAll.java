@@ -1,20 +1,28 @@
 package org.dimensinfin.eveonline.neocom.mining.datasource;
 
-import java.sql.SQLException;
-import java.util.Objects;
-
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
+	private Credential credential;
+	private ESIDataAdapter esiDataAdapter;
+	private MiningRepository miningRepository; // The mining persistence repository definition.
+	private List<MiningExtraction> extractions;
+	protected List<MiningExtractionAggregatorAsPanelTitle> extractionsPanels = new ArrayList<>();
+
 	@Override
 	public void prepareModel() {
 		// - A L L   E X T R A C T I O N S
-		try {
+//		try {
 			extractions = this.miningRepository.accessMiningExtractions4Pilot(credential);
 			String processingDate = "";
 			MiningExtractionAggregatorAsPanelTitle<MiningExtraction> dateAggregator = null;
@@ -30,11 +38,11 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 				// Only aggregate extractions marked as hour 24 because the others are daily or redundant data.
 				if (extraction.getExtractionHour() == 24) dateAggregator.addPack(extraction);
 			}
-		} catch (SQLException sqle) {
-			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
-			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			sqle.printStackTrace();
-		}
+//		} catch (SQLException sqle) {
+//			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSourceAll.collaborate2Model"
+//			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+//			sqle.printStackTrace();
+//		}
 	}
 
 	@Override

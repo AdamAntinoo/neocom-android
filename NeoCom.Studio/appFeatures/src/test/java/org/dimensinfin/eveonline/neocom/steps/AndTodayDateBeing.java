@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.steps;
 
 import org.dimensinfin.eveonline.neocom.support.miningExtractions.MiningExtractionsWorld;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import cucumber.api.java.en.And;
 
@@ -13,8 +13,8 @@ public class AndTodayDateBeing {
 	}
 
 	@And("today date being {string}")
-	public void theTodayDateBeing(final  String todayDate ) {
-		this.miningExtractionsWorld.setTodayDate(new DateTime(todayDate));
+	public void theTodayDateBeing( final String todayDate ) {
+		this.miningExtractionsWorld.setTodayDate(new LocalDate(todayDate));
 	}
 }
 

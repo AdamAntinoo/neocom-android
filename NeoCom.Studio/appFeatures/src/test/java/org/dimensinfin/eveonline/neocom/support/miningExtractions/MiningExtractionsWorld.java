@@ -3,24 +3,25 @@ package org.dimensinfin.eveonline.neocom.support.miningExtractions;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 import org.dimensinfin.eveonline.neocom.model.EveItem;
 import org.dimensinfin.eveonline.neocom.support.adapters.NeoComComponentFactory;
-import org.joda.time.DateTime;
+import org.dimensinfin.eveonline.neocom.support.adapters.SupportMiningRepository;
 import org.joda.time.LocalDate;
 
 import java.util.List;
 
 public class MiningExtractionsWorld {
 	private Credential credential;
-	private MiningRepository miningRepository;
+	private SupportMiningRepository miningRepository;
 	private List<MiningExtraction> miningExtractionRecords;
 	private LocalDate processingDate;
 	private int hour;
 	private int pilotIdentifier;
-	private DateTime todayDate;
+	private LocalDate todayDate;
 	private DailyExtractionResourcesContainer resourcesContainer;
+	private MiningLedgerDataSourceToday todayMiningDataSource;
 
 	public MiningExtractionsWorld() {
 		this.credential = new Credential.Builder(92223647)
@@ -47,7 +48,7 @@ public class MiningExtractionsWorld {
 		return this.credential;
 	}
 
-	public MiningRepository getMiningRepository() {
+	public SupportMiningRepository getMiningRepository() {
 		return this.miningRepository;
 	}
 
@@ -91,11 +92,11 @@ public class MiningExtractionsWorld {
 		return verificationRecord.equals(targetRecord);
 	}
 
-	public DateTime getTodayDate() {
+	public LocalDate getTodayDate() {
 		return this.todayDate;
 	}
 
-	public MiningExtractionsWorld setTodayDate( final DateTime todayDate ) {
+	public MiningExtractionsWorld setTodayDate( final LocalDate todayDate ) {
 		this.todayDate = todayDate;
 		return this;
 	}
@@ -106,6 +107,15 @@ public class MiningExtractionsWorld {
 
 	public MiningExtractionsWorld setResourcesContainer( final DailyExtractionResourcesContainer resourcesContainer ) {
 		this.resourcesContainer = resourcesContainer;
+		return this;
+	}
+
+	public MiningLedgerDataSourceToday getTodayMiningDataSource() {
+		return this.todayMiningDataSource;
+	}
+
+	public MiningExtractionsWorld setTodayMiningDataSource( final MiningLedgerDataSourceToday todayMiningDataSource ) {
+		this.todayMiningDataSource = todayMiningDataSource;
 		return this;
 	}
 }
