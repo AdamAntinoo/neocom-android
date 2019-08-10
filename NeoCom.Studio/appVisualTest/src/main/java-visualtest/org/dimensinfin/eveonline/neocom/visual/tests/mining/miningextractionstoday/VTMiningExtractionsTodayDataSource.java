@@ -5,7 +5,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 		this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
 				                       .withCredential(this.credential)
 				                       .withMiningRepository(this.miningRepository)
-				                       .withTargetDate(new DateTime("2019-08-07"))
+				                       .withTargetDate(new LocalDate("2019-08-07"))
 				                       .build());
 		for (MiningExtraction extraction : this.extractions) {
 //			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
