@@ -6,7 +6,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.dimensinfin.eveonline.neocom.planetary.FacilityGeoPosition;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;

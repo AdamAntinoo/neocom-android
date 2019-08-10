@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.support.EsiDataAdapterSupportTest;
 import org.junit.Assert;
 import org.junit.Before;

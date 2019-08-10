@@ -54,6 +54,7 @@ public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 		return ((null != this.databasePath) && (null != this.databaseName));
 	}
 
+	// - I S D E D A T A B A S E A D A P T E R
 	/**
 	 * This is the specific SpringBoot implementation for the SDE database adaptation. We can create compatible
 	 * <code>RawStatements</code> that can isolate the generic database access code from the platform specific. This

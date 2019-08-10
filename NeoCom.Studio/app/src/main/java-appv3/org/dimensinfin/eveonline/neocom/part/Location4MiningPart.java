@@ -24,8 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.ANodeBase4ExpandRender;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -168,9 +166,10 @@ public class Location4MiningPart extends NeoComAbstractExpandablePart implements
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			final String link = getPart().getCastedModel().getUrlLocationIcon();
-			if ((null != link) && (null != nodeIcon))
-				Picasso.get().load(link).into(nodeIcon);
+			// TODO - The station icon should be benerated by the render and not by the Location
+//			final String link = getPart().getCastedModel().getUrlLocationIcon();
+//			if ((null != link) && (null != nodeIcon))
+//				Picasso.get().load(link).into(nodeIcon);
 			locationRegion.setText(this.getPart().getCastedModel().getRegion());
 			locationSystem.setText(this.getPart().getCastedModel().getSystem());
 			locationIdentifier.setText("[" + this.getPart().getCastedModel().getId() + "]");

@@ -32,7 +32,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 

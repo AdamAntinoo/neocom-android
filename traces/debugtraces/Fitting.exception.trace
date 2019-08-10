@@ -15772,7 +15772,7 @@
 12-28 11:43:59.835: I/NEOCOM(18160): >> AbstractPageFragment.onCreateView
 12-28 11:43:59.835: I/NEOCOM(18160): >> CreatePartsTask.doInBackground
 12-28 11:43:59.835: I/SpecialDataSource(18160): >> [ShipsDatasource.collaborate2Model]
-12-28 11:43:59.837: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:43:59.837: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:43:59.837: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Region(ShipsDataSource.java:139)
 12-28 11:43:59.837: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Location(ShipsDataSource.java:132)
 12-28 11:43:59.837: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.collaborate2Model(ShipsDataSource.java:75)
@@ -25065,7 +25065,7 @@
 12-28 11:44:18.839: I/model(18160): [] ], Separator [UNDEFINED
 12-28 11:44:18.839: I/model(18160): [] ]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]]
 12-28 11:44:18.841: I/Fitting(18160): >> Fitting.getManufacturingResources
-12-28 11:44:19.198: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EveLocation.getRegion()' on a null object reference
+12-28 11:44:19.198: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EsiLocation.getRegion()' on a null object reference
 12-28 11:44:19.202: W/System.err(18160): 	at org.dimensinfin.evedroid.model.Fitting.getManufacturingResources(Fitting.java:263)
 12-28 11:44:19.208: W/System.err(18160): 	at org.dimensinfin.evedroid.model.Fitting.collaborate2Model(Fitting.java:116)
 12-28 11:44:19.210: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.FittingDataSource.collaborate2Model(FittingDataSource.java:66)
@@ -26107,7 +26107,7 @@
 12-28 11:44:22.711: I/ShipsFragment(18160): << [ShipsFragment.onStart]
 12-28 11:44:22.722: I/NEOCOM(18160): >> CreatePartsTask.doInBackground
 12-28 11:44:22.722: I/SpecialDataSource(18160): >> [ShipsDatasource.collaborate2Model]
-12-28 11:44:22.727: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:44:22.727: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:44:22.731: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Region(ShipsDataSource.java:139)
 12-28 11:44:22.734: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Location(ShipsDataSource.java:132)
 12-28 11:44:22.737: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.collaborate2Model(ShipsDataSource.java:75)
@@ -27316,7 +27316,7 @@
 12-28 11:45:04.230: I/NEOCOM(18160): >> CreatePartsTask.doInBackground
 12-28 11:45:04.230: I/SpecialDataSource(18160): >> [ShipsDatasource.collaborate2Model]
 12-28 11:45:04.235: I/NEOCOM(18160): << AbstractPageFragment.onCreateView
-12-28 11:45:04.235: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:45:04.235: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:45:04.235: I/ShipsFragment(18160): >> [ShipsFragment.onStart]
 12-28 11:45:04.235: I/ShipsFragment(18160): >> [ShipsFragment.registerDataSource]
 12-28 11:45:04.235: I/ShipsFragment(18160): << [ShipsFragment.registerDataSource]
@@ -30336,7 +30336,7 @@
 12-28 11:45:14.825: I/model(18160): [] ], Separator [UNDEFINED
 12-28 11:45:14.825: I/model(18160): [] ]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]]
 12-28 11:45:14.826: I/Fitting(18160): >> Fitting.getManufacturingResources
-12-28 11:45:14.828: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EveLocation.getRegion()' on a null object reference
+12-28 11:45:14.828: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EsiLocation.getRegion()' on a null object reference
 12-28 11:45:14.829: W/System.err(18160): 	at org.dimensinfin.evedroid.model.Fitting.getManufacturingResources(Fitting.java:263)
 12-28 11:45:14.829: W/System.err(18160): 	at org.dimensinfin.evedroid.model.Fitting.collaborate2Model(Fitting.java:116)
 12-28 11:45:14.829: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.FittingDataSource.collaborate2Model(FittingDataSource.java:66)
@@ -31380,7 +31380,7 @@
 12-28 11:45:16.298: I/ShipsFragment(18160): << [ShipsFragment.onStart]
 12-28 11:45:16.302: I/NEOCOM(18160): >> CreatePartsTask.doInBackground
 12-28 11:45:16.302: I/SpecialDataSource(18160): >> [ShipsDatasource.collaborate2Model]
-12-28 11:45:16.303: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:45:16.303: W/System.err(18160): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:45:16.309: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Region(ShipsDataSource.java:139)
 12-28 11:45:16.309: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Location(ShipsDataSource.java:132)
 12-28 11:45:16.309: W/System.err(18160): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.collaborate2Model(ShipsDataSource.java:75)
@@ -50917,7 +50917,7 @@
 12-28 11:54:56.421: I/NEOCOM(21157): >> AbstractPageFragment.onCreateView
 12-28 11:54:56.422: I/NEOCOM(21157): >> CreatePartsTask.doInBackground
 12-28 11:54:56.422: I/SpecialDataSource(21157): >> [ShipsDatasource.collaborate2Model]
-12-28 11:54:56.422: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:54:56.422: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:54:56.422: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Region(ShipsDataSource.java:139)
 12-28 11:54:56.423: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Location(ShipsDataSource.java:132)
 12-28 11:54:56.423: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.collaborate2Model(ShipsDataSource.java:75)
@@ -60284,7 +60284,7 @@
 12-28 11:59:09.184: I/model(21157): [] ], Separator [UNDEFINED
 12-28 11:59:09.184: I/model(21157): [] ]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]]
 12-28 11:59:09.186: I/Fitting(21157): >> Fitting.getManufacturingResources
-12-28 11:59:09.202: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EveLocation.getRegion()' on a null object reference
+12-28 11:59:09.202: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EsiLocation.getRegion()' on a null object reference
 12-28 11:59:09.203: W/System.err(21157): 	at org.dimensinfin.evedroid.model.Fitting.getManufacturingResources(Fitting.java:263)
 12-28 11:59:09.204: W/System.err(21157): 	at org.dimensinfin.evedroid.model.Fitting.collaborate2Model(Fitting.java:116)
 12-28 11:59:09.204: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.FittingDataSource.collaborate2Model(FittingDataSource.java:66)
@@ -61321,7 +61321,7 @@
 12-28 11:59:12.587: I/ShipsFragment(21157): << [ShipsFragment.onStart]
 12-28 11:59:12.618: I/NEOCOM(21157): >> CreatePartsTask.doInBackground
 12-28 11:59:12.618: I/SpecialDataSource(21157): >> [ShipsDatasource.collaborate2Model]
-12-28 11:59:12.619: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EveLocation.getID()' on a null object reference
+12-28 11:59:12.619: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'long org.dimensinfin.evedroid.model.EsiLocation.getID()' on a null object reference
 12-28 11:59:12.619: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Region(ShipsDataSource.java:139)
 12-28 11:59:12.619: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.add2Location(ShipsDataSource.java:132)
 12-28 11:59:12.619: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.ShipsDataSource.collaborate2Model(ShipsDataSource.java:75)
@@ -62717,7 +62717,7 @@
 12-28 12:00:41.069: I/model(21157): [] ], Separator [UNDEFINED
 12-28 12:00:41.069: I/model(21157): [] ]]] AbstractComplexNode [ex/dow/eren/vis: [true/true/true/true]] ]]
 12-28 12:00:41.069: I/Fitting(21157): >> Fitting.getManufacturingResources
-12-28 12:00:41.079: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EveLocation.getRegion()' on a null object reference
+12-28 12:00:41.079: W/System.err(21157): java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String org.dimensinfin.evedroid.model.EsiLocation.getRegion()' on a null object reference
 12-28 12:00:41.080: W/System.err(21157): 	at org.dimensinfin.evedroid.model.Fitting.getManufacturingResources(Fitting.java:263)
 12-28 12:00:41.080: W/System.err(21157): 	at org.dimensinfin.evedroid.model.Fitting.collaborate2Model(Fitting.java:116)
 12-28 12:00:41.080: W/System.err(21157): 	at org.dimensinfin.evedroid.datasource.FittingDataSource.collaborate2Model(FittingDataSource.java:66)

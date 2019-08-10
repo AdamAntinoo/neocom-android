@@ -5,7 +5,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.support.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.support.adapters.SupportMiningRepository;
 import org.joda.time.LocalDate;

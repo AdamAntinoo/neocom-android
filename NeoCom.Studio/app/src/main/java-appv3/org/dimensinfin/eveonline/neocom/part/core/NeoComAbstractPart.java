@@ -21,7 +21,7 @@ import android.text.Spanned;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.core.model.Separator;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +129,7 @@ public abstract class NeoComAbstractPart<T extends NeoComNode> extends AbstractA
 	}
 
 	@Deprecated
-	protected Spanned colorFormatLocation( final EveLocation location ) {
+	protected Spanned colorFormatLocation( final EsiLocation location ) {
 		StringBuffer htmlLocation = new StringBuffer();
 		double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, NeoComAbstractPart.securityFormatter.format(security)));

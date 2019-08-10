@@ -15,11 +15,6 @@
 //               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.part;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -43,17 +38,20 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractExpandablePart;
 import org.dimensinfin.eveonline.neocom.part.core.NeoComAbstractPart;
 import org.dimensinfin.eveonline.neocom.render.ANodeBaseDecoratedRender;
 
-import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 //import org.dimensinfin.eveonline.neocom.entity.Credential;
 //import org.dimensinfin.eveonline.neocom.entity.Property;
@@ -168,7 +166,7 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 			final int menuItemIndex = item.getItemId();
 			final int itemSelected = item.getItemId();
 			final CharSequence menuItemTitle = item.getTitle();
-			final EveLocation theSelectedLocation = getCastedModel();
+			final EsiLocation theSelectedLocation = getCastedModel();
 			if (null != pilot) {
 				if (null != roles) {
 //					if (menuItemIndex == R.id.context_locationrole_clear)
@@ -303,9 +301,10 @@ public class Location4AssetsPart extends NeoComAbstractExpandablePart implements
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			final String link = getPart().getCastedModel().getUrlLocationIcon();
-			if ((null != link) && (null != nodeIcon))
-				Picasso.get().load(link).into(nodeIcon);
+			// TODO - The station icon should be benerated by the render and not by the Location
+//			final String link = getPart().getCastedModel().getUrlLocationIcon();
+//			if ((null != link) && (null != nodeIcon))
+//				Picasso.get().load(link).into(nodeIcon);
 			locationRegion.setText(this.getPart().getCastedModel().getRegion());
 			locationSystem.setText(this.getPart().getCastedModel().getSystem());
 			locationIdentifier.setText("[" + this.getPart().getCastedModel().getId() + "]");

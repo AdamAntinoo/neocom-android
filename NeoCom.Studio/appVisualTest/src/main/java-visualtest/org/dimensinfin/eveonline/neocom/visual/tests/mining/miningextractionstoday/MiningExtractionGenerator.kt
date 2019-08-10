@@ -69,13 +69,13 @@ const val extraction1230 = """
     "date": "2019-08-06",
     "quantity": 1566,
     "solarSystemId": 30001735,
-    "typeId": 17471
+    "classType": 17471
   },
   {
     "date": "2019-08-06",
     "quantity": 421,
     "solarSystemId": 30001735,
-    "typeId": 17459
+    "classType": 17459
   }
 ]
 """

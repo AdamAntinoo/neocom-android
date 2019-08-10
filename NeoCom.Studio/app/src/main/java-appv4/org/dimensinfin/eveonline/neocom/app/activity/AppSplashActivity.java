@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 
 import java.io.File;
 

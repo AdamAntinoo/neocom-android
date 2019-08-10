@@ -94,7 +94,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 //			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
 //			todayExtractions.add(new MiningExtraction.Builder()
 //					                     .withTypeId(typeId)
-//					                     .withSolarSystemId(30001647)
+//					                     .withSolarSystemLocation(30001647)
 //					                     .withQuantity(quantity + (20 - i) * 100)
 //					                     .withOwnerId(92223647)
 //					                     .withExtractionDate(new LocalDate())

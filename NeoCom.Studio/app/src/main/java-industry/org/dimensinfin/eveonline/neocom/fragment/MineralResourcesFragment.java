@@ -10,13 +10,13 @@ import org.dimensinfin.android.mvc.datasource.MVCDataSourcev3;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.LocationClass;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.exception.NeoComException;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.model.InformationPanel;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
@@ -139,7 +139,7 @@ public class MineralResourcesFragment extends AbstractPagerFragment {
 						// Initialize the data structures to be used for classification.
 						final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
 						final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
-								new EveLocation().setSystem("UNKWNOWN DEEP SPACE")
+								new EsiLocation.Builder().build().setSystem("UNKWNOWN DEEP SPACE")
 						);
 						this.addModelContents(collectorLocation);
 						logger.info("-- [MineralResourcesDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
@@ -163,8 +163,8 @@ public class MineralResourcesFragment extends AbstractPagerFragment {
 						//--- L O O P   S T A R T
 						for (NeoComAsset asset : miningResources) {
 							// Check the asset location. If of type UNKNOWN then it should be processed later.
-							final EveLocation loc = asset.getLocation();
-							if (loc.getTypeId() == ELocationType.UNKNOWN) {
+							final EsiLocation loc = asset.getLocation();
+							if (loc.getClassType() == LocationClass.UNKNOWN) {
 								collectorLocation.addAsset(asset);
 								continue;
 							}

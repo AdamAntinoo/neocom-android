@@ -12,7 +12,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.visual.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday.VTMiningExtractionsTodayFragment;
 import org.dimensinfin.eveonline.neocom.visual.tests.planetary.VTPlanetaryFragment;

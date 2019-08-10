@@ -17,6 +17,7 @@ package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
 
@@ -29,7 +30,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class LocationFacetedAssetsContainer extends EveLocation implements IAssetContainer, IExpandable {
+public class LocationFacetedAssetsContainer extends EsiLocation implements IAssetContainer, IExpandable {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("LocationFacetedAssetsContainer");
 
@@ -42,14 +43,14 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 	private double totalVolume = 0.0;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LocationFacetedAssetsContainer( final EveLocation loc ) {
-		super();
+	public LocationFacetedAssetsContainer( final EsiLocation loc ) {
+		super(loc.getId());
 		this.copyFrom(loc);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public LocationFacetedAssetsContainer copyFrom( final EveLocation loc ) {
-		// Copy the EveLocation fields to this instance fields;
+	public LocationFacetedAssetsContainer copyFrom( final EsiLocation loc ) {
+		// Copy the EsiLocation fields to this instance fields;
 		this.setConstellation(loc.getConstellation());
 		this.setConstellationId(loc.getConstellationId());
 		this.setRegion(loc.getRegion());
@@ -59,7 +60,7 @@ public class LocationFacetedAssetsContainer extends EveLocation implements IAsse
 		this.setSystem(loc.getSystem());
 		this.setSystemId(loc.getSystemId());
 		this.setSecurity(loc.getSecurity());
-		this.setTypeId(loc.getTypeId());
+		this.setClassType(loc.getClassType());
 		return this;
 	}
 

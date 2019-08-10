@@ -28,7 +28,7 @@ import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.entities.RefiningData;
 import org.dimensinfin.eveonline.neocom.entities.TimeStamp;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	private Dao<DatabaseVersion, String> versionDao;
 	private Dao<TimeStamp, String> timeStampDao;
 	private Dao<Credential, String> credentialDao;
-	private Dao<EveLocation, String> locationDao;
+	private Dao<EsiLocation, String> locationDao;
 	private Dao<Property, String> propertyDao;
 	private Dao<NeoComAsset, String> assetDao;
 	private Dao<NeoComBlueprint, String> blueprintDao;
@@ -139,7 +139,7 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+			TableUtils.createTableIfNotExists(databaseConnection, EsiLocation.class);
 		} catch (SQLException sqle) {
 			logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 		}
@@ -294,17 +294,17 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 			}
 			try {
 				// Drop all the tables to force a new update from the latest SQLite version.
-				TableUtils.dropTable(databaseConnection, EveLocation.class, true);
+				TableUtils.dropTable(databaseConnection, EsiLocation.class, true);
 				try {
-					TableUtils.createTableIfNotExists(databaseConnection, EveLocation.class);
+					TableUtils.createTableIfNotExists(databaseConnection, EsiLocation.class);
 				} catch (SQLException sqle) {
 					logger.warn("SQL [NeoComAndroidDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 				}
 			} catch (RuntimeException rtex) {
-				logger.error("E> Error dropping table EveLocation on Database new version.");
+				logger.error("E> Error dropping table EsiLocation on Database new version.");
 				rtex.printStackTrace();
 			} catch (SQLException sqle) {
-				logger.error("E> Error dropping table EveLocation on Database new version.");
+				logger.error("E> Error dropping table EsiLocation on Database new version.");
 				sqle.printStackTrace();
 			}
 		}
@@ -403,9 +403,9 @@ public class NeoComAndroidDBHelper extends OrmLiteSqliteOpenHelper implements IN
 	}
 
 	@Override
-	public Dao<EveLocation, String> getLocationDao() throws SQLException {
+	public Dao<EsiLocation, String> getLocationDao() throws SQLException {
 		if (null == locationDao) {
-			locationDao = DaoManager.createDao(this.getConnectionSource(), EveLocation.class);
+			locationDao = DaoManager.createDao(this.getConnectionSource(), EsiLocation.class);
 		}
 		return locationDao;
 	}

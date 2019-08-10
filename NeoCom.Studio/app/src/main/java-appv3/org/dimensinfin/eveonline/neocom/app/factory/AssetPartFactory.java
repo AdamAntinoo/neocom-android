@@ -70,8 +70,8 @@ public class AssetPartFactory extends PartFactory implements IPartFactory {
 					.setRenderMode(this.getVariant());
 			return part;
 		}
-		//			if ( node instanceof EveLocation ) {
-		//				IPart part = new Location4AssetsPart((EveLocation) node).setFactory(this)
+		//			if ( node instanceof EsiLocation ) {
+		//				IPart part = new Location4AssetsPart((EsiLocation) node).setFactory(this)
 		//				                                                        .setRenderMode(ENeoComVariants.valueOf(this.getVariant()).name());
 		//				return part;
 		//			}

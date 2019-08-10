@@ -17,6 +17,8 @@ package org.dimensinfin.eveonline.neocom.model;
 
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.market.MarketDataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class RefiningDetailReport extends EveItem {
+public class RefiningDetailReport extends org.dimensinfin.eveonline.neocom.domain.EveItem {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("RefiningDetailReport");
 
@@ -36,7 +38,7 @@ public class RefiningDetailReport extends EveItem {
 	private int resourceTypeId = 1230;
 	private Credential credential = null;
 	private int resourceLocation;
-	private EveLocation closestRefiningLocation;
+	private org.dimensinfin.eveonline.neocom.domain.EsiLocation closestRefiningLocation;
 
 	private transient EveItem item = null;
 
@@ -133,7 +135,7 @@ public class RefiningDetailReport extends EveItem {
 		return this;
 	}
 
-	public RefiningDetailReport setClosestRefiningLocation( final EveLocation closestRefiningLocation ) {
+	public RefiningDetailReport setClosestRefiningLocation( final EsiLocation closestRefiningLocation ) {
 		this.closestRefiningLocation = closestRefiningLocation;
 		return this;
 	}

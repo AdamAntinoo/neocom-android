@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.services.ESIDataPersistenceService;
 import org.slf4j.Logger;

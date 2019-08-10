@@ -16,7 +16,7 @@
         the records to be compatible.</string>
     <string name="databasechangeversioncomment_v103">v103 - Updated the structure of the Credentials. Added the ColonyStorage. Added identifier to the timestamp to simplify updates.</string>
     <string name="databasechangeversioncomment_v095">v095 - Added the Credential table to store ESI credentials.</string>
-    <string name="databasechangeversioncomment_v094">v094 - Chnaged the format for the EveLocation. Table reconstructed.</string>
+    <string name="databasechangeversioncomment_v094">v094 - Chnaged the format for the EsiLocation. Table reconstructed.</string>
     <string name="databasechangeversioncomment_v093">v093 - Changed the type field on the Locations to store the new type texts.</string>
     <string name="databasechangeversioncomment_v092">v092 - Added a new filed to ApiKey to activate/deactivate keys.</string>
     <string name="databasechangeversioncomment_v091">v091 - Added the TimeStamp table to control assets download.</string>

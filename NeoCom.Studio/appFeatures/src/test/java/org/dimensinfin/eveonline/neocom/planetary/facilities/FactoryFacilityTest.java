@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
 import org.dimensinfin.eveonline.neocom.support.TestEsiAdapterReady;

@@ -14,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.datamngmt.ESIGlobalAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
 import org.dimensinfin.eveonline.neocom.visual.app.database.SDEAndroidDBHelper;
 import org.slf4j.Logger;

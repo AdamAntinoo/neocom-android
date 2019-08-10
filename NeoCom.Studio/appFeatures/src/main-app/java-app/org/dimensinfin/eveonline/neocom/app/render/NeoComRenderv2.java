@@ -18,7 +18,7 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.joda.time.Instant;
@@ -167,7 +167,7 @@ public abstract class NeoComRenderv2 extends MVCRender {
 		return Html.fromHtml(htmlFragment.toString());
 	}
 
-	protected Spanned colorFormatLocation( final EveLocation location ) {
+	protected Spanned colorFormatLocation( final EsiLocation location ) {
 		final StringBuilder htmlLocation = new StringBuilder();
 		final double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, securityFormatter.format(security)));
@@ -341,7 +341,7 @@ public abstract class NeoComRenderv2 extends MVCRender {
 		return iconUrl;
 	}
 
-	protected Spanned regionSystemLocation( final EveLocation loc ) {
+	protected Spanned regionSystemLocation( final EsiLocation loc ) {
 		final StringBuilder htmlLocation = new StringBuilder();
 		final String security = loc.getSecurity();
 		String secColor = securityLevels.get(security);

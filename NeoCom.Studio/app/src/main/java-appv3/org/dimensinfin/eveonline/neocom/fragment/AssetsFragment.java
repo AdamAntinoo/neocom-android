@@ -25,8 +25,8 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.datasource.ACredentialEnabledDS;
+import org.dimensinfin.eveonline.neocom.domain.LocationClass;
 import org.dimensinfin.eveonline.neocom.entities.NeoComAsset;
-import org.dimensinfin.eveonline.neocom.enums.ELocationType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.app.factory.AssetPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IAssetContainer;
@@ -34,7 +34,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IAssetsManagerOwner;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
 import org.dimensinfin.eveonline.neocom.managers.AssetsManager;
 import org.dimensinfin.eveonline.neocom.model.ContainerFacetedAssetsContainer;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.model.LocationFacetedAssetsContainer;
 import org.dimensinfin.eveonline.neocom.model.Region;
 import org.dimensinfin.eveonline.neocom.model.ShipFacetedAssetsContainer;
@@ -177,7 +177,7 @@ public class AssetsFragment extends AbstractPagerFragment {
 
 					// Add the collector Location for orphaned assets.
 					final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
-							new EveLocation().setSystem("UNKWNOWN DEEP SPACE")
+							new EsiLocation.Builder().build().setSystem("UNKWNOWN DEEP SPACE")
 					);
 					this.addModelContents(collectorLocation);
 
@@ -201,8 +201,8 @@ public class AssetsFragment extends AbstractPagerFragment {
 							if (!check) continue;
 						}
 						// Check the asset location. If of type UNKNOWN then it should be processed later.
-						final EveLocation loc = processingAsset.getLocation();
-						if (loc.getTypeId() == ELocationType.UNKNOWN) {
+						final EsiLocation loc = processingAsset.getLocation();
+						if (loc.getClassType() == LocationClass.UNKNOWN) {
 							unprocessedAssets.put(processingAsset.getAssetId(), processingAsset);
 							// If this is a container we have to add it to the container list.
 							if (processingAsset.isContainer()) {

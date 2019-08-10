@@ -34,7 +34,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class NeoComRender extends AbstractRender {
@@ -149,7 +149,7 @@ public abstract class NeoComRender extends AbstractRender {
 		return Html.fromHtml(htmlFragment.toString());
 	}
 
-	protected Spanned colorFormatLocation( final EveLocation location ) {
+	protected Spanned colorFormatLocation( final EsiLocation location ) {
 		final StringBuffer htmlLocation = new StringBuffer();
 		final double security = location.getSecurityValue();
 		htmlLocation.append(this.generateSecurityColor(security, NeoComRender.securityFormatter.format(security)));
@@ -315,9 +315,9 @@ public abstract class NeoComRender extends AbstractRender {
 		}
 	}
 
-	protected Spanned regionSystemLocation( final EveLocation loc ) {
+	protected Spanned regionSystemLocation( final EsiLocation loc ) {
 		final StringBuffer htmlLocation = new StringBuffer();
-		// EveLocation loc =
+		// EsiLocation loc =
 		// NeoComAppConnector.getSingleton().getDBConnector().searchLocationbyID(getCastedModel().getBlueprintLocationID());
 		final String security = loc.getSecurity();
 		String secColor = NeoComRender.securityLevels.get(security);

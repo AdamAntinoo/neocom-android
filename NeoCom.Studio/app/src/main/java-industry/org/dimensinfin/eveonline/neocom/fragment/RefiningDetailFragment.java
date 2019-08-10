@@ -29,8 +29,8 @@ import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
 import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.model.EveItem;
-import org.dimensinfin.eveonline.neocom.model.EveLocation;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 
@@ -90,7 +90,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 				final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
 				final PilotV2 pilot = AndroidGlobalDataManager.fastRequestPilotV2(credential);
 				final List<Property> locationRoles = pilot.getLocationRoles();
-				final EveLocation closestRefiningLocation = searchClosestRefiningStation(resourceSystemId, locationRoles);
+				final EsiLocation closestRefiningLocation = searchClosestRefiningStation(resourceSystemId, locationRoles);
 				// TODO - Continue with the development
 				final RefiningDetailReport report = new RefiningDetailReport(resourceTypeId)
 						.setCredential(credential)
@@ -120,7 +120,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	 * @param resourceLocation
 	 * @return
 	 */
-	protected EveLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
+	protected EsiLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
 		// Initialize the searcher to the resource location;
 		int refiningTarget = resourceLocation;
 		int minJumps = 999;
@@ -140,7 +140,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		return AndroidGlobalDataManager.getSingleton().searchLocation4Id(refiningTarget);
 	}
 
-	//	public static class RefiningLocation extends EveLocation {
+	//	public static class RefiningLocation extends EsiLocation {
 	//		private int locationId = -1;
 	//
 	//		public RefiningLocation( final int resourceLocation ) {
