@@ -2,3 +2,5 @@ build/
 target/
 AcceptanceTests/
 src/test/NeoCom.UnitTest/
+
+.project
