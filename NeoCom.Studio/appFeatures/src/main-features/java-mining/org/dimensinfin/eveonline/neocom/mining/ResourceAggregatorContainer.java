@@ -43,7 +43,7 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 			return this;
 		}
 
-		public ResourceAggregatorContainer build() {
+		public ResourceAggregatorContainer<F> build() {
 			Objects.requireNonNull(this.onConstruction.facetDelegate);
 			return this.onConstruction;
 		}

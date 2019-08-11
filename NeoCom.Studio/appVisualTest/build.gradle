@@ -44,6 +44,7 @@ android {
     sourceSets {
         main.java {
             srcDirs += 'src/main/java-visualtest'
+            srcDirs += project(':app').file('src/main/java-adapters')
         }
         main.res {
             srcDirs += 'src/main/res-visualtest'

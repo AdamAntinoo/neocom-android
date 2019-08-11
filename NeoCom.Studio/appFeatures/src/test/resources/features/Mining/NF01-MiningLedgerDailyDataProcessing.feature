@@ -67,3 +67,9 @@ Feature: [NF01] Process the data to be shown on the Mining Ledger Daily page.
 	  | 2019-08-07:14-30001740-17464-92223647 | 17464  | 30001740      | 843      | 14   |
 	  | 2019-08-07:14-30001740-17460-92223647 | 17460  | 30001740      | 8266     | 14   |
 	  | 2019-08-07:14-30001740-17453-92223647 | 17453  | 30001740      | 3345     | 14   |
+
+  @NF01.03
+  Scenario: [NF01.03] Missed the check of data that have differences betewwen hours
+
+  @NF01.04
+  Scenario: [NF01.04] Check the collaborate2Model code

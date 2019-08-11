@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.database;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.dimensinfin.eveonline.neocom.app.adapters.SDEAndroidDBHelper;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 

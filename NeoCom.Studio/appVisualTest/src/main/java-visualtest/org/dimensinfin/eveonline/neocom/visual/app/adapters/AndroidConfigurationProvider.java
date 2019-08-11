@@ -38,7 +38,8 @@ public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 						// Copy properties to globals.
 						configurationProperties.putAll(properties);
 					} catch (IOException ioe) {
-						logger.error("E [AndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
+						logger.error(
+								"E [AndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
 								fileName, ioe.getMessage());
 						ioe.printStackTrace();
 					}
@@ -60,9 +61,11 @@ public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 			final String[] list = this.applicationContext.getAssets().list(path);
 			if (list.length > 0) {
 				for (String file : list) {
-					if (file.indexOf(".") < 0) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
+					if (file.indexOf(
+							".") < 0) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
 						//						System.out.println("This is a folder = "+path+"/"+file);
-						final List<String> dirList = getResourceFiles(file); // <<-- To get subdirectory files and directories list and check
+						final List<String> dirList = getResourceFiles(
+								file); // <<-- To get subdirectory files and directories list and check
 						// Copy the file list to the results.
 						propertyFiles.addAll(dirList);
 					} else {

@@ -1,16 +1,25 @@
-package org.dimensinfin.eveonline.neocom.database;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.database.sqlite.SQLiteDatabase;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
@@ -21,14 +30,27 @@ public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 	private String databaseName;
 	private int databaseVersion = 0;
 	private SQLiteDatabase ccpDatabase;
+	private JdbcPooledConnectionSource connectionSource = null;
+
+	private Dao<EsiLocation, Long> locationDao = null;
 
 	private SDEAndroidDBHelper() {
 		super();
 	}
 
+	public Dao<EsiLocation, Long> getLocationDao() throws SQLException {
+		if (null == this.locationDao)
+			this.locationDao = DaoManager.createDao(this.connectionSource, EsiLocation.class);
+		return this.locationDao;
+	}
+
 	protected SQLiteDatabase getSDEDatabase() {
 		if (null == this.ccpDatabase) this.openSDEDB();
 		return this.ccpDatabase;
+	}
+
+	private String getConnectionDescriptor() {
+		return this.schema + ":" + this.databasePath + this.databaseName;
 	}
 
 	/**
@@ -49,12 +71,33 @@ public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 		}
 		logger.info("<< [SDEAndroidDBHelper.openSDEDB]");
 	}
+	private void createConnectionSource() throws SQLException {
+		this.connectionSource = new JdbcPooledConnectionSource( this.schema + ":" +
+				                                                        this.fileSystemAdapter.accessResource4Path(
+				                                                        		this.databasePath + this.databaseName));
+		this.connectionSource.setMaxConnectionAgeMillis(TimeUnit.MINUTES.toMillis(5)); // Keep the connections open for 5 minutes
+		this.connectionSource.setCheckConnectionsEveryMillis(TimeUnit.SECONDS.toMillis(60));
+		this.connectionSource.setTestBeforeGet(
+				true); // Enable the testing of connections right before they are handed to the user
+	}
 
 	protected boolean isDatabaseDefinitionValid() {
 		return ((null != this.databasePath) && (null != this.databaseName));
 	}
 
+	private void onCreate( final ConnectionSource databaseConnection ) {
+		logger.info(">> [SDEDatabaseAdapter.onCreate]");
+		// Create the tables that do not exist
+		try {
+			TableUtils.createTableIfNotExists(databaseConnection, EsiLocation.class);
+		} catch (SQLException sqle) {
+			logger.warn("SQL [SDEDatabaseAdapter.onCreate]> SQL SDEDatabase: {}", sqle.getMessage());
+		}
+		logger.info("<< [SDEDatabaseAdapter.onCreate]");
+	}
+
 	// - I S D E D A T A B A S E A D A P T E R
+
 	/**
 	 * This is the specific SpringBoot implementation for the SDE database adaptation. We can create compatible
 	 * <code>RawStatements</code> that can isolate the generic database access code from the platform specific. This
@@ -68,11 +111,11 @@ public class SDEAndroidDBHelper implements ISDEDatabaseAdapter {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-				.append("schema", schema)
-				.append("databasePath", databasePath)
-				.append("databaseName", databaseName)
-				.append("databaseVersion", databaseVersion)
-				.toString();
+				       .append("schema", schema)
+				       .append("databasePath", databasePath)
+				       .append("databaseName", databaseName)
+				       .append("databaseVersion", databaseVersion)
+				       .toString();
 	}
 
 	// - B U I L D E R

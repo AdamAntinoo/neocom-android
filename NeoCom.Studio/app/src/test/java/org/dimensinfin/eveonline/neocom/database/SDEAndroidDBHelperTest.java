@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
+import org.dimensinfin.eveonline.neocom.app.adapters.SDEAndroidDBHelper;
 import org.junit.Assert;
 import org.mockito.BDDMockito;
 import org.powermock.api.mockito.PowerMockito;

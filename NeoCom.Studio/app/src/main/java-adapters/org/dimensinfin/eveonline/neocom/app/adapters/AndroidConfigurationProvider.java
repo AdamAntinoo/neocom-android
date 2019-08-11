@@ -1,32 +1,28 @@
 package org.dimensinfin.eveonline.neocom.app.adapters;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
-
 import android.content.Context;
 
 import com.annimon.stream.Stream;
 
 import org.dimensinfin.eveonline.neocom.conf.GlobalConfigurationProvider;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+
 /**
  * @author Adam Antinoo
  */
 public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
-	// - F I E L D - S E C T I O N
 	private Context applicationContext;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	private AndroidConfigurationProvider( final String propertiesFolder/*, final Application applicationContext */ ) {
+	// - C O N S T R U C T O R S
+	private AndroidConfigurationProvider( final String propertiesFolder ) {
 		super(propertiesFolder);
-		//		this.applicationContext = applicationContext;
-		//		initialize();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void readAllProperties() {
 		logger.info(">> [AndroidConfigurationProvider.readAllProperties]");
 		// Read all .properties files under the predefined path on the /assets folder.
@@ -42,7 +38,8 @@ public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 						// Copy properties to globals.
 						configurationProperties.putAll(properties);
 					} catch (IOException ioe) {
-						logger.error("E [AndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
+						logger.error(
+								"E [AndroidConfigurationProvider.readAllProperties]> Exception reading properties file {}. {}",
 								fileName, ioe.getMessage());
 						ioe.printStackTrace();
 					}
@@ -64,9 +61,11 @@ public class AndroidConfigurationProvider extends GlobalConfigurationProvider {
 			final String[] list = this.applicationContext.getAssets().list(path);
 			if (list.length > 0) {
 				for (String file : list) {
-					if (file.indexOf(".") < 0) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
+					if (file.indexOf(
+							".") < 0) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
 						//						System.out.println("This is a folder = "+path+"/"+file);
-						final List<String> dirList = getResourceFiles(file); // <<-- To get subdirectory files and directories list and check
+						final List<String> dirList = getResourceFiles(
+								file); // <<-- To get subdirectory files and directories list and check
 						// Copy the file list to the results.
 						propertyFiles.addAll(dirList);
 					} else {

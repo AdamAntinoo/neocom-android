@@ -1,4 +1,3 @@
-//               runtime implementation provided by the Application.
 package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.app.Application;

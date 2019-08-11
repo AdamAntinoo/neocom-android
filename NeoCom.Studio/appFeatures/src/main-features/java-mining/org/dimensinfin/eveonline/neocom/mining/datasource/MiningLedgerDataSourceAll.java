@@ -49,7 +49,7 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 	public void collaborate2Model() {
 		// - D A T A   S E C T I O N
 		final PanelTitle title = new PanelTitle("ALL MINING EXTRACTIONS BY DATE");
-		if (extractions.size() < 1)
+		if (this.extractions.isEmpty())
 			title.setTitle("There are no Mining Extractions.");
 		//		else
 		//			title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");

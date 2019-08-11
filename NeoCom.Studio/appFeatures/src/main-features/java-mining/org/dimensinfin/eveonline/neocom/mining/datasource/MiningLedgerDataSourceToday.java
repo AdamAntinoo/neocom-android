@@ -7,8 +7,8 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
-import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 import org.joda.time.LocalDate;
 
 import java.sql.SQLException;
@@ -50,15 +50,14 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 		logger.info(">> [MiningLedgerDataSource.prepareModel]");
 		try {
 			this.extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
-			final Map<String, MiningExtraction> ids = new HashMap();
+			final Map<String, MiningExtraction> ids = new HashMap<>();
 			// Create a map of all the record ids to search for previous hours
 			for (MiningExtraction extraction : this.extractions)
 				ids.put(extraction.getId(), extraction);
 
 			// - Process the records in order. Aggregate by system.
 			int processingSystem = -1; // Set the flag that we have not currently created any system.
-			ResourceAggregatorContainer<EsiLocation> systemAggregator = null;
-//			MiningExtractionAggregator<MiningExtraction> sAggregator = null;
+			ResourceAggregatorContainer systemAggregator = null;
 			for (MiningExtraction extraction : this.extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
 				this.search4PreviousHour(extraction, ids);
@@ -67,19 +66,13 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 					// Create a new aggregator and use it to get the rest of the extractors inside.
 					systemAggregator = new ResourceAggregatorContainer.Builder<EsiLocation>()
 							                   .withFacet(this.esiDataAdapter.searchLocation4Id(
-							                   		new Long(extraction.getSolarSystemId())))
+									                   extraction.getSolarSystemId()))
 							                   .build();
 					this.extractionSystems.add(systemAggregator);
 					processingSystem = extraction.getSolarSystemId();
 				}
-				systemAggregator.addPack(extraction); // Add the extraction to the aggregator
-//				this.accountResource(extraction.getTypeId(), extraction.getQuantity());
-				//				extractionCount++;
+				if (null != systemAggregator) systemAggregator.addPack(extraction); // Add the extraction to the aggregator
 			}
-			// Update the number of extractions.
-			//				title.setTitle("TODAY MINING EXTRACTIONS [" + extractionCount + "]");
-			//				scheduleRefresh(this.refreshTime);
-			//					}
 		} catch (SQLException sqle) {
 			// TODO REPLACE BY ANOTHER PATTERN
 			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
@@ -97,16 +90,22 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	@Override
 	public void collaborate2Model() {
 		// - H E A D E R   S E C T I O N
-		this.addHeaderContents(new TableHeader()); // Add the resource table header
-//		for (int i = 0, arraySize = this.resources.size(); i < arraySize; i++) {
-//			final Resource resource = this.resources.valueAt(i);
-//			this.addHeaderContents(resource);
-//		}
+////		protected void fillResources() {
+//			if (null == this.targetDate) this.targetDate = LocalDate.now();
+//			final List<MiningExtraction> extractions = this.miningRepository.accessResources4Date(
+//					this.credential,
+//					this.targetDate);
+//			this.resources.clear();
+//			for (MiningExtraction extraction : extractions) {
+//				this.resources.add(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+//			}
+////		}
+		this.addHeaderContents(new DailyExtractionResourcesContainer()); // Add the resource table header
 
 		// - D A T A   S E C T I O N
 		final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
-		if (extractions.size() < 1) title.setTitle("There are no Mining Extractions Today.");
-		else title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
+		if (this.extractions.isEmpty()) title.setTitle("There are no Mining Extractions Today.");
+		else title.setTitle("TODAY MINING EXTRACTIONS [" + this.extractions.size() + "]");
 		this.addModelContents(title);
 		for (ResourceAggregatorContainer panel : this.extractionSystems)
 			this.addModelContents(panel);
@@ -116,24 +115,6 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	public int getExtractionsProcessed() {
 		return this.extractions.size();
 	}
-
-//	public SparseArray<Resource> getResources() {
-//		return this.resources;
-//	}
-
-//	/**
-//	 * Record the resources extracted on some extractions to generate a list of resources mined today.
-//	 *
-//	 * @param typeId   the type identifier of the resource
-//	 * @param quantity the quantity of resource units
-//	 */
-//	private void accountResource( final int typeId, final long quantity ) {
-//		final int qty = Long.valueOf(quantity).intValue();
-//		if (null != this.resources.valueAt(typeId)) {
-//			final Resource hit = this.resources.get(typeId);
-//			hit.add(qty);
-//		} else this.resources.put(typeId, new Resource(typeId, qty));
-//	}
 
 	private boolean search4PreviousHour( final MiningExtraction extraction, final Map<String, MiningExtraction> ids ) throws SQLException {
 		final String recordDate = extraction.getExtractionDateName();
@@ -171,6 +152,16 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 			return this;
 		}
 
+		@Override
+		public MiningLedgerDataSourceToday build() {
+			// Check additional mandatory fields.
+			final MiningLedgerDataSourceToday target = super.build();
+			Objects.requireNonNull(target.credential);
+			Objects.requireNonNull(target.miningRepository);
+			Objects.requireNonNull(target.esiDataAdapter);
+			return target;
+		}
+
 		public MiningLedgerDataSourceToday.Builder withCredential( final Credential credential ) {
 			this.getActual().credential = credential;
 			return this;
@@ -184,16 +175,6 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 		public MiningLedgerDataSourceToday.Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
 			this.getActual().esiDataAdapter = esiDataAdapter;
 			return this;
-		}
-
-		@Override
-		public MiningLedgerDataSourceToday build() {
-			// Check additional mandatory fields.
-			final MiningLedgerDataSourceToday target = super.build();
-			Objects.requireNonNull(target.credential);
-			Objects.requireNonNull(target.miningRepository);
-			Objects.requireNonNull(target.esiDataAdapter);
-			return target;
 		}
 	}
 }
