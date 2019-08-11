@@ -23,6 +23,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class NF01ProcessMiningLedgerDaily {
+	private static final String ID = "id";
 	private static final String SOLAR_SYSTEM_ID = "solarSystemId";
 	private static final String SOLAR_SYSTEM_NAME = "solarSystemName";
 	private static final String TYPE_ID = "typeId";
@@ -73,17 +74,22 @@ public class NF01ProcessMiningLedgerDaily {
 		for (ResourceAggregatorContainer<EsiLocation> container : systems) {
 			if (container.getFacetDelegate().getId() == Integer.parseInt(locationId)) {
 				final List<MiningExtraction> extractions = container.getContentList();
-				int extractionIndex = 0;
 				for (Map<String, String> row : cucumberTable) {
-					Assert.assertEquals(Integer.parseInt(row.get(TYPE_ID)), extractions.get(extractionIndex).getTypeId());
-					Assert.assertEquals(Integer.parseInt(row.get(SOLAR_SYSTEM_ID)),
-					                    extractions.get(extractionIndex).getSolarSystemId());
-					Assert.assertEquals(Integer.parseInt(row.get(QUANTITY)), extractions.get(extractionIndex).getQuantity());
-					Assert.assertEquals(Integer.parseInt(row.get(HOUR)), extractions.get(extractionIndex).getExtractionHour());
-					extractionIndex++;
+					final MiningExtraction extraction = this.searchExtraction4Id(row.get(ID), extractions);
+					Assert.assertEquals(Integer.parseInt(row.get(TYPE_ID)), extraction.getTypeId());
+					Assert.assertEquals(Integer.parseInt(row.get(SOLAR_SYSTEM_ID)), extraction.getSolarSystemId());
+					Assert.assertEquals(Integer.parseInt(row.get(QUANTITY)), extraction.getQuantity());
+					Assert.assertEquals(Integer.parseInt(row.get(HOUR)), extraction.getExtractionHour());
 				}
 			}
 		}
+	}
+
+	private MiningExtraction searchExtraction4Id( final String id, final List<MiningExtraction> extractionList ) {
+		for (MiningExtraction extraction : extractionList) {
+			if (id.equalsIgnoreCase(extraction.getId())) return extraction;
+		}
+		throw new NullPointerException("The extraction was not found.");
 	}
 
 	private Credential getCredential() {
