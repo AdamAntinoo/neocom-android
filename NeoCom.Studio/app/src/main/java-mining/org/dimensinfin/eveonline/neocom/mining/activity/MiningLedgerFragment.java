@@ -2,10 +2,10 @@ package org.dimensinfin.eveonline.neocom.mining.activity;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;

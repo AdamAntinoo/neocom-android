@@ -19,33 +19,47 @@ public class MiningExtractionDatabaseRecordGenerator {
 	 * Preload on the visual test database the required records to be used on the test data rendering. This replaces the mock
 	 * interceptors to give the same functionality but for database based data sources.
 	 */
-	private static String RECORDS_SOURCE = "\t  | id                                    | typeId | solarSystemId | quantity | " +
-			                                       "delta | extractionDateName | extractionHour | ownerId  |\n" +
-			                                       "\t  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | 2019-08-07         | 10             | 92223647 |\n" +
-			                                       "\t  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | 2019-08-07         | 10             | 92223647 |\n" +
-			                                       "\t  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | 2019-08-07         | 11             | 92223647 |\n" +
-			                                       "\t  | 2019-08-07:11-30001735-17459-92223647 | 17464  | 30001735      | 30348    | 0     | 2019-08-07         | 11             | 92223647 |\n" +
-			                                       "\t  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | 2019-08-07      " +
-			                                       "  | 11             | 92223647 |\n";
+	private static String RECORDS_SOURCE =
+			"\t  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |\n" +
+					"\t  | 2019-08-07:14-30001740-17464-92223647 | 17464  | 30001740      | 843      | 0     | 2019-08-07         | 14             | 92223647 |\n" +
+					"\t  | 2019-08-07:14-30001740-17460-92223647 | 17460  | 30001740      | 8266     | 0     | 2019-08-07         | 14             | 92223647 |\n" +
+					"\t  | 2019-08-07:14-30001740-17453-92223647 | 17453  | 30001740      | 3345     | 0     | 2019-08-07         | 14             | 92223647 |\n" +
+					"\t  | 2019-08-07:13-30001735-17459-92223647 | 17459  | 30001735      | 38087    | 14511 | 2019-08-07         | 13             | 92223647 |\n" +
+					"\t  | 2019-08-07:12-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | 2019-08-07         | 12             | 92223647 |\n" +
+					"\t  | 2019-08-07:12-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | 2019-08-07         | 12             | 92223647 |\n" +
+					"\t  | 2019-08-07:12-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | 2019-08-07         | 12             | 92223647 |\n" +
+					"\t  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | 2019-08-07         | 11             | 92223647 |\n" +
+					"\t  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | 2019-08-07         | 11             | 92223647 |\n" +
+					"\t  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 1566     | 0     | 2019-08-07         | 10             | 92223647 |\n" +
+					"\t  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 421      | 0     | 2019-08-07         | 10             | 92223647 |\n";
 	private List<Map<String, String>> dataTable;
 	private DataTableToMiningExtractionConverter dataTableToMiningExtractionConverter = new DataTableToMiningExtractionConverter();
 	private MiningRepository miningRepository;
 
-	public List<MiningExtraction> accessTodayMiningExtractions4Pilot( final Credential credential ) {
-		final List<MiningExtraction> records = new ArrayList<>();
-		for (Map<String, String> row : dataTable)
-			records.add(this.dataTableToMiningExtractionConverter.convert(row));
-		return records;
+	public void loadMockData2Repository( final Credential credential ) {
+		this.dataTable = this.generateDataTable(RECORDS_SOURCE);
+		try {
+			this.persistTable(this.dataTable);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void persistTable() throws SQLException {
+//	public List<MiningExtraction> accessTodayMiningExtractions4Pilot( final Credential credential ) {
+//		final List<MiningExtraction> records = new ArrayList<>();
+//		for (Map<String, String> row : dataTable)
+//			records.add(this.dataTableToMiningExtractionConverter.convert(row));
+//		return records;
+//	}
+
+	private void persistTable(final List<Map<String, String>> dataTable) throws SQLException {
 		for (Map<String, String> row : dataTable) {
 			final MiningExtraction extraction = this.dataTableToMiningExtractionConverter.convert(row);
 			this.miningRepository.persist(extraction);
 		}
 	}
 
-	protected List<Map<String, String>> generateDataTable( final String source ) {
+	private List<Map<String, String>> generateDataTable( final String source ) {
 		final List<Map<String, String>> dataTable = new ArrayList<>();
 		final String filteredSource = RECORDS_SOURCE.replaceFirst("^\\s*\t\\s*|", "").replaceFirst(Pattern.quote("|"), "");
 		String columnRecord = filteredSource.split("\n")[0].trim();
@@ -64,8 +78,8 @@ public class MiningExtractionDatabaseRecordGenerator {
 
 	private List<String> extractDataFields( final String source ) {
 		return Arrays.asList(source.replaceFirst("^\\s*\t\\s*|", "")
-		                           .replaceFirst(Pattern.quote("|"), "")
-		                           .split(Pattern.quote("|"))
+				                     .replaceFirst(Pattern.quote("|"), "")
+				                     .split(Pattern.quote("|"))
 		);
 	}
 
@@ -84,13 +98,13 @@ public class MiningExtractionDatabaseRecordGenerator {
 		}
 
 		public MiningExtractionDatabaseRecordGenerator build() {
-			Objects.requireNonNull(this.onConstruction.miningRepository);
-			this.onConstruction.dataTable = this.onConstruction.generateDataTable(RECORDS_SOURCE);
-			try {
-				this.onConstruction.persistTable();
-			} catch (SQLException e) {
-				throw new NullPointerException("The internal extractionrecord table cannot be persisted.");
-			}
+//			Objects.requireNonNull(this.onConstruction.miningRepository);
+//			this.onConstruction.dataTable = this.onConstruction.generateDataTable(RECORDS_SOURCE);
+//			try {
+//				this.onConstruction.persistTable();
+//			} catch (SQLException e) {
+//				throw new NullPointerException("The internal extractionrecord table cannot be persisted.");
+//			}
 			return this.onConstruction;
 		}
 	}

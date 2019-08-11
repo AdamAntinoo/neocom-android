@@ -1,20 +1,32 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
+import org.dimensinfin.eveonline.neocom.visual.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.visual.app.support.SupportMiningRepository;
 import org.joda.time.LocalDate;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
+	private ESIDataAdapter esiDataAdapter;
 	private MiningRepository miningRepository;
 	private Credential credential;
+	private MiningExtractionDatabaseRecordGenerator miningExtractionDatabaseRecordGenerator;
+
 	private List<MiningExtraction> extractions;
-	private MiningExtractionDatabaseRecordGenerator miningExtractionDatabaseRecordGenerator ;
+	private List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
 
 	/**
 	 * The preparation should generate two sets of data. One for the header (the list of resources mined) and the other for the
@@ -22,7 +34,37 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	 */
 	@Override
 	public void prepareModel() {
-		this.extractions = this.miningExtractionDatabaseRecordGenerator.accessTodayMiningExtractions4Pilot(this.credential);
+		this.initializeRepository();
+		logger.info(">> [VTMiningExtractionsTodayDataSource.prepareModel]");
+		try {
+			this.extractions = this.miningRepository.accessTodayMiningExtractions4Pilot(this.credential);
+			final Map<String, MiningExtraction> ids = new HashMap<>();
+			// Create a map of all the record ids to search for previous hours
+			for (MiningExtraction extraction : this.extractions)
+				ids.put(extraction.getId(), extraction);
+
+			// - Process the records in order. Aggregate by system.
+			int processingSystem = -1; // Set the flag that we have not currently created any system.
+			ResourceAggregatorContainer systemAggregator = null;
+			for (MiningExtraction extraction : this.extractions) {
+				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
+//				this.search4PreviousHour(extraction, ids);
+				final int systemId = extraction.getSolarSystemId(); // Add the record but aggregate by system.
+				if (processingSystem != systemId) {
+					// Create a new aggregator and use it to get the rest of the extractors inside.
+					systemAggregator = new ResourceAggregatorContainer.Builder<EsiLocation>()
+							                   .withFacet(this.esiDataAdapter.searchLocation4Id(
+									                   extraction.getSolarSystemId()))
+							                   .build();
+					this.extractionSystems.add(systemAggregator);
+					processingSystem = extraction.getSolarSystemId();
+				}
+				if (null != systemAggregator) systemAggregator.addPack(extraction); // Add the extraction to the aggregator
+			}
+		} catch (RuntimeException rtex) {
+			rtex.printStackTrace();
+		}
+		logger.info("<< [VTMiningExtractionsTodayDataSource.collaborate2Model]");
 	}
 
 	@Override
@@ -34,6 +76,25 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 				                       .build());
 		for (MiningExtraction extraction : this.extractions) {
 //			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+		}
+	}
+
+	private void initializeRepository() {
+		try {
+			final SupportMiningRepository miningRepository = new SupportMiningRepository.Builder()
+					                                                 .withMiningExtractionDao(
+							                                                 NeoComComponentFactory.getSingleton()
+									                                                 .getNeoComDBHelper()
+									                                                 .getMiningExtractionDao())
+					                                                 .build();
+			miningRepository.deleteAll(); // Clean up the respository.
+			this.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
+					                                               .withMiningRepository(miningRepository)
+					                                               .build();
+			this.miningExtractionDatabaseRecordGenerator.loadMockData2Repository(
+					this.credential); // Load up the mock data used on the acceptance tests.
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -52,6 +113,23 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 			return this;
 		}
 
+		@Override
+		public VTMiningExtractionsTodayDataSource build() {
+			final VTMiningExtractionsTodayDataSource ds = super.build();
+			Objects.requireNonNull(this.onConstruction.credential);
+			Objects.requireNonNull(this.onConstruction.miningRepository);
+			this.onConstruction.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
+					                                                              .withMiningRepository(
+							                                                              this.onConstruction.miningRepository)
+					                                                              .build();
+			return ds;
+		}
+
+		public VTMiningExtractionsTodayDataSource.Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
+		}
+
 		public VTMiningExtractionsTodayDataSource.Builder withCredential( final Credential credential ) {
 			Objects.requireNonNull(credential);
 			this.onConstruction.credential = credential;
@@ -63,81 +141,5 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 			this.onConstruction.miningRepository = miningRepository;
 			return this.getActualBuilder();
 		}
-
-		@Override
-		public VTMiningExtractionsTodayDataSource build() {
-			final VTMiningExtractionsTodayDataSource ds = super.build();
-			Objects.requireNonNull(this.onConstruction.credential);
-			Objects.requireNonNull(this.onConstruction.miningRepository);
-			this.onConstruction.miningExtractionDatabaseRecordGenerator= new MiningExtractionDatabaseRecordGenerator.Builder()
-																				 .withMiningRepository(this.onConstruction.miningRepository)
-					                                                             .build();
-			return ds;
-		}
 	}
-
-//	private List<MiningExtraction> generateMockExtractions() {
-//		final List<MiningExtraction> extractions4Test = new MiningExtractionConverter()
-//				                                                .generateExtraction("93813310-12-30", 12);
-//		return extractions4Test;
-////		extractions4Test.clear();
-////		// Generate 5 different hours for today.
-////		extractions4Test.addAll(this.extractionGenerator(34, 10000));
-////		extractions4Test.addAll(this.extractionGenerator(45498, 10000));
-//	}
-
-	//	private List<MiningExtraction> extractionGenerator( final int typeId, final int quantity ) {
-//		final List<MiningExtraction> todayExtractions = new ArrayList<>();
-//		// Generate 5 different hours for today.
-//		for (int i = 5; i > 0; i--) {
-//			final String date = DateTime.now().toString("YYYY/MM/dd");
-//			final String id = MiningExtraction.generateRecordId(date, 20 - i, typeId, 30001647, 92223647);
-//			todayExtractions.add(new MiningExtraction.Builder()
-//					                     .withTypeId(typeId)
-//					                     .withSolarSystemLocation(30001647)
-//					                     .withQuantity(quantity + (20 - i) * 100)
-//					                     .withOwnerId(92223647)
-//					                     .withExtractionDate(new LocalDate())
-//					                     .withExtractionHour(20 - i)
-//					                     .build());
-//		}
-//		return todayExtractions;
-//	}
-//	public static class MiningExtractionConverter {
-//		public static final ObjectMapper jsonMapper = new ObjectMapper();
-//
-//		static {
-//			jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-//			jsonMapper.registerModule(new JodaModule());
-//		}
-//
-//		public List<MiningExtraction> generateExtraction( final String identifier, final int hour ) {
-//			final String extractionSource = new MiningExtractionGenerator().searchExtraction(identifier, hour);
-//			List<GetCharactersCharacterIdMining200Ok> minings = new ArrayList<>();
-//			try {
-//				minings = jsonMapper.readValue(extractionSource,
-//				                               new TypeReference<List<GetCharactersCharacterIdMining200Ok>>() {
-//				                               });
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-////			() {})
-////		val gson = Gson()
-////		val minings = gson?.fromJson(extractionSource, Array<GetCharactersCharacterIdMining200Ok>::class.java)
-//			final List<MiningExtraction> results = new ArrayList<MiningExtraction>();
-//			for (GetCharactersCharacterIdMining200Ok mine : minings) {
-//				results.add(new MiningExtraction.Builder().withExtractionHour(hour).fromMining(mine).build());
-//			}
-//			return results;
-//		}
-//	}
-//
-//	protected void setupMiningRepositoryRecords() throws SQLException {
-//		final List<Map<String, String>> dataTable = this.generateDataTable(recordSource);
-//		for (Map<String, String> row : dataTable) {
-//			final MiningExtraction extraction = this.dataTableToMiningExtractionConverter.convert(row);
-//			this.miningRepository.persist(extraction);
-//		}
-//	}
-
 }
