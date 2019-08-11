@@ -3,16 +3,16 @@ package org.dimensinfin.eveonline.neocom.support.miningExtractions;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.support.adapters.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.support.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.support.adapters.SupportMiningRepository;
 import org.joda.time.LocalDate;
 
 import java.util.List;
 
-public class MiningExtractionsWorld {
+public class FeaturesMiningExtractionsWorld extends MiningExtractionsWorld {
 	private Credential credential;
 	private SupportMiningRepository miningRepository;
 	private List<MiningExtraction> miningExtractionRecords;
@@ -23,7 +23,7 @@ public class MiningExtractionsWorld {
 	private DailyExtractionResourcesContainer resourcesContainer;
 	private MiningLedgerDataSourceToday todayMiningDataSource;
 
-	public MiningExtractionsWorld() {
+	public FeaturesMiningExtractionsWorld() {
 		this.credential = new Credential.Builder(92223647)
 				                  .withAccountId(92223647)
 				                  .withAccountName("Beth Ripley")

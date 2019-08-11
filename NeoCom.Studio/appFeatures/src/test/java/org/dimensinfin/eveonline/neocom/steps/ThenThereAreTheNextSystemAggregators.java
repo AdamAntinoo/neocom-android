@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.steps;
 
 import org.dimensinfin.eveonline.neocom.mining.AggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.ExtractionSystem;
-import org.dimensinfin.eveonline.neocom.support.miningExtractions.MiningExtractionsWorld;
+import org.dimensinfin.eveonline.neocom.support.miningExtractions.FeaturesMiningExtractionsWorld;
 import org.junit.Assert;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import cucumber.api.java.en.Then;
 public class ThenThereAreTheNextSystemAggregators {
 	private static final String SOLAR_SYSTEM_ID = "solarSystemId";
 	private static final String SOLAR_SYSTEM_NAME = "solarSystemName";
-	private MiningExtractionsWorld miningExtractionsWorld;
+	private FeaturesMiningExtractionsWorld miningExtractionsWorld;
 
-	public ThenThereAreTheNextSystemAggregators( final MiningExtractionsWorld miningExtractionsWorld ) {
+	public ThenThereAreTheNextSystemAggregators( final FeaturesMiningExtractionsWorld miningExtractionsWorld ) {
 		this.miningExtractionsWorld = miningExtractionsWorld;
 	}
 

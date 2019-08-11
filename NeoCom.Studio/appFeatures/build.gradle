@@ -63,7 +63,9 @@ android {
             srcDirs += 'src/main-features/res-industry'
         }
         test.java {
-            srcDir project(':NeoCom.DataManagement').file("src/test/java-support")
+            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
+            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-steps")
+            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-support")
         }
     }
     compileOptions {

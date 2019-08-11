@@ -1,12 +1,12 @@
 @NF01
 Feature: [NF01] Process the data to be shown on the Mining Ledger Daily page.
 
-  During the preparation phase read today extractions from the Mining Extractions repository and generate the ate to
-  de rendered. There are two sets of data. The aggregated list of resources extracted to be rendered on the
+  During the preparation phase read today extractions from the Mining Extractions repository and generate the data to
+  be rendered. There are two sets of data. The aggregated list of resources extracted to be rendered on the
   header and the list of extractions aggregated by extraction location and hourly presented and evaluated.
 
   @NF01.01
-  Scenario: [NF01] Aggregate the records from all the extractions of the date of today to get the list of extracted resources
+  Scenario: [NF01.01] Aggregate the records from all the extractions of the date of today to get the list of extracted resources
 	Given the next records on the MiningRepository
 	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
 	  | 2019-08-08:24-30001735-17459-92223647 | 17459  | 30001735      | 14511    | 0     | 2019-08-08         | 24             | 92223647 |
