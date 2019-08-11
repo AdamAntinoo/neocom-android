@@ -4,6 +4,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 apply from: 'cucumber.gradle'
+apply from: 'tasks.gradle'
 
 android {
     testOptions {
@@ -82,7 +83,6 @@ android {
         preDexLibraries true
     }
 }
-
 
 // - A N D R O I D    S U P P O R T
 dependencies {

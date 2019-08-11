@@ -6,8 +6,8 @@ import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.mining.AggregatorContainer;
-import org.dimensinfin.eveonline.neocom.mining.ExtractionSystem;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.TableHeader;
 import org.joda.time.LocalDate;
 
@@ -20,17 +20,18 @@ import java.util.Objects;
 
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends MVCDataSource {
+	// -  C O M P O N E N T S
 	private Credential credential;
 	private ESIDataAdapter esiDataAdapter;
 	private MiningRepository miningRepository; // The mining persistence repository definition.
+
 	private List<MiningExtraction> extractions;
-	private List<AggregatorContainer> extractionSystems = new ArrayList<>();
- //	private SparseArray<Resource> resources = new SparseArray<>();
+	private List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
 	protected MiningLedgerDataSourceToday() {}
 
-	public List<AggregatorContainer> getExtractionSystems() {
+	public List<ResourceAggregatorContainer<EsiLocation>> getExtractionSystems() {
 		return this.extractionSystems;
 	}
 // - I D A T A S O U R C E   I N T E R F A C E
@@ -56,7 +57,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 
 			// - Process the records in order. Aggregate by system.
 			int processingSystem = -1; // Set the flag that we have not currently created any system.
-			AggregatorContainer<MiningExtraction> systemAggregator = null;
+			ResourceAggregatorContainer<EsiLocation> systemAggregator = null;
 //			MiningExtractionAggregator<MiningExtraction> sAggregator = null;
 			for (MiningExtraction extraction : this.extractions) {
 				// Search on the ids if this record has a previous hour record. This is the current id less 1 hour.
@@ -64,11 +65,9 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 				final int systemId = extraction.getSolarSystemId(); // Add the record but aggregate by system.
 				if (processingSystem != systemId) {
 					// Create a new aggregator and use it to get the rest of the extractors inside.
-					systemAggregator = new AggregatorContainer.Builder<MiningExtraction>()
-							                   .withFacet(new ExtractionSystem.Builder()
-									                              .withSystemId(extraction.getSolarSystemId())
-									                              .withSystemName(extraction.getSystemName())
-									                              .build())
+					systemAggregator = new ResourceAggregatorContainer.Builder<EsiLocation>()
+							                   .withFacet(this.esiDataAdapter.searchLocation4Id(
+							                   		new Long(extraction.getSolarSystemId())))
 							                   .build();
 					this.extractionSystems.add(systemAggregator);
 					processingSystem = extraction.getSolarSystemId();
@@ -109,7 +108,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 		if (extractions.size() < 1) title.setTitle("There are no Mining Extractions Today.");
 		else title.setTitle("TODAY MINING EXTRACTIONS [" + extractions.size() + "]");
 		this.addModelContents(title);
-		for (AggregatorContainer panel : this.extractionSystems)
+		for (ResourceAggregatorContainer panel : this.extractionSystems)
 			this.addModelContents(panel);
 	}
 
@@ -193,6 +192,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 			final MiningLedgerDataSourceToday target = super.build();
 			Objects.requireNonNull(target.credential);
 			Objects.requireNonNull(target.miningRepository);
+			Objects.requireNonNull(target.esiDataAdapter);
 			return target;
 		}
 	}

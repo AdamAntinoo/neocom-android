@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AggregatorContainer<T extends IAggregableItem> extends NeoComExpandableNode {
+public class AggregatorContainer<T> extends NeoComExpandableNode {
 	private List<T> contents = new ArrayList<>();
-	private ExtractionSystem facetDelegate;
+	private IFacet facetDelegate;
 
 	public int addPack( final T itemPack ) {
 		this.contents.add(itemPack);
 		return this.contents.size();
 	}
 
-	public ExtractionSystem getFacetDelegate() {
+	public IFacet getFacetDelegate() {
 		return this.facetDelegate;
 	}
 
@@ -33,7 +33,7 @@ public class AggregatorContainer<T extends IAggregableItem> extends NeoComExpand
 			this.onConstruction = new AggregatorContainer<>();
 		}
 
-		public Builder withFacet( final ExtractionSystem facet ) {
+		public Builder withFacet( final IFacet facet ) {
 			Objects.requireNonNull(facet);
 			this.onConstruction.facetDelegate = facet;
 			return this;

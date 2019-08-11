@@ -57,19 +57,19 @@ public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> e
 	// - I E X P A N D A B L E
 //	@Override
 //	public boolean collapse() {
-//		_expanded = false;
-//		return _expanded;
+//		expanded = false;
+//		return expanded;
 //	}
 //
 ////	@Override
 //	public boolean expand() {
-//		_expanded = true;
-//		return _expanded;
+//		expanded = true;
+//		return expanded;
 //	}
 //
 //	public boolean toggleExpand() {
-//		this._expanded = !this._expanded;
-//		return this._expanded;
+//		this.expanded = !this.expanded;
+//		return this.expanded;
 //	}
 //
 ////	@Override

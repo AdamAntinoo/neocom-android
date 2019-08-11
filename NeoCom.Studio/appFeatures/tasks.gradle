@@ -1,0 +1,21 @@
+// - T A S K S
+// Install the SDE database on the assets for testing
+ext {
+    assetsPath = "$projectDir/AcceptanceTests"
+}
+task copySDEDatabase(type: Copy) {
+    group = "publishing"
+    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
+    into "$assetsPath"
+}
+task renameSDEDatabase(type: Copy) {
+    group = "publishing"
+    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+    from project(':NeoCom.DataManagement').file("src/main/sh/*.db")
+    rename { String filename ->
+        return 'sde-acceptance.db'
+    }
+    into "$assetsPath"
+}
+copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')
