@@ -22,8 +22,7 @@ public class DataTableToMiningExtractionConverter extends DataTableConverter<Min
 		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		return new MiningExtraction.Builder()
 				       .withTypeId(Integer.parseInt(cucumberCardRow.get(TYPE_ID)))
-					   // TODO - To set the location there should be access to the ESI data adapter
-//				       .withSolarSystemLocation(Integer.parseInt(cucumberCardRow.get(SOLAR_SYSTEM_ID)))
+				       .withSolarSystemId(Integer.parseInt(cucumberCardRow.get(SOLAR_SYSTEM_ID)))
 				       .withQuantity(Integer.parseInt(cucumberCardRow.get(QUANTITY)))
 				       .withExtractionDate(dtf.parseLocalDate(cucumberCardRow.get(EXTRACTION_DATE_NAME)))
 				       .withExtractionHour(Integer.parseInt(cucumberCardRow.get(EXTRACTION_HOUR)))

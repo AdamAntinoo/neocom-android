@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
@@ -32,9 +33,12 @@ public class MiningExtractionDatabaseRecordGenerator {
 					"\t  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | 2019-08-07         | 11             | 92223647 |\n" +
 					"\t  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 1566     | 0     | 2019-08-07         | 10             | 92223647 |\n" +
 					"\t  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 421      | 0     | 2019-08-07         | 10             | 92223647 |\n";
-	private List<Map<String, String>> dataTable;
-	private DataTableToMiningExtractionConverter dataTableToMiningExtractionConverter = new DataTableToMiningExtractionConverter();
+	// - C O M P O N E N T S
+	private ESIDataAdapter esiDataAdapter;
 	private MiningRepository miningRepository;
+	private DataTableToMiningExtractionConverter dataTableToMiningExtractionConverter = new DataTableToMiningExtractionConverter();
+
+	private List<Map<String, String>> dataTable;
 
 	public void loadMockData2Repository( final Credential credential ) {
 		this.dataTable = this.generateDataTable(RECORDS_SOURCE);
@@ -52,20 +56,21 @@ public class MiningExtractionDatabaseRecordGenerator {
 //		return records;
 //	}
 
-	private void persistTable(final List<Map<String, String>> dataTable) throws SQLException {
+	private void persistTable( final List<Map<String, String>> dataTable ) throws SQLException {
 		for (Map<String, String> row : dataTable) {
 			final MiningExtraction extraction = this.dataTableToMiningExtractionConverter.convert(row);
+			extraction.setSolarSystemLocation(this.esiDataAdapter.searchLocation4Id(extraction.getSolarSystemId()));
 			this.miningRepository.persist(extraction);
 		}
 	}
 
 	private List<Map<String, String>> generateDataTable( final String source ) {
 		final List<Map<String, String>> dataTable = new ArrayList<>();
-		final String filteredSource = RECORDS_SOURCE.replaceFirst("^\\s*\t\\s*|", "").replaceFirst(Pattern.quote("|"), "");
+		final String filteredSource = source.replaceFirst("^\\s*\t\\s*|", "").replaceFirst(Pattern.quote("|"), "");
 		String columnRecord = filteredSource.split("\n")[0].trim();
 		columnRecord = columnRecord.substring(0, columnRecord.length() - 1);
 		final List<String> columNames = Arrays.asList(columnRecord.split(Pattern.quote("|")));
-		for (int i = 1; i < 6; i++) {
+		for (int i = 1; i < 12; i++) {
 			final List<String> dataFields = this.extractDataFields(filteredSource.split("\n")[i]);
 			int j = 0;
 			final Map<String, String> row = new HashMap<>();
@@ -91,20 +96,20 @@ public class MiningExtractionDatabaseRecordGenerator {
 			this.onConstruction = new MiningExtractionDatabaseRecordGenerator();
 		}
 
-		public Builder withMiningRepository( final MiningRepository miningRepository ) {
+		public MiningExtractionDatabaseRecordGenerator.Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
+		}
+
+		public MiningExtractionDatabaseRecordGenerator.Builder withMiningRepository( final MiningRepository miningRepository ) {
 			Objects.requireNonNull(miningRepository);
 			this.onConstruction.miningRepository = miningRepository;
 			return this;
 		}
 
 		public MiningExtractionDatabaseRecordGenerator build() {
-//			Objects.requireNonNull(this.onConstruction.miningRepository);
-//			this.onConstruction.dataTable = this.onConstruction.generateDataTable(RECORDS_SOURCE);
-//			try {
-//				this.onConstruction.persistTable();
-//			} catch (SQLException e) {
-//				throw new NullPointerException("The internal extractionrecord table cannot be persisted.");
-//			}
+			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
+			Objects.requireNonNull(this.onConstruction.miningRepository);
 			return this.onConstruction;
 		}
 	}
