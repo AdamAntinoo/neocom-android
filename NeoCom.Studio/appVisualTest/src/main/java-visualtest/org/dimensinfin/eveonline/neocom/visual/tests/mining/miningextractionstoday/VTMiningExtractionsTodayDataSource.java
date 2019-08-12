@@ -6,6 +6,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.visual.app.NeoComComponentFactory;
@@ -69,14 +70,19 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 
 	@Override
 	public void collaborate2Model() {
-		this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
-				                       .withCredential(this.credential)
-				                       .withMiningRepository(this.miningRepository)
-				                       .withTargetDate(new LocalDate("2019-08-07"))
-				                       .build());
-		for (MiningExtraction extraction : this.extractions) {
-//			this.addHeaderContents(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+		final List<Resource> resources = new ArrayList<>();
+		final List<MiningExtraction> extractions = this.miningRepository.accessResources4Date(
+				this.credential,
+				LocalDate.now());
+		for (MiningExtraction extraction : extractions) {
+			resources.add(new Resource(extraction.getTypeId(), extraction.getQuantity()));
 		}
+		this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
+//				                       .withCredential(this.credential)
+				                       .withResourceList(resources)
+				                       .build());
+		for (ResourceAggregatorContainer system : this.extractionSystems)
+			this.addModelContents(system);
 	}
 
 	private void initializeRepository() {
@@ -122,7 +128,8 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			Objects.requireNonNull(this.onConstruction.miningRepository);
 			this.onConstruction.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
-																				  .withEsiDataAdapter(this.onConstruction.esiDataAdapter)
+					                                                              .withEsiDataAdapter(
+							                                                              this.onConstruction.esiDataAdapter)
 					                                                              .withMiningRepository(
 							                                                              this.onConstruction.miningRepository)
 					                                                              .build();

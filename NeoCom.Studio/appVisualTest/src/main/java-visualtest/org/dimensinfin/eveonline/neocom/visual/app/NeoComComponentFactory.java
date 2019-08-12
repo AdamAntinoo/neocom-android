@@ -199,6 +199,7 @@ public class NeoComComponentFactory {
 		if (null == this.miningRepository) {
 			try {
 				miningRepository = new MiningRepository.Builder()
+										   .withEsiDataAdapter(this.getEsiDataAdapter())
 						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
 						                   .build();
 			} catch (SQLException sqle) {

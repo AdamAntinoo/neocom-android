@@ -24,6 +24,13 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 		return this.contents;
 	}
 
+	public Double getResourcesValue() {
+		Double value = new Double(0.0);
+		for (MiningExtraction extraction : this.contents)
+			value += extraction.getPrice() * extraction.getQuantity();
+		return value;
+	}
+
 	@Override
 	public boolean isEmpty() {
 		return this.contents.isEmpty();

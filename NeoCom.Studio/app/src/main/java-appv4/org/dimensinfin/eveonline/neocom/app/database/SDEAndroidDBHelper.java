@@ -26,9 +26,9 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 
 	// - C O M P O N E N T S
 	private Context appContext;
-	private IFileSystem fileSystemAdapter;
+//	private IFileSystem fileSystemAdapter;
 
-//	private String schema = "jdbc:sqlite";
+	//	private String schema = "jdbc:sqlite";
 //	private String databasePath;
 //	private String databaseName;
 	private String storageLocation = "";
@@ -45,7 +45,7 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 				, databaseName);
 		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
 				, databaseVersion);
-		this.appContext=context;
+		this.appContext = context;
 		this.storageLocation = databaseName;
 		this.databaseVersion = databaseVersion;
 		this.openSDEDB();
@@ -55,9 +55,9 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 //		super();
 //	}
 
-	private void setFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
-		this.fileSystemAdapter = fileSystemAdapter;
-	}
+//	private void setFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
+//		this.fileSystemAdapter = fileSystemAdapter;
+//	}
 
 	protected SQLiteDatabase getSDEDatabase() {
 		if (null == this.ccpDatabase) this.openSDEDB();
@@ -78,8 +78,8 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	protected void openSDEDB() {
 		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
 		if ((null == this.ccpDatabase) && (this.isDatabaseDefinitionValid())) {
-			final String path = this.fileSystemAdapter.accessResource4Path(this.storageLocation);
-			this.ccpDatabase = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+			final String path = "jdbc:sqlite" + ":" + this.appContext.getResources().getString(R.string.sdedatabasefilename);
+			this.ccpDatabase = SQLiteDatabase.openDatabase(this.storageLocation, null, SQLiteDatabase.OPEN_READWRITE);
 			Objects.requireNonNull(this.ccpDatabase);
 			logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}."
 					, path, databaseVersion);
@@ -161,9 +161,9 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	// - B U I L D E R
 	public static class Builder {
 		private Context appContext;
-		private IFileSystem fileSystemAdapter;
+		//		private IFileSystem fileSystemAdapter;
 		private String databaseName;
-		private String storageLocation;
+//		private String storageLocation;
 
 		public Builder() {
 //			this.onConstruction = new SDEAndroidDBHelper();
@@ -174,32 +174,31 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 			return this;
 		}
 
-		public Builder withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
-			this.fileSystemAdapter = fileSystemAdapter;
+//		public Builder withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
+//			this.fileSystemAdapter = fileSystemAdapter;
+//			return this;
+//		}
+//
+//		public SDEAndroidDBHelper.Builder withDatabaseLocation( final String location ) {
+//			this.storageLocation = location;
+//			return this;
+//		}
+
+		public SDEAndroidDBHelper.Builder withDatabaseName( final String databaseName ) {
+			this.databaseName = databaseName;
 			return this;
 		}
 
-		public SDEAndroidDBHelper.Builder withDatabaseLocation( final String location ) {
-			this.storageLocation = location;
-			return this;
-		}
-
-		public SDEAndroidDBHelper.Builder withDatabaseName( final String instanceName ) {
-			this.databaseName = instanceName;
-			return this;
-		}
-
-		public ISDEDatabaseAdapter build() {
+		public ISDEDatabaseAdapter build( final IFileSystem fileSystem ) {
 			// Check and create only a singleton helper.
 			if (null == singleton) {
 				Objects.requireNonNull(this.appContext);
 				Objects.requireNonNull(this.databaseName);
-				Objects.requireNonNull(this.storageLocation);
-				Objects.requireNonNull(this.fileSystemAdapter);
-				singleton = new SDEAndroidDBHelper(this.appContext
-						, this.fileSystemAdapter.accessResource4Path(databaseName)
-						, 0);
-				singleton.setFileSystemAdapter(this.fileSystemAdapter);
+//				Objects.requireNonNull(this.storageLocation);
+//				Objects.requireNonNull(this.fileSystemAdapter);
+				singleton = new SDEAndroidDBHelper(this.appContext,
+				                                   fileSystem.accessResource4Path(databaseName),
+				                                   100);
 			}
 			return singleton;
 		}

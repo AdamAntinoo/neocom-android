@@ -9,8 +9,8 @@ import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.GlobalAndroidPreferencesProvider;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.app.adapters.SDEAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.app.database.NeoComAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.app.database.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
@@ -199,6 +199,7 @@ public class NeoComComponentFactory {
 		if (null == this.miningRepository) {
 			try {
 				miningRepository = new MiningRepository.Builder()
+										   .withEsiDataAdapter(this.getEsiDataAdapter())
 						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
 						                   .build();
 			} catch (SQLException sqle) {
@@ -230,11 +231,11 @@ public class NeoComComponentFactory {
 
 	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
 		if (null == this.sdeDatabaseAdapter) {
+			final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
 			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
-					                          .withDatabasePath("")
-					                          .withDatabaseName("sde.db")
-					                          .withFileSystemAdapter(this.getFileSystemAdapter())
-					                          .build();
+					                          .withAppContext(this.getApplication())
+					                          .withDatabaseName(databaseName)
+					                          .build(this.getFileSystemAdapter());
 		}
 		return this.sdeDatabaseAdapter;
 	}

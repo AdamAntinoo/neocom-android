@@ -11,8 +11,10 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
+import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainerController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
@@ -81,6 +83,10 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		if (node instanceof Resource) {
 			return new MiningResourceController((Resource) node, this);
 		}
+		if (node instanceof ResourceAggregatorContainer) {
+			return new ResourceAggregatorContainerController((ResourceAggregatorContainer) node, this);
+		}
+
 		return super.createController(node);
 	}
 }
