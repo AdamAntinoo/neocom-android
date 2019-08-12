@@ -26,11 +26,12 @@ android {
             resValue "string", "appname", "VisualTests"
             resValue "string", "appversionnumber", android.defaultConfig.versionName
             resValue "string", "appversionname", "v" + android.defaultConfig.versionName
-            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
-            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
+//            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
+//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom-vt"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+            resValue "string", "sdedatabasefilename", "sde.db"
 
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
         }
@@ -84,14 +85,14 @@ android {
     }
 }
 
-// - T A S K S   C O M P L E M E N T A R Y
-task copySDEDatabase(type: Copy) {
-    copy {
-        println 'Copy :app SDEDatabase to assets'
-        from project(':app').file('src/main/assets/sde.db')
-        into file('src/main/assets')
-    }
-}
+//// - T A S K S   C O M P L E M E N T A R Y
+//task copySDEDatabase(type: Copy) {
+//    copy {
+//        println 'Copy :app SDEDatabase to assets'
+//        from project(':app').file('src/main/assets/sde.db')
+//        into file('src/main/assets')
+//    }
+//}
 
 // - P R O D U C T   V E R S I O N S
 ext {
@@ -175,3 +176,25 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
     testImplementation "org.robolectric:robolectric:4.3-alpha-2"
 }
+
+// - T A S K S
+// Install the SDE database on the assets for testing
+ext {
+    assetsPath = "$projectDir/src/main/assets"
+}
+task copySDEDatabase(type: Copy) {
+    group = "publishing"
+    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
+    into "$assetsPath"
+}
+task renameSDEDatabase(type: Copy) {
+    group = "publishing"
+    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+    from project(':NeoCom.DataManagement').file("src/main/sh/*.db")
+    rename { String filename ->
+        return 'sde-acceptance.db'
+    }
+    into "$assetsPath"
+}
+copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')
