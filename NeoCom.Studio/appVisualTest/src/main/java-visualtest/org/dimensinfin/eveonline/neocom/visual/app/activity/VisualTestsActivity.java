@@ -29,6 +29,7 @@ public class VisualTestsActivity extends MVCMultiPageActivity {
 		super.onCreate(savedInstanceState);
 		this.injectComponents();
 		this.validatePermissions();
+		// TODO - disabled temporarily
 		this.validateSDEDatabase();
 //		NeoComUpdater.injectsEsiDataAdapter(VisualNeoComComponentFactory.getSingleton().getEsiDataAdapter());
 //		EveItem.injectEsiDataAdapter(VisualNeoComComponentFactory.getSingleton().getEsiDataAdapter());

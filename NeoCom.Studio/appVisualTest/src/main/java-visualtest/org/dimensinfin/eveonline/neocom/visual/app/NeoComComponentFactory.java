@@ -9,7 +9,6 @@ import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.GlobalAndroidPreferencesProvider;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
@@ -23,6 +22,7 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
+import org.dimensinfin.eveonline.neocom.visual.app.database.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.visual.app.database.SDEAndroidDBHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -230,11 +230,14 @@ public class NeoComComponentFactory {
 
 	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
 		if (null == this.sdeDatabaseAdapter) {
+			final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
+//			final String databasepath = this.fileSystemAdapter.accessResource4Path( databaseName);
 			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
-					                          .withDatabasePath("")
-					                          .withDatabaseName("sde.db")
-					                          .withFileSystemAdapter(this.getFileSystemAdapter())
-					                          .build();
+											  .withAppContext(this.getApplication())
+//					                          .withFileSystemAdapter(this.getFileSystemAdapter())
+//											  .withDatabaseLocation("")
+					                          .withDatabaseName(databaseName)
+					                          .build(this.getFileSystemAdapter());
 		}
 		return this.sdeDatabaseAdapter;
 	}

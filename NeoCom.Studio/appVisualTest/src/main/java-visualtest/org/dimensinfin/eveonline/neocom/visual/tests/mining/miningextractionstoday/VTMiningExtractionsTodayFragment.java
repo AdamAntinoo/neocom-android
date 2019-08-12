@@ -41,6 +41,7 @@ public class VTMiningExtractionsTodayFragment extends MVCPagerFragment {
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 				       .withCredential(credential)
+					   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 				       .build();
 	}

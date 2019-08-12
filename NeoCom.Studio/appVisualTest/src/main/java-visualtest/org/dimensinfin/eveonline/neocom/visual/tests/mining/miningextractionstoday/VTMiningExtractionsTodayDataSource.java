@@ -88,11 +88,13 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 									                                                 .getMiningExtractionDao())
 					                                                 .build();
 			miningRepository.deleteAll(); // Clean up the respository.
-			this.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
-					                                               .withMiningRepository(miningRepository)
-					                                               .build();
+//			this.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
+//																   .withEsiDataAdapter(this.esiDataAdapter)
+//					                                               .withMiningRepository(miningRepository)
+//					                                               .build();
 			this.miningExtractionDatabaseRecordGenerator.loadMockData2Repository(
 					this.credential); // Load up the mock data used on the acceptance tests.
+			miningRepository.remapTodayDate(LocalDate.now());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -117,8 +119,10 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 		public VTMiningExtractionsTodayDataSource build() {
 			final VTMiningExtractionsTodayDataSource ds = super.build();
 			Objects.requireNonNull(this.onConstruction.credential);
+			Objects.requireNonNull(this.onConstruction.esiDataAdapter);
 			Objects.requireNonNull(this.onConstruction.miningRepository);
 			this.onConstruction.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
+																				  .withEsiDataAdapter(this.onConstruction.esiDataAdapter)
 					                                                              .withMiningRepository(
 							                                                              this.onConstruction.miningRepository)
 					                                                              .build();
