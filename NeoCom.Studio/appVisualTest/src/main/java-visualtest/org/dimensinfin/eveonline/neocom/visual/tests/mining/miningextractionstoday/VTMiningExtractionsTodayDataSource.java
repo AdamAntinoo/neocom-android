@@ -94,10 +94,6 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 									                                                 .getMiningExtractionDao())
 					                                                 .build();
 			miningRepository.deleteAll(); // Clean up the respository.
-//			this.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
-//																   .withEsiDataAdapter(this.esiDataAdapter)
-//					                                               .withMiningRepository(miningRepository)
-//					                                               .build();
 			this.miningExtractionDatabaseRecordGenerator.loadMockData2Repository(
 					this.credential); // Load up the mock data used on the acceptance tests.
 			miningRepository.remapTodayDate(LocalDate.now());

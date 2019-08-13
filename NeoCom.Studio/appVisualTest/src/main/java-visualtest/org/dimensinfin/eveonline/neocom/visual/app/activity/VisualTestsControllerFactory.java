@@ -8,13 +8,15 @@ import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
-import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainerController;
+import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4EsilocationFacetController;
+import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4LocalTimeFacetController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
@@ -84,7 +86,10 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 			return new MiningResourceController((Resource) node, this);
 		}
 		if (node instanceof ResourceAggregatorContainer) {
-			return new ResourceAggregatorContainerController((ResourceAggregatorContainer) node, this);
+			if ( ((ResourceAggregatorContainer) node).getFacetDelegate() instanceof EsiLocation)
+				return new ResourceAggregatorContainer4EsilocationFacetController((ResourceAggregatorContainer) node, this);
+			if ( ((ResourceAggregatorContainer) node).getFacetDelegate() instanceof Integer)
+				return new ResourceAggregatorContainer4LocalTimeFacetController((ResourceAggregatorContainer) node, this);
 		}
 
 		return super.createController(node);

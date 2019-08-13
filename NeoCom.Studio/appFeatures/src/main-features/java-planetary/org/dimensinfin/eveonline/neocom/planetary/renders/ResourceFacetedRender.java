@@ -19,12 +19,6 @@ public abstract class ResourceFacetedRender extends NeoComRenderv2 {
 		super(controller, context);
 	}
 
-	// - I R E N D E R
-//	@Override
-//	public int accessLayoutReference() {
-//		return R.layout.commandcenter4colony;
-//	}
-
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
