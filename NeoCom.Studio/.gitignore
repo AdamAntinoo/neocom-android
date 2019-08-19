@@ -8,7 +8,7 @@
 .idea/sonarlint/
 .idea/libraries/
 .idea/caches/
-.idea/codeStyles/
 /build/
 /app/build/
-/appFeatures/build/
+/app.Features/build/
+/app.AcceptanceTest/build/

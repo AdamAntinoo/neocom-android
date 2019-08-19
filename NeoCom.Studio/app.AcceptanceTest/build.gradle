@@ -1,0 +1,110 @@
+// - P L U G I N S
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'project-report'
+apply from: '../app/dependencies.gradle'
+apply from: './acceptance.tasks.gradle'
+//apply plugin: 'jacoco'
+//apply from: './jacoco.gradle'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "org.dimensinfin.eveonline.neocom"
+        testApplicationId "org.dimensinfin.eveonline.neocom.test"
+        testInstrumentationRunner "org.dimensinfin.eveonline.neocom.test.NeoComAndroidJUnitRunner"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 30
+        versionName "0.16.0"
+        project.archivesBaseName = "MVCAcceptanceTests-$versionName"
+        project.version = android.defaultConfig.versionName
+    }
+    buildTypes {
+        release {
+            signingConfig debug.signingConfig
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appname", "AndroidMVC"
+            resValue "string", "appversion", android.defaultConfig.versionName
+//            resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
+//            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
+        }
+        debug {
+            initWith(release)
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            useProguard false
+            testCoverageEnabled true
+        }
+    }
+
+    sourceSets {
+        main.java {
+            srcDirs += project(':app').file('src/main/java-appv4')
+            srcDirs += project(':app').file('src/main/java-adapters')
+            srcDirs += project(':app').file('src/main/java-industry')
+            srcDirs += project(':app').file('src/main/java-mining')
+            srcDirs += project(':app').file('src/main/java-planetary')
+        }
+        main.res {
+            srcDirs += project(':app').file('src/main/res-fitting')
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+        animationsDisabled true
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+ext {
+    cucumberJavaVersion = '4.3.0'
+}
+dependencies {
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
+
+    implementation 'org.slf4j:slf4j-android:1.7.26'
+}
+// - T E S T I N G
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-android:2.23.4'
+}
+dependencies {
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
+
+    androidTestImplementation 'org.mockito:mockito-android:2.23.4'
+    androidTestImplementation 'org.awaitility:awaitility:3.1.6'
+
+    androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
+    androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
+}
+

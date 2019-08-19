@@ -8,15 +8,15 @@ Feature: [NA01] Setup and Open application databases.
 
   @NA01.01
   Scenario: [NA01.01] When the application reaches the Splash page, be sure the page is rendered
-	Given the activity AppSplashActivity on the onStart phase
-	When entering the onStart phase
+	Given the activity "AppSplashActivity"
+	When entering the "onStart" phase
 	Then complete the visualization setup and render the application version panel
 	And render the data panel with the onProgress spinner showing the elapsed time
 
   @NA01.02
   Scenario: [NA01.02] Once the Splash page has completed the initial render enter the onResume phase and start the process
   to check for the directories and files to be present to allow startup.
-	Given the activity AppSplashActivity on the onResume phase
+	Given the activity "AppSplashActivity" on the onResume phase
 	And a new application private directory
 	When entering the onResume phase
 	Then check that the application private directory "exists"
