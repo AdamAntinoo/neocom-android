@@ -6,9 +6,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
@@ -20,16 +20,16 @@ public class ColonyPackController extends NeoComUpdatableAuthorizedController<Co
 
 	public ColonyPackController( @NonNull final ColonyPack model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		this.setTheme(Separator.ESeparatorType.LINE_GREEN);
+		this.setTheme(SpacerType.LINE_GREEN);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender( final Context context ) {
 		this.context = context;
-		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
-			return new ColonyPackRender(this, context);
-		else
+//		if (this.getRenderMode().equalsIgnoreCase(PageNamesType.PLANETS_LIST.name()))
+//			return new ColonyPackRender(this, context);
+//		else
 			return new ColonyPackRender(this, context);
 	}
 

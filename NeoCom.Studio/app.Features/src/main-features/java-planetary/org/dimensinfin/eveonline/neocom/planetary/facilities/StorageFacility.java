@@ -1,7 +1,8 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
+import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryStorage;
@@ -54,10 +55,8 @@ public class StorageFacility extends PlanetaryFacilityWrapper implements IPlanet
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		if (variant.equalsIgnoreCase(PageNamesType.PLANET_FACILITIES_LAYOUT.name())) return new ArrayList<>();
 		else {
-			final List<ICollaboration> collaboration = new ArrayList<>();
-//			collaboration.add(new Separator().setType(Separator.ESeparatorType.LINE_YELLOW));
-			collaboration.addAll(this.planetaryStorage.getContents());
-			collaboration.add(new Separator().setType(Separator.ESeparatorType.LINE_YELLOW));
+			final List<ICollaboration> collaboration = new ArrayList<>(this.planetaryStorage.getContents());
+			collaboration.add(new Spacer.Builder().withType(SpacerType.LINE_YELLOW).build());
 			return collaboration;
 		}
 	}

@@ -5,9 +5,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
@@ -45,10 +45,8 @@ public class PlanetaryFacilityController extends NeoComController<IPlanetaryFaci
 				case COMMAND_CENTER:
 					return new CommandCenterRender(this, context);
 				case STORAGE:
-					this.setTheme(Separator.ESeparatorType.LINE_YELLOW);
-					return new StorageRender(this, context);
 				case LAUNCHPAD:
-					this.setTheme(Separator.ESeparatorType.LINE_YELLOW);
+					this.setTheme(SpacerType.LINE_YELLOW);
 					return new StorageRender(this, context);
 				case EXTRACTOR_CONTROL_UNIT:
 					return new ExtractorRender(this, context);
