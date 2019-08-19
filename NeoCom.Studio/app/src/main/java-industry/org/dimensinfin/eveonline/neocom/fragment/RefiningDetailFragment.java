@@ -1,18 +1,3 @@
-//  PROJECT:     NeoCom.Android (NEOC.A)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API22.
-//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
-//               the game data to help capsuleers organize and prioritize activities. The strong points are
-//               help at the Industry level tracking and calculating costs and benefits. Also the market
-//               information update service will help to identify best prices and locations.
-//               Planetary Interaction and Ship fittings are point under development.
-//               ESI authorization is a new addition that will give continuity and allow download game data
-//               from the new CCP data services.
-//               This is the Android application version but shares libraries and code with other application
-//               designed for Spring Boot Angular 4 platform.
-//               The model management is shown using a generic Model View Controller that allows make the
-//               rendering of the model data similar on all the platforms used.
 package org.dimensinfin.eveonline.neocom.fragment;
 
 import android.support.annotation.WorkerThread;
@@ -23,25 +8,20 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidGlobalDataManager;
+import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.entities.Property;
 import org.dimensinfin.eveonline.neocom.enums.EPropertyTypes;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRegisteredException;
-import org.dimensinfin.eveonline.neocom.app.factory.IndustryPartFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.ICredentialActivity;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
-import org.dimensinfin.eveonline.neocom.domain.PilotV2;
 import org.dimensinfin.eveonline.neocom.model.RefiningDetailReport;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Adam Antinoo
- */
-
-// - CLASS IMPLEMENTATION ...................................................................................
 public class RefiningDetailFragment extends AbstractPagerFragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	//	private static Logger logger = LoggerFactory.getLogger("RefiningDetailFragment");
@@ -64,7 +44,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	@Override
 	public String getSubtitle() {
 		final EveItem item = AndroidGlobalDataManager.getSingleton().searchItem4Id(this.resourceTypeId);
-		if ( null != item )
+		if (null != item)
 			return item.getName();
 		else return "-";
 	}
@@ -84,7 +64,7 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 		//		AndroidGlobalDataManager.submitJob(() -> {
 		// Create the report. To complete this add the Credential for the owner of the resource, the current location and the
 		// preferred refining location from the location roles for the Pilot.
-		if ( this.getAppContext() instanceof ICredentialActivity ) {
+		if (this.getAppContext() instanceof ICredentialActivity) {
 			int resourceSystemId = this.getExtras().getInt(EExtras.RESOURCESYSTEM_IDENTIFIER.name(), 34);
 			try {
 				final Credential credential = ((ICredentialActivity) this.getAppContext()).getCredential();
@@ -93,9 +73,9 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 				final EsiLocation closestRefiningLocation = searchClosestRefiningStation(resourceSystemId, locationRoles);
 				// TODO - Continue with the development
 				final RefiningDetailReport report = new RefiningDetailReport(resourceTypeId)
-						.setCredential(credential)
-						.setResourceLocation(resourceSystemId)
-						.setClosestRefiningLocation(closestRefiningLocation);
+						                                    .setCredential(credential)
+						                                    .setResourceLocation(resourceSystemId)
+						                                    .setClosestRefiningLocation(closestRefiningLocation);
 				headerContents.add(report);
 			} catch (NeoComRegisteredException e) {
 				e.printStackTrace();
@@ -117,20 +97,18 @@ public class RefiningDetailFragment extends AbstractPagerFragment {
 	 *
 	 * If there are no REFINING locations or they are farther that a configured jump distance we return the resource location and
 	 * expect a refining result of the 35%.
-	 * @param resourceLocation
-	 * @return
 	 */
 	protected EsiLocation searchClosestRefiningStation( final int resourceLocation, final List<Property> locationRoles ) {
 		// Initialize the searcher to the resource location;
 		int refiningTarget = resourceLocation;
 		int minJumps = 999;
 		for (Property role : locationRoles) {
-			if ( role.getPropertyType() == EPropertyTypes.LOCATIONROLE ) {
-				if ( role.getStringValue().equalsIgnoreCase("REFINING") ) {
+			if (role.getPropertyType() == EPropertyTypes.LOCATIONROLE) {
+				if (role.getStringValue().equalsIgnoreCase("REFINING")) {
 //					int jumps = AndroidGlobalDataManager.calculateRouteJumps(((ICredentialActivity) this.getActivityContext()).getCredential()
 //							, resourceLocation, Double.valueOf(role.getNumericValue()).intValue());
 					int jumps = 1;
-					if ( jumps < minJumps ) {
+					if (jumps < minJumps) {
 						minJumps = jumps;
 						refiningTarget = Double.valueOf(role.getNumericValue()).intValue();
 					}

@@ -1,5 +1,9 @@
 package org.dimensinfin.eveonline.neocom.planetary.ui;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
@@ -7,9 +11,6 @@ import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import java.util.HashMap;
 import java.util.List;
@@ -156,7 +157,7 @@ public class FactoryImageView extends APlanetaryStructureImageView implements IP
 	}
 
 	// - B U I L D E R
-	public static class Builder extends APlanetaryStructureImageView.BaseBuilder<FactoryImageView, FactoryImageView.Builder> {
+	public static class Builder extends APlanetaryStructureImageView.Builder<FactoryImageView, FactoryImageView.Builder> {
 		public Builder( final Context context ) {
 			super(context);
 		}

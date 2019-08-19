@@ -60,7 +60,7 @@ android {
             srcDirs += 'src/main/java-appv4'
             srcDirs += 'src/main/java-adapters'
 //            srcDirs += 'src/main/java-app'
-            srcDirs += 'src/main/java-industry'
+//            srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
         }

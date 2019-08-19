@@ -64,7 +64,7 @@ public class ExtractorImageView extends APlanetaryStructureImageView implements 
 	}
 
 	// - B U I L D E R
-	public static class Builder extends APlanetaryStructureImageView.BaseBuilder<ExtractorImageView, Builder> {
+	public static class Builder extends APlanetaryStructureImageView.Builder<ExtractorImageView, ExtractorImageView.Builder> {
 		public Builder( final Context context ) {
 			super(context);
 		}

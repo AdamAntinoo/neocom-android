@@ -132,7 +132,8 @@ public class CommandCenterImageView extends APlanetaryStructureImageView impleme
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<CommandCenterImageView, CommandCenterImageView.Builder> {
+	public static class Builder extends APlanetaryStructureImageView.Builder<CommandCenterImageView,
+			                                                                        CommandCenterImageView.Builder> {
 		public Builder( final Context context ) {
 			super(context);
 		}

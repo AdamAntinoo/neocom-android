@@ -48,7 +48,7 @@ android {
         main.java {
             srcDirs += project(':app').file('src/main/java-appv4')
             srcDirs += project(':app').file('src/main/java-adapters')
-            srcDirs += project(':app').file('src/main/java-industry')
+//            srcDirs += project(':app').file('src/main/java-industry')
             srcDirs += project(':app').file('src/main/java-mining')
             srcDirs += project(':app').file('src/main/java-planetary')
         }

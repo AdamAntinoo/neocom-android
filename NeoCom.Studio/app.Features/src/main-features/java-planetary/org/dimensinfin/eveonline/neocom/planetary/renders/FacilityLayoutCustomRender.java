@@ -87,20 +87,12 @@ public class FacilityLayoutCustomRender extends MVCRender {
 	}
 
 	@Override
-	public void updateContent() {
-//		final double longitudeDelta = this.getController().getModel().getGeoPosition().getLongitude() - this.mapCenter.getLongitude();
-//		final double latitudeDelta = this.getController().getModel().getGeoPosition().getLatitude() - this.mapCenter.getLatitude();
-//		// The rest of the parameters should be hidden on the View itself.
-//		this.structureImage.setDeltaPosition(new FacilityGeoPosition()
-//				                                     .setLongitude(longitudeDelta)
-//				                                     .setLatitude(latitudeDelta));
-//		this.structureImage.setPlanetaryFacility(this.getController().getModel());
-	}
+	public void updateContent() { }
 
 	@Override
 	public void createView() {
 		this.layoutStructureContainer = new FrameLayout(this.getContext());
-		this.convertView = this.layoutStructureContainer;
-		this.convertView.setTag(this);
+		this.layoutStructureContainer.setTag(this);
+		this.setNewView(this.layoutStructureContainer);
 	}
 }

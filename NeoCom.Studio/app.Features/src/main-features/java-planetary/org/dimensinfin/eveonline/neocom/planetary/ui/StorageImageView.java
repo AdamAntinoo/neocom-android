@@ -41,7 +41,7 @@ public class StorageImageView extends APlanetaryStructureImageView implements IP
 	}
 
 	// - B U I L D E R
-	public static class Builder extends APlanetaryStructureImageView.BaseBuilder<StorageImageView, StorageImageView.Builder> {
+	public static class Builder extends APlanetaryStructureImageView.Builder<StorageImageView, StorageImageView.Builder> {
 		public Builder( final Context context ) {
 			super(context);
 		}

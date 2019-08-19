@@ -5,7 +5,7 @@ import android.view.View;
 import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.eveonline.R;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
