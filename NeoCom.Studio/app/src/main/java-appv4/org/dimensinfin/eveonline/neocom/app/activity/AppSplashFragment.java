@@ -6,10 +6,12 @@ import android.view.View;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
@@ -23,7 +25,6 @@ import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
-import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
@@ -124,13 +125,13 @@ public class AppSplashFragment extends MVCPagerFragment {
 					}
 				}
 				// Add the node to display the new New Login Button.
-				this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
+				this.addModelContents(new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
 				this.addModelContents(new NewLoginAction());
 			} catch (RuntimeException runtime) {
 				logger.info("-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage());
 				this.addModelContents(new ExceptionReport(runtime));
 				// Add the node to display the new New Login Button.
-				this.addModelContents(new Separator().setType(Separator.ESeparatorType.LINE_WHITE));
+				this.addModelContents(new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
 				this.addModelContents(new NewLoginAction());
 			}
 			logger.info("<< [SplashActionsDataSource.collaborate2Model]");

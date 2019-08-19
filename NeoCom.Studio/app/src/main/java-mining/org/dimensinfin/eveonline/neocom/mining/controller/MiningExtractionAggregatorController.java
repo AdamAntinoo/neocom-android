@@ -1,20 +1,21 @@
 package org.dimensinfin.eveonline.neocom.mining.controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import android.content.Context;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class MiningExtractionAggregatorController extends AndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
 
@@ -38,7 +39,7 @@ public class MiningExtractionAggregatorController extends AndroidController<Mini
 	// - P R O P E R T Y C H A N G E L I S T E N E R
 	@Override
 	public void propertyChange( final PropertyChangeEvent evt ) {
-		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+		if (evt.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
 			this.notifyDataModelChange();
 		}
 	}
