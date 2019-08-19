@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
 apply from: './dependencies.gradle'
-apply from: './acceptance.gradle'
+//apply from: './acceptance.gradle'
 
 android {
     compileSdkVersion 28
@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 120
-        versionName "0.16.1"
+        versionName "0.16.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -24,7 +24,9 @@ android {
         release {
             signingConfig debug.signingConfig
             debuggable false
+            shrinkResources true
             minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             resValue "string", "appname", "NeoCom"
@@ -43,13 +45,42 @@ android {
         debug {
             initWith release
             debuggable true
+            shrinkResources false
             minifyEnabled false
             useProguard false
             testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.15"
-            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
-            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
+//            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
+//            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
         }
+    }
+    sourceSets {
+        main.java {
+//            srcDirs += 'src/main/java-appv3'
+            srcDirs += 'src/main/java-appv4'
+            srcDirs += 'src/main/java-adapters'
+//            srcDirs += 'src/main/java-app'
+            srcDirs += 'src/main/java-industry'
+            srcDirs += 'src/main/java-mining'
+            srcDirs += 'src/main/java-planetary'
+        }
+//        debug.java {
+//            srcDirs += 'src/debug/java-app'
+//            srcDirs += 'src/debug/java-test'
+//        }
+//        release.java {
+//            srcDirs += 'src/release/java-app'
+//        }
+        main.res {
+            srcDirs += 'src/main/res-fitting'
+        }
+//        debug.res {
+//            srcDirs += 'src/main/res-planetary'
+//        }
+//        test.java {
+//            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
+//            srcDirs += 'src/test/java-support'
+//        }
     }
     compileOptions {
         sourceCompatibility = '1.8'
@@ -64,59 +95,23 @@ android {
         jumboMode true
         preDexLibraries true
     }
-    sourceSets {
-        main.java {
-            srcDirs += 'src/main/java-appv3'
-            srcDirs += 'src/main/java-appv4'
-            srcDirs += 'src/main/java-adapters'
-            srcDirs += 'src/main/java-app'
-            srcDirs += 'src/main/java-industry'
-            srcDirs += 'src/main/java-mining'
-            srcDirs += 'src/main/java-planetary'
-        }
-        debug.java {
-            srcDirs += 'src/debug/java-app'
-            srcDirs += 'src/debug/java-test'
-        }
-        release.java {
-            srcDirs += 'src/release/java-app'
-        }
-        main.res {
-            srcDirs += 'src/main/res-fitting'
-        }
-        debug.res {
-            srcDirs += 'src/main/res-planetary'
-        }
-        test.java {
-            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
-            srcDirs += 'src/test/java-support'
-        }
-    }
 
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${android.defaultConfig.project.archivesBaseName}-${android.defaultConfig.versionName}.apk"
         }
     }
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES'
-//        exclude 'META-INF/LICENSE'
-//        exclude 'META-INF/LICENSE.txt'
-//        exclude 'META-INF/license.txt'
-//        exclude 'META-INF/NOTICE'
-//        exclude 'META-INF/NOTICE.txt'
-//        exclude 'META-INF/notice.txt'
-//        exclude 'META-INF/ASL2.0'
-//    }
 }
 
 // - T A S K S   C O M P L E M E N T A R Y
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
 task copyResources(type: Copy) {
-    copy {
-        println 'Copy :NeoCom.DataManagement resources to :NeoCom:MicroServices'
-        from project(':NeoCom.DataManagement').file('src/main/resources')
-        into file('src/main/assets')
+    doLast {
+        copy {
+            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
+            from project(':NeoCom.DataManagement').file('src/main/resources')
+            into file('src/main/assets')
+        }
     }
 }
 build.dependsOn copyResources

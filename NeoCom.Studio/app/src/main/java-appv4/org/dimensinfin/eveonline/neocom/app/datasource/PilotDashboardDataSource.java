@@ -1,7 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.datasource;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.eveonline.R;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;

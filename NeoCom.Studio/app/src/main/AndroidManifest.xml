@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="org.dimensinfin.eveonline">
+          package="org.dimensinfin.eveonline.neocom">
 
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 	<application
-			android:name=".neocom.app.NeoComApplication"
+			android:name=".app.NeoComApplication"
 			android:allowBackup="true"
-			android:description="@string/AppDescription"
+			android:description="@string/appdescription"
 			android:icon="@drawable/neocom_icon"
 			android:label="@string/appnameversion"
 			android:largeHeap="true"
@@ -22,7 +22,7 @@
 
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
-				android:name=".neocom.app.activity.AppSplashActivity"
+				android:name=".app.activity.AppSplashActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
@@ -33,40 +33,40 @@
 
 		<!-- A C T I V I T I E S -->
 		<activity
-				android:name=".neocom.app.activity.PilotDashboardActivity"
+				android:name=".app.activity.PilotDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Pilot Dashboard">
 		</activity>
 		<activity
-				android:name=".neocom.mining.activity.MiningLedgerActivity"
+				android:name=".mining.activity.MiningLedgerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Mining Ledger">
 		</activity>
 		<activity
-			android:name=".neocom.planetary.activity.PlanetaryColoniesActivity"
+			android:name=".planetary.activity.PlanetaryColoniesActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="Planetary Colonies">
 		</activity>
 		<activity
-			android:name=".neocom.planetary.activity.PlanetaryColonyContentsActivity"
+			android:name=".planetary.activity.PlanetaryColonyContentsActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="Planetary Colony Contents">
 		</activity>
 		<activity
-				android:name=".neocom.planetary.activity.PlanetaryColonyLayoutActivity"
+				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Planetary Colony Layout">
 		</activity>
 		<activity
-				android:name=".neocom.app.activity.core.SettingsActivity"
+				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">
 		</activity>
 		<activity
-				android:name=".neocom.app.activity.AuthorizationFlowActivity"
+				android:name=".app.activity.AuthorizationFlowActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Authorization ESI Flow"
-				android:parentActivityName=".neocom.app.activity.AppSplashActivity">
+				android:parentActivityName=".app.activity.AppSplashActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 
@@ -81,30 +81,30 @@
 		</activity>
 
 		 <!--N O T   O P E R A T I V E-->
-		<activity
-				android:name=".neocom.app.activity.AssetsManagerActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Assets Manager">
-			<meta-data
-					android:name="android.app.default_searchable"
-					android:value=".activity.SearchAssetsActivity"/>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
-		<activity
-				android:name=".neocom.app.activity.RefiningDetailActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Mining Ledger"
-				android:screenOrientation="landscape">
+		<!--<activity-->
+				<!--android:name=".neocom.app.activity.AssetsManagerActivity"-->
+				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+				<!--android:label="Assets Manager">-->
+			<!--<meta-data-->
+					<!--android:name="android.app.default_searchable"-->
+					<!--android:value=".activity.SearchAssetsActivity"/>-->
+			<!--<intent-filter>-->
+				<!--<action android:name="android.intent.action.MAIN"/>-->
+				<!--<category android:name="android.intent.category.LAUNCHER"/>-->
+			<!--</intent-filter>-->
+		<!--</activity>-->
+		<!--<activity-->
+				<!--android:name=".neocom.app.activity.RefiningDetailActivity"-->
+				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+				<!--android:label="Mining Ledger"-->
+				<!--android:screenOrientation="landscape">-->
 
-		</activity>
-		<activity
-				android:name=".neocom.app.activity.SkillsManagerActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Skills Manager">
-		</activity>
+		<!--</activity>-->
+		<!--<activity-->
+				<!--android:name=".neocom.app.activity.SkillsManagerActivity"-->
+				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+				<!--android:label="Skills Manager">-->
+		<!--</activity>-->
 
 
 		<!--<activity-->

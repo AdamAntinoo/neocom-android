@@ -1,6 +1,5 @@
 // - A N D R O I D    S U P P O R T
 dependencies {
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
 }
 // - K O T L I N
@@ -21,8 +20,8 @@ dependencies {
     implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
-    implementation project(':appFeatures')
+    implementation "org.dimensinfin:AndroidMVC:5.0.0@aar"
+    implementation project(':app.Features')
     implementation project(':NeoCom.DataManagement')
 
     // D A T A B A S E

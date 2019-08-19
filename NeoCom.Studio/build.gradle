@@ -12,8 +12,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'com.google.gms:google-services:4.3.0'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+//        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -41,7 +41,6 @@ ext {
     jacksonVersion = '2.9.4'
     fasterxmlJackson = '2.9.4'
     ormliteVersion = '4.48'
-    retrofitVersion = '2.3.0'
     powermockVersion = '2.0.2'
     retrofitVersion = '2.5.0'
 }
