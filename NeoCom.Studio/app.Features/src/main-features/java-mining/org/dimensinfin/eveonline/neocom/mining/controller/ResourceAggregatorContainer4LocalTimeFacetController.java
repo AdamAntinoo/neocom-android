@@ -5,9 +5,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.render.ResourceAggregatorContainer4EsiLocationFacetRender;
@@ -18,7 +18,7 @@ public class ResourceAggregatorContainer4LocalTimeFacetController extends NeoCom
 	public ResourceAggregatorContainer4LocalTimeFacetController( @NonNull final ResourceAggregatorContainer<Integer> model,
 	                                                             @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		this.setTheme(Separator.ESeparatorType.LINE_LIGHTBLUE);
+		this.setTheme(SpacerType.LINE_LIGHTBLUE);
 	}
 
 	// - I C O N T A I N E R

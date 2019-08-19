@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
@@ -19,7 +19,7 @@ public class DailyExtractionResourcesContainerController extends NeoComControlle
 	// - C O N S T R U C T O R
 	public DailyExtractionResourcesContainerController( @NonNull final DailyExtractionResourcesContainer model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-		this.setTheme(Separator.ESeparatorType.LINE_GREEN);
+		this.setTheme(SpacerType.LINE_GREEN);
 	}
 
 	// - I C O N T A I N E R
