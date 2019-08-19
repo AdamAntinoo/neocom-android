@@ -137,7 +137,7 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<MiningLedgerDataSourceToday, MiningLedgerDataSourceToday.Builder> {
+	public static class Builder extends MVCDataSource.Builder<MiningLedgerDataSourceToday, MiningLedgerDataSourceToday.Builder> {
 		private MiningLedgerDataSourceToday onConstruction;
 
 		@Override

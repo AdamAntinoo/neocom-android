@@ -111,7 +111,8 @@ public class PlanetaryColonyLayoutDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<PlanetaryColonyLayoutDataSource, Builder> {
+	public static class Builder extends PlanetaryCommonDataSource.Builder<PlanetaryColonyLayoutDataSource,
+			                                                                     PlanetaryColonyLayoutDataSource.Builder> {
 		private PlanetaryColonyLayoutDataSource onConstruction;
 
 		@Override

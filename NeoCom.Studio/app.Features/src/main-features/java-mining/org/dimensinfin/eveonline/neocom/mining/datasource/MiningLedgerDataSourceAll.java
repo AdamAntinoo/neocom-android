@@ -59,7 +59,7 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<MiningLedgerDataSourceAll, Builder> {
+	public static class Builder extends MVCDataSource.Builder<MiningLedgerDataSourceAll, MiningLedgerDataSourceAll.Builder> {
 		private MiningLedgerDataSourceAll onConstruction;
 
 		@Override
