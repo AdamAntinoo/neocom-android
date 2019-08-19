@@ -18,7 +18,7 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 	protected NeoComUpdater<M> getUpdater() {
 		if (null == this.updater) {
 			this.updater = NeoComUpdaterFactory.buildUpdater(this.getModel()); // Create the updater for this model.
-			if (null != this.updater) this.updater.addEventListener(this);
+			if (null != this.updater) this.updater.addEventListener( this);
 		}
 		return this.updater;
 	}

@@ -5,10 +5,10 @@ import android.content.Context;
 import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
 import org.dimensinfin.eveonline.neocom.app.render.PilotRender4Dashboard;
-import org.dimensinfin.eveonline.neocom.core.EEvents;
-import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 
 public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> {
@@ -19,9 +19,9 @@ public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> 
 
 	// - I E V E N T R E C E I V E R
 	@Override
-	public void eventReceived( final NeoComEvent event ) {
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
-			this.sendChangeEvent(new Inter(this, event.getPropertyName(), this, this));
+	public void receiveEvent( final IntercommunicationEvent event ) {
+		if (event.getEventName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
+			this.sendChangeEvent(event);
 			this.notifyDataModelChange();
 		}
 	}

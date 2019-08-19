@@ -8,15 +8,13 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableController;
 import org.dimensinfin.eveonline.neocom.app.render.CredentialRender;
-import org.dimensinfin.eveonline.neocom.core.EEvents;
-import org.dimensinfin.eveonline.neocom.core.NeoComEvent;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-
-import java.beans.PropertyChangeEvent;
 
 public class CredentialController extends NeoComUpdatableController<Credential> implements View.OnClickListener {
 	private Context context;
@@ -28,9 +26,9 @@ public class CredentialController extends NeoComUpdatableController<Credential> 
 
 	// - I E V E N T R E C E I V E R
 	@Override
-	public void eventReceived( final NeoComEvent event ) {
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
-			this.sendChangeEvent(new PropertyChangeEvent(this, event.getPropertyName(),this,this));
+	public void receiveEvent( final IntercommunicationEvent event ) {
+		if (event.getEventName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
+			this.sendChangeEvent(event);
 			this.notifyDataModelChange();
 		}
 	}
