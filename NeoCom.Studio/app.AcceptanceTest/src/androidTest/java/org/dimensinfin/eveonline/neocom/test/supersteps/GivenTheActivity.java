@@ -22,7 +22,6 @@ public class GivenTheActivity {
 			case "AppSplashActivity":
 				final ActivityTestRule<AppSplashActivity> activityRuleSplash = new ActivityTestRule<>(AppSplashActivity.class,
 				                                                                                      false, false);
-
 				Assert.assertNotNull(activityRuleSplash);
 				this.world.setActivityRule(activityRuleSplash);
 				break;
@@ -34,13 +33,13 @@ public class GivenTheActivity {
 //				this.world.setActivityRule(activityRule04);
 //				break;
 		}
+//		Assert.assertEquals(activityClass, this.world.getActiveActivity().getClass().getSimpleName());
+	}
+
+	@When("launching the activity to the onResume phase")
+	public void launchingTheActivityToTheOnResumePhase() {
 		this.world.getActivityRule().launchActivity(null);
 		this.world.setActiveActivity(this.world.getActivityRule().getActivity());
 		Assert.assertNotNull(this.world.getActiveActivity());
-		Assert.assertEquals(activityClass, this.world.getActiveActivity().getClass().getSimpleName());
-	}
-
-	@When("entering the {string} phase")
-	public void enteringThePhase( final String phase ) {
 	}
 }

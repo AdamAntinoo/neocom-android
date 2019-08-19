@@ -5,17 +5,18 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 
 import java.util.List;
 
 public abstract class NeoComController<M extends ICollaboration> extends AndroidController<M> {
-	private Separator.ESeparatorType theme = Separator.ESeparatorType.DEFAULT;
+	private SpacerType  theme = SpacerType.LINE_WHITE;
 
 	public NeoComController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
@@ -36,7 +37,8 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 			logger.info("-- [AndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
 			if (((IExpandable) this.getModel()).isExpanded())
-				contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
+				contentCollector.add(new SeparatorController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
+				                                             this.getControllerFactory()));
 			// Add this node to the list of controllers only if it should be visible.
 			if (this.isVisible()) contentCollector.add(this);
 			if (((IExpandable) this.getModel()).isExpanded())
@@ -44,7 +46,8 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 					controller.collaborate2View(contentCollector);
 				}
 			if (((IExpandable) this.getModel()).isExpanded())
-				contentCollector.add(new SeparatorController(new Separator().setType(this.getEncaseTheme()), this.getControllerFactory()));
+				contentCollector.add(new SeparatorController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
+				                                             this.getControllerFactory()));
 		} else if (this instanceof IContainer) {
 			if (this.isVisible()) contentCollector.add(this);
 			if (((IContainer) this).wants2Collaborate()) {
@@ -56,11 +59,11 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 		} else if (this.isVisible()) contentCollector.add(this);
 	}
 
-	public Separator.ESeparatorType getEncaseTheme() {
+	public SpacerType getEncaserTheme() {
 		return this.theme;
 	}
 
-	public NeoComController<M> setTheme( final Separator.ESeparatorType theme ) {
+	public NeoComController<M> setTheme( final SpacerType theme ) {
 		this.theme = theme;
 		return this;
 	}

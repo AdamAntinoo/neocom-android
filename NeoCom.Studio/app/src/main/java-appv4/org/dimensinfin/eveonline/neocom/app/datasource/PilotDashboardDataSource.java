@@ -86,7 +86,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<PilotDashboardDataSource, Builder> {
+	public static class Builder extends MVCDataSource.Builder<PilotDashboardDataSource, PilotDashboardDataSource.Builder> {
 		private PilotDashboardDataSource onConstruction;
 
 		@Override

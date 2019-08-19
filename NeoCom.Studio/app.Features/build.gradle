@@ -15,7 +15,7 @@ android {
     }
     compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 21 // Custom drawing for arcs
+        minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 1
         versionName "0.15.0"
@@ -99,10 +99,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.annimon:stream:1.1.9'
 
-    compileOnly 'org.dimensinfin:CoreBase.core:3.0.1'
+    compileOnly 'org.dimensinfin:CoreBase.core:3.1.0'
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
     implementation project(':NeoCom.DataManagement')
-    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
+    implementation "org.dimensinfin:AndroidMVC:5.0.0@aar"
 
     // N E O C O M
     implementation 'com.jakewharton:disklrucache:2.0.2'

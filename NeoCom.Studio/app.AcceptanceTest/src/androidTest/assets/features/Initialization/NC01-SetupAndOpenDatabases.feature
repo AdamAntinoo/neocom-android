@@ -9,7 +9,7 @@ Feature: [NA01] Setup and Open application databases.
   @NA01.01
   Scenario: [NA01.01] When the application reaches the Splash page, be sure the page is rendered
 	Given the activity "AppSplashActivity"
-	When entering the "onStart" phase
+	When launching the activity to the onResume phase
 	Then complete the visualization setup and render the application version panel
 	And render the data panel with the onProgress spinner showing the elapsed time
 

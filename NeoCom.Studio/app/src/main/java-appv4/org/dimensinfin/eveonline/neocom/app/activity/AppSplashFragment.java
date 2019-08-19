@@ -8,6 +8,7 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
@@ -26,7 +27,6 @@ import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
-import java.beans.PropertyChangeEvent;
 import java.sql.SQLException;
 
 public class AppSplashFragment extends MVCPagerFragment {
@@ -140,6 +140,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 			return !credential.getRefreshToken().equalsIgnoreCase("-TOKEN-");
 		}
 
+
 		/**
 		 * Detect events from the controllers and if the affect the Credentials (because they have updaters) then try to persist the
 		 * new instance values on the repository.
@@ -147,7 +148,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 		 * @param event the event to be processed. Event have a property name that is used as a selector.
 		 */
 		@Override
-		public synchronized void propertyChange( final PropertyChangeEvent event ) {
+		public synchronized void receiveEvent( final IntercommunicationEvent event ) {
 			if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
 				final Object target = event.getNewValue();
 				if ((null != target) && (target instanceof CredentialController)) { // This only applies to Credentials
@@ -157,16 +158,16 @@ public class AppSplashFragment extends MVCPagerFragment {
 								.build()
 								.persist(((CredentialController) target).getModel());
 					} catch (SQLException sqle) {
-						logger.info("EX [SplashActionsDataSource.propertyChange]> Exception persisting Credential update: {}", sqle.getMessage());
+						logger.info("EX [SplashActionsDataSource.receiveEvent]> Exception persisting Credential update: {}", sqle.getMessage());
 					}
 				}
 				return;
 			}
-			super.propertyChange(event);
+			super.receiveEvent(event);
 		}
 
 		// - B U I L D E R
-		public static class Builder extends MVCDataSource.BaseBuilder<SplashActionsDataSource, Builder> {
+		public static class Builder extends MVCDataSource.Builder<SplashActionsDataSource, SplashActionsDataSource.Builder> {
 			private SplashActionsDataSource onConstruction;
 
 			@Override
@@ -189,12 +190,6 @@ public class AppSplashFragment extends MVCPagerFragment {
 				this.onConstruction.version = version;
 				return this;
 			}
-
-//			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
-//				this.onConstruction.esiDataAdapter = esiDataAdapter;
-//				return this;
-//			}
-
 			public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
 				this.onConstruction.credentialRepository = credentialRepository;
 				return this;

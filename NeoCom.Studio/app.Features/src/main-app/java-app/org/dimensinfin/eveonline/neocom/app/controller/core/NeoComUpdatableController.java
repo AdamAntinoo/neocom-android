@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdaterFactory;
-import org.dimensinfin.eveonline.neocom.core.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
-
-import java.beans.PropertyChangeListener;
 
 public abstract class NeoComUpdatableController<M extends ICollaboration> extends NeoComController<M> implements IEventReceiver {
 	protected NeoComUpdater<M> updater;
@@ -31,8 +29,8 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 	 * @param listener the new listener to connect to this instance messages.
 	 */
 	@Override
-	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
-		super.addPropertyChangeListener(listener);
+	public void addEventListener( final IEventReceiver listener ) {
+		super.addEventListener(listener);
 		if (null != this.getUpdater())
 			this.getUpdater().refresh(); // Start the refresh process if required before leaving this thread.
 	}

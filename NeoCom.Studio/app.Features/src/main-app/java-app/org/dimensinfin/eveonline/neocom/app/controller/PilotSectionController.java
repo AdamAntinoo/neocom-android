@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
@@ -17,7 +17,7 @@ import org.dimensinfin.eveonline.neocom.app.render.PilotSectionRender;
 public class PilotSectionController extends NeoComController<PilotSection> implements View.OnClickListener {
 	public PilotSectionController( final PilotSection model, final IControllerFactory factory ) {
 		super(model, factory);
-		this.setTheme(Separator.ESeparatorType.LINE_WHITE);
+		this.setTheme(SpacerType.LINE_WHITE);
 	}
 
 
