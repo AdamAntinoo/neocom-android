@@ -21,7 +21,7 @@ public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	protected static abstract class Builder<T extends MVCDataSource, B extends BaseBuilder> extends MVCDataSource.BaseBuilder<T, B> {
+	public static abstract  class Builder<T extends MVCDataSource,B extends MVCDataSource.Builder> extends MVCDataSource.Builder<T ,B> {
 		private Credential credential;
 		private ESIDataAdapter esiDataAdapter;
 		private PlanetaryRepository planetaryRepository;
