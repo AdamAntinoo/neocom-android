@@ -1,68 +1,42 @@
 package org.dimensinfin.eveonline.neocom.test.support.adapters;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class CredentialRepository {
-	private static Logger logger = LoggerFactory.getLogger(
-			CredentialRepository.class);
-
-	protected Dao<Credential, String> credentialDao;
-
-	public List<Credential> findAllByServer( final String esiServer ) {
+public class SupportCredentialRepository extends CredentialRepository {
+	private Dao<Credential, String> credentialDao;
+	public int deleteAll() {
 		try {
-			return this.credentialDao.queryForEq("dataSource", esiServer.toLowerCase());
+			final DeleteBuilder<Credential, String> deleteBuilder = this.credentialDao.deleteBuilder();
+			deleteBuilder.where().isNotNull("uniqueCredential");
+			return deleteBuilder.delete();
 		} catch (SQLException sqle) {
-			logger.warn("W [CredentialRepository.findAllByServer]> Exception reading all Credentials. {}",
-					sqle.getMessage());
-			return new ArrayList<>();
+			logger.info("EX [SupportCredentialRepository.deleteAll]> SQL exception while deleting records: {}",
+			            sqle.getMessage());
+			return 0;
 		}
-	}
-
-	public List<Credential> accessAllCredentials() {
-		List<Credential> credentialList = new ArrayList<>();
-		try {
-			return this.credentialDao.queryForAll();
-		} catch (SQLException sqle) {
-			logger.error("EX [CredentialRepository.findAllByServer]> SQLException: {}", sqle.getMessage());
-		}
-		return credentialList;
-
-	}
-
-	public void persist( final Credential record ) throws SQLException {
-		if (null != record) {
-			record.timeStamp();
-			this.credentialDao.createOrUpdate(record);
-		}
-	}
-
-	public Credential findCredentialById( final String credentialId ) throws SQLException {
-		return this.credentialDao.queryForId(credentialId);
 	}
 
 	// - B U I L D E R
 	public static class Builder {
-		private CredentialRepository onConstruction;
+		protected SupportCredentialRepository onConstruction;
 
 		public Builder() {
-			this.onConstruction = new CredentialRepository();
+			this.onConstruction = new SupportCredentialRepository();
 		}
 
-		public Builder withCredentialDao( final Dao<Credential, String> credentialDao ) {
+		public SupportCredentialRepository.Builder withCredentialDao( final Dao<Credential, String> credentialDao ) {
 			this.onConstruction.credentialDao = credentialDao;
 			return this;
 		}
 
-		public CredentialRepository build() {
+		public SupportCredentialRepository build() {
 			Objects.requireNonNull(this.onConstruction.credentialDao);
 			return this.onConstruction;
 		}

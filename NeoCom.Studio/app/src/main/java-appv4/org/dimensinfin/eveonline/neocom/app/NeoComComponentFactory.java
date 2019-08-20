@@ -41,6 +41,20 @@ public class NeoComComponentFactory {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	private static NeoComComponentFactory singleton; // The singleton for the factory. This should be created at start time and setting the application.
 	private static NeoComApplication application; // The link to the application that is required by the component factory.
+
+	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
+		Objects.requireNonNull(newApplication);
+		application = (NeoComApplication) newApplication;
+		if (null == singleton) singleton = new NeoComComponentFactory();
+		return singleton;
+	}
+
+	public static NeoComComponentFactory getSingleton() {
+		if (null == singleton)
+			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
+		return singleton;
+	}
+
 	protected CredentialRepository credentialRepository;
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
@@ -57,19 +71,6 @@ public class NeoComComponentFactory {
 	private PlanetaryRepository planetaryRepository;
 	private LocationCatalogService locationCatalogService;
 	private LocationRepository locationRepository;
-
-	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
-		Objects.requireNonNull(newApplication);
-		application = (NeoComApplication) newApplication;
-		if (null == singleton) singleton = new NeoComComponentFactory();
-		return singleton;
-	}
-
-	public static NeoComComponentFactory getSingleton() {
-		if (null == singleton)
-			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
-		return singleton;
-	}
 
 	// - G E T T E R S
 	public NeoComApplication getApplication() {
@@ -195,11 +196,15 @@ public class NeoComComponentFactory {
 		return this.credentialRepository;
 	}
 
+	public void setCredentialRepository( final CredentialRepository credentialRepository ) {
+		this.credentialRepository = credentialRepository;
+	}
+
 	public MiningRepository getMiningRepository() {
 		if (null == this.miningRepository) {
 			try {
 				miningRepository = new MiningRepository.Builder()
-										   .withEsiDataAdapter(this.getEsiDataAdapter())
+						                   .withEsiDataAdapter(this.getEsiDataAdapter())
 						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
 						                   .build();
 			} catch (SQLException sqle) {
@@ -208,6 +213,10 @@ public class NeoComComponentFactory {
 			}
 		}
 		return this.miningRepository;
+	}
+
+	public void setMiningRepository( final MiningRepository miningRepository ) {
+		this.miningRepository = miningRepository;
 	}
 
 	public NeoComAndroidDBHelper getNeoComDBHelper() {

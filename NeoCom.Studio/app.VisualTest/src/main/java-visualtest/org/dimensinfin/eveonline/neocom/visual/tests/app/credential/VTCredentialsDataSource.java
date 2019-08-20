@@ -1,14 +1,14 @@
 package org.dimensinfin.eveonline.neocom.visual.tests.app.credential;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
-import org.dimensinfin.eveonline.neocom.core.EEvents;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
-import java.beans.PropertyChangeEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class VTCredentialsDataSource extends MVCDataSource {
 	 * @param event the event to be processed. Event have a property name that is used as a selector.
 	 */
 	@Override
-	public synchronized void propertyChange( final PropertyChangeEvent event ) {
+	public synchronized void receiveEvent( final IntercommunicationEvent event ) {
 		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
 			final Object target = event.getNewValue();
 			if ((null != target) && (target instanceof CredentialController)) { // This only applies to Credentials
@@ -74,11 +74,11 @@ public class VTCredentialsDataSource extends MVCDataSource {
 			}
 			return;
 		}
-		super.propertyChange(event);
+		super.receiveEvent(event);
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<VTCredentialsDataSource, VTCredentialsDataSource.Builder> {
+	public static class Builder extends MVCDataSource.Builder<VTCredentialsDataSource, VTCredentialsDataSource.Builder> {
 		private VTCredentialsDataSource onConstruction;
 
 		@Override

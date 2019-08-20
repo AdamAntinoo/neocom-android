@@ -103,7 +103,7 @@ public class VTCommandCenterDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<VTCommandCenterDataSource, VTCommandCenterDataSource.Builder> {
+	public static class Builder extends Builder<VTCommandCenterDataSource, VTCommandCenterDataSource.Builder> {
 		private VTCommandCenterDataSource onConstruction;
 
 		@Override

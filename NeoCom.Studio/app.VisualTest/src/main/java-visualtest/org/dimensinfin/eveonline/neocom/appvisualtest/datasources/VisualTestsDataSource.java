@@ -334,7 +334,7 @@ public class VisualTestsDataSource extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<VisualTestsDataSource, Builder> {
+	public static class Builder extends MVCDataSource.Builder<VisualTestsDataSource, VisualTestsDataSource.Builder> {
 		private VisualTestsDataSource onConstruction;
 
 		@Override

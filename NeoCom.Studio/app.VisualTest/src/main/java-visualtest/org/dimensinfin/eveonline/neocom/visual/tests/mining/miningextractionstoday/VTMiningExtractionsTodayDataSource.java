@@ -103,7 +103,7 @@ public class VTMiningExtractionsTodayDataSource extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<VTMiningExtractionsTodayDataSource, VTMiningExtractionsTodayDataSource.Builder> {
+	public static class Builder extends MVCDataSource.Builder<VTMiningExtractionsTodayDataSource, VTMiningExtractionsTodayDataSource.Builder> {
 		private VTMiningExtractionsTodayDataSource onConstruction;
 
 		@Override

@@ -9,7 +9,7 @@
 	<application
 			android:name=".app.VisualTestApplication"
 			android:allowBackup="true"
-			android:description="@string/AppDescription"
+			android:description="@string/appdescription"
 			android:icon="@drawable/neocom_icon"
 			android:label="@string/appnameversion"
 			android:largeHeap="true"

@@ -1,17 +1,22 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import androidx.fragment.app.FragmentActivity;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 
 public class NeoComWorld {
 	private ActivityTestRule activityRule;
-	private MVCMultiPageActivity activeActivity;
+	private FragmentActivity activeActivity;
 	private IPagerFragment fragment;
+	private ViewGroup headerContainer;
+	private ListView dataSectionContainer;
 
 	public ActivityTestRule getActivityRule() {
-		return activityRule;
+		return this.activityRule;
 	}
 
 	public NeoComWorld setActivityRule( final ActivityTestRule activityRule ) {
@@ -19,11 +24,11 @@ public class NeoComWorld {
 		return this;
 	}
 
-	public MVCMultiPageActivity getActiveActivity() {
-		return activeActivity;
+	public FragmentActivity getActiveActivity() {
+		return this.activeActivity;
 	}
 
-	public NeoComWorld setActiveActivity( final MVCMultiPageActivity activeActivity ) {
+	public NeoComWorld setActiveActivity( final FragmentActivity activeActivity ) {
 		this.activeActivity = activeActivity;
 		return this;
 	}
@@ -34,6 +39,24 @@ public class NeoComWorld {
 
 	public NeoComWorld setFragment( final IPagerFragment fragment ) {
 		this.fragment = fragment;
+		return this;
+	}
+
+	public ViewGroup getHeaderContainer() {
+		return this.headerContainer;
+	}
+
+	public NeoComWorld setHeaderContainer( final ViewGroup headerContainer ) {
+		this.headerContainer = headerContainer;
+		return this;
+	}
+
+	public ListView getDataSectionContainer() {
+		return this.dataSectionContainer;
+	}
+
+	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
+		this.dataSectionContainer = dataSectionContainer;
 		return this;
 	}
 }
