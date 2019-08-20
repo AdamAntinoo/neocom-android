@@ -1,30 +1,56 @@
-package org.dimensinfin.eveonline.neocom.app.support;
+package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.test.rule.ActivityTestRule;
+
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.eveonline.neocom.app.support.worlds.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.junit.Assert;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-public class StepFramework /*extends AppCredentialSupportTest*/ {
+public class StepFramework {
 	protected static Logger logger = LoggerFactory.getLogger(StepFramework.class);
+	protected NeoComWorld world;
 
-	@Before
-	public void setUp() throws Exception {
-		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+	public StepFramework( final NeoComWorld world ) {
+		this.world = world;
 	}
 
-	protected View searchPanelByClass( final Class filterClass, final ViewGroup container ) {
+	protected void createActivity( final String activityName ) {
+		switch (activityName) {
+			case "AppSplashActivity":
+				final ActivityTestRule<AppSplashActivity> activityRuleSplash = new ActivityTestRule<>(AppSplashActivity.class,
+				                                                                                      false, false);
+				Assert.assertNotNull(activityRuleSplash);
+				this.world.setActivityRule(activityRuleSplash);
+				break;
+		}
+	}
+
+	protected void launchActivity() {
+		this.world.getActivityRule().launchActivity(null);
+		this.world.setActiveActivity((FragmentActivity) this.world.getActivityRule().getActivity());
+		Assert.assertNotNull(this.world.getActiveActivity());
+//		Assert.assertEquals(activityName, this.world.getActiveActivity().getClass().getSimpleName());
+	}
+	protected void accessDataContainers( final MVCPagerFragment fragment ) {
+		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
+		this.world.setHeaderContainer(headerContainer);
+		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
+		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
+		this.world.setDataSectionContainer(dataSectionContainer);
+	}
+	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
 			final View target = container.getChildAt(i);
@@ -34,6 +60,8 @@ public class StepFramework /*extends AppCredentialSupportTest*/ {
 		}
 		return null;
 	}
+
+	// ----
 
 	protected View searchPanelByClass( final Class filterClass, final ListView container ) {
 		final int contentCount = container.getChildCount();
@@ -58,14 +86,6 @@ public class StepFramework /*extends AppCredentialSupportTest*/ {
 		}
 	}
 
-	protected void accessDataContainers( final MVCPagerFragment fragment, final NeoComWorld world ) {
-		final ViewGroup headerContainer = fragment.accessHeaderContainer();
-		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
-		world.setHeaderContainer(headerContainer);
-		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
-		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
-		world.setDataSectionContainer(dataSectionContainer);
-	}
 
 	protected List<View> accessPanelsOfClass( final Class filterClass, final ListView container ) {
 		final List<View> panels = new ArrayList<>();
@@ -78,6 +98,7 @@ public class StepFramework /*extends AppCredentialSupportTest*/ {
 		}
 		return panels;
 	}
+
 	protected List<View> accessPanelsOfClass( final Class filterClass, final ViewGroup container ) {
 		final List<View> panels = new ArrayList<>();
 		final int contentCount = container.getChildCount();
