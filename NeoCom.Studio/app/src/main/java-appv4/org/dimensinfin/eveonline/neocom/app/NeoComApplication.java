@@ -30,11 +30,10 @@ public class NeoComApplication extends Application {
 	}
 
 	private static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
-	private BroadcastReceiver timeTickReceiver;
 
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
-		                                                                           .getSystemService(Context.CONNECTIVITY_SERVICE);
+				                                                     .getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
 		return false;
@@ -44,6 +43,7 @@ public class NeoComApplication extends Application {
 		// TODO - This should be implemented.
 		return true;
 	}
+	private BroadcastReceiver timeTickReceiver;
 
 	// - A P P L I C A T I O N   L I F E   C Y C L E
 
@@ -108,5 +108,10 @@ public class NeoComApplication extends Application {
 
 	private void terminateScheduler() {
 		if (null != this.timeTickReceiver) this.unregisterReceiver(this.timeTickReceiver);
+	}
+
+	public boolean isSchedulerActive() {
+		if (null != this.timeTickReceiver) return true;
+		else return false;
 	}
 }

@@ -1,45 +1,95 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
-import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
 import java.io.File;
 
 public class AppSplashActivity extends ANeoComActivity {
-	protected IConfigurationProvider configurationProvider;
+	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
+	private boolean onCreateCompleted = false;
+	private boolean onStartCompleted = false;
+	private Exception lastException;
 
+	// - L I F E C Y C L E
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		this.injectComponents();
 		super.onCreate(savedInstanceState);
-		this.addPage(new AppSplashFragment());
+		if (this.checkStartup()) {
+			this.injectComponents();
+			this.addPage(new AppSplashFragment());
+			this.onCreateCompleted = true;
+		} else
+			this.addPage(new BlockFragment());
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		this.validatePermissions(); // Get the permissions required to run the application.
+//		this.validatePermissions(); // Get the permissions required to run the application.
 		// Check if the files and folders to run on Android are in place. If not create/copy them.
 		logger.info("-- [AppSplashActivity.onStart]> Creating application directories...");
 		this.createApplicationDirectories(); // Create any application storage directories on the SD card.
 		this.validateSDEDatabase();
 		// Connect special classes to the ESI to allow internal access to game data
-		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
-		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
+//		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
+//		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
+		this.onStartCompleted = true;
+	}
+
+	public Exception getLatestException() {
+		return this.lastException;
+	}
+
+	public boolean isPhaseOnCreateCompleted() {
+		return this.onCreateCompleted;
+	}
+
+	public boolean isPhaseOnStartCompleted() {
+		return this.onStartCompleted;
+	}
+//	protected void validatePermissions() {
+//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//				    != PackageManager.PERMISSION_GRANTED) {
+//			// Permission is not granted
+//			ActivityCompat.requestPermissions(this,
+//			                                  new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
+//			                                  10);
+//		}
+//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+//				    != PackageManager.PERMISSION_GRANTED) {
+//			// Permission is not granted
+//			ActivityCompat.requestPermissions(this,
+//			                                  new String[]{ Manifest.permission.INTERNET },
+//			                                  20);
+//		}
+//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
+//				    != PackageManager.PERMISSION_GRANTED) {
+//			// Permission is not granted
+//			ActivityCompat.requestPermissions(this,
+//			                                  new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
+//			                                  30);
+//		}
+//	}
+
+	//	private MVCPagerFragment setPage(final int pageNumber){
+//		return this.setPage(pageNumber);
+//	}
+	private boolean checkStartup() {
+		if (null != NeoComComponentFactory.getSingleton())
+			return NeoComComponentFactory.getSingleton().getApplication().isSchedulerActive();
+		return false;
 	}
 
 	protected void createApplicationDirectories() {
@@ -61,7 +111,7 @@ public class AppSplashActivity extends ANeoComActivity {
 	protected boolean createCacheDirectories() {
 		File cachedir = new File(Environment.getExternalStorageDirectory()
 				, this.getResources().getString(R.string.appname)
-				+ "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
+						  + "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
 		cachedir.mkdir();
 		return cachedir.exists();
 	}
@@ -69,30 +119,6 @@ public class AppSplashActivity extends ANeoComActivity {
 	protected void injectComponents() {
 		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
-	}
-
-	protected void validatePermissions() {
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				!= PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
-					10);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
-				!= PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.INTERNET },
-					20);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
-				!= PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
-					30);
-		}
 	}
 
 	protected void validateSDEDatabase() {
@@ -103,6 +129,20 @@ public class AppSplashActivity extends ANeoComActivity {
 	}
 
 	protected boolean sdeDatabaseExists() {
-		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename))).exists();
+		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename)))
+				       .exists();
+	}
+
+	public static class BlockFragment extends MVCPagerFragment {
+
+		@Override
+		public IControllerFactory createFactory() {
+			return new AppControllerFactory(this.getVariant());
+		}
+
+		@Override
+		public IDataSource createDS() {
+			return null;
+		}
 	}
 }

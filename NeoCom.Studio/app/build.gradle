@@ -48,7 +48,7 @@ android {
             shrinkResources false
             minifyEnabled false
             useProguard false
-            testCoverageEnabled true
+//            testCoverageEnabled true
             resValue "string", "appdatabasefilename", "neocomv0.15"
 //            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
 //            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""

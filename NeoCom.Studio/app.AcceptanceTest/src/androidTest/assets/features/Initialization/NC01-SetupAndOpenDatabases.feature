@@ -1,10 +1,22 @@
-@NA01 @AppSplashActivity
+@NC01 @AppSplashActivity
 Feature: [NA01] Setup and Open application databases.
 
   Check all the possible conditions to face during application startup and initialization. Check that the application data
   directories are on place and that the required databases are ready and with the latest version as configured on the
   application settings. If databases are obsolete run the upgrade scripts or copy the latest version from the
   application assets directory.
+
+  @NC01.01
+  Scenario: [NC01.01] Verify that the application initialization completes and that the component factory
+	and other startup items are ready and running.
+	Given the activity "AppSplashActivity"
+	When selected the page "0" of the activity
+	Then complete the lifecycle without exceptions
+#	Then complete the "onCreate" phase with no exceptions
+#	And complete the "onStart" phase with no exceptions
+	And the component factory exists
+	And the timer service is running
+#	And render the processing spinner
 
   @NA01.01
   Scenario: [NA01.01] When the application reaches the Splash page, be sure the page is rendered

@@ -40,7 +40,7 @@ public class NeoComComponentFactory {
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	private static NeoComComponentFactory singleton; // The singleton for the factory. This should be created at start time and setting the application.
-	private static Application application; // The link to the application that is required by the component factory.
+	private static NeoComApplication application; // The link to the application that is required by the component factory.
 	protected CredentialRepository credentialRepository;
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
@@ -60,7 +60,7 @@ public class NeoComComponentFactory {
 
 	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
 		Objects.requireNonNull(newApplication);
-		application = newApplication;
+		application = (NeoComApplication) newApplication;
 		if (null == singleton) singleton = new NeoComComponentFactory();
 		return singleton;
 	}
@@ -72,7 +72,7 @@ public class NeoComComponentFactory {
 	}
 
 	// - G E T T E R S
-	public Application getApplication() {
+	public NeoComApplication getApplication() {
 		if (null == application)
 			throw new NeoComRuntimeException("NeoCom application is not associated to factory. Please complete initialisation.");
 		return application;

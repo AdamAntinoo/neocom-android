@@ -29,41 +29,54 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 public class AppSplashFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())
-				.registerActivity(PageNamesType.PILOT_DASHBOARD.name(), PilotDashboardActivity.class)
-				.registerActivity(PageNamesType.AUTHORIZATION.name(), AuthorizationFlowActivity.class);
+				       .registerActivity(PageNamesType.PILOT_DASHBOARD.name(), PilotDashboardActivity.class)
+				       .registerActivity(PageNamesType.AUTHORIZATION.name(), AuthorizationFlowActivity.class);
 	}
 
 	@Override
 	public IDataSource createDS() {
 		return new SplashActionsDataSource.Builder()
-				.addIdentifier(this.getVariant())
-				.addIdentifier("SPLASH")
-				.withVariant(this.getVariant())
-				.withExtras(this.getExtras())
-				.withFactory(this.createFactory())
-				.withName(this.getActivityContext().getResources().getString(R.string.appname))
-				.withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
-//				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-				.withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
-				.build();
+				       .addIdentifier(this.getVariant())
+				       .addIdentifier("SPLASH")
+				       .withVariant(this.getVariant())
+				       .withExtras(this.getExtras())
+				       .withFactory(this.createFactory())
+				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
+				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
+				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
+				       .build();
 	}
 
 	@Override
 	public View generateActionBarView() {
 		// Create the bar content model.
 		final SplashActionBar actionBar = new SplashActionBar.Builder()
-				.withPreferences(PreferenceManager.getDefaultSharedPreferences(this.getActivityContext()))
-				.build();
+				                                  .withPreferences(PreferenceManager.getDefaultSharedPreferences(
+						                                  this.getActivityContext()))
+				                                  .build();
 		// Get a controller from the model, then the view from the render.
 		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory("SPLASH")
-				.createController(actionBar);
+				                                                                         .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}
+
+//	@Override
+//	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
+//		final View view = super.onCreateView(inflater, container, savedInstanceState);
+//		handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
+//			//                _adapter.collaborateData(); // Call the ds to generate the root contents.
+//			this._adapter.notifyDataSetChanged();
+//			this.headerDataSectionContainer.notifyDataSetChanged();
+//			this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+//		});
+//		return view;
+//	}
 
 	/**
 	 * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
@@ -86,12 +99,23 @@ public class AppSplashFragment extends MVCPagerFragment {
 
 		@Override
 		public void prepareModel() {
-//			logger.info(">> [SplashActionsDataSource.prepareModel]");
-//			logger.info("<< [SplashActionsDataSource.prepareModel]");
+			logger.info(">> [SplashActionsDataSource.prepareModel]");
+			this.addHeaderContents(new AppVersion()
+					                       .setName(this.name)
+					                       .setVersion(this.version));
+			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
 		@Override
 		public void collaborate2Model() {
+			try {
+				Thread.sleep(TimeUnit.MINUTES.toMillis(1));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void collaborate2Model2() {
 			try {
 				logger.info(">> [SplashActionsDataSource.collaborate2Model]");
 				// - S E C T I O N   H E A D E R
@@ -102,17 +126,18 @@ public class AppSplashFragment extends MVCPagerFragment {
 //						                       .setVersion(this.version));
 				if (!NeoComApplication.checkNetworkAccess()) {
 					this.addHeaderContents(new WarningPanel.Builder()
-							.withType("WARNING")
-							.withDescription("The is no network connection. Application functionality in hold.")
-							.build());
+							                       .withType("WARNING")
+							                       .withDescription(
+									                       "The is no network connection. Application functionality in hold.")
+							                       .build());
 				}
 //				for (InitialisationTask task : this.initializationTasksList) {
 //					this.addModelContents(task.schedule(2));
 //				}
 				// - S E C T I O N   D A T A
-				this.addModelContents(new AppVersion()
-						.setName(this.name)
-						.setVersion(this.version));
+//				this.addModelContents(new AppVersion()
+//						.setName(this.name)
+//						.setVersion(this.version));
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
 				if (NeoComApplication.checkNetworkAccess()) {
@@ -159,7 +184,8 @@ public class AppSplashFragment extends MVCPagerFragment {
 								.build()
 								.persist(((CredentialController) target).getModel());
 					} catch (SQLException sqle) {
-						logger.info("EX [SplashActionsDataSource.receiveEvent]> Exception persisting Credential update: {}", sqle.getMessage());
+						logger.info("EX [SplashActionsDataSource.receiveEvent]> Exception persisting Credential update: {}",
+						            sqle.getMessage());
 					}
 				}
 				return;
@@ -191,6 +217,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 				this.onConstruction.version = version;
 				return this;
 			}
+
 			public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
 				this.onConstruction.credentialRepository = credentialRepository;
 				return this;
