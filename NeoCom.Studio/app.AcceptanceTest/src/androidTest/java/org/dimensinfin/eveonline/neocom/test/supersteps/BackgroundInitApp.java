@@ -143,6 +143,7 @@ public class BackgroundInitApp {
 				                        .withMiningExtractionDao(NeoComComponentFactory.getSingleton()
 						                                                 .getNeoComDBHelper()
 						                                                 .getMiningExtractionDao())
+										.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 				                        .build();
 		Assert.assertNotNull(this.miningRepository);
 		Assert.assertNotNull(NeoComComponentFactory.getSingleton()

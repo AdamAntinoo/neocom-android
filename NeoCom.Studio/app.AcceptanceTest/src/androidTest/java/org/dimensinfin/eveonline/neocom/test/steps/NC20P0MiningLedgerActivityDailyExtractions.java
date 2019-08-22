@@ -33,13 +33,12 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 	private CucumberTable2CredentialConverter cucumberTable2CredentialConverter;
 	private CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter;
 
-	public NC20P0MiningLedgerActivityDailyExtractions( final NeoComWorld world/*,
+	public NC20P0MiningLedgerActivityDailyExtractions( final NeoComWorld world,
 	                                                   final CucumberTable2CredentialConverter cucumberTable2CredentialConverter,
-	                                                   final CucumberTableToMiningExtractionConverter
-	                                                   cucumberTableToMiningExtractionConverter */ ) {
+	                                                   final CucumberTableToMiningExtractionConverter cucumberTableToMiningExtractionConverter ) {
 		super(world);
-		this.cucumberTable2CredentialConverter = new CucumberTable2CredentialConverter();
-		this.cucumberTableToMiningExtractionConverter = new CucumberTableToMiningExtractionConverter();
+		this.cucumberTable2CredentialConverter = cucumberTable2CredentialConverter;
+		this.cucumberTableToMiningExtractionConverter = cucumberTableToMiningExtractionConverter;
 	}
 
 	@And("the next records on the CredentialRepository")
@@ -95,16 +94,17 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 
 	@And("today date being {string}")
 	public void theTodayDateBeing( final String todayDate ) {
-		this.world.setTodayDate(new LocalDate(todayDate));
+		if (todayDate.equalsIgnoreCase("<today>")) this.world.setTodayDate(LocalDate.now());
+		else this.world.setTodayDate(new LocalDate(todayDate));
 	}
-
-//	@Then("the action bar for this page shows the next fields")
-//	public void theActionBarForThisPageShowsTheNextFields( final List<Map<String, String>> cucumberTable ) throws InterruptedException {
-//		Thread.sleep(TimeUnit.SECONDS.toMillis(5));
-//	}
 
 	@Then("check that the custom action bar is present")
 	public void checkThatTheCustomActionBarIsPresent() {
-		Assert.assertNotNull(this.world.getFragment().generateActionBarView());
+//		this.world.getExecutor().submit(() -> {
+//			this.world.setActionBar(this.world.getFragment().generateActionBarView());
+//		});
+//		Awaitility.await().atMost(1, MINUTES).until(() -> null != this.world.getActionBar());
+		this.world.setActionBar(this.world.getFragment().generateActionBarView());
+		Assert.assertNotNull(this.world.getActionBar());
 	}
 }

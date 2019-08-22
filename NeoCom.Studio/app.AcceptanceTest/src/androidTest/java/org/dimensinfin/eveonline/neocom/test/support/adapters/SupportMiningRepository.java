@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.test.support.adapters;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 
@@ -37,6 +38,11 @@ public class SupportMiningRepository extends MiningRepository {
 
 		public Builder() {
 			this.onConstruction = new SupportMiningRepository();
+		}
+
+		public SupportMiningRepository.Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			return this;
 		}
 
 		public SupportMiningRepository.Builder withMiningExtractionDao( final Dao<MiningExtraction, String> miningExtractionDao ) {

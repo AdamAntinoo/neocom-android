@@ -23,17 +23,12 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
 	And the number of records in "CredentialRepository" is 3
 	And the next records on the MiningRepository
 	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
-	  | 2019-08-08:24-30001735-17459-92223647 | 17459  | 30001735      | 14511    | 0     | 2019-08-08         | 24             | 92223647 |
-	  | 2019-08-08:12-30001735-17459-92223647 | 17459  | 30001735      | 14511    | 0     | 2019-08-08         | 12             | 92223647 |
-	  | 2019-08-07:24-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 0     | 2019-08-07         | 24             | 92223647 |
-	  | 2019-08-07:24-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | 2019-08-07         | 24             | 92223647 |
-	  | 2019-08-07:24-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 0     | 2019-08-07         | 24             | 92223647 |
-	  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | 2019-08-07         | 11             | 92223647 |
-	  | 2019-08-07:11-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | 2019-08-07         | 11             | 92223647 |
-	  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | 2019-08-07         | 11             | 92223647 |
-	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | 2019-08-07         | 10             | 92223647 |
-	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | 2019-08-07         | 10             | 92223647 |
-	And the number of records in "MiningRepository" is 10
+	  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | <today>            | 11             | 92223647 |
+	  | 2019-08-07:11-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | <today>            | 11             | 92223647 |
+	  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | <today>            | 11             | 92223647 |
+	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | <today>            | 10             | 92223647 |
+	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | <today>            | 10             | 92223647 |
+	And the number of records in "MiningRepository" is 5
 	And the activity "MiningLedgerActivity" with the next extras
 	  | extraType | extraName            | extraValue |
 	  | Integer   | CAPSULEER_IDENTIFIER | 92223647   |
@@ -42,8 +37,8 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
 
   @NC02P0.01 @MVCPanel
   Scenario: [NC02P0.01][ACTIONBAR] Mining daily data action bar.
-	Given today date being "2019-08-08"
-	When complete the lifecycle without exceptions
+	Given today date being "<today>"
+#	When complete the lifecycle without exceptions
 	Then check that the custom action bar is present
 	And check a "MiningActionBar" with next contents
 	  | fieldIdentifier | fieldValue                     |

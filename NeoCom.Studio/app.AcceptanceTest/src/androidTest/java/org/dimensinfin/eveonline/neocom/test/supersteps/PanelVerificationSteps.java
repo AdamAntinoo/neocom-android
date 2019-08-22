@@ -37,17 +37,18 @@ public class PanelVerificationSteps {
 	private boolean validateMiningActionBar( final View actionBar, final List<Map<String, String>> cucumberTable ) {
 		Assert.assertNotNull(actionBar);
 		for (Map<String, String> row : cucumberTable) {
+			TextView field;
 			switch (row.get(FIELD_IDENTIFIER)) {
-				TextView field;
 				case "titleTopLeft":
-					field = actionBar.findViewById(R.id.tit);
+					field = actionBar.findViewById(R.id.toolBarTitleLeft);
 					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-					break;
+					return true;
 				case "subtitle":
-					field = actionBar.findViewById(R.id.subtitle);
+					field = actionBar.findViewById(R.id.toolBarSubTitle);
 					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-					break;
+					return true;
 			}
 		}
+		return false;
 	}
 }
