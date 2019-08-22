@@ -104,8 +104,12 @@ android {
 }
 
 // - T A S K S   C O M P L E M E N T A R Y
+ext {
+    assetsPath = "$projectDir/src/main/assets"
+}
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
 task copyResources(type: Copy) {
+    group = "neocom"
     doLast {
         copy {
             println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
@@ -115,24 +119,10 @@ task copyResources(type: Copy) {
     }
 }
 build.dependsOn copyResources
-
-//// Create the sde setup version data with the configured version contents.
-//task generateVersionSQL() {
-//    doLast {
-//        new File("./src/main/sh/setVersion.sql").text = "INSERT INTO `version` VALUES (${SDE_DB_VERSION});"
-//    }
-//}
-//// Generate the SDE database if does not exist or the version does not match
-//task generateSDEDatabase(type: Exec) {
-//    println 'Generate the Version data...'
-//    workingDir './src/main/sh'
-//    commandLine './create-sde.sh'
-//}
-//task copySDEDatabase(type: Copy) {
-//    println 'Copy SDE database to Assets...'
-//    from './src/main/sh/sde.db'
-//    into './src/main/assets'
-//}
-//generateSDEDatabase.dependsOn generateVersionSQL
-//copySDEDatabase.dependsOn generateSDEDatabase
-//build.dependsOn copySDEDatabase
+task copySDEDatabase(type: Copy) {
+    group = "neocom"
+    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
+    into "$assetsPath"
+}
+copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')

@@ -10,6 +10,7 @@ import androidx.test.rule.ActivityTestRule;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,12 @@ public class StepFramework {
 				Assert.assertNotNull(activityRuleSplash);
 				this.world.setActivityRule(activityRuleSplash);
 				break;
+			case "MiningLedgerActivity":
+				final ActivityTestRule<MiningLedgerActivity> activityRuleMiningLegder =
+						new ActivityTestRule<>(MiningLedgerActivity.class, false, false);
+				Assert.assertNotNull(activityRuleMiningLegder);
+				this.world.setActivityRule(activityRuleMiningLegder);
+				break;
 		}
 	}
 
@@ -40,8 +47,8 @@ public class StepFramework {
 		this.world.getActivityRule().launchActivity(null);
 		this.world.setActiveActivity((FragmentActivity) this.world.getActivityRule().getActivity());
 		Assert.assertNotNull(this.world.getActiveActivity());
-//		Assert.assertEquals(activityName, this.world.getActiveActivity().getClass().getSimpleName());
 	}
+
 	protected void accessDataContainers( final MVCPagerFragment fragment ) {
 		final ViewGroup headerContainer = fragment.accessHeaderContainer();
 		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
@@ -50,6 +57,7 @@ public class StepFramework {
 		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
 		this.world.setDataSectionContainer(dataSectionContainer);
 	}
+
 	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {

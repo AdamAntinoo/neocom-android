@@ -29,22 +29,21 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            resValue "string", "appname", "AndroidMVC"
-            resValue "string", "appversion", android.defaultConfig.versionName
-//            resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
-//            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
-        }
-        debug {
-            initWith(release)
-            debuggable true
-            shrinkResources false
-            minifyEnabled false
-            useProguard false
-            testCoverageEnabled true
+            resValue "string", "appname", "NeoComAC"
+            debug {
+                initWith(release)
+                debuggable true
+                shrinkResources false
+                minifyEnabled false
+                useProguard false
+                testCoverageEnabled true
+            }
         }
     }
-
     sourceSets {
+        main.assets {
+            srcDirs += project(':app').file('src/main/assets')
+        }
         main.java {
             srcDirs += project(':app').file('src/main/java-appv4')
             srcDirs += project(':app').file('src/main/java-adapters')
@@ -81,6 +80,7 @@ android {
 ext {
     cucumberJavaVersion = '4.3.0'
 }
+// - A N D R O I D
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.fragment:fragment:1.0.0'
@@ -108,3 +108,15 @@ dependencies {
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
 }
 
+// - T A S K S
+// Copy configuration and property resources from other modules to the final 'resources' application folder.
+//task copyResources(type: Copy) {
+//    doLast {
+//        copy {
+//            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
+//            from project(':NeoCom.DataManagement').file('src/main/resources')
+//            into file('src/main/assets')
+//        }
+//    }
+//}
+//build.dependsOn copyResources
