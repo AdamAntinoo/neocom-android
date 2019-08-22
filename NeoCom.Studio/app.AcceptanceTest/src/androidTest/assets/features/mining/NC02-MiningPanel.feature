@@ -43,10 +43,17 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
   @NC02P0.01 @MVCPanel
   Scenario: [NC02P0.01][ACTIONBAR] Mining daily data action bar.
 	Given today date being "2019-08-08"
-#	When complete the lifecycle without exceptions
-	Then the action bar for this page shows the next fields
-	  | Title  | pilotName    | pageSubTitle |
-	  | MINING | Adam Antinoo | MINING DAILY |
+	When complete the lifecycle without exceptions
+	Then check that the custom action bar is present
+	And check a "MiningActionBar" with next contents
+	  | fieldIdentifier | fieldValue                     |
+	  | titleTopLeft    | Beth Ripley                    |
+	  | subtitle        | PLANET INSTALLATIONS - DETAILS |
+#
+#	And the action bar class is "MiningActionBar"
+#	And the action bar has a field named "title"
+#	And the action bar field "title" has content "MINING"
+#	Then the action bar for this page shows the next fields
 #
 #  @NC02P0.02 @MVCPanel
 #  Scenario: [NC02P0.01][HEADER] Mining daily list of extraction resources.

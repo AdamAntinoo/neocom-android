@@ -22,7 +22,6 @@ import org.junit.Assert;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -99,8 +98,13 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 		this.world.setTodayDate(new LocalDate(todayDate));
 	}
 
-	@Then("the action bar for this page shows the next fields")
-	public void theActionBarForThisPageShowsTheNextFields( final List<Map<String, String>> cucumberTable ) throws InterruptedException {
-		Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+//	@Then("the action bar for this page shows the next fields")
+//	public void theActionBarForThisPageShowsTheNextFields( final List<Map<String, String>> cucumberTable ) throws InterruptedException {
+//		Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+//	}
+
+	@Then("check that the custom action bar is present")
+	public void checkThatTheCustomActionBarIsPresent() {
+		Assert.assertNotNull(this.world.getFragment().generateActionBarView());
 	}
 }
