@@ -68,14 +68,14 @@ public class MiningExtractionAggregatorController extends AndroidController<Mini
 
 		@Override
 		public void initializeViews() {
-			title = this.getView().findViewById(R.id.title);
-			volume = this.getView().findViewById(R.id.volume);
+			this.title = this.getView().findViewById(R.id.title);
+			this.volume = this.getView().findViewById(R.id.volume);
 		}
 
 		@Override
 		public void updateContent() {
-			title.setText(this.getController().getModel().getTitle());
-			volume.setText(this.accessVolume());
+			this.title.setText(this.getController().getModel().getTitle());
+			this.volume.setText(this.accessVolume());
 		}
 
 		private String accessVolume() {

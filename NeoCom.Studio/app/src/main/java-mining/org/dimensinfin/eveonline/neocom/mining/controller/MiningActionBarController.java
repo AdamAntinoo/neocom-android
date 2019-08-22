@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -90,7 +88,8 @@ public class MiningActionBarController extends AndroidController<MiningActionBar
 			this.activityIcon.setImageResource(this.getController().getModel().getActivityIconReference());
 			this.activityIcon.setVisibility(View.VISIBLE);
 			final String link = this.accessUrlforAvatar();
-			Picasso.get().load(link).into(upperIcon);
+			// TODO - This should be run on another thread during testing but still not ready.
+//			Picasso.get().load(link).into(upperIcon);
 			this.upperIcon.setVisibility(View.VISIBLE);
 		}
 

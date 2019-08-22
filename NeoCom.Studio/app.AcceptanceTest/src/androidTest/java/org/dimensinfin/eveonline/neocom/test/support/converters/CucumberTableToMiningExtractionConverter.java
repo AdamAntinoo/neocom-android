@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.test.support.converters;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
@@ -20,15 +21,21 @@ public class CucumberTableToMiningExtractionConverter extends CucumberTableConve
 
 	@Override
 	public MiningExtraction convert( Map<String, String> cucumberRow ) {
-		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 		ESIDataAdapter esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
 		return new MiningExtraction.Builder()
 				       .withTypeId(Integer.parseInt(cucumberRow.get(TYPE_ID)))
-				       .withSolarSystemLocation(esiDataAdapter.searchLocation4Id(Long.parseLong(cucumberRow.get(SOLAR_SYSTEM_ID))))
+				       .withSolarSystemLocation(
+						       esiDataAdapter.searchLocation4Id(Long.parseLong(cucumberRow.get(SOLAR_SYSTEM_ID))))
 				       .withQuantity(Integer.parseInt(cucumberRow.get(QUANTITY)))
-				       .withExtractionDate(dtf.parseLocalDate(cucumberRow.get(EXTRACTION_DATE_NAME)))
+				       .withExtractionDate(this.accessExtractionDate(cucumberRow.get(EXTRACTION_DATE_NAME)))
 				       .withExtractionHour(Integer.parseInt(cucumberRow.get(EXTRACTION_HOUR)))
 				       .withOwnerId(Integer.parseInt(cucumberRow.get(OWNER_ID)))
 				       .build();
+	}
+
+	private LocalDate accessExtractionDate( final String dateString ) {
+		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		if (dateString.equalsIgnoreCase("<today>")) return LocalDate.now();
+		else return dtf.parseLocalDate(dateString);
 	}
 }

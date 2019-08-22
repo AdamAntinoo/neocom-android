@@ -7,6 +7,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.joda.time.LocalDate;
@@ -25,6 +26,8 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	private ESIDataAdapter esiDataAdapter;
 	private MiningRepository miningRepository; // The mining persistence repository definition.
 
+	private LocalDate targetDate;
+	private List<Resource> resources = new ArrayList<>();
 	private List<MiningExtraction> extractions;
 	private List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
 
@@ -90,17 +93,16 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	@Override
 	public void collaborate2Model() {
 		// - H E A D E R   S E C T I O N
-////		protected void fillResources() {
-//			if (null == this.targetDate) this.targetDate = LocalDate.now();
-//			final List<MiningExtraction> extractions = this.miningRepository.accessResources4Date(
-//					this.credential,
-//					this.targetDate);
-//			this.resources.clear();
-//			for (MiningExtraction extraction : extractions) {
-//				this.resources.add(new Resource(extraction.getTypeId(), extraction.getQuantity()));
-//			}
-////		}
-		this.addHeaderContents(new DailyExtractionResourcesContainer()); // Add the resource table header
+		if (null == this.targetDate) this.targetDate = LocalDate.now();
+		final List<MiningExtraction> extractions = this.miningRepository.accessResources4Date(
+				this.credential,
+				this.targetDate);
+		this.resources.clear();
+		for (MiningExtraction extraction : extractions)
+			this.resources.add(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+		this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
+				                       .withResourceList(this.resources)
+				                       .build()); // Add the resource table header
 
 		// - D A T A   S E C T I O N
 		final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
