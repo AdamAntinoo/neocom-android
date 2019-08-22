@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
@@ -10,7 +11,11 @@ import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.joda.time.LocalDate;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class NeoComWorld {
+	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
 	private ActivityTestRule activityRule;
 	private FragmentActivity activeActivity;
@@ -18,6 +23,20 @@ public class NeoComWorld {
 	private ViewGroup headerContainer;
 	private ListView dataSectionContainer;
 	private LocalDate todayDate;
+	private View actionBar;
+
+	public ExecutorService getExecutor() {
+		return backgroundExecutor;
+	}
+
+	public View getActionBar() {
+		return this.actionBar;
+	}
+
+	public NeoComWorld setActionBar( final View actionBar ) {
+		this.actionBar = actionBar;
+		return this;
+	}
 
 	public NeoComApplication getApplication() {
 		return this.application;
