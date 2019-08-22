@@ -9,6 +9,7 @@ import android.os.Environment;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
@@ -20,9 +21,11 @@ import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
 import org.junit.Assert;
+import org.junit.Rule;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -33,6 +36,15 @@ public class BackgroundInitApp {
 	private IFileSystem fileSystem;
 	private SupportCredentialRepository credentialRepository;
 	private SupportMiningRepository miningRepository;
+
+	@Rule
+	public GrantPermissionRule mPermissionReadExternalStorageRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
+	@Rule
+	public GrantPermissionRule mPermissionWriteExternalStorageRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+	@Rule
+	public GrantPermissionRule mPermissionInternetRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
+	@Rule
+	public GrantPermissionRule mPermissionAccessNetworkStateRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_NETWORK_STATE);
 
 	public BackgroundInitApp( final NeoComWorld world ) {
 		this.world = world;
@@ -48,21 +60,27 @@ public class BackgroundInitApp {
 	}
 
 	@And("the application access privileges")
-	public void theApplicationAccessPrivileges() {
+	public void theApplicationAccessPrivileges() throws InterruptedException {
 		final ActivityTestRule<SettingsActivity> activityRuleSettings = new ActivityTestRule<>(SettingsActivity.class,
 		                                                                                       false, false);
 		Assert.assertNotNull(activityRuleSettings);
 		activityRuleSettings.launchActivity(null);
 		final Activity activity = activityRuleSettings.getActivity();
-//		this.world.setActivityRule(activityRuleSplash);
-
-//		final activity
+		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.READ_EXTERNAL_STORAGE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(activity,
+			                                  new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE },
+			                                  10);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+		}
 		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				    != PackageManager.PERMISSION_GRANTED) {
 			// Permission is not granted
 			ActivityCompat.requestPermissions(activity,
 			                                  new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
 			                                  10);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
 		}
 		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.INTERNET)
 				    != PackageManager.PERMISSION_GRANTED) {
@@ -70,6 +88,7 @@ public class BackgroundInitApp {
 			ActivityCompat.requestPermissions(activity,
 			                                  new String[]{ Manifest.permission.INTERNET },
 			                                  20);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
 		}
 		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.ACCESS_NETWORK_STATE)
 				    != PackageManager.PERMISSION_GRANTED) {
@@ -77,6 +96,7 @@ public class BackgroundInitApp {
 			ActivityCompat.requestPermissions(activity,
 			                                  new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
 			                                  30);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
 		}
 	}
 

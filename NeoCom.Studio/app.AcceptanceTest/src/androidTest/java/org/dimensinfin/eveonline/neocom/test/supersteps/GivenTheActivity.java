@@ -6,14 +6,12 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 import org.junit.Assert;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class GivenTheActivity extends StepFramework {
@@ -62,10 +60,11 @@ public class GivenTheActivity extends StepFramework {
 		Assert.assertNotNull(this.world.getFragment());
 	}
 
-	@Then("complete the lifecycle without exceptions")
-	public void completeTheLifecycleWithoutExceptions() {
-		Assert.assertNull(((AppSplashActivity) this.world.getActiveActivity()).getLatestException());
-	}
+//	@Then("complete the lifecycle without exceptions")
+//	public void completeTheLifecycleWithoutExceptions() throws InterruptedException {
+////		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+////		Assert.assertNull(((AppSplashActivity) this.world.getActiveActivity()).getLatestException());
+//	}
 
 	@And("the component factory exists")
 	public void theComponentFactoryExists() {
