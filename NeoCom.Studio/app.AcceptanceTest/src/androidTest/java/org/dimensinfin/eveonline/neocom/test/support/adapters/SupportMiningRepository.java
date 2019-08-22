@@ -21,6 +21,16 @@ public class SupportMiningRepository extends MiningRepository {
 		}
 	}
 
+	public Long countRecords() {
+		try {
+			return this.miningExtractionDao.countOf();
+		} catch (SQLException sqle) {
+			logger.info("EX [SupportMiningRepository.countRecords]> SQL exception while counting records: {}",
+			            sqle.getMessage());
+			return 0L;
+		}
+	}
+
 	// - B U I L D E R
 	public static class Builder {
 		private SupportMiningRepository onConstruction;

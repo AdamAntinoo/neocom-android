@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.support.converters;
 
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.test.support.CucumberTableConverter;
 
 import java.util.Map;
 

@@ -27,6 +27,7 @@ public class MiningLedgerFragment extends AuthenticatedFragment {
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
 					       .withCredential(this.getCredential())
+						   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
 		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_ALL.name()))

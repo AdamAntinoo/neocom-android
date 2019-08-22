@@ -87,7 +87,6 @@ public class GivenTheActivity extends StepFramework {
 //		final View panel = this.searchFirstPanelByClass(AppVersion.class, this.world.getHeaderContainer());
 //		Assert.assertNotNull(panel);
 	}
-
 //	@Then("complete the {string} phase with no exceptions")
 //	public void completeThePhaseWithNoExceptions( final String phase ) {
 //		switch (phase) {

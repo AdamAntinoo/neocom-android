@@ -10,16 +10,27 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class SupportCredentialRepository extends CredentialRepository {
-	private Dao<Credential, String> credentialDao;
 	public int deleteAll() {
 		try {
 			final DeleteBuilder<Credential, String> deleteBuilder = this.credentialDao.deleteBuilder();
 			deleteBuilder.where().isNotNull("uniqueCredential");
-			return deleteBuilder.delete();
+			final int recordsDeleted = deleteBuilder.delete();
+			logger.info("-- [SupportCredentialRepository.deleteAll]> Deleted {} records", recordsDeleted);
+			return recordsDeleted;
 		} catch (SQLException sqle) {
 			logger.info("EX [SupportCredentialRepository.deleteAll]> SQL exception while deleting records: {}",
 			            sqle.getMessage());
 			return 0;
+		}
+	}
+
+	public Long countRecords() {
+		try {
+			return this.credentialDao.countOf();
+		} catch (SQLException sqle) {
+			logger.info("EX [SupportCredentialRepository.countRecords]> SQL exception while counting records: {}",
+			            sqle.getMessage());
+			return 0L;
 		}
 	}
 

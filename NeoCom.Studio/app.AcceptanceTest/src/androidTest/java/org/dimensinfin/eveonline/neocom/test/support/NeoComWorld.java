@@ -7,13 +7,26 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.joda.time.LocalDate;
 
 public class NeoComWorld {
+	private NeoComApplication application;
 	private ActivityTestRule activityRule;
 	private FragmentActivity activeActivity;
 	private IPagerFragment fragment;
 	private ViewGroup headerContainer;
 	private ListView dataSectionContainer;
+	private LocalDate todayDate;
+
+	public NeoComApplication getApplication() {
+		return this.application;
+	}
+
+	public NeoComWorld setApplication( final NeoComApplication application ) {
+		this.application = application;
+		return this;
+	}
 
 	public ActivityTestRule getActivityRule() {
 		return this.activityRule;
@@ -57,6 +70,15 @@ public class NeoComWorld {
 
 	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
 		this.dataSectionContainer = dataSectionContainer;
+		return this;
+	}
+
+	public LocalDate getTodayDate() {
+		return this.todayDate;
+	}
+
+	public NeoComWorld setTodayDate( final LocalDate todayDate ) {
+		this.todayDate = todayDate;
 		return this;
 	}
 }
