@@ -37,7 +37,7 @@ public class VTPilotDataSource extends MVCDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends MVCDataSource.BaseBuilder<VTPilotDataSource, VTPilotDataSource.Builder> {
+	public static class Builder extends MVCDataSource.Builder<VTPilotDataSource, VTPilotDataSource.Builder> {
 		private VTPilotDataSource onConstruction;
 
 		@Override

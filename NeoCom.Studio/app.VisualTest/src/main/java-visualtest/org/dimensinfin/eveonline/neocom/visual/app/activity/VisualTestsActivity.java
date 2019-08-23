@@ -12,12 +12,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.visual.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.visual.tests.mining.miningextractionstoday.VTMiningExtractionsTodayFragment;
-import org.dimensinfin.eveonline.neocom.visual.tests.planetary.VTPlanetaryFragment;
-import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityFragment;
-import org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility.VTAdvancedFacilityLayoutFragment;
-import org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter.VTCommandCenterLayoutFragment;
-import org.dimensinfin.eveonline.neocom.visual.tests.planetary.extractor.VTExtractorFragment;
+import org.dimensinfin.eveonline.neocom.visual.tests.miningledger.VTMiningLedgerFragment;
 
 import java.io.File;
 
@@ -31,24 +26,28 @@ public class VisualTestsActivity extends MVCMultiPageActivity {
 		this.validatePermissions();
 		// TODO - disabled temporarily
 		this.validateSDEDatabase();
+
+		// - T E S T    P A G E S
+		this.addPage(new VTMiningLedgerFragment().setVariant(PageNamesType.MINING_LEDGER.name()));
+
 //		NeoComUpdater.injectsEsiDataAdapter(VisualNeoComComponentFactory.getSingleton().getEsiDataAdapter());
 //		EveItem.injectEsiDataAdapter(VisualNeoComComponentFactory.getSingleton().getEsiDataAdapter());
 
-		this.addPage(new VTMiningExtractionsTodayFragment().setVariant(PageNamesType.MINING_EXTRACTIONS_TODAY.name()));
-
-		this.addPage(new VTPlanetaryFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
-		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
-		this.addPage(new VTAdvancedFacilityLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-		this.addPage(new VTExtractorFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
-		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-
-
+//		this.addPage(new VTMiningExtractionsTodayFragment().setVariant(PageNamesType.MINING_EXTRACTIONS_TODAY.name()));
+//
+//		this.addPage(new VTPlanetaryFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
+//		this.addPage(new VTAdvancedFacilityFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
+//		this.addPage(new VTAdvancedFacilityLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+//		this.addPage(new VTExtractorFragment().setVariant(PageNamesType.PLANET_FACILITIES_DETAILS.name()));
 //		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-//		this.addPage(new VTPilotFragment().setVariant(PageNamesType.PILOT_DASHBOARD.name()));
-
-//		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
-//		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
-		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
+//
+//
+////		this.addPage(new VTCommandCenterLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+////		this.addPage(new VTPilotFragment().setVariant(PageNamesType.PILOT_DASHBOARD.name()));
+//
+////		this.addPage(new VTCredentialsFragment().setVariant(PageNamesType.SPLASH.name()));
+////		this.addPage(new VisualTestsPlanetaryLayoutFragment().setVariant(PageNamesType.PLANET_FACILITIES_LAYOUT.name()));
+//		this.addPage(new VisualTestsFragment().setVariant(PageNamesType.SPLASH.name()));
 	}
 
 	protected void validatePermissions() {

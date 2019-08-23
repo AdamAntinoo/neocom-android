@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class DataTableConverter<T> implements Converter<List<Map<String, String>>, List<T>> {
+public abstract class CucumberTableConverter<T> implements IConverter<List<Map<String, String>>, List<T>> {
 
 	private static final String LIST_SEPARATOR = ",";
 
 	@Override
 	public List<T> convert( List<Map<String, String>> dataTable ) {
 		return Stream.of(dataTable)
-		             .map(row -> convert(row))
-		             .collect(Collectors.toList());
+				       .map(row -> convert(row))
+				       .collect(Collectors.toList());
 	}
 
 	public abstract T convert( Map<String, String> cucumberRow );

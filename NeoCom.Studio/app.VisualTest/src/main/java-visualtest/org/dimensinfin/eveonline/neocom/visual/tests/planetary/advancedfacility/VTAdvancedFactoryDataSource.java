@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.visual.tests.planetary.advancedfacility
 
 import com.annimon.stream.Stream;
 
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -98,7 +99,7 @@ public class VTAdvancedFactoryDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends BaseBuilder<VTAdvancedFactoryDataSource, VTAdvancedFactoryDataSource.Builder> {
+	public static class Builder extends MVCDataSource.Builder<VTAdvancedFactoryDataSource, VTAdvancedFactoryDataSource.Builder> {
 		private VTAdvancedFactoryDataSource onConstruction;
 
 		@Override

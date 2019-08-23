@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.visual.tests.planetary.commandcenter;
 
 import com.annimon.stream.Stream;
 
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -103,7 +104,7 @@ public class VTCommandCenterDataSource extends PlanetaryCommonDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends Builder<VTCommandCenterDataSource, VTCommandCenterDataSource.Builder> {
+	public static class Builder extends MVCDataSource.Builder<VTCommandCenterDataSource, VTCommandCenterDataSource.Builder> {
 		private VTCommandCenterDataSource onConstruction;
 
 		@Override
