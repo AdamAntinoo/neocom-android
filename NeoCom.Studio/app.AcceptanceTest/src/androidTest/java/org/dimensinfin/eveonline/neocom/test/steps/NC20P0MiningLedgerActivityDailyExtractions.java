@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -22,9 +23,11 @@ import org.junit.Assert;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 	private static final String EXTRA_TYPE = "extraType";
@@ -100,11 +103,24 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 
 	@Then("check that the custom action bar is present")
 	public void checkThatTheCustomActionBarIsPresent() {
+		// TODO - some elements should be created on another thread.
 //		this.world.getExecutor().submit(() -> {
 //			this.world.setActionBar(this.world.getFragment().generateActionBarView());
 //		});
 //		Awaitility.await().atMost(1, MINUTES).until(() -> null != this.world.getActionBar());
 		this.world.setActionBar(this.world.getFragment().generateActionBarView());
 		Assert.assertNotNull(this.world.getActionBar());
+	}
+
+	@When("complete the lifecycle without exceptions")
+	public void completeTheLifecycleWithoutExceptions() throws InterruptedException {
+		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+		Assert.assertNull(this.world.getFragment().getLastException());
+	}
+
+	@Then("the header container has {string} panels")
+	public void theHeaderContainerHasPanels( final String panelCount ) {
+		final ViewGroup header = this.world.getHeaderContainer();
+		Assert.assertEquals(Integer.parseInt(panelCount), header.getChildCount());
 	}
 }

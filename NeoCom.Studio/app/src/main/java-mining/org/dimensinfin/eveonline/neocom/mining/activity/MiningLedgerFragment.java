@@ -20,7 +20,7 @@ public class MiningLedgerFragment extends AuthenticatedFragment {
 	@Override
 	public IControllerFactory createFactory() {
 		return new MiningControllerFactory(this.getVariant())
-				.registerActivity(PageNamesType.RESOURCE_DETAILS.name(), PilotDashboardActivity.class);
+				       .registerActivity(PageNamesType.RESOURCE_DETAILS.name(), PilotDashboardActivity.class);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class MiningLedgerFragment extends AuthenticatedFragment {
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
 					       .withCredential(this.getCredential())
-						   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+					       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
 					       .build();
 		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_ALL.name()))
@@ -48,19 +48,19 @@ public class MiningLedgerFragment extends AuthenticatedFragment {
 					       .build();
 		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
 	}
+
 	@Override
 	public View generateActionBarView() {
 		// Create the bar content model.
 		final MiningActionBar actionBar = new MiningActionBar.Builder()
-				                                     .withTitleTopLeft(this.getCredential().getAccountName())
-				                                     .withSubtitle(PageNamesType.PLANET_FACILITIES_DETAILS.getPageTitle())
-				                                     .withActivityIconRef(R.drawable.miningledger)
-				                                     .withPilotIdentifier(this.getCredential().getAccountId())
-				                                     .build();
+				                                  .withTitleTopLeft(this.getCredential().getAccountName())
+				                                  .withSubtitle(PageNamesType.PLANET_FACILITIES_DETAILS.getPageTitle())
+				                                  .withActivityIconRef(R.drawable.miningledger)
+				                                  .withPilotIdentifier(this.getCredential().getAccountId())
+				                                  .build();
 		// Get a controller from the model, then the view from the render.
 		final MiningActionBarController controller = (MiningActionBarController) new AppControllerFactory("SPLASH")
 				                                                                         .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}
-
 }

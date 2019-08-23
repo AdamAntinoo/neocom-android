@@ -39,18 +39,19 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
   Scenario: [NC02P0.01][ACTIONBAR] Mining daily data action bar.
 	Given today date being "<today>"
 	Then check that the custom action bar is present
-	And check a "MiningActionBar" with next contents
+	And check a action bar "MiningActionBar" with the next contents
 	  | fieldIdentifier | fieldValue                     |
 	  | titleTopLeft    | Beth Ripley                    |
 	  | subtitle        | PLANET INSTALLATIONS - DETAILS |
 
-#  @NC02P0.02 @MVCPanel
-#  Scenario: [NC02P0.02][HEADER] Mining daily list of extraction resources.
-#	Given today date being "<today>"
-#	When complete the lifecycle without exceptions
-#	Then the header container has "1" panel
-#  	And check a "Resource" panel with the next contents
-#	  | typeId | quantity | value  |
-#	  | 17459  | 23576    | 235760 |
-#	  | 17464  | 30348    | 303480 |
-#	  | 17471  | 25432    | 254320 |
+  @NC02P0.02 @MVCPanel
+  Scenario: [NC02P0.02][HEADER] Mining daily list of extraction resources.
+	Given today date being "<today>"
+	When complete the lifecycle without exceptions
+	Then the header container has "4" panels
+	And check a "MiningResource" panel with the next contents
+	  | fieldIdentifier    | fieldValue      |
+	  | resourceName       | Solid Pyroxeres |
+	  | resourceIdentifier | [#17459]        |
+	  | quantity           | 23.576          |
+	  | value              | -23,576.00 ISK  |

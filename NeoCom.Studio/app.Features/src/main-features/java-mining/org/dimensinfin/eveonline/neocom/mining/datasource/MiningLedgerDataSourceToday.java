@@ -76,17 +76,9 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 				}
 				if (null != systemAggregator) systemAggregator.addPack(extraction); // Add the extraction to the aggregator
 			}
-		} catch (SQLException sqle) {
-			// TODO REPLACE BY ANOTHER PATTERN
-			//			AndroidGlobalDataManager.registerException("MiningLedgerDataSource.collaborate2Model"
-			//					, sqle, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
-			sqle.printStackTrace();
-		} catch (RuntimeException rtex) {
-			//			AndroidGlobalDataManager.registerRuntimeException("MiningLedgerDataSource.collaborate2Model"
-			//					, rtex, AndroidGlobalDataManager.EExceptionSeverity.UNEXPECTED);
+		} catch (Exception rtex) {
 			rtex.printStackTrace();
 		}
-		//			}
 		logger.info("<< [MiningLedgerDataSource.collaborate2Model]");
 	}
 

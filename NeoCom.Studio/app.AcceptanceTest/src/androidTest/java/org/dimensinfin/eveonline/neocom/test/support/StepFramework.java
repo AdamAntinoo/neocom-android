@@ -7,7 +7,6 @@ import android.widget.ListView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
@@ -49,14 +48,14 @@ public class StepFramework {
 		Assert.assertNotNull(this.world.getActiveActivity());
 	}
 
-	protected void accessDataContainers( final MVCPagerFragment fragment ) {
-		final ViewGroup headerContainer = fragment.accessHeaderContainer();
-		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
-		this.world.setHeaderContainer(headerContainer);
-		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
-		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
-		this.world.setDataSectionContainer(dataSectionContainer);
-	}
+//	protected void accessDataContainers( final MVCPagerFragment fragment ) {
+//		final ViewGroup headerContainer = fragment.accessHeaderContainer();
+//		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
+//		this.world.setHeaderContainer(headerContainer);
+//		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
+//		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
+//		this.world.setDataSectionContainer(dataSectionContainer);
+//	}
 
 	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();

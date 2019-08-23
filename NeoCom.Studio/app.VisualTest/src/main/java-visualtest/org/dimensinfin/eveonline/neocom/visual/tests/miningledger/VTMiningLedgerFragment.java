@@ -65,7 +65,6 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 					       .withExtras(this.getExtras())
 					       .withFactory(this.createFactory())
 					       .withCredential(this.credential)
-//				       .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					       .withMiningRepository(miningRepository)
 					       .build();
 		} catch (SQLException e) {
@@ -75,20 +74,9 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 	}
 
 	private void initializeRepository( final SupportMiningRepository miningRepository ) {
-//		try {
-//			final SupportMiningRepository miningRepository = new SupportMiningRepository.Builder()
-//					                                                 .withMiningExtractionDao(
-//							                                                 NeoComComponentFactory.getSingleton()
-//									                                                 .getNeoComDBHelper()
-//									                                                 .getMiningExtractionDao())
-//					                                                 .build();
-			miningRepository.deleteAll(); // Clean up the repository.
-			this.miningExtractionDatabaseRecordGenerator.loadMockData2Repository(
-					this.credential); // Load up the mock data used on the acceptance tests.
-//			miningRepository.remapTodayDate(LocalDate.now());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		miningRepository.deleteAll(); // Clean up the repository.
+		this.miningExtractionDatabaseRecordGenerator.loadMockData2Repository(
+				this.credential); // Load up the mock data used on the acceptance tests.
 	}
 
 	public static class VTMiningLedgerDataSource extends MVCDataSource {

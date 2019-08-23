@@ -18,9 +18,6 @@ import java.io.File;
 public class AppSplashActivity extends ANeoComActivity {
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
-	private boolean onCreateCompleted = false;
-	private boolean onStartCompleted = false;
-	private Exception lastException;
 
 	// - L I F E C Y C L E
 	@Override
@@ -29,7 +26,6 @@ public class AppSplashActivity extends ANeoComActivity {
 		if (this.checkStartup()) {
 			this.injectComponents();
 			this.addPage(new AppSplashFragment());
-			this.onCreateCompleted = true;
 		} else
 			this.addPage(new BlockFragment());
 	}
@@ -42,50 +38,8 @@ public class AppSplashActivity extends ANeoComActivity {
 		logger.info("-- [AppSplashActivity.onStart]> Creating application directories...");
 		this.createApplicationDirectories(); // Create any application storage directories on the SD card.
 		this.validateSDEDatabase();
-		// Connect special classes to the ESI to allow internal access to game data
-//		EveItem.injectEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
-//		NeoComUpdater.injectsEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter());
-		this.onStartCompleted = true;
 	}
 
-	public Exception getLatestException() {
-		return this.lastException;
-	}
-
-	public boolean isPhaseOnCreateCompleted() {
-		return this.onCreateCompleted;
-	}
-
-	public boolean isPhaseOnStartCompleted() {
-		return this.onStartCompleted;
-	}
-//	protected void validatePermissions() {
-//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//				    != PackageManager.PERMISSION_GRANTED) {
-//			// Permission is not granted
-//			ActivityCompat.requestPermissions(this,
-//			                                  new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
-//			                                  10);
-//		}
-//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
-//				    != PackageManager.PERMISSION_GRANTED) {
-//			// Permission is not granted
-//			ActivityCompat.requestPermissions(this,
-//			                                  new String[]{ Manifest.permission.INTERNET },
-//			                                  20);
-//		}
-//		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
-//				    != PackageManager.PERMISSION_GRANTED) {
-//			// Permission is not granted
-//			ActivityCompat.requestPermissions(this,
-//			                                  new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
-//			                                  30);
-//		}
-//	}
-
-	//	private MVCPagerFragment setPage(final int pageNumber){
-//		return this.setPage(pageNumber);
-//	}
 	private boolean checkStartup() {
 		if (null != NeoComComponentFactory.getSingleton())
 			return NeoComComponentFactory.getSingleton().getApplication().isSchedulerActive();

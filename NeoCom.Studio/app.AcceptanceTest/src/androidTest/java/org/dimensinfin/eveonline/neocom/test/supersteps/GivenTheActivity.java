@@ -2,11 +2,11 @@ package org.dimensinfin.eveonline.neocom.test.supersteps;
 
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 import org.junit.Assert;
@@ -16,24 +16,21 @@ import cucumber.api.java.en.When;
 
 public class GivenTheActivity extends StepFramework {
 	private static final int FIRST_PAGE = 0;
+
 	public GivenTheActivity( final NeoComWorld world ) {
 		super(world);
 	}
+
 	@When("selected the page {string} of the activity")
 	public void selectedThePageOfTheActivity( final String pageNumber ) {
+		// TODO - Check first if the current page al already the selected page
 //		((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter().
 
 //		this.world.setFragment(((MVCMultiPageActivity) this.world.getActiveActivity()).setPage(FIRST_PAGE));
-		this.world.setFragment((IPagerFragment) ((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter()
-				                       .getItem(Integer.parseInt(pageNumber)));
+		this.world.setFragment((NeoComFragment) ((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter()
+				                                        .getItem(Integer.parseInt(pageNumber)));
 		Assert.assertNotNull(this.world.getFragment());
 	}
-
-//	@Then("complete the lifecycle without exceptions")
-//	public void completeTheLifecycleWithoutExceptions() throws InterruptedException {
-////		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
-////		Assert.assertNull(((AppSplashActivity) this.world.getActiveActivity()).getLatestException());
-//	}
 
 	@And("the component factory exists")
 	public void theComponentFactoryExists() {

@@ -50,7 +50,7 @@ public class MiningExtractionResourceRender extends ResourceFacetedRender {
 	public void updateContent() {
 		super.updateContent();
 		this.resourceName.setText(this.getController().getModel().getName());
-		this.resourceIdentifier.setText("#[" + this.getController().getModel().getTypeId() + "]");
+		this.resourceIdentifier.setText("[#" + this.getController().getModel().getTypeId() + "]");
 		this.quantity.setText(this.accessQuantity());
 		this.value.setText(this.accessResourceValue());
 	}

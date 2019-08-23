@@ -1,9 +1,8 @@
 package org.dimensinfin.eveonline.neocom.app.activity.core;
 
-import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 
-public abstract class AuthenticatedFragment extends MVCPagerFragment {
+public abstract class AuthenticatedFragment extends NeoComFragment {
 	private Credential credential;
 
 	public Credential getCredential() {
