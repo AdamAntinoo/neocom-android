@@ -6,9 +6,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;

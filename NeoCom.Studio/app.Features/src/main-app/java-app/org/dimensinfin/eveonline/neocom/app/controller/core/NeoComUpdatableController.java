@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.controller.core;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdaterFactory;

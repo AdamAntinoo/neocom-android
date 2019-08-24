@@ -3,11 +3,13 @@ package org.dimensinfin.eveonline.neocom.planetary.controller;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilitySummary;
@@ -18,7 +20,7 @@ public class PlanetaryFacilitySummaryController extends AndroidController<Planet
 	}
 
 	@Override
-	public IRender buildRender(final Context context) {
+	public IRender buildRender( final Context context) {
 		return new StructureRender(this, context);
 	}
 
@@ -28,7 +30,7 @@ public class PlanetaryFacilitySummaryController extends AndroidController<Planet
 		private TextView structureCount;
 
 		// - C O N S T R U C T O R S
-		public StructureRender(@NonNull final IAndroidController controller, @NonNull final Context context) {
+		public StructureRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
 			super(controller, context);
 		}
 

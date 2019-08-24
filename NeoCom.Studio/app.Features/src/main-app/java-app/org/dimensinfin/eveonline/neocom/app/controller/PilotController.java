@@ -2,9 +2,9 @@ package org.dimensinfin.eveonline.neocom.app.controller;
 
 import android.content.Context;
 
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAuthorizedController;
