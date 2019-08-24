@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryResourceController;
 
@@ -50,7 +51,7 @@ public class PlanetaryResourceRender extends ResourceFacetedRender {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+		MVCScheduler.backgroundExecutor.submit(() -> {
 			try {
 				final String name = this.getController().getModel().getName(); // Access and download the item.
 				final String valueData = this.accessValue();
