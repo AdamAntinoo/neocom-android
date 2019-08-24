@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 import org.junit.Assert;
@@ -23,6 +24,10 @@ public class PanelVerificationSteps extends StepFramework {
 	private static final String MININGRESOURCE_QUANTITY = "quantity";
 	private static final String MININGRESOURCE_VALUE = "value";
 
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL="nameTypeLabel";
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL="quantityLabel";
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL="valueLabel";
+
 	public PanelVerificationSteps( final NeoComWorld world ) {
 		super(world);
 	}
@@ -40,11 +45,17 @@ public class PanelVerificationSteps extends StepFramework {
 
 	@And("check a {string} panel with the next contents")
 	public void checkAPanelWithTheNextContents( final String panelTypeName, final List<Map<String, String>> cucumberTable ) {
+		View panel;
 		switch (panelTypeName) {
 			case "MiningResource":
-				final View panel = this.searchFirstPanelByClass(Resource.class, this.world.getHeaderContainer());
+				panel = this.searchFirstPanelByClass(Resource.class, this.world.getHeaderContainer());
 				Assert.assertNotNull(panel);
 				Assert.assertTrue(this.validateMiningResourcePanel(panel, cucumberTable));
+				break;
+			case "DailyExtractionResourcesContainer":
+				panel = this.searchFirstPanelByClass(DailyExtractionResourcesContainer.class, this.world.getHeaderContainer());
+				Assert.assertNotNull(panel);
+				Assert.assertTrue(this.validateDailyExtractionResourcesContainerPanel(panel, cucumberTable));
 				break;
 			default:
 				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");
@@ -88,6 +99,29 @@ public class PanelVerificationSteps extends StepFramework {
 					return true;
 				case MININGRESOURCE_VALUE:
 					field = panel.findViewById(R.id.value);
+					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean validateDailyExtractionResourcesContainerPanel( final View panel,
+	                                                                final List<Map<String, String>> cucumberTable ) {
+		Assert.assertNotNull(panel);
+		for (Map<String, String> row : cucumberTable) {
+			TextView field;
+			switch (row.get(FIELD_IDENTIFIER)) {
+				case DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL:
+					field = panel.findViewById(R.id.nameTypeLabel);
+					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
+					return true;
+				case DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL:
+					field = panel.findViewById(R.id.quantityLabel);
+					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
+					return true;
+				case DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL:
+					field = panel.findViewById(R.id.valueLabel);
 					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
 					return true;
 			}

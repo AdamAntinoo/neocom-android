@@ -55,3 +55,8 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
 	  | resourceIdentifier | [#17459]        |
 	  | quantity           | 23.576          |
 	  | value              | -23,576.00 ISK  |
+	And check a "DailyExtractionResourcesContainer" panel with the next contents
+	  | fieldIdentifier | fieldValue              |
+	  | nameTypeLabel   | RESOURCE NAME [#TYPEID] |
+	  | quantityLabel   | QUANTITY                |
+	  | valueLabel      | VALUE                   |

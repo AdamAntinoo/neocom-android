@@ -1,9 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.render;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
@@ -11,24 +7,31 @@ import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
-
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-import com.squareup.picasso.Picasso;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public abstract class NeoComRenderv2 extends MVCRender {
+	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	// - C H A R A C T E R S
 	public static final String FLOW_ARROW_RIGHT = " ► ";
 	public static final String FLOW_ARROW_LEFT = " ◄ ";

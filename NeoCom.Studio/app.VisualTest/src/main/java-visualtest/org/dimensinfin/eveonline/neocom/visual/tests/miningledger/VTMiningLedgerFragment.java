@@ -2,13 +2,14 @@ package org.dimensinfin.eveonline.neocom.visual.tests.miningledger;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
+import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 import org.dimensinfin.eveonline.neocom.visual.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;
 import org.dimensinfin.eveonline.neocom.visual.app.support.SupportMiningRepository;
@@ -18,7 +19,6 @@ import org.joda.time.LocalDate;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VTMiningLedgerFragment extends MVCPagerFragment {
 	private MiningExtractionDatabaseRecordGenerator miningExtractionDatabaseRecordGenerator;
@@ -50,6 +50,7 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 					                                           .withMiningExtractionDao(
 							                                           NeoComComponentFactory.getSingleton().getNeoComDBHelper()
 									                                           .getMiningExtractionDao())
+															   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					                                           .build();
 			this.miningExtractionDatabaseRecordGenerator = new MiningExtractionDatabaseRecordGenerator.Builder()
 					                                               .withEsiDataAdapter(NeoComComponentFactory.getSingleton()
@@ -66,6 +67,7 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 					       .withFactory(this.createFactory())
 					       .withCredential(this.credential)
 					       .withMiningRepository(miningRepository)
+						   .withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					       .build();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,14 +81,16 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 				this.credential); // Load up the mock data used on the acceptance tests.
 	}
 
-	public static class VTMiningLedgerDataSource extends MVCDataSource {
-		private Credential credential;
-		private MiningRepository miningRepository;
+	public static class VTMiningLedgerDataSource extends MiningLedgerDataSourceToday {
+//		private Credential credential;
+//		private MiningRepository miningRepository;
 		private LocalDate targetDate;
 		private List<Resource> resources = new ArrayList<>();
 
 		@Override
 		public void prepareModel() {
+			super.prepareModel();
+			int i =0;
 		}
 
 		@Override
@@ -101,33 +105,40 @@ public class VTMiningLedgerFragment extends MVCPagerFragment {
 			this.addHeaderContents(new DailyExtractionResourcesContainer.Builder()
 					                       .withResourceList(this.resources)
 					                       .build()); // Add the resource table header
+
+			final PanelTitle title = new PanelTitle("TODAY MINING EXTRACTIONS DELTA [-]");
+			if (this.extractions.isEmpty()) title.setTitle("There are no Mining Extractions Today.");
+			else title.setTitle("TODAY MINING EXTRACTIONS [" + this.extractions.size() + "]");
+			this.addModelContents(title);
+			for (ResourceAggregatorContainer panel : this.extractionSystems)
+				this.addModelContents(panel);
 		}
 
-		public static class Builder extends MVCDataSource.Builder<VTMiningLedgerDataSource, VTMiningLedgerDataSource.Builder> {
-			private VTMiningLedgerDataSource onConstruction;
-
-			@Override
-			protected VTMiningLedgerDataSource getActual() {
-				if (null == this.onConstruction) this.onConstruction = new VTMiningLedgerDataSource();
-				return this.onConstruction;
-			}
-
-			@Override
-			protected Builder getActualBuilder() {
-				return this;
-			}
-
-			public VTMiningLedgerDataSource.Builder withCredential( final Credential credential ) {
-				Objects.requireNonNull(credential);
-				this.onConstruction.credential = credential;
-				return this.getActualBuilder();
-			}
-
-			public VTMiningLedgerDataSource.Builder withMiningRepository( final MiningRepository miningRepository ) {
-				Objects.requireNonNull(miningRepository);
-				this.onConstruction.miningRepository = miningRepository;
-				return this.getActualBuilder();
-			}
-		}
+//		public static class Builder extends MiningLedgerDataSourceToday.Builder {
+//			private VTMiningLedgerDataSource onConstruction;
+//
+//			@Override
+//			protected VTMiningLedgerDataSource getActual() {
+//				if (null == this.onConstruction) this.onConstruction = new VTMiningLedgerDataSource();
+//				return this.onConstruction;
+//			}
+//
+//			@Override
+//			protected Builder getActualBuilder() {
+//				return this;
+//			}
+//
+////			public VTMiningLedgerDataSource.Builder withCredential( final Credential credential ) {
+////				Objects.requireNonNull(credential);
+////				this.onConstruction.credential = credential;
+////				return this.getActualBuilder();
+////			}
+////
+////			public VTMiningLedgerDataSource.Builder withMiningRepository( final MiningRepository miningRepository ) {
+////				Objects.requireNonNull(miningRepository);
+////				this.onConstruction.miningRepository = miningRepository;
+////				return this.getActualBuilder();
+////			}
+//		}
 	}
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import org.dimensinfin.android.mvc.activity.CanvasPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.visual.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.visual.app.activity.VisualTestsControllerFactory;

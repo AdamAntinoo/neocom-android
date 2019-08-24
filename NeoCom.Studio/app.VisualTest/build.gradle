@@ -26,8 +26,6 @@ android {
             resValue "string", "appname", "VisualTests"
             resValue "string", "appversionnumber", android.defaultConfig.versionName
             resValue "string", "appversionname", "v" + android.defaultConfig.versionName
-//            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
-//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom-vt"
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
@@ -130,9 +128,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'org.dimensinfin:CoreBase.core:3.1.0'
-//    implementation 'org.bitbucket.adam antinoo:corebase-libraries-and-plugins:3.1.0'
     implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
-    implementation "org.dimensinfin:AndroidMVC:4.3.0@aar"
+    implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
     implementation project(':NeoCom.DataManagement')
     implementation project(':app.Features')
 

@@ -22,14 +22,14 @@ import java.util.Objects;
 // - M I N I N G L E D G E R D A T A S O U R C E T O D A Y
 public class MiningLedgerDataSourceToday extends MVCDataSource {
 	// -  C O M P O N E N T S
-	private Credential credential;
+	protected Credential credential;
 	private ESIDataAdapter esiDataAdapter;
-	private MiningRepository miningRepository; // The mining persistence repository definition.
+	protected MiningRepository miningRepository; // The mining persistence repository definition.
 
 	private LocalDate targetDate;
 	private List<Resource> resources = new ArrayList<>();
-	private List<MiningExtraction> extractions;
-	private List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
+	protected List<MiningExtraction> extractions;
+	protected List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
 	protected MiningLedgerDataSourceToday() {}

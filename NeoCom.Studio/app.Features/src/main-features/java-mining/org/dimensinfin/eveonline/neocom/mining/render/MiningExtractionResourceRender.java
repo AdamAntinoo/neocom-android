@@ -2,8 +2,6 @@ package org.dimensinfin.eveonline.neocom.mining.render;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,12 +59,11 @@ public class MiningExtractionResourceRender extends ResourceFacetedRender {
 
 	@RequiresNetwork
 	private String accessResourceValue() {
-		final Handler _handler = new Handler(Looper.getMainLooper());
-		_handler.post( ()-> {
-			final double value = this.getController().getModel().getItem().getPrice() *
+		backgroundExecutor.submit( ()-> {
+			final double valueData = this.getController().getModel().getItem().getPrice() *
 					                     this.getController().getModel().getQuantity();
 			((Activity) this.getContext()).runOnUiThread(() -> {
-				this.value.setText(this.generatePriceString(value, true, true));
+				this.value.setText(this.generatePriceString(valueData, true, true));
 			});
 		});
 		return "-";

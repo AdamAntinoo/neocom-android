@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.render;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
@@ -7,10 +8,11 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.annotations.RequiresNetwork;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4EsilocationFacetController;
 
-public  class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRenderv2 {
+public class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRenderv2 {
 	private TextView systemName;
 	private TextView extractionValue;
 
@@ -44,7 +46,14 @@ public  class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComR
 		this.extractionValue.setText(this.accessExtractionValue());
 	}
 
+	@RequiresNetwork
 	private String accessExtractionValue() {
-		return this.generatePriceString(this.getController().getModel().getResourcesValue());
+		backgroundExecutor.submit(() -> {
+			final String valueData = this.generatePriceString(this.getController().getModel().getResourcesValue());;
+			((Activity) this.getContext()).runOnUiThread(() -> {
+				this.extractionValue.setText(valueData);
+			});
+		});
+		return "-";
 	}
 }
