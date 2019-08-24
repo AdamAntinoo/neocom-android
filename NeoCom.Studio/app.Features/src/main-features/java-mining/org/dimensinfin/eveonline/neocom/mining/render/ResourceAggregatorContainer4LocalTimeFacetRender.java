@@ -10,13 +10,14 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4LocalTimeFacetController;
 
-public  class ResourceAggregatorContainer4LocalTimeFacetRender extends NeoComRenderv2 {
+public class ResourceAggregatorContainer4LocalTimeFacetRender extends NeoComRenderv2 {
 	private TextView systemName;
 	private TextView extractionValue;
 
 	// - C O N S T R U C T O R S
 	public ResourceAggregatorContainer4LocalTimeFacetRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
+		logger.info("Point 01");
 	}
 
 	@Override
@@ -40,8 +41,12 @@ public  class ResourceAggregatorContainer4LocalTimeFacetRender extends NeoComRen
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.systemName.setText(this.getController().getModel().getFacetDelegate().intValue());
+		this.systemName.setText(this.accessExtractionHour());
 		this.extractionValue.setText(this.accessExtractionValue());
+	}
+
+	private String accessExtractionHour() {
+		return qtyFormatter.format(this.getController().getModel().getFacetDelegate().intValue());
 	}
 
 	private String accessExtractionValue() {

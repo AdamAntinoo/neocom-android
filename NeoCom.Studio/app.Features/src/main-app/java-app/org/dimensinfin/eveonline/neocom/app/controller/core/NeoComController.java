@@ -8,7 +8,7 @@ import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.support.SeparatorController;
+import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.eveonline.neocom.R;
@@ -37,8 +37,8 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 			logger.info("-- [AndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
 			if (((IExpandable) this.getModel()).isExpanded())
-				contentCollector.add(new SeparatorController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
-				                                             this.getControllerFactory()));
+				contentCollector.add(new SpacerController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
+				                                          this.getControllerFactory()));
 			// Add this node to the list of controllers only if it should be visible.
 			if (this.isVisible()) contentCollector.add(this);
 			if (((IExpandable) this.getModel()).isExpanded())
@@ -46,7 +46,7 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 					controller.collaborate2View(contentCollector);
 				}
 			if (((IExpandable) this.getModel()).isExpanded())
-				contentCollector.add(new SeparatorController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
+				contentCollector.add(new SpacerController(new Spacer.Builder().withType(this.getEncaserTheme()).build(),
 				                                             this.getControllerFactory()));
 		} else if (this instanceof IContainer) {
 			if (this.isVisible()) contentCollector.add(this);

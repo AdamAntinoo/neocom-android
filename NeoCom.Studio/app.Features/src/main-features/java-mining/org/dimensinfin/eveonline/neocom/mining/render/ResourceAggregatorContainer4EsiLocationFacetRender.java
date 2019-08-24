@@ -19,6 +19,7 @@ public class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRe
 	// - C O N S T R U C T O R S
 	public ResourceAggregatorContainer4EsiLocationFacetRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
+		logger.info("Point 01");
 	}
 
 	@Override
@@ -35,6 +36,7 @@ public class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRe
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
+		logger.info("Point 02");
 		this.systemName = this.getView().findViewById(R.id.systemName);
 		this.extractionValue = this.getView().findViewById(R.id.extractionValue);
 	}
@@ -42,6 +44,7 @@ public class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRe
 	@Override
 	public void updateContent() {
 		super.updateContent();
+		logger.info("Point 03");
 		this.systemName.setText(this.getController().getModel().getFacetDelegate().getSystemName());
 		this.extractionValue.setText(this.accessExtractionValue());
 	}

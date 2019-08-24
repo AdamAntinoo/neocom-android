@@ -10,7 +10,7 @@ import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
-import org.dimensinfin.eveonline.neocom.mining.render.ResourceAggregatorContainer4EsiLocationFacetRender;
+import org.dimensinfin.eveonline.neocom.mining.render.ResourceAggregatorContainer4LocalTimeFacetRender;
 
 public class ResourceAggregatorContainer4LocalTimeFacetController extends NeoComController<ResourceAggregatorContainer<Integer>> implements IContainer {
 
@@ -29,6 +29,11 @@ public class ResourceAggregatorContainer4LocalTimeFacetController extends NeoCom
 
 	@Override
 	public IRender buildRender( final Context context ) {
-		return new ResourceAggregatorContainer4EsiLocationFacetRender(this, context);
+		try {
+			return new ResourceAggregatorContainer4LocalTimeFacetRender(this, context);
+		} catch (final RuntimeException rte) {
+			rte.printStackTrace();
+			return null;
+		}
 	}
 }

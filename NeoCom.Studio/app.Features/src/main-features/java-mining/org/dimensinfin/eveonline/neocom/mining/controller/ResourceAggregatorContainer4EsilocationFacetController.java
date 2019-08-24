@@ -29,6 +29,11 @@ public class ResourceAggregatorContainer4EsilocationFacetController extends NeoC
 
 	@Override
 	public IRender buildRender( final Context context ) {
-		return new ResourceAggregatorContainer4EsiLocationFacetRender(this, context);
+		try {
+			return new ResourceAggregatorContainer4EsiLocationFacetRender(this, context);
+		} catch (final RuntimeException rte) {
+			rte.printStackTrace();
+			return null;
+		}
 	}
 }

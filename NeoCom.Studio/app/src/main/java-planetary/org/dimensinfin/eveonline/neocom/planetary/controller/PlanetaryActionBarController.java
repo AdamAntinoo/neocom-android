@@ -4,17 +4,18 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
+import com.squareup.picasso.Picasso;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
-
-import com.squareup.picasso.Picasso;
 
 public class PlanetaryActionBarController extends AndroidController<PlanetaryActionBar> {
 	public PlanetaryActionBarController( @NonNull final PlanetaryActionBar model, @NonNull final IControllerFactory factory ) {

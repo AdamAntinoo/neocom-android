@@ -41,6 +41,11 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 	}
 
 	@Override
+	public boolean isExpanded() {
+		return true;
+	}
+
+	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		if (this.facetDelegate instanceof EsiLocation) {
 			SparseArray<ResourceAggregatorContainer<Integer>> hourlyResources = new SparseArray<>();
@@ -61,7 +66,10 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 			for (int i = 0; i < hourlyResources.size(); i++)
 				collaboration.add(hourlyResources.get(hourlyResources.keyAt(i)));
 			return collaboration;
-		} else return super.collaborate2Model(variant);
+		}
+		if (this.facetDelegate instanceof Integer)
+			return super.collaborate2Model(variant);
+		else return super.collaborate2Model(variant);
 	}
 
 	// - B U I L D E R
