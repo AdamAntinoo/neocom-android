@@ -30,7 +30,7 @@ public class ResourceAggregatorContainer4EsiLocationFacetRender extends NeoComRe
 	// - I R E N D E R   I N T E R F A C E
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.systemresourceaggregator;
+		return R.layout.resourceaggregator4location;
 	}
 
 	@Override

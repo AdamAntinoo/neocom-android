@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.render;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.annotations.RequiresNetwork;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4LocalTimeFacetController;
 
@@ -28,7 +30,7 @@ public class ResourceAggregatorContainer4LocalTimeFacetRender extends NeoComRend
 	// - I R E N D E R   I N T E R F A C E
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.systemresourceaggregator;
+		return R.layout.resourceaggregator4hour;
 	}
 
 	@Override
@@ -49,7 +51,14 @@ public class ResourceAggregatorContainer4LocalTimeFacetRender extends NeoComRend
 		return qtyFormatter.format(this.getController().getModel().getFacetDelegate().intValue());
 	}
 
+	@RequiresNetwork
 	private String accessExtractionValue() {
-		return this.generatePriceString(this.getController().getModel().getResourcesValue());
+		backgroundExecutor.submit(() -> {
+			final String valueData = this.generatePriceString(this.getController().getModel().getResourcesValue());;
+			((Activity) this.getContext()).runOnUiThread(() -> {
+				this.extractionValue.setText(valueData);
+			});
+		});
+		return "-";
 	}
 }

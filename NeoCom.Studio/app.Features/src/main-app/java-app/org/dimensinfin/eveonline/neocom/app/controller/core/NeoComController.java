@@ -23,7 +23,8 @@ public abstract class NeoComController<M extends ICollaboration> extends Android
 	}
 
 	/**
-	 * On the NeoCom implementation the expnadable item will add the colored separation at the beginning and at the end of the list.
+	 * On the NeoCom implementation the expandable item will add the colored separation at the beginning and at the end of the
+	 * list.
 	 *
 	 * @param contentCollector the list where we are collecting the Controllers visible for rendering.
 	 */

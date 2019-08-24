@@ -91,6 +91,9 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 			if ( ((ResourceAggregatorContainer) node).getFacetDelegate() instanceof Integer)
 				return new ResourceAggregatorContainer4LocalTimeFacetController((ResourceAggregatorContainer) node, this);
 		}
+//		if (node instanceof MiningExtraction) {
+//			return new MiningExtractionController((MiningExtraction) node, this);
+//		}
 
 		return super.createController(node);
 	}

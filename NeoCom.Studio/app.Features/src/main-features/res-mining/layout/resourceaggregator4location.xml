@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/darkbluetranslucent80"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/labelBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/systemName">
+
+        <TextView
+            android:id="@+id/accountBalanceLabel"
+            style="@style/AppTheme.Label.TopLine"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:text="EXTRATION SYSTEM" />
+
+        <TextView
+            android:id="@+id/assetsCountLabel"
+            style="@style/AppTheme.Label"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="EXTRACTION VALUE" />
+    </RelativeLayout>
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/systemName"
+        style="@style/AppTheme.NeoComText.Mining.ResourceName"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:layout_marginTop="@dimen/standardmargin"
+        android:singleLine="true"
+        android:text="@string/default_paneltitle"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/extractionValue"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/standardmargin"
+        android:gravity="right"
+        android:text="@string/default_paneltitle"
+        android:textSize="12sp" />
+</RelativeLayout>

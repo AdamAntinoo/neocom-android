@@ -32,7 +32,7 @@ public class MiningExtractionResourceRender extends ResourceFacetedRender {
 	// - I R E N D E R   I N T E R F A C E
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.resource4mininglist;
+		return R.layout.resource4miningextractionlist;
 	}
 
 	@Override

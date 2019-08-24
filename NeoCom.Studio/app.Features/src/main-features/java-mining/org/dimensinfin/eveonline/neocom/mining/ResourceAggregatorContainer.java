@@ -3,15 +3,17 @@ package org.dimensinfin.eveonline.neocom.mining;
 import android.util.SparseArray;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.annotations.RequiresNetwork;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
-import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
+import org.dimensinfin.eveonline.neocom.industry.Resource;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
+public class ResourceAggregatorContainer<F> extends NeoComNode {
 	private List<MiningExtraction> contents = new ArrayList<>();
 	private F facetDelegate;
 
@@ -35,16 +37,7 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 		return value;
 	}
 
-	@Override
-	public boolean isEmpty() {
-		return this.contents.isEmpty();
-	}
-
-	@Override
-	public boolean isExpanded() {
-		return true;
-	}
-
+	@RequiresNetwork
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		if (this.facetDelegate instanceof EsiLocation) {
@@ -67,9 +60,13 @@ public class ResourceAggregatorContainer<F> extends NeoComExpandableNode {
 				collaboration.add(hourlyResources.get(hourlyResources.keyAt(i)));
 			return collaboration;
 		}
-		if (this.facetDelegate instanceof Integer)
-			return super.collaborate2Model(variant);
-		else return super.collaborate2Model(variant);
+		if (this.facetDelegate instanceof Integer) {
+			final List<ICollaboration> collaboration = new ArrayList<>();
+			for (MiningExtraction extraction : this.contents) {
+				collaboration.add(new Resource(extraction.getTypeId(), extraction.getQuantity()));
+			}
+			return collaboration;
+		} else return super.collaborate2Model(variant);
 	}
 
 	// - B U I L D E R
