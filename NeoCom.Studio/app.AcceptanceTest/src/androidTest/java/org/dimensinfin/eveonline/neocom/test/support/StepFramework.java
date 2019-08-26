@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.junit.Assert;
@@ -42,21 +42,11 @@ public class StepFramework {
 		}
 	}
 
-	protected void launchActivity() {
-		this.world.getActivityRule().launchActivity(null);
-		this.world.setActiveActivity((FragmentActivity) this.world.getActivityRule().getActivity());
-		Assert.assertNotNull(this.world.getActiveActivity());
-	}
-
-//	protected void accessDataContainers( final MVCPagerFragment fragment ) {
-//		final ViewGroup headerContainer = fragment.accessHeaderContainer();
-//		Assert.assertNotNull("Header container ViewGroup exists.", headerContainer);
-//		this.world.setHeaderContainer(headerContainer);
-//		final ListView dataSectionContainer = fragment.accessDataSectionContainer();
-//		Assert.assertNotNull("Container ListView exists.", dataSectionContainer);
-//		this.world.setDataSectionContainer(dataSectionContainer);
+	//	protected void launchActivity() {
+//		this.world.getActivityRule().launchActivity(null);
+//		this.world.setActiveActivity((FragmentActivity) this.world.getActivityRule().getActivity());
+//		Assert.assertNotNull(this.world.getActiveActivity());
 //	}
-
 	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
@@ -64,6 +54,18 @@ public class StepFramework {
 			final IAndroidController controller = (IAndroidController) target.getTag();
 			final Object model = controller.getModel();
 			if (model.getClass() == filterClass) return target;
+		}
+		return null;
+	}
+
+	protected View searchFirstPanelByRenderClass( final String filterClassName, final ListView container ) {
+		final int contentCount = container.getChildCount();
+		for (int i = 0; i < contentCount; i++) {
+			final View target = container.getChildAt(i);
+			final IAndroidController controller = (IAndroidController) target.getTag();
+			final IRender render = controller.buildRender(
+					this.world.getActiveActivity().getBaseContext());
+			if (render.getClass().getSimpleName().equals(filterClassName)) return target;
 		}
 		return null;
 	}

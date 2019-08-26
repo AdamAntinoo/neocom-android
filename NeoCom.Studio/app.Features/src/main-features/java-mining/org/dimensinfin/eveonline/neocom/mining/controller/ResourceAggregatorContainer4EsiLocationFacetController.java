@@ -13,10 +13,10 @@ import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.render.ResourceAggregatorContainer4EsiLocationFacetRender;
 
-public class ResourceAggregatorContainer4EsilocationFacetController extends NeoComController<ResourceAggregatorContainer<EsiLocation>> implements IContainer {
+public class ResourceAggregatorContainer4EsiLocationFacetController extends NeoComController<ResourceAggregatorContainer<EsiLocation>> implements IContainer {
 
 	// - C O N S T R U C T O R
-	public ResourceAggregatorContainer4EsilocationFacetController( @NonNull final ResourceAggregatorContainer<EsiLocation> model, @NonNull final IControllerFactory factory ) {
+	public ResourceAggregatorContainer4EsiLocationFacetController( @NonNull final ResourceAggregatorContainer<EsiLocation> model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 		this.setTheme(SpacerType.LINE_GREEN);
 	}

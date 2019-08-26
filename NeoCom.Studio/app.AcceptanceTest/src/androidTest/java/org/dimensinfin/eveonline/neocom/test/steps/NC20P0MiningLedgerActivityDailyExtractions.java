@@ -2,7 +2,6 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.ViewGroup;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -11,10 +10,10 @@ import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTableToMiningExtractionConverter;
 import org.joda.time.LocalDate;
@@ -56,7 +55,8 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 
 	@And("the next records on the MiningRepository")
 	public void theNextRecordsOnTheMiningRepository( final List<Map<String, String>> cucumberTable ) throws SQLException {
-		final MiningRepository miningRepository = NeoComComponentFactory.getSingleton().getMiningRepository();
+		final SupportMiningRepository miningRepository = (SupportMiningRepository) NeoComComponentFactory.getSingleton().getMiningRepository();
+		miningRepository.deleteAll();
 		for (Map<String, String> row : cucumberTable) {
 			final MiningExtraction extraction = this.cucumberTableToMiningExtractionConverter.convert(row);
 			Assert.assertNotNull("The record is created.", extraction);
@@ -114,13 +114,7 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 
 	@When("complete the lifecycle without exceptions")
 	public void completeTheLifecycleWithoutExceptions() throws InterruptedException {
-		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+		Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 		Assert.assertNull(this.world.getFragment().getLastException());
-	}
-
-	@Then("the header container has {string} panels")
-	public void theHeaderContainerHasPanels( final String panelCount ) {
-		final ViewGroup header = this.world.getHeaderContainer();
-		Assert.assertEquals(Integer.parseInt(panelCount), header.getChildCount());
 	}
 }

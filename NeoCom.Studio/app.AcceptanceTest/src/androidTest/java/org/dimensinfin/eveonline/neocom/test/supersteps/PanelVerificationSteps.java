@@ -1,6 +1,8 @@
 package org.dimensinfin.eveonline.neocom.test.supersteps;
 
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.dimensinfin.eveonline.neocom.R;
@@ -8,12 +10,14 @@ import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
+import org.dimensinfin.eveonline.neocom.test.support.validators.ResourceAggregatorContainer4EsiLocationFacetPanelValidator;
 import org.junit.Assert;
 
 import java.util.List;
 import java.util.Map;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 
 public class PanelVerificationSteps extends StepFramework {
 	private static final String FIELD_IDENTIFIER = "fieldIdentifier";
@@ -24,9 +28,9 @@ public class PanelVerificationSteps extends StepFramework {
 	private static final String MININGRESOURCE_QUANTITY = "quantity";
 	private static final String MININGRESOURCE_VALUE = "value";
 
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL="nameTypeLabel";
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL="quantityLabel";
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL="valueLabel";
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL = "nameTypeLabel";
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL = "quantityLabel";
+	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL = "valueLabel";
 
 	public PanelVerificationSteps( final NeoComWorld world ) {
 		super(world);
@@ -127,5 +131,37 @@ public class PanelVerificationSteps extends StepFramework {
 			}
 		}
 		return false;
+	}
+
+	@And("render a panel with {string} and the next contents")
+	public void renderAPanelWithAndTheNextContents( final String renderClassName,
+	                                                final List<Map<String, String>> cucumberTable ) {
+		View panel;
+		switch (renderClassName) {
+			case "ResourceAggregatorContainer4EsiLocationFacetRender":
+			case "ResourceAggregatorContainer4LocalTimeFacetRender":
+				panel = this.searchFirstPanelByRenderClass(renderClassName, this.world.getDataSectionContainer());
+				Assert.assertNotNull(panel);
+				Assert.assertTrue(new ResourceAggregatorContainer4EsiLocationFacetPanelValidator.Builder()
+						                  .withPanel(panel)
+						                  .withCucumberTable(cucumberTable)
+						                  .build()
+						                  .validate());
+				break;
+			default:
+				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");
+		}
+	}
+
+	@Then("the header container has {string} panels")
+	public void theHeaderContainerHasPanels( final String panelCount ) {
+		final ViewGroup header = this.world.getHeaderContainer();
+		Assert.assertEquals(Integer.parseInt(panelCount), header.getChildCount());
+	}
+
+	@Then("the data container has {string} panels")
+	public void theDataContainerHasPanels( final String panelCount ) {
+		final ListView data = this.world.getDataSectionContainer();
+		Assert.assertEquals(Integer.parseInt(panelCount), data.getChildCount());
 	}
 }

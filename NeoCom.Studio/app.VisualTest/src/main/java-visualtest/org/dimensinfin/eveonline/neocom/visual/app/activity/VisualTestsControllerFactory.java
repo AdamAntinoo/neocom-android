@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer
 import org.dimensinfin.eveonline.neocom.mining.ResourceAggregatorContainer;
 import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
-import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4EsilocationFacetController;
+import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4EsiLocationFacetController;
 import org.dimensinfin.eveonline.neocom.mining.controller.ResourceAggregatorContainer4LocalTimeFacetController;
 import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 import org.dimensinfin.eveonline.neocom.planetary.IPlanetaryFacility;
@@ -87,7 +87,7 @@ public class VisualTestsControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof ResourceAggregatorContainer) {
 			if ( ((ResourceAggregatorContainer) node).getFacetDelegate() instanceof EsiLocation)
-				return new ResourceAggregatorContainer4EsilocationFacetController((ResourceAggregatorContainer) node, this);
+				return new ResourceAggregatorContainer4EsiLocationFacetController((ResourceAggregatorContainer) node, this);
 			if ( ((ResourceAggregatorContainer) node).getFacetDelegate() instanceof Integer)
 				return new ResourceAggregatorContainer4LocalTimeFacetController((ResourceAggregatorContainer) node, this);
 		}

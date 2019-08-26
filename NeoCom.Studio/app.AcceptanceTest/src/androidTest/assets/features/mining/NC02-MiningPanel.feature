@@ -29,15 +29,15 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
 	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | <today>            | 10             | 92223647 |
 	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | <today>            | 10             | 92223647 |
 	And the number of records in "MiningRepository" is 5
+
+  @NC02P0.01 @MVCPanel
+  Scenario: [NC02P0.01][ACTIONBAR] Mining daily data action bar.
+	Given today date being "<today>"
 	And the activity "MiningLedgerActivity" with the next extras
 	  | extraType | extraName            | extraValue |
 	  | Integer   | CAPSULEER_IDENTIFIER | 92223647   |
 	And selected the page "0" of the activity
 	And the page variant set to "MINING_EXTRACTIONS_TODAY"
-
-  @NC02P0.01 @MVCPanel
-  Scenario: [NC02P0.01][ACTIONBAR] Mining daily data action bar.
-	Given today date being "<today>"
 	Then check that the custom action bar is present
 	And check a action bar "MiningActionBar" with the next contents
 	  | fieldIdentifier | fieldValue                     |
@@ -47,16 +47,54 @@ Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown
   @NC02P0.02 @MVCPanel
   Scenario: [NC02P0.02][HEADER] Mining daily list of extraction resources.
 	Given today date being "<today>"
+	And the activity "MiningLedgerActivity" with the next extras
+	  | extraType | extraName            | extraValue |
+	  | Integer   | CAPSULEER_IDENTIFIER | 92223647   |
+	And selected the page "0" of the activity
+	And the page variant set to "MINING_EXTRACTIONS_TODAY"
 	When complete the lifecycle without exceptions
 	Then the header container has "4" panels
+	And check a "DailyExtractionResourcesContainer" panel with the next contents
+	  | fieldIdentifier | fieldValue              |
+	  | nameTypeLabel   | RESOURCE NAME [#TYPEID] |
+	  | quantityLabel   | QUANTITY                |
+	  | valueLabel      | VALUE                   |
 	And check a "MiningResource" panel with the next contents
 	  | fieldIdentifier    | fieldValue      |
 	  | resourceName       | Solid Pyroxeres |
 	  | resourceIdentifier | [#17459]        |
 	  | quantity           | 23.576          |
 	  | value              | -23,576.00 ISK  |
-	And check a "DailyExtractionResourcesContainer" panel with the next contents
-	  | fieldIdentifier | fieldValue              |
-	  | nameTypeLabel   | RESOURCE NAME [#TYPEID] |
-	  | quantityLabel   | QUANTITY                |
-	  | valueLabel      | VALUE                   |
+
+  @NC02P0.03 @MVCPanel
+  Scenario: [NC02P0.02][DATA] Mining daily list of extractions by location and then by hour
+	Given today date being "<today>"
+	And the next records on the MiningRepository
+	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
+	  | 2019-08-07:14-30001740-17464-92223647 | 17464  | 30001740      | 843      | 0     | <today>            | 14             | 92223647 |
+	  | 2019-08-07:14-30001740-17460-92223647 | 17460  | 30001740      | 8266     | 0     | <today>            | 14             | 92223647 |
+	  | 2019-08-07:14-30001740-17453-92223647 | 17453  | 30001740      | 3345     | 0     | <today>            | 14             | 92223647 |
+	  | 2019-08-07:13-30001735-17459-92223647 | 17459  | 30001735      | 38087    | 14511 | <today>            | 13             | 92223647 |
+	  | 2019-08-07:12-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | <today>            | 12             | 92223647 |
+	  | 2019-08-07:12-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | <today>            | 12             | 92223647 |
+	  | 2019-08-07:12-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | <today>            | 12             | 92223647 |
+	  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | <today>            | 11             | 92223647 |
+	  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | <today>            | 11             | 92223647 |
+	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 1566     | 0     | <today>            | 10             | 92223647 |
+	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 421      | 0     | <today>            | 10             | 92223647 |
+	And the number of records in "MiningRepository" is 11
+	And the activity "MiningLedgerActivity" with the next extras
+	  | extraType | extraName            | extraValue |
+	  | Integer   | CAPSULEER_IDENTIFIER | 92223647   |
+	And selected the page "0" of the activity
+	And the page variant set to "MINING_EXTRACTIONS_TODAY"
+	When complete the lifecycle without exceptions
+	Then the data container has "18" panels
+	And render a panel with "ResourceAggregatorContainer4EsiLocationFacetRender" and the next contents
+	  | fieldIdentifier | fieldValue       |
+	  | systemName      | Uhodoh           |
+	  | extractionValue | 4,597,691.88 ISK |
+	And render a panel with "ResourceAggregatorContainer4LocalTimeFacetRender" and the next contents
+	  | fieldIdentifier | fieldValue    |
+	  | systemName      | 10            |
+	  | extractionValue | 45,792,80 ISK |

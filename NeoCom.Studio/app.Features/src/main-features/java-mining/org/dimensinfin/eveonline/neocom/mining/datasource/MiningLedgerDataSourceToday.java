@@ -23,13 +23,12 @@ import java.util.Objects;
 public class MiningLedgerDataSourceToday extends MVCDataSource {
 	// -  C O M P O N E N T S
 	protected Credential credential;
-	private ESIDataAdapter esiDataAdapter;
 	protected MiningRepository miningRepository; // The mining persistence repository definition.
-
-	private LocalDate targetDate;
-	private List<Resource> resources = new ArrayList<>();
 	protected List<MiningExtraction> extractions;
 	protected List<ResourceAggregatorContainer<EsiLocation>> extractionSystems = new ArrayList<>();
+	private ESIDataAdapter esiDataAdapter;
+	private LocalDate targetDate;
+	private List<Resource> resources = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
 	protected MiningLedgerDataSourceToday() {}
@@ -37,7 +36,8 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 	public List<ResourceAggregatorContainer<EsiLocation>> getExtractionSystems() {
 		return this.extractionSystems;
 	}
-// - I D A T A S O U R C E   I N T E R F A C E
+
+	// - I D A T A S O U R C E   I N T E R F A C E
 
 	/**
 	 * Go to the data sources and prepare all the intermediate data structures required by the functionality to show on this page.
