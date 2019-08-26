@@ -53,16 +53,16 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 		}
 	}
 
-	@And("the next records on the MiningRepository")
-	public void theNextRecordsOnTheMiningRepository( final List<Map<String, String>> cucumberTable ) throws SQLException {
-		final SupportMiningRepository miningRepository = (SupportMiningRepository) NeoComComponentFactory.getSingleton().getMiningRepository();
-		miningRepository.deleteAll();
-		for (Map<String, String> row : cucumberTable) {
-			final MiningExtraction extraction = this.cucumberTableToMiningExtractionConverter.convert(row);
-			Assert.assertNotNull("The record is created.", extraction);
-			miningRepository.persist(extraction);
-		}
-	}
+	//@And("the next records on the MiningRepository")
+	// public void theNextRecordsOnTheMiningRepository( final List<Map<String, String>> cucumberTable ) throws SQLException {
+	// 	final SupportMiningRepository miningRepository = (SupportMiningRepository) NeoComComponentFactory.getSingleton().getMiningRepository();
+	// 	miningRepository.deleteAll();
+	// 	for (Map<String, String> row : cucumberTable) {
+	// 		final MiningExtraction extraction = this.cucumberTableToMiningExtractionConverter.convert(row);
+	// 		Assert.assertNotNull("The record is created.", extraction);
+	// 		miningRepository.persist(extraction);
+	// 	}
+	// }
 
 	@And("the activity {string} with the next extras")
 	public void theActivityWithTheNextExtras( final String activityClassName, final List<Map<String, String>> cucumberTable ) {
@@ -95,11 +95,11 @@ public class NC20P0MiningLedgerActivityDailyExtractions extends StepFramework {
 		Assert.assertEquals(variant, this.world.getFragment().getVariant());
 	}
 
-	@And("today date being {string}")
-	public void theTodayDateBeing( final String todayDate ) {
-		if (todayDate.equalsIgnoreCase("<today>")) this.world.setTodayDate(LocalDate.now());
-		else this.world.setTodayDate(new LocalDate(todayDate));
-	}
+	// @And("today date being {string}")
+	// public void theTodayDateBeing( final String todayDate ) {
+	// 	if (todayDate.equalsIgnoreCase("<today>")) this.world.setTodayDate(LocalDate.now());
+	// 	else this.world.setTodayDate(new LocalDate(todayDate));
+	// }
 
 	@Then("check that the custom action bar is present")
 	public void checkThatTheCustomActionBarIsPresent() {

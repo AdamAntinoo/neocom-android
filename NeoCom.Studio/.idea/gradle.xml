@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app.Features" />
             <option value="$PROJECT_DIR$/app.VisualTest" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
+            <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests" />
             <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement.Support" />
           </set>
         </option>

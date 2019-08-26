@@ -54,6 +54,9 @@ android {
         main.res {
             srcDirs += project(':app').file('src/main/res-fitting')
         }
+        androidTest.java {
+            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file('src/test/java-steps-shared')
+        }
     }
 
     compileOptions {
