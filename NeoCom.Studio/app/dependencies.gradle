@@ -1,17 +1,17 @@
 // - A N D R O I D    S U P P O R T
 dependencies {
-    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.fragment:fragment:1.1.0'
 }
 // - K O T L I N
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-// - P R O J E C TcompileOnly
+// - P R O J E C T
 dependencies {
     // C O R E
-    compile "org.slf4j:slf4j-android:$loggerVersion"
+    compileOnly "org.slf4j:slf4j-android:$loggerVersion"
     implementation "joda-time:joda-time:$jodaTimeVersion"
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.annimon:stream:1.1.9'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -22,7 +22,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
     implementation project(':app.Features')
-    implementation project(':NeoCom.DataManagement')
+//    implementation project(':NeoCom.DataManagement')
+    implementation "org.dimensinfin:NeoCom.DataManagement:0.15.2"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

@@ -33,6 +33,7 @@ public class AppSplashActivity extends ANeoComActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
 //		this.validatePermissions(); // Get the permissions required to run the application.
 		// Check if the files and folders to run on Android are in place. If not create/copy them.
 		logger.info("-- [AppSplashActivity.onStart]> Creating application directories...");

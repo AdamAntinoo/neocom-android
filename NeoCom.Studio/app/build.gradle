@@ -119,10 +119,10 @@ task copyResources(type: Copy) {
     }
 }
 build.dependsOn copyResources
-task copySDEDatabase(type: Copy) {
-    group = "neocom"
-    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
-    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
-    into "$assetsPath"
-}
-copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')
+//task copySDEDatabase(type: Copy) {
+//    group = "neocom"
+//    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
+//    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
+//    into "$assetsPath"
+//}
+//copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')

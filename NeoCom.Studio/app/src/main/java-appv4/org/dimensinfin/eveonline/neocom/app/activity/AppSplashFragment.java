@@ -29,7 +29,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
 import java.sql.SQLException;
-import java.util.concurrent.TimeUnit;
 
 public class AppSplashFragment extends MVCPagerFragment {
 	@Override
@@ -67,6 +66,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 	}
 
 //	@Override
+
 //	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
 //		final View view = super.onCreateView(inflater, container, savedInstanceState);
 //		handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
@@ -106,16 +106,17 @@ public class AppSplashFragment extends MVCPagerFragment {
 			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
+//		@Override
+//		public void collaborate2Model() {
+//			try {
+//				Thread.sleep(TimeUnit.MINUTES.toMillis(1));
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
 		@Override
 		public void collaborate2Model() {
-			try {
-				Thread.sleep(TimeUnit.MINUTES.toMillis(1));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-		public void collaborate2Model2() {
 			try {
 				logger.info(">> [SplashActionsDataSource.collaborate2Model]");
 				// - S E C T I O N   H E A D E R

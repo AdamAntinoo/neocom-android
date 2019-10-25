@@ -4,7 +4,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 apply from: 'cucumber.gradle'
-apply from: 'tasks.gradle'
+//apply from: 'tasks.gradle'
 
 android {
     testOptions {
@@ -64,7 +64,7 @@ android {
             srcDirs += 'src/main-features/res-industry'
         }
         test.java {
-            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
+//            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
 //            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-steps")
 //            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-support")
         }
@@ -101,7 +101,8 @@ dependencies {
 
     compileOnly 'org.dimensinfin:CoreBase.core:3.1.0'
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
-    implementation project(':NeoCom.DataManagement')
+//    implementation project(':NeoCom.DataManagement')
+    implementation "org.dimensinfin:NeoCom.DataManagement:0.15.2"
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
 
     // N E O C O M
