@@ -11,8 +11,6 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 import org.junit.Assert;
@@ -36,18 +34,19 @@ public class NC01AppInitializationActivity extends StepFramework {
 			android.Manifest.permission.ACCESS_NETWORK_STATE);
 
 	// - COMPONENTS
-	private NeoComWorld world;
-	private IConfigurationProvider configurationProvider;
-	private IFileSystem fileSystem;
+//	private NeoComWorld world;
+//	private IConfigurationProvider configurationProvider;
+//	private IFileSystem fileSystem;
 
 	public NC01AppInitializationActivity( final NeoComWorld world ) {
 		super(world);
+		logger.info("-- [the_AppInitializationActiviy_activity]> Storing world");
 	}
 
 	@Given("the AppInitializationActiviy activity")
 	public void the_AppInitializationActiviy_activity() {
-		logger.info("-- [the_AppInitializationActiviy_activity]> Storing world");
-		this.world = world;
+//		Objects.requireNonNull(world);
+//		this.world = world;
 		// Create the application instance.
 		final Application application = NeoComComponentFactory.getSingleton().getApplication();
 		Assert.assertNotNull(application);
@@ -55,8 +54,8 @@ public class NC01AppInitializationActivity extends StepFramework {
 		this.world.setApplication((NeoComApplication) application);
 		// Create the required components.
 		// TODO - This is probably not required for this test.
-		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
-		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
+//		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+//		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 		// Create the activity scenario.
 		final ActivityScenario<AppInitializationActivity> activityScenario = ActivityScenario.launch(
 				AppInitializationActivity.class);
@@ -78,6 +77,6 @@ public class NC01AppInitializationActivity extends StepFramework {
 	public void we_can_access_a_LinearContainer_empty_of_content() {
 		final AppInitializationActivity activity = (AppInitializationActivity) this.world.getActiveActivity();
 		final LinearContainer container = activity.getContainerView();
-		Assert.assertEquals(0, container.size());
+		Assert.assertEquals(1, container.size());
 	}
 }

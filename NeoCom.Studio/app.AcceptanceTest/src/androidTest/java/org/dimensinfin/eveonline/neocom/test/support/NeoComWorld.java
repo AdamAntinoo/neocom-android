@@ -11,12 +11,15 @@ import androidx.test.rule.ActivityTestRule;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NeoComWorld {
+	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
 	private ActivityScenario activityScenario;
@@ -24,14 +27,19 @@ public class NeoComWorld {
 
 	private ActivityTestRule activityRule;
 	private NeoComFragment fragment;
-//	private ViewGroup headerContainer;
+	//	private ViewGroup headerContainer;
 //	private ListView dataSectionContainer;
 	private LocalDate todayDate;
 	private View actionBar;
 
+	public NeoComWorld() {
+		logger.info("-- [NeoComWorld.<constructor>]");
+	}
+
 	public ExecutorService getExecutor() {
 		return backgroundExecutor;
 	}
+
 	public NeoComApplication getApplication() {
 		return this.application;
 	}
@@ -49,6 +57,7 @@ public class NeoComWorld {
 		this.activityScenario = activityScenario;
 		return this;
 	}
+
 	public Activity getActiveActivity() {
 		return this.activeActivity;
 	}

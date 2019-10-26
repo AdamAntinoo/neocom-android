@@ -14,10 +14,11 @@ import cucumber.api.android.CucumberAndroidJUnitRunner;
 */
 @CucumberOptions(
         features = "features/run",
+        glue = { "org.dimensinfin.eveonline.neocom.test" },
         plugin = { "html:target/cucumber-html-report",
                 "json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
-                "usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" }
-)
+                "usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" },
+        tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC01" })
 public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
     @Override
