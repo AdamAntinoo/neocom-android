@@ -60,13 +60,16 @@ public class InitializationTaskController extends AndroidController<Initializati
 			switch (this.getController().getModel().getState()) {
 				case RUNNING:
 					this.stateIcon.setImageDrawable(this.getContext().getDrawable(R.drawable.twotone_directions_run_black_18));
+					this.stateIcon.setColorFilter(this.getContext().getResources().getColor(R.color.appbluedark));
 					break;
 				case COMPLETED:
 					this.stateIcon
 							.setImageDrawable(this.getContext().getDrawable(R.drawable.twotone_check_circle_outline_black_18));
+					this.stateIcon.setColorFilter(this.getContext().getResources().getColor(R.color.appgreenalien));
 					break;
 				case EXCEPTION:
 					this.stateIcon.setImageDrawable(this.getContext().getDrawable(R.drawable.twotone_error_outline_black_18));
+					this.stateIcon.setColorFilter(this.getContext().getResources().getColor(R.color.appred));
 					break;
 			}
 		}

@@ -30,7 +30,7 @@ public class ANeoComActivity extends MVCMultiPageActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		this.validatePermissions();
+//		this.validatePermissions();
 	}
 
 	@Override
@@ -142,30 +142,5 @@ public class ANeoComActivity extends MVCMultiPageActivity {
 		SpannableString mNewTitle = new SpannableString(mi.getTitle());
 		mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		mi.setTitle(mNewTitle);
-	}
-
-	protected void validatePermissions() {
-		//		if (BuildConfig.DEBUG) return;
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-					10);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.INTERNET},
-					20);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
-					30);
-		}
 	}
 }

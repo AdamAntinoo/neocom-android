@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,12 +15,12 @@ public class LinearContainer {
 	private Activity activity;
 	private LinearLayout initializationLayout;
 	private ControllerFactory factory;
-	private ArrayList<NeoComNode> contents = new ArrayList<>();
+	private ArrayList<ICollaboration> contents = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
 	private LinearContainer() { }
 
-	public void addModel( final NeoComNode model ) {
+	public void addModel( final ICollaboration model ) {
 		this.contents.add(model);
 		this.initializationLayout.addView(this.createView(model));
 	}
@@ -36,12 +36,12 @@ public class LinearContainer {
 
 	public void needsUpdate() {
 		this.clear();
-		for (NeoComNode node : this.contents)
+		for (ICollaboration node : this.contents)
 			this.initializationLayout.addView(this.createView(node));
 		this.initializationLayout.invalidate();
 	}
 
-	private View createView( final NeoComNode model ) {
+	private View createView( final ICollaboration model ) {
 		final IRender render = this.factory.createController(model)
 				                           .buildRender(this.activity.getApplicationContext());
 		final View view = render.getView();
