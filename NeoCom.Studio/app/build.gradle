@@ -29,17 +29,18 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            resValue "string", "appname", "NeoCom"
-            resValue "string", "appversionnumber", android.defaultConfig.versionName
-//            resValue "string", "appversionname", "v" + android.defaultConfig.versionName
-//            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
-
-            resValue "string", "appdatabasefilename", "neocom"
-            resValue "string", "sdedatabasefilename", "sde.db"
-            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
-
-            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
-
+//            resValue "string", "appname", "NeoCom"
+//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
+//            resValue "string", "appversion", android.defaultConfig.versionName
+////            resValue "string", "appversionname", "v" + android.defaultConfig.versionName
+////            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
+//
+//            resValue "string", "appdatabasefilename", "neocom"
+//            resValue "string", "sdedatabasefilename", "sde.db"
+//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+//
+//            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
+//
             buildConfigField "String", "SDE_DB_VERSION", SDE_DB_VERSION
         }
         debug {
@@ -49,7 +50,7 @@ android {
             minifyEnabled false
             useProguard false
 //            testCoverageEnabled true
-            resValue "string", "appdatabasefilename", "neocomv0.17"
+//            resValue "string", "appdatabasefilename", "neocomv0.17"
 //            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
 //            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
         }
@@ -72,6 +73,7 @@ android {
 //            srcDirs += 'src/release/java-app'
 //        }
         main.res {
+//            srcDirs += 'src/main/res-icons'
             srcDirs += 'src/main/res-fitting'
         }
 //        debug.res {

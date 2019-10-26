@@ -4,31 +4,49 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class LinearContainer {
 	private Activity activity;
 	private LinearLayout initializationLayout;
-	private ArrayList<View> contents = new ArrayList<>();
+	private ControllerFactory factory;
+	private ArrayList<NeoComNode> contents = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
-	private LinearContainer() {
+	private LinearContainer() { }
+
+	public void addModel( final NeoComNode model ) {
+		this.contents.add(model);
+		this.initializationLayout.addView(this.createView(model));
 	}
 
 	public void clear() {
 		this.initializationLayout.removeAllViews();
-		this.contents.clear();
+//		this.contents.clear();
 	}
 
 	public int size() {
 		return this.contents.size();
 	}
-	// - D E L E G A T E D
 
-	public void addView( final View child ) {
-		this.contents.add(child);
-		this.initializationLayout.addView(child);
+	public void needsUpdate() {
+		this.clear();
+		for (NeoComNode node : this.contents)
+			this.initializationLayout.addView(this.createView(node));
+		this.initializationLayout.invalidate();
+	}
+
+	private View createView( final NeoComNode model ) {
+		final IRender render = this.factory.createController(model)
+				                           .buildRender(this.activity.getApplicationContext());
+		final View view = render.getView();
+		render.updateContent();
+		return view;
 	}
 
 	// - B U I L D E R
@@ -52,9 +70,16 @@ public class LinearContainer {
 			return this;
 		}
 
+		public LinearContainer.Builder withFactory( final ControllerFactory factory ) {
+			Objects.requireNonNull(factory);
+			this.onConstruction.factory = factory;
+			return this;
+		}
+
 		public LinearContainer build() {
 			Objects.requireNonNull(this.onConstruction.activity);
 			Objects.requireNonNull(this.onConstruction.initializationLayout);
+			Objects.requireNonNull(this.onConstruction.factory);
 			return this.onConstruction;
 		}
 	}

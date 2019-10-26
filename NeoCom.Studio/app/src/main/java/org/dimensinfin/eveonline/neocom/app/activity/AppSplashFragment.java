@@ -47,7 +47,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 				       .withExtras(this.getExtras())
 				       .withFactory(this.createFactory())
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
-				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversionname))
+				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversion))
 				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
 				       .build();
 	}

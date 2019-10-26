@@ -64,7 +64,7 @@ public class SplashActionBarController extends AndroidController<SplashActionBar
 			this.appName.setVisibility(View.VISIBLE); // At least the application name should be visible.
 			this.appName.setText(this.getContext().getResources().getString(R.string.appname));
 			this.appVersion.setVisibility(View.VISIBLE);
-			this.appVersion.setText(this.getContext().getResources().getString(R.string.appversionname));
+			this.appVersion.setText(this.getContext().getResources().getString(R.string.appversion));
 			this.serverName.setVisibility(View.VISIBLE);
 			this.serverName.setText(this.getController().getModel().getServerName());
 			this.serverStatus.setVisibility(View.VISIBLE);

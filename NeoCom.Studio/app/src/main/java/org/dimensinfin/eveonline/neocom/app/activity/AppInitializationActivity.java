@@ -3,21 +3,25 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class AppInitializationActivity extends Activity {
+	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
 	protected ActionBar actionBar;
@@ -38,7 +42,8 @@ public class AppInitializationActivity extends Activity {
 		this.linearContainer = new LinearContainer.Builder()
 				                       .withActivity(this)
 				                       .withLayoutId(R.id.initializationLayout)
-		.build();
+									   .withFactory(new AppControllerFactory(PageNamesType.INITIALIZATION.name()))
+				                       .build();
 	}
 
 	@Override
@@ -46,15 +51,15 @@ public class AppInitializationActivity extends Activity {
 		super.onStart();
 		this.linearContainer.clear();
 		// Create the header component and insert it into the layout.
-		final AppVersionController appInfo = new AppVersionController(
-				new AppVersion.Builder()
-						.withAppName(this.getResources().getString(R.string.appname))
-						.withAppVersion("v" + this.getResources().getString(R.string.appversionnumber))
-						.build(),
-				this.getControllerFactory());
-		final IRender appInfoRender = appInfo.buildRender(this.getApplicationContext());
-		final View appInfoView = appInfoRender.getView();
-		this.linearContainer.addView(appInfoView);
+		final AppVersion appInfo = new AppVersion.Builder()
+				                           .withAppName(this.getResources().getString(R.string.app_name))
+				                           .withAppVersion("v" + this.getResources().getString(R.string.appversion))
+				                           .build();
+//		final IRender appInfoRender = this.getControllerFactory().createController(appInfo)
+//				                              .buildRender(this.getApplicationContext());
+//		final View appInfoView = appInfoRender.getView();
+		this.linearContainer.addModel(appInfo); // Set the application info header
+		this.launchInitialization(); // Start the background initialization process.
 	}
 
 	protected void injectComponents() {
@@ -71,7 +76,37 @@ public class AppInitializationActivity extends Activity {
 		}
 	}
 
-	private ControllerFactory getControllerFactory() {
-		return new AppControllerFactory(PageNamesType.INITIALIZATION.name());
+	/**
+	 * Create a thread were to execute all the initialization steps. The should be executed in sequence and after each step
+	 * there should be a new item to be rendered on the view panel.
+	 */
+	protected void launchInitialization() {
+		// Check that the application is available and the component factory is also present.
+		final InitializationTask task = new InitializationTask.Builder()
+				                                .withMessage("Core instances check.")
+				                                .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                .withRetryable(true)
+				                                .build();
+		this.runOnUiThread(() -> {
+			this.linearContainer.addModel(task);
+		});
+		backgroundExecutor.submit(() -> {
+			try {
+				final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
+				Objects.requireNonNull(componentFactory);
+				final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
+				Objects.requireNonNull(application);
+				this.runOnUiThread(() -> {
+					task.setState(InitializationTask.InitializationTaskState.COMPLETED);
+					this.linearContainer.needsUpdate();
+				});
+				Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+			} catch (final NullPointerException npe) {
+				this.runOnUiThread(() -> {
+					task.setState(InitializationTask.InitializationTaskState.EXCEPTION);
+					this.linearContainer.needsUpdate();
+				});
+			} catch (final InterruptedException ie) {}
+		});
 	}
 }

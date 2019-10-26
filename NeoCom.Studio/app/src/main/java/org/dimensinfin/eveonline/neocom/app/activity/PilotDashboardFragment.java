@@ -52,7 +52,7 @@ public class PilotDashboardFragment extends MVCPagerFragment {
 	public View generateActionBarView() {
 		final NeoComActionBarV2 actionBar = new NeoComActionBarV2.Builder()
 				.withTitleTopLeft(this.getResources().getString(R.string.appname))
-				.withTitleTopRight(this.getResources().getString(R.string.appversionname))
+				.withTitleTopRight(this.getResources().getString(R.string.appversion))
 				.withSubtitle(this.getCredential().getAccountName())
 				.build();
 		// Get a controller from the model, then the view from the render.

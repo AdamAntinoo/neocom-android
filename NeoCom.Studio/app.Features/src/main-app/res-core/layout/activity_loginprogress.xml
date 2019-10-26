@@ -32,7 +32,7 @@
             android:layout_alignBaseline="@+id/applicationName"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/applicationName"
-            android:text="@string/appversionname"
+            android:text="@string/appversion"
             android:textSize="20sp" />
 
         <org.dimensinfin.android.mvc.fonts.ElementalEndTextView

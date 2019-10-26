@@ -27,7 +27,7 @@
         android:layout_toRightOf="@+id/appName"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="@string/appversionname"
+        android:text="@string/appversion"
         android:textColor="@color/appyellow"
         android:textSize="12sp" />
 

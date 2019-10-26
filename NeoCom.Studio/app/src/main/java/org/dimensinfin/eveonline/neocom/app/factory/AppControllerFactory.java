@@ -6,6 +6,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
+import org.dimensinfin.eveonline.neocom.app.controller.InitializationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
@@ -14,6 +15,7 @@ import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
@@ -41,11 +43,16 @@ public class AppControllerFactory extends ControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		logger.info("-- [AppControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
-		if (node instanceof Pilot) {
-			return new PilotController((Pilot) node, this);
-		}
 		if (node instanceof AppVersion) {
 			return new AppVersionController((AppVersion) node, this);
+		}
+		if (node instanceof InitializationTask) {
+			return new InitializationTaskController((InitializationTask) node, this);
+		}
+
+
+		if (node instanceof Pilot) {
+			return new PilotController((Pilot) node, this);
 		}
 		if (node instanceof Credential) {
 			return new CredentialController((Credential) node, this);

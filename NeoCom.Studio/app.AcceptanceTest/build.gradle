@@ -13,7 +13,6 @@ android {
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         testApplicationId "org.dimensinfin.eveonline.neocom.test"
-//        testInstrumentationRunner "cucumber.api.android.CucumberAndroidJUnitRunner"
         testInstrumentationRunner "org.dimensinfin.eveonline.neocom.test.NeoComAndroidJUnitRunner"
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
@@ -31,14 +30,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             resValue "string", "appname", "NeoComAT"
-            debug {
-                initWith(release)
-                debuggable true
-                shrinkResources false
-                minifyEnabled false
-                useProguard false
-                testCoverageEnabled true
-            }
+            resValue "string", "appnameversion", "NeoComAT v" + android.defaultConfig.versionName
+        }
+        debug {
+            initWith(release)
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            useProguard false
+            testCoverageEnabled true
         }
     }
     sourceSets {
@@ -48,7 +48,6 @@ android {
         main.java {
             srcDirs += project(':app').file('src/main/java')
             srcDirs += project(':app').file('src/main/java-adapters')
-//            srcDirs += project(':app').file('src/main/java-industry')
             srcDirs += project(':app').file('src/main/java-mining')
             srcDirs += project(':app').file('src/main/java-planetary')
         }
@@ -56,9 +55,6 @@ android {
             srcDirs += project(':app').file('src/main/res')
             srcDirs += project(':app').file('src/main/res-fitting')
         }
-//        androidTest.java {
-//            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file('src/test/java-steps-shared')
-//        }
     }
 
     compileOptions {

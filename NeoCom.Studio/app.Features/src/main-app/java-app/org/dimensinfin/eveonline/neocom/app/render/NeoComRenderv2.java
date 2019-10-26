@@ -90,6 +90,7 @@ public abstract class NeoComRenderv2 extends MVCRender {
 	}
 
 	// - I R E N D E R   I N T E R F A C E
+	@Override
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
 		this.actuatorsBlock = this.getView().findViewById(R.id.actuatorsBlock);
