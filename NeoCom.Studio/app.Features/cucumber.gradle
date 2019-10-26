@@ -1,13 +1,13 @@
-ext {
-    cucumberVersion = '3.0.1'
-}
-// - C U C U M B E R
-dependencies {
-    testImplementation "io.cucumber:cucumber-jvm:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-picocontainer:$cucumberVersion"
-}
+//ext {
+//    cucumberVersion = '3.0.1'
+//}
+//// - C U C U M B E R
+//dependencies {
+//    testImplementation "io.cucumber:cucumber-jvm:$cucumberVersion"
+//    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+//    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+//    testImplementation "io.cucumber:cucumber-picocontainer:$cucumberVersion"
+//}
 // - T E S T I N G
 dependencies {
     testImplementation "org.slf4j:slf4j-simple:$loggerVersion"

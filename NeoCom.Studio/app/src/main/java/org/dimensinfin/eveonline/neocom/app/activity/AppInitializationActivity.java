@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
@@ -14,6 +13,7 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 
@@ -21,27 +21,30 @@ public class AppInitializationActivity extends Activity {
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
 	protected ActionBar actionBar;
-	protected LinearLayout initializationLayout;
+	protected LinearContainer linearContainer;
+
+	// - T E S T   A C C E S S O R S
+	public LinearContainer getContainerView() {
+		return this.linearContainer;
+	}
 
 	// - L I F E C Y C L E
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-//		if (this.checkStartup()) {
 		this.injectComponents(); // Connect to the application components.
 		this.setContentView(R.layout.activity_initialization); // Set the layout to the core context
 		this.deactivateActionBar();
-		this.initializationLayout = this.findViewById(R.id.initializationLayout);
-
-//			this.addPage(new AppSplashFragment());
-//		} else
-//			this.addPage(new AppSplashActivity.BlockFragment());
+		this.linearContainer = new LinearContainer.Builder()
+				                       .withActivity(this)
+				                       .withLayoutId(R.id.initializationLayout)
+		.build();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		this.initializationLayout.removeAllViews();
+		this.linearContainer.clear();
 		// Create the header component and insert it into the layout.
 		final AppVersionController appInfo = new AppVersionController(
 				new AppVersion.Builder()
@@ -51,7 +54,7 @@ public class AppInitializationActivity extends Activity {
 				this.getControllerFactory());
 		final IRender appInfoRender = appInfo.buildRender(this.getApplicationContext());
 		final View appInfoView = appInfoRender.getView();
-		this.initializationLayout.addView(appInfoView);
+		this.linearContainer.addView(appInfoView);
 	}
 
 	protected void injectComponents() {

@@ -20,7 +20,6 @@ import cucumber.api.android.CucumberAndroidJUnitRunner;
 )
 public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
-
     @Override
     public void onCreate(final Bundle bundle) {
         bundle.putString("plugin", getPluginConfigurationString()); // we programmatically create the plugin configuration
@@ -47,8 +46,6 @@ public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
      * @return the absolute path for the report files
      */
     private String getAbsoluteFilesPath() {
-
-        //sdcard/Android/data/cucumber.cukeulator
         File directory = getTargetContext().getExternalFilesDir(null);
         return new File(directory,"reports").getAbsolutePath();
     }

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply from: '../app/dependencies.gradle'
-apply from: './acceptance.tasks.gradle'
+//apply from: './acceptance.tasks.gradle'
 //apply plugin: 'jacoco'
 //apply from: './jacoco.gradle'
 
@@ -13,12 +13,13 @@ android {
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         testApplicationId "org.dimensinfin.eveonline.neocom.test"
+//        testInstrumentationRunner "cucumber.api.android.CucumberAndroidJUnitRunner"
         testInstrumentationRunner "org.dimensinfin.eveonline.neocom.test.NeoComAndroidJUnitRunner"
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 30
-        versionName "0.16.0"
-        project.archivesBaseName = "MVCAcceptanceTests-$versionName"
+        versionName "0.17.0"
+        project.archivesBaseName = "NCAcceptanceTests-$versionName"
         project.version = android.defaultConfig.versionName
     }
     buildTypes {
@@ -29,7 +30,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            resValue "string", "appname", "NeoComAC"
+            resValue "string", "appname", "NeoComAT"
             debug {
                 initWith(release)
                 debuggable true
@@ -45,18 +46,19 @@ android {
             srcDirs += project(':app').file('src/main/assets')
         }
         main.java {
-            srcDirs += project(':app').file('src/main/java-appv4')
+            srcDirs += project(':app').file('src/main/java')
             srcDirs += project(':app').file('src/main/java-adapters')
 //            srcDirs += project(':app').file('src/main/java-industry')
             srcDirs += project(':app').file('src/main/java-mining')
             srcDirs += project(':app').file('src/main/java-planetary')
         }
         main.res {
+            srcDirs += project(':app').file('src/main/res')
             srcDirs += project(':app').file('src/main/res-fitting')
         }
-        androidTest.java {
-            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file('src/test/java-steps-shared')
-        }
+//        androidTest.java {
+//            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file('src/test/java-steps-shared')
+//        }
     }
 
     compileOptions {
@@ -81,12 +83,12 @@ android {
     }
 }
 ext {
-    cucumberJavaVersion = '4.3.0'
+    cucumberJavaVersion = '4.3.1'
 }
 // - A N D R O I D
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'org.dimensinfin:CoreBase.core:3.1.0'
 
@@ -109,6 +111,13 @@ dependencies {
 
     androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
+//    androidTestImplementation "io.cucumber:cucumber-jvm:$cucumberJavaVersion"
+//    androidTestImplementation 'info.cukes:cucumber-jvm:1.2.5'
+//    testImplementation 'info.cukes:cucumber-jvm:1.2.5'
+//    implementation 'info.cukes:cucumber-jvm:1.2.5'
+// https://mvnrepository.com/artifact/info.cukes/cucumber-jvm
+//    androidTestImplementation group: 'info.cukes', name: 'cucumber-jvm', version: '1.2.5', ext: 'pom'
+
 }
 
 // - T A S K S
