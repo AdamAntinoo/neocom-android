@@ -9,7 +9,7 @@ dependencies {
 // - P R O J E C T
 dependencies {
     // C O R E
-    compileOnly "org.slf4j:slf4j-android:$loggerVersion"
+    implementation "org.slf4j:slf4j-android:$loggerVersion"
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'com.squareup.picasso:picasso:2.71828'

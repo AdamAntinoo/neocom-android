@@ -20,16 +20,26 @@
 			android:theme="@style/AppTheme.NoActionBar"
 			tools:replace="android:label">
 
-		<!-- S T A R T U P    A C T I V I T Y -->
+		<!-- I N I T I A L I Z A T I O N    A C T I V I T Y -->
 		<activity
-				android:name=".app.activity.AppSplashActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:theme="@style/AppTheme.NoActionBar">
+			android:name=".app.activity.AppInitializationActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+		<!-- S T A R T U P    A C T I V I T Y -->
+<!--		<activity-->
+<!--			android:name=".app.activity.AppSplashActivity"-->
+<!--			android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--			android:theme="@style/AppTheme.NoActionBar">-->
+<!--			<intent-filter>-->
+<!--				<action android:name="android.intent.action.MAIN"/>-->
+<!--				<category android:name="android.intent.category.LAUNCHER"/>-->
+<!--			</intent-filter>-->
+<!--		</activity>-->
 
 		<!-- A C T I V I T I E S -->
 		<activity

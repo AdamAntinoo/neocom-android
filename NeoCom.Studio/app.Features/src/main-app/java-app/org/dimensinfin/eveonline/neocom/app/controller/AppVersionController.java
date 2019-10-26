@@ -64,8 +64,8 @@ public class AppVersionController extends AndroidController<AppVersion> {
 
 		@Override
 		public void updateContent() {
-			this.applicationName.setText(this.getController().getModel().getName());
-			this.applicationVersion.setText(this.getController().getModel().getVersion());
+			this.applicationName.setText(this.getController().getModel().getAppName());
+			this.applicationVersion.setText(this.getController().getModel().getAppVersion());
 		}
 	}
 }

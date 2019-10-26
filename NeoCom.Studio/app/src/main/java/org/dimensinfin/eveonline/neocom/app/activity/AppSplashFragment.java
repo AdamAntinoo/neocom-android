@@ -100,13 +100,14 @@ public class AppSplashFragment extends MVCPagerFragment {
 		@Override
 		public void prepareModel() {
 			logger.info(">> [SplashActionsDataSource.prepareModel]");
-			this.addHeaderContents(new AppVersion()
-					                       .setName(this.name)
-					                       .setVersion(this.version));
+			this.addHeaderContents(new AppVersion.Builder()
+					                       .withAppName(this.name)
+					                       .withAppVersion(this.version)
+					                       .build());
 			logger.info("<< [SplashActionsDataSource.prepareModel]");
 		}
 
-//		@Override
+		//		@Override
 //		public void collaborate2Model() {
 //			try {
 //				Thread.sleep(TimeUnit.MINUTES.toMillis(1));
@@ -123,8 +124,8 @@ public class AppSplashFragment extends MVCPagerFragment {
 				logger.info("-- [SplashActionsDataSource.collaborate2Model]> Section Header");
 				// TODO - The header cannot be tested. Move this agsin to the header once the MVC is reimplemented.
 //				this.addHeaderContents(new AppVersion()
-//						                       .setName(this.name)
-//						                       .setVersion(this.version));
+//						                       .setAppName(this.name)
+//						                       .setAppVersion(this.version));
 				if (!NeoComApplication.checkNetworkAccess()) {
 					this.addHeaderContents(new WarningPanel.Builder()
 							                       .withType("WARNING")
@@ -137,8 +138,8 @@ public class AppSplashFragment extends MVCPagerFragment {
 //				}
 				// - S E C T I O N   D A T A
 //				this.addModelContents(new AppVersion()
-//						.setName(this.name)
-//						.setVersion(this.version));
+//						.setAppName(this.name)
+//						.setAppVersion(this.version));
 				// Add the panel title up front of the Credential list.
 				this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
 				if (NeoComApplication.checkNetworkAccess()) {

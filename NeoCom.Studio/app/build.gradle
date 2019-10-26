@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 120
-        versionName "0.16.0"
+        versionName "0.17.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -49,7 +49,7 @@ android {
             minifyEnabled false
             useProguard false
 //            testCoverageEnabled true
-            resValue "string", "appdatabasefilename", "neocomv0.15"
+            resValue "string", "appdatabasefilename", "neocomv0.17"
 //            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
 //            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
         }
@@ -57,7 +57,7 @@ android {
     sourceSets {
         main.java {
 //            srcDirs += 'src/main/java-appv3'
-            srcDirs += 'src/main/java-appv4'
+//            srcDirs += 'src/main/java-appv4'
             srcDirs += 'src/main/java-adapters'
 //            srcDirs += 'src/main/java-app'
 //            srcDirs += 'src/main/java-industry'

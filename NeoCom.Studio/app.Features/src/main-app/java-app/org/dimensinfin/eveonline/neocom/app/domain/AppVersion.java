@@ -1,58 +1,46 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
-/**
- * @author Adam Antinoo
- */
 public class AppVersion extends NeoComNode {
-	// - S T A T I C - S E C T I O N
-	private static Logger logger = LoggerFactory.getLogger(AppVersion.class);
+	//	private static Logger logger = LoggerFactory.getLogger(AppVersion.class);
+	private String appName = "NeoCom";
+	private String appVersion = "-";
 
-	// - F I E L D - S E C T I O N
-	private String name = "NeoCom";
-	private String version = "-";
-
-	// - C O N S T R U C T O R - S E C T I O N
-	public AppVersion() {
+	// - C O N S T R U C T O R S
+	private AppVersion() {
 		super();
 		logger.info("-- [AppVersion.<constructor>]> Node class: {}", this.getClass().getSimpleName());
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-	public String getName() {
-		return name;
+	public String getAppName() {
+		return appName;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getAppVersion() {
+		return appVersion;
 	}
 
-	public AppVersion setName( final String name ) {
-		this.name = name;
+	public AppVersion setAppName( final String appName ) {
+		this.appName = appName;
 		return this;
 	}
 
-	public AppVersion setVersion( final String version ) {
-		this.version = version;
+	public AppVersion setAppVersion( final String appVersion ) {
+		this.appVersion = appVersion;
 		return this;
 	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
-	@Override
-	public List<ICollaboration> collaborate2Model( final String variation ) {
-		return new ArrayList<>();
-	}
+//	@Override
+//	public List<ICollaboration> collaborate2Model( final String variation ) {
+//		return new ArrayList<>();
+//	}
 
 	// - C O R E
 
@@ -62,34 +50,55 @@ public class AppVersion extends NeoComNode {
 		if (!(o instanceof AppVersion)) return false;
 		final AppVersion that = (AppVersion) o;
 		return new EqualsBuilder()
-				       .append(name, that.name)
-				       .append(version, that.version)
+				       .append(this.appName, that.appName)
+				       .append(this.appVersion, that.appVersion)
 				       .isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(17, 37)
-				       .append(name)
-				       .append(version)
+				       .append(this.appName)
+				       .append(this.appVersion)
 				       .toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("AppVersion [ ");
-		buffer.append("name: ").append(this.name).append(" ");
-		buffer.append("version: ").append(this.version).append(" ");
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				       .append("name", appName)
+				       .append("version", appVersion)
+				       .toString();
 	}
 
 	@Override
 	public int compareTo( final Object o ) {
 		if (o instanceof AppVersion) {
 			final AppVersion target = (AppVersion) o;
-			return this.getName().compareTo(target.getName());
+			return this.getAppName().compareTo(target.getAppName());
 		} else return 0;
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		private AppVersion onConstruction;
+
+		public Builder() {
+			this.onConstruction = new AppVersion();
+		}
+
+		public AppVersion.Builder withAppName( final String appName ) {
+			this.onConstruction.appName = appName;
+			return this;
+		}
+
+		public AppVersion.Builder withAppVersion( final String appVersion ) {
+			this.onConstruction.appVersion = appVersion;
+			return this;
+		}
+
+		public AppVersion build() {
+			return this.onConstruction;
+		}
 	}
 }

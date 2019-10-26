@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app;
 
 public enum PageNamesType {
+	INITIALIZATION("INITIALIZATION"),
 	SPLASH("SPLASH DASHBOARD"),
 	PILOT_DASHBOARD("PILOT DASHBOARD"),
 	AUTHORIZATION("PROCESS OAUTH REQUEST"),
