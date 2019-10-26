@@ -33,6 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AppInitializationActivity extends Activity {
+	public static final String RETRY_INITIALIZATION_EVENT="-RETRY_INITIALIZATION_EVENT-";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
@@ -92,24 +93,26 @@ public class AppInitializationActivity extends Activity {
 	 * there should be a new item to be rendered on the view panel.
 	 */
 	protected void launchInitialization() {
-		this.taskSequencer= new TaskSequencer.Builder()
-		.withActivity(this)
-		.whenSuccessAction(()->{
-			// When the initialization completes we can move to the splash activity.
-				this.runOnUiThread(() -> {
-					final Intent intent = new Intent(this, AppSplashActivity.class);
-					this.startActivity(intent);
-				});
+		this.taskSequencer = new TaskSequencer.Builder()
+				                     .withActivity(this)
+				                     .whenSuccessAction(() -> {
+					                     // When the initialization completes we can move to the splash activity.
+					                     this.runOnUiThread(() -> {
+						                     final Intent intent = new Intent(this, AppSplashActivity.class);
+						                     this.startActivity(intent);
+					                     });
 
-		})
-		.whenExceptionAction(()->{
-			// If there is an exception then get the detail information and setup the exception fields.
-			this.linearContainer.addModel(new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
-			this.linearContainer.addModel(new InitializationException.Builder()
-					                              .withException(this.taskSequencer.getException())
-			.build());
-		})
-		.build();
+				                     })
+				                     .whenExceptionAction(() -> {
+					                     // If there is an exception then get the detail information and setup the exception fields.
+					                     this.linearContainer.addModel(
+							                     new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
+					                     this.linearContainer.addModel(new InitializationException.Builder()
+							                                                   .withException(this.taskSequencer.getException())
+							                                                   .withRetryable(this.taskSequencer.isRetryable())
+							                                                   .build());
+				                     })
+				                     .build();
 		// Check that the application is available and the component factory is also present.
 		final InitializationTask initialCheckTask = new InitializationTask.Builder()
 				                                            .withMessage("Core instances check...")
@@ -149,7 +152,7 @@ public class AppInitializationActivity extends Activity {
 		backgroundExecutor.submit(() -> {
 			try {
 				while (this.validatePermissions()) {
-					this.requestPrivilege=false;
+					this.requestPrivilege = false;
 				}
 				Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 

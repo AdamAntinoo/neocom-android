@@ -14,7 +14,16 @@ public class TaskSequencer {
 	private Activity activity;
 	private Runnable whenExceptionAction;
 	private Runnable whenSuccessAction;
-	private
+	private Exception exception;
+	private  boolean  retryable ;
+
+	public Exception getException() {
+		return this.exception;
+	}
+
+	public boolean isRetryable() {
+		return this.retryable;
+	}
 
 	public int addTask( final ChainTask task ) {
 		this.taskList.put(task, false);
