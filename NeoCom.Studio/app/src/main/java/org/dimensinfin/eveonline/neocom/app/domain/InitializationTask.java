@@ -20,8 +20,16 @@ public class InitializationTask extends NeoComNode {
 		return this.message;
 	}
 
+	public boolean isRetryable() {
+		return this.retryable;
+	}
+
 	public InitializationTask setState( final InitializationTaskState state ) {
 		this.state = state;
+		return this;
+	}
+	public InitializationTask setException ( final Exception exception ){
+		this.exception=exception;
 		return this;
 	}
 
@@ -48,10 +56,10 @@ public class InitializationTask extends NeoComNode {
 			return this;
 		}
 
-		public InitializationTask.Builder optionalException( final Exception exception ) {
-			this.onConstruction.exception = exception;
-			return this;
-		}
+//		public InitializationTask.Builder optionalException( final Exception exception ) {
+//			this.onConstruction.exception = exception;
+//			return this;
+//		}
 
 		public InitializationTask build() {
 			return this.onConstruction;

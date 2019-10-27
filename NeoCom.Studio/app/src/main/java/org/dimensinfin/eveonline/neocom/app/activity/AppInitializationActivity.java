@@ -21,6 +21,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
+import org.dimensinfin.eveonline.neocom.app.utilities.ChainTask;
 import org.dimensinfin.eveonline.neocom.app.utilities.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.utilities.TaskSequencer;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
@@ -33,7 +34,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AppInitializationActivity extends Activity {
-	public static final String RETRY_INITIALIZATION_EVENT="-RETRY_INITIALIZATION_EVENT-";
+	public static final String RETRY_INITIALIZATION_EVENT = "-RETRY_INITIALIZATION_EVENT-";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
@@ -119,97 +120,138 @@ public class AppInitializationActivity extends Activity {
 				                                            .withState(InitializationTask.InitializationTaskState.RUNNING)
 				                                            .withRetryable(true)
 				                                            .build();
-		this.runOnUiThread(() -> {
-			this.linearContainer.addModel(initialCheckTask);
-		});
-		backgroundExecutor.submit(() -> {
-			try {
-				final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
-				Objects.requireNonNull(componentFactory);
-				final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
-				Objects.requireNonNull(application);
-				Thread.sleep(TimeUnit.SECONDS.toMillis(3));
-				this.runOnUiThread(() -> {
-					initialCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-					this.linearContainer.needsUpdate();
-				});
-			} catch (final NullPointerException npe) {
-				this.runOnUiThread(() -> {
-					initialCheckTask.setState(InitializationTask.InitializationTaskState.EXCEPTION);
-					this.linearContainer.needsUpdate();
-				});
-			} catch (final InterruptedException ie) {}
-		});
-		// Check the privileges required to run the application.
-		final InitializationTask privilegesCheckTask = new InitializationTask.Builder()
-				                                               .withMessage("Application privileges check...")
-				                                               .withState(InitializationTask.InitializationTaskState.RUNNING)
-				                                               .withRetryable(true)
-				                                               .build();
-		this.runOnUiThread(() -> {
-			this.linearContainer.addModel(privilegesCheckTask);
-		});
-		backgroundExecutor.submit(() -> {
-			try {
-				while (this.validatePermissions()) {
-					this.requestPrivilege = false;
-				}
-				Thread.sleep(TimeUnit.SECONDS.toMillis(3));
-
-				this.runOnUiThread(() -> {
-					privilegesCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-					this.linearContainer.needsUpdate();
-				});
-			} catch (final InterruptedException ie) {}
-		});
-		// Check that the application directories are present.
-		final InitializationTask directoriesChecktask = new InitializationTask.Builder()
+		// Load the list of tasks.
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(initialCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
+						                           Objects.requireNonNull(componentFactory);
+						                           final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
+						                           Objects.requireNonNull(application);
+						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           } catch (final InterruptedException ie) {}
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask privilegeExternalStorageCheckTask = new InitializationTask.Builder()
+				                                                             .withMessage("Application write external privilege check...")
+				                                                             .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                             .withRetryable(true)
+				                                                             .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(privilegeExternalStorageCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           if (ContextCompat.checkSelfPermission(this,
+								                           Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+							                           // Permission is not granted
+							                           ActivityCompat.requestPermissions(this,
+									                           new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10);
+						                           }
+						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           } catch (final InterruptedException ie) {}
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask privilegeInternetCheckTask = new InitializationTask.Builder()
+				                                                      .withMessage("Application internet privilege check...")
+				                                                      .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                      .withRetryable(true)
+				                                                      .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(privilegeInternetCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           if (ContextCompat.checkSelfPermission(this,
+								                           Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+							                           // Permission is not granted
+							                           this.requestPrivilege = true;
+							                           ActivityCompat.requestPermissions(this,
+									                           new String[]{ Manifest.permission.INTERNET }, 20);
+						                           }
+						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           } catch (final InterruptedException ie) {}
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask privilegeAccessNetworkCheckTask = new InitializationTask.Builder()
+				                                                      .withMessage("Application internet privilege check...")
+				                                                      .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                      .withRetryable(true)
+				                                                      .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(privilegeAccessNetworkCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           if (ContextCompat.checkSelfPermission(this,
+								                           Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+							                           // Permission is not granted
+							                           this.requestPrivilege = true;
+							                           ActivityCompat.requestPermissions(this,
+									                           new String[]{ Manifest.permission.ACCESS_NETWORK_STATE }, 30);
+						                           }
+						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           } catch (final InterruptedException ie) {}
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask directoriesCheckTask = new InitializationTask.Builder()
 				                                                .withMessage("Application directories check...")
 				                                                .withState(InitializationTask.InitializationTaskState.RUNNING)
 				                                                .withRetryable(true)
 				                                                .build();
-		this.runOnUiThread(() -> {
-			this.linearContainer.addModel(directoriesChecktask);
-		});
-		backgroundExecutor.submit(() -> {
-			try {
-				this.createAppDir();
-				this.createCacheDirectories();
-				Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(directoriesCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           this.createAppDir();
+						                           this.createCacheDirectories();
+						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           } catch (final InterruptedException ie) {}
+					                           return true;
+				                           })
+				                           .build());
 
-				this.runOnUiThread(() -> {
-					directoriesChecktask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-					this.linearContainer.needsUpdate();
-				});
-			} catch (final InterruptedException ie) {}
-		});
-		// Check the SDE database file is present.
-		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
-				                                            .withMessage("SDE database existence check...")
-				                                            .withState(InitializationTask.InitializationTaskState.RUNNING)
-				                                            .withRetryable(true)
-				                                            .build();
-		this.runOnUiThread(() -> {
-			this.linearContainer.addModel(sdeFileCheckTask);
-		});
-		backgroundExecutor.submit(() -> {
-			try {
-				if (this.sdeDatabaseExists()) {
-					Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 
-					this.runOnUiThread(() -> {
-						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-						this.linearContainer.needsUpdate();
-					});
-				} else {
-					this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
-					this.runOnUiThread(() -> {
-						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-						this.linearContainer.needsUpdate();
-					});
-				}
-			} catch (final InterruptedException ie) {}
-		});
+
+//		// Check the SDE database file is present.
+//		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
+//				                                            .withMessage("SDE database existence check...")
+//				                                            .withState(InitializationTask.InitializationTaskState.RUNNING)
+//				                                            .withRetryable(true)
+//				                                            .build();
+//		this.runOnUiThread(() -> {
+//			this.linearContainer.addModel(sdeFileCheckTask);
+//		});
+//		backgroundExecutor.submit(() -> {
+//			try {
+//				if (this.sdeDatabaseExists()) {
+//					Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+//
+//					this.runOnUiThread(() -> {
+//						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
+//						this.linearContainer.needsUpdate();
+//					});
+//				} else {
+//					this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
+//					this.runOnUiThread(() -> {
+//						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
+//						this.linearContainer.needsUpdate();
+//					});
+//				}
+//			} catch (final InterruptedException ie) {}
+//		});
 	}
 
 	/**
@@ -244,22 +286,6 @@ public class AppInitializationActivity extends Activity {
 			ActivityCompat.requestPermissions(this,
 					new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
 					10);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			this.requestPrivilege = true;
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.INTERNET },
-					20);
-		}
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			this.requestPrivilege = true;
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
-					30);
 		}
 		return this.requestPrivilege;
 	}
