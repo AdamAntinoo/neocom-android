@@ -9,8 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/app.AcceptanceTest" />
             <option value="$PROJECT_DIR$/app.Features" />
+            <option value="$PROJECT_DIR$/../../neocom-datamanagement/NeoCom.DataManagement" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

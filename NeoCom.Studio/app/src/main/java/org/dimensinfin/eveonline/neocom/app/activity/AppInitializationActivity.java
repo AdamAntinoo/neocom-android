@@ -18,22 +18,27 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.app.utilities.ChainTask;
-import org.dimensinfin.eveonline.neocom.app.utilities.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.utilities.TaskSequencer;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+
+import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 
 public class AppInitializationActivity extends Activity {
+	protected static Logger logger = LoggerFactory.getLogger(ChainTask.class);
 	public static final String RETRY_INITIALIZATION_EVENT = "-RETRY_INITIALIZATION_EVENT-";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private IConfigurationProvider configurationProvider;
@@ -96,8 +101,10 @@ public class AppInitializationActivity extends Activity {
 	protected void launchInitialization() {
 		this.taskSequencer = new TaskSequencer.Builder()
 				                     .withActivity(this)
+				                     .withContainer(this.linearContainer)
 				                     .whenSuccessAction(() -> {
 					                     // When the initialization completes we can move to the splash activity.
+					                     logger.info("--[AppInitializationActivity.launchInitialization.whenSuccessAction]");
 					                     this.runOnUiThread(() -> {
 						                     final Intent intent = new Intent(this, AppSplashActivity.class);
 						                     this.startActivity(intent);
@@ -105,6 +112,7 @@ public class AppInitializationActivity extends Activity {
 
 				                     })
 				                     .whenExceptionAction(() -> {
+					                     logger.info("--[AppInitializationActivity.launchInitialization.whenExceptionAction]");
 					                     // If there is an exception then get the detail information and setup the exception fields.
 					                     this.linearContainer.addModel(
 							                     new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
@@ -129,16 +137,17 @@ public class AppInitializationActivity extends Activity {
 						                           Objects.requireNonNull(componentFactory);
 						                           final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
 						                           Objects.requireNonNull(application);
-						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 					                           } catch (final NullPointerException npe) {
 						                           return false;
-					                           } catch (final InterruptedException ie) {}
+					                           }
 					                           return true;
 				                           })
 				                           .build());
 		final InitializationTask privilegeExternalStorageCheckTask = new InitializationTask.Builder()
-				                                                             .withMessage("Application write external privilege check...")
-				                                                             .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                             .withMessage(
+						                                                             "Application write external privilege check...")
+				                                                             .withState(
+						                                                             InitializationTask.InitializationTaskState.RUNNING)
 				                                                             .withRetryable(true)
 				                                                             .build();
 		this.taskSequencer.addTask(new ChainTask.Builder()
@@ -151,16 +160,16 @@ public class AppInitializationActivity extends Activity {
 							                           ActivityCompat.requestPermissions(this,
 									                           new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10);
 						                           }
-						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 					                           } catch (final NullPointerException npe) {
 						                           return false;
-					                           } catch (final InterruptedException ie) {}
+					                           }
 					                           return true;
 				                           })
 				                           .build());
 		final InitializationTask privilegeInternetCheckTask = new InitializationTask.Builder()
 				                                                      .withMessage("Application internet privilege check...")
-				                                                      .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                      .withState(
+						                                                      InitializationTask.InitializationTaskState.RUNNING)
 				                                                      .withRetryable(true)
 				                                                      .build();
 		this.taskSequencer.addTask(new ChainTask.Builder()
@@ -174,18 +183,20 @@ public class AppInitializationActivity extends Activity {
 							                           ActivityCompat.requestPermissions(this,
 									                           new String[]{ Manifest.permission.INTERNET }, 20);
 						                           }
-						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 					                           } catch (final NullPointerException npe) {
 						                           return false;
-					                           } catch (final InterruptedException ie) {}
+					                           }
 					                           return true;
 				                           })
 				                           .build());
 		final InitializationTask privilegeAccessNetworkCheckTask = new InitializationTask.Builder()
-				                                                      .withMessage("Application internet privilege check...")
-				                                                      .withState(InitializationTask.InitializationTaskState.RUNNING)
-				                                                      .withRetryable(true)
-				                                                      .build();
+				                                                           .withMessage(
+						                                                           "Application access network privilege check." +
+								                                                           "..")
+				                                                           .withState(
+						                                                           InitializationTask.InitializationTaskState.RUNNING)
+				                                                           .withRetryable(true)
+				                                                           .build();
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(privilegeAccessNetworkCheckTask)
 				                           .withRunTask(() -> {
@@ -197,10 +208,9 @@ public class AppInitializationActivity extends Activity {
 							                           ActivityCompat.requestPermissions(this,
 									                           new String[]{ Manifest.permission.ACCESS_NETWORK_STATE }, 30);
 						                           }
-						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 					                           } catch (final NullPointerException npe) {
 						                           return false;
-					                           } catch (final InterruptedException ie) {}
+					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -215,41 +225,72 @@ public class AppInitializationActivity extends Activity {
 					                           try {
 						                           this.createAppDir();
 						                           this.createCacheDirectories();
-						                           Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 					                           } catch (final NullPointerException npe) {
 						                           return false;
-					                           } catch (final InterruptedException ie) {}
+					                           }
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
+				                                            .withMessage("SDE database existence check...")
+				                                            .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                            .withRetryable(true)
+				                                            .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(sdeFileCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           if (!this.sdeDatabaseExists()) {
+							                           this.fileSystem.copyFromAssets(
+									                           this.getResources().getString(R.string.sdedatabasefilename), null);
+						                           }
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           }
+					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask validateSDEDatabaseVersionCheckTask = new InitializationTask.Builder()
+				                                                               .withMessage("Validate SDE database version check...")
+				                                                               .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                               .withRetryable(true)
+				                                                               .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(validateSDEDatabaseVersionCheckTask)
+				                           .withRunTask(() -> {
+					                           try {
+						                           final ISDEDatabaseAdapter sdeDatabase = NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter();
+						                           final int versionNumber = sdeDatabase.getDatabaseVersion();
+						                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Database " +
+								                                       "version: {}", versionNumber);
+						                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Configuration " +
+								                                       "version: {}", SDE_DB_VERSION);
+						                           if (versionNumber != SDE_DB_VERSION) { // Currently installed version mismatch.
+							                           new File(this.fileSystem.accessResource4Path(
+									                           this.getResources().getString(R.string.sdedatabasefilename)))
+									                           .delete();
+							                           if (!this.sdeDatabaseExists()) {
+								                           this.fileSystem.copyFromAssets(
+										                           this.getResources().getString(R.string.sdedatabasefilename), null);
+							                           }
+						                           }
+					                           } catch (final NullPointerException npe) {
+						                           return false;
+					                           }
 					                           return true;
 				                           })
 				                           .build());
 
+		// Start the process to run the tasks in sequence.
+		this.taskSequencer.run();
 
 
 //		// Check the SDE database file is present.
-//		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
-//				                                            .withMessage("SDE database existence check...")
-//				                                            .withState(InitializationTask.InitializationTaskState.RUNNING)
-//				                                            .withRetryable(true)
-//				                                            .build();
 //		this.runOnUiThread(() -> {
 //			this.linearContainer.addModel(sdeFileCheckTask);
 //		});
 //		backgroundExecutor.submit(() -> {
 //			try {
-//				if (this.sdeDatabaseExists()) {
-//					Thread.sleep(TimeUnit.SECONDS.toMillis(3));
-//
-//					this.runOnUiThread(() -> {
-//						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-//						this.linearContainer.needsUpdate();
-//					});
-//				} else {
-//					this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
-//					this.runOnUiThread(() -> {
-//						sdeFileCheckTask.setState(InitializationTask.InitializationTaskState.COMPLETED);
-//						this.linearContainer.needsUpdate();
-//					});
-//				}
 //			} catch (final InterruptedException ie) {}
 //		});
 	}

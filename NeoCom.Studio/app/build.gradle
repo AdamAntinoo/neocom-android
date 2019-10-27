@@ -41,7 +41,7 @@ android {
 //
 //            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
 //
-            buildConfigField "String", "SDE_DB_VERSION", SDE_DB_VERSION
+            buildConfigField "integer", "SDE_DB_VERSION", SDE_DB_VERSION
         }
         debug {
             initWith release

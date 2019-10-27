@@ -1,9 +1,9 @@
 include ':app'
 include ':app.Features'
-include ':app.AcceptanceTest'
+//include ':app.AcceptanceTest'
 //include ':app.VisualTest'
-//include ':NeoCom.DataManagement'
-//project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
+include ':NeoCom.DataManagement'
+project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')
 //include ':NeoCom.DataManagement.AcceptanceTests'
 //project(':NeoCom.DataManagement.AcceptanceTests').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement.AcceptanceTests')
 //include ':NeoCom.DataManagement.Support'
