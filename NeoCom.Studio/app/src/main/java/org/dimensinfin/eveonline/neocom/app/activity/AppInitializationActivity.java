@@ -62,16 +62,16 @@ public class AppInitializationActivity extends Activity {
 		this.injectComponents(); // Connect to the application components.
 		this.setContentView(R.layout.activity_initialization); // Set the layout to the core context
 		this.deactivateActionBar();
-		this.linearContainer = new LinearContainer.Builder()
-				                       .withActivity(this)
-				                       .withLayoutId(R.id.initializationLayout)
-				                       .withFactory(new AppControllerFactory(PageNamesType.INITIALIZATION.name()))
-				                       .build();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+		this.linearContainer = new LinearContainer.Builder()
+				                       .withActivity(this)
+				                       .withLayoutId(R.id.initializationLayout)
+				                       .withFactory(new AppControllerFactory(PageNamesType.INITIALIZATION.name()))
+				                       .build();
 		this.linearContainer.clear();
 		// Create the header component and insert it into the layout.
 		final AppVersion appInfo = new AppVersion.Builder()
@@ -80,6 +80,12 @@ public class AppInitializationActivity extends Activity {
 				                           .build();
 		this.linearContainer.addModel(appInfo); // Set the application info header
 		this.launchInitialization(); // Start the background initialization process.
+	}
+
+	@Override
+	protected void onStop() {
+		this.taskSequencer.stop(); // Report the task sequencer to stop processing more tasts.
+		super.onStop();
 	}
 
 	protected void injectComponents() {
@@ -270,6 +276,9 @@ public class AppInitializationActivity extends Activity {
 						                           if (versionNumber != SDE_DB_VERSION) { // Currently installed version mismatch.
 							                           new File(this.fileSystem.accessResource4Path(
 									                           this.getResources().getString(R.string.sdedatabasefilename)))
+									                           .delete();
+							                           new File(this.fileSystem.accessResource4Path(
+									                           this.getResources().getString(R.string.sdedatabasefilename) + "-journal"))
 									                           .delete();
 							                           if (!this.sdeDatabaseExists()) {
 								                           this.fileSystem.copyFromAssets(

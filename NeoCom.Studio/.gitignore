@@ -8,7 +8,9 @@
 .idea/sonarlint/
 .idea/libraries/
 .idea/caches/
-/build/
-/app/build/
-/app.Features/build/
-/app.AcceptanceTest/build/
+
+# - Ignore generated compilation files
+coverage/
+app/build/
+app.AcceptanceTest/build/
+app.Features/build/
