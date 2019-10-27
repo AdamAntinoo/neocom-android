@@ -1,9 +1,5 @@
 package org.dimensinfin.eveonline.neocom.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +8,13 @@ import android.preference.PreferenceManager;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.domain.IScheduler;
-import org.dimensinfin.eveonline.neocom.enums.PreferenceKeys;
-
+import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class is a one minute timer activated at startup. It will call upon the list of schedulers configured if the minute counter matches the

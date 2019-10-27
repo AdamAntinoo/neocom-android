@@ -6,13 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetAlliancesAllianceIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCorporationsCorporationIdOk;
 
 public class PilotRender4Dashboard extends NeoComRenderv2 {
 	private ImageView avatarIcon;
@@ -70,33 +66,37 @@ public class PilotRender4Dashboard extends NeoComRenderv2 {
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.setAvatarIcon(this.avatarIcon, this.getController().getModel().getPilotIdentifier());
+		this.setAvatarIcon(this.avatarIcon, this.getController().getModel().getPilotId());
 		final String raceName = this.getController().getModel().getRaceName();
 		this.raceName.setText(raceName.toUpperCase());
 		this.raceIconName.setImageDrawable(this.getRaceIcon(raceName));
 		this.raceIconSmall.setImageDrawable(this.getRaceIcon(raceName));
 		this.pilotName.setText(this.getController().getModel().getName());
-		this.pilotIdentifier.setText("[#" + this.getController().getModel().getPilotIdentifier() + "]");
+		this.pilotIdentifier.setText("[#" + this.getController().getModel().getPilotId() + "]");
 
 		this.accessCorporationData();
 		this.accessAllianceData();
 	}
 
 	protected void accessCorporationData() {
-		final GetCorporationsCorporationIdOk corporationData = this.getController().getModel().getCorporationData();
-		if (null != corporationData) {
-			final String link = this.getController().getModel().getCorporationIconUrl();
-			Picasso.get().load(link).into(corporationIcon);
-			this.corporationName.setText(corporationData.getName());
-		} else this.corporationDataBlock.setVisibility(View.GONE);
+//		final GetCorporationsCorporationIdOk corporationData = this.getController().getModel().getCorporationData();
+//		if (null != corporationData) {
+		// TODO - Pilots no longer have their corporation data. This is another object
+//			final String link = this.getController().getModel().getCorporationIconUrl();
+//			Picasso.get().load(link).into(corporationIcon);
+//			this.corporationName.setText(corporationData.getName());
+//		} else
+		this.corporationDataBlock.setVisibility(View.GONE);
 	}
 
 	protected void accessAllianceData() {
-		final GetAlliancesAllianceIdOk allianceData = this.getController().getModel().getAllianceData();
-		if (null != allianceData) {
-			final String link = this.getController().getModel().getAllianceIconUrl();
-			Picasso.get().load(link).into(allianceIcon);
-			this.allianceName.setText(allianceData.getName());
-		} else this.allianceDataBlock.setVisibility(View.GONE);
+		// TODO - Pilot no longer has the alliance data. This is another object
+//		final GetAlliancesAllianceIdOk allianceData = this.getController().getModel().getAllianceData();
+//		if (null != allianceData) {
+//			final String link = this.getController().getModel().getAllianceIconUrl();
+//			Picasso.get().load(link).into(allianceIcon);
+//			this.allianceName.setText(allianceData.getName());
+//		} else
+			this.allianceDataBlock.setVisibility(View.GONE);
 	}
 }

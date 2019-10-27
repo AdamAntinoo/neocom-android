@@ -7,13 +7,23 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
@@ -25,15 +35,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.app.utilities.ChainTask;
 import org.dimensinfin.eveonline.neocom.app.utilities.TaskSequencer;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 
@@ -314,9 +316,8 @@ public class AppInitializationActivity extends Activity {
 		return cachedir.exists();
 	}
 
-	protected boolean sdeDatabaseExists() {
-		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename)))
-				       .exists();
+	protected boolean sdeDatabaseExists() throws IOException {
+		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename))).exists();
 	}
 
 	protected boolean validatePermissions() {

@@ -1,12 +1,12 @@
 package org.dimensinfin.eveonline.neocom.mining;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
-import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
+import org.dimensinfin.eveonline.neocom.core.IAggregableItem;
+import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 
 public class MiningExtractionAggregatorAsPanelTitle<T extends IAggregableItem> extends PanelTitle implements IContainerAggregator<T>/*, PropertyChangeListener */{
 	protected boolean _expanded = false;

@@ -3,18 +3,18 @@ package org.dimensinfin.eveonline.neocom.app.activity.core;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import androidx.annotation.Nullable;
 
+import java.text.MessageFormat;
+import java.util.Objects;
+
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.exception.RuntimeErrorInfo;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-
-import java.text.MessageFormat;
-import java.util.Objects;
 
 public abstract class ACredentialActivity extends ANeoComActivity {
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
@@ -26,7 +26,7 @@ public abstract class ACredentialActivity extends ANeoComActivity {
 
 	protected Credential searchCredential( final int identifier ) {
 		final String esiServer = this.preferences.getString("prefkey_dataSourceList",
-		                                                    NeoComComponentFactory.DEFAULT_ESI_SERVER).toLowerCase();
+		                                                    ESIDataAdapter.DEFAULT_ESI_SERVER).toLowerCase();
 		for (Credential cred : this.credentialRepository.findAllByServer(esiServer)) {
 			if (cred.getAccountId() == identifier) return cred;
 		}

@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
-import org.dimensinfin.eveonline.neocom.adapters.NeoComUpdaterFactory;
-import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
+import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdater;
+import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdaterFactory;
 
 public abstract class NeoComUpdatableController<M extends ICollaboration> extends NeoComController<M> implements IEventReceiver {
 	protected NeoComUpdater<M> updater;
@@ -32,6 +32,6 @@ public abstract class NeoComUpdatableController<M extends ICollaboration> extend
 	public void addEventListener( final IEventReceiver listener ) {
 		super.addEventListener(listener);
 		if (null != this.getUpdater())
-			this.getUpdater().refresh(); // Start the refresh process if required before leaving this thread.
+			this.getUpdater().update(); // Start the refresh process if required before leaving this thread.
 	}
 }

@@ -14,7 +14,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 120
+//        versionCode 120
         versionName "0.17.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
@@ -28,20 +28,8 @@ android {
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-//            resValue "string", "appname", "NeoCom"
-//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
-//            resValue "string", "appversion", android.defaultConfig.versionName
-////            resValue "string", "appversionname", "v" + android.defaultConfig.versionName
-////            resValue "string", "appversioncode", "\"" + android.defaultConfig.versionCode + "\""
-//
-//            resValue "string", "appdatabasefilename", "neocom"
-//            resValue "string", "sdedatabasefilename", "sde.db"
-//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
-//
-//            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
-//
-            buildConfigField "integer", "SDE_DB_VERSION", SDE_DB_VERSION
+            buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
+            buildConfigField "Integer", "NEOCOM_DB_VERSION", NEOCOM_DB_VERSION
         }
         debug {
             initWith release
@@ -64,6 +52,7 @@ android {
 //            srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
+            srcDirs += 'src/main/java-datamanagement'
         }
 //        debug.java {
 //            srcDirs += 'src/debug/java-app'

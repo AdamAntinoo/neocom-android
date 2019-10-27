@@ -41,4 +41,6 @@ ext {
     ormliteVersion = '4.48'
     powermockVersion = '2.0.2'
     retrofitVersion = '2.5.0'
+
+    neocomDatamanagementVersion = '0.17.0'
 }

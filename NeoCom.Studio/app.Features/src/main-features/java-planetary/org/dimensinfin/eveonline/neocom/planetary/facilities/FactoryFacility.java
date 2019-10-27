@@ -1,5 +1,10 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
@@ -10,11 +15,6 @@ import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResource;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetaryResourceTierType;
 import org.dimensinfin.eveonline.neocom.planetary.PlanetarySchematic;
 import org.dimensinfin.eveonline.neocom.planetary.Schematics;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class FactoryFacility extends PlanetaryFacilityWrapper {
 	private static final long serialVersionUID = -4614362639541002313L;

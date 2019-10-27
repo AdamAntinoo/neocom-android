@@ -10,6 +10,7 @@ dependencies {
 // - P R O J E C T
 dependencies {
     // C O R E
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.slf4j:slf4j-android:$loggerVersion"
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'org.apache.commons:commons-lang3:3.9'
@@ -18,13 +19,13 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 
     // L I B R A R I E S
-    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
-    implementation 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
+    implementation 'org.dimensinfin:CoreBase.core:3.2.0'
+    implementation 'org.dimensinfin:ESI.SwaggerApi:4.16.0'
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
     implementation 'me.relex:circleindicator:2.1.0'
     implementation project(':app.Features')
 //    implementation project(':NeoCom.DataManagement')
-    implementation "org.dimensinfin:NeoCom.DataManagement:0.15.2"
+    implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

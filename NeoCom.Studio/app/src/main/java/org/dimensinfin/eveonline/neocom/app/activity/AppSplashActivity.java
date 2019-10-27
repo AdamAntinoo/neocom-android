@@ -3,17 +3,18 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 import android.os.Bundle;
 import android.os.Environment;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ANeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-
-import java.io.File;
 
 public class AppSplashActivity extends ANeoComActivity {
 	private IConfigurationProvider configurationProvider;
@@ -38,7 +39,11 @@ public class AppSplashActivity extends ANeoComActivity {
 		// Check if the files and folders to run on Android are in place. If not create/copy them.
 		logger.info("-- [AppSplashActivity.onStart]> Creating application directories...");
 		this.createApplicationDirectories(); // Create any application storage directories on the SD card.
-		this.validateSDEDatabase();
+		try {
+			this.validateSDEDatabase();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean checkStartup() {
@@ -76,14 +81,14 @@ public class AppSplashActivity extends ANeoComActivity {
 		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	}
 
-	protected void validateSDEDatabase() {
+	protected void validateSDEDatabase() throws IOException {
 		if (!this.sdeDatabaseExists()) {
 			// Just copy the assets to the application directory.
 			this.fileSystem.copyFromAssets(this.getResources().getString(R.string.sdedatabasefilename), null);
 		}
 	}
 
-	protected boolean sdeDatabaseExists() {
+	protected boolean sdeDatabaseExists() throws IOException {
 		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename)))
 				       .exists();
 	}

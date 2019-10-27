@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
-
 /**
  * This class is specific for the Data Management and the pure java instances. It will replicate the Preferences interface
  * found in Android so the code should be compatible with the Preferences Manager implemented in Android platform.
@@ -16,7 +14,7 @@ import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
  * @author Adam Antinoo
  */
 // - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidPreferencesProvider implements IGlobalPreferencesManager {
+public class GlobalAndroidPreferencesProvider /*implements IGlobalPreferencesManager*/ {
 	private Application application;
 
 	public String getStringPreference( final String preferenceName, final String defaultValue ) {

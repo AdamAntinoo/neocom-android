@@ -2,8 +2,10 @@ package org.dimensinfin.eveonline.neocom.mining.controller;
 
 import android.content.Context;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -13,9 +15,6 @@ import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
 import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class MiningExtractionAggregatorController extends AndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
 

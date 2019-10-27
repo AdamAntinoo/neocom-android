@@ -1,9 +1,9 @@
 package org.dimensinfin.eveonline.neocom.mining;
 
-import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.dimensinfin.eveonline.neocom.core.IAggregableItem;
 
 public class MiningExtractionAggregator<T extends IAggregableItem> extends AggregatorContainer {
 	protected List<T> contents = new ArrayList<>();

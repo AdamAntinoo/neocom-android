@@ -3,10 +3,6 @@ package org.dimensinfin.eveonline.neocom.app.adapters;
 import android.content.Context;
 import android.os.Environment;
 
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,31 +11,37 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+
 public class AndroidFileSystemAdapter implements IFileSystem {
 	private static Logger logger = LoggerFactory.getLogger(AndroidFileSystemAdapter.class);
 
-	private String applicationFolder = "NeoCom";
+	private String applicationDirectory = "NeoCom";
 	private Context applicationContext;
 
 	// - C O N S T R U C T O R
-	private AndroidFileSystemAdapter( final String applicationStoreDirectory, final Context applicationContext ) {
-		logger.info(">< [AndroidFileSystemAdapter.constructor]> applicationStoreDirectory: {}", applicationStoreDirectory);
-		this.applicationFolder = applicationStoreDirectory;
-		this.applicationContext = applicationContext;
-	}
+//	private AndroidFileSystemAdapter( final String applicationStoreDirectory, final Context applicationContext ) {
+//		logger.info(">< [AndroidFileSystemAdapter.constructor]> applicationStoreDirectory: {}", applicationStoreDirectory);
+//		this.applicationDirectory = applicationStoreDirectory;
+//		this.applicationContext = applicationContext;
+//	}
+	private AndroidFileSystemAdapter() {}
 
 	// - I F I L E S Y S T E M   I N T E R F A C E
 	@Override
 	public InputStream openResource4Input( final String filePath ) throws IOException {
 		return new FileInputStream(new File(
-				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath)
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath)
 		);
 	}
 
 	@Override
 	public OutputStream openResource4Output( final String filePath ) throws IOException {
 		return new FileOutputStream(new File(
-				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath)
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath)
 		);
 	}
 
@@ -62,9 +64,9 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	@Override
 	public String accessResource4Path( final String filePath ) {
 		if (null != filePath)
-			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder + "/" + filePath;
+			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath;
 		else
-			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationFolder;
+			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory;
 	}
 
 	/**
@@ -105,15 +107,26 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	public static class Builder {
 		private AndroidFileSystemAdapter onConstruction;
 
-		public Builder( final String applicationStoreDirectory, final Context applicationContext ) {
-			Objects.requireNonNull(applicationStoreDirectory);
+		public Builder() {
+			this.onConstruction = new AndroidFileSystemAdapter();
+		}
+
+		public AndroidFileSystemAdapter.Builder withApplicationContext( final Context applicationContext ) {
 			Objects.requireNonNull(applicationContext);
-			this.onConstruction = new AndroidFileSystemAdapter(applicationStoreDirectory, applicationContext);
+			this.onConstruction.applicationContext = applicationContext;
+			return this;
+		}
+
+		public AndroidFileSystemAdapter.Builder withApplicationDirectory( final String applicationDirectory ) {
+			Objects.requireNonNull(applicationDirectory);
+			this.onConstruction.applicationDirectory = applicationDirectory;
+			return this;
 		}
 
 		public AndroidFileSystemAdapter build() {
+			Objects.requireNonNull(this.onConstruction.applicationContext);
+			Objects.requireNonNull(this.onConstruction.applicationDirectory);
 			return this.onConstruction;
 		}
 	}
-
 }

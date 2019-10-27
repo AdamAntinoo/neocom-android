@@ -15,10 +15,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.auth.GetAccessToken;
@@ -26,18 +35,11 @@ import org.dimensinfin.eveonline.neocom.auth.TokenRequestBody;
 import org.dimensinfin.eveonline.neocom.auth.TokenTranslationResponse;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacter;
 import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
-import org.dimensinfin.eveonline.neocom.core.updaters.CredentialUpdater;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.eveonline.neocom.updaters.CredentialUpdater;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -73,7 +75,7 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread(() -> {
-			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, NeoComComponentFactory.DEFAULT_ESI_SERVER);
+			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, ESIDataAdapter.DEFAULT_ESI_SERVER);
 			this.esiDataAdapter.activateEsiServer(esiServer);
 			final Uri url = Uri.parse(this.esiDataAdapter.getAuthorizationUrl4Server(esiServer));
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
@@ -94,7 +96,7 @@ public class AuthorizationFlowActivity extends Activity {
 		logger.info(">> [AuthorizationFlowActivity.registerInBackground]");
 		logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating access token request.");
 		// Get from the properties the user selected esi source.
-		final String esiServer = this.preferences.getString("prefkey_dataSourceList", NeoComComponentFactory.DEFAULT_ESI_SERVER).toLowerCase();
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", ESIDataAdapter.DEFAULT_ESI_SERVER).toLowerCase();
 		try {
 			// Create a Retrofit request service to encapsulate the call.
 			// TODO - Check that the call dop not require converters

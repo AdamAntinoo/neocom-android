@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.mining.controller;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;

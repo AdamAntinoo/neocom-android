@@ -3,23 +3,28 @@ package org.dimensinfin.eveonline.neocom.app.adapters;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Objects;
+
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
-import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
-import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-import java.util.Objects;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
+import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
+
+
+import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
 
 public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDEDatabaseAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
@@ -27,13 +32,13 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 
 	// - C O M P O N E N T S
 	private Context appContext;
+	private String storageLocation ;
+	private int databaseVersion = 0;
 //	private IFileSystem fileSystemAdapter;
 
 	//	private String schema = "jdbc:sqlite";
 //	private String databasePath;
 //	private String databaseName;
-	private String storageLocation = "";
-	private int databaseVersion = 0;
 	private SQLiteDatabase ccpDatabase;
 //	private JdbcPooledConnectionSource connectionSource = null;
 
@@ -51,7 +56,10 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 		this.databaseVersion = databaseVersion;
 		this.openSDEDB();
 	}
-
+	@Override
+	public Integer getDatabaseVersion() {
+		return this.databaseVersion;
+	}
 //	private SDEAndroidDBHelper() {
 //		super();
 //	}
@@ -116,9 +124,14 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 
 	// - I S D E D A T A B A S E A D A P T E R
 
-	public Dao<EsiLocation, Long> getLocationDao() throws SQLException {
-		if (null == this.locationDao)
-			this.locationDao = DaoManager.createDao(this.getConnectionSource(), EsiLocation.class);
+	public Dao<EsiLocation, Long> getLocationDao() throws NeoComRuntimeException {
+		try {
+			if (null == this.locationDao) {
+				this.locationDao = DaoManager.createDao(this.getConnectionSource(), EsiLocation.class);
+			}
+		} catch (final SQLException sqle) {
+			throw new NeoComRuntimeException(sqle);
+		}
 		return this.locationDao;
 	}
 
@@ -160,46 +173,38 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	}
 
 	// - B U I L D E R
+
+	/**
+	 * This is an special Builder because the class inherits an specific Constructor that cannot be changed. That constructor should be used on the
+	 * final build so all fields are stored on the Builder to later be copied to the new instance.
+	 */
 	public static class Builder {
 		private Context appContext;
-		//		private IFileSystem fileSystemAdapter;
 		private String databaseName;
-//		private String storageLocation;
 
 		public Builder() {
-//			this.onConstruction = new SDEAndroidDBHelper();
 		}
 
 		public SDEAndroidDBHelper.Builder withAppContext( final Context appContext ) {
+			Objects.requireNonNull(appContext);
 			this.appContext = appContext;
 			return this;
 		}
 
-//		public Builder withFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
-//			this.fileSystemAdapter = fileSystemAdapter;
-//			return this;
-//		}
-//
-//		public SDEAndroidDBHelper.Builder withDatabaseLocation( final String location ) {
-//			this.storageLocation = location;
-//			return this;
-//		}
-
 		public SDEAndroidDBHelper.Builder withDatabaseName( final String databaseName ) {
+			Objects.requireNonNull(databaseName);
 			this.databaseName = databaseName;
 			return this;
 		}
 
-		public ISDEDatabaseAdapter build( final IFileSystem fileSystem ) {
+		public ISDEDatabaseAdapter build( final IFileSystem fileSystem ) throws IOException {
 			// Check and create only a singleton helper.
 			if (null == singleton) {
 				Objects.requireNonNull(this.appContext);
 				Objects.requireNonNull(this.databaseName);
-//				Objects.requireNonNull(this.storageLocation);
-//				Objects.requireNonNull(this.fileSystemAdapter);
 				singleton = new SDEAndroidDBHelper(this.appContext,
-				                                   fileSystem.accessResource4Path(databaseName),
-				                                   100);
+						fileSystem.accessResource4Path(databaseName),
+						NEOCOM_DB_VERSION);
 			}
 			return singleton;
 		}

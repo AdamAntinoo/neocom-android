@@ -1,15 +1,5 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.core.domain.EEvents;
-import org.dimensinfin.core.domain.EventEmitter;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IEventReceiver;
-import org.dimensinfin.eveonline.neocom.exception.EErrorType;
-import org.dimensinfin.eveonline.neocom.exception.NeoComError;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -19,6 +9,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import org.joda.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.EventEmitter;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IEventReceiver;
+import org.dimensinfin.eveonline.neocom.exception.EErrorType;
+import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
 /**
  * This class runs an initialisation task that is loaded as a lambda runnable at construction. When the right moment arrives

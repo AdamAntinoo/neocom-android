@@ -1,11 +1,11 @@
 package org.dimensinfin.eveonline.neocom.mining;
 
-import org.dimensinfin.eveonline.neocom.interfaces.IAggregableItem;
-import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.dimensinfin.eveonline.neocom.core.IAggregableItem;
+import org.dimensinfin.eveonline.neocom.model.NeoComExpandableNode;
 
 public class AggregatorContainer<T> extends NeoComExpandableNode {
 	private List<T> contents = new ArrayList<>();
