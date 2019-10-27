@@ -2,20 +2,21 @@ package org.dimensinfin.eveonline.neocom.app.utilities;
 
 import android.app.Activity;
 
-import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
+
 public class TaskSequencer {
 	protected static Logger logger = LoggerFactory.getLogger(TaskSequencer.class);
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
-	private Map<ChainTask, Boolean> taskList = new HashMap<ChainTask, Boolean>();
+	private Map<ChainTask, Boolean> taskList = new LinkedHashMap<ChainTask, Boolean>();
 	private Activity activity;
 	private LinearContainer container;
 	private Runnable whenExceptionAction;
@@ -63,6 +64,10 @@ public class TaskSequencer {
 			}
 		}
 		this.completeWithSuccess(); // Only called when the list is completed successfully.
+	}
+
+	public void stop() {
+		this.taskList.clear(); // Clear the list to stoop processing more actions.
 	}
 
 	/**

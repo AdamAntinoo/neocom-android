@@ -2,14 +2,16 @@ package org.dimensinfin.eveonline.neocom.app.utilities;
 
 import android.app.Activity;
 
-import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
+import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 
 public class TaskSequencerTest {
 	private static Logger logger = LoggerFactory.getLogger(AppVersion.class);
@@ -176,6 +178,9 @@ public class TaskSequencerTest {
 	@Test
 	public void run() {
 		final ChainTask task = Mockito.mock(ChainTask.class);
+		final InitializationTask taskModel = Mockito.mock(InitializationTask.class);
+		Mockito.when(taskModel.getMessage()).thenReturn("-MESSAGE-");
+		Mockito.when(task.getTaskModel()).thenReturn(taskModel);
 		final TaskSequencer sequencerSpy = Mockito.spy(task2test);
 		Mockito.doAnswer(( empty ) -> { return null; }).when(sequencerSpy).launch(Mockito.any(ChainTask.class));
 		Assert.assertEquals(1, task2test.addTask(task));
@@ -188,6 +193,9 @@ public class TaskSequencerTest {
 	@Test
 	public void runCompletion() {
 		final ChainTask task = Mockito.mock(ChainTask.class);
+		final InitializationTask taskModel = Mockito.mock(InitializationTask.class);
+		Mockito.when(taskModel.getMessage()).thenReturn("-MESSAGE-");
+		Mockito.when(task.getTaskModel()).thenReturn(taskModel);
 		final TaskSequencer sequencerSpy = Mockito.spy(task2test);
 		Mockito.doAnswer(( empty ) -> { return null; }).when(sequencerSpy).launch(Mockito.any(ChainTask.class));
 		Assert.assertEquals(1, task2test.addTask(task));

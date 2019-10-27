@@ -24,7 +24,7 @@ import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 
-import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
+import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 
 public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDEDatabaseAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
@@ -204,7 +204,7 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 				Objects.requireNonNull(this.databaseName);
 				singleton = new SDEAndroidDBHelper(this.appContext,
 						fileSystem.accessResource4Path(databaseName),
-						NEOCOM_DB_VERSION);
+						SDE_DB_VERSION);
 			}
 			return singleton;
 		}

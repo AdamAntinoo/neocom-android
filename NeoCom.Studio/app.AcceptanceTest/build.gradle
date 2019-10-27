@@ -31,6 +31,8 @@ android {
 
             resValue "string", "appname", "NeoComAT"
             resValue "string", "appnameversion", "NeoComAT v" + android.defaultConfig.versionName
+            buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
+            buildConfigField "Integer", "NEOCOM_DB_VERSION", NEOCOM_DB_VERSION
         }
         debug {
             initWith(release)
@@ -50,6 +52,7 @@ android {
             srcDirs += project(':app').file('src/main/java-adapters')
             srcDirs += project(':app').file('src/main/java-mining')
             srcDirs += project(':app').file('src/main/java-planetary')
+            srcDirs += project(':app').file('src/main/java-datamanagement')
         }
         main.res {
             srcDirs += project(':app').file('src/main/res')
@@ -86,13 +89,14 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
+//    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
 
     implementation 'org.slf4j:slf4j-android:1.7.26'
 }
 // - T E S T I N G
 dependencies {
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.26'
     testImplementation 'org.mockito:mockito-core:2.23.4'
 }
 dependencies {

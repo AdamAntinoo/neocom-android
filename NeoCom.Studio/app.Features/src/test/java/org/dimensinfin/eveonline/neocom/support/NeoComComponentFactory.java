@@ -1,23 +1,18 @@
 package org.dimensinfin.eveonline.neocom.support;
 
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
-import org.dimensinfin.eveonline.neocom.adapters.SDEDatabaseAdapter;
-import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
-import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.support.adapters.FileSystemSBImplementation;
-import org.dimensinfin.eveonline.neocom.support.adapters.NeoComSupportDBAdapter;
-import org.dimensinfin.eveonline.neocom.support.adapters.SBConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.support.adapters.SupportLocationRepository;
-import org.dimensinfin.eveonline.neocom.support.adapters.SupportMiningRepository;
+import java.sql.SQLException;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-import java.util.Objects;
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
+import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdater;
 
 /**
  * This is a singleton with global access that will contain application component references so they can be injected to other components. The creation
