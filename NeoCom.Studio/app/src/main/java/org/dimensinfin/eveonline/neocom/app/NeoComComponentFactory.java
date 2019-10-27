@@ -8,10 +8,8 @@ import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
-import org.dimensinfin.eveonline.neocom.app.adapters.GlobalAndroidPreferencesProvider;
-import org.dimensinfin.eveonline.neocom.app.database.NeoComAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.app.database.SDEAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.conf.IGlobalPreferencesManager;
+import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroidDBHelper;
+import org.dimensinfin.eveonline.neocom.app.adapters.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.core.updaters.NeoComUpdater;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -24,8 +22,6 @@ import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -37,8 +33,8 @@ import java.util.Objects;
  * @author Adam Antinoo
  */
 public class NeoComComponentFactory {
-	public static final String DEFAULT_ESI_SERVER = "Tranquility";
-	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
+//	public static final String DEFAULT_ESI_SERVER = "Tranquility";
+//	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	private static NeoComComponentFactory singleton; // The singleton for the factory. This should be created at start time and setting the application.
 	private static NeoComApplication application; // The link to the application that is required by the component factory.
 
@@ -58,19 +54,21 @@ public class NeoComComponentFactory {
 	protected CredentialRepository credentialRepository;
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
-	@Deprecated
-	private IGlobalPreferencesManager preferencesProvider;
+//	@Deprecated
+//	private IGlobalPreferencesManager preferencesProvider;
 	//	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
-	private StoreCacheManager storageCache;
 	private NeoComAndroidDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
+
 	@Deprecated
 	private DataDownloaderService downloaderService;
 	private MiningRepository miningRepository;
 	private PlanetaryRepository planetaryRepository;
 	private LocationCatalogService locationCatalogService;
 	private LocationRepository locationRepository;
+
+	private StoreCacheManager storageCache;
 
 	// - G E T T E R S
 	public NeoComApplication getApplication() {
@@ -89,33 +87,12 @@ public class NeoComComponentFactory {
 		}
 		return this.configurationProvider;
 	}
-
-	@Deprecated
-	public IGlobalPreferencesManager getPreferencesProvider() {
-		if (null == this.preferencesProvider) {
-			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
-					                      .withApplication(this.getApplication())
-					                      .build();
-		}
-		return this.preferencesProvider;
-	}
-
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter)
 			fileSystemAdapter = new AndroidFileSystemAdapter.Builder(application.getResources().getString(R.string.appname),
 			                                                         application).build();
 		return this.fileSystemAdapter;
 	}
-
-//	@Deprecated
-//	public ESIGlobalAdapter getEsiAdapter() {
-//		if (null == this.esiAdapter) {
-//			esiAdapter = new ESIGlobalAdapter.Builder(this.getConfigurationProvider(), this.getFileSystemAdapter())
-//					             .build();
-//		}
-//		return this.esiAdapter;
-//	}
-
 	public ESIDataAdapter getEsiDataAdapter() {
 		if (null == this.esiDataAdapter) {
 			this.esiDataAdapter = new ESIDataAdapter.Builder()
@@ -128,6 +105,16 @@ public class NeoComComponentFactory {
 			MarketDataSet.injectEsiDataAdapter(this.esiDataAdapter);
 		}
 		return this.esiDataAdapter;
+	}
+	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
+		if (null == this.sdeDatabaseAdapter) {
+			final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
+			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
+					                          .withAppContext(this.getApplication())
+					                          .withDatabaseName(databaseName)
+					                          .build(this.getFileSystemAdapter());
+		}
+		return this.sdeDatabaseAdapter;
 	}
 
 	public LocationCatalogService getLocationCatalogService() {
@@ -165,6 +152,17 @@ public class NeoComComponentFactory {
 		}
 		return this.downloaderService;
 	}
+
+
+//	@Deprecated
+//	public IGlobalPreferencesManager getPreferencesProvider() {
+//		if (null == this.preferencesProvider) {
+//			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
+//					                      .withApplication(this.getApplication())
+//					                      .build();
+//		}
+//		return this.preferencesProvider;
+//	}
 
 //	public ESIDataPersistenceService getPersistenceService() {
 //		if (null == this.persistenceService) {
@@ -237,18 +235,6 @@ public class NeoComComponentFactory {
 		}
 		return this.neocomDBHelper;
 	}
-
-	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
-		if (null == this.sdeDatabaseAdapter) {
-			final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
-			this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
-					                          .withAppContext(this.getApplication())
-					                          .withDatabaseName(databaseName)
-					                          .build(this.getFileSystemAdapter());
-		}
-		return this.sdeDatabaseAdapter;
-	}
-
 	public PlanetaryRepository getPlanetaryRepository() {
 		if (null == this.planetaryRepository) {
 			this.planetaryRepository = new PlanetaryRepository.Builder()

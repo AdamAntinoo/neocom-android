@@ -8,7 +8,7 @@ import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.app.render.InitializationExceptionRender;
-import org.dimensinfin.eveonline.neocom.app.utilities.InitializationException;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 
 public class InitializationExceptionController extends AndroidController<InitializationException> {
 	public InitializationExceptionController( @NonNull final InitializationException model,

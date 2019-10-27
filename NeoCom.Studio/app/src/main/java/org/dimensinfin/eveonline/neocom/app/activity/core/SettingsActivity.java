@@ -6,12 +6,6 @@ import android.preference.PreferenceFragment;
 
 import org.dimensinfin.eveonline.neocom.R;
 
-//public class SettingsActivity extends PreferenceActivity {
-//	public void onCreate(final Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		addPreferencesFromResource(R.xml.preferences);
-//	}
-//}
 public class SettingsActivity extends Activity {
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {

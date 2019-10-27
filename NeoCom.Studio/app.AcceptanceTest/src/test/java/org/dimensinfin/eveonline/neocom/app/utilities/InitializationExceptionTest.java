@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.utilities;
 
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.junit.Assert;
 import org.junit.Test;
 

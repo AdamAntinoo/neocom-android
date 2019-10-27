@@ -21,19 +21,11 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class NeoComApplication extends Application {
-	// TODO - This should be removed once the version 3 is merged into the production application.
-	public enum EVariants {
-		MINING_EXTRACTIONS_TODAY, MINING_EXTRACTIONS_ALL,
-		ASSETS_BYLOCATION, ASSETS_BYCATEGORY, ASSETS_SEARCH,
-		SKILLS_QUEUE, SKILLS_TRAINED,
-		SHIPS_BYTYPE
-	}
-
-	private static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
+	public static Logger logger = LoggerFactory.getLogger(NeoComApplication.class);
 
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
-				                                                     .getSystemService(Context.CONNECTIVITY_SERVICE);
+		                                                                           .getSystemService(Context.CONNECTIVITY_SERVICE);
 		final NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if ((netInfo != null) && netInfo.isConnectedOrConnecting()) return true;
 		return false;
@@ -43,6 +35,7 @@ public class NeoComApplication extends Application {
 		// TODO - This should be implemented.
 		return true;
 	}
+
 	private BroadcastReceiver timeTickReceiver;
 
 	// - A P P L I C A T I O N   L I F E   C Y C L E
@@ -70,29 +63,6 @@ public class NeoComApplication extends Application {
 		super.onTerminate();
 		logger.info("<< [NeoComApplication.onTerminate]");
 	}
-
-	// - P R I V A T E   S E C T I O N
-//	private void createApplicationDirectories() {
-//		this.createAppDir();
-//		this.createCacheDirectories();
-//	}
-//
-//	private boolean createAppDir() {
-//		// Create file application directory if it doesn't exist
-//		final File sdCardDir = new File(Environment.getExternalStorageDirectory(),
-//				this.getResources().getString(R.string.appname));
-//		if (!sdCardDir.exists()) sdCardDir.mkdir();
-//		return sdCardDir.exists();
-//	}
-//
-//	private boolean createCacheDirectories() {
-//		File cachedir = new File(Environment.getExternalStorageDirectory(),
-//				this.getResources().getString(R.string.appname) +
-//						"/" +
-//						NeoComComponentFactory.getSingleton().getConfigurationProvider().getResourceString("P.cache.directory.path"));
-//		cachedir.mkdir();
-//		return cachedir.exists();
-//	}
 
 	/**
 	 * Start the background broadcast receiver to intercept the minute tick and process the data structures

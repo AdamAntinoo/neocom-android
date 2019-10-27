@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.database;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

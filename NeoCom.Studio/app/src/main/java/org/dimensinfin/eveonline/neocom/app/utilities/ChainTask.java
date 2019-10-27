@@ -1,11 +1,14 @@
 package org.dimensinfin.eveonline.neocom.app.utilities;
 
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public class ChainTask {
+	protected static Logger logger = LoggerFactory.getLogger(ChainTask.class);
 	private InitializationTask taskModel;
 	private Exception exception;
 	private Callable<Boolean> runCode;
@@ -41,9 +44,11 @@ public class ChainTask {
 	public boolean run() {
 		try {
 			final Boolean result = this.runCode.call();
+			logger.info("--[ChainTask.run]> run lambda result: {}",result);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.COMPLETED);
 			return result;
 		} catch (final Exception e) {
+			logger.info("--[ChainTask.run]> run lambda exception: {}",e.getMessage());
 			this.setException( e);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.EXCEPTION);
 			return false;

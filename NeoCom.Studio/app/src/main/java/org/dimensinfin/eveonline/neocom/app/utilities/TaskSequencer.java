@@ -3,6 +3,8 @@ package org.dimensinfin.eveonline.neocom.app.utilities;
 import android.app.Activity;
 
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TaskSequencer {
+	protected static Logger logger = LoggerFactory.getLogger(TaskSequencer.class);
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 	private Map<ChainTask, Boolean> taskList = new HashMap<ChainTask, Boolean>();
 	private Activity activity;
@@ -20,8 +23,7 @@ public class TaskSequencer {
 	private Exception exception;
 	private boolean retryable;
 
-	private TaskSequencer() {
-	}
+	private TaskSequencer() { }
 
 	public Exception getException() {
 		return this.exception;
@@ -51,8 +53,10 @@ public class TaskSequencer {
 	 * tasks have completed.
 	 */
 	public void run() {
+		logger.info("--[TaskSequencer.run]> Sequencer run iteration: tasks ", this.taskList.size());
 		for (ChainTask task : this.taskList.keySet()) {
 			if (!this.taskList.get(task)) {
+				logger.info("--[TaskSequencer.run]> launching task: {}", task.getTaskModel().getMessage());
 				this.launch(task);
 				this.taskList.put(task, true);
 				return; // Completes this run sequence.

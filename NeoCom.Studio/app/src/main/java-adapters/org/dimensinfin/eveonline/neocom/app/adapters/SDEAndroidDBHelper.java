@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.database;
+package org.dimensinfin.eveonline.neocom.app.adapters;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +11,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;

@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.utilities;
+package org.dimensinfin.eveonline.neocom.app.domain;
 
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
