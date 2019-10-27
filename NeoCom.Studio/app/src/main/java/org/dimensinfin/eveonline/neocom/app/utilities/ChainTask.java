@@ -1,11 +1,13 @@
 package org.dimensinfin.eveonline.neocom.app.utilities;
 
-import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-import java.util.concurrent.Callable;
+import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 
 public class ChainTask {
 	protected static Logger logger = LoggerFactory.getLogger(ChainTask.class);
@@ -13,6 +15,7 @@ public class ChainTask {
 	private Exception exception;
 	private Callable<Boolean> runCode;
 	private Runnable callBack;
+	private int sleepTime=1;
 
 	private ChainTask() {}
 
@@ -46,6 +49,7 @@ public class ChainTask {
 			final Boolean result = this.runCode.call();
 			logger.info("--[ChainTask.run]> run lambda result: {}",result);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.COMPLETED);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(this.sleepTime));
 			return result;
 		} catch (final Exception e) {
 			logger.info("--[ChainTask.run]> run lambda exception: {}",e.getMessage());
@@ -72,6 +76,10 @@ public class ChainTask {
 		public ChainTask.Builder withRunTask( final Callable<Boolean> runCode ) {
 			Objects.requireNonNull(runCode);
 			this.onConstruction.runCode = runCode;
+			return this;
+		}
+		public ChainTask.Builder optionalSleepTime( final int sleepTime) {
+			this.onConstruction.sleepTime = sleepTime;
 			return this;
 		}
 
