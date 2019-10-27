@@ -8,6 +8,8 @@ public class InitializationException extends NeoComNode {
 	private Exception exception;
 	private boolean retryable = false;
 
+	private InitializationException() {}
+
 	public String getExceptionMessage() {
 		return this.exception.getMessage();
 	}

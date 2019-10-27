@@ -7,7 +7,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.dimensinfin.eveonline.neocom.model.NeoComNode;
 
 public class AppVersion extends NeoComNode {
-	//	private static Logger logger = LoggerFactory.getLogger(AppVersion.class);
 	private String appName = "NeoCom";
 	private String appVersion = "-";
 

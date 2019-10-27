@@ -11,6 +11,8 @@ public class ChainTask {
 	private Callable<Boolean> runCode;
 	private Runnable callBack;
 
+	private ChainTask() {}
+
 	public InitializationTask getTaskModel() {
 		return this.taskModel;
 	}
@@ -23,19 +25,15 @@ public class ChainTask {
 		return this.taskModel.isRetryable();
 	}
 
+	public ChainTask setException( final Exception exception ) {
+		this.exception = exception;
+		return this;
+	}
+
 	public ChainTask setCallBack( final Runnable callBack ) {
 		this.callBack = callBack;
 		return this;
 	}
-
-//	public void runException() {
-//		this.taskModel.setState(InitializationTask.InitializationTaskState.EXCEPTION);
-//	}
-//
-//	public void runCompletion() {
-//		this.taskModel.setState(InitializationTask.InitializationTaskState.COMPLETED);
-//	}
-
 	public void runCallback() {
 		this.callBack.run();
 	}
@@ -46,7 +44,7 @@ public class ChainTask {
 			this.taskModel.setState(InitializationTask.InitializationTaskState.COMPLETED);
 			return result;
 		} catch (final Exception e) {
-			this.exception = e;
+			this.setException( e);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.EXCEPTION);
 			return false;
 		}
@@ -69,12 +67,6 @@ public class ChainTask {
 		public ChainTask.Builder withRunTask( final Callable<Boolean> runCode ) {
 			Objects.requireNonNull(runCode);
 			this.onConstruction.runCode = runCode;
-			return this;
-		}
-
-		public ChainTask.Builder withCallBack( final Runnable callBack ) {
-			Objects.requireNonNull(callBack);
-			this.onConstruction.callBack = callBack;
 			return this;
 		}
 

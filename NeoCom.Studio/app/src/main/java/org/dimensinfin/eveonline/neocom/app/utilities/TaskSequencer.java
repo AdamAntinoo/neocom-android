@@ -20,12 +20,25 @@ public class TaskSequencer {
 	private Exception exception;
 	private boolean retryable;
 
+	private TaskSequencer() {
+	}
+
 	public Exception getException() {
 		return this.exception;
 	}
 
 	public boolean isRetryable() {
 		return this.retryable;
+	}
+
+	public TaskSequencer setException( final Exception exception ) {
+		this.exception = exception;
+		return this;
+	}
+
+	public TaskSequencer setRetryable( final boolean retryable ) {
+		this.retryable = retryable;
+		return this;
 	}
 
 	public int addTask( final ChainTask task ) {
@@ -54,19 +67,19 @@ public class TaskSequencer {
 	 * During the execution there are other actions to be executed on the UI thread to change the render state.
 	 * The first step is to register on the task the callback to use when completed.
 	 */
-	private void launch( final ChainTask task ) {
+	protected void launch( final ChainTask task ) {
 		task.setCallBack(() -> this.run()); // The callback to fire the execution of the next task.
 		this.activity.runOnUiThread(() -> this.container.addModel(task.getTaskModel())); // Register the model on the view.
 		this.backgroundExecutor.submit(() -> { // Rin the task code in another thread.
 			final boolean result = task.run();
 			if (!result) {
-//				task.runException();
-				this.exception = task.getException();
-				this.retryable = task.isRetryable();
-				this.activity.runOnUiThread(() -> this.container.needsUpdate()); // Update the render model to the exception result.
+				this.setException(task.getException());
+				this.setRetryable(task.isRetryable());
+				this.activity.runOnUiThread(
+						() -> this.container.needsUpdate()); // Update the render model to the exception result.
 				this.completeWithException();
+				return;
 			}
-//			task.runCompletion();
 			this.activity.runOnUiThread(() -> this.container.needsUpdate()); // Update the render model to the completion result.
 			task.runCallback();
 		});
@@ -114,6 +127,7 @@ public class TaskSequencer {
 
 		public TaskSequencer build() {
 			Objects.requireNonNull(this.onConstruction.activity);
+			Objects.requireNonNull(this.onConstruction.container);
 			return this.onConstruction;
 		}
 	}
