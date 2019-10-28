@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -13,6 +14,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,32 +22,30 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 
-public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDEDatabaseAdapter {
-	private static Logger logger = LoggerFactory.getLogger(SDEAndroidDBHelper.class);
-	private static SDEAndroidDBHelper singleton;
+public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDEDatabaseAdapter {
+	private static Logger logger = LoggerFactory.getLogger(AndroidSDEDBHelper.class);
+	private static AndroidSDEDBHelper singleton;
 
 	// - C O M P O N E N T S
 	private Context appContext;
-	private String storageLocation ;
+	private String storageLocation;
 	private int databaseVersion = 0;
-//	private IFileSystem fileSystemAdapter;
 
-	//	private String schema = "jdbc:sqlite";
-//	private String databasePath;
-//	private String databaseName;
 	private SQLiteDatabase ccpDatabase;
-//	private JdbcPooledConnectionSource connectionSource = null;
 
+	// - D A O S
+	private Dao<DatabaseVersion, Long> databaseVersionDao = null;
 	private Dao<EsiLocation, Long> locationDao = null;
 
 	// - C O N S T R U C T O R S
-	private SDEAndroidDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
+	private AndroidSDEDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
 		super(context, databaseName, null, databaseVersion, R.raw.ormlite_config);
 		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
 				, databaseName);
@@ -56,11 +56,23 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 		this.databaseVersion = databaseVersion;
 		this.openSDEDB();
 	}
+
+	/**
+	 * Access the DatabaseVersion table and read the version record.
+	 */
 	@Override
 	public Integer getDatabaseVersion() {
-		return this.databaseVersion;
+		try {
+			final List<DatabaseVersion> versionList = this.getDatabaseVersionDao().queryForEq("identifier", "CURRENT-VERSION");
+			if (null != versionList)
+				if (versionList.size() > 0)
+					return versionList.get(0).versionNumber;
+			return 0;
+		} catch (final SQLException sqle) {
+			return 0;
+		}
 	}
-//	private SDEAndroidDBHelper() {
+//	private AndroidSDEDBHelper() {
 //		super();
 //	}
 
@@ -85,15 +97,15 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	 * Check database definition before trying to open the database.
 	 */
 	protected void openSDEDB() {
-		logger.info(">> [SDEAndroidDBHelper.openSDEDB]");
+		logger.info(">> [AndroidSDEDBHelper.openSDEDB]");
 		if ((null == this.ccpDatabase) && (this.isDatabaseDefinitionValid())) {
 			final String path = "jdbc:sqlite" + ":" + this.appContext.getResources().getString(R.string.sdedatabasefilename);
 			this.ccpDatabase = SQLiteDatabase.openDatabase(this.storageLocation, null, SQLiteDatabase.OPEN_READWRITE);
 			Objects.requireNonNull(this.ccpDatabase);
-			logger.info("-- [SDEAndroidDBHelper.openSDEDB]> Opened database {} successfully with version {}."
+			logger.info("-- [AndroidSDEDBHelper.openSDEDB]> Opened database {} successfully with version {}."
 					, path, databaseVersion);
 		}
-		logger.info("<< [SDEAndroidDBHelper.openSDEDB]");
+		logger.info("<< [AndroidSDEDBHelper.openSDEDB]");
 	}
 
 	protected boolean isDatabaseDefinitionValid() {
@@ -123,6 +135,17 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	}
 
 	// - I S D E D A T A B A S E A D A P T E R
+
+	public Dao<DatabaseVersion, Long> getDatabaseVersionDao() throws NeoComRuntimeException {
+		try {
+			if (null == this.databaseVersionDao) {
+				this.databaseVersionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
+			}
+		} catch (final SQLException sqle) {
+			throw new NeoComRuntimeException(sqle);
+		}
+		return this.databaseVersionDao;
+	}
 
 	public Dao<EsiLocation, Long> getLocationDao() throws NeoComRuntimeException {
 		try {
@@ -166,7 +189,7 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this)
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
 				       .append("storageLocation", this.storageLocation)
 				       .append("databaseVersion", this.databaseVersion)
 				       .toString();
@@ -185,13 +208,13 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 		public Builder() {
 		}
 
-		public SDEAndroidDBHelper.Builder withAppContext( final Context appContext ) {
+		public AndroidSDEDBHelper.Builder withAppContext( final Context appContext ) {
 			Objects.requireNonNull(appContext);
 			this.appContext = appContext;
 			return this;
 		}
 
-		public SDEAndroidDBHelper.Builder withDatabaseName( final String databaseName ) {
+		public AndroidSDEDBHelper.Builder withDatabaseName( final String databaseName ) {
 			Objects.requireNonNull(databaseName);
 			this.databaseName = databaseName;
 			return this;
@@ -202,7 +225,7 @@ public class SDEAndroidDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 			if (null == singleton) {
 				Objects.requireNonNull(this.appContext);
 				Objects.requireNonNull(this.databaseName);
-				singleton = new SDEAndroidDBHelper(this.appContext,
+				singleton = new AndroidSDEDBHelper(this.appContext,
 						fileSystem.accessResource4Path(databaseName),
 						SDE_DB_VERSION);
 			}
