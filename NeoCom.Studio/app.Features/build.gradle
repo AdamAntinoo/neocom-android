@@ -4,12 +4,12 @@ apply plugin: 'project-report'
 //apply from: 'tasks.gradle'
 
 android {
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-            returnDefaultValues = true
-        }
-    }
+//    testOptions {
+//        unitTests {
+//            includeAndroidResources = true
+//            returnDefaultValues = true
+//        }
+//    }
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 21 // Required because the colony drawing.
@@ -17,31 +17,31 @@ android {
         versionCode 1
         versionName "0.17.0"
     }
-    buildTypes {
-        release {
-            signingConfig debug.signingConfig
-            debuggable false
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            resValue "string", "appname", "NeoCom"
-            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
-            resValue "string", "appversion", android.defaultConfig.versionName
-
-            resValue "string", "appdatabasefilename", "neocom"
-            resValue "string", "sdedatabasefilename", "sde.db"
-            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
-
-            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
-        }
-        debug {
-            initWith release
-            debuggable true
-            minifyEnabled false
-            useProguard false
-            resValue "string", "appdatabasefilename", "neocomv0.17"
-        }
-    }
+//    buildTypes {
+//        release {
+//            signingConfig debug.signingConfig
+//            debuggable false
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//
+//            resValue "string", "appname", "NeoCom"
+//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
+//            resValue "string", "appversion", android.defaultConfig.versionName
+//
+//            resValue "string", "appdatabasefilename", "neocom"
+//            resValue "string", "sdedatabasefilename", "sde.db"
+//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+//
+//            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
+//        }
+//        debug {
+//            initWith release
+//            debuggable true
+//            minifyEnabled false
+//            useProguard false
+//            resValue "string", "appdatabasefilename", "neocomv0.17"
+//        }
+//    }
     sourceSets {
         main.java {
             srcDirs += 'src/main-app/java-app'
@@ -85,7 +85,7 @@ android {
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment:1.1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 // - P R O J E C T    D E P E N D E N C I E S
@@ -110,8 +110,8 @@ dependencies {
 // - T E S T I N G
 dependencies {
     // N E O C O M
-    testImplementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
-    testImplementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
+//    testImplementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
+//    testImplementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.slf4j:slf4j-simple:1.7.26'
@@ -121,7 +121,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     // D A T A B A S E
-    testImplementation "com.j256.ormlite:ormlite-jdbc:$ormliteVersion"
-    testImplementation 'org.xerial:sqlite-jdbc:3.25.2'
-    testImplementation 'javax.persistence:javax.persistence-api:2.2'
+//    testImplementation "com.j256.ormlite:ormlite-jdbc:$ormliteVersion"
+//    testImplementation 'org.xerial:sqlite-jdbc:3.25.2'
+//    testImplementation 'javax.persistence:javax.persistence-api:2.2'
 }

@@ -71,11 +71,29 @@ public class NC01AppInitializationActivity extends StepFramework {
 
 	@Then("we have an empty view layout")
 	public void we_have_an_empty_view_layout() {
-		final LinearLayout layout = this.world.getActiveActivity().findViewById(R.id.initializationLayout);
-		Assert.assertNotNull(layout);
-		Assert.assertEquals(0, layout.getChildCount());
-		logger.info("-- [we_have_an_empty_view_layout]> Closing scenario");
+		// Close any previous scenario.
+		logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Starting...");
+		logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Closing scenario");
 		this.world.getActivityScenario().close();
+		logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Launch new scenario");
+
+		try(ActivityScenario<AppInitializationActivity> scenario = ActivityScenario.launch(AppInitializationActivity.class)) {
+			logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Moving to state CREATED");
+			scenario.moveToState(Lifecycle.State.CREATED);
+			scenario.onActivity(( activity ) -> {
+				logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Entering onActivity");
+				final LinearLayout layout =activity.findViewById(R.id.initializationLayout);
+				logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Checking asserts");
+				Assert.assertNotNull(layout);
+				Assert.assertEquals(0, layout.getChildCount());
+			});
+//			scenario.close();
+		}
+//		final LinearLayout layout = this.world.getActiveActivity().findViewById(R.id.initializationLayout);
+//		Assert.assertNotNull(layout);
+//		Assert.assertEquals(0, layout.getChildCount());
+//		logger.info("-- [we_have_an_empty_view_layout]> Closing scenario");
+//		this.world.getActivityScenario().close();
 	}
 
 	@When("completed the onStart lifecycle phase")

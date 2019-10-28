@@ -28,6 +28,17 @@ android {
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appname", "NeoCom"
+            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
+            resValue "string", "appversion", android.defaultConfig.versionName
+
+            resValue "string", "appdatabasefilename", "neocom"
+            resValue "string", "sdedatabasefilename", "sde.db"
+            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+
+            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
+
             buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
             buildConfigField "Integer", "NEOCOM_DB_VERSION", NEOCOM_DB_VERSION
         }
@@ -37,7 +48,7 @@ android {
             shrinkResources false
             minifyEnabled false
             useProguard false
-//            testCoverageEnabled true
+            testCoverageEnabled true
 //            resValue "string", "appdatabasefilename", "neocomv0.17"
 //            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
 //            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
@@ -45,33 +56,18 @@ android {
     }
     sourceSets {
         main.java {
-//            srcDirs += 'src/main/java-appv3'
-//            srcDirs += 'src/main/java-appv4'
             srcDirs += 'src/main/java-adapters'
-//            srcDirs += 'src/main/java-app'
-//            srcDirs += 'src/main/java-industry'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
             srcDirs += 'src/main/java-datamanagement'
         }
-//        debug.java {
-//            srcDirs += 'src/debug/java-app'
-//            srcDirs += 'src/debug/java-test'
-//        }
-//        release.java {
-//            srcDirs += 'src/release/java-app'
-//        }
+        debug.java {
+        }
+        release.java {
+        }
         main.res {
-//            srcDirs += 'src/main/res-icons'
             srcDirs += 'src/main/res-fitting'
         }
-//        debug.res {
-//            srcDirs += 'src/main/res-planetary'
-//        }
-//        test.java {
-//            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
-//            srcDirs += 'src/test/java-support'
-//        }
     }
     compileOptions {
         sourceCompatibility = '1.8'
@@ -99,17 +95,17 @@ ext {
     assetsPath = "$projectDir/src/main/assets"
 }
 // Copy configuration and property resources from other modules to the final 'resources' application folder.
-task copyResources(type: Copy) {
-    group = "neocom"
-    doLast {
-        copy {
-            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
-            from project(':NeoCom.DataManagement').file('src/main/resources')
-            into file('src/main/assets')
-        }
-    }
-}
-build.dependsOn copyResources
+//task copyResources(type: Copy) {
+//    group = "neocom"
+//    doLast {
+//        copy {
+//            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
+//            from project(':NeoCom.DataManagement').file('src/main/resources')
+//            into file('src/main/assets')
+//        }
+//    }
+//}
+//build.dependsOn copyResources
 //task copySDEDatabase(type: Copy) {
 //    group = "neocom"
 //    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'

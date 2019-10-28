@@ -111,7 +111,7 @@ public class AppInitializationActivity extends Activity {
 	 * there should be a new item to be rendered on the view panel.
 	 */
 	@WorkerThread
-	protected void launchInitialization() {
+	public void launchInitialization() {
 		this.taskSequencer = new TaskSequencer.Builder()
 				                     .withActivity(this)
 				                     .withContainer(this.linearContainer)
