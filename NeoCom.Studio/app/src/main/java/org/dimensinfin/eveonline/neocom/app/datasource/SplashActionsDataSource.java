@@ -1,6 +1,7 @@
 package org.dimensinfin.eveonline.neocom.app.datasource;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.domain.Spacer;
@@ -8,28 +9,32 @@ import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
-import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
+/**
+ * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
+ * set is shown on the header and are the list of initialisation tasks and their current status.
+ * The second set are the available credentials for the server selected, be it the production or the testing.
+ *
+ * Both sets of data require network access so I have to add a network detection and change the data source results depending on the
+ * state of that detection.
+ */
 public class SplashActionsDataSource extends MVCDataSource {
 	private String name;
 	private String version;
 
 	// -  C O M P O N E N T S
-//		private ESIDataAdapter esiDataAdapter;
 	private CredentialRepository credentialRepository;
-
-//		private List<InitialisationTask> initializationTasksList = new ArrayList<>();
 
 	@Override
 	public void prepareModel() {
+		// - S E C T I O N   H E A D E R
 		logger.info(">> [SplashActionsDataSource.prepareModel]");
 		this.addHeaderContents(new AppVersion.Builder()
 				                       .withAppName(this.name)
@@ -38,53 +43,22 @@ public class SplashActionsDataSource extends MVCDataSource {
 		logger.info("<< [SplashActionsDataSource.prepareModel]");
 	}
 
-	//		@Override
-//		public void collaborate2Model() {
-//			try {
-//				Thread.sleep(TimeUnit.MINUTES.toMillis(1));
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
 	@Override
 	public void collaborate2Model() {
 		try {
 			logger.info(">> [SplashActionsDataSource.collaborate2Model]");
-			// - S E C T I O N   H E A D E R
-			logger.info("-- [SplashActionsDataSource.collaborate2Model]> Section Header");
-			// TODO - The header cannot be tested. Move this agsin to the header once the MVC is reimplemented.
-//				this.addHeaderContents(new AppVersion()
-//						                       .setAppName(this.name)
-//						                       .setAppVersion(this.version));
-			if (!NeoComApplication.checkNetworkAccess()) {
-				this.addHeaderContents(new WarningPanel.Builder()
-						                       .withType("WARNING")
-						                       .withDescription(
-								                       "The is no network connection. Application functionality in hold.")
-						                       .build());
-			}
-//				for (InitialisationTask task : this.initializationTasksList) {
-//					this.addModelContents(task.schedule(2));
-//				}
 			// - S E C T I O N   D A T A
-//				this.addModelContents(new AppVersion()
-//						.setAppName(this.name)
-//						.setAppVersion(this.version));
 			// Add the panel title up front of the Credential list.
 			this.addModelContents(new PanelTitle("CREDENTIAL LIST"));
-			if (NeoComApplication.checkNetworkAccess()) {
-				for (Credential credential : this.credentialRepository.accessAllCredentials()) {
-					if (this.validateCredential(credential)) { // Validate credentials so incomplete credentials are removed.
-						this.addModelContents(credential);
-						logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-								, credential.getAccountName());
-					}
+			for (Credential credential : this.credentialRepository.accessAllCredentials()) {
+				if (this.validateCredential(credential)) { // Validate credentials so incomplete credentials are removed.
+					this.addModelContents(credential);
+					logger.info("-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
+							, credential.getAccountName());
 				}
 			}
-			// Add the node to display the new New Login Button.
 			this.addModelContents(new Spacer.Builder().withType(SpacerType.LINE_WHITE).build());
-			this.addModelContents(new NewLoginAction());
+			this.addModelContents(new NewLoginAction()); // Add the node to display the new New Login Button.
 		} catch (RuntimeException runtime) {
 			logger.info("-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage());
 			this.addModelContents(new ExceptionReport(runtime));
@@ -152,8 +126,15 @@ public class SplashActionsDataSource extends MVCDataSource {
 		}
 
 		public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
+			Objects.requireNonNull(credentialRepository);
 			this.onConstruction.credentialRepository = credentialRepository;
 			return this;
+		}
+
+		public SplashActionsDataSource build() {
+			final SplashActionsDataSource instance = super.build();
+			Objects.requireNonNull(this.onConstruction.credentialRepository);
+			return instance;
 		}
 	}
 }

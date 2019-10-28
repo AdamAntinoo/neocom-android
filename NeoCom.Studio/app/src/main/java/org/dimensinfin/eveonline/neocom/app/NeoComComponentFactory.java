@@ -14,8 +14,8 @@ import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroidDBHelper;
-import org.dimensinfin.eveonline.neocom.app.adapters.SDEAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.LocationRepository;
@@ -119,7 +119,7 @@ public class NeoComComponentFactory {
 		try {
 			if (null == this.sdeDatabaseAdapter) {
 				final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
-				this.sdeDatabaseAdapter = new SDEAndroidDBHelper.Builder()
+				this.sdeDatabaseAdapter = new AndroidSDEDBHelper.Builder()
 						                          .withAppContext(this.getApplication())
 						                          .withDatabaseName(databaseName)
 						                          .build(this.getFileSystemAdapter());
@@ -170,7 +170,7 @@ public class NeoComComponentFactory {
 //	@Deprecated
 //	public IGlobalPreferencesManager getPreferencesProvider() {
 //		if (null == this.preferencesProvider) {
-//			preferencesProvider = new GlobalAndroidPreferencesProvider.Builder()
+//			preferencesProvider = new AndroidPreferencesProvider.Builder()
 //					                      .withApplication(this.getApplication())
 //					                      .build();
 //		}

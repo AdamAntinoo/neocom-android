@@ -13,8 +13,7 @@ import android.preference.PreferenceManager;
  *
  * @author Adam Antinoo
  */
-// - CLASS IMPLEMENTATION ...................................................................................
-public class GlobalAndroidPreferencesProvider /*implements IGlobalPreferencesManager*/ {
+public class AndroidPreferencesProvider {
 	private Application application;
 
 	public String getStringPreference( final String preferenceName, final String defaultValue ) {
@@ -42,10 +41,10 @@ public class GlobalAndroidPreferencesProvider /*implements IGlobalPreferencesMan
 
 	// - B U I L D E R
 	public static class Builder {
-		private GlobalAndroidPreferencesProvider onConstruction;
+		private AndroidPreferencesProvider onConstruction;
 
 		public Builder() {
-			this.onConstruction = new GlobalAndroidPreferencesProvider();
+			this.onConstruction = new AndroidPreferencesProvider();
 		}
 
 		public Builder withApplication( final Application application ) {
@@ -53,7 +52,7 @@ public class GlobalAndroidPreferencesProvider /*implements IGlobalPreferencesMan
 			return this;
 		}
 
-		public GlobalAndroidPreferencesProvider build() {
+		public AndroidPreferencesProvider build() {
 			return this.onConstruction;
 		}
 	}

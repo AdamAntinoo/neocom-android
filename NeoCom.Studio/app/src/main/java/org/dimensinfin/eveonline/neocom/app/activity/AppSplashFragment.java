@@ -48,13 +48,4 @@ public class AppSplashFragment extends MVCPagerFragment {
 				                                                                         .createController(actionBar);
 		return this.convertActionBarView(controller);
 	}
-
-	/**
-	 * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
-	 * set is shown on the header and are the list of initialisation tasks and their current status.
-	 * The second set are the available credentials for the server selected, be it the production or the testing.
-	 *
-	 * Both sets of data require network access so I have to add a network detection and change the data source results depending on the
-	 * state of that detection.
-	 */
 }
