@@ -1,51 +1,81 @@
 package org.dimensinfin.eveonline.neocom.app.activity;
 
-import android.content.Context;
+import android.os.Environment;
 import android.widget.LinearLayout;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.R;
-
-
-import static org.junit.Assert.assertEquals;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 
 @RunWith(AndroidJUnit4.class)
 public class AppInitializationActivityTest {
-	protected static Logger logger = LoggerFactory.getLogger(AppInitializationActivityTest.class);
+	private IConfigurationProvider configurationProvider;
+	private IFileSystem fileSystem;
 
-	@Test
-	public void contextName() {
-		Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-		assertEquals("org.dimensinfin.eveonline.neocom", appContext.getPackageName());
+	@Before
+	public void connectComponents() {
+		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
+	}
+
+	@Before
+	public void revokePermissions() {
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+		                       .executeShellCommand("pm revoke ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE");
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+		                       .executeShellCommand("pm revoke ${getTargetContext().packageName} android.permission.INTERNET");
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+		                       .executeShellCommand("pm revoke ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE");
+	}
+
+	public void removeFilesAndDirectories( final AppInitializationActivity activity ) throws IOException {
+		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
+				, activity.getResources().getString(R.string.appname));
+		sdCardDir.delete();
+		final File cachedir = new File(Environment.getExternalStorageDirectory()
+				, activity.getResources().getString(R.string.appname)
+						  + "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
+		cachedir.delete();
+		final File sdeDatabase = new File(this.fileSystem.accessResource4Path(
+				activity.getResources().getString(R.string.sdedatabasefilename)));
+		sdeDatabase.delete();
+		final File sdeDatabaseJournal = new File(this.fileSystem.accessResource4Path(
+				activity.getResources().getString(R.string.sdedatabasefilename) + "-journal"));
+		sdeDatabaseJournal.delete();
 	}
 
 	@Test
 	public void applicationLifecycle() {
 		try (ActivityScenario<AppInitializationActivity> scenario = ActivityScenario.launch(AppInitializationActivity.class)) {
-//			logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Moving to state CREATED");
-//			scenario.moveToState(Lifecycle.State.CREATED);
 			scenario.onActivity(( activity ) -> {
-//				final AppInitializationActivity activitySpy = Mockito.spy(activity);
-				logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Entering onActivity");
+				NeoComApplicationTest.logger.info("ACCEPTANCE --> [applicationLifecycle]> Clearing filesystem...");
+				try {
+					this.removeFilesAndDirectories(activity);
+				} catch (IOException e) { }
+				NeoComApplicationTest.logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Entering onActivity");
 				final LinearLayout layout = activity.findViewById(R.id.initializationLayout);
-				logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Checking asserts");
+				NeoComApplicationTest.logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Checking asserts");
 				Assert.assertNotNull(layout);
-				logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Waiting to complete the page...");
+				NeoComApplicationTest.logger.info("ACCEPTANCE --> [we_have_an_empty_view_layout]> Waiting to complete the page...");
 				try {
 					Thread.sleep(TimeUnit.SECONDS.toMillis(5));
 				} catch (InterruptedException e) { }
 				Assert.assertTrue(layout.getChildCount() > 0);
-//				Mockito.verify(activitySpy,Mockito.times(1)).launchInitialization();
 			});
 		}
 	}

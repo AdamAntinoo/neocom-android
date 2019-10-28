@@ -53,11 +53,6 @@ public class AppInitializationActivity extends Activity {
 	private boolean requestPrivilege = true;
 	private TaskSequencer taskSequencer;
 
-	// - T E S T   A C C E S S O R S
-	public LinearContainer getContainerView() {
-		return this.linearContainer;
-	}
-
 	// - L I F E C Y C L E
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
@@ -83,7 +78,9 @@ public class AppInitializationActivity extends Activity {
 				                           .build();
 		this.linearContainer.addModel(appInfo); // Set the application info header
 
-		new Handler().post(() -> this.launchInitialization()); // Start the background initialization process.
+		final Handler handler = new Handler();
+		handler.post(() -> this.launchInitialization()); // Create the background initialization process.
+		handler.post(() -> this.taskSequencer.run()); // Start the background initialization process.
 	}
 
 	@Override
@@ -310,9 +307,6 @@ public class AppInitializationActivity extends Activity {
 								                           "The network is disabled so the application cannot work properly.");
 				                           })
 				                           .build());
-
-		// Start the process to run the tasks in sequence.
-		this.taskSequencer.run();
 	}
 
 	/**
@@ -337,17 +331,4 @@ public class AppInitializationActivity extends Activity {
 	protected boolean sdeDatabaseExists() throws IOException {
 		return new File(this.fileSystem.accessResource4Path(this.getResources().getString(R.string.sdedatabasefilename))).exists();
 	}
-
-	protected boolean validatePermissions() {
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-				    != PackageManager.PERMISSION_GRANTED) {
-			// Permission is not granted
-			this.requestPrivilege = true;
-			ActivityCompat.requestPermissions(this,
-					new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
-					10);
-		}
-		return this.requestPrivilege;
-	}
-
 }

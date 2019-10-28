@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import android.os.Bundle;
 
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.MenuActivatedActivity;
 
 public class AppSplashActivity extends MenuActivatedActivity {
@@ -9,6 +10,6 @@ public class AppSplashActivity extends MenuActivatedActivity {
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
-		this.addPage(new AppSplashFragment());
+		this.addPage(new AppSplashFragment().setVariant(PageNamesType.SPLASH.name()));
 	}
 }
