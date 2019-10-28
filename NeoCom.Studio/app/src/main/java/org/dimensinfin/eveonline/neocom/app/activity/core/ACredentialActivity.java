@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
-public abstract class ACredentialActivity extends ANeoComActivity {
+public abstract class ACredentialActivity extends MenuActivatedActivity {
 	/** Recovered credential extracted from the current list of Credentials using the pilot identifier as a key. */
 	protected Credential credential = null;
 

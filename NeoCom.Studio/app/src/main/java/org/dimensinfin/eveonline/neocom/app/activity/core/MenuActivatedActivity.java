@@ -18,15 +18,8 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
-public class ANeoComActivity extends MVCMultiPageActivity {
+public class MenuActivatedActivity extends MVCMultiPageActivity {
 	private static Menu activityMenu = null;
-	private View neocomActionBar;
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-//		this.validatePermissions();
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu( final Menu menu ) {
@@ -35,7 +28,7 @@ public class ANeoComActivity extends MVCMultiPageActivity {
 		activityMenu = menu;
 
 		// Change the style for the application menu. This changes the text font and the background.
-		// - B A C K G R O U N D - By intercepting the creation of the manu view.
+		// - B A C K G R O U N D - By intercepting the creation of the menu view.
 		getLayoutInflater().setFactory(( String name, Context context, AttributeSet attrs ) -> {
 			if (name.startsWith("com.android.internal.view.menu.ListMenuItemView")) {
 				try {

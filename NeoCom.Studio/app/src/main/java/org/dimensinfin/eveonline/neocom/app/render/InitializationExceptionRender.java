@@ -12,14 +12,17 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionController;
+import org.dimensinfin.eveonline.neocom.app.NeoComLogger;
 
 public class InitializationExceptionRender extends MVCRender implements View.OnClickListener {
+//	protected static final Logger logger =new NeoComLogger().getInstance();
 	private TextView exceptionMessage;
 //	private ImageView retryButton;
 
 	// - C O N S T R U C T O R S
 	public InitializationExceptionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
+		NeoComLogger.enter();
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class InitializationExceptionRender extends MVCRender implements View.OnC
 
 	@Override
 	public void initializeViews() {
+		// TODO - The layout needs to include more elements. Enough at the current moment.
 		this.exceptionMessage = this.getView().findViewById(R.id.message);
 //		this.retryButton = this.getView().findViewById(R.id.stateIcon);
 		Objects.requireNonNull(this.exceptionMessage);
