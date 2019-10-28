@@ -25,7 +25,8 @@
         android:layout_toRightOf="@+id/exceptionIcon"
         android:layout_below="@+id/exceptionClassName"
         android:text="@string/default_paneltitle"
-        android:textSize="13sp" />
+        android:singleLine="false"
+        android:textSize="14sp" />
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/exceptionClassName"

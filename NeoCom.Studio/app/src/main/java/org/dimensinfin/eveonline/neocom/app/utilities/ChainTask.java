@@ -15,7 +15,7 @@ public class ChainTask {
 	private Exception exception;
 	private Callable<Boolean> runCode;
 	private Runnable callBack;
-	private int sleepTime=1;
+	private int sleepTime = 1;
 
 	private ChainTask() {}
 
@@ -40,6 +40,7 @@ public class ChainTask {
 		this.callBack = callBack;
 		return this;
 	}
+
 	public void runCallback() {
 		this.callBack.run();
 	}
@@ -47,13 +48,13 @@ public class ChainTask {
 	public boolean run() {
 		try {
 			final Boolean result = this.runCode.call();
-			logger.info("--[ChainTask.run]> run lambda result: {}",result);
+			logger.info("--[ChainTask.run]> run lambda result: {}", result);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.COMPLETED);
-			Thread.sleep(TimeUnit.SECONDS.toMillis(this.sleepTime));
+			Thread.sleep(TimeUnit.SECONDS.toMillis(Math.min(this.sleepTime, 1)));
 			return result;
 		} catch (final Exception e) {
-			logger.info("--[ChainTask.run]> run lambda exception: {}",e.getMessage());
-			this.setException( e);
+			logger.info("--[ChainTask.run]> run lambda exception: {}", e.getMessage());
+			this.setException(e);
 			this.taskModel.setState(InitializationTask.InitializationTaskState.EXCEPTION);
 			return false;
 		}
@@ -78,7 +79,8 @@ public class ChainTask {
 			this.onConstruction.runCode = runCode;
 			return this;
 		}
-		public ChainTask.Builder optionalSleepTime( final int sleepTime) {
+
+		public ChainTask.Builder optionalSleepTime( final int sleepTime ) {
 			this.onConstruction.sleepTime = sleepTime;
 			return this;
 		}

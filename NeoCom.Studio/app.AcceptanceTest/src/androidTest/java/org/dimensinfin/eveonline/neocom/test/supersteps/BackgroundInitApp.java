@@ -5,27 +5,28 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
-import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
-import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
-import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
-import org.junit.Assert;
-import org.junit.Rule;
-
 import java.io.File;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.Assert;
+import org.junit.Rule;
+
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
+import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
+
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;

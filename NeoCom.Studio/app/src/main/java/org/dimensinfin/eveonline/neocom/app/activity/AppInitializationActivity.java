@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import androidx.annotation.WorkerThread;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -35,6 +37,7 @@ import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.app.utilities.ChainTask;
 import org.dimensinfin.eveonline.neocom.app.utilities.TaskSequencer;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
@@ -79,12 +82,13 @@ public class AppInitializationActivity extends Activity {
 				                           .withAppVersion("v" + this.getResources().getString(R.string.appversion))
 				                           .build();
 		this.linearContainer.addModel(appInfo); // Set the application info header
-		this.launchInitialization(); // Start the background initialization process.
+
+		new Handler().post(() -> this.launchInitialization()); // Start the background initialization process.
 	}
 
 	@Override
 	protected void onStop() {
-		this.taskSequencer.stop(); // Report the task sequencer to stop processing more tasts.
+		this.taskSequencer.stop(); // Report the task sequencer to stop processing more tasks.
 		super.onStop();
 	}
 
@@ -106,6 +110,7 @@ public class AppInitializationActivity extends Activity {
 	 * Create a thread were to execute all the initialization steps. The should be executed in sequence and after each step
 	 * there should be a new item to be rendered on the view panel.
 	 */
+	@WorkerThread
 	protected void launchInitialization() {
 		this.taskSequencer = new TaskSequencer.Builder()
 				                     .withActivity(this)
@@ -117,7 +122,6 @@ public class AppInitializationActivity extends Activity {
 						                     final Intent intent = new Intent(this, AppSplashActivity.class);
 						                     this.startActivity(intent);
 					                     });
-
 				                     })
 				                     .whenExceptionAction(() -> {
 					                     logger.info("--[AppInitializationActivity.launchInitialization.whenExceptionAction]");
@@ -140,14 +144,14 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(initialCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
-						                           Objects.requireNonNull(componentFactory);
-						                           final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
-						                           Objects.requireNonNull(application);
-					                           } catch (final NullPointerException npe) {
-						                           return false;
-					                           }
+//					                           try {
+					                           final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
+					                           Objects.requireNonNull(componentFactory);
+					                           final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
+					                           Objects.requireNonNull(application);
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -161,16 +165,16 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(privilegeExternalStorageCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           if (ContextCompat.checkSelfPermission(this,
-								                           Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-							                           // Permission is not granted
-							                           ActivityCompat.requestPermissions(this,
-									                           new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10);
-						                           }
-					                           } catch (final NullPointerException npe) {
-						                           return false;
+//					                           try {
+					                           if (ContextCompat.checkSelfPermission(this,
+							                           Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+						                           // Permission is not granted
+						                           ActivityCompat.requestPermissions(this,
+								                           new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10);
 					                           }
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -183,17 +187,17 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(privilegeInternetCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           if (ContextCompat.checkSelfPermission(this,
-								                           Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-							                           // Permission is not granted
-							                           this.requestPrivilege = true;
-							                           ActivityCompat.requestPermissions(this,
-									                           new String[]{ Manifest.permission.INTERNET }, 20);
-						                           }
-					                           } catch (final NullPointerException npe) {
-						                           return false;
+//					                           try {
+					                           if (ContextCompat.checkSelfPermission(this,
+							                           Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+						                           // Permission is not granted
+						                           this.requestPrivilege = true;
+						                           ActivityCompat.requestPermissions(this,
+								                           new String[]{ Manifest.permission.INTERNET }, 20);
 					                           }
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -208,17 +212,17 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(privilegeAccessNetworkCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           if (ContextCompat.checkSelfPermission(this,
-								                           Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-							                           // Permission is not granted
-							                           this.requestPrivilege = true;
-							                           ActivityCompat.requestPermissions(this,
-									                           new String[]{ Manifest.permission.ACCESS_NETWORK_STATE }, 30);
-						                           }
-					                           } catch (final NullPointerException npe) {
-						                           return false;
+//					                           try {
+					                           if (ContextCompat.checkSelfPermission(this,
+							                           Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+						                           // Permission is not granted
+						                           this.requestPrivilege = true;
+						                           ActivityCompat.requestPermissions(this,
+								                           new String[]{ Manifest.permission.ACCESS_NETWORK_STATE }, 30);
 					                           }
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -230,12 +234,12 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(directoriesCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           this.createAppDir();
-						                           this.createCacheDirectories();
-					                           } catch (final NullPointerException npe) {
-						                           return false;
-					                           }
+//					                           try {
+					                           this.createAppDir();
+					                           this.createCacheDirectories();
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -247,14 +251,14 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(sdeFileCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           if (!this.sdeDatabaseExists()) {
-							                           this.fileSystem.copyFromAssets(
-									                           this.getResources().getString(R.string.sdedatabasefilename), null);
-						                           }
-					                           } catch (final NullPointerException npe) {
-						                           return false;
+//					                           try {
+					                           if (!this.sdeDatabaseExists()) {
+						                           this.fileSystem.copyFromAssets(
+								                           this.getResources().getString(R.string.sdedatabasefilename), null);
 					                           }
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
 				                           })
 				                           .build());
@@ -266,44 +270,49 @@ public class AppInitializationActivity extends Activity {
 		this.taskSequencer.addTask(new ChainTask.Builder()
 				                           .withTaskModel(validateSDEDatabaseVersionCheckTask)
 				                           .withRunTask(() -> {
-					                           try {
-						                           final ISDEDatabaseAdapter sdeDatabase = NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter();
-						                           final int versionNumber = sdeDatabase.getDatabaseVersion();
-						                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Database " +
-								                                       "version: {}", versionNumber);
-						                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Configuration " +
-								                                       "version: {}", SDE_DB_VERSION);
-						                           if (versionNumber != SDE_DB_VERSION) { // Currently installed version mismatch.
-							                           new File(this.fileSystem.accessResource4Path(
-									                           this.getResources().getString(R.string.sdedatabasefilename)))
-									                           .delete();
-							                           new File(this.fileSystem.accessResource4Path(
-									                           this.getResources().getString(R.string.sdedatabasefilename) + "-journal"))
-									                           .delete();
-							                           if (!this.sdeDatabaseExists()) {
-								                           this.fileSystem.copyFromAssets(
-										                           this.getResources().getString(R.string.sdedatabasefilename), null);
-							                           }
+//					                           try {
+					                           final ISDEDatabaseAdapter sdeDatabase = NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter();
+					                           final int versionNumber = sdeDatabase.getDatabaseVersion();
+					                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Database " +
+							                                       "version: {}", versionNumber);
+					                           logger.info("--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Configuration " +
+							                                       "version: {}", SDE_DB_VERSION);
+					                           if (versionNumber != SDE_DB_VERSION) { // Currently installed version mismatch.
+						                           new File(this.fileSystem.accessResource4Path(
+								                           this.getResources().getString(R.string.sdedatabasefilename)))
+								                           .delete();
+						                           new File(this.fileSystem.accessResource4Path(
+								                           this.getResources().getString(R.string.sdedatabasefilename) + "-journal"))
+								                           .delete();
+						                           if (!this.sdeDatabaseExists()) {
+							                           this.fileSystem.copyFromAssets(
+									                           this.getResources().getString(R.string.sdedatabasefilename), null);
 						                           }
-					                           } catch (final NullPointerException npe) {
-						                           return false;
 					                           }
+//					                           } catch (final NullPointerException npe) {
+//						                           return false;
+//					                           }
 					                           return true;
+				                           })
+				                           .build());
+		final InitializationTask networkActiveCheckTask = new InitializationTask.Builder()
+				                                                  .withMessage("Check the network is active...")
+				                                                  .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                                  .withRetryable(true)
+				                                                  .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(networkActiveCheckTask)
+				                           .withRunTask(() -> {
+					                           if (NeoComApplication.checkNetworkAccess())
+						                           return true;
+					                           else
+						                           throw new NeoComRuntimeException(
+								                           "The network is disabled so the application cannot work properly.");
 				                           })
 				                           .build());
 
 		// Start the process to run the tasks in sequence.
 		this.taskSequencer.run();
-
-
-//		// Check the SDE database file is present.
-//		this.runOnUiThread(() -> {
-//			this.linearContainer.addModel(sdeFileCheckTask);
-//		});
-//		backgroundExecutor.submit(() -> {
-//			try {
-//			} catch (final InterruptedException ie) {}
-//		});
 	}
 
 	/**

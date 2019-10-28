@@ -2,10 +2,10 @@ package org.dimensinfin.eveonline.neocom.app.render;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+
+import java.util.Objects;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
@@ -13,11 +13,9 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionController;
 
-import java.util.Objects;
-
 public class InitializationExceptionRender extends MVCRender implements View.OnClickListener {
 	private TextView exceptionMessage;
-	private ImageView retryButton;
+//	private ImageView retryButton;
 
 	// - C O N S T R U C T O R S
 	public InitializationExceptionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
@@ -44,18 +42,18 @@ public class InitializationExceptionRender extends MVCRender implements View.OnC
 	@Override
 	public void initializeViews() {
 		this.exceptionMessage = this.getView().findViewById(R.id.message);
-		this.retryButton = this.getView().findViewById(R.id.stateIcon);
+//		this.retryButton = this.getView().findViewById(R.id.stateIcon);
 		Objects.requireNonNull(this.exceptionMessage);
-		Objects.requireNonNull(this.retryButton);
-		this.retryButton.setVisibility(View.INVISIBLE);
-		this.retryButton.setOnClickListener(this);
+//		Objects.requireNonNull(this.retryButton);
+//		this.retryButton.setVisibility(View.INVISIBLE);
+//		this.retryButton.setOnClickListener(this);
 	}
 
 	@Override
 	public void updateContent() {
 		this.exceptionMessage.setText(this.ifNotEmpty(this.getController().getModel().getExceptionMessage()));
-		if (this.getController().getModel().isRetryable())
-			this.retryButton.setVisibility(View.VISIBLE);
+//		if (this.getController().getModel().isRetryable())
+//			this.retryButton.setVisibility(View.VISIBLE);
 	}
 
 	private String ifNotEmpty( final String input ) {

@@ -4,19 +4,20 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.rule.ActivityTestRule;
-
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.android.mvc.render.MVCRender;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
 
 public class NeoComWorld {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
@@ -24,6 +25,8 @@ public class NeoComWorld {
 	private NeoComApplication application;
 	private ActivityScenario activityScenario;
 	private Activity activeActivity;
+	private View activePanel;
+	private MVCRender activeRender;
 
 	private ActivityTestRule activityRule;
 	private NeoComFragment fragment;
@@ -64,6 +67,24 @@ public class NeoComWorld {
 
 	public NeoComWorld setActiveActivity( final Activity activeActivity ) {
 		this.activeActivity = activeActivity;
+		return this;
+	}
+
+	public View getActivePanel() {
+		return this.activePanel;
+	}
+
+	public NeoComWorld setActivePanel( final View activePanel ) {
+		this.activePanel = activePanel;
+		return this;
+	}
+
+	public MVCRender getActiveRender() {
+		return this.activeRender;
+	}
+
+	public NeoComWorld setActiveRender( final MVCRender activeRender ) {
+		this.activeRender = activeRender;
 		return this;
 	}
 
