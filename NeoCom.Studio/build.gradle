@@ -42,5 +42,7 @@ ext {
     powermockVersion = '2.0.2'
     retrofitVersion = '2.5.0'
 
+    neocomCoreBaseVersion = '3.2.0'
+    neocomESISwaggerVersion = '4.16.0'
     neocomDatamanagementVersion = '0.17.0'
 }

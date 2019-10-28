@@ -1,17 +1,18 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.test.support.PojoTestUtils;
 
 public class ColonyPackTest {
 	@Test

@@ -1,24 +1,24 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.CommandCenterFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
 
 /**
  * Colony creation and data gathering is a complex and lengthy operation. This class will concentrate all the creation code on a
@@ -129,15 +129,15 @@ public class ColonyFactory {
 			this.onConstruction = new ColonyFactory();
 		}
 
-		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
-			Objects.requireNonNull(esiDataAdapter);
-			this.onConstruction.esiDataAdapter = esiDataAdapter;
-			return this;
-		}
-
 		public Builder withCredential( final Credential credential ) {
 			Objects.requireNonNull(credential);
 			this.onConstruction.credential = credential;
+			return this;
+		}
+
+		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			Objects.requireNonNull(esiDataAdapter);
+			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 
