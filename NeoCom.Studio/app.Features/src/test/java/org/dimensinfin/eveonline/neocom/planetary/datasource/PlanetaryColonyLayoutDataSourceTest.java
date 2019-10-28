@@ -2,34 +2,36 @@ package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
 import android.os.Bundle;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
-import org.dimensinfin.eveonline.neocom.support.CredentialSupportTest;
-import org.dimensinfin.eveonline.neocom.support.TestFeaturesControllerFactory;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniversePlanetsPlanetIdOk;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOk;
+import org.dimensinfin.eveonline.neocom.test.support.CredentialSupportTest;
 
 public class PlanetaryColonyLayoutDataSourceTest extends CredentialSupportTest {
 //	private static ESIDataAdapter esiAdapter;
 //	private static Credential credential;
-	private  TestFeaturesControllerFactory factory;
+	private  ControllerFactory factory;
 
 	@Before
-	public void setUp()  {
+	public void setUp() throws IOException {
 		super.setUp();
 //		esiAdapter = Mockito.mock(ESIDataAdapter.class);
 //		credential = new Credential()
 //				             .setAccountId(92223647)
 //				             .setRefreshToken("TEST REFRESH TOKEN")
 //				             .setDataSource("tranquility");
-		factory = new TestFeaturesControllerFactory("TEST-VARIANT");
+		factory = Mockito.mock(ControllerFactory.class);
 	}
 
 	@Test

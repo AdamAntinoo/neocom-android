@@ -1,18 +1,20 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.support.EsiDataAdapterSupportTest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.test.support.ESIDataAdapterSupportTest;
 
-public class PlanetaryStorageTest extends EsiDataAdapterSupportTest {
+public class PlanetaryStorageTest extends ESIDataAdapterSupportTest {
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		super.setUp();
 		EveItem.injectEsiDataAdapter(this.esiDataAdapter);
 	}

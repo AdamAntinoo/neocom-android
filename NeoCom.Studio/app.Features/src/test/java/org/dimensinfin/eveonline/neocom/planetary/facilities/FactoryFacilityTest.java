@@ -1,28 +1,33 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.support.TestEsiAdapterReady;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.planetary.FactoryType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.test.support.ESIDataAdapterSupportTest;
+import org.dimensinfin.eveonline.neocom.test.support.PlanetaryRepositoryMock;
 
-public class FactoryFacilityTest extends TestEsiAdapterReady {
+public class FactoryFacilityTest extends ESIDataAdapterSupportTest {
 	private static final int SCHEMATIC4USUKOMY_TIER3 = 89;
 	private static final PlanetType TEST_PLANET_TYPE_BARREN = PlanetType.BARREN;
 	private static GetCharactersCharacterIdPlanetsPlanetIdOkPins advancedFactoryPin;
 
+	private PlanetaryRepository planetaryRepository = new PlanetaryRepositoryMock.Builder().build().generatePlanetaryRepositoryMock();
+
 	@Override
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws IOException {
 		super.setUp();
 		advancedFactoryPin = new GetCharactersCharacterIdPlanetsPlanetIdOkPins();
 		advancedFactoryPin.setTypeId(2474);

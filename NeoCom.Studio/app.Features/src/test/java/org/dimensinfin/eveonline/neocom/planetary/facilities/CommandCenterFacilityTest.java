@@ -1,20 +1,21 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
-import org.dimensinfin.eveonline.neocom.support.EsiDataAdapterSupportTest;
-import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryStorage;
+import org.dimensinfin.eveonline.neocom.test.support.ESIDataAdapterSupportTest;
+import org.dimensinfin.eveonline.neocom.test.support.PojoTestUtils;
 
-public class CommandCenterFacilityTest extends EsiDataAdapterSupportTest {
+public class CommandCenterFacilityTest extends ESIDataAdapterSupportTest {
 	private static final PlanetType TEST_PLANET_TYPE_BARREN = PlanetType.BARREN;
 	private static final int BARREN_COMMAND_CENTER_TYPE = 2524;
 

@@ -1,16 +1,17 @@
 package org.dimensinfin.eveonline.neocom.app.controller;
 
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.support.TestControllerUpdaterFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.test.support.TestFeaturesControllerFactory;
 
 public class CredentialControllerTest {
 	@Test
 	public void CredentialController_constructor() {
 		final Credential model = new Credential();
-		final TestControllerUpdaterFactory factory = new TestControllerUpdaterFactory("TEST-VARIANT");
+		final TestFeaturesControllerFactory factory = new TestFeaturesControllerFactory("TEST-VARIANT");
 		final CredentialController controller = new CredentialController(model, factory);
 		final CredentialController spy = Mockito.spy(controller);
 

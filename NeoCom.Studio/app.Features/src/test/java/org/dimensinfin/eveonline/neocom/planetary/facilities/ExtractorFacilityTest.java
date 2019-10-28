@@ -1,13 +1,10 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
-import org.dimensinfin.eveonline.neocom.support.EsiDataAdapterSupportTest;
-import org.dimensinfin.eveonline.neocom.support.PojoTestUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
@@ -17,18 +14,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetailsHeads;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetType;
+import org.dimensinfin.eveonline.neocom.test.support.ESIDataAdapterSupportTest;
+import org.dimensinfin.eveonline.neocom.test.support.PojoTestUtils;
 
-public class ExtractorFacilityTest extends EsiDataAdapterSupportTest {
+public class ExtractorFacilityTest extends ESIDataAdapterSupportTest {
 	private static final PlanetType TEST_PLANET_TYPE_BARREN = PlanetType.BARREN;
 	private static final int EXTRACTOR_FACILITY_TYPE = 2848;
 	private static PlanetaryFacility facility;
 	private static GetCharactersCharacterIdPlanetsPlanetIdOkPins pin;
 
 	@Before
-	public void setUp()  {
+	public void setUp() throws IOException {
 		super.setUp();
 		facility = Mockito.mock(PlanetaryFacility.class);
 		pin = Mockito.mock(GetCharactersCharacterIdPlanetsPlanetIdOkPins.class);

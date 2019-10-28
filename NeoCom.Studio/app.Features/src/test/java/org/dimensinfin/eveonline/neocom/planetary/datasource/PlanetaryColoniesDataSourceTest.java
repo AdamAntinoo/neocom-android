@@ -1,18 +1,21 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
-import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.support.PlanetaryRepositorySupportTest;
-import org.dimensinfin.eveonline.neocom.support.TestFeaturesControllerFactory;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
+import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.test.support.CredentialSupportTest;
+import org.dimensinfin.eveonline.neocom.test.support.PlanetaryRepositoryMock;
+import org.dimensinfin.eveonline.neocom.test.support.TestFeaturesControllerFactory;
 
 /**
  * To test this data source I have to mock the data downloaded from CCP using a mock data generator loaded with a static
@@ -23,18 +26,19 @@ import java.util.List;
  * WARNING: This cannot be done since the Application is a requirement and cannot be mocked properly. I should replace the output
  * by programmatically generated GetCharactersCharacterIdPlanets200Ok and GetCharactersCharacterIdPlanetsPlanetIdOk.
  */
-public class PlanetaryColoniesDataSourceTest extends PlanetaryRepositorySupportTest {
+public class PlanetaryColoniesDataSourceTest extends CredentialSupportTest {
 	private Integer ownerId;
 	private Integer targetPlanetId;
+	private PlanetaryRepository planetaryRepository = new PlanetaryRepositoryMock.Builder().build().generatePlanetaryRepositoryMock();
 
 
 	//	private static ESIDataAdapter esiAdapter;
 	private static List<GetCharactersCharacterIdPlanets200Ok> mockColoniesData = new ArrayList<>();
 //	private Credential credential;
-private  TestFeaturesControllerFactory factory;
+private TestFeaturesControllerFactory factory;
 
 	@Before
-	public void setUp()  {
+	public void setUp() throws IOException {
 		super.setUp();
 		ownerId = 93813310;
 		targetPlanetId = 40208303;
