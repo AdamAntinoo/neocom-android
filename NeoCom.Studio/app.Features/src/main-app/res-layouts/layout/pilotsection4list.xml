@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/standardmargin"
         android:layout_marginRight="@dimen/standardmargin"
+        android:layout_marginTop="@dimen/standardmargin"
         android:layout_toRightOf="@+id/sectionIcon">
 
         <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
