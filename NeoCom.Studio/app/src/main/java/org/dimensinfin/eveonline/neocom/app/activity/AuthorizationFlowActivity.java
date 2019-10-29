@@ -136,9 +136,9 @@ public class AuthorizationFlowActivity extends Activity {
 												.build())
 								.addInterceptor(chain -> chain.proceed(
 										chain.request()
-												.newBuilder()
-												.addHeader("User-Agent", "org.dimensinfin")
-												.build()));
+										     .newBuilder()
+										     .addHeader("User-Agent", "org.dimensinfin")
+										     .build()));
 				// Verify the character authenticated and create the Credential.
 				logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating character verification.");
 				final VerifyCharacter verificationService = new Retrofit.Builder()
@@ -164,15 +164,10 @@ public class AuthorizationFlowActivity extends Activity {
 							                              .withAccessToken(token.getAccessToken())
 							                              .withRefreshToken(token.getRefreshToken())
 							                              .withDataSource(esiServer)
-							                              .withScope(this.esiDataAdapter.getStringScopes())
+							                              .withScope(verificationResponse.body().getScopes())
 							                              .build();
 					// Update the additional render fields.
-					new CredentialUpdater(credential).onRun();
-
-
-					//							new Credential.Builder(newAccountIdentifier)
-					//							                              .withCharacterName(verificationResponse.body().getCharacterName())
-					//							                              .build();
+					backgroundExecutor.submit(() -> new CredentialUpdater(credential).onRun());
 
 					// TODO - Upgrade to the new Credential implementation using a Builder.
 					//					credential.setAccessToken(token.getAccessToken())

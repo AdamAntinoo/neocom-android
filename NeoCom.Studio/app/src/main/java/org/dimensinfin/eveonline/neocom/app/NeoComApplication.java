@@ -8,9 +8,11 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import org.dimensinfin.eveonline.neocom.services.MinuteTickReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.services.MinuteTickReceiver;
 
 /**
  * This class is the android application instance. Their responsibility is to have access tot any global data structures
@@ -62,6 +64,15 @@ public class NeoComApplication extends Application {
 		this.terminateScheduler();
 		super.onTerminate();
 		logger.info("<< [NeoComApplication.onTerminate]");
+	}
+
+	/**
+	 * This action can fail so wrap into a method to control the result.
+	 */
+	public Integer getNeoComDatabaseVersion() {
+		try {
+			return Integer.valueOf(this.getResources().getString(R.string.appdatabaseversion));
+		} catch (final RuntimeException runtime) { return 0;}
 	}
 
 	/**

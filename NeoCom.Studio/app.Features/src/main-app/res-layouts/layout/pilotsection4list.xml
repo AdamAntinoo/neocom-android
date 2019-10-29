@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/sectionIcon"
-        style="@style/AppTheme.NodeIcon"
+        style="@style/AppTheme.PilotSection.Icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginLeft="@dimen/standardmargin"
@@ -22,22 +22,18 @@
 
         <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
             android:id="@+id/sectionTitle"
-            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            style="@style/AppTheme.PilotSection.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/standardmargin"
-            android:text="WALLET"
-            android:visibility="visible" />
+            android:text="WALLET" />
 
         <org.dimensinfin.android.mvc.fonts.PrototypeTextView
             android:id="@+id/sectionData"
-            style="@style/AppTheme.NeoComText.Pilot.Amount"
+            style="@style/AppTheme.PilotSection.Value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/clickBlock"
-            android:gravity="right"
-            android:text="@string/default_skillpoints"
-            android:visibility="visible" />
+            android:text="@string/default_skillpoints" />
 
         <TextView
             android:id="@+id/sectionLabel"

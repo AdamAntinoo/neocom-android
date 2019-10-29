@@ -79,7 +79,7 @@ public class TaskSequencer {
 	protected void launch( final ChainTask task ) {
 		task.setCallBack(() -> this.run()); // The callback to fire the execution of the next task.
 		this.activity.runOnUiThread(() -> this.container.addModel(task.getTaskModel())); // Register the model on the view.
-		this.backgroundExecutor.submit(() -> { // Rin the task code in another thread.
+		this.backgroundExecutor.submit(() -> { // Run the task code in another thread.
 			final boolean result = task.run();
 			if (!result) {
 				this.setException(task.getException());

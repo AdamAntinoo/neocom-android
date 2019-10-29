@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -50,7 +51,7 @@ public class AppInitializationActivity extends Activity {
 	private IFileSystem fileSystem;
 	protected ActionBar actionBar;
 	protected LinearContainer linearContainer;
-	private boolean requestPrivilege = true;
+//	private boolean requestPrivilege = true;
 	private TaskSequencer taskSequencer;
 
 	// - L I F E C Y C L E
@@ -187,8 +188,6 @@ public class AppInitializationActivity extends Activity {
 //					                           try {
 					                           if (ContextCompat.checkSelfPermission(this,
 							                           Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-						                           // Permission is not granted
-						                           this.requestPrivilege = true;
 						                           ActivityCompat.requestPermissions(this,
 								                           new String[]{ Manifest.permission.INTERNET }, 20);
 					                           }
@@ -212,8 +211,6 @@ public class AppInitializationActivity extends Activity {
 //					                           try {
 					                           if (ContextCompat.checkSelfPermission(this,
 							                           Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-						                           // Permission is not granted
-						                           this.requestPrivilege = true;
 						                           ActivityCompat.requestPermissions(this,
 								                           new String[]{ Manifest.permission.ACCESS_NETWORK_STATE }, 30);
 					                           }
@@ -306,6 +303,23 @@ public class AppInitializationActivity extends Activity {
 						                           throw new NeoComRuntimeException(
 								                           "The network is disabled so the application cannot work properly.");
 				                           })
+				                           .build());
+		this.createInitializationTaskSlot("Connect to ESI server and download setup data...",
+				() -> {
+					NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+					return true;
+				});
+	}
+
+	private void createInitializationTaskSlot( final String slotTitle, final Callable<Boolean> initialiationCode ) {
+		final InitializationTask initializationTask = new InitializationTask.Builder()
+				                                              .withMessage(slotTitle)
+				                                              .withState(InitializationTask.InitializationTaskState.RUNNING)
+				                                              .withRetryable(true)
+				                                              .build();
+		this.taskSequencer.addTask(new ChainTask.Builder()
+				                           .withTaskModel(initializationTask)
+				                           .withRunTask(initialiationCode)
 				                           .build());
 	}
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- P I L O T   S E C T I O N -->
+    <style name="AppTheme.NeoComText.Pilot.Amount" parent="AppTheme.NeoComText">
+        <item name="android:layout_marginBottom">@dimen/bottomline_correction</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.PilotSection.Icon" parent="AppTheme.NodeIcon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginLeft">@dimen/standardmargin</item>
+    </style>
+
+    <style name="AppTheme.PilotSection.Title" parent="AppTheme.NeoComText.Pilot.Amount">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">@dimen/standardmargin</item>
+    </style>
+
+    <style name="AppTheme.PilotSection.Value" parent="AppTheme.NeoComText.Pilot.Amount">
+        <item name="android:gravity">right</item>
+    </style>
+</resources>

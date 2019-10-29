@@ -238,8 +238,7 @@ public class NeoComComponentFactory {
 						                 .withFileSystem(this.getFileSystemAdapter())
 						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
 						                 .setDatabaseName(application.getResources().getString(R.string.appdatabasefilename))
-						                 .setDatabaseVersion(Integer.valueOf(application.getResources().getString(
-								                 R.string.appdatabaseversion)))
+						                 .setDatabaseVersion(this.getApplication().getNeoComDatabaseVersion())
 						                 .build();
 			} catch (IOException sqle) {
 				neocomDBHelper = null;
