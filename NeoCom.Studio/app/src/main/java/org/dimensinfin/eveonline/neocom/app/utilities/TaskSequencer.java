@@ -54,7 +54,7 @@ public class TaskSequencer {
 	 * tasks have completed.
 	 */
 	public void run() {
-		logger.info("--[TaskSequencer.run]> Sequencer run iteration: tasks ", this.taskList.size());
+//		logger.info("--[TaskSequencer.run]> Sequencer run iteration: tasks {}", this.taskList.size());
 		for (ChainTask task : this.taskList.keySet()) {
 			if (!this.taskList.get(task)) {
 				logger.info("--[TaskSequencer.run]> launching task: {}", task.getTaskModel().getMessage());

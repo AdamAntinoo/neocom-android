@@ -1,5 +1,9 @@
 package org.dimensinfin.eveonline.neocom.app.datasource;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
@@ -13,14 +17,11 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PilotDashboardDataSource extends MVCDataSource {
 	// -  C O M P O N E N T S
 	private ESIDataAdapter esiDataAdapter;
 	private Credential credential;
-	protected List<PilotSection> sections = new ArrayList<>();
+	private List<PilotSection> sections = new ArrayList<>();
 
 	private Credential getCredential() {
 		return this.credential;
@@ -35,7 +36,6 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withPilotIdentifier(this.getCredential().getAccountId())
 				.withCharacterPublicData(publicData)
 				.withRaceData(raceData)
-				.withCredential(this.getCredential())
 				.build();
 		this.addModelContents(pilot);
 
@@ -43,14 +43,14 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withSectionIcon(R.drawable.wallet)
 				.withTitle("WALLET")
 				.withLabel("Wallet Balance")
-				.withDataProvider(new WalletAmountDataProvider.Builder().withPilot(pilot).build())
+				.withDataProvider(new WalletAmountDataProvider.Builder().withCredential(this.credential).build())
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
 				.withSectionIcon(R.drawable.assets)
 				.withTitle("ASSETS")
 				.withLabel("Asset Count")
-				.withDataProvider(new AssetCountDataProvider.Builder().withPilot(pilot).build())
+				.withDataProvider(new AssetCountDataProvider.Builder().withCredential(this.credential).build())
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
 		this.sections.add(new PilotSection.Builder()
@@ -58,8 +58,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withTitle("MINING DATA")
 				.withLabel("Mining Resources market value")
 				.withDataProvider(new MiningResourcesValueDataProvider.Builder()
-						.withPilot(pilot)
-						.withEsiDataAdapter(this.esiDataAdapter).build())
+						.withCredential(this.credential).build())
 				.withClickTarget(PageNamesType.MINING_LEDGER)
 				.withPilotIdentifier(this.credential.getAccountId())
 				.build());
@@ -68,7 +67,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				.withTitle("PLANETARY INTERACTION")
 				.withLabel("Available Colonies")
 				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
-						.withPilot(pilot)
+						.withCredential(this.credential)
 						.withEsiDataAdapter(this.esiDataAdapter).build())
 				.withClickTarget(PageNamesType.PLANET_FACILITIES_DETAILS)
 				.withPilotIdentifier(this.credential.getAccountId())
@@ -113,12 +112,12 @@ public class PilotDashboardDataSource extends MVCDataSource {
 
 	// - W A L L E T D A T A P R O V I D E R
 	public static class WalletAmountDataProvider extends NeoComDataProvider implements IDataProvider {
-		private Pilot pilot;
+		private Credential credential;
 
 		private WalletAmountDataProvider() {}
 
 		public String getDataFormatted() {
-			return this.generatePriceString(this.pilot.getCredential().getWalletBalance());
+			return this.generatePriceString(this.credential.getWalletBalance());
 		}
 
 		// - B U I L D E R
@@ -129,8 +128,9 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				this.onConstruction = new WalletAmountDataProvider();
 			}
 
-			public Builder withPilot( final Pilot pilot ) {
-				this.onConstruction.pilot = pilot;
+			public Builder withCredential( final Credential credential ) {
+				Objects.requireNonNull(credential);
+				this.onConstruction.credential = credential;
 				return this;
 			}
 
@@ -141,12 +141,12 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	}
 
 	public static class AssetCountDataProvider extends NeoComDataProvider implements IDataProvider {
-		private Pilot pilot;
+		private Credential credential;
 
 		private AssetCountDataProvider() {}
 
 		public String getDataFormatted() {
-			return qtyFormatter.format(this.pilot.getCredential().getAssetsCount()) + " ITEMS";
+			return qtyFormatter.format(this.credential.getAssetsCount()) + " ITEMS";
 		}
 
 		// - B U I L D E R
@@ -157,8 +157,9 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				this.onConstruction = new AssetCountDataProvider();
 			}
 
-			public Builder withPilot( final Pilot pilot ) {
-				this.onConstruction.pilot = pilot;
+			public AssetCountDataProvider.Builder withCredential( final Credential credential ) {
+				Objects.requireNonNull(credential);
+				this.onConstruction.credential = credential;
 				return this;
 			}
 
@@ -169,18 +170,16 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	}
 
 	public static class PlanetaryColonyCountDataProvider extends NeoComDataProvider implements IDataProvider {
-		private Pilot pilot;
+		private Credential credential;
 		private ESIDataAdapter esiDataAdapter;
 
 		private PlanetaryColonyCountDataProvider() {}
 
-		public Credential getCredential() {return this.pilot.getCredential();}
-
 		public String getDataFormatted() {
 			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.esiDataAdapter.getCharactersCharacterIdPlanets(
-					this.getCredential().getAccountId(),
-					this.getCredential().getRefreshToken(),
-					this.getCredential().getDataSource());
+					this.credential.getAccountId(),
+					this.credential.getRefreshToken(),
+					this.credential.getDataSource());
 			return (qtyFormatter.format(esiColonies.size()) + " colonies").toUpperCase();
 		}
 
@@ -192,8 +191,9 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				this.onConstruction = new PlanetaryColonyCountDataProvider();
 			}
 
-			public Builder withPilot( final Pilot pilot ) {
-				this.onConstruction.pilot = pilot;
+			public PlanetaryColonyCountDataProvider.Builder withCredential( final Credential credential ) {
+				Objects.requireNonNull(credential);
+				this.onConstruction.credential = credential;
 				return this;
 			}
 
@@ -209,8 +209,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	}
 
 	public static class MiningResourcesValueDataProvider extends NeoComDataProvider implements IDataProvider {
-		private Pilot pilot;
-		private ESIDataAdapter esiDataAdapter;
+		private Credential credential;
 
 		private MiningResourcesValueDataProvider() {}
 
@@ -224,7 +223,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		 * @return the estimated value of all the mineral assets as stored on the Credential or '-'.
 		 */
 		public String getDataFormatted() {
-			return this.generatePriceString(this.pilot.getCredential().getMiningResourcesEstimatedValue());
+			return this.generatePriceString(this.credential.getMiningResourcesEstimatedValue());
 		}
 
 		// - B U I L D E R
@@ -235,13 +234,9 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				this.onConstruction = new MiningResourcesValueDataProvider();
 			}
 
-			public Builder withPilot( final Pilot pilot ) {
-				this.onConstruction.pilot = pilot;
-				return this;
-			}
-
-			public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
-				this.onConstruction.esiDataAdapter = esiDataAdapter;
+			public MiningResourcesValueDataProvider.Builder withCredential( final Credential credential ) {
+				Objects.requireNonNull(credential);
+				this.onConstruction.credential = credential;
 				return this;
 			}
 

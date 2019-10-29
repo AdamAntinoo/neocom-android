@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class LinearContainer {
 	private Activity activity;
@@ -27,7 +27,6 @@ public class LinearContainer {
 
 	public void clear() {
 		this.initializationLayout.removeAllViews();
-//		this.contents.clear();
 	}
 
 	public int size() {

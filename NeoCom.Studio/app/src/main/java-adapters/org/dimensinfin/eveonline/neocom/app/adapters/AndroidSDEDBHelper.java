@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
+import org.dimensinfin.eveonline.neocom.database.repositories.DatabaseVersionRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
@@ -41,7 +42,7 @@ public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	private SQLiteDatabase ccpDatabase;
 
 	// - D A O S
-	private Dao<DatabaseVersion, Long> databaseVersionDao = null;
+	private Dao<DatabaseVersion, Integer> databaseVersionDao = null;
 	private Dao<EsiLocation, Long> locationDao = null;
 
 	// - C O N S T R U C T O R S
@@ -62,23 +63,11 @@ public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	 */
 	@Override
 	public Integer getDatabaseVersion() {
-		try {
-			final List<DatabaseVersion> versionList = this.getDatabaseVersionDao().queryForEq("identifier", "CURRENT-VERSION");
-			if (null != versionList)
-				if (versionList.size() > 0)
-					return versionList.get(0).versionNumber;
-			return 0;
-		} catch (final SQLException sqle) {
-			return 0;
-		}
+		final DatabaseVersionRepository databaseVersionRepository = new DatabaseVersionRepository.Builder()
+				                                                            .withDatabaseVersionDao(this.getDatabaseVersionDao()).build();
+		final DatabaseVersion version = databaseVersionRepository.accessVersion();
+		return version.getVersionNumber();
 	}
-//	private AndroidSDEDBHelper() {
-//		super();
-//	}
-
-//	private void setFileSystemAdapter( final IFileSystem fileSystemAdapter ) {
-//		this.fileSystemAdapter = fileSystemAdapter;
-//	}
 
 	protected SQLiteDatabase getSDEDatabase() {
 		if (null == this.ccpDatabase) this.openSDEDB();
@@ -136,7 +125,7 @@ public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 
 	// - I S D E D A T A B A S E A D A P T E R
 
-	public Dao<DatabaseVersion, Long> getDatabaseVersionDao() throws NeoComRuntimeException {
+	public Dao<DatabaseVersion, Integer> getDatabaseVersionDao() throws NeoComRuntimeException {
 		try {
 			if (null == this.databaseVersionDao) {
 				this.databaseVersionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
