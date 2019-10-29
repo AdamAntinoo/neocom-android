@@ -1,15 +1,12 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
-import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyFactory;
+import org.dimensinfin.eveonline.neocom.planetary.ColonyPack;
 
 public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 	protected List<ColonyPack> colonies = new ArrayList<>();
@@ -86,21 +83,23 @@ public class PlanetaryColoniesDataSource extends PlanetaryCommonDataSource {
 			return this;
 		}
 
-		public Builder withCredential( final Credential credential ) {
-			this.onConstruction.credential = credential;
-			return this;
-		}
-
-		public Builder withEsiAdapter( final ESIDataAdapter esiDataAdapter ) {
-			this.onConstruction.esiDataAdapter = esiDataAdapter;
-			return this;
-		}
-
-		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
-			Objects.requireNonNull(planetaryRepository);
-			this.onConstruction.planetaryRepository = planetaryRepository;
-			return this;
-		}
+//		public Builder withCredential( final Credential credential ) {
+//			Objects.requireNonNull(credential);
+//			this.onConstruction.credential = credential;
+//			return this;
+//		}
+//
+//		public Builder withEsiAdapter( final ESIDataAdapter esiDataAdapter ) {
+//			Objects.requireNonNull(esiDataAdapter);
+//			this.onConstruction.esiDataAdapter = esiDataAdapter;
+//			return this;
+//		}
+//
+//		public Builder withPlanetaryRepository( final PlanetaryRepository planetaryRepository ) {
+//			Objects.requireNonNull(planetaryRepository);
+//			this.onConstruction.planetaryRepository = planetaryRepository;
+//			return this;
+//		}
 
 		@Override
 		public PlanetaryColoniesDataSource build() {

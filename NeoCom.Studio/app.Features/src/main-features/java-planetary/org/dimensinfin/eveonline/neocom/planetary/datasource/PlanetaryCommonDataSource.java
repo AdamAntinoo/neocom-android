@@ -1,11 +1,11 @@
 package org.dimensinfin.eveonline.neocom.planetary.datasource;
 
+import java.util.Objects;
+
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-
-import java.util.Objects;
 
 public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 	protected Credential credential;
@@ -45,6 +45,9 @@ public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 		}
 
 		public T build() {
+			Objects.requireNonNull(this.credential);
+			Objects.requireNonNull(this.esiDataAdapter);
+			Objects.requireNonNull(this.planetaryRepository);
 			((PlanetaryCommonDataSource) this.getActual()).credential = this.credential;
 			((PlanetaryCommonDataSource) this.getActual()).esiDataAdapter = this.esiDataAdapter;
 			((PlanetaryCommonDataSource) this.getActual()).planetaryRepository = this.planetaryRepository;

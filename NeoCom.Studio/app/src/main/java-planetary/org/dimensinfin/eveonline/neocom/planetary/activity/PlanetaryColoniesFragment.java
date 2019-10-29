@@ -31,7 +31,7 @@ public class PlanetaryColoniesFragment extends AuthenticatedFragment {
 					.withExtras(this.getExtras())
 					.withFactory(this.createFactory())
 					.withCredential(this.getCredential())
-					.withEsiAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+					.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
 					.withPlanetaryRepository(NeoComComponentFactory.getSingleton().getPlanetaryRepository())
 					.build();
 		throw new NeoComRuntimeException("Planetary variant has not defined Data Source to generate content.");
