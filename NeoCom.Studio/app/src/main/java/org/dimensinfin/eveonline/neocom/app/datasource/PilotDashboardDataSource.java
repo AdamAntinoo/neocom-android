@@ -29,50 +29,50 @@ public class PilotDashboardDataSource extends MVCDataSource {
 
 	@Override
 	public void prepareModel() {
-		logger.info(">> [PilotDashboardDataSource.prepareModel]");
-		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId(this.getCredential().getAccountId());
-		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace(publicData.getRaceId());
+		logger.info( ">> [PilotDashboardDataSource.prepareModel]" );
+		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId( this.getCredential().getAccountId() );
+		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace( publicData.getRaceId() );
 		final Pilot pilot = new Pilot.Builder()
-				.withPilotIdentifier(this.getCredential().getAccountId())
-				.withCharacterPublicData(publicData)
-				.withRaceData(raceData)
-				.build();
-		this.addModelContents(pilot);
+				                    .withPilotIdentifier( this.getCredential().getAccountId() )
+				                    .withCharacterPublicData( publicData )
+				                    .withRaceData( raceData )
+				                    .build();
+		this.addModelContents( pilot );
 
-		this.sections.add(new PilotSection.Builder()
-				.withSectionIcon(R.drawable.wallet)
-				.withTitle("WALLET")
-				.withLabel("Wallet Balance")
-				.withDataProvider(new WalletAmountDataProvider.Builder().withCredential(this.credential).build())
-				.withPilotIdentifier(this.credential.getAccountId())
-				.build());
-		this.sections.add(new PilotSection.Builder()
-				.withSectionIcon(R.drawable.assets)
-				.withTitle("ASSETS")
-				.withLabel("Asset Count")
-				.withDataProvider(new AssetCountDataProvider.Builder().withCredential(this.credential).build())
-				.withPilotIdentifier(this.credential.getAccountId())
-				.build());
-		this.sections.add(new PilotSection.Builder()
-				.withSectionIcon(R.drawable.miningledger)
-				.withTitle("MINING DATA")
-				.withLabel("Mining Resources market value")
-				.withDataProvider(new MiningResourcesValueDataProvider.Builder()
-						.withCredential(this.credential).build())
-				.withClickTarget(PageNamesType.MINING_LEDGER)
-				.withPilotIdentifier(this.credential.getAccountId())
-				.build());
-		this.sections.add(new PilotSection.Builder()
-				.withSectionIcon(R.drawable.planets)
-				.withTitle("PLANETARY INTERACTION")
-				.withLabel("Available Colonies")
-				.withDataProvider(new PlanetaryColonyCountDataProvider.Builder()
-						.withCredential(this.credential)
-						.withEsiDataAdapter(this.esiDataAdapter).build())
-				.withClickTarget(PageNamesType.PLANET_FACILITIES_DETAILS)
-				.withPilotIdentifier(this.credential.getAccountId())
-				.build());
-		logger.info("<< [PilotDashboardDataSource.prepareModel]");
+		this.sections.add( new PilotSection.Builder()
+				                   .withSectionIcon( R.drawable.wallet )
+				                   .withTitle( "WALLET" )
+				                   .withLabel( "Wallet Balance" )
+				                   .withDataProvider( new WalletAmountDataProvider.Builder().withCredential( this.credential ).build() )
+				                   .withPilotIdentifier( this.credential.getAccountId() )
+				                   .build() );
+		this.sections.add( new PilotSection.Builder()
+				                   .withSectionIcon( R.drawable.assets )
+				                   .withTitle( "ASSETS" )
+				                   .withLabel( "Asset Count" )
+				                   .withDataProvider( new AssetCountDataProvider.Builder().withCredential( this.credential ).build() )
+				                   .withPilotIdentifier( this.credential.getAccountId() )
+				                   .build() );
+		this.sections.add( new PilotSection.Builder()
+				                   .withSectionIcon( R.drawable.miningledger )
+				                   .withTitle( "MINING DATA" )
+				                   .withLabel( "Mining Resources market value" )
+				                   .withDataProvider( new MiningResourcesValueDataProvider.Builder()
+						                                      .withCredential( this.credential ).build() )
+				                   .withClickTarget( PageNamesType.MINING_LEDGER )
+				                   .withPilotIdentifier( this.credential.getAccountId() )
+				                   .build() );
+		this.sections.add( new PilotSection.Builder()
+				                   .withSectionIcon( R.drawable.planets )
+				                   .withTitle( "PLANETARY INTERACTION" )
+				                   .withLabel( "Available Colonies" )
+				                   .withDataProvider( new PlanetaryColonyCountDataProvider.Builder()
+						                                      .withCredential( this.credential )
+						                                      .withEsiDataAdapter( this.esiDataAdapter ).build() )
+				                   .withClickTarget( PageNamesType.PLANET_FACILITIES_DETAILS )
+				                   .withPilotIdentifier( this.credential.getAccountId() )
+				                   .build() );
+		logger.info( "<< [PilotDashboardDataSource.prepareModel]" );
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	@Override
 	public void collaborate2Model() {
 		for (PilotSection section : this.sections)
-			this.addModelContents(section);
+			this.addModelContents( section );
 	}
 
 	// - B U I L D E R
@@ -100,11 +100,13 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		}
 
 		public Builder withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+			Objects.requireNonNull( esiDataAdapter );
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 
 		public Builder withCredential( final Credential credential ) {
+			Objects.requireNonNull( credential );
 			this.onConstruction.credential = credential;
 			return this;
 		}
@@ -117,7 +119,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		private WalletAmountDataProvider() {}
 
 		public String getDataFormatted() {
-			return this.generatePriceString(this.credential.getWalletBalance());
+			return this.generatePriceString( this.credential.getWalletBalance() );
 		}
 
 		// - B U I L D E R
@@ -129,7 +131,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public Builder withCredential( final Credential credential ) {
-				Objects.requireNonNull(credential);
+				Objects.requireNonNull( credential );
 				this.onConstruction.credential = credential;
 				return this;
 			}
@@ -146,7 +148,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		private AssetCountDataProvider() {}
 
 		public String getDataFormatted() {
-			return qtyFormatter.format(this.credential.getAssetsCount()) + " ITEMS";
+			return qtyFormatter.format( this.credential.getAssetsCount() ) + " ITEMS";
 		}
 
 		// - B U I L D E R
@@ -158,7 +160,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public AssetCountDataProvider.Builder withCredential( final Credential credential ) {
-				Objects.requireNonNull(credential);
+				Objects.requireNonNull( credential );
 				this.onConstruction.credential = credential;
 				return this;
 			}
@@ -179,8 +181,8 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = this.esiDataAdapter.getCharactersCharacterIdPlanets(
 					this.credential.getAccountId(),
 					this.credential.getRefreshToken(),
-					this.credential.getDataSource());
-			return (qtyFormatter.format(esiColonies.size()) + " colonies").toUpperCase();
+					this.credential.getDataSource() );
+			return (qtyFormatter.format( esiColonies.size() ) + " colonies").toUpperCase();
 		}
 
 		// - B U I L D E R
@@ -192,7 +194,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public PlanetaryColonyCountDataProvider.Builder withCredential( final Credential credential ) {
-				Objects.requireNonNull(credential);
+				Objects.requireNonNull( credential );
 				this.onConstruction.credential = credential;
 				return this;
 			}
@@ -220,10 +222,11 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		 *
 		 * This is obviously a task for an updater that should store the information on the Credential so it will only be
 		 * updated when the values become stale.
+		 *
 		 * @return the estimated value of all the mineral assets as stored on the Credential or '-'.
 		 */
 		public String getDataFormatted() {
-			return this.generatePriceString(this.credential.getMiningResourcesEstimatedValue());
+			return this.generatePriceString( this.credential.getMiningResourcesEstimatedValue() );
 		}
 
 		// - B U I L D E R
@@ -235,7 +238,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			}
 
 			public MiningResourcesValueDataProvider.Builder withCredential( final Credential credential ) {
-				Objects.requireNonNull(credential);
+				Objects.requireNonNull( credential );
 				this.onConstruction.credential = credential;
 				return this;
 			}
