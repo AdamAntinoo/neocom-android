@@ -57,6 +57,7 @@ android {
     sourceSets {
         main.java {
             srcDirs += 'src/main/java-adapters'
+            srcDirs += 'src/main/java-assets'
             srcDirs += 'src/main/java-mining'
             srcDirs += 'src/main/java-planetary'
             srcDirs += 'src/main/java-datamanagement'

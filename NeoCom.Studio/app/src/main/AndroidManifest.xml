@@ -30,18 +30,31 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<!-- S T A R T U P    A C T I V I T Y -->
+
+		<!-- A C T I V I T I E S -->
 		<activity
 			android:name=".app.activity.AppSplashActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:theme="@style/AppTheme.NoActionBar">
-<!--			<intent-filter>-->
-<!--				<action android:name="android.intent.action.MAIN"/>-->
-<!--				<category android:name="android.intent.category.LAUNCHER"/>-->
-<!--			</intent-filter>-->
+		</activity>
+		<activity
+			android:name=".app.activity.AuthorizationFlowActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="Authorization ESI Flow"
+			android:parentActivityName=".app.activity.AppSplashActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+
+				<data
+					android:host="esiauthentication"
+					android:scheme="eveauth-neocom"/>
+			</intent-filter>
 		</activity>
 
-		<!-- A C T I V I T I E S -->
 		<activity
 				android:name=".app.activity.PilotDashboardActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
@@ -68,41 +81,24 @@
 				android:label="Planetary Colony Layout">
 		</activity>
 		<activity
+			android:name=".app.activity.AssetsManagerActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="Assets Manager">
+			<meta-data
+				android:name="android.app.default_searchable"
+				android:value=".activity.SearchAssetsActivity"/>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
 				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Settings">
 		</activity>
-		<activity
-				android:name=".app.activity.AuthorizationFlowActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Authorization ESI Flow"
-				android:parentActivityName=".app.activity.AppSplashActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-
-				<category android:name="android.intent.category.DEFAULT"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-				<category android:name="android.intent.category.BROWSABLE"/>
-
-				<data
-						android:host="esiauthentication"
-						android:scheme="eveauth-neocom"/>
-			</intent-filter>
-		</activity>
 
 		 <!--N O T   O P E R A T I V E-->
-		<!--<activity-->
-				<!--android:name=".neocom.app.activity.AssetsManagerActivity"-->
-				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-				<!--android:label="Assets Manager">-->
-			<!--<meta-data-->
-					<!--android:name="android.app.default_searchable"-->
-					<!--android:value=".activity.SearchAssetsActivity"/>-->
-			<!--<intent-filter>-->
-				<!--<action android:name="android.intent.action.MAIN"/>-->
-				<!--<category android:name="android.intent.category.LAUNCHER"/>-->
-			<!--</intent-filter>-->
-		<!--</activity>-->
 		<!--<activity-->
 				<!--android:name=".neocom.app.activity.RefiningDetailActivity"-->
 				<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
