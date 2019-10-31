@@ -14,8 +14,8 @@ import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
-import org.dimensinfin.eveonline.neocom.app.adapters.NeoComAndroidDBHelper;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.LocationRepository;
@@ -23,6 +23,7 @@ import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
+import org.dimensinfin.eveonline.neocom.provider.AssetsRepository;
 import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdater;
 
 /**
@@ -38,7 +39,7 @@ public class NeoComComponentFactory {
 	private static NeoComApplication application; // The link to the application that is required by the component factory.
 
 	public static NeoComComponentFactory initialiseSingleton( final Application newApplication ) {
-		Objects.requireNonNull(newApplication);
+		Objects.requireNonNull( newApplication );
 		application = (NeoComApplication) newApplication;
 		if (null == singleton) singleton = new NeoComComponentFactory();
 		return singleton;
@@ -46,33 +47,34 @@ public class NeoComComponentFactory {
 
 	public static NeoComComponentFactory getSingleton() {
 		if (null == singleton)
-			throw new NeoComRuntimeException("NeoCom global singleton is not instantiated. Please complete initialisation.");
+			throw new NeoComRuntimeException( "NeoCom global singleton is not instantiated. Please complete initialisation." );
 		return singleton;
 	}
 
-	protected CredentialRepository credentialRepository;
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	//	@Deprecated
 //	private IGlobalPreferencesManager preferencesProvider;
 	//	private ESIGlobalAdapter esiAdapter;
 	private ESIDataAdapter esiDataAdapter;
-	private NeoComAndroidDBHelper neocomDBHelper;
+	private AndroidNeoComDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
+	private LocationCatalogService locationCatalogService;
 
 	//	@Deprecated
 //	private DataDownloaderService downloaderService;
+	private CredentialRepository credentialRepository;
+	private LocationRepository locationRepository;
+	private AssetsRepository assetsRepository;
 	private MiningRepository miningRepository;
 	private PlanetaryRepository planetaryRepository;
-	private LocationCatalogService locationCatalogService;
-	private LocationRepository locationRepository;
 
 	private StoreCacheManager storageCache;
 
 	// - G E T T E R S
 	public NeoComApplication getApplication() {
 		if (null == application)
-			throw new NeoComRuntimeException("NeoCom application is not associated to factory. Please complete initialisation.");
+			throw new NeoComRuntimeException( "NeoCom application is not associated to factory. Please complete initialisation." );
 		return application;
 	}
 
@@ -81,13 +83,14 @@ public class NeoComComponentFactory {
 		try {
 			if (null == this.configurationProvider) {
 				this.configurationProvider = new AndroidConfigurationProvider.Builder()
-						                             .withApplicationContext(application)
-						                             .withConfigurationDirectory(application.getResources().getString(R.string.propertiesLocation))
+						                             .withApplicationContext( application )
+						                             .withConfigurationDirectory(
+								                             application.getResources().getString( R.string.propertiesLocation ) )
 						                             .build();
 			}
 		} catch (final IOException ioe) {
 			singleton = null;
-			throw new NeoComRuntimeException("Configuration provider initialization exception. Application not configured.");
+			throw new NeoComRuntimeException( "Configuration provider initialization exception. Application not configured." );
 		}
 		return this.configurationProvider;
 	}
@@ -95,8 +98,8 @@ public class NeoComComponentFactory {
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter)
 			fileSystemAdapter = new AndroidFileSystemAdapter.Builder()
-					                    .withApplicationContext(application)
-					                    .withApplicationDirectory(application.getResources().getString(R.string.appname))
+					                    .withApplicationContext( application )
+					                    .withApplicationDirectory( application.getResources().getString( R.string.appname ) )
 					                    .build();
 		return this.fileSystemAdapter;
 	}
@@ -104,12 +107,12 @@ public class NeoComComponentFactory {
 	public ESIDataAdapter getEsiDataAdapter() {
 		if (null == this.esiDataAdapter) {
 			this.esiDataAdapter = new ESIDataAdapter.Builder()
-					                      .withConfigurationProvider(this.getConfigurationProvider())
-					                      .withFileSystemAdapter(this.getFileSystemAdapter())
-					                      .withLocationCatalogService(this.getLocationCatalogService())
+					                      .withConfigurationProvider( this.getConfigurationProvider() )
+					                      .withFileSystemAdapter( this.getFileSystemAdapter() )
+					                      .withLocationCatalogService( this.getLocationCatalogService() )
 					                      .build();
-			EveItem.injectEsiDataAdapter(this.esiDataAdapter);
-			NeoComUpdater.injectsEsiDataAdapter(this.esiDataAdapter);
+			EveItem.injectEsiDataAdapter( this.esiDataAdapter );
+			NeoComUpdater.injectsEsiDataAdapter( this.esiDataAdapter );
 //			MarketDataSet.injectEsiDataAdapter(this.esiDataAdapter);
 		}
 		return this.esiDataAdapter;
@@ -118,14 +121,14 @@ public class NeoComComponentFactory {
 	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
 		try {
 			if (null == this.sdeDatabaseAdapter) {
-				final String databaseName = this.getApplication().getResources().getString(R.string.sdedatabasefilename);
+				final String databaseName = this.getApplication().getResources().getString( R.string.sdedatabasefilename );
 				this.sdeDatabaseAdapter = new AndroidSDEDBHelper.Builder()
-						                          .withAppContext(this.getApplication())
-						                          .withDatabaseName(databaseName)
-						                          .build(this.getFileSystemAdapter());
+						                          .withAppContext( this.getApplication() )
+						                          .withDatabaseName( databaseName )
+						                          .build( this.getFileSystemAdapter() );
 			}
 		} catch (final IOException ioe) {
-			throw new NeoComRuntimeException("SDE database open failure. Filesystem exception during open action.");
+			throw new NeoComRuntimeException( "SDE database open failure. Filesystem exception during open action." );
 		}
 		return this.sdeDatabaseAdapter;
 	}
@@ -133,10 +136,10 @@ public class NeoComComponentFactory {
 	public LocationCatalogService getLocationCatalogService() {
 		if (null == this.locationCatalogService) {
 			this.locationCatalogService = new LocationCatalogService.Builder()
-					                              .withConfigurationProvider(this.getConfigurationProvider())
-					                              .withFileSystemAdapter(this.getFileSystemAdapter())
+					                              .withConfigurationProvider( this.getConfigurationProvider() )
+					                              .withFileSystemAdapter( this.getFileSystemAdapter() )
 //					                              .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
-					                              .withLocationRepository(this.getLocationRepository())
+					                              .withLocationRepository( this.getLocationRepository() )
 					                              .build();
 		}
 		return this.locationCatalogService;
@@ -146,7 +149,7 @@ public class NeoComComponentFactory {
 		if (null == this.locationRepository) {
 //			try {
 			this.locationRepository = new LocationRepository.Builder()
-					                          .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                          .withSDEDatabaseAdapter( this.getSDEDatabaseAdapter() )
 //						                          .withLocationDao(this.getSDEDatabaseAdapter().getLocationDao())
 					                          .build();
 //			} catch (SQLException sqle) {
@@ -155,6 +158,20 @@ public class NeoComComponentFactory {
 //			}
 		}
 		return this.locationRepository;
+	}
+
+	public AssetsRepository getAssetsRepository() {
+		if (null == this.assetsRepository) {
+			try {
+				this.assetsRepository = new AssetsRepository.Builder()
+						                        .withAssetDao( this.getNeoComDBHelper().getAssetDao() )
+						                        .build();
+			} catch (SQLException sqle) {
+				this.assetsRepository = null;
+				Objects.requireNonNull( this.assetsRepository );
+			}
+		}
+		return this.assetsRepository;
 	}
 //
 //	@Deprecated
@@ -197,11 +214,11 @@ public class NeoComComponentFactory {
 		if (null == this.credentialRepository) {
 			try {
 				credentialRepository = new CredentialRepository.Builder()
-						                       .withCredentialDao(this.getNeoComDBHelper().getCredentialDao())
+						                       .withCredentialDao( this.getNeoComDBHelper().getCredentialDao() )
 						                       .build();
 			} catch (SQLException sqle) {
 				credentialRepository = null;
-				Objects.requireNonNull(credentialRepository);
+				Objects.requireNonNull( credentialRepository );
 			}
 		}
 		return this.credentialRepository;
@@ -215,12 +232,12 @@ public class NeoComComponentFactory {
 		if (null == this.miningRepository) {
 			try {
 				miningRepository = new MiningRepository.Builder()
-						                   .withEsiDataAdapter(this.getEsiDataAdapter())
-						                   .withMiningExtractionDao(this.getNeoComDBHelper().getMiningExtractionDao())
+						                   .withEsiDataAdapter( this.getEsiDataAdapter() )
+						                   .withMiningExtractionDao( this.getNeoComDBHelper().getMiningExtractionDao() )
 						                   .build();
 			} catch (SQLException sqle) {
 				miningRepository = null;
-				Objects.requireNonNull(miningRepository);
+				Objects.requireNonNull( miningRepository );
 			}
 		}
 		return this.miningRepository;
@@ -230,19 +247,19 @@ public class NeoComComponentFactory {
 		this.miningRepository = miningRepository;
 	}
 
-	public NeoComAndroidDBHelper getNeoComDBHelper() {
+	public AndroidNeoComDBHelper getNeoComDBHelper() {
 		if (null == this.neocomDBHelper) {
 			try {
-				neocomDBHelper = new NeoComAndroidDBHelper.Builder()
-						                 .withAppContext(application)
-						                 .withFileSystem(this.getFileSystemAdapter())
-						                 .setDatabaseLocation(application.getResources().getString(R.string.appname))
-						                 .setDatabaseName(application.getResources().getString(R.string.appdatabasefilename))
-						                 .setDatabaseVersion(this.getApplication().getNeoComDatabaseVersion())
+				neocomDBHelper = new AndroidNeoComDBHelper.Builder()
+						                 .withAppContext( application )
+						                 .withFileSystem( this.getFileSystemAdapter() )
+						                 .setDatabaseLocation( application.getResources().getString( R.string.appname ) )
+						                 .setDatabaseName( application.getResources().getString( R.string.appdatabasefilename ) )
+						                 .setDatabaseVersion( this.getApplication().getNeoComDatabaseVersion() )
 						                 .build();
 			} catch (IOException sqle) {
 				neocomDBHelper = null;
-				Objects.requireNonNull(neocomDBHelper);
+				Objects.requireNonNull( neocomDBHelper );
 			}
 		}
 		return this.neocomDBHelper;
@@ -251,7 +268,7 @@ public class NeoComComponentFactory {
 	public PlanetaryRepository getPlanetaryRepository() {
 		if (null == this.planetaryRepository) {
 			this.planetaryRepository = new PlanetaryRepository.Builder()
-					                           .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
+					                           .withSDEDatabaseAdapter( this.getSDEDatabaseAdapter() )
 					                           .build();
 		}
 		return this.planetaryRepository;
