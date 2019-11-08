@@ -1,6 +1,5 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import org.dimensinfin.eveonline.neocom.domain.IContainerAggregator;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
 
 import java.io.Serializable;

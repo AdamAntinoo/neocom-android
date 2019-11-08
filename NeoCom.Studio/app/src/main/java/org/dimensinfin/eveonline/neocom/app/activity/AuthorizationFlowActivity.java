@@ -175,7 +175,7 @@ public class AuthorizationFlowActivity extends Activity {
 					//							//							.setExpires(Instant.now().plus(TimeUnit.SECONDS.toMillis(token.getExpires())).getMillis())
 					//							.setRefreshToken(token.getRefreshToken())
 					//							.setDataSource(esiServer.toUpperCase())
-					//							.setScope(this.esiDataAdapter.getStringScopes());
+					//							.setScope(this.esiDataProvider.getStringScopes());
 					try {
 						credentialRepository.persist(credential);
 						logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Credential #{}-{} created successfully."

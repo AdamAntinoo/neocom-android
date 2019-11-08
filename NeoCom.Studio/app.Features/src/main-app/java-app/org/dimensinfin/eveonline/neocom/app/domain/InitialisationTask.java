@@ -18,8 +18,6 @@ import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
-import org.dimensinfin.eveonline.neocom.exception.EErrorType;
-import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
 /**
  * This class runs an initialisation task that is loaded as a lambda runnable at construction. When the right moment arrives

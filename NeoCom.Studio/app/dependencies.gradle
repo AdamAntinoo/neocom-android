@@ -25,8 +25,8 @@ dependencies {
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
     implementation 'me.relex:circleindicator:2.1.0'
     implementation project(':app.Features')
-//    implementation project(':NeoCom.DataManagement')
-    implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
+    implementation project(':NeoCom.DataManagement')
+//    implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

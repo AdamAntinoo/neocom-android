@@ -113,7 +113,7 @@ public class NeoComComponentFactory {
 					                      .build();
 			EveItem.injectEsiDataAdapter( this.esiDataAdapter );
 			NeoComUpdater.injectsEsiDataAdapter( this.esiDataAdapter );
-//			MarketDataSet.injectEsiDataAdapter(this.esiDataAdapter);
+//			MarketDataSet.injectEsiDataAdapter(this.esiDataProvider);
 		}
 		return this.esiDataAdapter;
 	}
@@ -199,7 +199,7 @@ public class NeoComComponentFactory {
 //			try {
 //				final Dao<MiningExtraction, String> miningExtractionDao = this.getNeoComDBHelper().getMiningExtractionDao();
 //				persistenceService = new ESIDataPersistenceService.Builder()
-//						                     .withEsiAdapter(esiDataAdapter)
+//						                     .withEsiAdapter(esiDataProvider)
 //						                     .withMiningRepository(this.getMiningRepository())
 //						                     .build();
 //			} catch (SQLException sqle) {
