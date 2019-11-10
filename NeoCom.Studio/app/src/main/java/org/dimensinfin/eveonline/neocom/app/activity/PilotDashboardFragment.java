@@ -44,7 +44,7 @@ public class PilotDashboardFragment extends MVCPagerFragment {
 				.withVariant(this.getVariant())
 				.withExtras(this.getExtras())
 				.withFactory(this.createFactory())
-				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getESIDataProvider())
 				.withCredential(this.getCredential())
 				.build();
 	}

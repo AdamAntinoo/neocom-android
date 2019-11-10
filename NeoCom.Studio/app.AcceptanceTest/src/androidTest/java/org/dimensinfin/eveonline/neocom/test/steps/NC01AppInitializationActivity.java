@@ -19,7 +19,6 @@ import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
-import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 
 
 import cucumber.api.java.en.Given;

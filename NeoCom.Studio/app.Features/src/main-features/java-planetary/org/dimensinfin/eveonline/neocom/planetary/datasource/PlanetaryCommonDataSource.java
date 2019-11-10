@@ -3,16 +3,16 @@ package org.dimensinfin.eveonline.neocom.planetary.datasource;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 
 public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 	protected Credential credential;
-	protected ESIDataAdapter esiDataAdapter;
+	protected ESIDataProvider esiDataAdapter;
 	protected PlanetaryRepository planetaryRepository;
 
-	protected ESIDataAdapter getEsiDataAdapter() {
+	protected ESIDataProvider getEsiDataAdapter() {
 		return this.esiDataAdapter;
 	}
 
@@ -23,7 +23,7 @@ public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 	// - B U I L D E R
 	public static abstract  class Builder<T extends MVCDataSource,B extends MVCDataSource.Builder> extends MVCDataSource.Builder<T ,B> {
 		private Credential credential;
-		private ESIDataAdapter esiDataAdapter;
+		private ESIDataProvider esiDataAdapter;
 		private PlanetaryRepository planetaryRepository;
 
 		public B withCredential( final Credential credential ) {
@@ -32,7 +32,7 @@ public abstract class PlanetaryCommonDataSource extends MVCDataSource {
 			return this.actualClassBuilder;
 		}
 
-		public B withEsiDataAdapter( final ESIDataAdapter esiDataAdapter ) {
+		public B withEsiDataAdapter( final ESIDataProvider esiDataAdapter ) {
 			Objects.requireNonNull(esiDataAdapter);
 			this.esiDataAdapter = esiDataAdapter;
 			return this.actualClassBuilder;

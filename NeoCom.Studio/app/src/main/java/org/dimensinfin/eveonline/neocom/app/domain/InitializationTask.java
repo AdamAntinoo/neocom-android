@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;;
 
 public class InitializationTask extends NeoComNode {
 	public enum InitializationTaskState {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 public class DailyExtractionResourcesContainer extends NeoComNode {
 	private List<Resource> resources = new ArrayList<>();

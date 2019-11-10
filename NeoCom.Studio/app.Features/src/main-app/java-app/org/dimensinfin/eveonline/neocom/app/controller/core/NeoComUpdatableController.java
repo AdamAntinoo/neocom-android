@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
-import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdater;
-import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdaterFactory;
+import org.dimensinfin.eveonline.neocom.updater.NeoComUpdater;
+import org.dimensinfin.eveonline.neocom.updater.NeoComUpdaterFactory;
 
 public abstract class NeoComUpdatableController<M extends ICollaboration> extends NeoComController<M> implements IEventReceiver {
 	protected NeoComUpdater<M> updater;

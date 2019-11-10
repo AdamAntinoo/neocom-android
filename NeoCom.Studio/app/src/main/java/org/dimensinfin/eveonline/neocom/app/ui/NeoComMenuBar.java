@@ -16,7 +16,7 @@
 package org.dimensinfin.eveonline.neocom.app.ui;
 
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

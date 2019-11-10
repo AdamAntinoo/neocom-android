@@ -1,13 +1,14 @@
 package org.dimensinfin.eveonline.neocom.planetary;
 
-import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
-import java.util.List;
+import org.dimensinfin.eveonline.neocom.domain.IItemFacet;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkContents;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseTypesTypeIdOkDogmaAttributes;
+import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 
 public abstract class PlanetaryFacilityWrapper extends NeoComNode implements IPlanetaryFacility, IItemFacet {
 	protected PlanetaryFacility planetaryFacility;

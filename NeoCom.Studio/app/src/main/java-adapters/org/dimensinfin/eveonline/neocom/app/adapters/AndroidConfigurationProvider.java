@@ -10,7 +10,7 @@ import java.util.Properties;
 
 import com.annimon.stream.Stream;
 
-import org.dimensinfin.eveonline.neocom.adapters.AConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapter.AConfigurationProvider;
 
 /**
  * @author Adam Antinoo

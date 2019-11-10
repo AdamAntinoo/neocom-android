@@ -1,6 +1,6 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 /**
  * This class represents the titled label that is shown on top of panels. We can consider the panels as the current fragments. ON the

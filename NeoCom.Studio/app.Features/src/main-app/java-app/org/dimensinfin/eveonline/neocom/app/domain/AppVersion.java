@@ -4,7 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
+
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 public class AppVersion extends NeoComNode {
 	private String appName = "NeoCom";

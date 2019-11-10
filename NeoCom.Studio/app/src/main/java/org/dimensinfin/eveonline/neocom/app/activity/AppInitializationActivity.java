@@ -25,8 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
@@ -39,6 +37,8 @@ import org.dimensinfin.eveonline.neocom.app.utilities.ChainTask;
 import org.dimensinfin.eveonline.neocom.app.utilities.TaskSequencer;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
@@ -306,7 +306,7 @@ public class AppInitializationActivity extends Activity {
 				                           .build());
 		this.createInitializationTaskSlot("Connect to ESI server and download setup data...",
 				() -> {
-					NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+					NeoComComponentFactory.getSingleton().getESIDataProvider();
 					return true;
 				});
 	}

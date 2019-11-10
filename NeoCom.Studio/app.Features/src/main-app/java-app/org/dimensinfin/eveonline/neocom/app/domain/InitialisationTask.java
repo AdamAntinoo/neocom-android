@@ -18,6 +18,8 @@ import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
+import org.dimensinfin.eveonline.neocom.exception.EErrorType;
+import org.dimensinfin.eveonline.neocom.exception.NeoComError;
 
 /**
  * This class runs an initialisation task that is loaded as a lambda runnable at construction. When the right moment arrives
@@ -109,7 +111,7 @@ public class InitialisationTask implements ICollaboration {
 			logger.info("[" + this.status + "]");
 		} catch (InterruptedException ie) {
 			this.exceptionReport.add(new NeoComError.Builder(ie)
-					                         .withType(EErrorType.EXCEPTION)
+					                         .withType( EErrorType.EXCEPTION)
 					                         .withCode("neocom.error.initialization.task.interrupted.exception")
 //					                         .withOrigin("InitialisationTask.execute")
 					                         .build());

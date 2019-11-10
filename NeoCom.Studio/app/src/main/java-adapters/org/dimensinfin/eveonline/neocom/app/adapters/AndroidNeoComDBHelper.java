@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -19,13 +20,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
-
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
 /**
@@ -50,7 +50,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	private Dao<Credential, String> credentialDao;
 	private Dao<EsiLocation, String> locationDao;
 	private Dao<MiningExtraction, String> miningExtractionDao;
-	private Dao<NeoAsset, String> assetDao;
+	private Dao<NeoAsset, UUID> assetDao;
 //	private Dao<TimeStamp, String> timeStampDao;
 //	private Dao<Property, String> propertyDao;
 //	private Dao<NeoComBlueprint, String> blueprintDao;
@@ -175,7 +175,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 //		return this.propertyDao;
 //	}
 //
-	public Dao<NeoAsset, String> getAssetDao() throws SQLException {
+	public Dao<NeoAsset, UUID> getAssetDao() throws SQLException {
 		if (null == this.assetDao) {
 			this.assetDao = DaoManager.createDao(this.getConnectionSource(), NeoAsset.class);
 		}

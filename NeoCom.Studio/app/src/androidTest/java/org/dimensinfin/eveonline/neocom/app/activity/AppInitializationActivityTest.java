@@ -14,13 +14,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 @RunWith(AndroidJUnit4.class)
 public class AppInitializationActivityTest {
@@ -45,7 +43,7 @@ public class AppInitializationActivityTest {
 
 	public void removeFilesAndDirectories( final AppInitializationActivity activity ) throws IOException {
 		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
-				, activity.getResources().getString(R.string.appname));
+				, activity.getResources().getString( R.string.appname));
 		sdCardDir.delete();
 		final File cachedir = new File(Environment.getExternalStorageDirectory()
 				, activity.getResources().getString(R.string.appname)

@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
 
 public class NeoComWorld {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);

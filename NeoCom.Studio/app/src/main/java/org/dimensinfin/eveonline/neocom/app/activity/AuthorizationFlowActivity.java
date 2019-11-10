@@ -26,8 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.auth.GetAccessToken;
@@ -38,7 +36,9 @@ import org.dimensinfin.eveonline.neocom.auth.VerifyCharacterResponse;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.updaters.CredentialUpdater;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
 
 import okhttp3.CertificatePinner;
@@ -65,7 +65,7 @@ public class AuthorizationFlowActivity extends Activity {
 	private static Logger logger = LoggerFactory.getLogger(AuthorizationFlowActivity.class);
 	private SharedPreferences preferences;
 	private IConfigurationProvider configurationProvider;
-	private ESIDataAdapter esiDataAdapter;
+	private ESIDataProvider esiDataAdapter;
 	private ImageView spinner = null;
 
 	/**
@@ -75,7 +75,7 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread(() -> {
-			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, ESIDataAdapter.DEFAULT_ESI_SERVER);
+			final String esiServer = this.preferences.getString(DATASOURCE_PREFERENCE, ESIDataProvider.DEFAULT_ESI_SERVER);
 			this.esiDataAdapter.activateEsiServer(esiServer);
 			final Uri url = Uri.parse(this.esiDataAdapter.getAuthorizationUrl4Server(esiServer));
 			final Intent intent = new Intent(Intent.ACTION_VIEW, url);
@@ -96,7 +96,7 @@ public class AuthorizationFlowActivity extends Activity {
 		logger.info(">> [AuthorizationFlowActivity.registerInBackground]");
 		logger.info("-- [AuthorizationFlowActivity.registerInBackground]> Creating access token request.");
 		// Get from the properties the user selected esi source.
-		final String esiServer = this.preferences.getString("prefkey_dataSourceList", ESIDataAdapter.DEFAULT_ESI_SERVER).toLowerCase();
+		final String esiServer = this.preferences.getString("prefkey_dataSourceList", ESIDataProvider.DEFAULT_ESI_SERVER).toLowerCase();
 		try {
 			// Create a Retrofit request service to encapsulate the call.
 			// TODO - Check that the call dop not require converters
@@ -330,6 +330,6 @@ public class AuthorizationFlowActivity extends Activity {
 	private void injectComponents() {
 		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getEsiDataAdapter();
+		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 }

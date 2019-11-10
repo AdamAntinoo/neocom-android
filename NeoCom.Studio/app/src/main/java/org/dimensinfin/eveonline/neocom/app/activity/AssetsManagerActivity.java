@@ -5,7 +5,7 @@ import android.os.Bundle;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
-import org.dimensinfin.eveonline.neocom.provider.AssetsProvider;
+import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 
 /**
  * This activity collects tha pages related to the presentation and aggregation og pilot's assets. The different pages show the same
@@ -19,14 +19,14 @@ import org.dimensinfin.eveonline.neocom.provider.AssetsProvider;
  * @author Adam Antinoo
  */
 public class AssetsManagerActivity extends ACredentialActivity {
-	private AssetsProvider assetsProvider; // use the same assets manager for all the pages so only a copy is processed
+	private AssetProvider assetsProvider; // use the same assets manager for all the pages so only a copy is processed
 
 	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 		logger.info(">> [AssetsManagerActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		this.assetsProvider = new AssetsProvider.Builder()
+		this.assetsProvider = new AssetProvider.Builder()
 				                     .withCredential(this.getCredential())
 				                     .withAssetsRepository( NeoComComponentFactory.getSingleton().getAssetsRepository() )
 				                     .build();

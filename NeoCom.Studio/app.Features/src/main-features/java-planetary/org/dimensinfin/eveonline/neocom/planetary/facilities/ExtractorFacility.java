@@ -1,16 +1,17 @@
 package org.dimensinfin.eveonline.neocom.planetary.facilities;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
-import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
-import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.joda.time.DateTime;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.domain.NeoItem;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkExtractorDetails;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
+import org.dimensinfin.eveonline.neocom.planetary.PlanetaryFacilityWrapper;
 
 public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	public enum ExtractorState {
@@ -22,7 +23,7 @@ public class ExtractorFacility extends PlanetaryFacilityWrapper {
 	private DateTime installTime;
 	private DateTime expiryTime;
 
-	private EveItem extractionType;
+	private NeoItem extractionType;
 
 	// - G E T T E R S   &   S E T T E R S
 	public ExtractorState getState() {

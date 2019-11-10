@@ -6,18 +6,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.app.activity.AssetsFragment;
+import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.provider.AssetsProvider;
 
 public class AssetsByLocationDataSource extends MVCDataSource {
 	private Credential credential;
-	protected AssetsProvider assetsProvider;
+	protected AssetProvider assetsProvider;
 	protected String filter;
 
 	// - C O N S T R U C T O R S

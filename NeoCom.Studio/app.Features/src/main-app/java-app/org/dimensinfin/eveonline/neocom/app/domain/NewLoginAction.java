@@ -16,9 +16,7 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-
-// - CLASS IMPLEMENTATION ...................................................................................
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 /**
  * This model class will serve as a placeholder to trigger the action to add new Credentials to the list of authentications

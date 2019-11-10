@@ -7,17 +7,17 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.datasource.AssetsByLocationDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AssetControllerFactory;
+import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.provider.AssetsProvider;
 
 public class AssetsFragment extends AuthenticatedFragment {
-	private AssetsProvider assetsProvider;
+	private AssetProvider assetsProvider;
 
-	public AssetsProvider getAssetsProvider() {
+	public AssetProvider getAssetsProvider() {
 		return this.assetsProvider;
 	}
 
-	public AssetsFragment setAssetsProvider( final AssetsProvider assetsProvider ) {
+	public AssetsFragment setAssetsProvider( final AssetProvider assetsProvider ) {
 		this.assetsProvider = assetsProvider;
 		return this;
 	}
@@ -38,7 +38,7 @@ public class AssetsFragment extends AuthenticatedFragment {
 					       .withExtras( this.getExtras() )
 					       .withFactory( this.createFactory() )
 					       .withCredential( this.getCredential() )
-					       .withAssetsProvider( this.getAssetsProvider() )
+					       .withAssetProvider( this.getAssetsProvider() )
 					       .build();
 		}
 		if (getVariant() == PageNamesType.ASSETS_SEARCH.name()) {

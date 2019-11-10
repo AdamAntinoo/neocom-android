@@ -49,9 +49,6 @@ android {
             minifyEnabled false
             useProguard false
             testCoverageEnabled true
-//            resValue "string", "appdatabasefilename", "neocomv0.17"
-//            buildConfigField "String", "TEST_TAGS", "\"" + "@SplashActivity" + "\""
-//            buildConfigField "String", "TEST_SCENARIO", "\"" + "@MVCPanel" + "\""
         }
     }
     sourceSets {

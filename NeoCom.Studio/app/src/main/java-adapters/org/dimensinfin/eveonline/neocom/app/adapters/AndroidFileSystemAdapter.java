@@ -14,7 +14,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 public class AndroidFileSystemAdapter implements IFileSystem {
 	private static Logger logger = LoggerFactory.getLogger(AndroidFileSystemAdapter.class);

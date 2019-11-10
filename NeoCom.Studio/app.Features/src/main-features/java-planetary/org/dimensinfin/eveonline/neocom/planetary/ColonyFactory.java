@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanetsPlanetIdOkPins;
@@ -19,6 +17,7 @@ import org.dimensinfin.eveonline.neocom.planetary.facilities.ExtractorFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.FactoryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.PlanetaryFacility;
 import org.dimensinfin.eveonline.neocom.planetary.facilities.StorageFacility;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 
 /**
  * Colony creation and data gathering is a complex and lengthy operation. This class will concentrate all the creation code on a
@@ -29,7 +28,7 @@ public class ColonyFactory {
 	private static Map<Integer, ColonyPack> colonyCache = new HashMap<>();
 
 	// - C O M P O N E N T S
-	private ESIDataAdapter esiDataAdapter;
+	private ESIDataProvider esiDataAdapter;
 	private Credential credential;
 	private PlanetaryRepository planetaryRepository;
 

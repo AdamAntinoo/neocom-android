@@ -45,8 +45,8 @@ android {
     sourceSets {
         main.java {
             srcDirs += 'src/main-app/java-app'
-            srcDirs += 'src/main-features/java-planetary'
-            srcDirs += 'src/main-features/java-mining'
+//            srcDirs += 'src/main-features/java-planetary'
+//            srcDirs += 'src/main-features/java-mining'
         }
         main.res {
             srcDirs += 'src/main-app/res-app'
@@ -56,9 +56,9 @@ android {
             srcDirs += 'src/main-app/res-sde'
             srcDirs += 'src/main-app/res-ui'
 
-            srcDirs += 'src/main-features/res-mining'
-            srcDirs += 'src/main-features/res-planetary'
-            srcDirs += 'src/main-features/res-industry'
+//            srcDirs += 'src/main-features/res-mining'
+//            srcDirs += 'src/main-features/res-planetary'
+//            srcDirs += 'src/main-features/res-industry'
         }
         test.java {
 //            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")

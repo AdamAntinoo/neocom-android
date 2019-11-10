@@ -1,0 +1,33 @@
+@NC03 @AssetDisplayActivity
+Feature: [NC03]-Define the pages to display the assets that belong to a pilot.
+
+  Uno of the most important things for a capsuleer is to know what is the inventory and where are those things. He/she
+  needs to know where is any ot their ships or where are some materials ready for construction. Also important information
+  if the current asset value and volume stored on each location to know it the can be moved wit the current ship.
+
+  Among the other expected features is to allow to schedule logistic activities to assets are planned to be moved from one
+  location to another because industry requirements or other contracting issues.
+
+  The first asset display page shows the assets classified by their current storage location. Starting with the Region, then the
+  station/structure and continuing to the station hangars and containers.
+
+  Scenario: [NC03.01]-The pilot should be able to activate the AssetDisplayActivity from the Pilot dashboard.
+	Given the PilotDashboardActivity
+	When the pilot activates the Assets information panel
+	Then the application moves to the AssetDisplayActivity.
+
+  Scenario: [NC03.02]-The AssetDisplay activity has a single page. This page is the default and shows the assets classified by location.
+	Given the AssetDisplayActivity
+	When the activity lifecycle completes
+	Then there is a single page activity with title "Assets By Location"
+
+  Scenario: [NC03.03]-The AssetDisplayActivity.P0 has an action bar with asset specific information.
+	Given the AssetDisplayActivity Page0
+	When the page is selected
+	Then the action bar shows the pilot avatar icon
+	And the action bar shows the pilot's name
+	And the action bar shows the title "Assets By Location"
+
+  Scenario: [NC03.04]-The AssetDisplayActivity.P0 has not head contents. On the data contents there is a list of Regions.
+
+  Scenario: [NC03.04]-Each Region contains the region data along a summary of the number of locations and assets in the region.

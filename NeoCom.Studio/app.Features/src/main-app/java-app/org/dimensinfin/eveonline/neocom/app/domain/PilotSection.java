@@ -1,9 +1,9 @@
 package org.dimensinfin.eveonline.neocom.app.domain;
 
-import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.model.NeoComNode;
-
 import java.util.Objects;
+
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.domain.NeoComNode;
 
 public class PilotSection extends NeoComNode {
 	private int iconReference;

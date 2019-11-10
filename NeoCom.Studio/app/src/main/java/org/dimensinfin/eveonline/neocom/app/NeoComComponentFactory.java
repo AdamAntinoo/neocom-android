@@ -7,24 +7,26 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
-import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
-import org.dimensinfin.eveonline.neocom.adapters.StoreCacheManager;
+import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
+import org.dimensinfin.eveonline.neocom.adapter.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
+import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.LocationRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
-import org.dimensinfin.eveonline.neocom.domain.EveItem;
+import org.dimensinfin.eveonline.neocom.domain.NeoItem;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.provider.AssetsRepository;
-import org.dimensinfin.eveonline.neocom.updaters.NeoComUpdater;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
+import org.dimensinfin.eveonline.neocom.provider.RetrofitFactory;
+import org.dimensinfin.eveonline.neocom.updater.NeoComUpdater;
 
 /**
  * This is a singleton with global access that will contain application component references so they can be injected to other components. The creation
@@ -53,10 +55,11 @@ public class NeoComComponentFactory {
 
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
-	//	@Deprecated
-//	private IGlobalPreferencesManager preferencesProvider;
-	//	private ESIGlobalAdapter esiAdapter;
-	private ESIDataAdapter esiDataAdapter;
+	private RetrofitFactory retrofitFactory;
+	private StoreCacheManager storeCacheManager;
+	private ESIDataProvider esiDataProvider;
+	private ESIUniverseDataProvider esiUniverseDataProvider;
+
 	private AndroidNeoComDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
 	private LocationCatalogService locationCatalogService;
@@ -65,7 +68,7 @@ public class NeoComComponentFactory {
 //	private DataDownloaderService downloaderService;
 	private CredentialRepository credentialRepository;
 	private LocationRepository locationRepository;
-	private AssetsRepository assetsRepository;
+	private AssetRepository assetsRepository;
 	private MiningRepository miningRepository;
 	private PlanetaryRepository planetaryRepository;
 
@@ -103,19 +106,48 @@ public class NeoComComponentFactory {
 					                    .build();
 		return this.fileSystemAdapter;
 	}
-
-	public ESIDataAdapter getEsiDataAdapter() {
-		if (null == this.esiDataAdapter) {
-			this.esiDataAdapter = new ESIDataAdapter.Builder()
-					                      .withConfigurationProvider( this.getConfigurationProvider() )
-					                      .withFileSystemAdapter( this.getFileSystemAdapter() )
-					                      .withLocationCatalogService( this.getLocationCatalogService() )
-					                      .build();
-			EveItem.injectEsiDataAdapter( this.esiDataAdapter );
-			NeoComUpdater.injectsEsiDataAdapter( this.esiDataAdapter );
-//			MarketDataSet.injectEsiDataAdapter(this.esiDataProvider);
+	public RetrofitFactory getRetrofitFactory() {
+		if (null == this.retrofitFactory) {
+			this.retrofitFactory = new RetrofitFactory.Builder()
+					                       .withConfigurationProvider( this.getConfigurationProvider() )
+					                       .withFileSystemAdapter( this.getFileSystemAdapter() )
+					                       .build();
 		}
-		return this.esiDataAdapter;
+		return this.retrofitFactory;
+	}
+	public StoreCacheManager getStoreCacheManager() {
+		if (null == this.storeCacheManager) {
+			this.storeCacheManager = new StoreCacheManager.Builder()
+					                         .withConfigurationProvider( this.getConfigurationProvider() )
+					                         .withFileSystemAdapter( this.getFileSystemAdapter() )
+					                         .withRetrofitFactory( this.getRetrofitFactory() )
+					                         .build();
+		}
+		return this.storeCacheManager;
+	}
+
+	public ESIDataProvider getESIDataProvider() {
+		if (null == this.esiDataProvider) {
+			this.esiDataProvider = new ESIDataProvider.Builder()
+					                       .withConfigurationProvider( this.getConfigurationProvider() )
+					                       .withFileSystemAdapter( this.getFileSystemAdapter() )
+					                       .withLocationCatalogService( this.getLocationCatalogService() )
+					                       .build();
+			NeoComUpdater.injectsEsiDataAdapter( this.esiDataProvider );
+		}
+		return this.esiDataProvider;
+	}
+	public ESIUniverseDataProvider getESIUniverseDataProvider() {
+		if (null == this.esiUniverseDataProvider) {
+			this.esiUniverseDataProvider = new ESIUniverseDataProvider.Builder()
+					                               .withConfigurationProvider( this.getConfigurationProvider() )
+					                               .withFileSystemAdapter( this.getFileSystemAdapter() )
+					                               .withRetrofitFactory( this.getRetrofitFactory() )
+					                               .withStoreCacheManager( this.getStoreCacheManager() )
+					                               .build();
+			NeoItem.injectEsiUniverseDataAdapter( this.esiUniverseDataProvider );
+		}
+		return this.esiUniverseDataProvider;
 	}
 
 	public ISDEDatabaseAdapter getSDEDatabaseAdapter() {
@@ -138,8 +170,8 @@ public class NeoComComponentFactory {
 			this.locationCatalogService = new LocationCatalogService.Builder()
 					                              .withConfigurationProvider( this.getConfigurationProvider() )
 					                              .withFileSystemAdapter( this.getFileSystemAdapter() )
-//					                              .withSDEDatabaseAdapter(this.getSDEDatabaseAdapter())
-					                              .withLocationRepository( this.getLocationRepository() )
+					                              .withRetrofitFactory( this.retrofitFactory )
+					                              .withESIUniverseDataProvider( this.esiUniverseDataProvider )
 					                              .build();
 		}
 		return this.locationCatalogService;
@@ -160,10 +192,10 @@ public class NeoComComponentFactory {
 		return this.locationRepository;
 	}
 
-	public AssetsRepository getAssetsRepository() {
+	public AssetRepository getAssetsRepository() {
 		if (null == this.assetsRepository) {
 			try {
-				this.assetsRepository = new AssetsRepository.Builder()
+				this.assetsRepository = new AssetRepository.Builder()
 						                        .withAssetDao( this.getNeoComDBHelper().getAssetDao() )
 						                        .build();
 			} catch (SQLException sqle) {
@@ -177,7 +209,7 @@ public class NeoComComponentFactory {
 //	@Deprecated
 //	public DataDownloaderService getDownloaderService() {
 //		if (null == this.downloaderService) {
-//			downloaderService = new DataDownloaderService.Builder(this.getEsiDataAdapter())
+//			downloaderService = new DataDownloaderService.Builder(this.getESIDataProvider())
 //					                    .build();
 //		}
 //		return this.downloaderService;
@@ -232,8 +264,8 @@ public class NeoComComponentFactory {
 		if (null == this.miningRepository) {
 			try {
 				miningRepository = new MiningRepository.Builder()
-						                   .withEsiDataAdapter( this.getEsiDataAdapter() )
 						                   .withMiningExtractionDao( this.getNeoComDBHelper().getMiningExtractionDao() )
+						                   .withLocationCatalogService( this.getLocationCatalogService() )
 						                   .build();
 			} catch (SQLException sqle) {
 				miningRepository = null;
