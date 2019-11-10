@@ -43,6 +43,6 @@ ext {
     retrofitVersion = '2.5.0'
 
     neocomCoreBaseVersion = '3.2.0'
-    neocomESISwaggerVersion = '4.16.0'
-    neocomDatamanagementVersion = '0.16.1'
+    neocomESISwaggerVersion = '4.17.0'
+    neocomDatamanagementVersion = '0.17.0'
 }
