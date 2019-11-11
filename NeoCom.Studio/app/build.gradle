@@ -14,7 +14,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 120
+        versionCode 121
         versionName "0.17.1"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName

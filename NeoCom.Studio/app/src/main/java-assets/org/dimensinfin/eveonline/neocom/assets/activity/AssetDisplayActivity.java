@@ -33,6 +33,7 @@ public class AssetDisplayActivity extends ACredentialActivity {
 				                     .build();
 		this.addPage(new AssetsByLocationFragment()
 				             .setAssetProvider(this.assetsProvider)
+				             .setCredential(this.getCredential())
 				             .setVariant(PageNamesType.ASSETS_BYLOCATION.name()));
 		NeoComLogger.exit();
 	}

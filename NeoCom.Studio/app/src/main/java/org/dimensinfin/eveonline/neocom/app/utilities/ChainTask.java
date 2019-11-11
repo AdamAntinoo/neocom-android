@@ -15,7 +15,7 @@ public class ChainTask {
 	private Exception exception;
 	private Callable<Boolean> runCode;
 	private Runnable callBack;
-	private int sleepTime = 1;
+	private int sleepTime = 0;
 
 	private ChainTask() {}
 

@@ -22,7 +22,8 @@ public class AssetsByLocationFragment extends AuthenticatedFragment {
 
 	@Override
 	public IControllerFactory createFactory() {
-		return new AssetControllerFactory( this.getVariant() );
+		return new AssetControllerFactory( this.getVariant() )
+				       .registerActivity(PageNamesType.ASSETS_BYLOCATION.name(), AssetDisplayActivity.class);
 	}
 
 	@Override

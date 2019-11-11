@@ -5,15 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import org.slf4j.Logger;
@@ -24,10 +21,14 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
+import org.dimensinfin.eveonline.neocom.database.repositories.DatabaseVersionRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
+
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
+
 /**
  * NeoCom private database connector that will have the same api as the connector to be used on Android. This
  * version already uses the mySql database JDBC implementation instead the SQLite copied from the Android
@@ -36,8 +37,8 @@ import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
  *
  * @author Adam Antinoo
  */
-public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements INeoComDBHelper*/ {
-	private static Logger logger = LoggerFactory.getLogger( AndroidNeoComDBHelper.class);
+public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
+	private static Logger logger = LoggerFactory.getLogger( AndroidNeoComDBHelper.class );
 	private static AndroidNeoComDBHelper singleton;
 
 	// - F I E L D - S E C T I O N
@@ -45,8 +46,10 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	private boolean isOpen = false;
 	private String storageLocation = "";
 	private int databaseVersion = 0;
+	private DatabaseVersionRepository databaseVersionRepository;
 
-	private Dao<DatabaseVersion, String> versionDao;
+	// - D A O S
+	private Dao<DatabaseVersion, Integer> versionDao;
 	private Dao<Credential, String> credentialDao;
 	private Dao<EsiLocation, String> locationDao;
 	private Dao<MiningExtraction, String> miningExtractionDao;
@@ -63,15 +66,23 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 
 	// - C O N S T R U C T O R S
 	private AndroidNeoComDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
-		super(context, databaseName, null, databaseVersion, R.raw.ormlite_config);
-		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
-				, databaseName);
-		logger.info("-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
-				, databaseVersion);
+		super( context, databaseName, null, databaseVersion, R.raw.ormlite_config );
+		logger.info( "-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
+				, databaseName );
+		logger.info( "-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
+				, databaseVersion );
 		this.storageLocation = databaseName;
 		this.databaseVersion = databaseVersion;
 	}
 
+	// -  V E R S I O N
+	private DatabaseVersionRepository getDatabaseVersionRepository() throws SQLException {
+		if ( null == this.databaseVersionRepository)
+			this.databaseVersionRepository = new DatabaseVersionRepository.Builder()
+			.withDatabaseVersionDao( this.getVersionDao() )
+			.build();
+		return this.databaseVersionRepository;
+	}
 	public int getDatabaseVersion() {
 		return this.databaseVersion;
 	}
@@ -79,21 +90,23 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	public int getStoredVersion() {
 		if (null == this.storedVersion) {
 			// Access the version object persistent on the database.
-			try {
-				List<DatabaseVersion> versionList = this.getVersionDao().queryForAll();
-				if (versionList.size() > 0) {
-					this.storedVersion = versionList.get(0);
-					return this.storedVersion.getVersionNumber();
-				} else
-					return 0;
-			} catch (SQLException sqle) {
-				logger.warn("W- [AndroidNeoComDBHelper.getStoredVersion]> Database exception: " + sqle.getMessage());
-				return 0;
-			} catch (RuntimeException rtex) {
-				logger.warn("W- [AndroidNeoComDBHelper.getStoredVersion]> Database exception: " + rtex.getMessage());
-				return 0;
-			}
-		} else return storedVersion.getVersionNumber();
+//			try {
+				this.storedVersion= this.databaseVersionRepository.accessVersion();
+//				this.storedVersion = version;
+//				if (versionList.size() > 0) {
+//					this.storedVersion = versionList.get( 0 );
+//					return this.storedVersion.getVersionNumber();
+//				} else
+//					return 0;
+//			} catch (final SQLException sqle) {
+//				logger.warn( "W- [AndroidNeoComDBHelper.getStoredVersion]> Database exception: " + sqle.getMessage() );
+//				return 0;
+////			} catch (RuntimeException rtex) {
+////				logger.warn( "W- [AndroidNeoComDBHelper.getStoredVersion]> Database exception: " + rtex.getMessage() );
+////				return 0;
+//			}
+		}
+		return storedVersion.getVersionNumber();
 	}
 
 	// - I N E O C O M D B H E L P E R   I N T E R F A C E
@@ -101,9 +114,9 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		return this.databaseValid;
 	}
 
-	public void onCreate( final ConnectionSource databaseConnection ) {
-		// This method is an stub for compatibility with SpringBoot implementations.
-	}
+//	public void onCreate( final ConnectionSource databaseConnection ) {
+//		// This method is an stub for compatibility with SpringBoot implementations.
+//	}
 
 	public void onUpgrade( final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
 		// This method is an stub for compatibility with SpringBoot implementations.
@@ -113,34 +126,37 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	 * Checks if the key tables had been cleaned and then reinserts the seed data on them.
 	 */
 	public void loadSeedData() {
-		logger.info(">> [AndroidNeoComDBHelper.loadSeedData]");
+		logger.info( ">> [AndroidNeoComDBHelper.loadSeedData]" );
 		// Add seed data to the new database is the tables are empty.
 		try {
-			//---  D A T A B A S E    V E R S I O N
-			logger.info("-- [AndroidNeoComDBHelper.loadSeedData]> Loading seed data for DatabaseVersion");
-			Dao<DatabaseVersion, String> version = this.getVersionDao();
-			QueryBuilder<DatabaseVersion, String> queryBuilder = version.queryBuilder();
-			queryBuilder.setCountOf(true);
-			// Check that at least one Version record exists on the database. It is a singleton.
-			long records = version.countOf(queryBuilder.prepare());
-			logger.info("-- [AndroidNeoComDBHelper.loadSeedData]> DatabaseVersion records: " + records);
-
-			// If the table is empty then insert the seeded Api Keys
-			if (records < 1) {
-				DatabaseVersion key = new DatabaseVersion(this.databaseVersion);
-				version.createOrUpdate(key);
-				logger.info("-- [AndroidNeoComDBHelper.loadSeedData]> Setting DatabaseVersion to: " + key.getVersionNumber());
-			}
+			// - D A T A B A S E    V E R S I O N
+			logger.info( "-- [AndroidNeoComDBHelper.loadSeedData]> Loading seed data for DatabaseVersion" );
+			final DatabaseVersion version = this.getDatabaseVersionRepository().accessVersion();
+			version.setVersionNumber( NEOCOM_DB_VERSION );
+			this.getDatabaseVersionRepository().persist( version );
+//			Dao<DatabaseVersion, Integer> version = this.getVersionDao();
+//			QueryBuilder<DatabaseVersion, String> queryBuilder = version.queryBuilder();
+//			queryBuilder.setCountOf( true );
+//			// Check that at least one Version record exists on the database. It is a singleton.
+//			long records = version.countOf( queryBuilder.prepare() );
+//			logger.info( "-- [AndroidNeoComDBHelper.loadSeedData]> DatabaseVersion records: " + records );
+//
+//			// If the table is empty then insert the seeded Api Keys
+//			if (records < 1) {
+//				DatabaseVersion key = new DatabaseVersion( this.databaseVersion );
+//				version.createOrUpdate( key );
+//				logger.info( "-- [AndroidNeoComDBHelper.loadSeedData]> Setting DatabaseVersion to: " + key.getVersionNumber() );
+//			}
 		} catch (SQLException sqle) {
-			logger.error("E [AndroidNeoComDBHelper.loadSeedData]> Error creating the initial table on the app database.");
+			logger.error( "E [AndroidNeoComDBHelper.loadSeedData]> Error creating the initial table on the app database." );
 			sqle.printStackTrace();
 		}
-		logger.info("<< [AndroidNeoComDBHelper.loadSeedData]");
+		logger.info( "<< [AndroidNeoComDBHelper.loadSeedData]" );
 	}
 
-	public Dao<DatabaseVersion, String> getVersionDao() throws SQLException {
+	public Dao<DatabaseVersion, Integer> getVersionDao() throws SQLException {
 		if (null == this.versionDao) {
-			this.versionDao = DaoManager.createDao(this.getConnectionSource(), DatabaseVersion.class);
+			this.versionDao = DaoManager.createDao( this.getConnectionSource(), DatabaseVersion.class );
 		}
 		return this.versionDao;
 	}
@@ -155,16 +171,23 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 
 	public Dao<Credential, String> getCredentialDao() throws SQLException {
 		if (null == this.credentialDao) {
-			this.credentialDao = DaoManager.createDao(this.getConnectionSource(), Credential.class);
+			this.credentialDao = DaoManager.createDao( this.getConnectionSource(), Credential.class );
 		}
 		return this.credentialDao;
 	}
 
 	public Dao<EsiLocation, String> getLocationDao() throws SQLException {
 		if (null == this.locationDao) {
-			this.locationDao = DaoManager.createDao(this.getConnectionSource(), EsiLocation.class);
+			this.locationDao = DaoManager.createDao( this.getConnectionSource(), EsiLocation.class );
 		}
 		return this.locationDao;
+	}
+
+	public Dao<NeoAsset, UUID> getAssetDao() throws SQLException {
+		if (null == this.assetDao) {
+			this.assetDao = DaoManager.createDao( this.getConnectionSource(), NeoAsset.class );
+		}
+		return this.assetDao;
 	}
 
 //	@Override
@@ -175,12 +198,6 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 //		return this.propertyDao;
 //	}
 //
-	public Dao<NeoAsset, UUID> getAssetDao() throws SQLException {
-		if (null == this.assetDao) {
-			this.assetDao = DaoManager.createDao(this.getConnectionSource(), NeoAsset.class);
-		}
-		return this.assetDao;
-	}
 //
 //	@Override
 //	public Dao<NeoComBlueprint, String> getBlueprintDao() throws SQLException {
@@ -216,7 +233,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 
 	public Dao<MiningExtraction, String> getMiningExtractionDao() throws SQLException {
 		if (null == this.miningExtractionDao) {
-			this.miningExtractionDao = DaoManager.createDao(this.getConnectionSource(), MiningExtraction.class);
+			this.miningExtractionDao = DaoManager.createDao( this.getConnectionSource(), MiningExtraction.class );
 		}
 		return this.miningExtractionDao;
 	}
@@ -329,12 +346,12 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 
 	@Override
 	public void onCreate( final SQLiteDatabase database, final ConnectionSource databaseConnection ) {
-		logger.info(">> [AndroidNeoComDBHelper.onCreate]");
+		logger.info( ">> [AndroidNeoComDBHelper.onCreate]" );
 		// Create the tables that do not exist
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, DatabaseVersion.class);
+			TableUtils.createTableIfNotExists( databaseConnection, DatabaseVersion.class );
 		} catch (SQLException sqle) {
-			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+			logger.warn( "SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage() );
 		}
 //		try {
 //			TableUtils.createTableIfNotExists(databaseConnection, TimeStamp.class);
@@ -342,22 +359,22 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 //			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 //		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, Credential.class);
+			TableUtils.createTableIfNotExists( databaseConnection, Credential.class );
 		} catch (SQLException sqle) {
-			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+			logger.warn( "SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage() );
 		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, EsiLocation.class);
+			TableUtils.createTableIfNotExists( databaseConnection, NeoAsset.class );
 		} catch (SQLException sqle) {
-			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+			NeoComLogger.error( "SQL NeoComDatabase.", sqle );
+		}
+		try {
+			TableUtils.createTableIfNotExists( databaseConnection, EsiLocation.class );
+		} catch (SQLException sqle) {
+			logger.warn( "SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage() );
 		}
 //		try {
 //			TableUtils.createTableIfNotExists(databaseConnection, Property.class);
-//		} catch (SQLException sqle) {
-//			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
-//		}
-//		try {
-//			TableUtils.createTableIfNotExists(databaseConnection, NeoComAsset.class);
 //		} catch (SQLException sqle) {
 //			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 //		}
@@ -382,31 +399,38 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 //			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 //		}
 		try {
-			TableUtils.createTableIfNotExists(databaseConnection, MiningExtraction.class);
+			TableUtils.createTableIfNotExists( databaseConnection, MiningExtraction.class );
 		} catch (SQLException sqle) {
-			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
+			logger.warn( "SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage() );
 		}
 		this.loadSeedData();
-		logger.info("<< [AndroidNeoComDBHelper.onCreate]");
+		logger.info( "<< [AndroidNeoComDBHelper.onCreate]" );
 	}
 
 	@Override
 	public void onUpgrade( final SQLiteDatabase database, final ConnectionSource databaseConnection, final int oldVersion, final int newVersion ) {
-		logger.info(">> [AndroidNeoComDBHelper.onUpgrade]> From: {} -> To: {}"
-				, oldVersion, newVersion);
+		logger.info( ">> [AndroidNeoComDBHelper.onUpgrade]> From: {} -> To: {}"
+				, oldVersion, newVersion );
 		// Execute different actions depending on the new version.
 		try {
 			if (oldVersion < 100) {
-				this.recreateTable(databaseConnection, DatabaseVersion.class, newVersion); // Recreate the credential because new fields
-				final Dao<DatabaseVersion, String> daoVersion = this.getVersionDao();
-				daoVersion.createOrUpdate(new DatabaseVersion(NEOCOM_DB_VERSION));
-				this.recreateTable(databaseConnection, Credential.class, newVersion); // Recreate the credential because new fields
+				this.recreateTable( databaseConnection, DatabaseVersion.class, newVersion ); // Recreate the credential because new fields
+				final Dao<DatabaseVersion, Integer> daoVersion = this.getVersionDao();
+				daoVersion.createOrUpdate( new DatabaseVersion( NEOCOM_DB_VERSION ) );
+				this.recreateTable( databaseConnection, Credential.class, newVersion ); // Recreate the credential because new fields
+			}
+			if (oldVersion < 121) {
+				this.recreateTable( databaseConnection, DatabaseVersion.class, newVersion ); // Recreate the credential because new fields
+				final Dao<DatabaseVersion, Integer> daoVersion = this.getVersionDao();
+				daoVersion.createOrUpdate( new DatabaseVersion( NEOCOM_DB_VERSION ) );
+				this.recreateTable( databaseConnection, Credential.class, newVersion ); // Recreate the credential because new fields
+				this.recreateTable( databaseConnection, NeoAsset.class, newVersion );
 			}
 		} catch (SQLException sqle) {
-			logger.warn("W- [AndroidNeoComDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage());
+			logger.warn( "W- [AndroidNeoComDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage() );
 		}
-		this.onCreate(databaseConnection);
-		logger.info("<< [AndroidNeoComDBHelper.onUpgrade]");
+		this.onCreate( database, databaseConnection );
+		logger.info( "<< [AndroidNeoComDBHelper.onUpgrade]" );
 	}
 
 	public boolean isOpen() {
@@ -416,48 +440,48 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 	// -  C O R E
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("AndroidNeoComDBHelper [");
+		StringBuffer buffer = new StringBuffer( "AndroidNeoComDBHelper [" );
 		//		final String localConnectionDescriptor = hostName + "/" + databaseName + "?user=" + databaseUser + "&password=" + databasePassword;
-		buffer.append("Descriptor: ").append(storageLocation);
-		buffer.append("]");
+		buffer.append( "Descriptor: " ).append( storageLocation );
+		buffer.append( "]" );
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
 
-	private int readDatabaseVersion() {
-		// Access the version object persistent on the database.
-		try {
-			Dao<DatabaseVersion, String> versionDao = this.getVersionDao();
-			QueryBuilder<DatabaseVersion, String> queryBuilder = versionDao.queryBuilder();
-			PreparedQuery<DatabaseVersion> preparedQuery = queryBuilder.prepare();
-			List<DatabaseVersion> versionList = versionDao.query(preparedQuery);
-			if (versionList.size() > 0) {
-				DatabaseVersion version = versionList.get(0);
-				return version.getVersionNumber();
-			} else
-				return 0;
-		} catch (SQLException sqle) {
-			logger.warn("W- [AndroidNeoComDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage());
-			return 0;
-		}
-	}
+//	private int readDatabaseVersion() {
+//		// Access the version object persistent on the database.
+//		try {
+//			Dao<DatabaseVersion, Integer> versionDao = this.getVersionDao();
+//			QueryBuilder<DatabaseVersion, String> queryBuilder = versionDao.queryBuilder();
+//			PreparedQuery<DatabaseVersion> preparedQuery = queryBuilder.prepare();
+//			List<DatabaseVersion> versionList = versionDao.query( preparedQuery );
+//			if (versionList.size() > 0) {
+//				DatabaseVersion version = versionList.get( 0 );
+//				return version.getVersionNumber();
+//			} else
+//				return 0;
+//		} catch (SQLException sqle) {
+//			logger.warn( "W- [AndroidNeoComDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage() );
+//			return 0;
+//		}
+//	}
 
 	private void recreateTable( final ConnectionSource databaseConnection, final Class tableType, final int version ) {
 		try {
-			TableUtils.dropTable(databaseConnection, tableType, true);
+			TableUtils.dropTable( databaseConnection, tableType, true );
 			try {
-				TableUtils.createTableIfNotExists(databaseConnection, tableType);
+				TableUtils.createTableIfNotExists( databaseConnection, tableType );
 			} catch (SQLException sqle) {
-				logger.warn("SQL [AndroidNeoComDBHelper.recreateTable.{}]> SQL NeoComDatabase: {}",
-						tableType.getSimpleName(), sqle.getMessage());
+				logger.warn( "SQL [AndroidNeoComDBHelper.recreateTable.{}]> SQL NeoComDatabase: {}",
+						tableType.getSimpleName(), sqle.getMessage() );
 			}
 		} catch (RuntimeException rtex) {
-			logger.error("E [AndroidNeoComDBHelper.recreateTable.{}]> Error upgrading to version {}.",
-					tableType.getSimpleName(), version);
+			logger.error( "E [AndroidNeoComDBHelper.recreateTable.{}]> Error upgrading to version {}.",
+					tableType.getSimpleName(), version );
 			rtex.printStackTrace();
 		} catch (SQLException sqle) {
-			logger.error("E [AndroidNeoComDBHelper.recreateTable.{}]> Error upgrading to version {}.",
-					tableType.getSimpleName(), version);
+			logger.error( "E [AndroidNeoComDBHelper.recreateTable.{}]> Error upgrading to version {}.",
+					tableType.getSimpleName(), version );
 			sqle.printStackTrace();
 		}
 	}
@@ -501,11 +525,12 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper /*implements 
 		public AndroidNeoComDBHelper build() throws IOException {
 			// Check and create only a singleton helper.
 			if (null == singleton) {
-				Objects.requireNonNull(this.appContext);
-				Objects.requireNonNull(this.fileSystem);
-				singleton = new AndroidNeoComDBHelper(this.appContext
-						, this.fileSystem.accessResource4Path(databaseName)
-						, databaseVersion);
+				Objects.requireNonNull( this.appContext );
+				Objects.requireNonNull( this.fileSystem );
+				singleton = new AndroidNeoComDBHelper( this.appContext
+						, this.fileSystem.accessResource4Path( databaseName )
+						, databaseVersion );
+				singleton.getWritableDatabase();
 			}
 			return singleton;
 		}

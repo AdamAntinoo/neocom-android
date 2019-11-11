@@ -204,6 +204,7 @@ public class NeoComComponentFactory {
 			try {
 				this.assetRepository = new AssetRepository.Builder()
 						                       .withAssetDao( this.getNeoComDBHelper().getAssetDao() )
+						                       .withConnection4Transaction( this.getNeoComDBHelper().getConnectionSource() )
 						                       .build();
 			} catch (SQLException sqle) {
 				this.assetRepository = null;

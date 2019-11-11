@@ -56,9 +56,21 @@
 		</activity>
 
 		<activity
-				android:name=".app.activity.PilotDashboardActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Pilot Dashboard">
+			android:name=".app.activity.PilotDashboardActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="Pilot Dashboard">
+		</activity>
+		<activity
+			android:name=".assets.activity.AssetDisplayActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="Assets Manager">
+			<meta-data
+				android:name="android.app.default_searchable"
+				android:value=".activity.SearchAssetsActivity"/>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
 		</activity>
 <!--		<activity-->
 <!--				android:name=".mining.activity.MiningLedgerActivity"-->
@@ -80,18 +92,6 @@
 <!--				android:configChanges="orientation|keyboardHidden|screenSize"-->
 <!--				android:label="Planetary Colony Layout">-->
 <!--		</activity>-->
-		<activity
-			android:name=".assets.activity.AssetDisplayActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Assets Manager">
-			<meta-data
-				android:name="android.app.default_searchable"
-				android:value=".activity.SearchAssetsActivity"/>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
 		<activity
 				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
