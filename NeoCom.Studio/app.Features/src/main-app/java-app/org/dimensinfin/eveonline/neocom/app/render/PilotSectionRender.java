@@ -12,8 +12,9 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 
-public class PilotSectionRender extends NeoComRenderv2 {
+public class PilotSectionRender extends NeoComRender {
 	// - U I   F I E L D S
 	protected ImageView sectionIcon;
 	protected TextView sectionTitle;

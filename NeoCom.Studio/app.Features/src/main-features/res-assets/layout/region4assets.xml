@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderorange">
+
+    <include layout="@layout/nodebase_decorated" />
+
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+        android:id="@+id/nodeClass"
+        style="@style/AppTheme.NodeClass"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:text="REGION"
+        android:textColor="@color/appwhite" />
+
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+        android:id="@+id/regionName"
+        style="@style/AppTheme.Region.Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nodeIconBlock"
+        android:text="@string/default_regionname" />
+
+    <TextView
+        android:id="@+id/stationCount"
+        style="@style/AppTheme.Region.Counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nodeClass"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:text="320" />
+
+    <TextView
+        android:id="@+id/stationCountLabel"
+        style="@style/AppTheme.Label.TopLine"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/stationCount"
+        android:layout_toLeftOf="@+id/rightBlock"
+        android:gravity="right"
+        android:text="STATIONS" />
+
+</RelativeLayout>

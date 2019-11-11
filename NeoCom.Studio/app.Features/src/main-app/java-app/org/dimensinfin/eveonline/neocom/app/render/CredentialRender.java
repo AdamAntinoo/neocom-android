@@ -13,8 +13,9 @@ import com.squareup.picasso.Picasso;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 
-public class CredentialRender extends NeoComRenderv2 {
+public class CredentialRender extends NeoComRender {
 	// - U I   F I E L D S
 	private ImageView nodeIcon;
 	private TextView pilotName;

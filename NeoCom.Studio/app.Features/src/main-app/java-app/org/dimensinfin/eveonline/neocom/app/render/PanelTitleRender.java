@@ -7,8 +7,9 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 
-public class PanelTitleRender extends NeoComRenderv2 {
+public class PanelTitleRender extends NeoComRender {
 	private TextView title;
 
 	// - C O N S T R U C T O R S

@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 120
-        versionName "0.17.0"
+        versionName "0.17.1"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

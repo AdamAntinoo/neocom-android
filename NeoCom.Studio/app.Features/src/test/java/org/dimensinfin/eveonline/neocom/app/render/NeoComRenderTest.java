@@ -4,17 +4,18 @@ import android.content.Context;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class NeoComRenderv2Test {
+public class NeoComRenderTest {
 	@Test
 	public void format2hms() {
 		final IAndroidController controller = Mockito.mock(IAndroidController.class);
 		final Context context = Mockito.mock(Context.class);
-		final NeoComRenderv2 render = new NeoComRenderv2(controller, context) {
+		final NeoComRender render = new NeoComRender(controller, context) {
 			@Override
 			public int accessLayoutReference() {
 				return R.layout.extractor4colony;

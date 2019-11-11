@@ -9,8 +9,9 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 
-public class PilotRender4Dashboard extends NeoComRenderv2 {
+public class PilotRender4Dashboard extends NeoComRender {
 	private ImageView avatarIcon;
 	private ImageView cloneIconSmall;
 	private ImageView raceIconSmall;

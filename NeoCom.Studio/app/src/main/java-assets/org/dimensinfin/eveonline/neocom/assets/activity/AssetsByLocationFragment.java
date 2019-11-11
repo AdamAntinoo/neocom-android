@@ -1,23 +1,21 @@
-package org.dimensinfin.eveonline.neocom.app.activity;
+package org.dimensinfin.eveonline.neocom.assets.activity;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
-import org.dimensinfin.eveonline.neocom.app.datasource.AssetsByLocationDataSource;
-import org.dimensinfin.eveonline.neocom.app.factory.AssetControllerFactory;
 import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
-public class AssetsFragment extends AuthenticatedFragment {
+public class AssetsByLocationFragment extends AuthenticatedFragment {
 	private AssetProvider assetProvider;
 
 	public AssetProvider getAssetProvider() {
 		return this.assetProvider;
 	}
 
-	public AssetsFragment setAssetProvider( final AssetProvider assetProvider ) {
+	public AssetsByLocationFragment setAssetProvider( final AssetProvider assetProvider ) {
 		this.assetProvider = assetProvider;
 		return this;
 	}

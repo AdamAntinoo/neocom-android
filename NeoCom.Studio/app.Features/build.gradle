@@ -45,26 +45,26 @@ android {
     sourceSets {
         main.java {
             srcDirs += 'src/main-app/java-app'
-//            srcDirs += 'src/main-features/java-planetary'
-//            srcDirs += 'src/main-features/java-mining'
         }
         main.res {
             srcDirs += 'src/main-app/res-app'
             srcDirs += 'src/main-app/res-icons'
             srcDirs += 'src/main-app/res-core'
-            srcDirs += 'src/main-app/res-layouts'
             srcDirs += 'src/main-app/res-sde'
             srcDirs += 'src/main-app/res-ui'
-
-//            srcDirs += 'src/main-features/res-mining'
-//            srcDirs += 'src/main-features/res-planetary'
-//            srcDirs += 'src/main-features/res-industry'
+            srcDirs += 'src/main-app/res-layouts'
+            srcDirs += 'src/main-features/res-assets'
         }
         test.java {
 //            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
 //            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-steps")
 //            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-support")
         }
+//        main {
+//            res.srcDirs = ['src/main/res',
+//                           'src/main/res/layouts/assets'
+//            ]
+//        }
     }
     compileOptions {
         sourceCompatibility = '1.8'

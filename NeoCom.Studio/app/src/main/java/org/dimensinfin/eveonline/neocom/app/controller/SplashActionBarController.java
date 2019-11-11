@@ -11,7 +11,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 
 public class SplashActionBarController extends AndroidController<SplashActionBar> {
@@ -26,7 +26,7 @@ public class SplashActionBarController extends AndroidController<SplashActionBar
 	}
 
 	// - S P L A S H A C T I O N B A R R E N D E R
-	public static class SplashActionBarRender extends NeoComRenderv2 {
+	public static class SplashActionBarRender extends NeoComRender {
 		// - U I   F I E L D S
 		private TextView appName;
 		private TextView appVersion;

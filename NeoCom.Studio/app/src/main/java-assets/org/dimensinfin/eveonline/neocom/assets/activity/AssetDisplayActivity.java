@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.activity;
+package org.dimensinfin.eveonline.neocom.assets.activity;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
 import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 /**
  * This activity collects tha pages related to the presentation and aggregation og pilot's assets. The different pages show the same
@@ -18,22 +19,21 @@ import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
  *
  * @author Adam Antinoo
  */
-public class AssetsManagerActivity extends ACredentialActivity {
-	private AssetProvider assetsProvider; // use the same assets manager for all the pages so only a copy is processed
+public class AssetDisplayActivity extends ACredentialActivity {
+	private AssetProvider assetsProvider; // Use the same assets management instance for all the pages so only a copy is processed
 
 	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
-		logger.info(">> [AssetsManagerActivity.onCreate]");
+		NeoComLogger.enter();
 		super.onCreate(savedInstanceState);
 		this.assetsProvider = new AssetProvider.Builder()
 				                     .withCredential(this.getCredential())
 				                     .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
 				                     .build();
-		this.addPage(new AssetsFragment()
+		this.addPage(new AssetsByLocationFragment()
 				             .setAssetProvider(this.assetsProvider)
 				             .setVariant(PageNamesType.ASSETS_BYLOCATION.name()));
-//			this.addPage(new AssetsShipsFragment().setVariant(NeoComApplication.EVariants.SHIPS_BYTYPE.name()));
-		logger.info("<< [AssetsManagerActivity.onCreate]");
+		NeoComLogger.exit();
 	}
 }

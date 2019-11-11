@@ -111,7 +111,7 @@ public class PilotDashboardActivityTest {
 //				        .inAdapterView(ViewMatchers.withId( org.dimensinfin.android.mvc.R.id.listContainer))
 //				        .perform( checkRender());
 
-//				intended( hasComponent( AssetsManagerActivity.class.getName() ) );
+//				intended( hasComponent( AssetDisplayActivity.class.getName() ) );
 			} );
 		}
 	}

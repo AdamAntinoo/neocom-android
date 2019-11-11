@@ -79,7 +79,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <ImageView
+             <ImageView
                 android:id="@+id/rightArrow"
                 style="@style/AppTheme.Arrow"
                 android:layout_width="28dp"

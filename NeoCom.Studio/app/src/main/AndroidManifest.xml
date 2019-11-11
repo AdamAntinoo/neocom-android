@@ -81,7 +81,7 @@
 <!--				android:label="Planetary Colony Layout">-->
 <!--		</activity>-->
 		<activity
-			android:name=".app.activity.AssetsManagerActivity"
+			android:name=".assets.activity.AssetDisplayActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="Assets Manager">
 			<meta-data
@@ -114,7 +114,7 @@
 
 
 		<!--<activity-->
-		<!--android:name=".activity.AssetsManagerActivity"-->
+		<!--android:name=".activity.AssetDisplayActivity"-->
 		<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
 		<!--android:label="Assets Manager">-->
 		<!--</activity>-->
