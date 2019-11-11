@@ -7,11 +7,18 @@ import android.view.View;
 import android.widget.ListView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.rule.GrantPermissionRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,19 +40,6 @@ public class PilotDashboardActivityTest {
 	static {
 		System.setProperty( "org.mockito.android.target", ApplicationProvider.getApplicationContext().getCacheDir().getPath() );
 	}
-//
-//	@Rule
-//	public ActivityTestRule<PilotDashboardActivity> mActivityRule =
-//			new ActivityTestRule<PilotDashboardActivity>( PilotDashboardActivity.class ) {
-//				@Override
-//				protected Intent getActivityIntent() {
-//					Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-//					Intent intent = new Intent( targetContext, PilotDashboardActivity.class );
-//					intent.putExtra( EExtras.CAPSULEER_IDENTIFIER.name()
-//							, 93813310 ); // Credential account identifier
-//					return intent;
-//				}
-//			};
 
 	@Rule
 	public GrantPermissionRule permissionInternet = GrantPermissionRule.grant( Manifest.permission.INTERNET );
@@ -56,6 +50,7 @@ public class PilotDashboardActivityTest {
 
 	@Before
 	public void connectComponents() {
+		// Mock the credential information for credential dependen activities.
 		final Credential credential = new Credential.Builder( 93813310 )
 				                              .withAccountId( 93813310 )
 				                              .withAccountName( "Perico Tuerto" )
@@ -79,76 +74,65 @@ public class PilotDashboardActivityTest {
 		NeoComComponentFactory.getSingleton().replaceCredentialRepository( credentialRepository );
 	}
 
-//	@Test
-//	public void applicationLifecycle() {
-//		try (ActivityScenario<PilotDashboardActivity> scenario = ActivityScenario.launch( PilotDashboardActivity.class )) {
-//			scenario.onActivity( ( activity ) -> {
-//				AcceptanceNeoComLogger.info( "Searching assets panel..." );
-//				try {
-//					this.removeFilesAndDirectories( activity );
-//				} catch (IOException e) { }
-//				NeoComApplicationTest.logger.info( "ACCEPTANCE --> [we_have_an_empty_view_layout]> Entering onActivity" );
-//				final LinearLayout layout = activity.findViewById( R.id.initializationLayout );
-//				NeoComApplicationTest.logger.info( "ACCEPTANCE --> [we_have_an_empty_view_layout]> Checking asserts" );
-//				Assert.assertNotNull( layout );
-//				NeoComApplicationTest.logger.info( "ACCEPTANCE --> [we_have_an_empty_view_layout]> Waiting to complete the page..." );
-//				try {
-//					Thread.sleep( TimeUnit.SECONDS.toMillis( 5 ) );
-//				} catch (InterruptedException e) { }
-//				Assert.assertTrue( layout.getChildCount() > 0 );
-//			} );
-//		}
-//	}
-
 	@Test
 	public void checkAssetsSectionActivatesAssetDsiplayActivity() {
+		// Create the plot identification intent.
 		final Intent intent = new Intent( ApplicationProvider.getApplicationContext(), PilotDashboardActivity.class );
 		Bundle bundle = new Bundle();
 		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), 93813310 );
 		intent.putExtras( bundle );
+		// Start the activity test.
 		try (ActivityScenario<PilotDashboardActivity> scenario = ActivityScenario.launch( intent )) {
 			scenario.onActivity( ( activity ) -> {
-//				final PilotDashboardActivity activity = mActivityRule.getActivity();
 				AcceptanceNeoComLogger.info( "Searching assets panel..." );
-//				onView( ViewMatchers.withId( R.id.pilotSectionBlock ) );
-
 				final PilotDashboardFragment resolver = new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>()
 						                                        .fragmentResolver( activity, 0 );
 				final ListView dataSectionContainer = resolver.accessDataSectionContainer();
 
 				final List<PilotSectionController> controllers = new ControllerMatcher<PilotSectionController>( dataSectionContainer )
 						                                                 .withType( PilotSectionController.class );
-
+				PilotSectionController target = null;
 				for (PilotSectionController controller : controllers) {
-					if (controller.getModel().getTitle().equalsIgnoreCase( "ASSETS" ))
+					if (controller.getModel().getTitle().equalsIgnoreCase( "ASSETS" )) {
+						target = controller;
 						NeoComLogger.info( "Panel found." );
+					}
 				}
+				Assert.assertNotNull( target );
+				Assert.assertNotNull( target.getModel().getClickTarget() );
+				NeoComLogger.info( "Panel is clickable." );
+				// TODO - Write the code to get the view from the data source adapter.
+//				Espresso.onView( ViewMatchers.withId( R.id.login_button)).perform( ViewActions.click());
 
+//				Espresso.onData( hasToString( startsWith( "ASSETS" ) ) )
+//				        .inAdapterView( withId( R.id.myListView ) )
+//				        .perform( click() );
+//				Espresso.onData( withItemValue("ASSETS"))
+//				        .inAdapterView(ViewMatchers.withId( org.dimensinfin.android.mvc.R.id.listContainer))
+//				        .perform( checkRender());
 
-//				dataSectionContainer.g
-
-//				List<IAndroidController>
-
-//				onData( hasEntry( equalTo( "STR" ), is( "item: 50" ) ) );
-
-				/*)					.perform(click());*/
-
+//				intended( hasComponent( AssetsManagerActivity.class.getName() ) );
 			} );
 		}
 	}
 
-//	private void deepSearch() {
-//		this.activity = this.mActivityRule.getActivity();
-//		Assert.assertNotNull( "Activity exists.", this.activity );
-//		this.fragment = (PilotDashboardFragment) this.activity.accessPageAdapter().getItem( this.pageNumber ); // Get the first page
-//		Assert.assertNotNull( "Fragment exists.", this.fragment );
-//		this.dataSectionContainer = this.fragment.accessDataSectionContainer();
-//
-//	}
-//
-//	private <A> resolveFragment( A activity ) {
-//
-//	}
+	public static Matcher<Object> withItemValue( final String value ) {
+		return new BoundedMatcher<Object, PilotSectionController>( PilotSectionController.class ) {
+			@Override
+			public void describeTo( Description description ) {
+				description.appendText( "has value " + value );
+			}
+
+			@Override
+			public boolean matchesSafely( final PilotSectionController item ) {
+				return item.getModel().getTitle().equalsIgnoreCase( value );
+			}
+		};
+	}
+
+	public static ViewActions checkRender() {
+		return null;
+	}
 
 	protected View searchPanelByClass( final Class filterClass, final ListView container ) {
 		final int contentCount = container.getChildCount();
@@ -229,5 +213,23 @@ final class PilotDashboardActivityMock extends PilotDashboardActivity {
 		credentialList.add( credential );
 		Mockito.when( this.credentialRepository.findAllByServer( Mockito.anyString() ) )
 		       .thenReturn( credentialList );
+	}
+}
+
+final class CheckRender implements ViewAction {
+
+	@Override
+	public Matcher<View> getConstraints() {
+		return null;
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public void perform( final UiController uiController, final View view ) {
+
 	}
 }
