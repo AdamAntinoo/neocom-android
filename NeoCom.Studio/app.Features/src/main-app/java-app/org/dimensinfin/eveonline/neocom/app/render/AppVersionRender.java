@@ -9,8 +9,8 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class AppVersionRender extends MVCRender {
 	// - U I   F I E L D S

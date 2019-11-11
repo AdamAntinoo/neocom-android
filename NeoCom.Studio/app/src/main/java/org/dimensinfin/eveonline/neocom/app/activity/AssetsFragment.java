@@ -11,14 +11,14 @@ import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 public class AssetsFragment extends AuthenticatedFragment {
-	private AssetProvider assetsProvider;
+	private AssetProvider assetProvider;
 
-	public AssetProvider getAssetsProvider() {
-		return this.assetsProvider;
+	public AssetProvider getAssetProvider() {
+		return this.assetProvider;
 	}
 
-	public AssetsFragment setAssetsProvider( final AssetProvider assetsProvider ) {
-		this.assetsProvider = assetsProvider;
+	public AssetsFragment setAssetProvider( final AssetProvider assetProvider ) {
+		this.assetProvider = assetProvider;
 		return this;
 	}
 
@@ -38,7 +38,7 @@ public class AssetsFragment extends AuthenticatedFragment {
 					       .withExtras( this.getExtras() )
 					       .withFactory( this.createFactory() )
 					       .withCredential( this.getCredential() )
-					       .withAssetProvider( this.getAssetsProvider() )
+					       .withAssetProvider( this.getAssetProvider() )
 					       .build();
 		}
 		if (getVariant() == PageNamesType.ASSETS_SEARCH.name()) {
@@ -50,7 +50,7 @@ public class AssetsFragment extends AuthenticatedFragment {
 					       .withExtras( this.getExtras() )
 					       .withFactory( this.createFactory() )
 					       .withCredential( this.getCredential() )
-					       .withAssetsProvider( this.getAssetsProvider() )
+					       .withAssetProvider( this.getAssetProvider() )
 					       .optionalFilter( this.getExtras().getString( EExtras.ASSETFILTER_DEFINITION.name() ) )
 					       .build();
 		}

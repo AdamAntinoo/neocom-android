@@ -1,15 +1,10 @@
 package org.dimensinfin.eveonline.neocom.app.datasource;
 
-import android.graphics.Region;
-
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 public class AssetsByLocationDataSource extends MVCDataSource {
 	private Credential credential;
@@ -43,137 +38,137 @@ public class AssetsByLocationDataSource extends MVCDataSource {
 		// Check if we should use the cached version.
 //		if (!isCached()) {
 		// Get the complete list of assets.
-		try {
-			// Check that required parameters are not null.
-			if (null == this.credential)
-				throw new NeoComRuntimeException( "[AssetsByLocationDataSource.collaborate2Model]> Required Credential not available." );
-			if (null == this.assetsManager)
-				throw new NeoComRuntimeException( "[AssetsByLocationDataSource.collaborate2Model]> Required Assets Manager not available." );
-
-			// Initialize the data structures to be used for classification.
-			final HashMap<Long, Region> regions = new HashMap<>();
-			final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
-			final HashMap<Long, IAssetContainer> containers = new HashMap<>();
-			final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
-
-			// Add the collector Location for orphaned assets.
-			final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
-					new EveLocation().setSystem( "UNKWNOWN DEEP SPACE" )
-			);
-			this.addModelContents( collectorLocation );
-
-			// Get the asset list for the database.
-			List<NeoComAsset> assetList = this.assetsManager.getFullAssetList();
-
-			// Process each asset received classifying them by location. The ones with locations not in the SDE get
-			// processed last because can be stored into containers.
-			// Check if the filter is active.
-			boolean filtering = false;
-			if (null != filter) filtering = true;
-
-			// --- L O O P   S T A R T
-			for (NeoComAsset asset : assetList) {
-				// Create a placeholder where to store the asset being processed.
-				NeoComAsset processingAsset = asset;
-				// Filter the assets by name.
-				if (filtering) {
-					final String name = processingAsset.getName();
-					final boolean check = name.toLowerCase().contains( filter.toLowerCase() );
-					if (!check) continue;
-				}
-				// Check the asset location. If of type UNKNOWN then it should be processed later.
-				final EveLocation loc = processingAsset.getLocation();
-				if (loc.getTypeId() == ELocationType.UNKNOWN) {
-					unprocessedAssets.put( processingAsset.getAssetId(), processingAsset );
-					// If this is a container we have to add it to the container list.
-					if (processingAsset.isContainer()) {
-						processingAsset = new ContainerFacetedAssetsContainer( asset );
-						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-					}
-					if (processingAsset.isShip()) {
-						processingAsset = new ContainerFacetedAssetsContainer( asset );
-						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-					}
-					continue;
-				}
-				// If the assets has a parent then also process it later when we have all the containers in place.
-				if (processingAsset.getParentContainerId() > 0) {
-					unprocessedAssets.put( processingAsset.getAssetId(), processingAsset );
-					// If this is a container we have to add it to the container list.
-					if (processingAsset.isContainer()) {
-						processingAsset = new ContainerFacetedAssetsContainer( asset );
-						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-					}
-					if (processingAsset.isShip()) {
-						processingAsset = new ContainerFacetedAssetsContainer( asset );
-						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-					}
-					continue;
-				}
-
-				//--- R E G I O N
-				// Search for the Location's region. Create a new one if not found.
-				final long regid = loc.getRegionId();
-				// Search for regions on the list of already detected Regions.
-				Region regionHit = regions.get( regid );
-				if (null == regionHit) {
-					// Create a new Region. This changes the UI so notify that to the Adapter.
-					regionHit = new Region( loc.getRegionId(), loc.getRegion() );
-					if (filtering) regionHit.expand();
-					regions.put( regid, regionHit );
-					addModelContents( regionHit );
-					logger.info( "-- [AssetsByLocationDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot."
-							, regionHit.toString() );
-				}
-
-				//--- L O C A T I O N
-				// Check if this Location is already present on this Region.
-				LocationFacetedAssetsContainer locationHit = locations.get( loc.getID() );
-				if (null == locationHit) {
-					// This is a new location. Add it to the Region and check if this affects the UI.
-					// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
-					locationHit = new LocationFacetedAssetsContainer( loc );
-					//							locationHit.setContentManager(new StandardContentManager(locationHit));
-					if (filtering) locationHit.expand();
-					locations.put( loc.getID(), locationHit );
-					regionHit.addLocation( locationHit );
-					// If the Region is expanded then we should regenerate the UI.
-					if (regionHit.isExpanded())
-						firePropertyChange( SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null );
-				}
-
-				//--- C O N T A I N E R
-				// If this is a container we have to add it to the container list.
-				if (processingAsset.isContainer()) {
-					processingAsset = new ContainerFacetedAssetsContainer( asset );
-					containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-				}
-				if (processingAsset.isShip()) {
-					processingAsset = new ShipFacetedAssetsContainer( asset );
-					containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
-				}
-
-				//--- A S S E T
-				// The Region and the Location were already registered. Add the asset to the Location and check if this
-				// affects the UI.
-				locationHit.addAsset( processingAsset );
-				if (locationHit.isExpanded())
-					firePropertyChange( SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null );
-			}
-
-			// Add orphaned assets to their parent containers if they exist.
-			for (NeoComAsset asset : unprocessedAssets.values()) {
-				// Search the parent in the current list of containers.
-				final long parentId = asset.getParentContainerId();
-				final IAssetContainer hit = containers.get( parentId );
-				if (null != hit) {
-					// Connect to the parent.
-					hit.addAsset( asset );
-				} else collectorLocation.addAsset( asset );
-			}
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
+//		try {
+//			// Check that required parameters are not null.
+//			if (null == this.credential)
+//				throw new NeoComRuntimeException( "[AssetsByLocationDataSource.collaborate2Model]> Required Credential not available." );
+//			if (null == this.assetsManager)
+//				throw new NeoComRuntimeException( "[AssetsByLocationDataSource.collaborate2Model]> Required Assets Manager not available." );
+//
+//			// Initialize the data structures to be used for classification.
+//			final HashMap<Long, Region> regions = new HashMap<>();
+//			final HashMap<Long, LocationFacetedAssetsContainer> locations = new HashMap<>();
+//			final HashMap<Long, IAssetContainer> containers = new HashMap<>();
+//			final HashMap<Long, NeoComAsset> unprocessedAssets = new HashMap<>();
+//
+//			// Add the collector Location for orphaned assets.
+//			final LocationFacetedAssetsContainer collectorLocation = new LocationFacetedAssetsContainer(
+//					new EveLocation().setSystem( "UNKWNOWN DEEP SPACE" )
+//			);
+//			this.addModelContents( collectorLocation );
+//
+//			// Get the asset list for the database.
+//			List<NeoComAsset> assetList = this.assetsManager.getFullAssetList();
+//
+//			// Process each asset received classifying them by location. The ones with locations not in the SDE get
+//			// processed last because can be stored into containers.
+//			// Check if the filter is active.
+//			boolean filtering = false;
+//			if (null != filter) filtering = true;
+//
+//			// --- L O O P   S T A R T
+//			for (NeoComAsset asset : assetList) {
+//				// Create a placeholder where to store the asset being processed.
+//				NeoComAsset processingAsset = asset;
+//				// Filter the assets by name.
+//				if (filtering) {
+//					final String name = processingAsset.getName();
+//					final boolean check = name.toLowerCase().contains( filter.toLowerCase() );
+//					if (!check) continue;
+//				}
+//				// Check the asset location. If of type UNKNOWN then it should be processed later.
+//				final EveLocation loc = processingAsset.getLocation();
+//				if (loc.getTypeId() == ELocationType.UNKNOWN) {
+//					unprocessedAssets.put( processingAsset.getAssetId(), processingAsset );
+//					// If this is a container we have to add it to the container list.
+//					if (processingAsset.isContainer()) {
+//						processingAsset = new ContainerFacetedAssetsContainer( asset );
+//						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//					}
+//					if (processingAsset.isShip()) {
+//						processingAsset = new ContainerFacetedAssetsContainer( asset );
+//						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//					}
+//					continue;
+//				}
+//				// If the assets has a parent then also process it later when we have all the containers in place.
+//				if (processingAsset.getParentContainerId() > 0) {
+//					unprocessedAssets.put( processingAsset.getAssetId(), processingAsset );
+//					// If this is a container we have to add it to the container list.
+//					if (processingAsset.isContainer()) {
+//						processingAsset = new ContainerFacetedAssetsContainer( asset );
+//						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//					}
+//					if (processingAsset.isShip()) {
+//						processingAsset = new ContainerFacetedAssetsContainer( asset );
+//						containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//					}
+//					continue;
+//				}
+//
+//				//--- R E G I O N
+//				// Search for the Location's region. Create a new one if not found.
+//				final long regid = loc.getRegionId();
+//				// Search for regions on the list of already detected Regions.
+//				Region regionHit = regions.get( regid );
+//				if (null == regionHit) {
+//					// Create a new Region. This changes the UI so notify that to the Adapter.
+//					regionHit = new Region( loc.getRegionId(), loc.getRegion() );
+//					if (filtering) regionHit.expand();
+//					regions.put( regid, regionHit );
+//					addModelContents( regionHit );
+//					logger.info( "-- [AssetsByLocationDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot."
+//							, regionHit.toString() );
+//				}
+//
+//				//--- L O C A T I O N
+//				// Check if this Location is already present on this Region.
+//				LocationFacetedAssetsContainer locationHit = locations.get( loc.getID() );
+//				if (null == locationHit) {
+//					// This is a new location. Add it to the Region and check if this affects the UI.
+//					// Create and Expanded to allow the hold of contents and set its ContentManager to manual.
+//					locationHit = new LocationFacetedAssetsContainer( loc );
+//					//							locationHit.setContentManager(new StandardContentManager(locationHit));
+//					if (filtering) locationHit.expand();
+//					locations.put( loc.getID(), locationHit );
+//					regionHit.addLocation( locationHit );
+//					// If the Region is expanded then we should regenerate the UI.
+//					if (regionHit.isExpanded())
+//						firePropertyChange( SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null );
+//				}
+//
+//				//--- C O N T A I N E R
+//				// If this is a container we have to add it to the container list.
+//				if (processingAsset.isContainer()) {
+//					processingAsset = new ContainerFacetedAssetsContainer( asset );
+//					containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//				}
+//				if (processingAsset.isShip()) {
+//					processingAsset = new ShipFacetedAssetsContainer( asset );
+//					containers.put( processingAsset.getAssetId(), (IAssetContainer) processingAsset );
+//				}
+//
+//				//--- A S S E T
+//				// The Region and the Location were already registered. Add the asset to the Location and check if this
+//				// affects the UI.
+//				locationHit.addAsset( processingAsset );
+//				if (locationHit.isExpanded())
+//					firePropertyChange( SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null );
+//			}
+//
+//			// Add orphaned assets to their parent containers if they exist.
+//			for (NeoComAsset asset : unprocessedAssets.values()) {
+//				// Search the parent in the current list of containers.
+//				final long parentId = asset.getParentContainerId();
+//				final IAssetContainer hit = containers.get( parentId );
+//				if (null != hit) {
+//					// Connect to the parent.
+//					hit.addAsset( asset );
+//				} else collectorLocation.addAsset( asset );
+//			}
+//		} catch (SQLException sqle) {
+//			sqle.printStackTrace();
+//		}
 		logger.info( "<< [AssetsByLocationDataSource.collaborate2Model]" );
 		//				return _dataModelRoot;
 	}
@@ -218,7 +213,7 @@ public class AssetsByLocationDataSource extends MVCDataSource {
 			return this;
 		}
 
-		public AssetsByLocationDataSource.Builder withAssetsProvider( final AssetsProvider assetsProvider ) {
+		public AssetsByLocationDataSource.Builder withAssetProvider( final AssetProvider assetsProvider ) {
 			Objects.requireNonNull( assetsProvider );
 			this.onConstruction.assetsProvider = assetsProvider;
 			return this;

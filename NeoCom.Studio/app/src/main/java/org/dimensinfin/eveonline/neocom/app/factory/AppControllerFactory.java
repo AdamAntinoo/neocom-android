@@ -21,14 +21,10 @@ import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
-import org.dimensinfin.eveonline.neocom.app.ui.MiningActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
-import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
-import org.dimensinfin.eveonline.neocom.mining.controller.MiningActionBarController;
-import org.dimensinfin.eveonline.neocom.planetary.controller.PlanetaryActionBarController;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {
@@ -95,12 +91,12 @@ public class AppControllerFactory extends ControllerFactory {
 		if (node instanceof NeoComActionBarV2) {
 			return new NeoComActionBarController((NeoComActionBarV2) node, this);
 		}
-		if (node instanceof PlanetaryActionBar) {
-			return new PlanetaryActionBarController((PlanetaryActionBar) node, this);
-		}
-		if (node instanceof MiningActionBar) {
-			return new MiningActionBarController((MiningActionBar) node, this);
-		}
+//		if (node instanceof PlanetaryActionBar) {
+//			return new PlanetaryActionBarController((PlanetaryActionBar) node, this);
+//		}
+//		if (node instanceof MiningActionBar) {
+//			return new MiningActionBarController((MiningActionBar) node, this);
+//		}
 		return super.createController(node);
 	}
 }

@@ -14,7 +14,6 @@ import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
-import org.dimensinfin.eveonline.neocom.mining.MiningExtractionAggregatorAsPanelTitle;
 
 public class MiningExtractionAggregatorController extends AndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
 

@@ -33,12 +33,12 @@ public class PilotDashboardActivityTest {
 	}
 
 	@Rule
-	public ActivityTestRule<PilotDashboardActivityMock> mActivityRule =
-			new ActivityTestRule<PilotDashboardActivityMock>( PilotDashboardActivityMock.class ) {
+	public ActivityTestRule<PilotDashboardActivity> mActivityRule =
+			new ActivityTestRule<PilotDashboardActivity>( PilotDashboardActivity.class ) {
 				@Override
 				protected Intent getActivityIntent() {
 					Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-					Intent intent = new Intent( targetContext, PilotDashboardActivityMock.class );
+					Intent intent = new Intent( targetContext, PilotDashboardActivity.class );
 					intent.putExtra( EExtras.CAPSULEER_IDENTIFIER.name()
 							, 93813310 ); // Credential account identifier
 					return intent;

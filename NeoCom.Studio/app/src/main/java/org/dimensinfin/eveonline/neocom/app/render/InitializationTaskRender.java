@@ -10,8 +10,8 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationTaskController;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class InitializationTaskRender extends MVCRender {
 	private ImageView stateIcon;

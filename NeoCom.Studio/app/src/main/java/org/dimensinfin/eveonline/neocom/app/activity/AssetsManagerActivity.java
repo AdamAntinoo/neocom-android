@@ -28,10 +28,10 @@ public class AssetsManagerActivity extends ACredentialActivity {
 		super.onCreate(savedInstanceState);
 		this.assetsProvider = new AssetProvider.Builder()
 				                     .withCredential(this.getCredential())
-				                     .withAssetsRepository( NeoComComponentFactory.getSingleton().getAssetsRepository() )
+				                     .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
 				                     .build();
 		this.addPage(new AssetsFragment()
-				             .setAssetsProvider(this.assetsProvider)
+				             .setAssetProvider(this.assetsProvider)
 				             .setVariant(PageNamesType.ASSETS_BYLOCATION.name()));
 //			this.addPage(new AssetsShipsFragment().setVariant(NeoComApplication.EVariants.SHIPS_BYTYPE.name()));
 		logger.info("<< [AssetsManagerActivity.onCreate]");

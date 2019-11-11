@@ -9,9 +9,9 @@ import org.junit.runner.RunWith;
 
 import org.dimensinfin.android.mvc.activity.MVCFragmentPagerAdapter;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 @RunWith(AndroidJUnit4.class)
 public class AppSplashActivityTest {

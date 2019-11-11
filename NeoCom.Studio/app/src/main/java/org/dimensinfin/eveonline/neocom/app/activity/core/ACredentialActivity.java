@@ -21,15 +21,14 @@ public abstract class ACredentialActivity extends MenuActivatedActivity {
 	protected Credential credential = null;
 
 	// - C O M P O N E N T S
-	private SharedPreferences preferences;
-	private CredentialRepository credentialRepository;
+	protected SharedPreferences preferences;
+	protected CredentialRepository credentialRepository;
 
 	protected Credential searchCredential( final int identifier ) {
 		final String esiServer = this.preferences.getString("prefkey_dataSourceList",
-		                                                    ESIDataProvider.DEFAULT_ESI_SERVER).toLowerCase();
-		for (Credential cred : this.credentialRepository.findAllByServer(esiServer)) {
+		                                                    ESIDataProvider.DEFAULT_ESI_SERVER).toLowerCase().toLowerCase();
+		for (Credential cred : this.credentialRepository.findAllByServer(esiServer))
 			if (cred.getAccountId() == identifier) return cred;
-		}
 		return null;
 	}
 

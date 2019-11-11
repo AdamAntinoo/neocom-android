@@ -51,6 +51,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				                   .withTitle( "ASSETS" )
 				                   .withLabel( "Asset Count" )
 				                   .withDataProvider( new AssetCountDataProvider.Builder().withCredential( this.credential ).build() )
+				                   .withClickTarget( PageNamesType.ASSETS_BYLOCATION )
 				                   .withPilotIdentifier( this.credential.getAccountId() )
 				                   .build() );
 		this.sections.add( new PilotSection.Builder()

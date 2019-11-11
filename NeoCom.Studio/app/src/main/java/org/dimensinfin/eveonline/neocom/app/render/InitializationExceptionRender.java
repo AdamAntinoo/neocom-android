@@ -12,7 +12,7 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionController;
-import org.dimensinfin.eveonline.neocom.app.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class InitializationExceptionRender extends MVCRender implements View.OnClickListener {
 //	protected static final Logger logger =new NeoComLogger().getInstance();

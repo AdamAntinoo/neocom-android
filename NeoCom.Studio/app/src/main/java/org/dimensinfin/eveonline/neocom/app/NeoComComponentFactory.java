@@ -68,7 +68,7 @@ public class NeoComComponentFactory {
 //	private DataDownloaderService downloaderService;
 	private CredentialRepository credentialRepository;
 	private LocationRepository locationRepository;
-	private AssetRepository assetsRepository;
+	private AssetRepository assetRepository;
 	private MiningRepository miningRepository;
 	private PlanetaryRepository planetaryRepository;
 
@@ -192,18 +192,18 @@ public class NeoComComponentFactory {
 		return this.locationRepository;
 	}
 
-	public AssetRepository getAssetsRepository() {
-		if (null == this.assetsRepository) {
+	public AssetRepository getAssetRepository() {
+		if (null == this.assetRepository) {
 			try {
-				this.assetsRepository = new AssetRepository.Builder()
+				this.assetRepository = new AssetRepository.Builder()
 						                        .withAssetDao( this.getNeoComDBHelper().getAssetDao() )
 						                        .build();
 			} catch (SQLException sqle) {
-				this.assetsRepository = null;
-				Objects.requireNonNull( this.assetsRepository );
+				this.assetRepository = null;
+				Objects.requireNonNull( this.assetRepository );
 			}
 		}
-		return this.assetsRepository;
+		return this.assetRepository;
 	}
 //
 //	@Deprecated
