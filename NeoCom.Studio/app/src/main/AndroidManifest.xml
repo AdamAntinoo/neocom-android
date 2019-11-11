@@ -60,26 +60,26 @@
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="Pilot Dashboard">
 		</activity>
-		<activity
-				android:name=".mining.activity.MiningLedgerActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Mining Ledger">
-		</activity>
-		<activity
-			android:name=".planetary.activity.PlanetaryColoniesActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Planetary Colonies">
-		</activity>
-		<activity
-			android:name=".planetary.activity.PlanetaryColonyContentsActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Planetary Colony Contents">
-		</activity>
-		<activity
-				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Planetary Colony Layout">
-		</activity>
+<!--		<activity-->
+<!--				android:name=".mining.activity.MiningLedgerActivity"-->
+<!--				android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--				android:label="Mining Ledger">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--			android:name=".planetary.activity.PlanetaryColoniesActivity"-->
+<!--			android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--			android:label="Planetary Colonies">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--			android:name=".planetary.activity.PlanetaryColonyContentsActivity"-->
+<!--			android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--			android:label="Planetary Colony Contents">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"-->
+<!--				android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--				android:label="Planetary Colony Layout">-->
+<!--		</activity>-->
 		<activity
 			android:name=".app.activity.AssetsManagerActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
