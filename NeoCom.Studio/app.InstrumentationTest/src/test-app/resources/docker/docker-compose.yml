@@ -1,9 +1,0 @@
-version: '3.0'
-services:
-  neocom-dev-mountebank:
-    image: nexus.devtools.proyecto-sol.es:9085/obkesp/continuous-delivery/build-images/mountebank:latest
-    ports:
-      - "8448:8443"
-      - "2530:2525"
-    volumes:
-      - "../mountebank:/mountebank/servers"

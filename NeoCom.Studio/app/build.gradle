@@ -60,6 +60,7 @@ android {
             srcDirs += 'src/main/java-datamanagement'
         }
         debug.java {
+//            srcDirs += 'src/debug/java'
         }
         release.java {
         }
