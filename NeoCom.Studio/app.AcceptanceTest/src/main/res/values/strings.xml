@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appname">NeoComAT</string>
+    <string name="appnameversion">NeoComAT v0.17.0</string>
+    <string name="appversion">0.17.0</string>
+    <string name="appdatabasefilename">neocom</string>
+    <string name="sdedatabasefilename">sde.db</string>
+    <string name="appdatabaseversion">30</string>
+</resources>

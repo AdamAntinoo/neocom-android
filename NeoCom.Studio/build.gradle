@@ -22,8 +22,8 @@ allprojects {
         mavenCentral()
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://kotlin.bintray.com/kotlinx/" }
+//        maven { url 'https://jitpack.io' }
+//        maven { url "https://kotlin.bintray.com/kotlinx/" }
     }
 }
 
@@ -34,13 +34,14 @@ task clean(type: Delete) {
 // - P R O D U C T   V E R S I O N S
 ext {
     supportLibraryVersion = '29.0.0'
-    jodaTimeVersion = '2.3'
+    jodaTimeVersion = '2.7'
     loggerVersion = '1.7.26'
     jacksonVersion = '2.9.4'
     fasterxmlJackson = '2.9.4'
     ormliteVersion = '4.48'
     powermockVersion = '2.0.2'
     retrofitVersion = '2.5.0'
+    cacheVersion = '3.1.1'
 
     neocomCoreBaseVersion = '3.2.0'
     neocomESISwaggerVersion = '4.17.0'

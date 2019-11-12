@@ -2,14 +2,15 @@ package org.dimensinfin.eveonline.neocom.test.supersteps;
 
 import android.view.View;
 
+import org.junit.Assert;
+
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComFragment;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
-import org.junit.Assert;
+
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
@@ -27,7 +28,7 @@ public class GivenTheActivity extends StepFramework {
 //		((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter().
 
 //		this.world.setFragment(((MVCMultiPageActivity) this.world.getActiveActivity()).setPage(FIRST_PAGE));
-		this.world.setFragment((NeoComFragment) ((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter()
+		this.world.setFragment((MVCPagerFragment) ((MVCMultiPageActivity) this.world.getActiveActivity()).accessPageAdapter()
 				                                        .getItem(Integer.parseInt(pageNumber)));
 		Assert.assertNotNull(this.world.getFragment());
 	}

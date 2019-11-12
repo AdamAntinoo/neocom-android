@@ -1,7 +1,6 @@
 include ':app'
 include ':app.Features'
-//include ':app.AcceptanceTest'
-//include ':app.InstrumentationTest'
+include ':app.AcceptanceTest'
 //include ':app.VisualTest'
 //include ':NeoCom.DataManagement'
 //project(':NeoCom.DataManagement').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.DataManagement')

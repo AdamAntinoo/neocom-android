@@ -3,19 +3,18 @@ package org.dimensinfin.eveonline.neocom.test.support;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
-import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 
 public class StepFramework {
 	protected static Logger logger = LoggerFactory.getLogger(StepFramework.class);
@@ -33,12 +32,12 @@ public class StepFramework {
 				Assert.assertNotNull(activityRuleSplash);
 				this.world.setActivityRule(activityRuleSplash);
 				break;
-			case "MiningLedgerActivity":
-				final ActivityTestRule<MiningLedgerActivity> activityRuleMiningLegder =
-						new ActivityTestRule<>(MiningLedgerActivity.class, false, false);
-				Assert.assertNotNull(activityRuleMiningLegder);
-				this.world.setActivityRule(activityRuleMiningLegder);
-				break;
+//			case "MiningLedgerActivity":
+//				final ActivityTestRule<MiningLedgerActivity> activityRuleMiningLegder =
+//						new ActivityTestRule<>(MiningLedgerActivity.class, false, false);
+//				Assert.assertNotNull(activityRuleMiningLegder);
+//				this.world.setActivityRule(activityRuleMiningLegder);
+//				break;
 		}
 	}
 

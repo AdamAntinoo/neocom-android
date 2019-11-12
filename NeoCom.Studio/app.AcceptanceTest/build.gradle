@@ -17,7 +17,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 30
-        versionName "0.17.0"
+        versionName "0.17.1"
         project.archivesBaseName = "NCAcceptanceTests-$versionName"
         project.version = android.defaultConfig.versionName
     }
@@ -29,8 +29,16 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            resValue "string", "appname", "NeoComAT"
-            resValue "string", "appnameversion", "NeoComAT v" + android.defaultConfig.versionName
+//            resValue "string", "appname", "NeoComAT"
+//            resValue "string", "appnameversion", "NeoComAT v" + android.defaultConfig.versionName
+//            resValue "string", "appversion", android.defaultConfig.versionName
+//
+//            resValue "string", "appdatabasefilename", "neocom"
+//            resValue "string", "sdedatabasefilename", "sde.db"
+//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
+
+            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
+
             buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
             buildConfigField "Integer", "NEOCOM_DB_VERSION", NEOCOM_DB_VERSION
         }
@@ -50,9 +58,13 @@ android {
         main.java {
             srcDirs += project(':app').file('src/main/java')
             srcDirs += project(':app').file('src/main/java-adapters')
-            srcDirs += project(':app').file('src/main/java-mining')
-            srcDirs += project(':app').file('src/main/java-planetary')
+//            srcDirs += project(':app').file('src/main/java-mining')
+//            srcDirs += project(':app').file('src/main/java-planetary')
             srcDirs += project(':app').file('src/main/java-datamanagement')
+            srcDirs += project(':app').file('src/main/java-assets')
+        }
+        debug.java {
+            srcDirs += project(':app').file('src/debug/java')
         }
         main.res {
             srcDirs += project(':app').file('src/main/res')
@@ -111,24 +123,22 @@ dependencies {
 
     androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
-//    androidTestImplementation "io.cucumber:cucumber-jvm:$cucumberJavaVersion"
-//    androidTestImplementation 'info.cukes:cucumber-jvm:1.2.5'
-//    testImplementation 'info.cukes:cucumber-jvm:1.2.5'
-//    implementation 'info.cukes:cucumber-jvm:1.2.5'
-// https://mvnrepository.com/artifact/info.cukes/cucumber-jvm
-//    androidTestImplementation group: 'info.cukes', name: 'cucumber-jvm', version: '1.2.5', ext: 'pom'
 
+    // - C O R E
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    androidTestImplementation "joda-time:joda-time:$jodaTimeVersion"
+    // C A C H E
+    androidTestImplementation "com.nytimes.android:store3:$cacheVersion" // Cache and store
+    androidTestImplementation "com.nytimes.android:cache3:$cacheVersion"
+    androidTestImplementation "com.nytimes.android:middleware3:$cacheVersion"
+    androidTestImplementation "com.nytimes.android:filesystem3:$cacheVersion"
+    androidTestImplementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+    androidTestImplementation 'com.jakewharton:disklrucache:2.0.2'
+    // P A R S E R
+    androidTestImplementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+    // JSON converter
+    androidTestImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    androidTestImplementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion"
+    androidTestImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+    androidTestImplementation "com.fasterxml.jackson.datatype:jackson-datatype-json-org:$jacksonVersion"
 }
-
-// - T A S K S
-// Copy configuration and property resources from other modules to the final 'resources' application folder.
-//task copyResources(type: Copy) {
-//    doLast {
-//        copy {
-//            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
-//            from project(':NeoCom.DataManagement').file('src/main/resources')
-//            into file('src/main/assets')
-//        }
-//    }
-//}
-//build.dependsOn copyResources

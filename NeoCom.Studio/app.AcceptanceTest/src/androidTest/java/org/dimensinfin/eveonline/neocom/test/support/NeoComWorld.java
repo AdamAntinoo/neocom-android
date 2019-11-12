@@ -15,6 +15,7 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 
@@ -28,7 +29,7 @@ public class NeoComWorld {
 	private MVCRender activeRender;
 
 	private ActivityTestRule activityRule;
-	private NeoComFragment fragment;
+	private MVCPagerFragment fragment;
 	//	private ViewGroup headerContainer;
 //	private ListView dataSectionContainer;
 	private LocalDate todayDate;
@@ -108,11 +109,11 @@ public class NeoComWorld {
 	}
 
 
-	public NeoComFragment getFragment() {
+	public MVCPagerFragment getFragment() {
 		return this.fragment;
 	}
 
-	public NeoComWorld setFragment( final NeoComFragment fragment ) {
+	public NeoComWorld setFragment( final MVCPagerFragment fragment ) {
 		this.fragment = fragment;
 		return this;
 	}

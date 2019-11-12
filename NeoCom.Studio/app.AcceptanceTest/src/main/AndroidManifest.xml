@@ -43,30 +43,42 @@
 
 		<!-- A C T I V I T I E S -->
 		<activity
-				android:name=".app.activity.PilotDashboardActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Pilot Dashboard">
-		</activity>
-		<activity
-				android:name=".mining.activity.MiningLedgerActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Mining Ledger">
-		</activity>
-		<activity
-			android:name=".planetary.activity.PlanetaryColoniesActivity"
+			android:name=".app.activity.PilotDashboardActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Planetary Colonies">
+			android:label="Pilot Dashboard">
 		</activity>
 		<activity
-			android:name=".planetary.activity.PlanetaryColonyContentsActivity"
+			android:name=".assets.activity.AssetDisplayActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Planetary Colony Contents">
+			android:label="Assets Manager">
+			<meta-data
+				android:name="android.app.default_searchable"
+				android:value=".activity.SearchAssetsActivity"/>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
 		</activity>
-		<activity
-				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="Planetary Colony Layout">
-		</activity>
+<!--		<activity-->
+<!--				android:name=".mining.activity.MiningLedgerActivity"-->
+<!--				android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--				android:label="Mining Ledger">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--			android:name=".planetary.activity.PlanetaryColoniesActivity"-->
+<!--			android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--			android:label="Planetary Colonies">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--			android:name=".planetary.activity.PlanetaryColonyContentsActivity"-->
+<!--			android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--			android:label="Planetary Colony Contents">-->
+<!--		</activity>-->
+<!--		<activity-->
+<!--				android:name=".planetary.activity.PlanetaryColonyLayoutActivity"-->
+<!--				android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--				android:label="Planetary Colony Layout">-->
+<!--		</activity>-->
 		<activity
 				android:name=".app.activity.core.SettingsActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"

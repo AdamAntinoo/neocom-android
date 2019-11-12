@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 public class AndroidFileSystemAdapter implements IFileSystem {
-	private static Logger logger = LoggerFactory.getLogger(AndroidFileSystemAdapter.class);
+	private static Logger logger = LoggerFactory.getLogger( AndroidFileSystemAdapter.class );
 
 	private String applicationDirectory = "NeoCom";
 	private Context applicationContext;
@@ -33,21 +33,21 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	// - I F I L E S Y S T E M   I N T E R F A C E
 	@Override
 	public InputStream openResource4Input( final String filePath ) throws IOException {
-		return new FileInputStream(new File(
-				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath)
+		return new FileInputStream( new File(
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath )
 		);
 	}
 
 	@Override
 	public OutputStream openResource4Output( final String filePath ) throws IOException {
-		return new FileOutputStream(new File(
-				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath)
+		return new FileOutputStream( new File(
+				Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath )
 		);
 	}
 
 	@Override
 	public InputStream openAsset4Input( final String filePath ) throws IOException {
-		return this.applicationContext.getAssets().open(filePath);
+		return this.applicationContext.getAssets().open( filePath );
 	}
 
 	/**
@@ -64,9 +64,11 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	@Override
 	public String accessResource4Path( final String filePath ) {
 		if (null != filePath)
-			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory + "/" + filePath;
+			return this.applicationContext.getExternalFilesDir( applicationDirectory ).getAbsolutePath() +
+//					        "/" + applicationDirectory +
+					       "/" + filePath;
 		else
-			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + applicationDirectory;
+			return this.applicationContext.getExternalFilesDir( applicationDirectory ).getAbsolutePath() /*+ "/" + applicationDirectory*/;
 	}
 
 	/**
@@ -77,23 +79,23 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 		InputStream instream = null;
 		OutputStream outstream = null;
 		try {
-			instream = this.openAsset4Input(sourceFileName);
+			instream = this.openAsset4Input( sourceFileName );
 			String destinationName = sourceFileName;
 			if (null != destinationDirectory)
 				destinationName = destinationDirectory + "/" + sourceFileName;
-			final File destination = new File(this.accessResource4Path(destinationName));
+			final File destination = new File( this.accessResource4Path( destinationName ) );
 			destination.createNewFile();
-			outstream = new FileOutputStream(destination);
+			outstream = new FileOutputStream( destination );
 			final byte[] buffer = new byte[8192];
 			int length;
-			while ((length = instream.read(buffer)) > 0) {
-				outstream.write(buffer, 0, length);
+			while ((length = instream.read( buffer )) > 0) {
+				outstream.write( buffer, 0, length );
 			}
 			outstream.flush();
-			logger.info("-- [AndroidFileSystemAdapter.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]");
+			logger.info( "-- [AndroidFileSystemAdapter.copyFromAssets]> Copied resource from assets [" + sourceFileName + "]" );
 		} catch (final Exception e) {
 			e.printStackTrace();
-			logger.error("E> [AndroidFileSystemAdapter.copyFromAssets] Failed to copy resource: " + sourceFileName);
+			logger.error( "E> [AndroidFileSystemAdapter.copyFromAssets] Failed to copy resource: " + sourceFileName );
 		} finally {
 			try {
 				if (outstream != null) outstream.close();
@@ -112,20 +114,20 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 		}
 
 		public AndroidFileSystemAdapter.Builder withApplicationContext( final Context applicationContext ) {
-			Objects.requireNonNull(applicationContext);
+			Objects.requireNonNull( applicationContext );
 			this.onConstruction.applicationContext = applicationContext;
 			return this;
 		}
 
 		public AndroidFileSystemAdapter.Builder withApplicationDirectory( final String applicationDirectory ) {
-			Objects.requireNonNull(applicationDirectory);
+			Objects.requireNonNull( applicationDirectory );
 			this.onConstruction.applicationDirectory = applicationDirectory;
 			return this;
 		}
 
 		public AndroidFileSystemAdapter build() {
-			Objects.requireNonNull(this.onConstruction.applicationContext);
-			Objects.requireNonNull(this.onConstruction.applicationDirectory);
+			Objects.requireNonNull( this.onConstruction.applicationContext );
+			Objects.requireNonNull( this.onConstruction.applicationDirectory );
 			return this.onConstruction;
 		}
 	}

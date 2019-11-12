@@ -18,14 +18,12 @@ import org.junit.Assert;
 import org.junit.Rule;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
-import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
-import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
 
 
 import cucumber.api.java.en.And;
@@ -35,8 +33,8 @@ public class BackgroundInitApp {
 	private NeoComWorld world;
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
-	private SupportCredentialRepository credentialRepository;
-	private SupportMiningRepository miningRepository;
+//	private SupportCredentialRepository credentialRepository;
+//	private SupportMiningRepository miningRepository;
 
 	@Rule
 	public GrantPermissionRule mPermissionReadExternalStorageRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -130,26 +128,26 @@ public class BackgroundInitApp {
 	 */
 	@And("the reconfigured neocom component factory")
 	public void theReconfiguredNeocomComponentFactory() throws SQLException {
-		this.credentialRepository = new SupportCredentialRepository.Builder()
-				                            .withCredentialDao(NeoComComponentFactory.getSingleton()
-						                                               .getNeoComDBHelper()
-						                                               .getCredentialDao())
-				                            .build();
-		Assert.assertNotNull(this.credentialRepository);
-		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
-				                     .getCredentialRepository()); // Access the component to activate dependencies
-		NeoComComponentFactory.getSingleton().setCredentialRepository(this.credentialRepository);
-
-		this.miningRepository = new SupportMiningRepository.Builder()
-				                        .withMiningExtractionDao(NeoComComponentFactory.getSingleton()
-						                                                 .getNeoComDBHelper()
-						                                                 .getMiningExtractionDao())
-										.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-				                        .build();
-		Assert.assertNotNull(this.miningRepository);
-		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
-				                     .getMiningRepository()); // Access the component to activate dependencies
-		NeoComComponentFactory.getSingleton().setMiningRepository(this.miningRepository);
+//		this.credentialRepository = new SupportCredentialRepository.Builder()
+//				                            .withCredentialDao(NeoComComponentFactory.getSingleton()
+//						                                               .getNeoComDBHelper()
+//						                                               .getCredentialDao())
+//				                            .build();
+//		Assert.assertNotNull(this.credentialRepository);
+//		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
+//				                     .getCredentialRepository()); // Access the component to activate dependencies
+//		NeoComComponentFactory.getSingleton().setCredentialRepository(this.credentialRepository);
+//
+//		this.miningRepository = new SupportMiningRepository.Builder()
+//				                        .withMiningExtractionDao(NeoComComponentFactory.getSingleton()
+//						                                                 .getNeoComDBHelper()
+//						                                                 .getMiningExtractionDao())
+//										.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+//				                        .build();
+//		Assert.assertNotNull(this.miningRepository);
+//		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
+//				                     .getMiningRepository()); // Access the component to activate dependencies
+//		NeoComComponentFactory.getSingleton().setMiningRepository(this.miningRepository);
 	}
 
 	@And("check that the SDE database file on the application private directory {string}")
@@ -165,19 +163,19 @@ public class BackgroundInitApp {
 	 */
 	@And("a clean application repository")
 	public void aCleanApplicationRepository() {
-		((SupportCredentialRepository) NeoComComponentFactory.getSingleton().getCredentialRepository()).deleteAll();
-		((SupportMiningRepository) NeoComComponentFactory.getSingleton().getMiningRepository()).deleteAll();
+//		((SupportCredentialRepository) NeoComComponentFactory.getSingleton().getCredentialRepository()).deleteAll();
+//		((SupportMiningRepository) NeoComComponentFactory.getSingleton().getMiningRepository()).deleteAll();
 	}
 
 	@And("the number of records in {string} is {int}")
 	public void theNumberOfRecordsInIs( final String repositoryName, final int records ) {
-		switch (repositoryName) {
-			case "CredentialRepository":
-				Assert.assertEquals(records, this.credentialRepository.countRecords().intValue());
-				break;
-			case "MiningRepository":
-				Assert.assertEquals(records, this.miningRepository.countRecords().intValue());
-				break;
-		}
+//		switch (repositoryName) {
+//			case "CredentialRepository":
+//				Assert.assertEquals(records, this.credentialRepository.countRecords().intValue());
+//				break;
+//			case "MiningRepository":
+//				Assert.assertEquals(records, this.miningRepository.countRecords().intValue());
+//				break;
+//		}
 	}
 }

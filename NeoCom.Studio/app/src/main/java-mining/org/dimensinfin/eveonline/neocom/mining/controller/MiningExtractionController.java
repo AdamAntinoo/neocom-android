@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 
 import com.squareup.picasso.Picasso;
@@ -14,7 +13,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
 
 public class MiningExtractionController extends AndroidController<MiningExtraction> {
@@ -35,7 +34,7 @@ public class MiningExtractionController extends AndroidController<MiningExtracti
 	}
 
 	// - M I N I N G E X T R A C T I O N R E N D E R
-	public static class MiningExtractionRenderV5 extends NeoComRenderv2 {
+	public static class MiningExtractionRenderV5 extends NeoComRender {
 		// - U I    F I E L D S
 		private ImageView nodeIcon;
 		private TextView resourceName;
