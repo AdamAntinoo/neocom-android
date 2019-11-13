@@ -18,9 +18,17 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 
 public class NeoComWorld {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
+	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
+	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
+	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
+
+
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
 	private ActivityScenario activityScenario;
@@ -35,6 +43,34 @@ public class NeoComWorld {
 	private LocalDate todayDate;
 	private View actionBar;
 
+	public ActivityScenario<PilotDashboardActivity> getPilotDashboardScenario() {
+		return this.pilotDashboardScenario;
+	}
+
+	public NeoComWorld setPilotDashboardScenario( final ActivityScenario<PilotDashboardActivity> pilotDashboardScenario ) {
+		this.pilotDashboardScenario = pilotDashboardScenario;
+		return this;
+	}
+
+	public ActivityScenario<AssetDisplayActivity> getAssetDisplayScenario() {
+		return this.assetDisplayScenario;
+	}
+
+	public NeoComWorld setAssetDisplayScenario( final ActivityScenario<AssetDisplayActivity> assetDisplayScenario ) {
+		this.assetDisplayScenario = assetDisplayScenario;
+		return this;
+	}
+
+	public ActivityScenario<AuthorizationFlowActivity> getAuthorizationFlowScenario() {
+		return this.authorizationFlowScenario;
+	}
+
+	public NeoComWorld setAuthorizationFlowScenario( final ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario ) {
+		this.authorizationFlowScenario = authorizationFlowScenario;
+		return this;
+	}
+
+	// ---------------------------------------------------------------
 	public NeoComWorld() {
 		logger.info("-- [NeoComWorld.<constructor>]");
 	}
