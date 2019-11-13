@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
@@ -18,18 +19,18 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 
 public class PilotDashboardDataSource extends MVCDataSource {
+	private List<PilotSection> sections = new ArrayList<>();
 	// -  C O M P O N E N T S
 	private ESIDataProvider esiDataAdapter;
 	private Credential credential;
-	private List<PilotSection> sections = new ArrayList<>();
 
 	private Credential getCredential() {
 		return this.credential;
 	}
 
+	@LogEnterExit
 	@Override
 	public void prepareModel() {
-		logger.info( ">> [PilotDashboardDataSource.prepareModel]" );
 		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId( this.getCredential().getAccountId() );
 		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace( publicData.getRaceId() );
 		final Pilot pilot = new Pilot.Builder()
@@ -179,7 +180,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		private PlanetaryColonyCountDataProvider() {}
 
 		public String getDataFormatted() {
-			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = new ArrayList<>(  );
+			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = new ArrayList<>();
 //					this.esiDataAdapter.getCharactersCharacterIdPlanets(
 //					this.credential.getAccountId(),
 //					this.credential.getRefreshToken(),

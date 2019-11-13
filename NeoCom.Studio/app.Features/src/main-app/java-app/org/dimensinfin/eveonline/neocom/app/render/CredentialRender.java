@@ -109,7 +109,7 @@ public class CredentialRender extends NeoComRender {
 	}
 
 	protected String getUrl4Avatar( final int pilotIdentifier ) {
-		return "http://image.eveonline.com/character/" + pilotIdentifier + "_256.jpg";
+		return "https://image.eveonline.com/Character/" + pilotIdentifier + "_256.jpg";
 	}
 
 	protected void accessRaceIcon() {
