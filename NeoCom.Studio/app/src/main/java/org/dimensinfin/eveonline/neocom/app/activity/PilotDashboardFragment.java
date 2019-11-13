@@ -27,6 +27,10 @@ public class PilotDashboardFragment extends MVCPagerFragment {
 		return this;
 	}
 
+	/**
+	 * Do not forget to add the pages that can be jumped to from this activity.
+	 * @return
+	 */
 	@Override
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory(this.getVariant())

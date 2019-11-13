@@ -3,11 +3,13 @@ package org.dimensinfin.eveonline.neocom.app.activity.core;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.MessageFormat;
 import java.util.Objects;
 
+import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.eveonline.neocom.app.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.exception.RuntimeErrorInfo;
@@ -25,35 +27,43 @@ public abstract class ACredentialActivity extends MenuActivatedActivity {
 	protected CredentialRepository credentialRepository;
 
 	protected Credential searchCredential( final int identifier ) {
-		final String esiServer = this.preferences.getString("prefkey_dataSourceList",
-		                                                    ESIDataProvider.DEFAULT_ESI_SERVER).toLowerCase().toLowerCase();
-		for (Credential cred : this.credentialRepository.findAllByServer(esiServer))
+		final String esiServer = this.preferences.getString( "prefkey_dataSourceList",
+				ESIDataProvider.DEFAULT_ESI_SERVER ).toLowerCase().toLowerCase();
+		for (Credential cred : this.credentialRepository.findAllByServer( esiServer ))
 			if (cred.getAccountId() == identifier) return cred;
 		return null;
 	}
 
 	public Credential getCredential() {
-		Objects.requireNonNull(this.credential);
+		Objects.requireNonNull( this.credential );
 		return this.credential;
+	}
+
+	/**
+	 * Add the credential information to all the fragments so if the developer forgets it does not runs for null pointer.
+	 */
+	@Override
+	public void addPage( @NonNull final IPagerFragment newFrag ) {
+		super.addPage( ((AuthenticatedFragment) newFrag).setCredential( this.getCredential() ) );
 	}
 
 	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
-		logger.info(">> [ACredentialActivity.onCreate]");
+		logger.info( ">> [ACredentialActivity.onCreate]" );
 		this.injectComponents(); // Inject components.
-		super.onCreate(savedInstanceState);
-		final int pilotIdentifier = this.extras.getInt(EExtras.CAPSULEER_IDENTIFIER.name(), 0);
-		if (pilotIdentifier > 0) this.validateCredential(pilotIdentifier);
-		logger.info("<< [ACredentialActivity.onCreate]");
+		super.onCreate( savedInstanceState );
+		final int pilotIdentifier = this.extras.getInt( EExtras.CAPSULEER_IDENTIFIER.name(), 0 );
+		if (pilotIdentifier > 0) this.validateCredential( pilotIdentifier );
+		logger.info( "<< [ACredentialActivity.onCreate]" );
 	}
 
 	@Override
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
-		final int pilotIdentifier = savedInstanceState.getInt(EExtras.CAPSULEER_IDENTIFIER.name());
-		credential = searchCredential(pilotIdentifier);
-		this.validateCredential(pilotIdentifier);
-		super.onRestoreInstanceState(savedInstanceState);
+		final int pilotIdentifier = savedInstanceState.getInt( EExtras.CAPSULEER_IDENTIFIER.name() );
+		credential = searchCredential( pilotIdentifier );
+		this.validateCredential( pilotIdentifier );
+		super.onRestoreInstanceState( savedInstanceState );
 	}
 
 	/**
@@ -63,27 +73,27 @@ public abstract class ACredentialActivity extends MenuActivatedActivity {
 	 */
 	@Override
 	protected void onSaveInstanceState( final Bundle outState ) {
-		super.onSaveInstanceState(outState);
+		super.onSaveInstanceState( outState );
 		// Save the extra parameters information to be able to restore the page to their same state.
-		outState.putInt(EExtras.CAPSULEER_IDENTIFIER.name(), this.credential.getAccountId());
+		outState.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), this.credential.getAccountId() );
 	}
 
 	protected void raiseException( final RuntimeErrorInfo error, final String... arguments ) {
 		// Prepare the message.
-		final String message = MessageFormat.format(error.getErrorMessage(), (Object[]) arguments);
-		throw new NeoComRuntimeException(message);
+		final String message = MessageFormat.format( error.getErrorMessage(), (Object[]) arguments );
+		throw new NeoComRuntimeException( message );
 	}
 
 	protected void validateCredential( final int pilotIdentifier ) {
-		this.credential = this.searchCredential(pilotIdentifier);
+		this.credential = this.searchCredential( pilotIdentifier );
 		if (null == this.credential)
-			this.raiseException(RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
+			this.raiseException( RuntimeErrorInfo.CREDENTIAL_NOT_FOUND
 					, "ACredentialActivity.onCreate"
-					, Integer.toString(pilotIdentifier));
+					, Integer.toString( pilotIdentifier ) );
 	}
 
 	protected void injectComponents() {
-		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.preferences = PreferenceManager.getDefaultSharedPreferences( this );
 		this.credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 	}
 }
