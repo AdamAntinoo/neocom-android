@@ -46,7 +46,7 @@ public class NewLoginController extends AndroidController<NewLoginAction> implem
 		final Intent intent = this.getControllerFactory().prepareActivity(PageNamesType.AUTHORIZATION.name(), this.context);
 		// Tag this intent request with a flag to know we are firing it from the new login action part.
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra(EExtras.FIRE_AUTHORIZATION_FLOW.name(), "NEW-LOGIN-PART");
+		intent.putExtra(EExtras.FIRE_AUTHORIZATION_FLOW.name(), EExtras.FIRE_AUTHORIZATION_FLOW.name());
 		this.context.startActivity(intent);
 		logger.info("<< [NewLoginActionPart.onClick]");
 	}

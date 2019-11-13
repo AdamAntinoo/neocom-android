@@ -138,6 +138,7 @@ public class NeoComComponentFactory {
 					                       .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                       .withLocationCatalogService( this.getLocationCatalogService() )
 					                       .withStoreCacheManager( this.getStoreCacheManager() )
+					                       .withRetrofitFactory( this.getRetrofitFactory() )
 					                       .build();
 			NeoComUpdater.injectsEsiDataAdapter( this.esiDataProvider );
 		}
