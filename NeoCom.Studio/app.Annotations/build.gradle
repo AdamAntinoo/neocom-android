@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+apply plugin: 'project-report'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 21 // Required because the colony drawing.
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.17.0"
+    }
+    sourceSets {
+        main.java {
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    lintOptions {
+        abortOnError false
+        quiet true
+    }
+    dexOptions {
+        javaMaxHeapSize "4G"
+        jumboMode true
+        preDexLibraries true
+    }
+}
+
+// - A N D R O I D    S U P P O R T
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}
+
+// - P R O J E C T    D E P E N D E N C I E S
+dependencies {
+    // C O R E
+    compileOnly 'org.slf4j:slf4j-api:1.7.12'
+    compileOnly "joda-time:joda-time:$jodaTimeVersion"
+    implementation 'org.apache.commons:commons-lang3:3.9'
+
+    compileOnly 'org.dimensinfin:CoreBase.core:3.1.0'
+}
+
+// - T E S T I N G
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.26'
+    testImplementation "joda-time:joda-time:$jodaTimeVersion"
+    testImplementation 'com.openpojo:openpojo:0.8.12'
+    testImplementation 'org.apache.commons:commons-lang3:3.9'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+}
