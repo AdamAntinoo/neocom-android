@@ -181,10 +181,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 
 		public String getDataFormatted() {
 			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = new ArrayList<>();
-//					this.esiDataAdapter.getCharactersCharacterIdPlanets(
-//					this.credential.getAccountId(),
-//					this.credential.getRefreshToken(),
-//					this.credential.getDataSource() );
+			this.esiDataAdapter.getCharactersCharacterIdPlanets( this.credential );
 			return (qtyFormatter.format( esiColonies.size() ) + " colonies").toUpperCase();
 		}
 
