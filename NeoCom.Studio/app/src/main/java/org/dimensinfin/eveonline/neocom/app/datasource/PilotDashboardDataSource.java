@@ -61,7 +61,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				                   .withLabel( "Mining Resources market value" )
 				                   .withDataProvider( new MiningResourcesValueDataProvider.Builder()
 						                                      .withCredential( this.credential ).build() )
-				                   .withClickTarget( PageNamesType.MINING_LEDGER )
+//				                   .withClickTarget( PageNamesType.MINING_LEDGER )
 				                   .withPilotIdentifier( this.credential.getAccountId() )
 				                   .build() );
 		this.sections.add( new PilotSection.Builder()
@@ -71,7 +71,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				                   .withDataProvider( new PlanetaryColonyCountDataProvider.Builder()
 						                                      .withCredential( this.credential )
 						                                      .withEsiDataAdapter( this.esiDataAdapter ).build() )
-				                   .withClickTarget( PageNamesType.PLANET_FACILITIES_DETAILS )
+//				                   .withClickTarget( PageNamesType.PLANET_FACILITIES_DETAILS )
 				                   .withPilotIdentifier( this.credential.getAccountId() )
 				                   .build() );
 		logger.info( "<< [PilotDashboardDataSource.prepareModel]" );

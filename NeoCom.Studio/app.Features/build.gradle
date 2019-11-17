@@ -100,6 +100,7 @@ dependencies {
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
 //    implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
+    implementation "org.dimensinfin:NeoCom.Annotations:$neocomDatamanagementVersion"
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
 
     // N E O C O M
@@ -109,10 +110,6 @@ dependencies {
 
 // - T E S T I N G
 dependencies {
-    // N E O C O M
-//    testImplementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
-//    testImplementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
-
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.slf4j:slf4j-simple:1.7.26'
     testImplementation "joda-time:joda-time:$jodaTimeVersion"
@@ -120,8 +117,4 @@ dependencies {
     testImplementation 'org.apache.commons:commons-lang3:3.9'
     testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    // D A T A B A S E
-//    testImplementation "com.j256.ormlite:ormlite-jdbc:$ormliteVersion"
-//    testImplementation 'org.xerial:sqlite-jdbc:3.25.2'
-//    testImplementation 'javax.persistence:javax.persistence-api:2.2'
 }
