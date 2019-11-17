@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
+import org.dimensinfin.eveonline.neocom.annotation.Singleton;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
-import org.dimensinfin.eveonline.neocom.domain.IScheduler;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * This class is a one minute timer activated at startup. It will call upon the list of schedulers configured if the minute counter matches the
@@ -23,12 +21,13 @@ import java.util.Objects;
  *
  * @author Adam Antinoo
  */
+@Singleton
 public class MinuteTickReceiver extends BroadcastReceiver {
-	private static Logger logger = LoggerFactory.getLogger(MinuteTickReceiver.class);
+	//	private static Logger logger = LoggerFactory.getLogger(MinuteTickReceiver.class);
 	private SharedPreferences preferences;
 
 	private Context context;
-	private List<IScheduler> schedulers = new ArrayList<>();
+//	private List<IScheduler> schedulers = new ArrayList<>();
 
 	// - C O N S T R U C T O R S
 	public MinuteTickReceiver( final Context context ) {
@@ -40,26 +39,21 @@ public class MinuteTickReceiver extends BroadcastReceiver {
 	 * On each tick check for the list of configured scheduler which of them should be fired. This checks each scheduler timer counter and if the
 	 * scheduler is activated or not.
 	 */
+	@LogEnterExit
 	@Override
 	public void onReceive( final Context context, final Intent intent ) {
-		logger.info(">> [MinuteTickReceiver.onReceive]");
+		NeoComLogger.info( ">> [MinuteTickReceiver.onReceive]" );
 		if (this.allowed2Run())
-			for (IScheduler scheduler : this.schedulers) {
-				if (scheduler.needsNetwork())
-					if (!NeoComApplication.checkNetworkAccess()) continue;
-				if (scheduler.needsSDCard())
-					if (!NeoComApplication.checkSDCardAvailability()) continue;
-				scheduler.execute();
-			}
-		logger.info("<< [MinuteTickReceiver.onReceive]");
-	}
-
-	public void registerScheduler( final IScheduler scheduler ) {
-		if (null != scheduler) this.schedulers.add(scheduler);
+			if (JobScheduler.getJobScheduler().needsNetwork())
+				if (!NeoComApplication.checkNetworkAccess()) return;
+		if (JobScheduler.getJobScheduler().needsStorage())
+			if (!NeoComApplication.checkSDCardAvailability()) return;
+		JobScheduler.getJobScheduler().runSchedule();
+		NeoComLogger.info( "<< [MinuteTickReceiver.onReceive]" );
 	}
 
 	protected boolean allowed2Run() {
-		return this.preferences.getBoolean(PreferenceKeys.prefkey_BlockDownloads.name(), true);
+		return this.preferences.getBoolean( PreferenceKeys.prefkey_BlockDownloads.name(), true );
 	}
 
 	// - B U I L D E R
@@ -67,13 +61,18 @@ public class MinuteTickReceiver extends BroadcastReceiver {
 		private MinuteTickReceiver onConstruction;
 
 		public Builder( final Context context ) {
-			this.onConstruction = new MinuteTickReceiver(context);
-			this.onConstruction.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			this.onConstruction = new MinuteTickReceiver( context );
+//			this.onConstruction.preferences = PreferenceManager.getDefaultSharedPreferences(
+//					NeoComComponentFactory.getSingleton().getApplication()
+//			);
 		}
 
 		public MinuteTickReceiver build() {
-			Objects.requireNonNull(this.onConstruction.context);
+//			Objects.requireNonNull(this.onConstruction.context);
 			//			Objects.requireNonNull(this.onConstruction.configurationProvider);
+			this.onConstruction.preferences = PreferenceManager.getDefaultSharedPreferences(
+					NeoComComponentFactory.getSingleton().getApplication()
+			);
 			return this.onConstruction;
 		}
 	}
