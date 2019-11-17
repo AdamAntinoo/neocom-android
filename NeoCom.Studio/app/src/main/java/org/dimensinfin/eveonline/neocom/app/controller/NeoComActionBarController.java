@@ -13,10 +13,10 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBarV2;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBar;
 
-public class NeoComActionBarController extends AndroidController<NeoComActionBarV2> {
-	public NeoComActionBarController( @NonNull final NeoComActionBarV2 model, @NonNull final IControllerFactory factory ) {
+public class NeoComActionBarController extends AndroidController<NeoComActionBar> {
+	public NeoComActionBarController( @NonNull final NeoComActionBar model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 

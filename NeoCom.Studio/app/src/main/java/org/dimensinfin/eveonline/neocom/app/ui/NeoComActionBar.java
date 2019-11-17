@@ -8,12 +8,12 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 /**
  * @author Adam Antinoo
  */
-public class NeoComActionBarV2 implements ICollaboration {
+public class NeoComActionBar implements ICollaboration {
 	private String titleTopLeft = "";
 	private String titleTopRight = "";
 	private String subtitle = "";
 
-	private NeoComActionBarV2() {}
+	private NeoComActionBar() {}
 
 	public String getTitleTopLeft() {
 		return titleTopLeft;
@@ -40,10 +40,10 @@ public class NeoComActionBarV2 implements ICollaboration {
 
 	// - B U I L D E R
 	public static class Builder {
-		private NeoComActionBarV2 onConstruction;
+		private NeoComActionBar onConstruction;
 
 		public Builder() {
-			this.onConstruction = new NeoComActionBarV2();
+			this.onConstruction = new NeoComActionBar();
 		}
 
 		public Builder withTitleTopLeft( final String titleTopLeft ) {
@@ -61,7 +61,7 @@ public class NeoComActionBarV2 implements ICollaboration {
 			return this;
 		}
 
-		public NeoComActionBarV2 build() {
+		public NeoComActionBar build() {
 			return this.onConstruction;
 		}
 	}

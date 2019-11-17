@@ -22,7 +22,7 @@ public class AppSplashActivity extends MenuActivatedActivity {
 	}
 
 	/**
-	 * Check the network availability each time we enter this page. If the network is down or disabled then go back to the Initilization activity
+	 * Check the network availability each time we enter this page. If the network is down or disabled then go back to the AppInitialization activity
 	 * to wait there for startup.
 	 */
 	protected void verifyNetwork() {

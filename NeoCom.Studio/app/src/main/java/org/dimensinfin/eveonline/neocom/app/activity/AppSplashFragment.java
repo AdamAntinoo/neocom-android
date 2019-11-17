@@ -12,6 +12,8 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.datasource.SplashActionsDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
+import org.dimensinfin.eveonline.neocom.app.factory.RenderViewGenerator;
+import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 
 public class AppSplashFragment extends MVCPagerFragment {
@@ -33,19 +35,21 @@ public class AppSplashFragment extends MVCPagerFragment {
 				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
 				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversion))
 				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
+					   .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
+					   .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
+					   .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
 				       .build();
 	}
 
 	@Override
 	public View generateActionBarView() {
-		// Create the bar content model.
-		final SplashActionBar actionBar = new SplashActionBar.Builder()
-				                                  .withPreferences(PreferenceManager.getDefaultSharedPreferences(
-						                                  this.getActivityContext()))
-				                                  .build();
-		// Get a controller from the model, then the view from the render.
-		final SplashActionBarController controller = (SplashActionBarController) new AppControllerFactory(this.getVariant())
-				                                                                         .createController(actionBar);
-		return this.convertActionBarView(controller);
+		return new RenderViewGenerator.Builder<SplashActionBar>()
+				       .withContext( this.getActivityContext() )
+				       .withModel( new SplashActionBar.Builder()
+						                   .withPreferences(PreferenceManager.getDefaultSharedPreferences(
+								                   this.getActivityContext()))
+						                   .build() )
+				       .withFactory(  new AppControllerFactory(this.getVariant()))
+				       .generateView();
 	}
 }

@@ -5,115 +5,177 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 
-public class SplashActionsDataSourceTest {
+class SplashActionsDataSourceTest {
 	private Bundle extras;
 	private ControllerFactory factory;
 	private SplashActionsDataSource dataSource4Test;
 	private CredentialRepository credentialRepository;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		this.extras = new Bundle();
-		this.factory = Mockito.mock(ControllerFactory.class);
-		this.credentialRepository = Mockito.mock(CredentialRepository.class);
-		this.dataSource4Test = new SplashActionsDataSource.Builder()
-				                       .addIdentifier("-TEST-DATASOURCE-IDENTIFIER-")
-				                       .withExtras(extras)
-				                       .withVariant(PageNamesType.SPLASH.name())
-				                       .withFactory(factory)
-				                       .withCredentialRepository(this.credentialRepository)
-				                       .withName("-TEST-NAME-")
-				                       .withName("-TEST-VERSION-")
-				                       .build();
-		Assert.assertNotNull(this.dataSource4Test);
-	}
-
-	@Test
-	public void buildComplete() {
+		this.factory = Mockito.mock( ControllerFactory.class );
+		this.credentialRepository = Mockito.mock( CredentialRepository.class );
 		final Bundle extras = new Bundle();
-		final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
-		final CredentialRepository credentialRepository = Mockito.mock(CredentialRepository.class);
-		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
-				                                           .addIdentifier("-TEST-DATASOURCE-IDENTIFIER-")
-				                                           .withExtras(extras)
-				                                           .withVariant(PageNamesType.SPLASH.name())
-				                                           .withFactory(factory)
-				                                           .withCredentialRepository(credentialRepository)
-				                                           .withName("-TEST-NAME-")
-				                                           .withName("-TEST-VERSION-")
+		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
+		final ESIDataProvider esiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final AssetRepository assetRepository = Mockito.mock( AssetRepository.class );
+		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
+		final LocationCatalogService locationCatalogService = Mockito.mock( LocationCatalogService.class );
+		this.dataSource4Test = new SplashActionsDataSource.Builder()
+				                                           .addIdentifier( 123 )
+				                                           .addIdentifier( 345L )
+				                                           .addIdentifier( "-TEST-IDENTIFIER-" )
+				                                           .withExtras( extras )
+				                                           .withVariant( PageNamesType.SPLASH.name() )
+				                                           .withFactory( factory )
+				                                           .withEsiDataProvider( esiDataProvider )
+				                                           .withAssetRepository( assetRepository )
+				                                           .withCredentialRepository( credentialRepository )
+				                                           .withLocationCatalogService( locationCatalogService )
+				                                           .withName( "-TEST-APPLICATION-NAME-" )
+				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
-		Assert.assertNotNull(dataSource);
+		Assertions.assertNotNull( this.dataSource4Test );
 	}
 
 	@Test
-	public void prepareModel() {
-		this.dataSource4Test.prepareModel();
-		Assert.assertEquals(1, this.dataSource4Test.getHeaderModelRoot().size());
-		final ICollaboration item = this.dataSource4Test.getHeaderModelRoot().get(0);
-		Assert.assertEquals(AppVersion.class, item.getClass());
+	void buildComplete() {
+		final Bundle extras = new Bundle();
+		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
+		final ESIDataProvider esiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final AssetRepository assetRepository = Mockito.mock( AssetRepository.class );
+		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
+		final LocationCatalogService locationCatalogService = Mockito.mock( LocationCatalogService.class );
+		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
+				                                           .addIdentifier( 123 )
+				                                           .addIdentifier( 345L )
+				                                           .addIdentifier( "-TEST-IDENTIFIER-" )
+				                                           .withExtras( extras )
+				                                           .withVariant( PageNamesType.SPLASH.name() )
+				                                           .withFactory( factory )
+				                                           .withEsiDataProvider( esiDataProvider )
+				                                           .withAssetRepository( assetRepository )
+				                                           .withCredentialRepository( credentialRepository )
+				                                           .withLocationCatalogService( locationCatalogService )
+				                                           .withName( "-TEST-APPLICATION-NAME-" )
+				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
+				                                           .build();
+		Assertions.assertNotNull( dataSource );
+	}
+
+	@Test
+	void prepareModel() {
+		final ESIDataProvider esiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final AssetRepository assetRepository = Mockito.mock( AssetRepository.class );
+		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
+		final LocationCatalogService locationCatalogService = Mockito.mock( LocationCatalogService.class );
+		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
+				                                           .addIdentifier( 123 )
+				                                           .addIdentifier( 345L )
+				                                           .addIdentifier( "-TEST-IDENTIFIER-" )
+				                                           .withExtras( extras )
+				                                           .withVariant( PageNamesType.SPLASH.name() )
+				                                           .withFactory( factory )
+				                                           .withEsiDataProvider( esiDataProvider )
+				                                           .withAssetRepository( assetRepository )
+				                                           .withCredentialRepository( credentialRepository )
+				                                           .withLocationCatalogService( locationCatalogService )
+				                                           .withName( "-TEST-APPLICATION-NAME-" )
+				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
+				                                           .build();
+		dataSource.prepareModel();
+		Assertions.assertEquals( 1, dataSource.getHeaderModelRoot().size() );
+		final ICollaboration item = dataSource.getHeaderModelRoot().get( 0 );
+		Assertions.assertTrue( item instanceof AppVersion );
 	}
 
 	@Test
 	public void collaborate2Model() {
-		final Credential credential = Mockito.mock(Credential.class);
-		Mockito.when(credential.getRefreshToken()).thenReturn("-TEST-REFRESH-DUMMY-TOKEN-");
-		Mockito.when(credential.getAccountName()).thenReturn("-TEST-ACCOUNT-NAME-");
+		final Bundle extras = new Bundle();
+		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
+		final ESIDataProvider esiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final AssetRepository assetRepository = Mockito.mock( AssetRepository.class );
+		final Credential credential = Mockito.mock( Credential.class );
+		Mockito.when( credential.getRefreshToken() ).thenReturn( "-TEST-REFRESH-DUMMY-TOKEN-" );
+		Mockito.when( credential.getAccountName() ).thenReturn( "-TEST-ACCOUNT-NAME-" );
 		final List<Credential> credentialList = new ArrayList<>();
-		credentialList.add(credential);
-		this.credentialRepository = Mockito.mock(CredentialRepository.class);
-		Mockito.when(this.credentialRepository.accessAllCredentials()).thenReturn(credentialList);
+		credentialList.add( credential );
+		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
+		Mockito.when( credentialRepository.accessAllCredentials() ).thenReturn( credentialList );
+		final LocationCatalogService locationCatalogService = Mockito.mock( LocationCatalogService.class );
 		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
-				                                           .addIdentifier("-TEST-DATASOURCE-IDENTIFIER-")
-				                                           .withExtras(extras)
-				                                           .withVariant(PageNamesType.SPLASH.name())
-				                                           .withFactory(factory)
-				                                           .withCredentialRepository(this.credentialRepository)
-				                                           .withName("-TEST-NAME-")
-				                                           .withName("-TEST-VERSION-")
+				                                           .addIdentifier( 123 )
+				                                           .addIdentifier( 345L )
+				                                           .addIdentifier( "-TEST-IDENTIFIER-" )
+				                                           .withExtras( extras )
+				                                           .withVariant( PageNamesType.SPLASH.name() )
+				                                           .withFactory( factory )
+				                                           .withEsiDataProvider( esiDataProvider )
+				                                           .withAssetRepository( assetRepository )
+				                                           .withCredentialRepository( credentialRepository )
+				                                           .withLocationCatalogService( locationCatalogService )
+				                                           .withName( "-TEST-APPLICATION-NAME-" )
+				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
 		dataSource.collaborate2Model();
 
-		Assert.assertEquals(0, dataSource.getHeaderModelRoot().size());
-		Assert.assertEquals(4, dataSource.getDataModelRoot().size());
-		Assert.assertEquals(PanelTitle.class, dataSource.getDataModelRoot().get(0).getClass());
-		Assert.assertEquals(credential.getClass(), dataSource.getDataModelRoot().get(1).getClass());
+		Assertions.assertEquals( 0, dataSource.getHeaderModelRoot().size() );
+		Assertions.assertEquals( 4, dataSource.getDataModelRoot().size() );
+		Assertions.assertEquals( PanelTitle.class, dataSource.getDataModelRoot().get( 0 ).getClass() );
+		Assertions.assertEquals( credential.getClass(), dataSource.getDataModelRoot().get( 1 ).getClass() );
 	}
 
 	@Test
 	public void collaborate2ModelException() {
-		final Credential credential = Mockito.mock(Credential.class);
+		final Bundle extras = new Bundle();
+		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
+		final ESIDataProvider esiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final AssetRepository assetRepository = Mockito.mock( AssetRepository.class );
+		final Credential credential = Mockito.mock( Credential.class );
+		Mockito.when( credential.getRefreshToken() ).thenReturn( "-TEST-REFRESH-DUMMY-TOKEN-" );
+		Mockito.when( credential.getAccountName() ).thenReturn( "-TEST-ACCOUNT-NAME-" );
 		final List<Credential> credentialList = new ArrayList<>();
-		credentialList.add(credential);
-		this.credentialRepository = Mockito.mock(CredentialRepository.class);
-		Mockito.when(this.credentialRepository.accessAllCredentials()).thenReturn(credentialList);
+		credentialList.add( credential );
+		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
+		Mockito.when( credentialRepository.accessAllCredentials() ).thenThrow( new RuntimeException("-TEST-RUNTIME-EXCEPTION-") );
+		final LocationCatalogService locationCatalogService = Mockito.mock( LocationCatalogService.class );
 		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
-				                                           .addIdentifier("-TEST-DATASOURCE-IDENTIFIER-")
-				                                           .withExtras(extras)
-				                                           .withVariant(PageNamesType.SPLASH.name())
-				                                           .withFactory(factory)
-				                                           .withCredentialRepository(this.credentialRepository)
-				                                           .withName("-TEST-NAME-")
-				                                           .withName("-TEST-VERSION-")
+				                                           .addIdentifier( 123 )
+				                                           .addIdentifier( 345L )
+				                                           .addIdentifier( "-TEST-IDENTIFIER-" )
+				                                           .withExtras( extras )
+				                                           .withVariant( PageNamesType.SPLASH.name() )
+				                                           .withFactory( factory )
+				                                           .withEsiDataProvider( esiDataProvider )
+				                                           .withAssetRepository( assetRepository )
+				                                           .withCredentialRepository( credentialRepository )
+				                                           .withLocationCatalogService( locationCatalogService )
+				                                           .withName( "-TEST-APPLICATION-NAME-" )
+				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
 		dataSource.collaborate2Model();
 
-		Assert.assertEquals(0, dataSource.getHeaderModelRoot().size());
-		Assert.assertEquals(4, dataSource.getDataModelRoot().size());
-		Assert.assertEquals(PanelTitle.class, dataSource.getDataModelRoot().get(0).getClass());
-		Assert.assertEquals(ExceptionReport.class, dataSource.getDataModelRoot().get(1).getClass());
+		Assertions.assertEquals( 0, dataSource.getHeaderModelRoot().size() );
+		Assertions.assertEquals( 4, dataSource.getDataModelRoot().size() );
+		Assertions.assertEquals( PanelTitle.class, dataSource.getDataModelRoot().get( 0 ).getClass() );
+		Assertions.assertEquals( ExceptionReport.class, dataSource.getDataModelRoot().get( 1 ).getClass() );
 	}
 }
