@@ -30,7 +30,7 @@ public class RegionRender extends NodeBaseDecoratedRender {
 	// - I R E N D E R   I N T E R F A C E
 	@Override
 	public int accessLayoutReference() {
-		return 0;
+		return R.layout.region4assets;
 	}
 
 	@Override

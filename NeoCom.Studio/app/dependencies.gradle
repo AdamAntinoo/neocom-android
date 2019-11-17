@@ -25,9 +25,10 @@ dependencies {
     implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
     implementation 'me.relex:circleindicator:2.1.0'
     implementation project(':app.Features')
-    implementation project(':app.Annotations')
+//    implementation project(':app.Annotations')
 //    implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
+    implementation "org.dimensinfin:NeoCom.Annotations:$neocomDatamanagementVersion"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S
@@ -43,7 +44,7 @@ dependencies {
 // - U N I T   T E S T I N G
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.26'
+//    testImplementation 'org.slf4j:slf4j-simple:1.7.26'
     testImplementation "joda-time:joda-time:$jodaTimeVersion"
     testImplementation 'com.openpojo:openpojo:0.8.12'
     testImplementation 'org.apache.commons:commons-lang3:3.9'

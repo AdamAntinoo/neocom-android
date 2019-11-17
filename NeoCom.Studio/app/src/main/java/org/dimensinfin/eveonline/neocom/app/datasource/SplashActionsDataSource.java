@@ -16,12 +16,13 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
-import org.dimensinfin.eveonline.neocom.asset.processor.AssetDownloadProcessor;
+import org.dimensinfin.eveonline.neocom.asset.processor.AssetDownloadProcessorJob;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
+import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
 /**
  * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
@@ -69,20 +70,21 @@ public class SplashActionsDataSource extends MVCDataSource {
 					new CredentialSchedulerGenerator( credential )
 							.defineJobs( credentialLambda -> JobScheduler.getJobScheduler()
 									                                 .registerJob(
-											                                 new AssetDownloadProcessor.Builder()
+											                                 new AssetDownloadProcessorJob.Builder()
 													                                 .withCredential( credentialLambda )
 													                                 .withAssetRepository( this.assetRepository )
 													                                 .withEsiDataProvider( this.esiDataProvider )
 													                                 .withLocationCatalogService( this.locationCatalogService )
-													                                 .addCronSchedule( "* - *" )
+													                                 .addCronSchedule( "0/5 - *" )
 													                                 .build()
 									                                 )
 							);
+					new CredentialUpdater( credential ).update  (false);
 				}
 			}
 			this.addModelContents( new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );
 			this.addModelContents( new NewLoginAction() ); // Add the node to display the new New Login Button.
-		} catch (RuntimeException runtime) {
+		} catch (final RuntimeException runtime) {
 			logger.info( "-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage() );
 			this.addModelContents( new ExceptionReport( runtime ) );
 			// Add the node to display the new New Login Button.

@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 121
-        versionName "0.17.1"
+        versionName "0.18.0"
         project.archivesBaseName = "NeoCom.Android"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -81,7 +81,9 @@ android {
         jumboMode true
         preDexLibraries true
     }
-
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${android.defaultConfig.project.archivesBaseName}-${android.defaultConfig.versionName}.apk"
