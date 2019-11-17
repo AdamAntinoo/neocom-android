@@ -23,11 +23,6 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 	private Context applicationContext;
 
 	// - C O N S T R U C T O R
-//	private AndroidFileSystemAdapter( final String applicationStoreDirectory, final Context applicationContext ) {
-//		logger.info(">< [AndroidFileSystemAdapter.constructor]> applicationStoreDirectory: {}", applicationStoreDirectory);
-//		this.applicationDirectory = applicationStoreDirectory;
-//		this.applicationContext = applicationContext;
-//	}
 	private AndroidFileSystemAdapter() {}
 
 	// - I F I L E S Y S T E M   I N T E R F A C E
@@ -66,6 +61,16 @@ public class AndroidFileSystemAdapter implements IFileSystem {
 		if (null != filePath)
 			return this.applicationContext.getExternalFilesDir( applicationDirectory ).getAbsolutePath() +
 //					        "/" + applicationDirectory +
+					       "/" + filePath;
+		else
+			return this.applicationContext.getExternalFilesDir( applicationDirectory ).getAbsolutePath() /*+ "/" + applicationDirectory*/;
+	}
+
+	@Override
+	public String accessPublicResource4Path( final String filePath ) {
+		if (null != filePath)
+			return Environment.getExternalStorageDirectory().getAbsolutePath() +
+					       "/" + applicationDirectory +
 					       "/" + filePath;
 		else
 			return this.applicationContext.getExternalFilesDir( applicationDirectory ).getAbsolutePath() /*+ "/" + applicationDirectory*/;

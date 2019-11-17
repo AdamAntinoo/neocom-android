@@ -67,9 +67,9 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 	// - C O N S T R U C T O R S
 	private AndroidNeoComDBHelper( final Context context, final String databaseName, final int databaseVersion ) {
 		super( context, databaseName, null, databaseVersion, R.raw.ormlite_config );
-		logger.info( "-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
+		logger.info( "-- [AndroidNeoComDBHelper.<constructor>]> Initializing instance with configuration: databasePath {}"
 				, databaseName );
-		logger.info( "-- [NeocomAndroidDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
+		logger.info( "-- [AndroidNeoComDBHelper.<constructor>]> Initializing instance with configuration: databaseVersion {}"
 				, databaseVersion );
 		this.storageLocation = databaseName;
 		this.databaseVersion = databaseVersion;
@@ -528,7 +528,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 				Objects.requireNonNull( this.appContext );
 				Objects.requireNonNull( this.fileSystem );
 				singleton = new AndroidNeoComDBHelper( this.appContext
-						, this.fileSystem.accessResource4Path( databaseName )
+						, this.fileSystem.accessPublicResource4Path( databaseName )
 						, databaseVersion );
 				singleton.getWritableDatabase();
 			}
