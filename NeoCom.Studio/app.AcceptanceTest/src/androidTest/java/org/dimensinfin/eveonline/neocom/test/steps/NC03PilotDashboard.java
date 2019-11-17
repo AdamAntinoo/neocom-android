@@ -72,7 +72,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		this.world.getPilotDashboardScenario().onActivity( ( activity ) -> {
 			AcceptanceNeoComLogger.info( "Check the number of pages created..." );
 			Assert.assertEquals( Integer.parseInt( expectedPageCount ),
-					new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>().pagesCreated( activity ) );
+					new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>(activity).pagesCreated( activity ) );
 			Assert.assertNotNull( activity );
 		} );
 	}

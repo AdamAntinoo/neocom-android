@@ -14,12 +14,12 @@ import cucumber.api.android.CucumberAndroidJUnitRunner;
  * annotated, an exception is thrown. This annotation does not have to placed in runner class
  */
 @CucumberOptions(
-		features = "features/run",
+		features = "features",
 		glue = { "org.dimensinfin.eveonline.neocom.test" },
 		plugin = { "html:target/cucumber-html-report",
 				"json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
 				"usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" },
-		tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC05" })
+		tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC02.0" })
 public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
 	@Override

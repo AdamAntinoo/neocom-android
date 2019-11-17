@@ -60,7 +60,7 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		final ActivityScenario<PilotDashboardActivity> scenario = this.world.getPilotDashboardScenario();
 		scenario.onActivity( ( activity ) -> {
 			AcceptanceNeoComLogger.info( "Searching assets panel..." );
-			final PilotDashboardFragment resolver = new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>()
+			final PilotDashboardFragment resolver = new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>(activity)
 					                                        .fragmentResolver( activity, 0 );
 			final ListView dataSectionContainer = resolver.accessDataSectionContainer();
 

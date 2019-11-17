@@ -18,16 +18,17 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 
 public class NeoComWorld {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
+	private ActivityScenario<AppSplashActivity> appSplashActivityScenario;
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
 	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
-
 
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
@@ -42,6 +43,15 @@ public class NeoComWorld {
 //	private ListView dataSectionContainer;
 	private LocalDate todayDate;
 	private View actionBar;
+
+	public ActivityScenario<AppSplashActivity> getAppSplashActivityScenario() {
+		return this.appSplashActivityScenario;
+	}
+
+	public NeoComWorld setAppSplashActivityScenario( final ActivityScenario<AppSplashActivity> appSplashActivityScenario ) {
+		this.appSplashActivityScenario = appSplashActivityScenario;
+		return this;
+	}
 
 	public ActivityScenario<PilotDashboardActivity> getPilotDashboardScenario() {
 		return this.pilotDashboardScenario;
