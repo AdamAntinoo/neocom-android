@@ -1,6 +1,8 @@
 package org.dimensinfin.eveonline.neocom.ui;
 
 public enum PreferenceKeys {
+	category_Runtime,
+	prefkey_AllowScheduler,
 	category_Development,
 	prefkey_BlockBackgroundTimer, prefkey_BlockDownloads, prefkey_BlockMarket,
 	prefkey_BlockCharacterUpdate, prefkey_BlockAssetsUpdate, prefkey_BlockColonyUpdate, prefkey_BlockSkillsUpdate, prefkey_BlockIndustryUpdate, prefkey_BlockMarketOrdersUpdate,

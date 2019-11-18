@@ -3,6 +3,7 @@
 
     <!-- Category Labels -->
     <string name="pref_category_DataSources">DATA SOURCES</string>
+    <string name="pref_category_Runtime">RUNTIME</string>
     <string name="pref_category_Development">DEVELOPMENT</string>
     <string name="pref_category_Industry">INDUSTRY</string>
     <string name="pref_category_Assets">ASSETS SETTINGS</string>
