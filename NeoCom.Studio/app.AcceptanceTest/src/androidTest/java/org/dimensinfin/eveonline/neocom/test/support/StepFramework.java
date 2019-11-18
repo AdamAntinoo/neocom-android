@@ -3,6 +3,7 @@ package org.dimensinfin.eveonline.neocom.test.support;
 import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
@@ -41,20 +43,37 @@ public class StepFramework {
 	}
 
 	public void initializeApplicationStorage() throws IOException {
+		AcceptanceNeoComLogger.enter();
 		final boolean createAppResult = this.createAppDir();
 		Assert.assertTrue( createAppResult );
+		final boolean createPublicAppResult = this.createPublicAppDir();
+//		Assert.assertTrue( createPublicAppResult );
 		final boolean createCacheResult = this.createCacheDirectories();
 		Assert.assertTrue( createCacheResult );
 		if (!this.sdeDatabaseExists()) {
 			this.fileSystemAdapter.copyFromAssets(
 					this.getResources().getString( R.string.sdedatabasefilename ), null );
 		}
+		AcceptanceNeoComLogger.exit();
 	}
+
+	// - C O M P O N E N T   I N I T I A L I Z A T I O N
 	protected boolean createAppDir() {
 		// Create file application directory if it doesn't exist
 		final File sdCardDir = new File( this.applicationContext.getExternalFilesDir( null )
 				, this.getResources().getString( R.string.appname ) );
 		if (!sdCardDir.exists()) sdCardDir.mkdir();
+		return sdCardDir.exists();
+	}
+
+	protected boolean createPublicAppDir() {
+		// Create file application directory if it doesn't exist
+		final File sdCardDir = new File( Environment.getExternalStorageDirectory(),
+				this.getResources().getString( R.string.appname ) );
+		if (!sdCardDir.exists()) sdCardDir.mkdir();
+
+		final File cdir = new File( "/sdcard/NeoComGT" );
+		final boolean result = cdir.mkdir();
 		return sdCardDir.exists();
 	}
 
@@ -74,28 +93,6 @@ public class StepFramework {
 		return NeoComComponentFactory.getSingleton().getApplication().getResources();
 	}
 
-//	protected void createActivity( final String activityName ) {
-//		switch (activityName) {
-//			case "AppSplashActivity":
-//				final ActivityTestRule<AppSplashActivity> activityRuleSplash = new ActivityTestRule<>( AppSplashActivity.class,
-//						false, false );
-//				Assert.assertNotNull( activityRuleSplash );
-//				this.world.setActivityRule( activityRuleSplash );
-//				break;
-////			case "MiningLedgerActivity":
-////				final ActivityTestRule<MiningLedgerActivity> activityRuleMiningLegder =
-////						new ActivityTestRule<>(MiningLedgerActivity.class, false, false);
-////				Assert.assertNotNull(activityRuleMiningLegder);
-////				this.world.setActivityRule(activityRuleMiningLegder);
-////				break;
-//		}
-//	}
-
-	//	protected void launchActivity() {
-//		this.world.getActivityRule().launchActivity(null);
-//		this.world.setActiveActivity((FragmentActivity) this.world.getActivityRule().getActivity());
-//		Assert.assertNotNull(this.world.getActiveActivity());
-//	}
 	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {

@@ -13,6 +13,7 @@ import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvide
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
+import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -82,6 +83,10 @@ public class NeoComComponentFactory {
 	// - R E P L A C E M E N T S
 	public void replaceCredentialRepository( final CredentialRepository credentialRepository ) {
 		this.credentialRepository = credentialRepository;
+	}
+
+	public void replaceAssetRepository( final AssetRepository assetRepository ) {
+		this.assetRepository = assetRepository;
 	}
 
 	// - A C C E S S O R S
