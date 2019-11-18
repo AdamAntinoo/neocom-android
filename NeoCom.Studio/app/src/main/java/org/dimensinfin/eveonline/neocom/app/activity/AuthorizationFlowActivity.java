@@ -74,7 +74,7 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread( () -> {
-			final String esiServer = this.preferences.getString( DATASOURCE_PREFERENCE, ESIDataProvider.DEFAULT_ESI_SERVER );
+			final String esiServer = this.preferences.getString( DATASOURCE_PREFERENCE, ESIDataProvider.DEFAULT_ESI_SERVER ).toLowerCase();
 			// TODO - Create the URL with a library generator.
 			final String state = Base64.encodeBytes(
 					this.configurationProvider.getResourceString( "P.esi.authorization.state" ).getBytes() );

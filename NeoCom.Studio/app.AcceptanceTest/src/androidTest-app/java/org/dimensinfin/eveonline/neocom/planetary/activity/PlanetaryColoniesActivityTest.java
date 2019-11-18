@@ -128,9 +128,9 @@ public class PlanetaryColoniesActivityTest {
 ////		final View actionBarView = mActivityRule.getActivity().generateActionBar();
 ////		Assert.assertNotNull("Action bar view should not be null.", actionBarView);
 ////		final Object controller = actionBarView.getTag();
-//		Assert.assertTrue(controller instanceof PlanetaryActionBarController);
-//		if (controller instanceof PlanetaryActionBarController) {
-//			final PlanetaryActionBar model = ((PlanetaryActionBarController) controller).getModel();
+//		Assert.assertTrue(controller instanceof AssetActionBarController);
+//		if (controller instanceof AssetActionBarController) {
+//			final PlanetaryActionBar model = ((AssetActionBarController) controller).getModel();
 //			Assert.assertEquals("Check the title left.", "Beth Ripley", model.getTitleTopLeft());
 //			Assert.assertNull("Check the title right.", model.getTitleTopLeft());
 //			Assert.assertEquals("Check the subtitle.", "PLANETS LIST", model.getSubtitle());
