@@ -14,11 +14,10 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
 
-public class MenuActivatedActivity extends MVCMultiPageActivity {
+public class MenuActivatedActivity extends NeoComActivity {
 	private static Menu activityMenu = null;
 
 	@Override

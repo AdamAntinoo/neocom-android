@@ -1,9 +1,11 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -15,20 +17,27 @@ import androidx.test.runner.lifecycle.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.mockito.Mockito;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
+import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.ActivityResolver;
+import org.dimensinfin.eveonline.neocom.test.support.ActivityResolverNew;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.ControllerMatcher;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
@@ -58,26 +67,26 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	public GrantPermissionRule permissionWriteStorage = GrantPermissionRule.grant( Manifest.permission.WRITE_EXTERNAL_STORAGE );
 	@Rule
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
-//	@Rule
-//	public GrantPermissionRule permissionReadStorage2 = GrantPermissionRule.grant(READ_EXTERNAL );
 
 	private Intent authorizationIntent;
+	private ActivityResolverNew resolver;
+
 
 	public void grantPermissions() {
 		AcceptanceNeoComLogger.info( "[BEFORE] grantPermissions" );
 		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand("pm grant ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE");
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE" );
 		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand("pm grant ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE");
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE" );
 		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand("pm grant ${getTargetContext().packageName} android.permission.INTERNET");
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.INTERNET" );
 		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand("pm grant ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE");
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
 	}
+
 	@Before
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
-//		this.grantPermissions();
 		this.initializeApplicationStorage();
 		this.connectAuthorizedMockComponents();
 	}
@@ -112,16 +121,89 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			Assert.assertTrue( activity instanceof AssetDisplayActivity );
 			AcceptanceNeoComLogger.info( "Store the activity..." + activity.getClass().getSimpleName() );
 			this.world.setActiveActivity( activity );
+			this.resolver = new ActivityResolverNew( this.world.getActiveActivity() );
 			AcceptanceNeoComLogger.info( "Verify the current activity state..." );
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
+			try {
+				Thread.sleep( TimeUnit.SECONDS.toMillis( 2 ) );
+			} catch (InterruptedException e) { }
 		} );
 	}
 
 	@Then("there is a action bar with the next fields")
 	public void there_is_a_action_bar_with_the_next_fields( final List<Map<String, String>> dataTable ) {
+		final String FIELD_IDENTIFIER = "fieldIdentifier";
+		final String FIELD_VALUE = "fieldValue";
+		AcceptanceNeoComLogger.info( "[THEN] there is a action bar with the next fields" );
+		final ActionBar actionBar = this.resolver.accessActionBar();
+		final View view = actionBar.getCustomView();
+		for (Map<String, String> row : dataTable) {
+			switch (row.get( FIELD_IDENTIFIER )) {
+				case "toolBarTitleLeft":
+					final TextView accountName = Objects.requireNonNull( view.findViewById( R.id.toolBarTitleLeft ) );
+					AcceptanceNeoComLogger.info( "[THEN] toolBarTitleLeft: {}", accountName.getText().toString() );
+					Assert.assertEquals( this.credential.getAccountName(), accountName.getText().toString() );
+					Assert.assertEquals( row.get( FIELD_VALUE ), accountName.getText().toString() );
+					break;
+				case "toolBarSubTitle":
+					final TextView pageName = Objects.requireNonNull( view.findViewById( R.id.toolBarSubTitle ) );
+					AcceptanceNeoComLogger.info( "[THEN] toolBarSubTitle: {}", pageName.getText().toString() );
+					Assert.assertEquals( PageNamesType.ASSETS_BYLOCATION.getPageTitle(), pageName.getText().toString() );
+					Assert.assertEquals( row.get( FIELD_VALUE ), pageName.getText().toString() );
+					break;
+				case "toolBarTitleRight":
+					final TextView pilotIdentifier = Objects.requireNonNull( view.findViewById( R.id.toolBarTitleRight ) );
+					AcceptanceNeoComLogger.info( "[THEN] toolBarTitleRight: {}", pilotIdentifier.getText().toString() );
+					Assert.assertEquals( "[#" + this.credential.getAccountId() + "]", pilotIdentifier.getText().toString() );
+					Assert.assertEquals( row.get( FIELD_VALUE ), pilotIdentifier.getText().toString() );
+					break;
+			}
+		}
+	}
 
+	@Then("{string} panels on the {string}")
+	public void panels_on_the( final String numberOfPanels, final String section ) {
+		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
+//		this.wait4Seconds( 2 );
+		switch (section) {
+			case "HeaderSection":
+				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
+				break;
+			case "DataSection":
+				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.dataContentsCount() );
+				break;
+		}
+	}
+
+	@Then("a type {string} panel on the {string} with the next data")
+	public void a_type_panel_on_the_with_the_next_data( final String panelType, final String section,
+	                                                    final List<Map<String, String>> dataTable ) {
+		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with the next data" );
+		switch (section) {
+			case "HeaderSection":
+				break;
+			case "DataSection":
+				final List<View> panels = this.resolver.matchDataPanel( panelType );
+				Assert.assertTrue( panels.size() > 0 );
+				Assert.assertTrue( this.validateRegionPanel( dataTable.get( 0 ), panels.get( 0 ) ) );
+				break;
+		}
+	}
+	@Then("a type {string} panel on the {string} with expansion enabled")
+	public void a_type_panel_on_the_with_expansion_enabled(final String panelType, final String section) {
+		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with expansion enabled" );
+		switch (section) {
+			case "HeaderSection":
+				break;
+			case "DataSection":
+				final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
+				Assert.assertTrue( panels.size() > 0 );
+				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
+				Assert.assertTrue(  panels.get( 0 ) instanceof View.OnClickListener );
+				break;
+		}
 	}
 
 	@When("the pilot activates the Assets information panel")
@@ -158,12 +240,6 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	}
 
 
-	//	@Then("{string} panels on the {string}")
-	public void panels_on_the( String string, String string2 ) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new cucumber.api.PendingException();
-	}
-
 	//	@Then("{string} {string} type panels on the {string}")
 	public void type_panels_on_the( String string, String string2, String string3 ) {
 		// Write code here that turns the phrase above into concrete actions
@@ -180,5 +256,14 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		//
 		// For other transformations you can register a DataTableType.
 		throw new cucumber.api.PendingException();
+	}
+
+	private boolean validateRegionPanel( final Map<String, String> expectedData,
+	                                     final View obtainedView ) {
+		final String REGION_NAME = "regionName";
+		final String STATION_COUNT = "stationCount";
+		Assert.assertEquals( expectedData.get( REGION_NAME ), ((TextView) obtainedView.findViewById( R.id.regionName )).getText() );
+		Assert.assertEquals( expectedData.get( STATION_COUNT ), ((TextView) obtainedView.findViewById( R.id.stationCount )).getText() );
+		return true;
 	}
 }

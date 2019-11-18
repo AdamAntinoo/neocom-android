@@ -101,7 +101,7 @@ dependencies {
 //    implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
     implementation "org.dimensinfin:NeoCom.Annotations:$neocomDatamanagementVersion"
-    implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
+    implementation "org.dimensinfin:AndroidMVC:5.18.0@aar"
 
     // N E O C O M
     implementation 'com.jakewharton:disklrucache:2.0.2'

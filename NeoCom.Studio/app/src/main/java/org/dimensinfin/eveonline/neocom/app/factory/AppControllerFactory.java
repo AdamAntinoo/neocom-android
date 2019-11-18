@@ -92,7 +92,7 @@ public class AppControllerFactory extends ControllerFactory {
 			return new NeoComActionBarController((NeoComActionBar) node, this);
 		}
 //		if (node instanceof PlanetaryActionBar) {
-//			return new PlanetaryActionBarController((PlanetaryActionBar) node, this);
+//			return new AssetActionBarController((PlanetaryActionBar) node, this);
 //		}
 //		if (node instanceof MiningActionBar) {
 //			return new MiningActionBarController((MiningActionBar) node, this);

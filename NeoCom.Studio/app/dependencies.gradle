@@ -22,7 +22,7 @@ dependencies {
     // L I B R A R I E S
     implementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
     implementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
-    implementation "org.dimensinfin:AndroidMVC:5.1.0@aar"
+    implementation "org.dimensinfin:AndroidMVC:5.18.0@aar"
     implementation 'me.relex:circleindicator:2.1.0'
     implementation project(':app.Features')
 //    implementation project(':app.Annotations')

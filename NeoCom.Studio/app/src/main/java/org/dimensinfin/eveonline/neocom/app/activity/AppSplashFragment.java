@@ -6,14 +6,12 @@ import android.view.View;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.datasource.SplashActionsDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.factory.RenderViewGenerator;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 
 public class AppSplashFragment extends MVCPagerFragment {

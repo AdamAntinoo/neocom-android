@@ -1,6 +1,5 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -21,6 +20,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 
 public class NeoComWorld {
@@ -29,11 +29,11 @@ public class NeoComWorld {
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
 	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
+	private NeoComActivity activeActivity;
 
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
 	private ActivityScenario activityScenario;
-	private Activity activeActivity;
 	private View activePanel;
 	private MVCRender activeRender;
 
@@ -83,6 +83,14 @@ public class NeoComWorld {
 		this.authorizationFlowScenario = authorizationFlowScenario;
 		return this;
 	}
+	public NeoComActivity getActiveActivity() {
+		return this.activeActivity;
+	}
+
+	public NeoComWorld setActiveActivity( final NeoComActivity activeActivity ) {
+		this.activeActivity = activeActivity;
+		return this;
+	}
 
 	// ---------------------------------------------------------------
 
@@ -108,14 +116,6 @@ public class NeoComWorld {
 		return this;
 	}
 
-	public Activity getActiveActivity() {
-		return this.activeActivity;
-	}
-
-	public NeoComWorld setActiveActivity( final Activity activeActivity ) {
-		this.activeActivity = activeActivity;
-		return this;
-	}
 
 	public View getActivePanel() {
 		return this.activePanel;

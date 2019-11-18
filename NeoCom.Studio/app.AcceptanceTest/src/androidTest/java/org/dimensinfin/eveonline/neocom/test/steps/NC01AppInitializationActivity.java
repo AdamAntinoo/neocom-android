@@ -20,7 +20,6 @@ import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -43,7 +42,7 @@ public class NC01AppInitializationActivity extends StepFramework {
 		logger.info("-- [NC01AppInitializationActivity]> Storing world");
 	}
 
-	@Given("the AppInitializationActiviy activity")
+//	@Given("the AppInitializationActiviy activity")
 	public void the_AppInitializationActiviy_activity() {
 		final Application application = NeoComComponentFactory.getSingleton().getApplication();
 		Assert.assertNotNull(application);
@@ -54,7 +53,7 @@ public class NC01AppInitializationActivity extends StepFramework {
 				AppInitializationActivity.class);
 		activityScenario.onActivity(( activity ) -> {
 			logger.info("-- [the_AppInitializationActiviy_activity]> Storing activity");
-			this.world.setActiveActivity(activity);
+//			this.world.setActiveActivity(activity);
 		});
 		logger.info("-- [the_AppInitializationActiviy_activity]> Storing activity scenario");
 		this.world.setActivityScenario(activityScenario);
@@ -101,9 +100,9 @@ public class NC01AppInitializationActivity extends StepFramework {
 		activityScenario.moveToState(Lifecycle.State.STARTED);
 	}
 
-	@Then("we have layout with a single item")
+//	@Then("we have layout with a single item")
 	public void we_have_layout_with_a_single_item() {
-		final AppInitializationActivity activity = (AppInitializationActivity) this.world.getActiveActivity();
+//		final AppInitializationActivity activity = (AppInitializationActivity) this.world.getActiveActivity();
 //		final LinearContainer container = activity.getContainerView();
 //		Assert.assertEquals(1, container.size());
 	}

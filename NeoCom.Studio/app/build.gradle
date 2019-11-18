@@ -1,4 +1,7 @@
 // - P L U G I N S
+plugins {
+    id "org.sonarqube" version "2.8"
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -6,7 +9,6 @@ apply plugin: 'project-report'
 apply plugin: 'maven-publish'
 apply from: './dependencies.gradle'
 //apply from: './acceptance.gradle'
-
 android {
     compileSdkVersion 28
     defaultConfig {

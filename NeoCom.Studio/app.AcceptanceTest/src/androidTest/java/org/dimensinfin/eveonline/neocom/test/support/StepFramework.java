@@ -1,31 +1,26 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.rule.GrantPermissionRule;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
@@ -116,6 +111,11 @@ public class StepFramework {
 		return null;
 	}
 
+	protected void wait4Seconds( final int seconds ) {
+		try {
+			Thread.sleep( TimeUnit.SECONDS.toMillis( seconds ) );
+		} catch (InterruptedException e) { }
+	}
 	// ----
 
 	protected View searchPanelByClass( final Class filterClass, final ListView container ) {
