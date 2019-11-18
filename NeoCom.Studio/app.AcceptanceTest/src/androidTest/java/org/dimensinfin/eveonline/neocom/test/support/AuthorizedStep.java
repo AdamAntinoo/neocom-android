@@ -16,13 +16,12 @@ import org.dimensinfin.eveonline.neocom.database.repositories.CredentialReposito
 
 public class AuthorizedStep extends StepFramework {
 	protected Credential credential;
-//	protected Intent authorizationIntent;
 
 	public AuthorizedStep( final NeoComWorld world ) {
 		super( world );
 	}
 
-	public Intent authorizationIntent( final Class destinationActivity ) {
+	public void initializeCredential() {
 		this.credential = new Credential.Builder( 93813310 )
 				                  .withAccountId( 93813310 )
 				                  .withAccountName( "Perico Tuerto" )
@@ -37,6 +36,10 @@ public class AuthorizedStep extends StepFramework {
 				                  .withWalletBalance( 6.309543632E8 )
 				                  .withRaceName( "Amarr" )
 				                  .build();
+	}
+
+
+	public Intent authorizationIntent( final Class destinationActivity ) {
 		final Intent authorizationIntent = new Intent( ApplicationProvider.getApplicationContext(), destinationActivity );
 		Bundle bundle = new Bundle();
 		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), 93813310 );
@@ -45,10 +48,11 @@ public class AuthorizedStep extends StepFramework {
 	}
 
 	public void connectAuthorizedMockComponents() {
+		this.initializeCredential();
 		// Mock the credential information for credential dependent activities.
 		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
 		final List<Credential> credentialList = new ArrayList<>();
-		credentialList.add( credential );
+		credentialList.add( this.credential );
 		Mockito.when( credentialRepository.findAllByServer( Mockito.anyString() ) )
 		       .thenReturn( credentialList );
 		org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory.getSingleton().getESIDataProvider();

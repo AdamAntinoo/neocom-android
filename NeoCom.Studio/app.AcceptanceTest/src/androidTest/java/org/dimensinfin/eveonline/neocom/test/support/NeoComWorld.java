@@ -44,6 +44,10 @@ public class NeoComWorld {
 	private LocalDate todayDate;
 	private View actionBar;
 
+	public NeoComWorld() {
+		logger.info("-- [NeoComWorld.<constructor>]");
+	}
+
 	public ActivityScenario<AppSplashActivity> getAppSplashActivityScenario() {
 		return this.appSplashActivityScenario;
 	}
@@ -81,9 +85,6 @@ public class NeoComWorld {
 	}
 
 	// ---------------------------------------------------------------
-	public NeoComWorld() {
-		logger.info("-- [NeoComWorld.<constructor>]");
-	}
 
 	public ExecutorService getExecutor() {
 		return backgroundExecutor;

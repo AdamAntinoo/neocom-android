@@ -528,7 +528,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 				Objects.requireNonNull( this.appContext );
 				Objects.requireNonNull( this.fileSystem );
 				singleton = new AndroidNeoComDBHelper( this.appContext
-						, this.fileSystem.accessPublicResource4Path( databaseName )
+						, this.fileSystem.accessResource4Path( databaseName )
 						, databaseVersion );
 				singleton.getWritableDatabase();
 			}

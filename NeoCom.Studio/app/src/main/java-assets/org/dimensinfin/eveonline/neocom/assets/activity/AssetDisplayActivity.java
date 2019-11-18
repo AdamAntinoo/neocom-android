@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.assets.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
@@ -34,7 +35,7 @@ public class AssetDisplayActivity extends ACredentialActivity {
 				                      .build();
 		this.addPage( new AssetsByLocationFragment()
 				              .setAssetProvider( this.assetsProvider )
-				              .setCredential( this.getCredential() )
+//				              .setCredential( this.getCredential() )
 				              .setVariant( PageNamesType.ASSETS_BYLOCATION.name() ) );
 		NeoComLogger.exit();
 	}

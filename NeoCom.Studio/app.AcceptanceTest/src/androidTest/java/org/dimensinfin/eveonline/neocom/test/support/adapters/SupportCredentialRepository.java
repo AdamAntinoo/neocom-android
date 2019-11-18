@@ -1,25 +1,27 @@
 package org.dimensinfin.eveonline.neocom.test.support.adapters;
 
+import java.sql.SQLException;
+import java.util.Objects;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
-import java.sql.SQLException;
-import java.util.Objects;
-
 public class SupportCredentialRepository extends CredentialRepository {
+	protected SupportCredentialRepository() {}
+
 	public int deleteAll() {
 		try {
 			final DeleteBuilder<Credential, String> deleteBuilder = this.credentialDao.deleteBuilder();
-			deleteBuilder.where().isNotNull("uniqueCredential");
+			deleteBuilder.where().isNotNull( "uniqueCredential" );
 			final int recordsDeleted = deleteBuilder.delete();
-			logger.info("-- [SupportCredentialRepository.deleteAll]> Deleted {} records", recordsDeleted);
+			logger.info( "-- [SupportCredentialRepository.deleteAll]> Deleted {} records", recordsDeleted );
 			return recordsDeleted;
 		} catch (SQLException sqle) {
-			logger.info("EX [SupportCredentialRepository.deleteAll]> SQL exception while deleting records: {}",
-			            sqle.getMessage());
+			logger.info( "EX [SupportCredentialRepository.deleteAll]> SQL exception while deleting records: {}",
+					sqle.getMessage() );
 			return 0;
 		}
 	}
@@ -28,8 +30,8 @@ public class SupportCredentialRepository extends CredentialRepository {
 		try {
 			return this.credentialDao.countOf();
 		} catch (SQLException sqle) {
-			logger.info("EX [SupportCredentialRepository.countRecords]> SQL exception while counting records: {}",
-			            sqle.getMessage());
+			logger.info( "EX [SupportCredentialRepository.countRecords]> SQL exception while counting records: {}",
+					sqle.getMessage() );
 			return 0L;
 		}
 	}
@@ -48,7 +50,7 @@ public class SupportCredentialRepository extends CredentialRepository {
 		}
 
 		public SupportCredentialRepository build() {
-			Objects.requireNonNull(this.onConstruction.credentialDao);
+			Objects.requireNonNull( this.onConstruction.credentialDao );
 			return this.onConstruction;
 		}
 	}
