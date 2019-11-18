@@ -82,8 +82,8 @@ public class NeoComApplication extends Application {
 	 */
 	private void startScheduler() {
 		if (null == this.timeTickReceiver) {
-			this.timeTickReceiver = new MinuteTickReceiver.Builder(this).build();
-			this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+			this.timeTickReceiver = new MinuteTickReceiver();
+			this.registerReceiver(this.timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 

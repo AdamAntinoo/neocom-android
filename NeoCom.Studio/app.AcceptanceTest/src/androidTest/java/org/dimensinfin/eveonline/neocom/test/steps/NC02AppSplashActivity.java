@@ -21,13 +21,10 @@ import org.junit.Rule;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
-import org.dimensinfin.eveonline.neocom.app.activity.AppSplashFragment;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
-import org.dimensinfin.eveonline.neocom.service.scheduler.HourlyCronScheduleGenerator;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
-import org.dimensinfin.eveonline.neocom.test.support.ActivityResolver;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
@@ -84,12 +81,12 @@ public class NC02AppSplashActivity extends StepFramework {
 
 	@Given("a clear Scheduler")
 	public void a_clear_Scheduler() {
-		final JobScheduler scheduler = new JobScheduler.Builder()
-				                               .withCronScheduleGenerator( new HourlyCronScheduleGenerator() )
-				                               .build();
-		Assert.assertNotNull( scheduler );
-		scheduler.clear();
-		Assert.assertEquals( 0, scheduler.getJobCount() );
+//		final JobScheduler scheduler = new JobScheduler.Builder()
+//				                               .withCronScheduleGenerator( new HourlyCronScheduleGenerator() )
+//				                               .build();
+//		Assert.assertNotNull( scheduler );
+		JobScheduler.getJobScheduler().clear();
+		Assert.assertEquals( 0, JobScheduler.getJobScheduler().getJobCount() );
 	}
 
 	@Then("the Credential is added to the data sources")
