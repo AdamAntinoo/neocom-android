@@ -37,11 +37,28 @@ Feature: [NC04]-Define the pages to display the assets that belong to a pilot.
 	And "2" panels on the "DataSection"
 	And a type "Region" panel on the "DataSection" with the next data
 	  | regionId | regionName | stationCount |
-	  | 10000016 | Lonetrek   | 1            |
+	  | 10000016 | Metropolis | 1            |
 	And a type "Region" panel on the "DataSection" with expansion enabled
 
-#  Scenario: [NC04.03]-The display assets page shows an information panel is there are no assets.
-#	Given the AssetDisplayActivity
+  @NC04.03
+  Scenario: [NC04.03]-The region panels should have the right arrow to allow expansion to show the related stations/structures.
+	Given the AssetDisplayActivity
+	And the next list of assets persisted for character "92220000"
+	  | is_singleton | item_id       | location_flag | location_id | location_type | quantity | type_id |
+	  | true         | 1025460747649 | Hangar        | 60015001    | station       | 1        | 32880   |
+	  | false        | 1025468308807 | Hangar        | 60015001    | station       | 1        | 1317    |
+	  | true         | 1026745455214 | AssetSafety   | 60000475    | station       | 1        | 22542   |
+	  | true         | 1031786258314 | Hangar        | 60014806    | station       | 1        | 601     |
+	When the AssetDisplayActivity activity lifecycle completes
+	Then "0" panels on the "HeaderSection"
+	And "2" panels on the "DataSection"
+	And a type "Region" panel on the "DataSection" with expansion enabled
+	And when the region is expanded then there are "3" panels on the "DataSection"
+#	And a type "Station" panel on the "DataSection" with the next data
+#	  | regionId | regionName | stationCount |
+#	  | 10000016 | Metropolis | 1            |
+#	And a type "Station" panel on the "DataSection" with expansion enabled
+
 #	When the AssetDisplayActivity activity lifecycle completes
 #	Then there is a single page activity with title "Assets By Location"
 #	And there is a "InformationPanel" panel with the next contents

@@ -1,11 +1,14 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +26,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
+import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 
 public class StepFramework {
 	protected static Logger logger = LoggerFactory.getLogger( StepFramework.class );
@@ -50,6 +54,39 @@ public class StepFramework {
 					this.getResources().getString( R.string.sdedatabasefilename ), null );
 		}
 		AcceptanceNeoComLogger.exit();
+	}
+
+	protected void stopScheduler() {
+		final SharedPreferences.Editor preferencesEditor = PreferenceManager.getDefaultSharedPreferences(
+				InstrumentationRegistry.getInstrumentation().getContext()
+		).edit();
+		preferencesEditor.putBoolean( PreferenceKeys.prefkey_AllowScheduler.name(), false );
+		preferencesEditor.commit();
+
+	}
+
+	protected void grantPermissions() {
+		AcceptanceNeoComLogger.info( "[BEFORE] grantPermissions" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.INTERNET" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
+	}
+
+	protected void revokePermissions() {
+		AcceptanceNeoComLogger.info( "[BEFORE] revokePermissions" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.INTERNET" );
+		InstrumentationRegistry.getInstrumentation().getUiAutomation()
+				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
 	}
 
 	// - C O M P O N E N T   I N I T I A L I Z A T I O N

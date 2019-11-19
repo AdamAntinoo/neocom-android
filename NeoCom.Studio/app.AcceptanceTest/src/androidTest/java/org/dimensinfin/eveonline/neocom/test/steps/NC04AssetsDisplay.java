@@ -8,7 +8,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -71,22 +70,10 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	private Intent authorizationIntent;
 	private ActivityResolverNew resolver;
 
-
-	public void grantPermissions() {
-		AcceptanceNeoComLogger.info( "[BEFORE] grantPermissions" );
-		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE" );
-		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE" );
-		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.INTERNET" );
-		InstrumentationRegistry.getInstrumentation().getUiAutomation()
-				.executeShellCommand( "pm grant ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
-	}
-
 	@Before
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
+		this.stopScheduler();
 		this.initializeApplicationStorage();
 		this.connectAuthorizedMockComponents();
 	}
@@ -181,6 +168,7 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	public void a_type_panel_on_the_with_the_next_data( final String panelType, final String section,
 	                                                    final List<Map<String, String>> dataTable ) {
 		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with the next data" );
+		this.wait4Seconds( 3 );
 		switch (section) {
 			case "HeaderSection":
 				break;
@@ -191,19 +179,56 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 				break;
 		}
 	}
+
 	@Then("a type {string} panel on the {string} with expansion enabled")
-	public void a_type_panel_on_the_with_expansion_enabled(final String panelType, final String section) {
+	public void a_type_panel_on_the_with_expansion_enabled( final String panelType, final String section ) {
 		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with expansion enabled" );
 		switch (section) {
 			case "HeaderSection":
 				break;
 			case "DataSection":
+//				this.world.getAssetDisplayScenario().onActivity( activity -> {
 				final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
 				Assert.assertTrue( panels.size() > 0 );
+				// This check are not enough to validate the arrow is visible.
 				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
-				Assert.assertTrue(  panels.get( 0 ) instanceof View.OnClickListener );
+				Assert.assertEquals( View.VISIBLE,
+						this.resolver.matchDataPanel( panelType ).get( 0 ).findViewById( R.id.actuatorsBlock ).getVisibility() );
+				Assert.assertEquals( View.VISIBLE,
+						this.resolver.matchDataPanel( panelType ).get( 0 ).findViewById( R.id.rightArrow ).getVisibility() );
+//				} );
 				break;
 		}
+		this.world.getAssetDisplayScenario().close();
+	}
+
+	@Then("when the region is expanded then there are {string} panels on the {string}")
+	public void when_the_region_is_expanded_then_there_are_panels_on_the( final String numberOfPanels, final String section ) {
+		AcceptanceNeoComLogger.info( "[THEN] when the region is expanded then there are {string} panels on the {string}" );
+//		final ActivityScenario<AssetDisplayActivity> scenario = ActivityScenario.launch( this.authorizationIntent );
+//		Assert.assertNotNull( scenario );
+////		AcceptanceNeoComLogger.info( "Store the scenario..." );
+////		this.world.setAssetDisplayScenario( scenario );
+//		scenario.onActivity( ( activity ) -> {
+		// Expand one of the Regions.
+		final List<IAndroidController> matchRegions = this.resolver.matchDataController( "Region" );
+		final IAndroidController region = matchRegions.get( 0 );
+		if (region instanceof View.OnClickListener) {
+			AcceptanceNeoComLogger.info( "[THEN] click on the Region" );
+			((View.OnClickListener) region).onClick( region.getViewCache() );
+			this.world.getActiveActivity().runOnUiThread( () -> {
+				switch (section) {
+					case "HeaderSection":
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
+						break;
+					case "DataSection":
+						AcceptanceNeoComLogger.info( "[THEN] new panel count test" );
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.dataContentsCount() );
+						break;
+				}
+			} );
+		}
+//		} );
 	}
 
 	@When("the pilot activates the Assets information panel")
