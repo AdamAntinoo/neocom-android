@@ -100,7 +100,7 @@ dependencies {
     compileOnly 'org.dimensinfin:ESI.SwaggerApi:4.0.1'
 //    implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
-    implementation "org.dimensinfin:NeoCom.Annotations:$neocomDatamanagementVersion"
+    implementation "org.dimensinfin:NeoCom.Annotations:0.18.0"
     implementation "org.dimensinfin:AndroidMVC:5.18.0@aar"
 
     // N E O C O M

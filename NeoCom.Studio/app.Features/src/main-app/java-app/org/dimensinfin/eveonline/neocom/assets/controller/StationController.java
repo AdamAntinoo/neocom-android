@@ -6,12 +6,12 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.eveonline.neocom.assets.domain.StationMVCWrapper;
 import org.dimensinfin.eveonline.neocom.assets.render.StationRender;
-import org.dimensinfin.eveonline.neocom.domain.space.StationImplementation;
 
-public class StationController extends AndroidController<StationImplementation> {
+public class StationController extends AndroidController<StationMVCWrapper> {
 
-	public StationController( @NonNull final StationImplementation model, @NonNull final IControllerFactory factory ) {
+	public StationController( @NonNull final StationMVCWrapper model, @NonNull final IControllerFactory factory ) {
 		super( model, factory );
 	}
 

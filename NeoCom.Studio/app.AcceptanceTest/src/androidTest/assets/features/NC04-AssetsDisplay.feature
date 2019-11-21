@@ -35,7 +35,7 @@ Feature: [NC04]-Define the pages to display the assets that belong to a pilot.
 	  | toolBarTitleRight | [#93813310]        |
 	And "0" panels on the "HeaderSection"
 	And "2" panels on the "DataSection"
-	And a type "Region" panel on the "DataSection" with the next data
+	And a type Region panel on the "DataSection" with the next data
 	  | regionId | regionName | stationCount |
 	  | 10000016 | Metropolis | 1            |
 	And a type "Region" panel on the "DataSection" with expansion enabled
@@ -50,13 +50,14 @@ Feature: [NC04]-Define the pages to display the assets that belong to a pilot.
 	  | true         | 1026745455214 | AssetSafety   | 60000475    | station       | 1        | 22542   |
 	  | true         | 1031786258314 | Hangar        | 60014806    | station       | 1        | 601     |
 	When the AssetDisplayActivity activity lifecycle completes
-	Then "0" panels on the "HeaderSection"
-	And "2" panels on the "DataSection"
-	And a type "Region" panel on the "DataSection" with expansion enabled
+#	Then "0" panels on the "HeaderSection"
+#	And "2" panels on the "DataSection"
+#	And a type "Region" panel on the "DataSection" with expansion enabled
 	And when the region is expanded then there are "3" panels on the "DataSection"
-#	And a type "Station" panel on the "DataSection" with the next data
-#	  | regionId | regionName | stationCount |
-#	  | 10000016 | Metropolis | 1            |
+	And a type "Station" panel on the "DataSection" with expansion enabled
+	And a type Station panel on the "DataSection" with the next data
+	  | regionName | systemName | stationName                      | stationIdentifier | contentsCount |
+	  | Metropolis | Nakugard   | Nakugard V - Republic University | [40132049]        | 1             |
 #	And a type "Station" panel on the "DataSection" with expansion enabled
 
 #	When the AssetDisplayActivity activity lifecycle completes

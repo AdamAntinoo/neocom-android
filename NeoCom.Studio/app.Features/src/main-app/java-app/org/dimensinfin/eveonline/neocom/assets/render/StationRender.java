@@ -18,6 +18,7 @@ public class StationRender extends NodeBaseDecoratedRender {
 	private TextView locationSystem;
 	private TextView locationIdentifier;
 	private TextView locationStation;
+	private TextView contentsCount;
 
 	public StationRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super( controller, context );
@@ -42,10 +43,12 @@ public class StationRender extends NodeBaseDecoratedRender {
 		this.locationSystem = this.getView().findViewById( R.id.locationSystem );
 		this.locationIdentifier = this.getView().findViewById( R.id.locationIdentifier );
 		this.locationStation = this.getView().findViewById( R.id.locationStation );
+		this.contentsCount = this.getView().findViewById( R.id.contentsCount );
 		Objects.requireNonNull( this.locationRegion );
 		Objects.requireNonNull( this.locationSystem );
 		Objects.requireNonNull( this.locationIdentifier );
 		Objects.requireNonNull( this.locationStation );
+		Objects.requireNonNull( this.contentsCount );
 	}
 
 	@Override
@@ -56,9 +59,13 @@ public class StationRender extends NodeBaseDecoratedRender {
 		this.locationSystem.setText( this.getController().getModel().getSolarSystem().getName() );
 		this.locationIdentifier.setText( this.accessLocationIdentifier() );
 		this.locationStation.setText( this.getController().getModel().getStationName() );
+		this.contentsCount.setText( this.accessContentCount() );
 	}
 
 	private String accessLocationIdentifier() {
 		return "[" + this.getController().getModel().getSolarSystem().getStarId() + "]";
+	}
+	private String accessContentCount() {
+		return qtyFormatter.format( this.getController().getModel().getContentCount() );
 	}
 }

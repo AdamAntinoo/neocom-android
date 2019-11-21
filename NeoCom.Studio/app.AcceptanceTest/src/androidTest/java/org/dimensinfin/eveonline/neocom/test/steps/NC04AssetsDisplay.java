@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -31,7 +31,6 @@ import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
-import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
@@ -113,9 +112,9 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
-			try {
-				Thread.sleep( TimeUnit.SECONDS.toMillis( 2 ) );
-			} catch (InterruptedException e) { }
+//			try {
+//				Thread.sleep( TimeUnit.SECONDS.toMillis( 2 ) );
+//			} catch (InterruptedException e) { }
 		} );
 	}
 
@@ -164,59 +163,74 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		}
 	}
 
-	@Then("a type {string} panel on the {string} with the next data")
-	public void a_type_panel_on_the_with_the_next_data( final String panelType, final String section,
-	                                                    final List<Map<String, String>> dataTable ) {
-		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with the next data" );
+	@Then("a type Region panel on the {string} with the next data")
+	public void a_type_Region_panel_on_the_with_the_next_data( final String section,
+	                                                           final List<Map<String, String>> dataTable ) {
+		AcceptanceNeoComLogger.info( "[THEN] a type Region panel on the {string} with the next data" );
 		this.wait4Seconds( 3 );
 		switch (section) {
 			case "HeaderSection":
 				break;
 			case "DataSection":
-				final List<View> panels = this.resolver.matchDataPanel( panelType );
+				final List<View> panels = this.resolver.matchDataPanel( "Region" );
 				Assert.assertTrue( panels.size() > 0 );
 				Assert.assertTrue( this.validateRegionPanel( dataTable.get( 0 ), panels.get( 0 ) ) );
 				break;
 		}
 	}
 
+	@Then("a type Station panel on the {string} with the next data")
+	public void a_type_Station_panel_on_the_with_the_next_data( final String section,
+	                                                            final List<Map<String, String>> dataTable ) {
+		AcceptanceNeoComLogger.info( "[THEN] a type Station panel on the {string} with the next data" );
+		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
+			switch (section) {
+				case "HeaderSection":
+					break;
+				case "DataSection":
+					final List<IAndroidController> panels = this.resolver.matchDataController( "Station" );
+					Assert.assertTrue( panels.size() > 0 );
+					Assert.assertTrue( this.validateStationPanel( dataTable.get( 0 ), panels.get( 0 ).getViewCache() ) );
+					break;
+			}
+		});
+	}
+
 	@Then("a type {string} panel on the {string} with expansion enabled")
 	public void a_type_panel_on_the_with_expansion_enabled( final String panelType, final String section ) {
-		AcceptanceNeoComLogger.info( "[THEN] a type {string} panel on the {string} with expansion enabled" );
-		switch (section) {
-			case "HeaderSection":
-				break;
-			case "DataSection":
-//				this.world.getAssetDisplayScenario().onActivity( activity -> {
-				final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
-				Assert.assertTrue( panels.size() > 0 );
-				// This check are not enough to validate the arrow is visible.
-				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
-				Assert.assertEquals( View.VISIBLE,
-						this.resolver.matchDataPanel( panelType ).get( 0 ).findViewById( R.id.actuatorsBlock ).getVisibility() );
-				Assert.assertEquals( View.VISIBLE,
-						this.resolver.matchDataPanel( panelType ).get( 0 ).findViewById( R.id.rightArrow ).getVisibility() );
-//				} );
-				break;
-		}
-		this.world.getAssetDisplayScenario().close();
+		AcceptanceNeoComLogger.info( "[THEN] a type {} panel on the {string} with expansion enabled", panelType );
+//		this.wait4Seconds( 2 );
+		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
+			switch (section) {
+				case "HeaderSection":
+					break;
+				case "DataSection":
+					final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
+					Assert.assertTrue( panels.size() > 0 );
+					// This check are not enough to validate the arrow is visible.
+//				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
+					// TODO - Even the controller is found the view may have not been created
+					Assert.assertEquals( View.VISIBLE,
+							panels.get( 0 ).getViewCache().findViewById( R.id.actuatorsBlock ).getVisibility() );
+					Assert.assertEquals( View.VISIBLE,
+							panels.get( 0 ).getViewCache().findViewById( R.id.rightArrow ).getVisibility() );
+					break;
+			}
+		} );
+//		this.world.getAssetDisplayScenario().close();
 	}
 
 	@Then("when the region is expanded then there are {string} panels on the {string}")
 	public void when_the_region_is_expanded_then_there_are_panels_on_the( final String numberOfPanels, final String section ) {
 		AcceptanceNeoComLogger.info( "[THEN] when the region is expanded then there are {string} panels on the {string}" );
-//		final ActivityScenario<AssetDisplayActivity> scenario = ActivityScenario.launch( this.authorizationIntent );
-//		Assert.assertNotNull( scenario );
-////		AcceptanceNeoComLogger.info( "Store the scenario..." );
-////		this.world.setAssetDisplayScenario( scenario );
-//		scenario.onActivity( ( activity ) -> {
-		// Expand one of the Regions.
 		final List<IAndroidController> matchRegions = this.resolver.matchDataController( "Region" );
 		final IAndroidController region = matchRegions.get( 0 );
+		Assert.assertNotNull( region );
 		if (region instanceof View.OnClickListener) {
 			AcceptanceNeoComLogger.info( "[THEN] click on the Region" );
 			((View.OnClickListener) region).onClick( region.getViewCache() );
-			this.world.getActiveActivity().runOnUiThread( () -> {
+			this.resolver.updateDataSectionRender();
+			InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
 				switch (section) {
 					case "HeaderSection":
 						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
@@ -228,7 +242,6 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 				}
 			} );
 		}
-//		} );
 	}
 
 	@When("the pilot activates the Assets information panel")
@@ -265,6 +278,8 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	}
 
 
+	//----------
+
 	//	@Then("{string} {string} type panels on the {string}")
 	public void type_panels_on_the( String string, String string2, String string3 ) {
 		// Write code here that turns the phrase above into concrete actions
@@ -289,6 +304,21 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		final String STATION_COUNT = "stationCount";
 		Assert.assertEquals( expectedData.get( REGION_NAME ), ((TextView) obtainedView.findViewById( R.id.regionName )).getText() );
 		Assert.assertEquals( expectedData.get( STATION_COUNT ), ((TextView) obtainedView.findViewById( R.id.stationCount )).getText() );
+		return true;
+	}
+
+	private boolean validateStationPanel( final Map<String, String> expectedData,
+	                                      final View obtainedView ) {
+		final String REGION_NAME = "regionName";
+		final String SYSTEM_NAME = "systemName";
+		final String STATION_NAME = "stationName";
+		final String STATION_IDENTIFIER = "stationIdentifier";
+		final String CONTENTS_COUNT = "contentsCount";
+		Assert.assertEquals( expectedData.get( REGION_NAME ), ((TextView) obtainedView.findViewById( R.id.locationRegion )).getText() );
+		Assert.assertEquals( expectedData.get( SYSTEM_NAME ), ((TextView) obtainedView.findViewById( R.id.locationSystem )).getText() );
+		Assert.assertEquals( expectedData.get( STATION_NAME ), ((TextView) obtainedView.findViewById( R.id.locationStation )).getText() );
+		Assert.assertEquals( expectedData.get( STATION_IDENTIFIER ), ((TextView) obtainedView.findViewById( R.id.locationIdentifier )).getText() );
+		Assert.assertEquals( expectedData.get( CONTENTS_COUNT ), ((TextView) obtainedView.findViewById( R.id.contentsCount )).getText() );
 		return true;
 	}
 }

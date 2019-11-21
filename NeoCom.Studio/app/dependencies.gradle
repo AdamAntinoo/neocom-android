@@ -28,7 +28,7 @@ dependencies {
 //    implementation project(':app.Annotations')
 //    implementation project(':NeoCom.DataManagement')
     implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
-    implementation "org.dimensinfin:NeoCom.Annotations:$neocomDatamanagementVersion"
+    implementation "org.dimensinfin:NeoCom.Annotations:0.18.0"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

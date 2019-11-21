@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.domain.space.Region;
+import org.dimensinfin.eveonline.neocom.domain.container.FacetedExpandableContainer;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class AssetsByLocationDataSource extends MVCDataSource {
@@ -38,7 +38,7 @@ public class AssetsByLocationDataSource extends MVCDataSource {
 	 */
 	public void collaborate2Model() {
 		NeoComLogger.enter();
-		for ( Region region :this.assetsProvider.getRegionList()){
+		for ( FacetedExpandableContainer region :this.assetsProvider.getRegionList()){
 			this.addModelContents( region );
 		}
 		NeoComLogger.exit();

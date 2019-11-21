@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:minWidth="30dp"
+                android:gravity="right"
                 android:text="@string/default_locationitems"
                 android:textColor="@color/appwhite"
                 android:textSize="16sp" />

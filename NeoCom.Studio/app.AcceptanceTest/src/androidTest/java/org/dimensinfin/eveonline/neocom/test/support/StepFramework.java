@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +128,16 @@ public class StepFramework {
 		return NeoComComponentFactory.getSingleton().getApplication().getResources();
 	}
 
+	public static Matcher<View> withListSize (final int size) {
+		return new TypeSafeMatcher<View>() {
+			@Override public boolean matchesSafely (final View view) {
+				return ((ListView) view).getCount () == size;
+			}
+			@Override public void describeTo (final Description description) {
+				description.appendText ("ListView should have " + size + " items");
+			}
+		};
+	}
 	protected View searchFirstPanelByClass( final Class filterClass, final ViewGroup container ) {
 		final int contentCount = container.getChildCount();
 		for (int i = 0; i < contentCount; i++) {
