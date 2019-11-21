@@ -29,14 +29,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-//            resValue "string", "appname", "NeoComAT"
-//            resValue "string", "appnameversion", "NeoComAT v" + android.defaultConfig.versionName
-//            resValue "string", "appversion", android.defaultConfig.versionName
-//
-//            resValue "string", "appdatabasefilename", "neocom"
-//            resValue "string", "sdedatabasefilename", "sde.db"
-//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
-
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
 
             buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
@@ -121,22 +113,23 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-android:2.23.4'
     androidTestImplementation 'org.awaitility:awaitility:3.1.6'
 
+    // - C U C U M B E R
     androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
 
     // - C O R E
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     androidTestImplementation "joda-time:joda-time:$jodaTimeVersion"
-    // C A C H E
+    // - C A C H E
     androidTestImplementation "com.nytimes.android:store3:$cacheVersion" // Cache and store
     androidTestImplementation "com.nytimes.android:cache3:$cacheVersion"
     androidTestImplementation "com.nytimes.android:middleware3:$cacheVersion"
     androidTestImplementation "com.nytimes.android:filesystem3:$cacheVersion"
     androidTestImplementation 'io.reactivex.rxjava2:rxjava:2.2.12'
     androidTestImplementation 'com.jakewharton:disklrucache:2.0.2'
-    // P A R S E R
+    // - P A R S E R
     androidTestImplementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
-    // JSON converter
+    // - JSON converter
     androidTestImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     androidTestImplementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion"
     androidTestImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"

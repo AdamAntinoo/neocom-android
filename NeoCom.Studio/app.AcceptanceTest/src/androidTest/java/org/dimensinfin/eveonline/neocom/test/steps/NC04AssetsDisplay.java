@@ -8,7 +8,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -29,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardFragment;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
@@ -39,6 +39,7 @@ import org.dimensinfin.eveonline.neocom.test.support.ActivityResolverNew;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.ControllerMatcher;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportAssetRepository;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2NeoAssetConverter;
 
@@ -112,9 +113,11 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
-//			try {
-//				Thread.sleep( TimeUnit.SECONDS.toMillis( 2 ) );
-//			} catch (InterruptedException e) { }
+		} );
+		Ristretto.waitForCompletion( this.world, () -> {
+			final NeoComActivity activity = this.world.getActiveActivity();
+			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
+			final Stage stage = registry.getLifecycleStageOf( activity );
 		} );
 	}
 
@@ -172,9 +175,9 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			case "HeaderSection":
 				break;
 			case "DataSection":
-				final List<View> panels = this.resolver.matchDataPanel( "Region" );
+				final List<IAndroidController> panels = this.resolver.matchDataController( "Region" );
 				Assert.assertTrue( panels.size() > 0 );
-				Assert.assertTrue( this.validateRegionPanel( dataTable.get( 0 ), panels.get( 0 ) ) );
+				Assert.assertTrue( this.validateRegionPanel( dataTable.get( 0 ), panels.get( 0 ).getViewCache() ) );
 				break;
 		}
 	}
@@ -183,40 +186,40 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	public void a_type_Station_panel_on_the_with_the_next_data( final String section,
 	                                                            final List<Map<String, String>> dataTable ) {
 		AcceptanceNeoComLogger.info( "[THEN] a type Station panel on the {string} with the next data" );
-		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
-			switch (section) {
-				case "HeaderSection":
-					break;
-				case "DataSection":
-					final List<IAndroidController> panels = this.resolver.matchDataController( "Station" );
-					Assert.assertTrue( panels.size() > 0 );
-					Assert.assertTrue( this.validateStationPanel( dataTable.get( 0 ), panels.get( 0 ).getViewCache() ) );
-					break;
-			}
-		});
+//		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
+		switch (section) {
+			case "HeaderSection":
+				break;
+			case "DataSection":
+				final List<IAndroidController> panels = this.resolver.matchDataController( "Station" );
+				Assert.assertTrue( panels.size() > 0 );
+				Assert.assertTrue( this.validateStationPanel( dataTable.get( 0 ), panels.get( 0 ).getViewCache() ) );
+				break;
+		}
+//		});
 	}
 
 	@Then("a type {string} panel on the {string} with expansion enabled")
 	public void a_type_panel_on_the_with_expansion_enabled( final String panelType, final String section ) {
 		AcceptanceNeoComLogger.info( "[THEN] a type {} panel on the {string} with expansion enabled", panelType );
 //		this.wait4Seconds( 2 );
-		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
-			switch (section) {
-				case "HeaderSection":
-					break;
-				case "DataSection":
-					final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
-					Assert.assertTrue( panels.size() > 0 );
-					// This check are not enough to validate the arrow is visible.
+//		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
+		switch (section) {
+			case "HeaderSection":
+				break;
+			case "DataSection":
+				final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
+				Assert.assertTrue( panels.size() > 0 );
+				// This check are not enough to validate the arrow is visible.
 //				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
-					// TODO - Even the controller is found the view may have not been created
-					Assert.assertEquals( View.VISIBLE,
-							panels.get( 0 ).getViewCache().findViewById( R.id.actuatorsBlock ).getVisibility() );
-					Assert.assertEquals( View.VISIBLE,
-							panels.get( 0 ).getViewCache().findViewById( R.id.rightArrow ).getVisibility() );
-					break;
-			}
-		} );
+				// TODO - Even the controller is found the view may have not been created
+				Assert.assertEquals( View.VISIBLE,
+						panels.get( 0 ).getViewCache().findViewById( R.id.actuatorsBlock ).getVisibility() );
+				Assert.assertEquals( View.VISIBLE,
+						panels.get( 0 ).getViewCache().findViewById( R.id.rightArrow ).getVisibility() );
+				break;
+		}
+//		} );
 //		this.world.getAssetDisplayScenario().close();
 	}
 
@@ -228,9 +231,12 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		Assert.assertNotNull( region );
 		if (region instanceof View.OnClickListener) {
 			AcceptanceNeoComLogger.info( "[THEN] click on the Region" );
+			// TODO - Replace the click by a Espresso click
+//			Espresso.onView( Ristretto.withPanelType( Ristretto.PanelTypes.REGIONCONTROLLER ) ).perform( ViewActions.click() );
 			((View.OnClickListener) region).onClick( region.getViewCache() );
-			this.resolver.updateDataSectionRender();
-			InstrumentationRegistry.getInstrumentation().waitForIdle( () -> {
+			this.world.getActiveActivity().runOnUiThread( () -> this.resolver.updateDataSectionRender() );
+			this.wait4Seconds( 2 );
+			Ristretto.waitForCompletion( this.world, () -> {
 				switch (section) {
 					case "HeaderSection":
 						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );

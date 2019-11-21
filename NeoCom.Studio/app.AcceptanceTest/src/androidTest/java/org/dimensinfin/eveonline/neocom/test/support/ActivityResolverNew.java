@@ -1,8 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.app.ActionBar;
-import android.view.View;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,6 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.assets.controller.StationController;
-import org.dimensinfin.eveonline.neocom.domain.space.Region;
 
 public class ActivityResolverNew {
 	private NeoComActivity activity;
@@ -54,20 +51,20 @@ public class ActivityResolverNew {
 		return this.getFragment().accessDataContents().size();
 	}
 
-	public List<View> matchDataPanel( final String panelType ) {
-		final List<View> results = new ArrayList<>();
-		switch (panelType) {
-			case "Region":
-				for (IAndroidController controller : this.getFragment().accessDataContents()) {
-					if (controller.getModel() instanceof Region) results.add( controller.getViewCache() );
-				}
-			case "Station":
-				for (IAndroidController controller : this.getFragment().accessDataContents()) {
-					if (controller.getModel() instanceof Region) results.add( controller.getViewCache() );
-				}
-		}
-		return results;
-	}
+//	public List<View> matchDataPanel( final String panelType ) {
+//		final List<View> results = new ArrayList<>();
+//		switch (panelType) {
+//			case "Region":
+//				for (IAndroidController controller : this.getFragment().accessDataContents()) {
+//					if (controller.getModel() instanceof Region) results.add( controller.getViewCache() );
+//				}
+//			case "Station":
+//				for (IAndroidController controller : this.getFragment().accessDataContents()) {
+//					if (controller.getModel() instanceof Region) results.add( controller.getViewCache() );
+//				}
+//		}
+//		return results;
+//	}
 
 	public List<IAndroidController> matchDataController( final String panelType ) {
 		final List<IAndroidController> results = new ArrayList<>();
@@ -83,6 +80,6 @@ public class ActivityResolverNew {
 	}
 
 	public void updateDataSectionRender() {
-		InstrumentationRegistry.getInstrumentation().waitForIdle( () -> this.getFragment().updateDisplay() );
+		this.getFragment().updateDisplay();
 	}
 }
