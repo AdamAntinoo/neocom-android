@@ -8,12 +8,13 @@ import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
+import org.dimensinfin.eveonline.neocom.assets.domain.RegionMVCWrapper;
 import org.dimensinfin.eveonline.neocom.assets.render.RegionRender;
-import org.dimensinfin.eveonline.neocom.domain.space.Region;
 
-public class RegionController extends AndroidController<Region> implements View.OnClickListener {
-	public RegionController( @NonNull final Region model, @NonNull final IControllerFactory factory ) {
+public class RegionController extends AndroidController<RegionMVCWrapper> implements View.OnClickListener {
+	public RegionController( @NonNull final RegionMVCWrapper model, @NonNull final IControllerFactory factory ) {
 		super( model, factory );
 	}
 
@@ -29,6 +30,7 @@ public class RegionController extends AndroidController<Region> implements View.
 		logger.info( ">> [RegionController.onClick]" );
 		this.getModel().toggleExpand();
 		this.invalidate();
-		this.sendChangeEvent( EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name() );
+		this.getDataSource().receiveEvent( new IntercommunicationEvent( this, EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name(),
+				this.getModel().isExpanded(), null ) );
 	}
 }
