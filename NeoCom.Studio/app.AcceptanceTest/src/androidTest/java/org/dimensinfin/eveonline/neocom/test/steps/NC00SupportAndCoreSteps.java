@@ -72,6 +72,7 @@ public class NC00SupportAndCoreSteps {
 		} );
 		this.record( "STEP 05" );
 	}
+
 	@Then("we get the right order of results")
 	public void we_get_the_right_order_of_results() {
 		Assert.assertEquals( 5, this.recording.size() );
@@ -85,5 +86,19 @@ public class NC00SupportAndCoreSteps {
 	private void record( final String message ) {
 		this.recording.add( message );
 		NeoComLogger.info( message );
+	}
+
+	// - C O M M O N   S T E P S
+	@Then("{string} panels on the {string}")
+	public void panels_on_the( final String numberOfPanels, final String section ) {
+		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
+		switch (section) {
+			case "HeaderSection":
+				Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount( this.world.getSelectedPage() ) );
+				break;
+			case "DataSection":
+				Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.dataContentsCount( this.world.getSelectedPage() ) );
+				break;
+		}
 	}
 }

@@ -43,13 +43,13 @@ public class ActivityResolverNew {
 		return this.activity.getActionBar();
 	}
 
-	public int headerContentsCount() {
-		return this.getFragment().accessHeaderContents().size();
-	}
-
-	public int dataContentsCount() {
-		return this.getFragment().accessDataContents().size();
-	}
+//	public int headerContentsCount() {
+//		return this.getFragment().accessHeaderContents().size();
+//	}
+//
+//	public int dataContentsCount() {
+//		return this.getFragment().accessDataContents().size();
+//	}
 
 //	public List<View> matchDataPanel( final String panelType ) {
 //		final List<View> results = new ArrayList<>();

@@ -1,14 +1,18 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.view.View;
+import androidx.fragment.app.Fragment;
 import androidx.test.espresso.remote.annotation.RemoteMsgConstructor;
 import androidx.test.espresso.remote.annotation.RemoteMsgField;
+
+import java.util.Objects;
 
 import org.awaitility.Awaitility;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
@@ -66,6 +70,26 @@ public class Ristretto {
 		}
 	}
 
+	// - A C T I V I T Y   M A N A G E M E N T
+	public static int activityPageCount() {
+		return ((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getCount();
+	}
+
+	public static int headerContentsCount( final int page ) {
+		final Fragment fragment = Objects.requireNonNull(
+				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
+		);
+		return ((MVCPagerFragment) fragment).accessHeaderContents().size();
+	}
+
+	public static int dataContentsCount( final int page ) {
+		final Fragment fragment = Objects.requireNonNull(
+				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
+		);
+		return ((MVCPagerFragment) fragment).accessDataContents().size();
+	}
+
+	// - S Y N C H R O N I Z A T I O N
 	public static void waitForCompletion( final Runnable callback ) {
 		AcceptanceNeoComLogger.enter();
 		// Add the callback behind the latest scheduler run and ui run.
@@ -100,6 +124,7 @@ public class Ristretto {
 		fragment.updateDisplay();
 	}
 
+	// - M O N I T O R
 	private static final class Monitor {
 		private boolean trigger = false;
 

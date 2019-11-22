@@ -12,8 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
@@ -23,17 +21,19 @@ import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class NeoComWorld {
-	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
+	//	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
 	private ActivityScenario<SettingsActivity> settingsActivityScenario;
 	private ActivityScenario<AppSplashActivity> appSplashActivityScenario;
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
 	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
 	private Activity activeActivity;
+	private Integer selectedPage = 0;
 
-	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
+	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool( 1 );
 	private NeoComApplication application;
 	private ActivityScenario activityScenario;
 	private View activePanel;
@@ -41,13 +41,11 @@ public class NeoComWorld {
 
 	private ActivityTestRule activityRule;
 	private MVCPagerFragment fragment;
-	//	private ViewGroup headerContainer;
-//	private ListView dataSectionContainer;
 	private LocalDate todayDate;
 	private View actionBar;
 
 	public NeoComWorld() {
-		logger.info("-- [NeoComWorld.<constructor>]");
+		NeoComLogger.info( "-- [NeoComWorld.<constructor>]" );
 	}
 
 	public ActivityScenario<SettingsActivity> getSettingsActivityScenario() {
@@ -94,6 +92,7 @@ public class NeoComWorld {
 		this.authorizationFlowScenario = authorizationFlowScenario;
 		return this;
 	}
+
 	public Activity getActiveActivity() {
 		return this.activeActivity;
 	}
@@ -103,7 +102,15 @@ public class NeoComWorld {
 		return this;
 	}
 
-	// ---------------------------------------------------------------
+	public Integer getSelectedPage() {
+		return this.selectedPage;
+	}
+
+	public NeoComWorld setSelectedPage( final Integer selectedPage ) {
+		this.selectedPage = selectedPage;
+		return this;
+	}
+// ---------------------------------------------------------------
 
 	public ExecutorService getExecutor() {
 		return backgroundExecutor;
@@ -177,7 +184,7 @@ public class NeoComWorld {
 	}
 
 	public ViewGroup getHeaderContainer() {
-		Objects.requireNonNull(this.fragment);
+		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessHeaderContainer();
 	}
 
@@ -187,7 +194,7 @@ public class NeoComWorld {
 //	}
 
 	public ListView getDataSectionContainer() {
-		Objects.requireNonNull(this.fragment);
+		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessDataSectionContainer();
 	}
 
