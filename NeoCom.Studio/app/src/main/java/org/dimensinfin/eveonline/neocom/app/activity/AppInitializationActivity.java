@@ -28,6 +28,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
@@ -43,7 +44,7 @@ import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 
-public class AppInitializationActivity extends Activity {
+public class AppInitializationActivity extends NeoComActivity {
 	protected static Logger logger = LoggerFactory.getLogger( ChainTask.class );
 	public static final String RETRY_INITIALIZATION_EVENT = "-RETRY_INITIALIZATION_EVENT-";
 	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
@@ -131,26 +132,12 @@ public class AppInitializationActivity extends Activity {
 				                     } )
 				                     .build();
 		// Check that the application is available and the component factory is also present.
-		final InitializationTask initialCheckTask = new InitializationTask.Builder()
-				                                            .withMessage( "Core instances check..." )
-				                                            .withState( InitializationTask.InitializationTaskState.RUNNING )
-				                                            .withRetryable( true )
-				                                            .build();
-		// Load the list of tasks.
-		this.taskSequencer.addTask( new ChainTask.Builder()
-				                            .withTaskModel( initialCheckTask )
-				                            .withRunTask( () -> {
-//					                           try {
-					                            final NeoComComponentFactory componentFactory = NeoComComponentFactory.getSingleton();
-					                            Objects.requireNonNull( componentFactory );
-					                            final NeoComApplication application = NeoComComponentFactory.getSingleton().getApplication();
-					                            Objects.requireNonNull( application );
-//					                           } catch (final NullPointerException npe) {
-//						                           return false;
-//					                           }
-					                            return true;
-				                            } )
-				                            .build() );
+		this.createInitializationTaskSlot( "Core instances check...", () -> {
+			final NeoComComponentFactory componentFactory = Objects.requireNonNull(NeoComComponentFactory.getSingleton());
+			final NeoComApplication application = Objects.requireNonNull(NeoComComponentFactory.getSingleton().getApplication());
+			return true;
+		} );
+
 		final InitializationTask privilegeExternalStorageCheckTask = new InitializationTask.Builder()
 				                                                             .withMessage(
 						                                                             "Application write external privilege check..." )
@@ -219,9 +206,9 @@ public class AppInitializationActivity extends Activity {
 				                            } )
 				                            .build() );
 		this.createInitializationTaskSlot( "Application directories check...", () -> {
-			this.createAppDir();
-			this.createPublicAppDir();
-			this.createCacheDirectories();
+			NeoComApplication.createAppDir();
+			NeoComApplication.createPublicAppDir();
+			NeoComApplication.createCacheDirectories();
 			return true;
 		} );
 		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
@@ -309,34 +296,6 @@ public class AppInitializationActivity extends Activity {
 				                            .withRunTask( initializationCode )
 				                            .build() );
 	}
-
-	/**
-	 * Creates the application directory if it already does not exist on the sdcard.
-	 */
-	protected boolean createAppDir() {
-		// Create file application directory if it doesn't exist
-		final File sdCardDir = new File( this.getExternalFilesDir( null )
-				, this.getResources().getString( R.string.appname ) );
-		if (!sdCardDir.exists()) sdCardDir.mkdir();
-		return sdCardDir.exists();
-	}
-
-	protected boolean createPublicAppDir() {
-		// Create file application directory if it doesn't exist
-		final File sdCardDir = new File( Environment.getExternalStorageDirectory()
-				, this.getResources().getString( R.string.appname ) );
-		if (!sdCardDir.exists()) sdCardDir.mkdir();
-		return sdCardDir.exists();
-	}
-
-	protected boolean createCacheDirectories() {
-		File cachedir = new File( Environment.getExternalStorageDirectory()
-				, this.getResources().getString( R.string.appname )
-						  + "/" + this.configurationProvider.getResourceString( "P.cache.directory.path" ) );
-		cachedir.mkdir();
-		return cachedir.exists();
-	}
-
 	protected boolean sdeDatabaseExists() throws IOException {
 		return new File( this.fileSystem.accessResource4Path( this.getResources().getString( R.string.sdedatabasefilename ) ) ).exists();
 	}

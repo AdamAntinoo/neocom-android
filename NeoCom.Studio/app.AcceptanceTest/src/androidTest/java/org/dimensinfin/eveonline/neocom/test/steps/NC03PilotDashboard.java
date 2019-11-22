@@ -18,7 +18,6 @@ import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -41,7 +40,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		super( world );
 	}
 
-	@Before
+//	@Before
 	public void initializeScenario() throws IOException {
 		this.initializeApplicationStorage();
 //		this.createIntent();
