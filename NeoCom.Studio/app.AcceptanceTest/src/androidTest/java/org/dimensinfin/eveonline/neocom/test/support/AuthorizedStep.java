@@ -55,7 +55,7 @@ public class AuthorizedStep extends StepFramework {
 		credentialList.add( this.credential );
 		Mockito.when( credentialRepository.findAllByServer( Mockito.anyString() ) )
 		       .thenReturn( credentialList );
-		org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory.getSingleton().getESIDataProvider();
+		NeoComComponentFactory.getSingleton().getESIDataProvider();
 		NeoComComponentFactory.getSingleton().replaceCredentialRepository( credentialRepository );
 	}
 }

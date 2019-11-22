@@ -42,6 +42,7 @@ public class StepFramework {
 
 	public StepFramework( final NeoComWorld world ) {
 		this.world = world;
+		Ristretto.setWorld(this.world);
 	}
 
 	public void initializeApplicationStorage() throws IOException {

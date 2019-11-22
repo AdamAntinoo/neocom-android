@@ -9,6 +9,9 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import org.dimensinfin.android.mvc.core.MVCScheduler;
+import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.assets.controller.StationController;
 
@@ -18,6 +21,15 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Ristretto {
 	public enum PanelTypes {
 		NOT_SET, REGIONCONTROLLER, STATIONCONTROLLER
+	}
+
+	private static final int WAIT_TIMEOUT = 70;
+
+	// - W O R L D
+	private static NeoComWorld world;
+
+	public static void setWorld( final NeoComWorld newworld ) {
+		world = newworld;
 	}
 
 	public static Matcher<View> withPanelType( final PanelTypes panelType ) {
@@ -54,14 +66,38 @@ public class Ristretto {
 		}
 	}
 
-	public static void waitForCompletion( final NeoComWorld world, final Runnable callback ) {
+	public static void waitForCompletion( final Runnable callback ) {
 		AcceptanceNeoComLogger.enter();
 		// Add the callback behind the latest scheduler run and ui run.
 		final Monitor monitor = new Monitor();
+//		MVCScheduler.backgroundExecutor.submit( () -> {
 		world.getActiveActivity().runOnUiThread( callback );
 		world.getActiveActivity().runOnUiThread( monitor::activateTrigger );
-		Awaitility.await().atMost( 5, SECONDS ).until( () -> monitor.isTriggered() );
+//		} );
+		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
 		AcceptanceNeoComLogger.exit();
+	}
+
+	public static void waitForBackground( final Runnable callback ) {
+		AcceptanceNeoComLogger.enter();
+		// Add the callback behind the latest scheduler run and ui run.
+		final Monitor monitor = new Monitor();
+		MVCScheduler.backgroundExecutor.submit( () -> callback );
+		MVCScheduler.backgroundExecutor.submit( monitor::activateTrigger );
+		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
+		AcceptanceNeoComLogger.exit();
+	}
+
+	@Deprecated
+	public static void waitForCompletion( final NeoComWorld newworld, final Runnable callback ) {
+		world = newworld;
+		waitForCompletion( callback );
+	}
+
+	public static void updateDisplay() {
+		final NeoComActivity activity = (NeoComActivity) world.getActiveActivity();
+		final MVCPagerFragment fragment = (MVCPagerFragment) activity.accessPageAdapter().getItem( 0 );
+		fragment.updateDisplay();
 	}
 
 	private static final class Monitor {

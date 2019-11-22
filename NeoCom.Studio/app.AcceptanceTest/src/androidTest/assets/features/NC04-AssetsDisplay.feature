@@ -50,21 +50,12 @@ Feature: [NC04]-Define the pages to display the assets that belong to a pilot.
 	  | true         | 1026745455214 | AssetSafety   | 60000475    | station       | 1        | 22542   |
 	  | true         | 1031786258314 | Hangar        | 60014806    | station       | 1        | 601     |
 	When the AssetDisplayActivity activity lifecycle completes
-#	Then "0" panels on the "HeaderSection"
-#	And "2" panels on the "DataSection"
-#	And a type "Region" panel on the "DataSection" with expansion enabled
 	And when the region is expanded then there are "3" panels on the "DataSection"
 	And a type "Station" panel on the "DataSection" with expansion enabled
 	And a type Station panel on the "DataSection" with the next data
 	  | regionName | systemName | stationName                      | stationIdentifier | contentsCount |
 	  | Metropolis | Nakugard   | Nakugard V - Republic University | [40132049]        | 1             |
-#	And a type "Station" panel on the "DataSection" with expansion enabled
 
-#	When the AssetDisplayActivity activity lifecycle completes
-#	Then there is a single page activity with title "Assets By Location"
-#	And there is a "InformationPanel" panel with the next contents
-#	  | fieldIdentifier | fieldValue                                                              |
-#	  | panelLabel      | There are no assets for this pilot. Wait for asset download completion. |
 #
 #  Scenario: [NC04.03]-The AssetDisplayActivity.P0 has an action bar with asset specific information.
 #	Given the AssetDisplayActivity Page0

@@ -44,7 +44,6 @@ import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportAssetReposi
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2NeoAssetConverter;
 
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -70,7 +69,7 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	private Intent authorizationIntent;
 	private ActivityResolverNew resolver;
 
-	@Before
+	//	@Before
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
 		this.stopScheduler();
@@ -79,7 +78,8 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	}
 
 	@Given("the AssetDisplayActivity")
-	public void the_AssetDisplayActivity() {
+	public void the_AssetDisplayActivity() throws IOException {
+		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the AssetDisplayActivity" );
 		this.authorizationIntent = this.authorizationIntent( AssetDisplayActivity.class );
 	}
@@ -108,16 +108,17 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			Assert.assertTrue( activity instanceof AssetDisplayActivity );
 			AcceptanceNeoComLogger.info( "Store the activity..." + activity.getClass().getSimpleName() );
 			this.world.setActiveActivity( activity );
-			this.resolver = new ActivityResolverNew( this.world.getActiveActivity() );
+			this.resolver = new ActivityResolverNew( (NeoComActivity) this.world.getActiveActivity() );
 			AcceptanceNeoComLogger.info( "Verify the current activity state..." );
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
 		} );
-		Ristretto.waitForCompletion( this.world, () -> {
-			final NeoComActivity activity = this.world.getActiveActivity();
-			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
-			final Stage stage = registry.getLifecycleStageOf( activity );
+		Ristretto.waitForBackground( () -> {
+			Ristretto.waitForCompletion( () -> {
+				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+				Ristretto.updateDisplay();
+			} );
 		} );
 	}
 
@@ -234,7 +235,7 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			// TODO - Replace the click by a Espresso click
 //			Espresso.onView( Ristretto.withPanelType( Ristretto.PanelTypes.REGIONCONTROLLER ) ).perform( ViewActions.click() );
 			((View.OnClickListener) region).onClick( region.getViewCache() );
-			this.world.getActiveActivity().runOnUiThread( () -> this.resolver.updateDataSectionRender() );
+			this.world.getActiveActivity().runOnUiThread( () ->Ristretto.updateDisplay() );
 			this.wait4Seconds( 2 );
 			Ristretto.waitForCompletion( this.world, () -> {
 				switch (section) {

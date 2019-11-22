@@ -79,7 +79,7 @@ public class ActivityResolverNew {
 		return results;
 	}
 
-	public void updateDataSectionRender() {
-		this.getFragment().updateDisplay();
-	}
+//	public void updateDataSectionRender() {
+//		this.getFragment().updateDisplay();
+//	}
 }

@@ -1,5 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -20,16 +21,17 @@ import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
+import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 
 public class NeoComWorld {
 	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
+	private ActivityScenario<SettingsActivity> settingsActivityScenario;
 	private ActivityScenario<AppSplashActivity> appSplashActivityScenario;
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
 	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
-	private NeoComActivity activeActivity;
+	private Activity activeActivity;
 
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 	private NeoComApplication application;
@@ -46,6 +48,15 @@ public class NeoComWorld {
 
 	public NeoComWorld() {
 		logger.info("-- [NeoComWorld.<constructor>]");
+	}
+
+	public ActivityScenario<SettingsActivity> getSettingsActivityScenario() {
+		return this.settingsActivityScenario;
+	}
+
+	public NeoComWorld setSettingsActivityScenario( final ActivityScenario<SettingsActivity> settingsActivityScenario ) {
+		this.settingsActivityScenario = settingsActivityScenario;
+		return this;
 	}
 
 	public ActivityScenario<AppSplashActivity> getAppSplashActivityScenario() {
@@ -83,11 +94,11 @@ public class NeoComWorld {
 		this.authorizationFlowScenario = authorizationFlowScenario;
 		return this;
 	}
-	public NeoComActivity getActiveActivity() {
+	public Activity getActiveActivity() {
 		return this.activeActivity;
 	}
 
-	public NeoComWorld setActiveActivity( final NeoComActivity activeActivity ) {
+	public NeoComWorld setActiveActivity( final Activity activeActivity ) {
 		this.activeActivity = activeActivity;
 		return this;
 	}
