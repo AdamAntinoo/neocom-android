@@ -4,14 +4,15 @@ Feature: [NC05]-The authorization flow activity will be used to authorize new cr
   To add new credentials to the NeoCom application I should use the ESI OAuth authentication portal to generate the correct
   credentials. Those are stored on the Credential instance and persisted on the local application repository.
 
+  @NC05.01
   Scenario: [NC05.01]-The authorization flow is started with no intents. The page should show a message and then go back to the Splash.
 	Given the AuthorizationFlowActivity
 	When the AuthorizationFlowActivity is created with no intent
-	Then a InformationPanel is visible with the next information
-	  | fieldIdentifier | fieldValue                                                                                  |
-	  | panelLabel      | Login activation launch is not correct. Try again from the pilot credential selection page. |
+#	Then a InformationPanel is visible with the next information
+#	  | fieldIdentifier | fieldValue                                                                                  |
+#	  | panelLabel      | Login activation launch is not correct. Try again from the pilot credential selection page. |
 
-
+  @NC05.02
   Scenario: [NC05.02]-The authorization flow is started with an Intent to compose and fire the login oauth flow by calling the ESI login service.
 	Given the AuthorizationFlowActivity
 	When the AuthorizationFlowActivity is created with the FIRE_AUTHORIZATION_FLOW intent

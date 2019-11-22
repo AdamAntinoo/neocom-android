@@ -19,7 +19,7 @@ import cucumber.api.android.CucumberAndroidJUnitRunner;
 		plugin = { "html:target/cucumber-html-report",
 				"json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
 				"usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" },
-		tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC05.01" })
+		tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC05.02" })
 public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
 	@Override
