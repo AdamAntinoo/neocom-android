@@ -15,7 +15,6 @@ import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionCo
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class InitializationExceptionRender extends MVCRender implements View.OnClickListener {
-//	protected static final Logger logger =new NeoComLogger().getInstance();
 	private TextView exceptionMessage;
 //	private ImageView retryButton;
 

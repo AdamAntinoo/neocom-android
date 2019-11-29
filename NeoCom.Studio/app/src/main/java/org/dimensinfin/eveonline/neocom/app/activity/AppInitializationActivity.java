@@ -47,12 +47,13 @@ import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
 public class AppInitializationActivity extends NeoComActivity {
 	protected static Logger logger = LoggerFactory.getLogger( ChainTask.class );
 	public static final String RETRY_INITIALIZATION_EVENT = "-RETRY_INITIALIZATION_EVENT-";
-	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
+	//	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
+	private ActionBar actionBar;
+	private LinearContainer linearContainer;
+	private TaskSequencer taskSequencer;
+	// - C O M P O N E N T S
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
-	protected ActionBar actionBar;
-	protected LinearContainer linearContainer;
-	private TaskSequencer taskSequencer;
 
 	// - L I F E C Y C L E
 	@Override
@@ -133,8 +134,8 @@ public class AppInitializationActivity extends NeoComActivity {
 				                     .build();
 		// Check that the application is available and the component factory is also present.
 		this.createInitializationTaskSlot( "Core instances check...", () -> {
-			final NeoComComponentFactory componentFactory = Objects.requireNonNull(NeoComComponentFactory.getSingleton());
-			final NeoComApplication application = Objects.requireNonNull(NeoComComponentFactory.getSingleton().getApplication());
+			final NeoComComponentFactory componentFactory = Objects.requireNonNull( NeoComComponentFactory.getSingleton() );
+			final NeoComApplication application = Objects.requireNonNull( NeoComComponentFactory.getSingleton().getApplication() );
 			return true;
 		} );
 
@@ -296,6 +297,7 @@ public class AppInitializationActivity extends NeoComActivity {
 				                            .withRunTask( initializationCode )
 				                            .build() );
 	}
+
 	protected boolean sdeDatabaseExists() throws IOException {
 		return new File( this.fileSystem.accessResource4Path( this.getResources().getString( R.string.sdedatabasefilename ) ) ).exists();
 	}

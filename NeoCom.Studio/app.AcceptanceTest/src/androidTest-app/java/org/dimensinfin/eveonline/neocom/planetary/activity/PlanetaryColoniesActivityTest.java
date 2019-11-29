@@ -131,9 +131,9 @@ public class PlanetaryColoniesActivityTest {
 //		Assert.assertTrue(controller instanceof AssetActionBarController);
 //		if (controller instanceof AssetActionBarController) {
 //			final PlanetaryActionBar model = ((AssetActionBarController) controller).getModel();
-//			Assert.assertEquals("Check the title left.", "Beth Ripley", model.getTitleTopLeft());
-//			Assert.assertNull("Check the title right.", model.getTitleTopLeft());
-//			Assert.assertEquals("Check the subtitle.", "PLANETS LIST", model.getSubtitle());
+//			Assert.assertEquals("Check the title left.", "Beth Ripley", model.getAppName());
+//			Assert.assertNull("Check the title right.", model.getAppName());
+//			Assert.assertEquals("Check the subtitle.", "PLANETS LIST", model.getPilotName());
 //			Assert.assertEquals("Check the activity icon reference.", "PLANETS LIST", model.getActivityIconReference());
 //			Assert.assertEquals("Check the pilot identifier.", 9222, model.getPilotIdentifier());
 //		}

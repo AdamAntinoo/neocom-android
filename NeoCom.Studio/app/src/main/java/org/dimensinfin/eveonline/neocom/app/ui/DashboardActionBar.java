@@ -2,29 +2,30 @@ package org.dimensinfin.eveonline.neocom.app.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 /**
  * @author Adam Antinoo
  */
-public class NeoComActionBar implements ICollaboration {
-	private String titleTopLeft = "";
-	private String titleTopRight = "";
-	private String subtitle = "";
+public class DashboardActionBar implements ICollaboration {
+	private String appName = "";
+	private String appVersion = "";
+	private String pilotName = "";
 
-	private NeoComActionBar() {}
+	private DashboardActionBar() {}
 
-	public String getTitleTopLeft() {
-		return titleTopLeft;
+	public String getAppName() {
+		return this.appName;
 	}
 
-	public String getTitleTopRight() {
-		return titleTopRight;
+	public String getAppVersion() {
+		return this.appVersion;
 	}
 
-	public String getSubtitle() {
-		return subtitle;
+	public String getPilotName() {
+		return this.pilotName;
 	}
 
 	// - I C O L L A B O R A T I O N
@@ -40,28 +41,31 @@ public class NeoComActionBar implements ICollaboration {
 
 	// - B U I L D E R
 	public static class Builder {
-		private NeoComActionBar onConstruction;
+		private DashboardActionBar onConstruction;
 
 		public Builder() {
-			this.onConstruction = new NeoComActionBar();
+			this.onConstruction = new DashboardActionBar();
 		}
 
-		public Builder withTitleTopLeft( final String titleTopLeft ) {
-			this.onConstruction.titleTopLeft = titleTopLeft;
+		public Builder withAppName( final String appName ) {
+			Objects.requireNonNull( appName );
+			this.onConstruction.appName = appName;
 			return this;
 		}
 
-		public Builder withTitleTopRight( final String titleTopRight ) {
-			this.onConstruction.titleTopRight = titleTopRight;
+		public Builder withAppVersion( final String appVersion ) {
+			Objects.requireNonNull( appVersion );
+			this.onConstruction.appVersion = appVersion;
 			return this;
 		}
 
-		public Builder withSubtitle( final String subtitle ) {
-			this.onConstruction.subtitle = subtitle;
+		public Builder withPilotName( final String pilotName ) {
+			Objects.requireNonNull( pilotName );
+			this.onConstruction.pilotName = pilotName;
 			return this;
 		}
 
-		public NeoComActionBar build() {
+		public DashboardActionBar build() {
 			return this.onConstruction;
 		}
 	}

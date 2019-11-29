@@ -11,21 +11,10 @@ import org.dimensinfin.eveonline.neocom.app.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.datasource.PilotDashboardDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBar;
+import org.dimensinfin.eveonline.neocom.app.ui.DashboardActionBar;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 
 public class PilotDashboardFragment extends AuthenticatedFragment {
-//	private Credential credential;
-//
-//	public Credential getCredential() {
-//		return this.credential;
-//	}
-//
-//	public PilotDashboardFragment setCredential( final Credential credential ) {
-//		this.credential = credential;
-//		return this;
-//	}
-
 	/**
 	 * Do not forget to add the pages that can be jumped to from this activity.
 	 * @return
@@ -54,20 +43,12 @@ public class PilotDashboardFragment extends AuthenticatedFragment {
 
 	@Override
 	public View generateActionBarView() {
-//		final NeoComActionBar actionBar = new NeoComActionBar.Builder()
-//				.withTitleTopLeft(this.getResources().getString(R.string.appname))
-//				.withTitleTopRight(this.getResources().getString(R.string.appversion))
-//				.withSubtitle(this.getCredential().getAccountName())
-//				.build();
-//		// Get a controller from the model, then the view from the render.
-//		final NeoComActionBarController controller = (NeoComActionBarController) new AppControllerFactory("SPLASH")
-//				.createController(actionBar);
-		return new RenderViewGenerator.Builder<NeoComActionBar>()
+		return new RenderViewGenerator.Builder<DashboardActionBar>()
 				.withContext( this.getActivityContext() )
-				.withModel( new NeoComActionBar.Builder()
-						            .withTitleTopLeft(this.getResources().getString(R.string.appname))
-						            .withTitleTopRight(this.getResources().getString(R.string.appversion))
-						            .withSubtitle(this.getCredential().getAccountName())
+				.withModel( new DashboardActionBar.Builder()
+						            .withAppName(this.getResources().getString(R.string.appname))
+						            .withAppVersion(this.getResources().getString(R.string.appversion))
+						            .withPilotName(this.getCredential().getAccountName())
 						            .build() )
 				.withFactory(  new AppControllerFactory(PageNamesType.SPLASH.name()))
 				.generateView();

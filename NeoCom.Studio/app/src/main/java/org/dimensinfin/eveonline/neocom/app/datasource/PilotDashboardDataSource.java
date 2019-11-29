@@ -38,7 +38,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				                    .withCharacterPublicData( publicData )
 				                    .withRaceData( raceData )
 				                    .build();
-		this.addModelContents( pilot );
+		this.addHeaderContents( pilot );
 
 		this.sections.add( new PilotSection.Builder()
 				                   .withSectionIcon( R.drawable.wallet )

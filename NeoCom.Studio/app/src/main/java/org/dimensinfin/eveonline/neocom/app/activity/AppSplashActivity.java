@@ -11,8 +11,12 @@ public class AppSplashActivity extends MenuActivatedActivity {
 	// - L I F E C Y C L E
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		super.onCreate(savedInstanceState);
-		this.addPage(new AppSplashFragment().setVariant(PageNamesType.SPLASH.name()));
+		try {
+			super.onCreate( savedInstanceState );
+			this.addPage( new AppSplashFragment().setVariant( PageNamesType.SPLASH.name() ) );
+		} catch (final RuntimeException rtex) {
+			this.showException( rtex );
+		}
 	}
 
 	@Override
@@ -27,6 +31,6 @@ public class AppSplashActivity extends MenuActivatedActivity {
 	 */
 	protected void verifyNetwork() {
 		if (NeoComApplication.checkNetworkAccess()) return;
-		this.startActivity(new Intent(this, AppInitializationActivity.class));
+		this.startActivity( new Intent( this, AppInitializationActivity.class ) );
 	}
 }

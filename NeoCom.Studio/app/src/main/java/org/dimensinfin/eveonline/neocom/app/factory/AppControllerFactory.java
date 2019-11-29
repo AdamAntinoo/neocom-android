@@ -21,7 +21,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
-import org.dimensinfin.eveonline.neocom.app.ui.NeoComActionBar;
+import org.dimensinfin.eveonline.neocom.app.ui.DashboardActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
@@ -88,8 +88,8 @@ public class AppControllerFactory extends ControllerFactory {
 		if (node instanceof SplashActionBar) {
 			return new SplashActionBarController((SplashActionBar) node, this);
 		}
-		if (node instanceof NeoComActionBar) {
-			return new NeoComActionBarController((NeoComActionBar) node, this);
+		if (node instanceof DashboardActionBar) {
+			return new NeoComActionBarController((DashboardActionBar) node, this);
 		}
 //		if (node instanceof PlanetaryActionBar) {
 //			return new AssetActionBarController((PlanetaryActionBar) node, this);
