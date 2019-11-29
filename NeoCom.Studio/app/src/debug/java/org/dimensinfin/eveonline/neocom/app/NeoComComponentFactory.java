@@ -13,7 +13,6 @@ import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvide
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
-import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
