@@ -1,6 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.exception;
-
-import org.dimensinfin.eveonline.neocom.app.exception.EExceptionSeverity;
+package org.dimensinfin.eveonline.neocom.exception;
 
 public enum RuntimeErrorInfo {
 	  EXTRAS_NOT_DEFINED("[{0}]> 'onCreate' event did not received a valid set of 'extras'."
