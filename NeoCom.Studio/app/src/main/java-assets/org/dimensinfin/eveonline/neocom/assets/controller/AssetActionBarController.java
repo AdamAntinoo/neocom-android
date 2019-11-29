@@ -29,7 +29,7 @@ public class AssetActionBarController extends AndroidController<PlanetaryActionB
 	}
 
 	// - N E O C O M A C T I O N B A R P L A N E T A R Y R E N D E R
-	public static class PlanetaryActionBarRender extends MVCRender {
+	public static class PlanetaryActionBarRender extends NeoComRender {
 		// - U I   F I E L D S
 		protected ImageView activityIcon;
 		protected ImageView upperIcon;
@@ -56,6 +56,7 @@ public class AssetActionBarController extends AndroidController<PlanetaryActionB
 
 		@Override
 		public void initializeViews() {
+            super.initializeViews();
 			activityIcon = this.getView().findViewById(R.id.activityIcon);
 			upperIcon = this.getView().findViewById(R.id.upperIcon);
 			lowerIcon = this.getView().findViewById(R.id.lowerIcon);
@@ -74,6 +75,7 @@ public class AssetActionBarController extends AndroidController<PlanetaryActionB
 
 		@Override
 		public void updateContent() {
+            super.updateContent();
 			if (!this.getController().getModel().getTitleTopRight().isEmpty()) {
 				this.titleTopRight.setText(this.getController().getModel().getTitleTopRight());
 				this.titleTopRight.setVisibility(View.VISIBLE);
@@ -99,10 +101,6 @@ public class AssetActionBarController extends AndroidController<PlanetaryActionB
 			//			} catch (NeoComException e) {
 			//				lowerIcon.setImageResource(R.drawable.nopilot);
 			//			}
-		}
-
-		public String accessUrlforAvatar() {
-			return "https://image.eveonline.com/Character/" + this.getController().getModel().getPilotIdentifier() + "_256.jpg";
 		}
 	}
 }
