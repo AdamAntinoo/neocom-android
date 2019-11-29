@@ -43,7 +43,7 @@ public class StepFramework {
 
 	public StepFramework( final NeoComWorld world ) {
 		this.world = world;
-		Ristretto.setWorld(this.world);
+		Ristretto.setWorld( this.world );
 	}
 
 	public void initializeApplicationStorage() throws IOException {
@@ -59,6 +59,10 @@ public class StepFramework {
 					this.getResources().getString( R.string.sdedatabasefilename ), null );
 		}
 		AcceptanceNeoComLogger.exit();
+	}
+
+	public void initializeApplicationEsi() {
+		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 
 	protected void stopScheduler() {

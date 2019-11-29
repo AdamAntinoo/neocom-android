@@ -47,8 +47,7 @@ public class NeoComApplication extends Application {
 	 */
 	public static boolean createAppDir() {
 		// Create file application directory if it doesn't exist
-		final File sdCardDir = new File( NeoComComponentFactory.getSingleton().getApplication()
-				                                 .getApplicationContext().getExternalFilesDir( null )
+		final File sdCardDir = new File( getPrivateAppSpace()
 				, NeoComComponentFactory.getSingleton().getApplication().getApplicationContext()
 						  .getResources().getString( R.string.appname ) );
 		if (!sdCardDir.exists()) sdCardDir.mkdir();
@@ -57,7 +56,7 @@ public class NeoComApplication extends Application {
 
 	public static boolean createPublicAppDir() {
 		// Create file application directory if it doesn't exist
-		final File sdCardDir = new File( Environment.getExternalStorageDirectory()
+		final File sdCardDir = new File( getPublicAppSpace()
 				, NeoComComponentFactory.getSingleton().getApplication()
 						  .getApplicationContext()
 						  .getResources().getString( R.string.appname ) );
@@ -65,11 +64,19 @@ public class NeoComApplication extends Application {
 		return sdCardDir.exists();
 	}
 
+	private static File getPrivateAppSpace() {
+		return NeoComComponentFactory.getSingleton().getApplication().getApplicationContext().getExternalFilesDir( null );
+	}
+
+	private static File getPublicAppSpace() {
+		return Environment.getExternalStorageDirectory();
+	}
+
 	/**
 	 * Creates the additional directories on the private application storage section...
 	 */
 	public static boolean createCacheDirectories() {
-		File cachedir = new File( Environment.getExternalStorageDirectory()
+		File cachedir = new File( getPrivateAppSpace()
 				, NeoComComponentFactory.getSingleton().getApplication().getApplicationContext()
 						  .getResources().getString( R.string.appname )
 						  + "/" +

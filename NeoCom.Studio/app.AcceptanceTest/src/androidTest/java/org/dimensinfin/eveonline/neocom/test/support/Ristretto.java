@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import java.util.List;
 import java.util.Objects;
 
-import com.annimon.stream.Stream;
 import org.awaitility.Awaitility;
 
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
@@ -62,11 +61,15 @@ public class Ristretto {
 //	}
 
 	// - F I L T E R I N G
-	public static List<IAndroidController> searchHeaderPanels( final int page , final ControllerMatcher matcher) {
-		return Stream.of( Ristretto.accessHeaderPanels( page ) )
-				.filter( matcher::matches )
-				.toList();
-	}
+//	public static FilteringAction onController<C>( final int page ) {
+//		return new ControllerMatcher<C>(  )
+//	}
+
+//	public static List<IAndroidController> searchHeaderPanels( final int page, final ControllerMatcher matcher ) {
+//		return Stream.of( Ristretto.accessHeaderPanels( page ) )
+//				       .filter( matcher::matches )
+//				       .toList();
+//	}
 
 	// - A C T I V I T Y   M A N A G E M E N T
 	public static int activityPageCount() {
@@ -79,6 +82,7 @@ public class Ristretto {
 		);
 		return ((MVCPagerFragment) fragment).accessHeaderContents();
 	}
+
 	//	public
 	public static int headerContentsCount( final int page ) {
 //		final Fragment fragment = Objects.requireNonNull(

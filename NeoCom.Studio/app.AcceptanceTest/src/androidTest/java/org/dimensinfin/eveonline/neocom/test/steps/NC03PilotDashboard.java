@@ -1,7 +1,10 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
@@ -10,15 +13,28 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import org.junit.Assert;
 import org.junit.Rule;
 
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
+import org.dimensinfin.eveonline.neocom.app.render.DashboardActionBarRender;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
+import org.dimensinfin.eveonline.neocom.test.support.ControllerMatcher;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.PanelTypes;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
+import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
 
 
 import cucumber.api.java.en.Given;
@@ -40,29 +56,52 @@ public class NC03PilotDashboard extends AuthorizedStep {
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
 	private Intent authorizationIntent;
-	private Integer selectedPage=0;
+	private Integer selectedPage = 0;
+	// - C O M P O N E N T S
+	private SupportCredentialRepository credentialRepository;
 
 	public NC03PilotDashboard( final NeoComWorld world ) {
 		super( world );
 	}
 
-	public void initializeScenario() throws IOException {
+	public void initializeScenario() throws IOException, SQLException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
 		this.stopScheduler();
 		this.initializeApplicationStorage();
-		this.connectAuthorizedMockComponents();
+		this.initializeApplicationEsi();
+//		this.connectAuthorizedMockComponents();
+		this.deleteDatabaseRecords();
+	}
+
+	private void deleteDatabaseRecords() throws SQLException {
+		this.credentialRepository = new SupportCredentialRepository.Builder()
+				                            .withCredentialDao(
+						                            NeoComComponentFactory.getSingleton()
+								                            .getNeoComDBHelper().getCredentialDao() )
+				                            .build();
+		NeoComComponentFactory.getSingleton().setCredentialRepository( this.credentialRepository );
+		this.credentialRepository.deleteAll();
 	}
 
 	@Given("the PilotDashboardActivity")
-	public void the_PilotDashboardActivity() throws IOException {
+	public void the_PilotDashboardActivity() throws IOException, SQLException {
 		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the PilotDashboardActivity" );
 		this.authorizationIntent = this.authorizationIntent( PilotDashboardActivity.class );
 	}
 
-	@When("the PilotDashboardActivity activity lifecycle completes")
-	public void the_PilotDashboardActivity_activity_lifecycle_completes() {
-		AcceptanceNeoComLogger.info( "[WHEN] the PilotDashboardActivity activity lifecycle completes" );
+	@Given("the following Credentials into my repository")
+	public void the_following_Credentials_into_my_repository( final List<Map<String, String>> dataTable ) throws SQLException {
+		AcceptanceNeoComLogger.info( "[GIVEN] the following Credentials into my repository" );
+		for (Map<String, String> row : dataTable) {
+			final Credential credential = new CucumberTable2CredentialConverter().convert( row );
+			this.credentialRepository.persist( credential );
+		}
+	}
+
+	@When("the PilotDashboardActivity activity lifecycle completes for page {string}")
+	public void the_PilotDashboardActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
+		AcceptanceNeoComLogger.info( "[WHEN] the PilotDashboardActivity activity lifecycle completes for page {string}" );
 		AcceptanceNeoComLogger.info( "Going to launch the scenario with the PilotDashboardActivity..." );
 		final ActivityScenario<PilotDashboardActivity> scenario = ActivityScenario.launch( this.authorizationIntent );
 		Assert.assertNotNull( scenario );
@@ -74,6 +113,8 @@ public class NC03PilotDashboard extends AuthorizedStep {
 			Assert.assertTrue( activity instanceof PilotDashboardActivity );
 			AcceptanceNeoComLogger.info( "Store the activity..." + activity.getClass().getSimpleName() );
 			this.world.setActiveActivity( activity );
+			AcceptanceNeoComLogger.info( "Set the configured page..." + pageNumber );
+			this.world.setSelectedPage( Integer.parseInt( pageNumber ) );
 			AcceptanceNeoComLogger.info( "Verify the current activity state..." );
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
@@ -87,48 +128,65 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		} );
 	}
 
+	@Then("there is a action bar of type {string} with the next fields")
+	public void there_is_a_action_bar_of_type_with_the_next_fields( final String actionBarType,
+	                                                                final List<Map<String, String>> dataTable ) {
+		final String APP_NAME = "AppName";
+		final String APP_VERSION = "AppVersion";
+		final String PILOT_NAME = "PilotName";
+		final ActionBar actionBar = this.world.getActiveActivity().getActionBar();
+		Assert.assertNotNull( actionBarType );
+		final Object tag = actionBar.getCustomView().getTag();
+		if (tag instanceof DashboardActionBarRender) {
+			Assert.assertEquals( dataTable.get( 0 ).get( APP_NAME ),
+					((TextView) actionBar.getCustomView().findViewById( R.id.toolBarTitleLeft )).getText() );
+			Assert.assertEquals( dataTable.get( 0 ).get( APP_VERSION ),
+					((TextView) actionBar.getCustomView().findViewById( R.id.toolBarTitleRight )).getText() );
+			Assert.assertEquals( dataTable.get( 0 ).get( PILOT_NAME ),
+					((TextView) actionBar.getCustomView().findViewById( R.id.toolBarSubTitle )).getText() );
+		}
+	}
+
+	@Then("the header has a {string} panel with the next information")
+	public void the_header_has_a_panel_with_the_next_information( final String panelModelType,
+	                                                              final List<Map<String, String>> dataTable ) {
+		final List<PilotController> targetPanelList = new ControllerMatcher<PilotController>()
+				                                              .withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+						                                              PilotController.class );
+
+//				( target ) -> {
+//					return PanelTypes.decodeName( panelModelType ).matches( target );
+//				} );
+		Assert.assertNotNull( targetPanelList );
+		Assert.assertTrue( targetPanelList.size() > 0 );
+		switch (PanelTypes.decodeName( panelModelType )) {
+			case PILOTCONTROLLER:
+				final PilotController pilotController = (PilotController) targetPanelList.get( 0 );
+				Assert.assertTrue( this.validatePilot4DashboardRender( dataTable.get( 0 ),
+						Objects.requireNonNull( pilotController.getViewCache() ) ) );
+		}
+	}
+
 	@Then("the PilotDashboardActivity has {string} pages")
 	public void the_PilotDashboardActivity_has_pages( final String expectedPageCount ) {
 		AcceptanceNeoComLogger.info( "[THEN] the PilotDashboardActivity has {string} pages" );
-//		this.world.getPilotDashboardScenario().onActivity( ( activity ) -> {
-//			AcceptanceNeoComLogger.info( "Check the number of pages created..." );
 		Assert.assertEquals( Integer.parseInt( expectedPageCount ), Ristretto.activityPageCount() );
-//		Assert.assertNotNull( activity );
-//		} );
-	}
-//	@Given("the next Credential")
-	public void the_next_Credential(io.cucumber.datatable.DataTable dataTable) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new cucumber.api.PendingException();
 	}
 
-//	@When("the PilotDashboardActivity activity lifecycle completes for page {string}")
-	public void the_PilotDashboardActivity_activity_lifecycle_completes_for_page(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new cucumber.api.PendingException();
+	private boolean validatePilot4DashboardRender( final Map<String, String> expectedData,
+	                                               final View obtainedView ) {
+		final String PILOT_NAME = "PilotName";
+		Assert.assertEquals( expectedData.get( PILOT_NAME ),
+				((TextView) obtainedView.findViewById( R.id.pilotName )).getText() );
+
+		return true;
 	}
 
-//	@Then("the activity has an action bar with title {string}")
-	public void the_activity_has_an_action_bar_with_title(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new cucumber.api.PendingException();
-	}
-
-//	@Then("the header has a {string} panel with the next information")
-	public void the_header_has_a_panel_with_the_next_information(String string, io.cucumber.datatable.DataTable dataTable) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new cucumber.api.PendingException();
-	}
+//	private static class PilotControllerMatcher implements ControllerMatcher {
+//
+//		@Override
+//		public boolean matches( final IAndroidController item ) {
+//			return PanelTypes.decodeName( PanelTypes.PILOTCONTROLLER ).matches( item );
+//		}
+//	}
 }

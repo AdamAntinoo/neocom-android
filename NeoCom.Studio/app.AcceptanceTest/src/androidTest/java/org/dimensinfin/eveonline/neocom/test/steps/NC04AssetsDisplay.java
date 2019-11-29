@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -26,18 +25,13 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.PageNamesType;
-import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardFragment;
 import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
-import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
-import org.dimensinfin.eveonline.neocom.test.support.ActivityResolver;
 import org.dimensinfin.eveonline.neocom.test.support.ActivityResolverNew;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
-import org.dimensinfin.eveonline.neocom.test.support.ControllerMatcher;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportAssetRepository;
@@ -69,7 +63,6 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	private Intent authorizationIntent;
 	private ActivityResolverNew resolver;
 
-	//	@Before
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
 		this.stopScheduler();
@@ -153,19 +146,19 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		}
 	}
 
-	@Then("{string} panels on the {string}")
-	public void panels_on_the( final String numberOfPanels, final String section ) {
-		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
-//		this.wait4Seconds( 2 );
-		switch (section) {
-			case "HeaderSection":
-				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
-				break;
-			case "DataSection":
-				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.dataContentsCount() );
-				break;
-		}
-	}
+//	@Then("{string} panels on the {string}")
+//	public void panels_on_the( final String numberOfPanels, final String section ) {
+//		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
+////		this.wait4Seconds( 2 );
+//		switch (section) {
+//			case "HeaderSection":
+//				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
+//				break;
+//			case "DataSection":
+//				Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.dataContentsCount() );
+//				break;
+//		}
+//	}
 
 	@Then("a type Region panel on the {string} with the next data")
 	public void a_type_Region_panel_on_the_with_the_next_data( final String section,
@@ -240,42 +233,42 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			Ristretto.waitForCompletion( this.world, () -> {
 				switch (section) {
 					case "HeaderSection":
-						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.headerContentsCount() );
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount(this.world.getSelectedPage()) );
 						break;
 					case "DataSection":
 						AcceptanceNeoComLogger.info( "[THEN] new panel count test" );
-						Assert.assertEquals( Integer.parseInt( numberOfPanels ), this.resolver.dataContentsCount() );
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.dataContentsCount(this.world.getSelectedPage()) );
 						break;
 				}
 			} );
 		}
 	}
 
-	@When("the pilot activates the Assets information panel")
+//	@When("the pilot activates the Assets information panel")
 	public void the_pilot_activates_the_Assets_information_panel() {
-		final ActivityScenario<PilotDashboardActivity> scenario = this.world.getPilotDashboardScenario();
-		scenario.onActivity( ( activity ) -> {
-			AcceptanceNeoComLogger.info( "Searching assets panel..." );
-			final PilotDashboardFragment resolver = new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>( activity )
-					                                        .fragmentResolver( activity, 0 );
-			final ListView dataSectionContainer = resolver.accessDataSectionContainer();
-
-			final List<PilotSectionController> controllers = new ControllerMatcher<PilotSectionController>( dataSectionContainer )
-					                                                 .withType( PilotSectionController.class );
-			PilotSectionController target = null;
-			for (PilotSectionController controller : controllers) {
-				if (controller.getModel().getTitle().equalsIgnoreCase( "ASSETS" )) {
-					target = controller;
-					NeoComLogger.info( "Panel found." );
-				}
-			}
-			Assert.assertNotNull( target );
-			Assert.assertNotNull( target.getModel().getClickTarget() );
-			NeoComLogger.info( "Panel is clickable." );
-			// TODO - Write the code to get the view from the data source adapter.
-			final View panelView = target.getViewCache();
-			target.onClick( panelView );
-		} );
+//		final ActivityScenario<PilotDashboardActivity> scenario = this.world.getPilotDashboardScenario();
+//		scenario.onActivity( ( activity ) -> {
+//			AcceptanceNeoComLogger.info( "Searching assets panel..." );
+//			final PilotDashboardFragment resolver = new ActivityResolver<PilotDashboardActivity, PilotDashboardFragment>( activity )
+//					                                        .fragmentResolver( activity, 0 );
+//			final ListView dataSectionContainer = resolver.accessDataSectionContainer();
+//
+//			final List<PilotSectionController> controllers = new ControllerMatcher<PilotSectionController>( dataSectionContainer )
+//					                                                 .withType( PilotSectionController.class );
+//			PilotSectionController target = null;
+//			for (PilotSectionController controller : controllers) {
+//				if (controller.getModel().getTitle().equalsIgnoreCase( "ASSETS" )) {
+//					target = controller;
+//					NeoComLogger.info( "Panel found." );
+//				}
+//			}
+//			Assert.assertNotNull( target );
+//			Assert.assertNotNull( target.getModel().getClickTarget() );
+//			NeoComLogger.info( "Panel is clickable." );
+//			// TODO - Write the code to get the view from the data source adapter.
+//			final View panelView = target.getViewCache();
+//			target.onClick( panelView );
+//		} );
 	}
 
 	@Then("the application moves to the AssetDisplayActivity.")

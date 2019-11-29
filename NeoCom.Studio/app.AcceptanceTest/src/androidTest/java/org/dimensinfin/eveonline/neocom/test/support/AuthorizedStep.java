@@ -42,7 +42,7 @@ public class AuthorizedStep extends StepFramework {
 	public Intent authorizationIntent( final Class destinationActivity ) {
 		final Intent authorizationIntent = new Intent( ApplicationProvider.getApplicationContext(), destinationActivity );
 		Bundle bundle = new Bundle();
-		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), 93813310 );
+		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), 2113197470 );
 		authorizationIntent.putExtras( bundle );
 		return authorizationIntent;
 	}
