@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.database;
+package org.dimensinfin.eveonline.neocom.core.database;
 
 import android.database.Cursor;
 import android.database.SQLException;

@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.domain;
+package org.dimensinfin.eveonline.neocom.core.domain;
 
 import java.text.DecimalFormat;
 

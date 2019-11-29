@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
+    <!-- D E F A U L T   V A L U E S   F O R   G U I   C O N S T R U C T I O N -->
     <string name="default_version">v0.12.0</string>
-    <string name="default_paneltitle">-Panel Title-</string>
     <string name="default_typeid">[#12345]</string>
     <string name="default_elapsedtime">1m 23s</string>
     <string name="default_resource">Tritanium</string>
+
+
+    <string name="default_name">Default Name</string>
+
+
+    <string name="default_paneltitle">-Panel Title-</string>
     <string name="default_volume">1.234,54 m3</string>
     <string name="default_biginteger">32.814</string>
     <string name="default_refinepercentage">58.20%</string>

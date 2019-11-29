@@ -17,12 +17,11 @@ import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 public class PilotDashboardFragment extends AuthenticatedFragment {
 	/**
 	 * Do not forget to add the pages that can be jumped to from this activity.
-	 * @return
 	 */
 	@Override
 	public IControllerFactory createFactory() {
-		return new AppControllerFactory(this.getVariant())
-		                                    .registerActivity( PageNamesType.ASSETS_BYLOCATION.name(), AssetDisplayActivity.class);
+		return new AppControllerFactory( this.getVariant() )
+				       .registerActivity( PageNamesType.ASSETS_BYLOCATION.name(), AssetDisplayActivity.class );
 //				.registerActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), PlanetaryColoniesActivity.class);
 //				.registerActivity(PageNamesType.MINING_LEDGER.name(), MiningLedgerActivity.class);
 	}
@@ -30,27 +29,28 @@ public class PilotDashboardFragment extends AuthenticatedFragment {
 	@Override
 	public IDataSource createDS() {
 		return new PilotDashboardDataSource.Builder()
-				.addIdentifier(this.getVariant())
-				.addIdentifier(this.getCredential().getAccountId())
-				.addIdentifier("PILOT-DASHBOARD")
-				.withVariant(this.getVariant())
-				.withExtras(this.getExtras())
-				.withFactory(this.createFactory())
-				.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getESIDataProvider())
-				.withCredential(this.getCredential())
-				.build();
+				       .addIdentifier( this.getVariant() )
+				       .addIdentifier( this.getCredential().getAccountId() )
+				       .addIdentifier( "PILOT-DASHBOARD" )
+				       .withVariant( this.getVariant() )
+				       .withExtras( this.getExtras() )
+				       .withFactory( this.createFactory() )
+				       .withEsiDataAdapter( NeoComComponentFactory.getSingleton().getESIDataProvider() )
+				       .withESIUniverseDataProvider( NeoComComponentFactory.getSingleton().getESIUniverseDataProvider() )
+				       .withCredential( this.getCredential() )
+				       .build();
 	}
 
 	@Override
 	public View generateActionBarView() {
 		return new RenderViewGenerator.Builder<DashboardActionBar>()
-				.withContext( this.getActivityContext() )
-				.withModel( new DashboardActionBar.Builder()
-						            .withAppName(this.getResources().getString(R.string.appname))
-						            .withAppVersion(this.getResources().getString(R.string.appversion))
-						            .withPilotName(this.getCredential().getAccountName())
-						            .build() )
-				.withFactory(  new AppControllerFactory(PageNamesType.SPLASH.name()))
-				.generateView();
+				       .withContext( this.getActivityContext() )
+				       .withModel( new DashboardActionBar.Builder()
+						                   .withAppName( this.getResources().getString( R.string.appname ) )
+						                   .withAppVersion( this.getResources().getString( R.string.appversion ) )
+						                   .withPilotName( this.getCredential().getAccountName() )
+						                   .build() )
+				       .withFactory( new AppControllerFactory( PageNamesType.SPLASH.name() ) )
+				       .generateView();
 	}
 }

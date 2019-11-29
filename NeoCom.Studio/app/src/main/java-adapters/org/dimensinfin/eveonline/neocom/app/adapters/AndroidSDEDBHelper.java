@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.database.AndroidRawStatement;
+import org.dimensinfin.eveonline.neocom.core.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
 import org.dimensinfin.eveonline.neocom.database.repositories.DatabaseVersionRepository;

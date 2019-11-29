@@ -5,21 +5,17 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.controller.AppVersionController;
 import org.dimensinfin.eveonline.neocom.app.controller.CredentialController;
-import org.dimensinfin.eveonline.neocom.app.controller.InitialisationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionController;
 import org.dimensinfin.eveonline.neocom.app.controller.InitializationTaskController;
 import org.dimensinfin.eveonline.neocom.app.controller.NeoComActionBarController;
 import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
-import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
-import org.dimensinfin.eveonline.neocom.app.domain.InitialisationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
-import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.app.ui.DashboardActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
@@ -61,14 +57,14 @@ public class AppControllerFactory extends ControllerFactory {
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
 		}
-		if (node instanceof InitialisationTask) {
-			return new InitialisationTaskController((InitialisationTask) node, this);
-		}
-		if (node instanceof PanelTitle) {
-			return new PanelTitleController.Builder((PanelTitle) node, this)
-					       .withVariant(this.getVariant())
-					       .build();
-		}
+//		if (node instanceof InitialisationTask) {
+//			return new InitialisationTaskController((InitialisationTask) node, this);
+//		}
+//		if (node instanceof PanelTitle) {
+//			return new PanelTitleController.Builder((PanelTitle) node, this)
+//					       .withVariant(this.getVariant())
+//					       .build();
+//		}
 
 //		if (node instanceof PilotV3) {
 //			return new PilotV3Controller.Builder((PilotV3) node, this)

@@ -53,8 +53,12 @@
 	<string name="fittingSpinnerLabel">Select fitting:</string>
 	<string name="copiesSpinnerLabel">Select copies:</string>
 	<string name="title_mining_feature">MiningManagement</string>
-	<string name="propertiesLocation">properties</string>
 	<string name="title_mining">NeoCom Mining</string>
 	<string name="title_shared">NeoCom shared</string>
+
+	<string name="clone_type_alpha">Clone Grade Alpha</string>
+	<string name="clone_type_omega">Clone Grade Omega</string>
+    <string name="servername">TRANQUILITY</string>
+    <string name="serverstatus">ACTIVE</string>
 
 </resources>

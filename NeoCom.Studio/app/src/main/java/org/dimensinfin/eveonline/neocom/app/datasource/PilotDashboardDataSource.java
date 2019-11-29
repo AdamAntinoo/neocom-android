@@ -7,25 +7,31 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
-import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
+import org.dimensinfin.eveonline.neocom.core.domain.NeoComDataProvider;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
 
 public class PilotDashboardDataSource extends MVCDataSource {
 	private List<PilotSection> sections = new ArrayList<>();
 	// -  C O M P O N E N T S
 	private ESIDataProvider esiDataAdapter;
+	private ESIUniverseDataProvider esiUniverseDataProvider;
 	private Credential credential;
 
 	private Credential getCredential() {
 		return this.credential;
+	}
+
+	public ESIUniverseDataProvider getEsiUniverseDataProvider() {
+		return this.esiUniverseDataProvider;
 	}
 
 	@LogEnterExit
@@ -101,13 +107,19 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			return this;
 		}
 
-		public Builder withEsiDataAdapter( final ESIDataProvider esiDataAdapter ) {
+		public PilotDashboardDataSource.Builder withEsiDataAdapter( final ESIDataProvider esiDataAdapter ) {
 			Objects.requireNonNull( esiDataAdapter );
 			this.onConstruction.esiDataAdapter = esiDataAdapter;
 			return this;
 		}
 
-		public Builder withCredential( final Credential credential ) {
+		public PilotDashboardDataSource.Builder withESIUniverseDataProvider( final ESIUniverseDataProvider esiUniverseDataProvider ) {
+			Objects.requireNonNull( esiUniverseDataProvider );
+			this.onConstruction.esiUniverseDataProvider = esiUniverseDataProvider;
+			return this;
+		}
+
+		public PilotDashboardDataSource.Builder withCredential( final Credential credential ) {
 			Objects.requireNonNull( credential );
 			this.onConstruction.credential = credential;
 			return this;

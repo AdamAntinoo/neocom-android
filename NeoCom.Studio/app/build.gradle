@@ -32,7 +32,7 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            resValue "string", "appname", "NeoCom"
+//            resValue "string", "appname", "NeoCom"
             resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
             resValue "string", "appversion", android.defaultConfig.versionName
 
@@ -41,7 +41,7 @@ android {
             resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
 
             resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
-            resValue "string", "propertiesLocation", "properties"
+//            resValue "string", "propertiesLocation", "properties"
 
             buildConfigField "Integer", "SDE_DB_VERSION", SDE_DB_VERSION
             buildConfigField "Integer", "NEOCOM_DB_VERSION", NEOCOM_DB_VERSION
@@ -54,7 +54,7 @@ android {
             useProguard false
             testCoverageEnabled true
 
-            resValue "string", "propertiesLocation", "properties.development"
+//            resValue "string", "propertiesLocation", "properties.development"
         }
     }
     sourceSets {
@@ -64,6 +64,15 @@ android {
 //            srcDirs += 'src/main/java-mining'
 //            srcDirs += 'src/main/java-planetary'
             srcDirs += 'src/main/java-datamanagement'
+        }
+        main.res {
+            srcDirs += 'src/main/res-app'
+            srcDirs += 'src/main/res-icons'
+            srcDirs += 'src/main/res-core'
+            srcDirs += 'src/main/res-sde'
+            srcDirs += 'src/main/res-ui'
+            srcDirs += 'src/main/res-layouts'
+            srcDirs += 'src/main/res-assets'
         }
         debug.java {
         }
