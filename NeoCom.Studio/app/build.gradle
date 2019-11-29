@@ -8,7 +8,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply plugin: 'maven-publish'
 apply from: './dependencies.gradle'
-//apply from: './acceptance.gradle'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -63,7 +63,6 @@ android {
             srcDirs += 'src/main/java-datamanagement'
         }
         debug.java {
-//            srcDirs += 'src/debug/java'
         }
         release.java {
         }
@@ -98,22 +97,3 @@ android {
 ext {
     assetsPath = "$projectDir/src/main/assets"
 }
-// Copy configuration and property resources from other modules to the final 'resources' application folder.
-//task copyResources(type: Copy) {
-//    group = "neocom"
-//    doLast {
-//        copy {
-//            println '> Task :app:copyResources: > Copy :NeoCom.DataManagement resources to :app:assets'
-//            from project(':NeoCom.DataManagement').file('src/main/resources')
-//            into file('src/main/assets')
-//        }
-//    }
-//}
-//build.dependsOn copyResources
-//task copySDEDatabase(type: Copy) {
-//    group = "neocom"
-//    println '> Task :NeoCom.DataManagement:copySDEDatabase: copying new sde database to assets...'
-//    from project(':NeoCom.DataManagement').file("src/main/sh/sde.db")
-//    into "$assetsPath"
-//}
-//copySDEDatabase.dependsOn(':NeoCom.DataManagement:generateSDEDatabase')

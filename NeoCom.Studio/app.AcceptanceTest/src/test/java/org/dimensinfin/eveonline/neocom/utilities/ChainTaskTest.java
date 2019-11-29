@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.utilities;
+package org.dimensinfin.eveonline.neocom.utilities;
 
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.junit.Assert;
