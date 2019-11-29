@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Assert;
@@ -24,22 +25,22 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class NC01AppInitializationActivity extends StepFramework {
+	static {
+		System.setProperty( "org.mockito.android.target", ApplicationProvider.getApplicationContext().getCacheDir().getPath() );
+	}
+
 	@Rule
-	public GrantPermissionRule mPermissionReadExternalStorageRule = GrantPermissionRule.grant(
-			Manifest.permission.READ_EXTERNAL_STORAGE);
+	public GrantPermissionRule permissionInternet = GrantPermissionRule.grant( Manifest.permission.INTERNET );
 	@Rule
-	public GrantPermissionRule mPermissionWriteExternalStorageRule = GrantPermissionRule.grant(
-			android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+	public GrantPermissionRule permissionNetworkState = GrantPermissionRule.grant( Manifest.permission.ACCESS_NETWORK_STATE );
 	@Rule
-	public GrantPermissionRule mPermissionInternetRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
+	public GrantPermissionRule permissionWriteStorage = GrantPermissionRule.grant( Manifest.permission.WRITE_EXTERNAL_STORAGE );
 	@Rule
-	public GrantPermissionRule mPermissionAccessNetworkStateRule = GrantPermissionRule.grant(
-			android.Manifest.permission.ACCESS_NETWORK_STATE);
+	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
 	// - COMPONENTS
 	public NC01AppInitializationActivity( final NeoComWorld world ) {
 		super(world);
-		logger.info("-- [NC01AppInitializationActivity]> Storing world");
 	}
 
 //	@Given("the AppInitializationActiviy activity")

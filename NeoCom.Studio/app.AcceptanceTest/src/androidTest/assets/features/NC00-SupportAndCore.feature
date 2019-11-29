@@ -15,3 +15,10 @@ Feature: [NC00]-Do the tests for core and support functionalities that are to be
 	Given the SettingsActivity
 	When performing the background synchronization test
 	Then we get the right order of results
+
+  @NC00.03
+  Scenario: [NC00.03]-Generate an exception when on the Activity lifecycle to check the rendering for exceptions.
+	Given the AppInializationActivity
+	When the activity enters the OnCreate stage there is an exception
+	Then get the exception panel visible with the next data
+	|
