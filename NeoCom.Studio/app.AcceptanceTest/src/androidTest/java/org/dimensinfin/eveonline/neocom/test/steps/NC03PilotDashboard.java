@@ -153,10 +153,6 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		final List<PilotController> targetPanelList = new ControllerMatcher<PilotController>()
 				                                              .withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
 						                                              PilotController.class );
-
-//				( target ) -> {
-//					return PanelTypes.decodeName( panelModelType ).matches( target );
-//				} );
 		Assert.assertNotNull( targetPanelList );
 		Assert.assertTrue( targetPanelList.size() > 0 );
 		switch (PanelTypes.decodeName( panelModelType )) {
@@ -176,17 +172,18 @@ public class NC03PilotDashboard extends AuthorizedStep {
 	private boolean validatePilot4DashboardRender( final Map<String, String> expectedData,
 	                                               final View obtainedView ) {
 		final String PILOT_NAME = "PilotName";
+		final String PILOT_IDENTIFIER = "PilotId";
+		final String PILOT_RACE = "PilotRace";
+		final String CORPORATION_NAME = "CorporationName";
 		Assert.assertEquals( expectedData.get( PILOT_NAME ),
 				((TextView) obtainedView.findViewById( R.id.pilotName )).getText() );
+		Assert.assertEquals( expectedData.get( PILOT_IDENTIFIER ),
+				((TextView) obtainedView.findViewById( R.id.pilotIdentifier )).getText() );
+		Assert.assertEquals( expectedData.get( PILOT_RACE ),
+				((TextView) obtainedView.findViewById( R.id.raceName )).getText() );
+		Assert.assertEquals( expectedData.get( CORPORATION_NAME ),
+				((TextView) obtainedView.findViewById( R.id.corporationName )).getText() );
 
 		return true;
 	}
-
-//	private static class PilotControllerMatcher implements ControllerMatcher {
-//
-//		@Override
-//		public boolean matches( final IAndroidController item ) {
-//			return PanelTypes.decodeName( PanelTypes.PILOTCONTROLLER ).matches( item );
-//		}
-//	}
 }

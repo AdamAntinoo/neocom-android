@@ -17,31 +17,6 @@ android {
         versionCode 1
         versionName "0.17.0"
     }
-//    buildTypes {
-//        release {
-//            signingConfig debug.signingConfig
-//            debuggable false
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//
-//            resValue "string", "appname", "NeoCom"
-//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
-//            resValue "string", "appversion", android.defaultConfig.versionName
-//
-//            resValue "string", "appdatabasefilename", "neocom"
-//            resValue "string", "sdedatabasefilename", "sde.db"
-//            resValue "string", "appdatabaseversion", "\"" + android.defaultConfig.versionCode + "\""
-//
-//            resValue "string", "DATASOURCE_PREFERENCE", "prefkey_dataSourceList"
-//        }
-//        debug {
-//            initWith release
-//            debuggable true
-//            minifyEnabled false
-//            useProguard false
-//            resValue "string", "appdatabasefilename", "neocomv0.17"
-//        }
-//    }
     sourceSets {
         main.java {
             srcDirs += 'src/main-app/java-app'
@@ -56,15 +31,7 @@ android {
             srcDirs += 'src/main-features/res-assets'
         }
         test.java {
-//            srcDirs += project(':NeoCom.DataManagement').file("src/test/java-support")
-//            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-steps")
-//            srcDirs += project(':NeoCom.DataManagement.AcceptanceTests').file("src/test/java-support")
         }
-//        main {
-//            res.srcDirs = ['src/main/res',
-//                           'src/main/res/layouts/assets'
-//            ]
-//        }
     }
     compileOptions {
         sourceCompatibility = '1.8'
@@ -85,7 +52,6 @@ android {
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment:1.1.0'
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 // - P R O J E C T    D E P E N D E N C I E S

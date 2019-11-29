@@ -4,20 +4,16 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
-import java.io.File;
-import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Rule;
 
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
@@ -99,64 +95,64 @@ public class BackgroundInitApp {
 		}
 	}
 
-	@And("create the application public directory")
-	public void createTheApplicationPublicDirectory() {
-		// Create file application directory if it doesn't exist
-		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
-				, this.world.getApplication().getResources().getString(R.string.appname));
-		if (!sdCardDir.exists()) sdCardDir.mkdir();
-		Assert.assertTrue(sdCardDir.exists());
-	}
-
-	@And("create the application cache directory")
-	public void createTheApplicationCacheDirectory() {
-		File cachedir = new File(Environment.getExternalStorageDirectory()
-				, this.world.getApplication().getResources().getString(R.string.appname)
-						  + "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
-		cachedir.mkdir();
-		Assert.assertTrue(cachedir.exists());
-	}
-
-	@And("copy the SDE database asset to the application private directory")
-	public void copyTheSDEDatabaseAssetToTheApplicationPrivateDirectory() {
-		this.fileSystem.copyFromAssets(this.world.getApplication().getResources().getString(R.string.sdedatabasefilename), null);
-	}
+//	@And("create the application public directory")
+//	public void createTheApplicationPublicDirectory() {
+//		// Create file application directory if it doesn't exist
+//		final File sdCardDir = new File(Environment.getExternalStorageDirectory()
+//				, this.world.getApplication().getResources().getString(R.string.appname));
+//		if (!sdCardDir.exists()) sdCardDir.mkdir();
+//		Assert.assertTrue(sdCardDir.exists());
+//	}
+//
+//	@And("create the application cache directory")
+//	public void createTheApplicationCacheDirectory() {
+//		File cachedir = new File(Environment.getExternalStorageDirectory()
+//				, this.world.getApplication().getResources().getString(R.string.appname)
+//						  + "/" + this.configurationProvider.getResourceString("P.cache.directory.path"));
+//		cachedir.mkdir();
+//		Assert.assertTrue(cachedir.exists());
+//	}
+//
+//	@And("copy the SDE database asset to the application private directory")
+//	public void copyTheSDEDatabaseAssetToTheApplicationPrivateDirectory() {
+//		this.fileSystem.copyFromAssets(this.world.getApplication().getResources().getString(R.string.sdedatabasefilename), null);
+//	}
 
 	/**
 	 * Replace the NeoCom components by the mocked and support components that should e used for
 	 * instrumentation testing.
 	 */
-	@And("the reconfigured neocom component factory")
-	public void theReconfiguredNeocomComponentFactory() throws SQLException {
-//		this.credentialRepository = new SupportCredentialRepository.Builder()
-//				                            .withCredentialDao(NeoComComponentFactory.getSingleton()
-//						                                               .getNeoComDBHelper()
-//						                                               .getCredentialDao())
-//				                            .build();
-//		Assert.assertNotNull(this.credentialRepository);
-//		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
-//				                     .getCredentialRepository()); // Access the component to activate dependencies
-//		NeoComComponentFactory.getSingleton().setCredentialRepository(this.credentialRepository);
-//
-//		this.miningRepository = new SupportMiningRepository.Builder()
-//				                        .withMiningExtractionDao(NeoComComponentFactory.getSingleton()
-//						                                                 .getNeoComDBHelper()
-//						                                                 .getMiningExtractionDao())
-//										.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
-//				                        .build();
-//		Assert.assertNotNull(this.miningRepository);
-//		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
-//				                     .getMiningRepository()); // Access the component to activate dependencies
-//		NeoComComponentFactory.getSingleton().setMiningRepository(this.miningRepository);
-	}
+//	@And("the reconfigured neocom component factory")
+//	public void theReconfiguredNeocomComponentFactory() throws SQLException {
+////		this.credentialRepository = new SupportCredentialRepository.Builder()
+////				                            .withCredentialDao(NeoComComponentFactory.getSingleton()
+////						                                               .getNeoComDBHelper()
+////						                                               .getCredentialDao())
+////				                            .build();
+////		Assert.assertNotNull(this.credentialRepository);
+////		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
+////				                     .getCredentialRepository()); // Access the component to activate dependencies
+////		NeoComComponentFactory.getSingleton().setCredentialRepository(this.credentialRepository);
+////
+////		this.miningRepository = new SupportMiningRepository.Builder()
+////				                        .withMiningExtractionDao(NeoComComponentFactory.getSingleton()
+////						                                                 .getNeoComDBHelper()
+////						                                                 .getMiningExtractionDao())
+////										.withEsiDataAdapter(NeoComComponentFactory.getSingleton().getEsiDataAdapter())
+////				                        .build();
+////		Assert.assertNotNull(this.miningRepository);
+////		Assert.assertNotNull(NeoComComponentFactory.getSingleton()
+////				                     .getMiningRepository()); // Access the component to activate dependencies
+////		NeoComComponentFactory.getSingleton().setMiningRepository(this.miningRepository);
+//	}
 
-	@And("check that the SDE database file on the application private directory {string}")
-	public void checkThatTheSDEDatabaseFileOnTheApplicationPrivateDirectory( final String existenceFlag ) {
-		final File sdeDatabasePath = new File(Environment.getExternalStorageDirectory()
-				, this.world.getApplication().getResources().getString(R.string.appname)
-						  + "/" + this.world.getApplication().getResources().getString(R.string.sdedatabasefilename));
-		Assert.assertTrue(sdeDatabasePath.exists());
-	}
+//	@And("check that the SDE database file on the application private directory {string}")
+//	public void checkThatTheSDEDatabaseFileOnTheApplicationPrivateDirectory( final String existenceFlag ) {
+//		final File sdeDatabasePath = new File(Environment.getExternalStorageDirectory()
+//				, this.world.getApplication().getResources().getString(R.string.appname)
+//						  + "/" + this.world.getApplication().getResources().getString(R.string.sdedatabasefilename));
+//		Assert.assertTrue(sdeDatabasePath.exists());
+//	}
 
 	/**
 	 * Cleanup the repository from all real records before setting up the new test records.

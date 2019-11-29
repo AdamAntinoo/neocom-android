@@ -108,10 +108,6 @@ public class CredentialRender extends NeoComRender {
 		}
 	}
 
-	protected String getUrl4Avatar( final int pilotIdentifier ) {
-		return "https://image.eveonline.com/Character/" + pilotIdentifier + "_256.jpg";
-	}
-
 	protected void accessRaceIcon() {
 		final String raceName = this.getController().getModel().getRaceName();
 		if (null != raceName)
