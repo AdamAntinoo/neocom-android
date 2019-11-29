@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.core.domain;
 
 public enum EExtras {
 	CAPSULEER_IDENTIFIER, PLANET_IDENTIFIER, PLANET_TYPE_NAME,

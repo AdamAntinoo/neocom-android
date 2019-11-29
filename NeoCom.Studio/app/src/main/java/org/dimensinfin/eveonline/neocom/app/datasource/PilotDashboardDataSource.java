@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
-import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.NeoComDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;

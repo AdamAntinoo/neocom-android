@@ -1,5 +1,5 @@
 include ':app'
-include ':app.Features'
+//include ':app.Features'
 include ':app.AcceptanceTest'
 //include ':app.Annotations'
 //include ':app.VisualTest'

@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app;
+package org.dimensinfin.eveonline.neocom.core.domain;
 
 public enum PageNamesType {
 	INITIALIZATION("INITIALIZATION"),

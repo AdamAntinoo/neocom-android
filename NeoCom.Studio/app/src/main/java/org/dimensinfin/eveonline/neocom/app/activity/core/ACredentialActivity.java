@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.eveonline.neocom.app.EExtras;
+import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.exception.RuntimeErrorInfo;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
