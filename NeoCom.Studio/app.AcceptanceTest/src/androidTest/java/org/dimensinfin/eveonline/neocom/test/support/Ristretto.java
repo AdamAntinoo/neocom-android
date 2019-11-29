@@ -26,50 +26,7 @@ public class Ristretto {
 		world = newworld;
 	}
 
-//	public static Matcher<View> withPanelType( final PanelTypes panelType ) {
-//		return new WithPanelTypeMatcher( panelType );
-//	}
-//
-//	public static final class WithPanelTypeMatcher extends TypeSafeMatcher<View> {
-//		@RemoteMsgField(order = 0)
-//		private PanelTypes panelClass = PanelTypes.NOT_SET;
-//
-//		@RemoteMsgConstructor
-//		private WithPanelTypeMatcher( final PanelTypes panelType ) {
-//			this.panelClass = panelType;
-//		}
-//
-//		@Override
-//		protected boolean matchesSafely( final View item ) {
-//			final Object tag = item.getTag(); // Tag should exist and be a Controller
-//			if (null != tag)
-//				switch (this.panelClass) {
-//					case REGIONCONTROLLER:
-//						if (tag instanceof RegionController) return true;
-//						break;
-//					case STATIONCONTROLLER:
-//						if (tag instanceof StationController) return true;
-//						break;
-//				}
-//			return false;
-//		}
-//
-//		@Override
-//		public void describeTo( final Description description ) {
-//			description.appendText( "with panelClass type: " + this.panelClass.name() );
-//		}
-//	}
-
 	// - F I L T E R I N G
-//	public static FilteringAction onController<C>( final int page ) {
-//		return new ControllerMatcher<C>(  )
-//	}
-
-//	public static List<IAndroidController> searchHeaderPanels( final int page, final ControllerMatcher matcher ) {
-//		return Stream.of( Ristretto.accessHeaderPanels( page ) )
-//				       .filter( matcher::matches )
-//				       .toList();
-//	}
 
 	// - A C T I V I T Y   M A N A G E M E N T
 	public static int activityPageCount() {
@@ -83,11 +40,14 @@ public class Ristretto {
 		return ((MVCPagerFragment) fragment).accessHeaderContents();
 	}
 
-	//	public
+	public static List<IAndroidController> accessDataPanels( final int page ) {
+		final Fragment fragment = Objects.requireNonNull(
+				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
+		);
+		return ((MVCPagerFragment) fragment).accessDataContents();
+	}
+
 	public static int headerContentsCount( final int page ) {
-//		final Fragment fragment = Objects.requireNonNull(
-//				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
-//		);
 		return Ristretto.accessHeaderPanels( page ).size();
 	}
 
@@ -103,10 +63,8 @@ public class Ristretto {
 		AcceptanceNeoComLogger.enter();
 		// Add the callback behind the latest scheduler run and ui run.
 		final Monitor monitor = new Monitor();
-//		MVCScheduler.backgroundExecutor.submit( () -> {
 		world.getActiveActivity().runOnUiThread( callback );
 		world.getActiveActivity().runOnUiThread( monitor::activateTrigger );
-//		} );
 		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
 		AcceptanceNeoComLogger.exit();
 	}

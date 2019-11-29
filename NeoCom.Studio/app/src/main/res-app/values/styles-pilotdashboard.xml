@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- P I L O T   C O R P O R A T I O N   D A T A -->
+    <style name="AppTheme.PilotDashboard.Corporation.Name" parent="AppTheme.NeoComText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:layout_marginLeft">@dimen/standardmargin</item>
+    </style>
+
     <!-- P I L O T   S E C T I O N -->
     <style name="AppTheme.NeoComText.Pilot.Amount" parent="AppTheme.NeoComText">
         <item name="android:layout_marginBottom">@dimen/bottomline_correction</item>

@@ -15,8 +15,8 @@ Feature: [NC03]-Shows a page with all the activities and managers available for 
 	  | AppName  | AppVersion | PilotName   |
 	  | NeoComAT | 0.17.0     | Tip Tophane |
 	Then the PilotDashboardActivity has "1" pages
-	And "1" panels on the "HeaderSection"
-	And "4" panels on the "DataSection"
-	And the header has a "Pilot" panel with the next information
+	And "0" panels on the "HeaderSection"
+	And "5" panels on the "DataSection"
+	And the data section has a "Pilot" panel with the next information
 	  | PilotName   | PilotId       | PilotRace | CorporationName             |
 	  | Tip Tophane | [#2113197470] | CALDARI   | School of Applied Knowledge |

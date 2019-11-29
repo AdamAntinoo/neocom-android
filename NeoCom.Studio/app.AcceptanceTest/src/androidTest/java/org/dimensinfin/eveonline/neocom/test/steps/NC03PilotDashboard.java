@@ -147,11 +147,11 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		}
 	}
 
-	@Then("the header has a {string} panel with the next information")
-	public void the_header_has_a_panel_with_the_next_information( final String panelModelType,
-	                                                              final List<Map<String, String>> dataTable ) {
+	@Then("the data section has a {string} panel with the next information")
+	public void the_data_section_has_a_panel_with_the_next_information((final String panelModelType,
+	                                                                   final List<Map<String, String>> dataTable ) {
 		final List<PilotController> targetPanelList = new ControllerMatcher<PilotController>()
-				                                              .withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+				                                              .withType( Ristretto.accessDataPanels( this.world.getSelectedPage() ),
 						                                              PilotController.class );
 		Assert.assertNotNull( targetPanelList );
 		Assert.assertTrue( targetPanelList.size() > 0 );

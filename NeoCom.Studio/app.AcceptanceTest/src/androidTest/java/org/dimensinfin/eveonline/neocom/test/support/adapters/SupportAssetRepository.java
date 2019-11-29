@@ -9,7 +9,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
-import org.dimensinfin.neocom.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class SupportAssetRepository extends AssetRepository {
 	protected SupportAssetRepository() {}

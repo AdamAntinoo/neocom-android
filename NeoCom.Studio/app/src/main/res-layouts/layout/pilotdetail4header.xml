@@ -66,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pilotInformationBlock"
+        android:layout_toLeftOf="@+id/pilotRaceBlock"
         android:layout_toRightOf="@+id/nodeIconBlock"
         android:orientation="horizontal">
 
@@ -77,10 +78,7 @@
 
         <org.dimensinfin.android.mvc.fonts.Din1451TextView
             android:id="@+id/corporationName"
-            style="@style/AppTheme.NeoComText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/standardmargin"
+            style="@style/AppTheme.PilotDashboard.Corporation.Name"
             android:text="@string/default_name"
             android:visibility="visible" />
 
@@ -91,6 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/corporationDataBlock"
+        android:layout_toLeftOf="@+id/pilotRaceBlock"
         android:layout_toRightOf="@+id/nodeIconBlock"
         android:orientation="horizontal">
 
@@ -105,23 +104,10 @@
 
         <org.dimensinfin.android.mvc.fonts.Din1451TextView
             android:id="@+id/allianceName"
-            style="@style/AppTheme.NeoComText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/standardmargin"
+            style="@style/AppTheme.PilotDashboard.Corporation.Name"
             android:text="@string/default_name"
             android:visibility="visible" />
     </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/raceIcon"
-        android:layout_width="@dimen/nodeiconsize"
-        android:layout_height="@dimen/nodeiconsize"
-        android:layout_below="@+id/corporationIcon"
-        android:layout_toRightOf="@+id/nodeIconBlock"
-        android:src="@drawable/defaulticonplaceholder"
-        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/pilotInformationBlock"
@@ -254,7 +240,7 @@
             android:visibility="visible">
 
             <ImageView
-                android:id="@+id/raceIconName"
+                android:id="@+id/raceIcon"
                 style="@style/AppTheme.NodeIcon"
                 android:layout_width="@dimen/nodeiconsizesmall"
                 android:layout_height="@dimen/nodeiconsizesmall"

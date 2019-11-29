@@ -4,9 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'project-report'
 apply from: '../app/dependencies.gradle'
-//apply from: './acceptance.tasks.gradle'
-//apply plugin: 'jacoco'
-//apply from: './jacoco.gradle'
 
 android {
     compileSdkVersion 28
@@ -17,7 +14,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 30
-        versionName "0.17.1"
+        versionName "0.18.0"
         project.archivesBaseName = "NCAcceptanceTests-$versionName"
         project.version = android.defaultConfig.versionName
     }
@@ -50,16 +47,20 @@ android {
         main.java {
             srcDirs += project(':app').file('src/main/java')
             srcDirs += project(':app').file('src/main/java-adapters')
-//            srcDirs += project(':app').file('src/main/java-mining')
-//            srcDirs += project(':app').file('src/main/java-planetary')
-            srcDirs += project(':app').file('src/main/java-datamanagement')
             srcDirs += project(':app').file('src/main/java-assets')
+            srcDirs += project(':app').file('src/main/java-datamanagement')
         }
         debug.java {
             srcDirs += project(':app').file('src/debug/java')
         }
         main.res {
-            srcDirs += project(':app').file('src/main/res')
+            srcDirs += project(':app').file('src/main/res-app')
+            srcDirs += project(':app').file('src/main/res-icons')
+            srcDirs += project(':app').file('src/main/res-core')
+            srcDirs += project(':app').file('src/main/res-sde')
+            srcDirs += project(':app').file('src/main/res-ui')
+            srcDirs += project(':app').file('src/main/res-layouts')
+            srcDirs += project(':app').file('src/main/res-assets')
             srcDirs += project(':app').file('src/main/res-fitting')
         }
     }
@@ -88,6 +89,7 @@ android {
 ext {
     cucumberJavaVersion = '4.3.1'
 }
+
 // - A N D R O I D
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'

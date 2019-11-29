@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="appname">NeoCom</string>
+<!--	<string name="appname">NeoCom</string>-->
 	<string name="propertiesLocation">properties</string>
 </resources>

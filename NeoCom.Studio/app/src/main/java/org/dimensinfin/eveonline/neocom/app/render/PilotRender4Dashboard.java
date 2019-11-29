@@ -19,6 +19,7 @@ import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetAlliancesAllianceIdOk;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCorporationsCorporationIdOk;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class PilotRender4Dashboard extends NeoComRender {
 	// - U I   F I E L D S
@@ -33,7 +34,7 @@ public class PilotRender4Dashboard extends NeoComRender {
 	private TextView allianceName;
 	private TextView pilotName;
 	private TextView pilotIdentifier;
-	private ImageView raceIconName;
+	private ImageView raceIcon;
 	private TextView raceName;
 	private TextView cloneType;
 	private TextView skillPoints;
@@ -71,7 +72,7 @@ public class PilotRender4Dashboard extends NeoComRender {
 		this.allianceName = Objects.requireNonNull( this.getView().findViewById( R.id.allianceName ) );
 		this.pilotName = Objects.requireNonNull( this.getView().findViewById( R.id.pilotName ) );
 		this.pilotIdentifier = Objects.requireNonNull( this.getView().findViewById( R.id.pilotIdentifier ) );
-		this.raceIconName = Objects.requireNonNull( this.getView().findViewById( R.id.raceIconName ) );
+		this.raceIcon = Objects.requireNonNull( this.getView().findViewById( R.id.raceIcon ) );
 		this.raceName = Objects.requireNonNull( this.getView().findViewById( R.id.raceName ) );
 		this.cloneType = Objects.requireNonNull( this.getView().findViewById( R.id.cloneType ) );
 		this.skillPoints = Objects.requireNonNull( this.getView().findViewById( R.id.skillPoints ) );
@@ -83,7 +84,7 @@ public class PilotRender4Dashboard extends NeoComRender {
 		this.setAvatarIcon( this.avatarIcon, this.getController().getModel().getPilotId() );
 		final String raceName = this.getController().getModel().getRaceName();
 		this.raceName.setText( raceName.toUpperCase() );
-		this.raceIconName.setImageDrawable( this.getRaceIcon( raceName ) );
+		this.raceIcon.setImageDrawable( this.getRaceIcon( raceName ) );
 		this.raceIconSmall.setImageDrawable( this.getRaceIcon( raceName ) );
 		this.pilotName.setText( this.getController().getModel().getName() );
 		this.pilotIdentifier.setText( String.format( "[#%d]", this.getController().getModel().getPilotId() ) );
@@ -98,31 +99,36 @@ public class PilotRender4Dashboard extends NeoComRender {
 	 */
 	@RequiresNetwork
 	protected void accessCorporationData() {
+		NeoComLogger.enter();
 		MVCScheduler.backgroundExecutor.submit( () -> {
+			NeoComLogger.info( "Accessing pilot corporation. {}", this.getController().getModel().getCorporationId() + "" );
 			this.corporationData = Objects.requireNonNull( this.getController().getEsiUniverseDataProvider().getCorporationsCorporationId(
 					this.getController().getModel().getCorporationId()
 			) );
 			final String link = this.getCorporationIconUrl( this.getController().getModel().getCorporationId() );
-			Picasso.get().load( link ).into( this.corporationIcon );
 			this.corporationName.setText( this.corporationData.getName() );
 			this.corporationDataBlock.setVisibility( View.VISIBLE );
 			this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+			handler.post( () -> Picasso.get().load( link ).into( this.corporationIcon ) );
 		} );
 		this.corporationDataBlock.setVisibility( View.GONE );
 	}
 
 	@RequiresNetwork
 	protected void accessAllianceData() {
+		NeoComLogger.enter();
 		MVCScheduler.backgroundExecutor.submit( () -> {
 			if (null != this.corporationData) {
-				this.allianceData = Objects.requireNonNull( this.getController().getEsiUniverseDataProvider().getAlliancesAllianceId(
-						this.corporationData.getAllianceId()
-				) );
-				final String link = this.getAllianceIconUrl( this.corporationData.getAllianceId() );
-				Picasso.get().load( link ).into( this.allianceIcon );
-				this.allianceName.setText( this.allianceData.getName() );
-				this.allianceDataBlock.setVisibility( View.VISIBLE );
-				this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+				if (null != this.corporationData.getAllianceId()) {
+					this.allianceData = Objects.requireNonNull( this.getController().getEsiUniverseDataProvider().getAlliancesAllianceId(
+							this.corporationData.getAllianceId()
+					) );
+					final String link = this.getAllianceIconUrl( this.corporationData.getAllianceId() );
+					this.allianceName.setText( this.allianceData.getName() );
+					this.allianceDataBlock.setVisibility( View.VISIBLE );
+					this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+					handler.post( () -> Picasso.get().load( link ).into( this.allianceIcon ) );
+				}
 			}
 		} );
 		this.allianceDataBlock.setVisibility( View.GONE );

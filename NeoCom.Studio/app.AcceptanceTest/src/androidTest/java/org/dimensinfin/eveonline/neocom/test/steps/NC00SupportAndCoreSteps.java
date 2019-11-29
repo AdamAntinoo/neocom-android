@@ -9,10 +9,10 @@ import java.util.List;
 import org.junit.Assert;
 
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
-import org.dimensinfin.neocom.NeoComLogger;
 
 
 import cucumber.api.java.en.Given;
