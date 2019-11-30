@@ -45,7 +45,7 @@ public class MinuteTickReceiver extends BroadcastReceiver {
 				if (!NeoComApplication.checkNetworkAccess()) return;
 			if (JobScheduler.getJobScheduler().needsStorage())
 				if (!NeoComApplication.checkSDCardAvailability()) return;
-		}
+		} else return;
 		JobScheduler.getJobScheduler().runSchedule();
 		NeoComLogger.exit();
 	}

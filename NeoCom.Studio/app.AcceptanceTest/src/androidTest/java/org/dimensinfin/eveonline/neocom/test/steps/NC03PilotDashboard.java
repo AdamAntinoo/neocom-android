@@ -22,19 +22,15 @@ import org.junit.Assert;
 import org.junit.Rule;
 
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.render.DashboardActionBarRender;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.ControllerMatcher;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.PanelTypes;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
-import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
-import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
 
 
 import cucumber.api.java.en.Given;
@@ -57,8 +53,6 @@ public class NC03PilotDashboard extends AuthorizedStep {
 
 	private Intent authorizationIntent;
 	private Integer selectedPage = 0;
-	// - C O M P O N E N T S
-	private SupportCredentialRepository credentialRepository;
 
 	public NC03PilotDashboard( final NeoComWorld world ) {
 		super( world );
@@ -69,18 +63,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		this.stopScheduler();
 		this.initializeApplicationStorage();
 		this.initializeApplicationEsi();
-//		this.connectAuthorizedMockComponents();
 		this.deleteDatabaseRecords();
-	}
-
-	private void deleteDatabaseRecords() throws SQLException {
-		this.credentialRepository = new SupportCredentialRepository.Builder()
-				                            .withCredentialDao(
-						                            NeoComComponentFactory.getSingleton()
-								                            .getNeoComDBHelper().getCredentialDao() )
-				                            .build();
-		NeoComComponentFactory.getSingleton().setCredentialRepository( this.credentialRepository );
-		this.credentialRepository.deleteAll();
 	}
 
 	@Given("the PilotDashboardActivity")
@@ -89,16 +72,6 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		AcceptanceNeoComLogger.info( "[GIVEN] the PilotDashboardActivity" );
 		this.authorizationIntent = this.authorizationIntent( PilotDashboardActivity.class );
 	}
-
-	@Given("the following Credentials into my repository")
-	public void the_following_Credentials_into_my_repository( final List<Map<String, String>> dataTable ) throws SQLException {
-		AcceptanceNeoComLogger.info( "[GIVEN] the following Credentials into my repository" );
-		for (Map<String, String> row : dataTable) {
-			final Credential credential = new CucumberTable2CredentialConverter().convert( row );
-			this.credentialRepository.persist( credential );
-		}
-	}
-
 	@When("the PilotDashboardActivity activity lifecycle completes for page {string}")
 	public void the_PilotDashboardActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
 		AcceptanceNeoComLogger.info( "[WHEN] the PilotDashboardActivity activity lifecycle completes for page {string}" );
@@ -148,8 +121,8 @@ public class NC03PilotDashboard extends AuthorizedStep {
 	}
 
 	@Then("the data section has a {string} panel with the next information")
-	public void the_data_section_has_a_panel_with_the_next_information((final String panelModelType,
-	                                                                   final List<Map<String, String>> dataTable ) {
+	public void the_data_section_has_a_panel_with_the_next_information( final String panelModelType,
+	                                                                    final List<Map<String, String>> dataTable ) {
 		final List<PilotController> targetPanelList = new ControllerMatcher<PilotController>()
 				                                              .withType( Ristretto.accessDataPanels( this.world.getSelectedPage() ),
 						                                              PilotController.class );

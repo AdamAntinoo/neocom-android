@@ -3,7 +3,6 @@ package org.dimensinfin.eveonline.neocom.test.support;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,11 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +37,7 @@ public class StepFramework {
 	protected Context applicationContext = NeoComComponentFactory.getSingleton().getApplication().getApplicationContext();
 	protected IFileSystem fileSystemAdapter = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	protected IConfigurationProvider configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+//	protected SupportCredentialRepository credentialRepository;
 
 	public StepFramework( final NeoComWorld world ) {
 		this.world = world;
@@ -97,6 +95,11 @@ public class StepFramework {
 		InstrumentationRegistry.getInstrumentation().getUiAutomation()
 				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
 	}
+
+	protected void deleteDatabaseRecords() throws SQLException {
+		this.world.getCredentialRepository().deleteAll();
+	}
+
 
 	// -
 

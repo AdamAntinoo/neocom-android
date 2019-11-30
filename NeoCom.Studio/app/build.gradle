@@ -32,7 +32,7 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-//            resValue "string", "appname", "NeoCom"
+            resValue "string", "appname", "NeoCom"
             resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
             resValue "string", "appversion", android.defaultConfig.versionName
 

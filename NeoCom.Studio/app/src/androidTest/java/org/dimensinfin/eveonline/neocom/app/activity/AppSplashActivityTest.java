@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 import org.dimensinfin.android.mvc.activity.MVCFragmentPagerAdapter;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
-import org.dimensinfin.eveonline.neocom.app.PageNamesType;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
@@ -26,7 +26,7 @@ public class AppSplashActivityTest {
 				final MVCFragmentPagerAdapter pageAdapter = activity.accessPageAdapter();
 				Assert.assertEquals(1, pageAdapter.getCount()); // Check the number of pages
 				final MVCPagerFragment fragment = (MVCPagerFragment) pageAdapter.getItem(0);
-				Assert.assertEquals(PageNamesType.SPLASH.name(), fragment.getVariant()); // Check the page variant type
+				Assert.assertEquals( PageNamesType.SPLASH.name(), fragment.getVariant()); // Check the page variant type
 			});
 		}
 	}

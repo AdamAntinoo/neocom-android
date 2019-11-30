@@ -3,16 +3,20 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
+import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
 
 
 import cucumber.api.java.en.Given;
@@ -99,6 +103,14 @@ public class NC00SupportAndCoreSteps {
 			case "DataSection":
 				Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.dataContentsCount( this.world.getSelectedPage() ) );
 				break;
+		}
+	}
+	@Given("the following Credentials into my repository")
+	public void the_following_Credentials_into_my_repository( final List<Map<String, String>> dataTable ) throws SQLException {
+		AcceptanceNeoComLogger.info( "[GIVEN] the following Credentials into my repository" );
+		for (Map<String, String> row : dataTable) {
+			final Credential credential = new CucumberTable2CredentialConverter().convert( row );
+			this.world.getCredentialRepository().persist( credential );
 		}
 	}
 }

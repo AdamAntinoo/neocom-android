@@ -75,11 +75,11 @@ public class SplashActionsDataSource extends MVCDataSource {
 													                                 .withAssetRepository( this.assetRepository )
 													                                 .withEsiDataProvider( this.esiDataProvider )
 													                                 .withLocationCatalogService( this.locationCatalogService )
-													                                 .addCronSchedule( "0/5 - *" )
+													                                 .addCronSchedule( "0/15 - *" )
 													                                 .build()
 									                                 )
 							);
-					new CredentialUpdater( credential ).update  (false);
+					new CredentialUpdater( credential ).update( false );
 				}
 			}
 			this.addModelContents( new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );

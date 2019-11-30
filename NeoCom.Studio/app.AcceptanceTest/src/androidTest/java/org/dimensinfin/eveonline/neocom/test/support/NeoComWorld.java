@@ -7,6 +7,7 @@ import android.widget.ListView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.rule.ActivityTestRule;
 
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,15 +17,16 @@ import org.joda.time.LocalDate;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
 
 public class NeoComWorld {
-	//	protected static Logger logger = LoggerFactory.getLogger(NeoComWorld.class);
 	private ActivityScenario<SettingsActivity> settingsActivityScenario;
 	private ActivityScenario<AppSplashActivity> appSplashActivityScenario;
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
@@ -32,6 +34,8 @@ public class NeoComWorld {
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
 	private Activity activeActivity;
 	private Integer selectedPage = 0;
+	// - C O M P O N E N T S
+	private SupportCredentialRepository credentialRepository;
 
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool( 1 );
 	private NeoComApplication application;
@@ -45,7 +49,18 @@ public class NeoComWorld {
 	private View actionBar;
 
 	public NeoComWorld() {
-		NeoComLogger.info( "-- [NeoComWorld.<constructor>]" );
+		NeoComLogger.enter( );
+		NeoComLogger.info("Registering global components...");
+		try {
+			this.credentialRepository = new SupportCredentialRepository.Builder()
+					                            .withCredentialDao(
+							                            NeoComComponentFactory.getSingleton()
+									                            .getNeoComDBHelper().getCredentialDao() )
+					                            .build();
+			NeoComComponentFactory.getSingleton().setCredentialRepository( this.credentialRepository );
+		} catch (final SQLException sqle) {
+			sqle.printStackTrace();
+		}
 	}
 
 	public ActivityScenario<SettingsActivity> getSettingsActivityScenario() {
@@ -109,6 +124,10 @@ public class NeoComWorld {
 	public NeoComWorld setSelectedPage( final Integer selectedPage ) {
 		this.selectedPage = selectedPage;
 		return this;
+	}
+
+	public SupportCredentialRepository getCredentialRepository() {
+		return this.credentialRepository;
 	}
 // ---------------------------------------------------------------
 
