@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.render.DashboardActionBarRender;
@@ -64,6 +65,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		this.initializeApplicationStorage();
 		this.initializeApplicationEsi();
 		this.deleteDatabaseRecords();
+		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 
 	@Given("the PilotDashboardActivity")

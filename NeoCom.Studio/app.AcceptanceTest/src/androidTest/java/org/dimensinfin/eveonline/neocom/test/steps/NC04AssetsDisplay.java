@@ -68,6 +68,7 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		this.stopScheduler();
 		this.initializeApplicationStorage();
 		this.connectAuthorizedMockComponents();
+		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 
 	@Given("the AssetDisplayActivity")

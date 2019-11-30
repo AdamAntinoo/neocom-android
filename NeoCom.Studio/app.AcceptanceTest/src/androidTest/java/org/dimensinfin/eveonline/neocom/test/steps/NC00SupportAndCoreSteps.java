@@ -1,15 +1,28 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Application;
+import android.content.pm.PackageManager;
+import android.view.View;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.rule.ActivityTestRule;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
+import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.core.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
@@ -86,10 +99,71 @@ public class NC00SupportAndCoreSteps {
 		Assert.assertEquals( "STEP 04", this.recording.get( 3 ) );
 		Assert.assertEquals( "STEP 05", this.recording.get( 4 ) );
 	}
+	//	@Given("an initialized application")
+	public void anInitializedApplication() {
+		final Application application = NeoComComponentFactory.getSingleton().getApplication();
+		Assert.assertNotNull(application);
+		this.world.setApplication((NeoComApplication) application);
+	}
+//	@And("the application access privileges")
+	public void theApplicationAccessPrivileges() throws InterruptedException {
+		final ActivityTestRule<SettingsActivity> activityRuleSettings = new ActivityTestRule<>(SettingsActivity.class,
+				false, false);
+		Assert.assertNotNull(activityRuleSettings);
+		activityRuleSettings.launchActivity(null);
+		final Activity activity = activityRuleSettings.getActivity();
+		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.READ_EXTERNAL_STORAGE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(activity,
+					new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE },
+					10);
+			Thread.sleep( TimeUnit.SECONDS.toMillis(2));
+		}
+		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(activity,
+					new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
+					10);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+		}
+		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.INTERNET)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(activity,
+					new String[]{ Manifest.permission.INTERNET },
+					20);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+		}
+		if (ContextCompat.checkSelfPermission(this.world.getApplication(), Manifest.permission.ACCESS_NETWORK_STATE)
+				    != PackageManager.PERMISSION_GRANTED) {
+			// Permission is not granted
+			ActivityCompat.requestPermissions(activity,
+					new String[]{ Manifest.permission.ACCESS_NETWORK_STATE },
+					30);
+			Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+		}
+	}
+//	@And("the component factory exists")
+	public void theComponentFactoryExists() {
+		Assert.assertNotNull(NeoComComponentFactory.getSingleton());
+	}
+
+//	@And("the timer service is running")
+	public void theTimerServiceIsRunning() {
+		Assert.assertTrue(NeoComComponentFactory.getSingleton().getApplication().isSchedulerActive());
+	}
 
 	private void record( final String message ) {
 		this.recording.add( message );
 		NeoComLogger.info( message );
+	}
+//	@And("the processing spinner is visible")
+	public void theProcessingSpinnerIsVisible() {
+		final View progress = ((MVCPagerFragment) this.world.getFragment()).getView().findViewById(
+				R.id.progressLayout);
+		Assert.assertTrue(progress.isShown());
 	}
 
 	// - C O M M O N   S T E P S

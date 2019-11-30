@@ -1,5 +1,5 @@
 @NC00 @SettingsActivity
-Feature: [NC00]-Do the tests for core and support functionalities that are to be used on the application or on testing.
+Feature: [NC00]-Do the tests for core and support functionality that are to be used on the application or on testing.
 
   There are new development and key elements for acceptance tests that I think require their own testing. This scenarios
   will deal with such tests that should be run under the acceptance test configuration.
@@ -21,4 +21,13 @@ Feature: [NC00]-Do the tests for core and support functionalities that are to be
 	Given the AppInializationActivity
 	When the activity enters the OnCreate stage there is an exception
 	Then get the exception panel visible with the next data
-	|
+	  |
+
+  @NC00.04
+  Scenario: [NC00.04]-Check that the application initialization order creates the expected instances and services.
+	Given an initialized application
+	And the application access privileges
+	Then there is a Minute service running
+	And a component factory available
+	And the required privileges to use private storage
+	And the required privileges to use public storage

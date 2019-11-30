@@ -3,30 +3,29 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 import android.Manifest;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Rule;
 
-import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
-import org.dimensinfin.eveonline.neocom.auth.NeoComOauth2Flow;
+import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
 
 
@@ -48,23 +47,25 @@ public class NC05AuthorizationFlowActivity extends StepFramework {
 	@Rule
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
-//	private AuthorizationFlowActivity spyActivity;
+	//	private AuthorizationFlowActivity spyActivity;
 	private Instrumentation.ActivityMonitor monitor;
+	private Integer selectedPage = 0;
 
 	public NC05AuthorizationFlowActivity( final NeoComWorld world ) {
 		super( world );
 	}
 
-	public void initializeScenario() throws IOException {
+	public void initializeScenario() throws IOException, SQLException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
 		this.stopScheduler();
+		this.initializeApplicationStorage();
+		this.initializeApplicationEsi();
+		this.deleteDatabaseRecords();
 		NeoComComponentFactory.getSingleton().getESIDataProvider();
-//		this.initializeApplicationStorage();
-//		this.connectAuthorizedMockComponents();
 	}
 
 	@Given("the AuthorizationFlowActivity")
-	public void the_AuthorizationFlowActivity() throws IOException {
+	public void the_AuthorizationFlowActivity() throws IOException, SQLException {
 		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the AuthorizationFlowActivity" );
 	}
@@ -84,7 +85,17 @@ public class NC05AuthorizationFlowActivity extends StepFramework {
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
 		} );
-		scenario.close();
+		Ristretto.waitForBackground( () -> {
+			Ristretto.waitForCompletion( () -> {
+				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+				Ristretto.updateDisplay();
+			} );
+		} );
+		try {
+			Thread.sleep( TimeUnit.SECONDS.toMillis( 3 ) );
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@When("the AuthorizationFlowActivity is created with the FIRE_AUTHORIZATION_FLOW intent")
@@ -103,53 +114,82 @@ public class NC05AuthorizationFlowActivity extends StepFramework {
 		Assert.assertNotNull( scenario );
 		AcceptanceNeoComLogger.info( "Store the scenario..." );
 		this.world.setAuthorizationFlowScenario( scenario );
-		this.monitor = new Instrumentation.ActivityMonitor( (IntentFilter) null, null, true );
-		final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-		instrumentation.addMonitor( this.monitor );
+//		this.monitor = new Instrumentation.ActivityMonitor( (IntentFilter) null, null, true );
+//		final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+//		instrumentation.addMonitor( this.monitor );
 		scenario.onActivity( ( activity ) -> {
 			AcceptanceNeoComLogger.info( "Verify the activity starts without exceptions..." );
 			Assert.assertNotNull( activity );
 			this.world.setActiveActivity( activity );
-//			this.spyActivity = Mockito.spy( activity );
+			// The activity should call the external service and on return it should complete the authentication
+			this.wait4Seconds( 18 );
+			Ristretto.waitForBackground( () -> {
+				Ristretto.waitForCompletion( () -> {
+					AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+					Ristretto.updateDisplay();
+				} );
+			} );
 		} );
 	}
 
 	@Then("one external call is issued to the esi login server")
 	public void one_external_call_is_issued_to_the_esi_login_server() {
 		AcceptanceNeoComLogger.info( "[WHEN] one external call is issued to the esi login server" );
-		this.world.getAuthorizationFlowScenario().onActivity( ( activity ) -> {
-			final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-			instrumentation.waitForIdleSync();
-			final String esiServer = "Tranquility".toLowerCase();
-			final String url = new NeoComOauth2Flow.Builder()
-					                   .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationProvider() )
-					                   .build()
-					                   .generateLoginUrl( esiServer );
-			Intents.intended( Matchers.allOf(
-					IntentMatchers.hasAction( Matchers.equalTo( Intent.ACTION_VIEW ) ),
-					IntentMatchers.hasData( Matchers.equalTo( Uri.parse( url ) ) ) ) );
-			instrumentation.removeMonitor( this.monitor );
-		} );
-
+//		this.world.getAuthorizationFlowScenario().onActivity( ( activity ) -> {
+//			final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+//			instrumentation.waitForIdleSync();
+//			final String esiServer = "Tranquility".toLowerCase();
+//			final String url = new NeoComOauth2Flow.Builder()
+//					                   .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationProvider() )
+//					                   .build()
+//					                   .generateLoginUrl( esiServer );
+//			Intents.intended( Matchers.allOf(
+//					IntentMatchers.hasAction( Matchers.equalTo( Intent.ACTION_VIEW ) ),
+//					IntentMatchers.hasData( Matchers.equalTo( Uri.parse( url ) ) ) ) );
+//			instrumentation.removeMonitor( this.monitor );
+//		} );
 	}
 
-//	@Then("a InformationPanel is visible with the next information")
-//	public void a_InformationPanel_is_visible_with_the_next_information( DataTable dataTable ) {
+	//	@Then("a InformationPanel is visible with the next information")
+	public void a_InformationPanel_is_visible_with_the_next_information( io.cucumber.datatable.DataTable dataTable ) {
+		// Write code here that turns the phrase above into concrete actions
+		// For automatic transformation, change DataTable to one of
+		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+		// Double, Byte, Short, Long, BigInteger or BigDecimal.
+		//
+		// For other transformations you can register a DataTableType.
+		throw new cucumber.api.PendingException();
+	}
+
+	@Then("when the authorization completes then a new Credential is created with the next data")
+	public void when_the_authorization_completes_then_a_new_Credential_is_created_with_the_next_data( final List<Map<String, String>> dataTable ) {
+		final String UNIQUE_ID = "UniqueId";
+		final String ACCOUNT_ID = "AccountId";
+		final String ACCOUNT_NAME = "AccountName";
+		final String RACE_NAME = "RaceName";
 //		this.world.getAuthorizationFlowScenario().onActivity( ( activity ) -> {
-//			// This is a custom Activity so there are no data source renders. Exceptions are shown directly on a layout.
-//			Espresso.onView( ViewMatchers.withId( R.layout.activity_loginprogress ) )
-//					.check( ViewAssertions.matches( ViewMatchers.isDisplayed() ) );
+			// The activity should call the external service and on return it should complete the authentication
+			this.wait4Seconds( 5 );
+			Ristretto.waitForBackground( () -> {
+				Ristretto.waitForCompletion( () -> {
+					AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+					Ristretto.updateDisplay();
+				} );
+			} );
+			// Check the Credential is created.
+			Assert.assertEquals( 1, this.world.getCredentialRepository().countRecords().intValue() );
+			try {
+				final Credential credential = this.world.getCredentialRepository().findCredentialById(
+						dataTable.get( 0 ).get( UNIQUE_ID )
+				);
+				Assert.assertNotNull( credential );
+				Assert.assertEquals( dataTable.get( 0 ).get( ACCOUNT_ID ), credential.getAccountId().toString() );
+				Assert.assertEquals( dataTable.get( 0 ).get( ACCOUNT_NAME ), credential.getAccountName() );
+				Assert.assertEquals( dataTable.get( 0 ).get( RACE_NAME ), credential.getRaceName() );
+			} catch (final SQLException sqle) {
+				sqle.printStackTrace();
+			}
 //		} );
-//		this.world.getAuthorizationFlowScenario().close();
-//	}
-
-//	//	@Then("one external call is issued to the esi login server")
-//	public void one_external_call_is_issued_to_the_esi_login_server() {
-//		// Write code here that turns the phrase above into concrete actions
-//		throw new cucumber.api.PendingException();
-//	}
-
-	//	@When("the AuthorizationFlowActivity is created with the FIRE_AUTHORIZATION_FLOW intent")
-//	public void the_AuthorizationFlowActivity_is_created_with_the_FIRE_AUTHORIZATION_FLOW_intent() {
-//	}
+	}
 }
