@@ -143,7 +143,23 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		AcceptanceNeoComLogger.info( "[THEN] the PilotDashboardActivity has {string} pages" );
 		Assert.assertEquals( Integer.parseInt( expectedPageCount ), Ristretto.activityPageCount() );
 	}
+//	@Then("the assets section panel shows an spinner")
+	public void the_assets_section_panel_shows_an_spinner() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new cucumber.api.PendingException();
+	}
 
+//	@Then("the assets section panel shows the next data")
+	public void the_assets_section_panel_shows_the_next_data(final List<Map<String, String>> dataTable) {
+		// Write code here that turns the phrase above into concrete actions
+		// For automatic transformation, change DataTable to one of
+		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+		// Double, Byte, Short, Long, BigInteger or BigDecimal.
+		//
+		// For other transformations you can register a DataTableType.
+		throw new cucumber.api.PendingException();
+	}
 	private boolean validatePilot4DashboardRender( final Map<String, String> expectedData,
 	                                               final View obtainedView ) {
 		final String PILOT_NAME = "PilotName";

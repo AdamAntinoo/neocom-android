@@ -1,25 +1,29 @@
 @NC04 @AssetDisplayActivity
 Feature: [NC04]-Define the pages to display the assets that belong to a pilot.
 
-  Une of the most important things for a capsuleer is to know what is the inventory and where are those things. He/she
+  One of the most important things for a capsuleer is to know what is the inventory and where are those things. He/she
   needs to know where is any ot their ships or where are some materials ready for construction. Also important information
-  if the current asset value and volume stored on each location to know it the can be moved wit the current ship.
+  is the current asset value and volume stored on each location to know it the can be moved with the current ship.
 
   Among the other expected features is to allow to schedule logistic activities to assets are planned to be moved from one
   location to another because industry requirements or other contracting issues.
 
   The first asset display page shows the assets classified by their current storage location. Starting with the Region, then the
-  station/structure and continuing to the station hangars and containers.
+  Station/Structure and continuing to the station Hangars and Containers.
 
   @NC04.01
-  Scenario: [NC04.01]-The pilot should be able to activate the AssetDisplayActivity from the Pilot dashboard.
-	Given the PilotDashboardActivity
-	When the pilot activates the Assets information panel
-	Then the application moves to the AssetDisplayActivity.
+  Scenario: [NC04.01]-Show the assets display pages when there are no assets. The page should show a button to request a refresh of
+  the pilot assets from the ESI server.
+	Given the AssetDisplayActivity
+	And an empty list of assets
+	When the AssetDisplayActivity activity lifecycle completes for page "0"
+	Then a type NoAssetsInformation panel on the "DataSection" with the next data
+	  | Title                                                                  |
+	  | No assets ready for current pilot. Wait for asset download completion. |
 
   @NC04.02
   Scenario: [NC04.02]-The AssetDisplay activity has a single page. This page is the default and shows the title for assets classified by location.
-  The page shows 2 Regions tht should be the paces where the Pilot has assets.
+  The page shows 2 Regions that should be the paces where the Pilot has assets.
 	Given the AssetDisplayActivity
 	And the next list of assets persisted for character "92220000"
 	  | is_singleton | item_id       | location_flag | location_id | location_type | quantity | type_id |

@@ -16,6 +16,8 @@ import android.view.View;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.ui.CustomTypefaceSpan;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
+import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 
 public class MenuActivatedActivity extends NeoComActivity {
 	private static Menu activityMenu = null;

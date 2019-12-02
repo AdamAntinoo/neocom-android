@@ -11,7 +11,7 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 
 
 import static java.util.concurrent.TimeUnit.SECONDS;

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.eveonline.neocom.app.activity.core.NeoComActivity;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.assets.controller.StationController;
 

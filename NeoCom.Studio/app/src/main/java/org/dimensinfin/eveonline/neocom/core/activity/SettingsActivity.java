@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.app.activity.core;
+package org.dimensinfin.eveonline.neocom.core.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

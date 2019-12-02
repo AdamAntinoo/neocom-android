@@ -11,10 +11,8 @@ import android.os.Environment;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.services.MinuteTickReceiver;
 
 /**
@@ -26,8 +24,6 @@ import org.dimensinfin.eveonline.neocom.services.MinuteTickReceiver;
  * @author Adam Antinoo
  */
 public class NeoComApplication extends Application {
-	public static Logger logger = LoggerFactory.getLogger( NeoComApplication.class );
-
 	public static boolean checkNetworkAccess() {
 		final ConnectivityManager cm = (ConnectivityManager) NeoComComponentFactory.getSingleton().getApplication()
 				                                                     .getSystemService( Context.CONNECTIVITY_SERVICE );
@@ -97,21 +93,21 @@ public class NeoComApplication extends Application {
 	 */
 	@Override
 	public void onCreate() {
-		logger.info( ">> [NeoComApplication.onCreate]" );
+		NeoComLogger.enter();
 		super.onCreate();
-		logger.info( "-- [NeoComApplication.onCreate]> Connect Component Factory to application..." );
+		NeoComLogger.info( "Connect Component Factory to application..." );
 		NeoComComponentFactory.initialiseSingleton( this ); // Create the component factory connected to this app.
-		logger.info( "-- [NeoComApplication.onCreate]> Start job scheduler..." );
+		NeoComLogger.info( "Start job scheduler..." );
 		this.startScheduler(); // Start the job scheduler
-		logger.info( "<< [NeoComApplication.onCreate]" );
+		NeoComLogger.exit();
 	}
 
 	@Override
 	public void onTerminate() {
-		logger.info( ">> [NeoComApplication.onTerminate]" );
+		NeoComLogger.enter();
 		this.terminateScheduler();
 		super.onTerminate();
-		logger.info( "<< [NeoComApplication.onTerminate]" );
+		NeoComLogger.exit();
 	}
 
 	/**
