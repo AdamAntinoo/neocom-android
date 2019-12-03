@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
+import org.dimensinfin.eveonline.neocom.annotation.RequiresNetwork;
 import org.dimensinfin.eveonline.neocom.app.domain.IDataProvider;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.core.domain.NeoComDataProvider;
@@ -17,28 +18,26 @@ import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterI
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdPlanets200Ok;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetUniverseRaces200Ok;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
 
 public class PilotDashboardDataSource extends MVCDataSource {
 	private List<PilotSection> sections = new ArrayList<>();
 	// -  C O M P O N E N T S
-	private ESIDataProvider esiDataAdapter;
-	private ESIUniverseDataProvider esiUniverseDataProvider;
+	private ESIDataProvider esiDataProvider;
 	private Credential credential;
 
 	private Credential getCredential() {
 		return this.credential;
 	}
 
-	public ESIUniverseDataProvider getEsiUniverseDataProvider() {
-		return this.esiUniverseDataProvider;
+	public ESIDataProvider getESIDataProvider() {
+		return this.esiDataProvider;
 	}
 
 	@LogEnterExit
 	@Override
 	public void prepareModel() {
-		final GetCharactersCharacterIdOk publicData = this.esiDataAdapter.getCharactersCharacterId( this.getCredential().getAccountId() );
-		final GetUniverseRaces200Ok raceData = this.esiDataAdapter.searchSDERace( publicData.getRaceId() );
+		final GetCharactersCharacterIdOk publicData = this.esiDataProvider.getCharactersCharacterId( this.getCredential().getAccountId() );
+		final GetUniverseRaces200Ok raceData = this.esiDataProvider.searchSDERace( publicData.getRaceId() );
 		final Pilot pilot = new Pilot.Builder()
 				                    .withPilotIdentifier( this.getCredential().getAccountId() )
 				                    .withCharacterPublicData( publicData )
@@ -76,7 +75,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 				                   .withLabel( "Available Colonies" )
 				                   .withDataProvider( new PlanetaryColonyCountDataProvider.Builder()
 						                                      .withCredential( this.credential )
-						                                      .withEsiDataAdapter( this.esiDataAdapter ).build() )
+						                                      .withEsiDataAdapter( this.esiDataProvider ).build() )
 //				                   .withClickTarget( PageNamesType.PLANET_FACILITIES_DETAILS )
 				                   .withPilotIdentifier( this.credential.getAccountId() )
 				                   .build() );
@@ -107,17 +106,17 @@ public class PilotDashboardDataSource extends MVCDataSource {
 			return this;
 		}
 
-		public PilotDashboardDataSource.Builder withEsiDataAdapter( final ESIDataProvider esiDataAdapter ) {
+		public PilotDashboardDataSource.Builder withEsiDataProvider( final ESIDataProvider esiDataAdapter ) {
 			Objects.requireNonNull( esiDataAdapter );
-			this.onConstruction.esiDataAdapter = esiDataAdapter;
+			this.onConstruction.esiDataProvider = esiDataAdapter;
 			return this;
 		}
 
-		public PilotDashboardDataSource.Builder withESIUniverseDataProvider( final ESIUniverseDataProvider esiUniverseDataProvider ) {
-			Objects.requireNonNull( esiUniverseDataProvider );
-			this.onConstruction.esiUniverseDataProvider = esiUniverseDataProvider;
-			return this;
-		}
+//		public PilotDashboardDataSource.Builder withESIUniverseDataProvider( final ESIUniverseDataProvider esiUniverseDataProvider ) {
+//			Objects.requireNonNull( esiUniverseDataProvider );
+//			this.onConstruction.esiUniverseDataProvider = esiUniverseDataProvider;
+//			return this;
+//		}
 
 		public PilotDashboardDataSource.Builder withCredential( final Credential credential ) {
 			Objects.requireNonNull( credential );
@@ -162,7 +161,9 @@ public class PilotDashboardDataSource extends MVCDataSource {
 		private AssetCountDataProvider() {}
 
 		public String getDataFormatted() {
-			return qtyFormatter.format( this.credential.getAssetsCount() ) + " ITEMS";
+			final int assetCount = this.credential.getAssetsCount();
+			if (assetCount > 0) this.setCompleted( true );
+			return qtyFormatter.format( assetCount ) + " ITEMS";
 		}
 
 		// - B U I L D E R
@@ -191,6 +192,7 @@ public class PilotDashboardDataSource extends MVCDataSource {
 
 		private PlanetaryColonyCountDataProvider() {}
 
+		@RequiresNetwork
 		public String getDataFormatted() {
 			final List<GetCharactersCharacterIdPlanets200Ok> esiColonies = new ArrayList<>();
 			this.esiDataAdapter.getCharactersCharacterIdPlanets( this.credential );

@@ -102,7 +102,7 @@ public class PilotRender4Dashboard extends NeoComRender {
 		NeoComLogger.enter();
 		MVCScheduler.backgroundExecutor.submit( () -> {
 			NeoComLogger.info( "Accessing pilot corporation. {}", this.getController().getModel().getCorporationId() + "" );
-			this.corporationData = Objects.requireNonNull( this.getController().getEsiUniverseDataProvider().getCorporationsCorporationId(
+			this.corporationData = Objects.requireNonNull( this.getController().getESIDataProvider().getCorporationsCorporationId(
 					this.getController().getModel().getCorporationId()
 			) );
 			final String link = this.getCorporationIconUrl( this.getController().getModel().getCorporationId() );
@@ -120,7 +120,7 @@ public class PilotRender4Dashboard extends NeoComRender {
 		MVCScheduler.backgroundExecutor.submit( () -> {
 			if (null != this.corporationData) {
 				if (null != this.corporationData.getAllianceId()) {
-					this.allianceData = Objects.requireNonNull( this.getController().getEsiUniverseDataProvider().getAlliancesAllianceId(
+					this.allianceData = Objects.requireNonNull( this.getController().getESIDataProvider().getAlliancesAllianceId(
 							this.corporationData.getAllianceId()
 					) );
 					final String link = this.getAllianceIconUrl( this.corporationData.getAllianceId() );

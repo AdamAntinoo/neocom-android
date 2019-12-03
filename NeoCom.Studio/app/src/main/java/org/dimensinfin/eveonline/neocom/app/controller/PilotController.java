@@ -9,7 +9,7 @@ import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComUpdatableAutho
 import org.dimensinfin.eveonline.neocom.app.datasource.PilotDashboardDataSource;
 import org.dimensinfin.eveonline.neocom.app.render.PilotRender4Dashboard;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
-import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 
 public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> {
 	public PilotController( final Pilot model, final IControllerFactory factory ) {
@@ -17,18 +17,9 @@ public class PilotController extends NeoComUpdatableAuthorizedController<Pilot> 
 		this.setTheme( SpacerType.LINE_DARKBLUE );
 	}
 
-	public ESIUniverseDataProvider getEsiUniverseDataProvider() {
-		return ((PilotDashboardDataSource) this.getDataSource()).getEsiUniverseDataProvider();
+	public ESIDataProvider getESIDataProvider() {
+		return ((PilotDashboardDataSource) this.getDataSource()).getESIDataProvider();
 	}
-
-//	// - I E V E N T R E C E I V E R
-//	@Override
-//	public void receiveEvent( final IntercommunicationEvent event ) {
-//		if (event.getEventName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
-//			this.sendChangeEvent(event);
-//			this.notifyDataModelChange();
-//		}
-//	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override

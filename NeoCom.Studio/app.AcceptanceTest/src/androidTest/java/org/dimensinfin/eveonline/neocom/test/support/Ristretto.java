@@ -1,11 +1,20 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
 import java.util.Objects;
 
 import org.awaitility.Awaitility;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
@@ -103,5 +112,75 @@ public class Ristretto {
 		public Boolean isTriggered() {
 			return this.trigger;
 		}
+	}
+
+	public static Matcher<View> withPanelType( final Matcher<View> matcher, final Class type ) {
+		return new TypeSafeMatcher<View>() {
+			@Override
+			public void describeTo( Description description ) {
+				description.appendText( "with panel type: " );
+				description.appendValue( type.getSimpleName() );
+				matcher.describeTo( description );
+			}
+
+			/**
+			 * Find views that have attached a controller of the specified type.
+			 * @param view
+			 * @return
+			 */
+			@Override
+			public boolean matchesSafely( View view ) {
+				if (matcher.matches( view )) {
+					final Object controller = view.getTag();
+					if (null != controller)
+						if (type.isInstance( controller ))
+							return true;
+				}
+				return false;
+			}
+		};
+	}
+
+	private static final int EMPTY = -1;
+	private static final int ANY = -2;
+
+	public static boolean withDrawable( final View target, final int resourceId ) {
+		if (!(target instanceof ImageView)) {
+			return false;
+		}
+		ImageView imageView = (ImageView) target;
+		if (resourceId == EMPTY) {
+			return imageView.getDrawable() == null;
+		}
+		if (resourceId == ANY) {
+			return imageView.getDrawable() != null;
+		}
+		Resources resources = target.getContext().getResources();
+		Drawable expectedDrawable = resources.getDrawable( resourceId );
+//		resourceName = resources.getResourceEntryName( resourceId );
+
+		if (expectedDrawable == null) {
+			return false;
+		}
+
+		Bitmap bitmap = getBitmap( imageView.getDrawable() );
+		Bitmap otherBitmap = getBitmap( expectedDrawable );
+		return bitmap.sameAs( otherBitmap );
+	}
+
+	private static Bitmap getBitmap( Drawable drawable ) {
+		Bitmap bitmap = Bitmap.createBitmap( drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888 );
+		Canvas canvas = new Canvas( bitmap );
+		drawable.setBounds( 0, 0, canvas.getWidth(), canvas.getHeight() );
+		drawable.draw( canvas );
+		return bitmap;
+	}
+
+//	public static Matcher<View> withDrawable( final int resourceId ) {
+//		return new DrawableMatcher( resourceId );
+//	}
+
+	public static Matcher<View> noDrawable() {
+		return new DrawableMatcher( -1 );
 	}
 }

@@ -22,21 +22,20 @@ public class PilotDashboardFragment extends AuthenticatedFragment {
 	public IControllerFactory createFactory() {
 		return new AppControllerFactory( this.getVariant() )
 				       .registerActivity( PageNamesType.ASSETS_BYLOCATION.name(), AssetDisplayActivity.class );
-//				.registerActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), PlanetaryColoniesActivity.class);
+//				.registerActivity(PageNamesType.PLANET_FACILITIES_DETAILS.name(), PlanetaryColoniesActivity.class)
 //				.registerActivity(PageNamesType.MINING_LEDGER.name(), MiningLedgerActivity.class);
 	}
 
 	@Override
 	public IDataSource createDS() {
 		return new PilotDashboardDataSource.Builder()
+				       .addIdentifier( "PILOT-DASHBOARD" )
 				       .addIdentifier( this.getVariant() )
 				       .addIdentifier( this.getCredential().getAccountId() )
-				       .addIdentifier( "PILOT-DASHBOARD" )
 				       .withVariant( this.getVariant() )
 				       .withExtras( this.getExtras() )
 				       .withFactory( this.createFactory() )
-				       .withEsiDataAdapter( NeoComComponentFactory.getSingleton().getESIDataProvider() )
-				       .withESIUniverseDataProvider( NeoComComponentFactory.getSingleton().getESIUniverseDataProvider() )
+				       .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
 				       .withCredential( this.getCredential() )
 				       .build();
 	}
@@ -50,7 +49,7 @@ public class PilotDashboardFragment extends AuthenticatedFragment {
 						                   .withAppVersion( this.getResources().getString( R.string.appversion ) )
 						                   .withPilotName( this.getCredential().getAccountName() )
 						                   .build() )
-				       .withFactory( new AppControllerFactory( PageNamesType.SPLASH.name() ) )
+				       .withFactory( new AppControllerFactory( PageNamesType.PILOT_DASHBOARD.name() ) )
 				       .generateView();
 	}
 }

@@ -25,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
+import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.app.render.DashboardActionBarRender;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
@@ -74,6 +75,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		AcceptanceNeoComLogger.info( "[GIVEN] the PilotDashboardActivity" );
 		this.authorizationIntent = this.authorizationIntent( PilotDashboardActivity.class );
 	}
+
 	@When("the PilotDashboardActivity activity lifecycle completes for page {string}")
 	public void the_PilotDashboardActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
 		AcceptanceNeoComLogger.info( "[WHEN] the PilotDashboardActivity activity lifecycle completes for page {string}" );
@@ -143,14 +145,24 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		AcceptanceNeoComLogger.info( "[THEN] the PilotDashboardActivity has {string} pages" );
 		Assert.assertEquals( Integer.parseInt( expectedPageCount ), Ristretto.activityPageCount() );
 	}
-//	@Then("the assets section panel shows an spinner")
+
+	@Then("the assets section panel shows an spinner")
 	public void the_assets_section_panel_shows_an_spinner() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new cucumber.api.PendingException();
+		AcceptanceNeoComLogger.info( "[THEN] the assets section panel shows an spinner" );
+		final List<PilotSectionController> targets = new ControllerMatcher<PilotSectionController>()
+				                                             .withType( Ristretto.accessDataPanels( this.selectedPage ),
+						                                             PilotSectionController.class );
+		// Search for the assets panel.
+		for (PilotSectionController panel : targets) {
+			if (panel.getModel().getTitle().equalsIgnoreCase( "Assets" )) {
+				final View icon = Objects.requireNonNull( panel.getViewCache().findViewById( R.id.clickIcon ) );
+				Assert.assertEquals( new Integer( R.drawable.progress_spinner_white ), (Integer) icon.getTag() );
+			}
+		}
 	}
 
-//	@Then("the assets section panel shows the next data")
-	public void the_assets_section_panel_shows_the_next_data(final List<Map<String, String>> dataTable) {
+	@Then("there is a action bar of type DashboardActionBar with the next fields")
+	public void there_is_a_action_bar_of_type_DashboardActionBar_with_the_next_fields( io.cucumber.datatable.DataTable dataTable ) {
 		// Write code here that turns the phrase above into concrete actions
 		// For automatic transformation, change DataTable to one of
 		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
@@ -160,6 +172,43 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		// For other transformations you can register a DataTableType.
 		throw new cucumber.api.PendingException();
 	}
+
+	//	@When("the pilot activates the Assets information panel")
+	public void the_pilot_activates_the_Assets_information_panel() {
+		// Write code here that turns the phrase above into concrete actions
+		throw new cucumber.api.PendingException();
+	}
+
+	//	@Then("the assets section panel shows the next data")
+	public void the_assets_section_panel_shows_the_next_data( io.cucumber.datatable.DataTable dataTable ) {
+		// Write code here that turns the phrase above into concrete actions
+		// For automatic transformation, change DataTable to one of
+		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+		// Double, Byte, Short, Long, BigInteger or BigDecimal.
+		//
+		// For other transformations you can register a DataTableType.
+		throw new cucumber.api.PendingException();
+	}
+
+	//	@Given("the Credential Identifier {string}")
+	public void the_Credential_Identifier( String string ) {
+		// Write code here that turns the phrase above into concrete actions
+		throw new cucumber.api.PendingException();
+	}
+
+	//	@Then("the data section has a Exception panel with the next information")
+	public void the_data_section_has_a_Exception_panel_with_the_next_information( io.cucumber.datatable.DataTable dataTable ) {
+		// Write code here that turns the phrase above into concrete actions
+		// For automatic transformation, change DataTable to one of
+		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+		// Double, Byte, Short, Long, BigInteger or BigDecimal.
+		//
+		// For other transformations you can register a DataTableType.
+		throw new cucumber.api.PendingException();
+	}
+
 	private boolean validatePilot4DashboardRender( final Map<String, String> expectedData,
 	                                               final View obtainedView ) {
 		final String PILOT_NAME = "PilotName";

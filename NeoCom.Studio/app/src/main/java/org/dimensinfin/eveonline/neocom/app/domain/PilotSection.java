@@ -32,6 +32,8 @@ public class PilotSection extends NeoComNode {
 
 	public String getDataFormatted() {return this.dataProvider.getDataFormatted();}
 
+	public boolean isCompleted() {return this.dataProvider.isCompleted();}
+
 	public PageNamesType getClickTarget() {
 		return this.clickTarget;
 	}

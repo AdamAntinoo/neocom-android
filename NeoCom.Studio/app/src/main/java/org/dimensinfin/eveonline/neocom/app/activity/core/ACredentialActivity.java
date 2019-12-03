@@ -61,7 +61,7 @@ public abstract class ACredentialActivity extends MenuActivatedActivity {
 	@Override
 	protected void onRestoreInstanceState( final Bundle savedInstanceState ) {
 		final int pilotIdentifier = savedInstanceState.getInt( EExtras.CAPSULEER_IDENTIFIER.name() );
-		credential = searchCredential( pilotIdentifier );
+//		this.credential = searchCredential( pilotIdentifier );
 		this.validateCredential( pilotIdentifier );
 		super.onRestoreInstanceState( savedInstanceState );
 	}

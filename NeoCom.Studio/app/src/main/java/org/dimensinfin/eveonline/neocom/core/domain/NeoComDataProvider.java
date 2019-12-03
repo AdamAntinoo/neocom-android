@@ -6,6 +6,17 @@ public abstract class NeoComDataProvider {
 	public static final DecimalFormat qtyFormatter = new DecimalFormat( "###,##0" );
 	public static final DecimalFormat priceFormatter = new DecimalFormat( "###,###.00" );
 
+	private boolean completed = false;
+
+	public boolean isCompleted() {
+		return this.completed;
+	}
+
+	public NeoComDataProvider setCompleted( final boolean completed ) {
+		this.completed = completed;
+		return this;
+	}
+
 	protected String generatePriceString( final double price ) {
 		return this.generatePriceString( price, true, true );
 	}

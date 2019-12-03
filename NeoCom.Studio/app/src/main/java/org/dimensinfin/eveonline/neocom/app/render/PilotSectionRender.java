@@ -5,8 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+
+import java.util.Objects;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
@@ -21,9 +22,10 @@ public class PilotSectionRender extends NeoComRender {
 	protected TextView sectionData;
 	protected TextView sectionLabel;
 	protected ViewGroup clickBlock;
+	protected ImageView clickIcon;
 
 	public PilotSectionRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
-		super(controller, context);
+		super( controller, context );
 	}
 
 	@Override
@@ -39,30 +41,46 @@ public class PilotSectionRender extends NeoComRender {
 	@Override
 	public void initializeViews() {
 		super.initializeViews();
-		this.sectionIcon = this.getView().findViewById(R.id.sectionIcon);
-		this.sectionTitle = this.getView().findViewById(R.id.sectionTitle);
-		this.sectionData = this.getView().findViewById(R.id.sectionData);
-		this.sectionLabel = this.getView().findViewById(R.id.sectionLabel);
-		this.clickBlock = this.getView().findViewById(R.id.clickBlock);
-		this.clickBlock.setVisibility(View.INVISIBLE);
+		this.sectionIcon = Objects.requireNonNull( this.getView().findViewById( R.id.sectionIcon ) );
+		this.sectionTitle = Objects.requireNonNull( this.getView().findViewById( R.id.sectionTitle ) );
+		this.sectionData = Objects.requireNonNull( this.getView().findViewById( R.id.sectionData ) );
+		this.sectionLabel = Objects.requireNonNull( this.getView().findViewById( R.id.sectionLabel ) );
+		this.clickBlock = Objects.requireNonNull( this.getView().findViewById( R.id.clickBlock ) );
+		this.clickIcon = Objects.requireNonNull( this.getView().findViewById( R.id.clickIcon ) );
+		this.clickBlock.setVisibility( View.INVISIBLE );
 	}
 
 	@Override
 	public void updateContent() {
 		super.updateContent();
-		this.sectionIcon.setImageDrawable(this.getContext().getDrawable(this.getController().getModel().getIconReference()));
-		this.sectionTitle.setText(this.getController().getModel().getTitle());
-		this.sectionLabel.setText(this.getController().getModel().getLabel());
-		this.sectionData.setText("-");
-		MVCScheduler.backgroundExecutor.submit(() -> {
+		this.sectionIcon.setImageDrawable( this.getContext().getDrawable( this.getController().getModel().getIconReference() ) );
+		this.sectionTitle.setText( this.getController().getModel().getTitle() );
+		this.sectionLabel.setText( this.getController().getModel().getLabel() );
+		this.sectionData.setText( "-" );
+		MVCScheduler.backgroundExecutor.submit( () -> {
 			final String data = this.getController().getModel().getDataFormatted();
-			handler.post(() -> this.sectionData.setText(data));
-		});
+			handler.post( () -> {
+				this.sectionData.setText( data );
+				this.getView().invalidate();
+			} );
+		} );
 		this.activateActivityLauncher();
 	}
 
 	private void activateActivityLauncher() {
-		if (null != this.getController().getModel().getClickTarget())
-			this.clickBlock.setVisibility(View.VISIBLE);
+		if (null != this.getController().getModel().getClickTarget()) {
+			this.clickBlock.setVisibility( View.VISIBLE );
+			if (!this.getController().getModel().isCompleted()) {
+				this.clickIcon.setImageDrawable( getDrawable( R.drawable.progress_spinner_white ) );
+				this.clickIcon.setTag( new Integer( R.drawable.progress_spinner_white ) );
+//				Animation rotation = AnimationUtils.loadAnimation( getContext(), R.anim.clockwise_rotation );
+//				rotation.setRepeatCount( Animation.INFINITE );
+//				if (!BuildConfig.DEBUG) this.clickIcon.startAnimation( rotation );
+			} else
+				this.clickIcon.setImageDrawable( getDrawable( R.drawable.multiarrowright ) );
+		} else {
+			this.clickBlock.setVisibility( View.INVISIBLE );
+			this.clickIcon.setTag( new Integer( R.drawable.multiarrowright ) );
+		}
 	}
 }
