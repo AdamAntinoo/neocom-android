@@ -1,16 +1,14 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
-import android.app.ActionBar;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.controller.RegionController;
 import org.dimensinfin.eveonline.neocom.assets.controller.StationController;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 
 public class ActivityResolverNew {
 	private NeoComActivity activity;
@@ -39,9 +37,9 @@ public class ActivityResolverNew {
 		}
 	}
 
-	public ActionBar accessActionBar() {
-		return this.activity.getActionBar();
-	}
+//	public ActionBar accessActionBar() {
+//		return this.activity.getActionBar();
+//	}
 
 //	public int headerContentsCount() {
 //		return this.getFragment().accessHeaderContents().size();

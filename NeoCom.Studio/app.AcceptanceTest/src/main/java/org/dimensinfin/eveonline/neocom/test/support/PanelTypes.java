@@ -32,6 +32,12 @@ public enum PanelTypes {
 		return PanelTypes.NOT_SET;
 	}
 
+	public static Class getController4Name( final String name ) {
+		for (PanelTypes b : PanelTypes.values())
+			if (b.panelName.equalsIgnoreCase( name )) return b.panelClass();
+		return PanelTypes.NOT_SET.panelClass();
+	}
+
 	public boolean matches( final IAndroidController item ) {
 		switch (this) {
 			case PILOTCONTROLLER:

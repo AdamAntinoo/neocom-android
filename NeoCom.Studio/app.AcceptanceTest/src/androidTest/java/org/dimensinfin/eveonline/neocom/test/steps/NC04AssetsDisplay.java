@@ -2,7 +2,6 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
 import android.app.ActionBar;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
@@ -24,15 +23,15 @@ import org.mockito.Mockito;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
-import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.ActivityResolverNew;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.PanelTypes;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportAssetRepository;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2NeoAssetConverter;
@@ -60,14 +59,12 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	@Rule
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
-	private Intent authorizationIntent;
 	private ActivityResolverNew resolver;
 
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
 		this.stopScheduler();
 		this.initializeApplicationStorage();
-		this.connectAuthorizedMockComponents();
 		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 
@@ -75,7 +72,6 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 	public void the_AssetDisplayActivity() throws IOException {
 		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the AssetDisplayActivity" );
-		this.authorizationIntent = this.authorizationIntent( AssetDisplayActivity.class );
 	}
 
 	@Given("the next list of assets persisted for character {string}")
@@ -88,11 +84,12 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		NeoComComponentFactory.getSingleton().replaceAssetRepository( assetRepository );
 	}
 
-	@When("the AssetDisplayActivity activity lifecycle completes")
-	public void the_activity_lifecycle_completes() {
-		AcceptanceNeoComLogger.info( "[WHEN] the AssetDisplayActivity activity lifecycle completes" );
+	@When("the AssetDisplayActivity activity lifecycle completes for page {string}")
+	public void the_AssetDisplayActivity_activity_lifecycle_completes_for_page( final String selectedPage ) {
+		AcceptanceNeoComLogger.info( "[WHEN] the AssetDisplayActivity activity lifecycle completes for page {string}" );
 		AcceptanceNeoComLogger.info( "Going to launch the scenario with the AssetDisplayActivity..." );
-		final ActivityScenario<AssetDisplayActivity> scenario = ActivityScenario.launch( this.authorizationIntent );
+		final ActivityScenario<AssetDisplayActivity> scenario = ActivityScenario.launch(
+				this.world.generateAuthorizationIntent( AssetDisplayActivity.class ) );
 		Assert.assertNotNull( scenario );
 		AcceptanceNeoComLogger.info( "Store the scenario..." );
 		this.world.setAssetDisplayScenario( scenario );
@@ -107,6 +104,8 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
+			AcceptanceNeoComLogger.info( "Set the selected page to ...{}", selectedPage );
+			this.world.setSelectedPage( Integer.parseInt( selectedPage ) );
 		} );
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
@@ -118,33 +117,10 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 
 	@Then("there is a action bar with the next fields")
 	public void there_is_a_action_bar_with_the_next_fields( final List<Map<String, String>> dataTable ) {
-		final String FIELD_IDENTIFIER = "fieldIdentifier";
-		final String FIELD_VALUE = "fieldValue";
 		AcceptanceNeoComLogger.info( "[THEN] there is a action bar with the next fields" );
-		final ActionBar actionBar = this.resolver.accessActionBar();
+		final ActionBar actionBar = this.world.getActiveActivity().getActionBar();
 		final View view = actionBar.getCustomView();
-		for (Map<String, String> row : dataTable) {
-			switch (row.get( FIELD_IDENTIFIER )) {
-				case "toolBarTitleLeft":
-					final TextView accountName = Objects.requireNonNull( view.findViewById( R.id.toolBarTitleLeft ) );
-					AcceptanceNeoComLogger.info( "[THEN] toolBarTitleLeft: {}", accountName.getText().toString() );
-					Assert.assertEquals( this.credential.getAccountName(), accountName.getText().toString() );
-					Assert.assertEquals( row.get( FIELD_VALUE ), accountName.getText().toString() );
-					break;
-				case "toolBarSubTitle":
-					final TextView pageName = Objects.requireNonNull( view.findViewById( R.id.toolBarSubTitle ) );
-					AcceptanceNeoComLogger.info( "[THEN] toolBarSubTitle: {}", pageName.getText().toString() );
-					Assert.assertEquals( PageNamesType.ASSETS_BYLOCATION.getPageTitle(), pageName.getText().toString() );
-					Assert.assertEquals( row.get( FIELD_VALUE ), pageName.getText().toString() );
-					break;
-				case "toolBarTitleRight":
-					final TextView pilotIdentifier = Objects.requireNonNull( view.findViewById( R.id.toolBarTitleRight ) );
-					AcceptanceNeoComLogger.info( "[THEN] toolBarTitleRight: {}", pilotIdentifier.getText().toString() );
-					Assert.assertEquals( "[#" + this.credential.getAccountId() + "]", pilotIdentifier.getText().toString() );
-					Assert.assertEquals( row.get( FIELD_VALUE ), pilotIdentifier.getText().toString() );
-					break;
-			}
-		}
+		Assert.assertTrue( this.validateAssetsActionBar( dataTable.get( 0 ), view ) );
 	}
 
 //	@Then("{string} panels on the {string}")
@@ -203,7 +179,9 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			case "HeaderSection":
 				break;
 			case "DataSection":
-				final List<IAndroidController> panels = this.resolver.matchDataController( panelType );
+				final Class controllerType = PanelTypes.getController4Name( panelType );
+				final List<IAndroidController> panels = Ristretto.withType( Ristretto.accessDataPanels( this.world.getSelectedPage() ),
+						controllerType );
 				Assert.assertTrue( panels.size() > 0 );
 				// This check are not enough to validate the arrow is visible.
 //				Assert.assertTrue( panels.get( 0 ) instanceof RegionController );
@@ -229,23 +207,23 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 			// TODO - Replace the click by a Espresso click
 //			Espresso.onView( Ristretto.withPanelType( Ristretto.PanelTypes.REGIONCONTROLLER ) ).perform( ViewActions.click() );
 			((View.OnClickListener) region).onClick( region.getViewCache() );
-			this.world.getActiveActivity().runOnUiThread( () ->Ristretto.updateDisplay() );
+			this.world.getActiveActivity().runOnUiThread( () -> Ristretto.updateDisplay() );
 			this.wait4Seconds( 2 );
 			Ristretto.waitForCompletion( this.world, () -> {
 				switch (section) {
 					case "HeaderSection":
-						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount(this.world.getSelectedPage()) );
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount( this.world.getSelectedPage() ) );
 						break;
 					case "DataSection":
 						AcceptanceNeoComLogger.info( "[THEN] new panel count test" );
-						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.dataContentsCount(this.world.getSelectedPage()) );
+						Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.dataContentsCount( this.world.getSelectedPage() ) );
 						break;
 				}
 			} );
 		}
 	}
 
-//	@When("the pilot activates the Assets information panel")
+	//	@When("the pilot activates the Assets information panel")
 	public void the_pilot_activates_the_Assets_information_panel() {
 //		final ActivityScenario<PilotDashboardActivity> scenario = this.world.getPilotDashboardScenario();
 //		scenario.onActivity( ( activity ) -> {
@@ -321,5 +299,34 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 		Assert.assertEquals( expectedData.get( STATION_IDENTIFIER ), ((TextView) obtainedView.findViewById( R.id.locationIdentifier )).getText() );
 		Assert.assertEquals( expectedData.get( CONTENTS_COUNT ), ((TextView) obtainedView.findViewById( R.id.contentsCount )).getText() );
 		return true;
+	}
+
+	private boolean validateAssetsActionBar( final Map<String, String> expectedData,
+	                                         final View obtainedView ) {
+		final String PILOT_NAME = "PilotName";
+		final String PILOT_IDENTIFIER = "PilotIdentifier";
+		final String PAGE_NAME = "PageName";
+//		for (Map<String, String> row : dataTable) {
+//			switch (row.get( FIELD_IDENTIFIER )) {
+//				case "toolBarTitleLeft":
+		final TextView accountName = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarTitleLeft ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarTitleLeft: {}", accountName.getText().toString() );
+		Assert.assertEquals( expectedData.get( PILOT_NAME ), accountName.getText().toString() );
+//					break;
+//				case "toolBarSubTitle":
+		final TextView pageName = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarSubTitle ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarSubTitle: {}", pageName.getText().toString() );
+		Assert.assertEquals( expectedData.get( PAGE_NAME ), pageName.getText().toString() );
+//					Assert.assertEquals( row.get( FIELD_VALUE ), pageName.getText().toString() );
+//					break;
+//				case "toolBarTitleRight":
+		final TextView pilotIdentifier = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarTitleRight ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarTitleRight: {}", pilotIdentifier.getText().toString() );
+		Assert.assertEquals( expectedData.get( PILOT_IDENTIFIER ), pilotIdentifier.getText().toString() );
+		return true;
+//					Assert.assertEquals( row.get( FIELD_VALUE ), pilotIdentifier.getText().toString() );
+//					break;
+//			}
+//		}
 	}
 }

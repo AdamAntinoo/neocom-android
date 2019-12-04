@@ -39,7 +39,7 @@ public class PanelVerificationSteps extends StepFramework {
 	public void checkAActionBarWithNextContents( final String actionBarType, final List<Map<String, String>> cucumberTable ) {
 		switch (actionBarType) {
 			case "MiningActionBar":
-				Assert.assertTrue(this.validateMiningActionBar(this.world.getActionBar(), cucumberTable));
+				Assert.assertTrue(this.validateMiningActionBar(this.world.getActiveActivity().getActionBar().getCustomView(), cucumberTable));
 				break;
 			default:
 				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");

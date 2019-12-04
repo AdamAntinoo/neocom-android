@@ -63,23 +63,6 @@ public class NC02AppSplashActivity extends StepFramework {
 	public void the_AppSplashActivity() throws IOException, SQLException {
 		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the AppSplashActivity" );
-
-
-//		final Application application = NeoComComponentFactory.getSingleton().getApplication();
-//		Assert.assertNotNull( application );
-//		AcceptanceNeoComLogger.info( "Storing application..." );
-//		this.world.setApplication( (NeoComApplication) application );
-//		// Create the activity scenario.
-//		final ActivityScenario<AppSplashActivity> activityScenario = ActivityScenario.launch( AppSplashActivity.class );
-//		activityScenario.onActivity( ( activity ) -> {
-//			AcceptanceNeoComLogger.info( "Validating activity existence activity..." );
-//			Assert.assertNotNull( activity );
-////			Assert.assertEquals( PageNamesType.SPLASH.name().equalsIgnoreCase( activity.getVariant() ) );
-//			AcceptanceNeoComLogger.info( "Storing activity..." );
-//			this.world.setActiveActivity( activity );
-//		} );
-//		AcceptanceNeoComLogger.info( "Storing activity scenario..." );
-//		this.world.setActivityScenario( activityScenario );
 	}
 
 	@When("the AppSplashActivity activity lifecycle completes for page {string}")
@@ -111,6 +94,12 @@ public class NC02AppSplashActivity extends StepFramework {
 				Ristretto.updateDisplay();
 			} );
 		} );
+	}
+
+	@Then("the AppSplashActivity has {string} pages")
+	public void the_AppSplashActivity_has_pages( final String expectedPageCount ) {
+		AcceptanceNeoComLogger.info( "[THEN] the AppSplashActivity has {string} pages" );
+		Assert.assertEquals( Integer.parseInt( expectedPageCount ), Ristretto.activityPageCount() );
 	}
 
 	@Then("the list of registered scheduled tasks increases in {string}")
@@ -163,11 +152,6 @@ public class NC02AppSplashActivity extends StepFramework {
 		final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 		final Stage stage = registry.getLifecycleStageOf( activity );
 		Assert.assertEquals( Stage.STARTED, stage );
-	}
-
-	//		@Then("the AppSplashActivity has {string} pages")
-	public void the_AppSplashActivity_has_pages( String pageCount ) {
-//		new ActivityResolver<AppSplashActivity, AppSplashFragment>( this.world.getActiveActivity() )
 	}
 
 	//	@Then("there is a action bar of type SplashActionBar with the next fields")

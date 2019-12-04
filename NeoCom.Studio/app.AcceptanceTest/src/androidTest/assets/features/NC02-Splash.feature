@@ -6,7 +6,7 @@ Feature: [NC02]-Display the list of current registered and valid Credentials.
 
   Additionally adds a button to initiate the process to add more credentials to the list.
 
-  @NC02.01
+  @skip_scenario @NC02.01
   Scenario: [NC02.01]-The Splash activity shows the custom action bar for the Splash along with the application version panel on the
   header and the list of credentials on the data section.
 	Given the AppSplashActivity
@@ -27,7 +27,7 @@ Feature: [NC02]-Display the list of current registered and valid Credentials.
 	  | PilotName   | PilotId       | PilotRace | PilotBalance   | PilotAssetCount |
 	  | Tip Tophane | [#2113197470] | CALDARI   | 240,134.82 ISK | 40              |
 
-  @NC02.02
+  @skip_scenario @NC02.02
   Scenario: [NC02.02]-The Splash activity has a button on the data section to create more Credentials and this button is separated from the
   list of credentials by a white separator.
 	Given the AppSplashActivity
@@ -41,7 +41,7 @@ Feature: [NC02]-Display the list of current registered and valid Credentials.
 	  | Buttonlabel                                         |
 	  | Click this button to add a new Credential (ESI/API) |
 
-  @NC02.03
+  @skip_scenario @NC02.03
   Scenario: [NC02.03]-When the credential list is processed and the list of models is generated then we also register the corresponding
   background scheduler tasks.
 	Given the AppSplashActivity

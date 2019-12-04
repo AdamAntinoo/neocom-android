@@ -19,7 +19,7 @@ import cucumber.api.android.CucumberAndroidJUnitRunner;
 		plugin = { "html:target/cucumber-html-report",
 				"json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
 				"usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" },
-		tags = { "not @skip_scenario", "not @front", "not @duplication", "@NC03.03" })
+		tags = { "not @skip_scenario", "not @front", "not @duplication" })
 public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
 	@Override
@@ -30,7 +30,7 @@ public class NeoComAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
 	/**
 	 * Since we want to checkout the external storage directory programmatically, we create the plugin configuration
-	 * here, instead of the {@link CucumberOptions} annotation.
+	 * here, instead of the {@link CucumberOptions} annotation.4
 	 *
 	 * @return the plugin string for the configuration, which contains XML, HTML and JSON paths
 	 */

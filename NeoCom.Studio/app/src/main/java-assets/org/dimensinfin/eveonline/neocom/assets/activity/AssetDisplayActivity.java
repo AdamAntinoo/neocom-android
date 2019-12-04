@@ -25,17 +25,20 @@ public class AssetDisplayActivity extends ACredentialActivity {
 	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
-		NeoComLogger.enter();
-		super.onCreate( savedInstanceState );
-		this.assetsProvider = new AssetProvider.Builder()
-				                      .withCredential( this.getCredential() )
-				                      .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
-				                      .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
-				                      .build();
-		this.addPage( new AssetsByLocationFragment()
-				              .setAssetProvider( this.assetsProvider )
-//				              .setCredential( this.getCredential() )
-				              .setVariant( PageNamesType.ASSETS_BYLOCATION.name() ) );
-		NeoComLogger.exit();
+		try {
+			NeoComLogger.enter();
+			super.onCreate( savedInstanceState );
+			this.assetsProvider = new AssetProvider.Builder()
+					                      .withCredential( this.getCredential() )
+					                      .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
+					                      .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
+					                      .build();
+			this.addPage( new AssetsByLocationFragment()
+					              .setAssetProvider( this.assetsProvider )
+					              .setVariant( PageNamesType.ASSETS_BYLOCATION.name() ) );
+			NeoComLogger.exit();
+		} catch (final RuntimeException rte) {
+			this.showException( rte );
+		}
 	}
 }

@@ -6,7 +6,7 @@ Feature: [NC01] Setup and Open application databases.
   application settings. If databases are obsolete run the upgrade scripts or copy the latest version from the
   application assets directory.
 
-  @NC01.01
+  @skip_scenario @NC01.01
   Scenario: [NC01.01] Verify that the application initialization completes and that the component factory
 	and other startup items are ready and running.
 	Given the activity "AppSplashActivity"
@@ -23,7 +23,7 @@ Feature: [NC01] Setup and Open application databases.
 #	Then complete the visualization setup and render the application version panel
 #	And render the data panel with the onProgress spinner showing the elapsed time
 #
-  @NA01.02
+  @skip_scenario  @NA01.02
   Scenario: [NA01.02] Once the Splash page has completed the initial render enter the onResume phase and start the process
   to check for the directories and files to be present to allow startup.
 	Given the activity "AppSplashActivity" on the onResume phase

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,6 +68,14 @@ public class Ristretto {
 		return ((MVCPagerFragment) fragment).accessDataContents().size();
 	}
 
+	public static List<IAndroidController> withType( final List<IAndroidController> controllers, final Class type ) {
+		final List<IAndroidController> results = new ArrayList<>();
+		for (IAndroidController controller : controllers)
+			if (type.isInstance( controller ))
+				results.add( controller );
+		return results;
+	}
+
 	// - S Y N C H R O N I Z A T I O N
 	public static void waitForCompletion( final Runnable callback ) {
 		AcceptanceNeoComLogger.enter();
@@ -82,7 +91,7 @@ public class Ristretto {
 		AcceptanceNeoComLogger.enter();
 		// Add the callback behind the latest scheduler run and ui run.
 		final Monitor monitor = new Monitor();
-		MVCScheduler.backgroundExecutor.submit( () -> callback );
+		MVCScheduler.backgroundExecutor.submit( callback );
 		MVCScheduler.backgroundExecutor.submit( monitor::activateTrigger );
 		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
 		AcceptanceNeoComLogger.exit();

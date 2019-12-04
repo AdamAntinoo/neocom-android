@@ -1,28 +1,23 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
-import android.content.Intent;
-import android.os.Bundle;
-import androidx.test.core.app.ApplicationProvider;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.Mockito;
 
-import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 
 public class AuthorizedStep extends StepFramework {
-	protected Credential credential;
+//	protected Credential credential;
 
 	public AuthorizedStep( final NeoComWorld world ) {
 		super( world );
 	}
 
 	public void initializeCredential() {
-		this.credential = new Credential.Builder( 93813310 )
+		Credential credential = new Credential.Builder( 93813310 )
 				                  .withAccountId( 93813310 )
 				                  .withAccountName( "Perico Tuerto" )
 				                  .withAccessToken(
@@ -37,22 +32,12 @@ public class AuthorizedStep extends StepFramework {
 				                  .withRaceName( "Amarr" )
 				                  .build();
 	}
-
-
-	public Intent authorizationIntent( final Class destinationActivity ) {
-		final Intent authorizationIntent = new Intent( ApplicationProvider.getApplicationContext(), destinationActivity );
-		Bundle bundle = new Bundle();
-		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), 2113197470 );
-		authorizationIntent.putExtras( bundle );
-		return authorizationIntent;
-	}
-
 	public void connectAuthorizedMockComponents() {
 		this.initializeCredential();
 		// Mock the credential information for credential dependent activities.
 		final CredentialRepository credentialRepository = Mockito.mock( CredentialRepository.class );
 		final List<Credential> credentialList = new ArrayList<>();
-		credentialList.add( this.credential );
+//		credentialList.add( this.credential );
 		Mockito.when( credentialRepository.findAllByServer( Mockito.anyString() ) )
 		       .thenReturn( credentialList );
 		NeoComComponentFactory.getSingleton().getESIDataProvider();

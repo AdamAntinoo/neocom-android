@@ -2,7 +2,6 @@ package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
 import android.app.ActionBar;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
@@ -53,7 +52,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 	@Rule
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
-	private Intent authorizationIntent;
+//	private Intent authorizationIntent;
 	private Integer selectedPage = 0;
 
 	public NC03PilotDashboard( final NeoComWorld world ) {
@@ -73,21 +72,22 @@ public class NC03PilotDashboard extends AuthorizedStep {
 	public void the_PilotDashboardActivity() throws IOException, SQLException {
 		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the PilotDashboardActivity" );
-		this.authorizationIntent = this.authorizationIntent( PilotDashboardActivity.class );
+//		this.authorizationIntent = this.authorizationIntent( PilotDashboardActivity.class );
 	}
 
 	@When("the PilotDashboardActivity activity lifecycle completes for page {string}")
 	public void the_PilotDashboardActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
 		AcceptanceNeoComLogger.info( "[WHEN] the PilotDashboardActivity activity lifecycle completes for page {string}" );
 		AcceptanceNeoComLogger.info( "Going to launch the scenario with the PilotDashboardActivity..." );
-		final ActivityScenario<PilotDashboardActivity> scenario = ActivityScenario.launch( this.authorizationIntent );
+		final ActivityScenario<PilotDashboardActivity> scenario = ActivityScenario.launch(
+				this.world.generateAuthorizationIntent(PilotDashboardActivity.class) );
 		Assert.assertNotNull( scenario );
 		AcceptanceNeoComLogger.info( "Store the scenario..." );
 		this.world.setPilotDashboardScenario( scenario );
 		scenario.onActivity( ( activity ) -> {
 			AcceptanceNeoComLogger.info( "Verify the activity starts without exceptions..." );
 			Assert.assertNotNull( activity );
-			Assert.assertTrue( activity instanceof PilotDashboardActivity );
+//			Assert.assertTrue( activity instanceof PilotDashboardActivity );
 			AcceptanceNeoComLogger.info( "Store the activity..." + activity.getClass().getSimpleName() );
 			this.world.setActiveActivity( activity );
 			AcceptanceNeoComLogger.info( "Set the configured page..." + pageNumber );
@@ -161,7 +161,7 @@ public class NC03PilotDashboard extends AuthorizedStep {
 		}
 	}
 
-	@Then("there is a action bar of type DashboardActionBar with the next fields")
+//	@Then("there is a action bar of type DashboardActionBar with the next fields")
 	public void there_is_a_action_bar_of_type_DashboardActionBar_with_the_next_fields( io.cucumber.datatable.DataTable dataTable ) {
 		// Write code here that turns the phrase above into concrete actions
 		// For automatic transformation, change DataTable to one of

@@ -1,10 +1,13 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.ActivityTestRule;
 
 import java.sql.SQLException;
@@ -21,8 +24,9 @@ import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
-import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
+import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
+import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
 
@@ -34,6 +38,8 @@ public class NeoComWorld {
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
 	private Activity activeActivity;
 	private Integer selectedPage = 0;
+	private Integer capsuleerIdentifier;
+	private Intent authorizationIntent;
 	// - C O M P O N E N T S
 	private SupportCredentialRepository credentialRepository;
 
@@ -49,8 +55,8 @@ public class NeoComWorld {
 	private View actionBar;
 
 	public NeoComWorld() {
-		NeoComLogger.enter( );
-		NeoComLogger.info("Registering global components...");
+		NeoComLogger.enter();
+		NeoComLogger.info( "Registering global components..." );
 		try {
 			this.credentialRepository = new SupportCredentialRepository.Builder()
 					                            .withCredentialDao(
@@ -129,12 +135,39 @@ public class NeoComWorld {
 	public SupportCredentialRepository getCredentialRepository() {
 		return this.credentialRepository;
 	}
-// ---------------------------------------------------------------
 
-	public ExecutorService getExecutor() {
-		return backgroundExecutor;
+	public Integer getCapsuleerIdentifier() {
+		return this.capsuleerIdentifier;
 	}
 
+	public NeoComWorld setCapsuleerIdentifier( final Integer capsuleerIdentifier ) {
+		this.capsuleerIdentifier = capsuleerIdentifier;
+		return this;
+	}
+
+	public Intent generateAuthorizationIntent( final Class activityClass ) {
+		return this.generateIntent( activityClass );
+	}
+
+	public NeoComWorld setAuthorizationIntent( final Intent authorizationIntent ) {
+		this.authorizationIntent = authorizationIntent;
+		return this;
+	}
+
+	private Intent generateIntent( final Class destinationActivity ) {
+		final Intent authorizationIntent = new Intent( ApplicationProvider.getApplicationContext(), destinationActivity );
+		Bundle bundle = new Bundle();
+		bundle.putInt( EExtras.CAPSULEER_IDENTIFIER.name(), this.getCapsuleerIdentifier() );
+		authorizationIntent.putExtras( bundle );
+		return authorizationIntent;
+	}
+
+// ---------------------------------------------------------------
+
+	//	public ExecutorService getExecutor() {
+//		return backgroundExecutor;
+//	}
+//
 	public NeoComApplication getApplication() {
 		return this.application;
 	}
@@ -153,16 +186,17 @@ public class NeoComWorld {
 		return this;
 	}
 
-
-	public View getActivePanel() {
-		return this.activePanel;
-	}
-
-	public NeoComWorld setActivePanel( final View activePanel ) {
-		this.activePanel = activePanel;
-		return this;
-	}
-
+	//
+//
+//	public View getActivePanel() {
+//		return this.activePanel;
+//	}
+//
+//	public NeoComWorld setActivePanel( final View activePanel ) {
+//		this.activePanel = activePanel;
+//		return this;
+//	}
+//
 	public MVCRender getActiveRender() {
 		return this.activeRender;
 	}
@@ -172,62 +206,64 @@ public class NeoComWorld {
 		return this;
 	}
 
-	// --------------------------------------------------------------
-	public View getActionBar() {
-		return this.actionBar;
-	}
-
-	public NeoComWorld setActionBar( final View actionBar ) {
-		this.actionBar = actionBar;
-		return this;
-	}
-
-
-	public ActivityTestRule getActivityRule() {
-		return this.activityRule;
-	}
-
-	public NeoComWorld setActivityRule( final ActivityTestRule activityRule ) {
-		this.activityRule = activityRule;
-		return this;
-	}
-
-
-	public MVCPagerFragment getFragment() {
-		return this.fragment;
-	}
-
-	public NeoComWorld setFragment( final MVCPagerFragment fragment ) {
-		this.fragment = fragment;
-		return this;
-	}
-
+	//
+//	// --------------------------------------------------------------
+//	public View getActionBar() {
+//		return this.actionBar;
+//	}
+//
+//	public NeoComWorld setActionBar( final View actionBar ) {
+//		this.actionBar = actionBar;
+//		return this;
+//	}
+//
+//
+//	public ActivityTestRule getActivityRule() {
+//		return this.activityRule;
+//	}
+//
+//	public NeoComWorld setActivityRule( final ActivityTestRule activityRule ) {
+//		this.activityRule = activityRule;
+//		return this;
+//	}
+//
+//
+//	public MVCPagerFragment getFragment() {
+//		return this.fragment;
+//	}
+//
+//	public NeoComWorld setFragment( final MVCPagerFragment fragment ) {
+//		this.fragment = fragment;
+//		return this;
+//	}
+//
 	public ViewGroup getHeaderContainer() {
 		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessHeaderContainer();
 	}
 
-//	public NeoComWorld setHeaderContainer( final ViewGroup headerContainer ) {
-//		this.headerContainer = headerContainer;
-//		return this;
-//	}
-
+	//
+////	public NeoComWorld setHeaderContainer( final ViewGroup headerContainer ) {
+////		this.headerContainer = headerContainer;
+////		return this;
+////	}
+//
 	public ListView getDataSectionContainer() {
 		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessDataSectionContainer();
 	}
-
-//	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
-//		this.dataSectionContainer = dataSectionContainer;
+//
+////	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
+////		this.dataSectionContainer = dataSectionContainer;
+////		return this;
+////	}
+//
+//	public LocalDate getTodayDate() {
+//		return this.todayDate;
+//	}
+//
+//	public NeoComWorld setTodayDate( final LocalDate todayDate ) {
+//		this.todayDate = todayDate;
 //		return this;
 //	}
-
-	public LocalDate getTodayDate() {
-		return this.todayDate;
-	}
-
-	public NeoComWorld setTodayDate( final LocalDate todayDate ) {
-		this.todayDate = todayDate;
-		return this;
-	}
 }
