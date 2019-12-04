@@ -36,12 +36,6 @@ public class AppVersion extends NeoComNode {
 		return this;
 	}
 
-	// - I C O L L A B O R A T I O N   I N T E R F A C E
-//	@Override
-//	public List<ICollaboration> collaborate2Model( final String variation ) {
-//		return new ArrayList<>();
-//	}
-
 	// - C O R E
 
 	@Override

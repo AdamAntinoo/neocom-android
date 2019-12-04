@@ -13,7 +13,7 @@
 			android:allowBackup="true"
 			android:description="@string/appdescription"
 			android:icon="@drawable/neocom_icon"
-			android:label="@string/appnameversion"
+			android:label="@string/appname"
 			android:largeHeap="true"
 			android:logo="@drawable/neocom_icon"
 			android:roundIcon="@drawable/neocom_icon"

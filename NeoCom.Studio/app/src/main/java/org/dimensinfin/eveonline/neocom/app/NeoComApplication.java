@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
@@ -74,12 +75,24 @@ public class NeoComApplication extends Application {
 	public static boolean createCacheDirectories() {
 		File cachedir = new File( getPrivateAppSpace()
 				, NeoComComponentFactory.getSingleton().getApplication().getApplicationContext()
-						  .getResources().getString( R.string.appname )
-						  + "/" +
+						  .getResources().getString( R.string.appname ) +
+						  "/" +
 						  NeoComComponentFactory.getSingleton().getConfigurationProvider()
 								  .getResourceString( "P.cache.directory.path" ) );
 		cachedir.mkdir();
 		return cachedir.exists();
+	}
+
+	public static boolean sdeDatabaseExists() {
+		try {
+			return new File( NeoComComponentFactory.getSingleton().getFileSystemAdapter()
+					                 .accessResource4Path( NeoComComponentFactory.getSingleton().getApplication()
+							                                       .getString( R.string.sdedatabasefilename ) ) )
+					       .exists();
+		} catch (final IOException ioe) {
+			ioe.printStackTrace();
+			return false;
+		}
 	}
 
 	private BroadcastReceiver timeTickReceiver;

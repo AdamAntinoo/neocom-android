@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+        android:id="@+id/appName"
+        style="@style/AppTheme.ActionBar.AppName"
+        android:text="@string/appname"/>
+
+    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+        android:id="@+id/appVersion"
+        style="@style/AppTheme.ActionBar.AppVersion"
+        android:layout_alignBaseline="@+id/appName"
+        android:layout_toRightOf="@+id/appName"
+        android:text="@string/appversion" />
+</RelativeLayout>

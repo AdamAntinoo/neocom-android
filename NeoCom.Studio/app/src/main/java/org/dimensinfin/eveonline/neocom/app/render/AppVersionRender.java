@@ -35,10 +35,8 @@ public class AppVersionRender extends MVCRender {
 
 	@Override
 	public void initializeViews() {
-		this.applicationName = this.getView().findViewById(R.id.applicationName);
-		this.applicationVersion = this.getView().findViewById(R.id.applicationVersion);
-		Objects.requireNonNull(this.applicationName);
-		Objects.requireNonNull(this.applicationVersion);
+		this.applicationName = Objects.requireNonNull(this.getView().findViewById(R.id.applicationName));
+		this.applicationVersion = Objects.requireNonNull(this.getView().findViewById(R.id.applicationVersion));
 	}
 
 	@Override

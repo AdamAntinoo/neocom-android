@@ -30,11 +30,12 @@ android {
             shrinkResources true
             minifyEnabled true
             useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             resValue "string", "appname", "NeoCom"
-            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
+//            resValue "string", "appnameversion", "NeoCom v" + android.defaultConfig.versionName
             resValue "string", "appversion", android.defaultConfig.versionName
+//            resValue "string", "appversionv", "v" + android.defaultConfig.versionName
 
             resValue "string", "appdatabasefilename", "neocom"
             resValue "string", "sdedatabasefilename", "sde.db"

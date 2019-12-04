@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- A P P   V E R S I O N   A C T I O N   B A R-->
+	<style name="AppTheme.ActionBar.AppName" parent="AppTheme.NeoComText">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:ellipsize">end</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:visibility">visible</item>
+		<item name="android:textColor">@color/apporange</item>
+		<item name="android:textSize">15sp</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:layout_marginLeft">@dimen/standardmargin</item>
+		<item name="android:layout_marginTop">4dp</item>
+		<item name="android:maxLines">1</item>
+	</style>
+
+	<style name="AppTheme.ActionBar.AppVersion" parent="AppTheme.NeoComText">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginLeft">6dp</item>
+		<item name="android:ellipsize">end</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:maxLines">1</item>
+		<item name="android:visibility">visible</item>
+		<item name="android:textColor">@color/appyellow</item>
+		<item name="android:textSize">12sp</item>
+	</style>
+</resources>

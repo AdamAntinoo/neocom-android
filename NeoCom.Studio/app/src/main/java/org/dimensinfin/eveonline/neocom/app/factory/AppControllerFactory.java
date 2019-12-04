@@ -40,7 +40,7 @@ public class AppControllerFactory extends ControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		logger.info("-- [AppControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
 		if (node instanceof AppVersion) {
-			return new AppVersionController((AppVersion) node, this);
+			return new AppVersionController((AppVersion) node, this).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof InitializationTask) {
 			return new InitializationTaskController((InitializationTask) node, this);
