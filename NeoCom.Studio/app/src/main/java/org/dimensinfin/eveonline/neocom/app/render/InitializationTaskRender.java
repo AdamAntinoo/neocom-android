@@ -36,10 +36,8 @@ public class InitializationTaskRender extends MVCRender {
 
 	@Override
 	public void initializeViews() {
-		this.stateIcon = this.getView().findViewById(R.id.stateIcon);
-		this.message = this.getView().findViewById(R.id.message);
-		Objects.requireNonNull(this.stateIcon);
-		Objects.requireNonNull(this.message);
+		this.stateIcon = Objects.requireNonNull(this.getView().findViewById(R.id.stateIcon));
+		this.message = Objects.requireNonNull(this.getView().findViewById(R.id.message));
 	}
 
 	@Override

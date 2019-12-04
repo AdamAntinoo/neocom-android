@@ -21,6 +21,7 @@ import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
@@ -31,6 +32,7 @@ import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
 
 public class NeoComWorld {
+	private ActivityScenario<AppInitializationActivity> appInitializationActivityScenario;
 	private ActivityScenario<SettingsActivity> settingsActivityScenario;
 	private ActivityScenario<AppSplashActivity> appSplashActivityScenario;
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
@@ -67,6 +69,15 @@ public class NeoComWorld {
 		} catch (final SQLException sqle) {
 			sqle.printStackTrace();
 		}
+	}
+
+	public ActivityScenario<AppInitializationActivity> getAppInitializationActivityScenario() {
+		return this.appInitializationActivityScenario;
+	}
+
+	public NeoComWorld setAppInitializationActivityScenario( final ActivityScenario<AppInitializationActivity> appInitializationActivityScenario ) {
+		this.appInitializationActivityScenario = appInitializationActivityScenario;
+		return this;
 	}
 
 	public ActivityScenario<SettingsActivity> getSettingsActivityScenario() {

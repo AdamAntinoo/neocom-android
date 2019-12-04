@@ -6,49 +6,42 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import androidx.annotation.WorkerThread;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.SpacerType;
+import org.dimensinfin.android.mvc.render.RenderViewGenerator;
+import org.dimensinfin.eveonline.neocom.BuildConfig;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
-import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
-import org.dimensinfin.eveonline.neocom.utilities.ChainTask;
-import org.dimensinfin.eveonline.neocom.utilities.TaskSequencer;
+import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
-
-
-import static org.dimensinfin.eveonline.neocom.BuildConfig.SDE_DB_VERSION;
+import org.dimensinfin.eveonline.neocom.utilities.ChainTask;
+import org.dimensinfin.eveonline.neocom.utilities.TaskSequencer;
 
 public class AppInitializationActivity extends NeoComActivity {
-	protected static Logger logger = LoggerFactory.getLogger( ChainTask.class );
 	public static final String RETRY_INITIALIZATION_EVENT = "-RETRY_INITIALIZATION_EVENT-";
-	//	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
+
 	private ActionBar actionBar;
 	private LinearContainer linearContainer;
 	private TaskSequencer taskSequencer;
 	// - C O M P O N E N T S
-	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystem;
 
 	// - L I F E C Y C L E
@@ -57,7 +50,7 @@ public class AppInitializationActivity extends NeoComActivity {
 		super.onCreate( savedInstanceState );
 		this.injectComponents(); // Connect to the application components.
 		this.setContentView( R.layout.activity_initialization ); // Set the layout to the core context
-		this.deactivateActionBar();
+		this.activateActionBar( this.generateActionBarView() );
 	}
 
 	@Override
@@ -88,7 +81,6 @@ public class AppInitializationActivity extends NeoComActivity {
 	}
 
 	protected void injectComponents() {
-		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	}
 
@@ -96,8 +88,19 @@ public class AppInitializationActivity extends NeoComActivity {
 		if (null != this.getActionBar()) {
 			this.actionBar = this.getActionBar();
 			this.actionBar.hide();
-			this.actionBar.setDisplayHomeAsUpEnabled( true );
+			this.actionBar.setDisplayHomeAsUpEnabled( false );
 		}
+	}
+
+	private View generateActionBarView() {
+		return new RenderViewGenerator.Builder<AppVersion>()
+				       .withContext( this )
+				       .withModel( new AppVersion.Builder()
+						                   .withAppName( this.getResources().getString( R.string.appname ) )
+						                   .withAppVersion( "v" + this.getResources().getString( R.string.appversion ) )
+						                   .build() )
+				       .withFactory( new AppControllerFactory( PageNamesType.INITIALIZATION_ACTIONBAR.name() ) )
+				       .generateView();
 	}
 
 	/**
@@ -112,10 +115,9 @@ public class AppInitializationActivity extends NeoComActivity {
 				                     .whenSuccessAction( () -> {
 					                     // When the initialization completes we can move to the splash activity.
 					                     logger.info( "--[AppInitializationActivity.launchInitialization.whenSuccessAction]" );
-					                     this.runOnUiThread( () -> {
-						                     final Intent intent = new Intent( this, AppSplashActivity.class );
-						                     this.startActivity( intent );
-					                     } );
+					                     this.runOnUiThread( () ->
+							                                         this.startActivity( new Intent( this, AppSplashActivity.class ) )
+					                     );
 				                     } )
 				                     .whenExceptionAction( () -> {
 					                     logger.info( "--[AppInitializationActivity.launchInitialization.whenExceptionAction]" );
@@ -125,39 +127,30 @@ public class AppInitializationActivity extends NeoComActivity {
 					                     this.linearContainer.addModel( new InitializationException.Builder()
 							                                                    .withException( this.taskSequencer.getException() )
 							                                                    .withRetryable( this.taskSequencer.isRetryable() )
-							                                                    .build() );
+							                                                    .build();
+					                     this.linearContainer.addModel( new RetryButton.Builder()
+							                                                    .withException( this.taskSequencer.getException() )
+							                                                    .withRetryable( this.taskSequencer.isRetryable() )
+							                                                    .build();
+					                     );
 				                     } )
 				                     .build();
 		// Check that the application is available and the component factory is also present.
 		this.createInitializationTaskSlot( "Core instances check...", () -> {
-			final NeoComComponentFactory componentFactory = Objects.requireNonNull( NeoComComponentFactory.getSingleton() );
-			final NeoComApplication application = Objects.requireNonNull( NeoComComponentFactory.getSingleton().getApplication() );
+			Objects.requireNonNull( NeoComComponentFactory.getSingleton() );
+			Objects.requireNonNull( NeoComComponentFactory.getSingleton().getApplication() );
 			return true;
 		} );
-
-		final InitializationTask privilegeExternalStorageCheckTask = new InitializationTask.Builder()
-				                                                             .withMessage(
-						                                                             "Application write external privilege check..." )
-				                                                             .withState(
-						                                                             InitializationTask.InitializationTaskState.RUNNING )
-				                                                             .withRetryable( true )
-				                                                             .build();
-		this.taskSequencer.addTask( new ChainTask.Builder()
-				                            .withTaskModel( privilegeExternalStorageCheckTask )
-				                            .withRunTask( () -> {
-//					                           try {
-					                            if (ContextCompat.checkSelfPermission( this,
-							                            Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-						                            // Permission is not granted
-						                            ActivityCompat.requestPermissions( this,
-								                            new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10 );
-					                            }
-//					                           } catch (final NullPointerException npe) {
-//						                           return false;
-//					                           }
-					                            return true;
-				                            } )
-				                            .build() );
+		// Check application privileges.
+		this.createInitializationTaskSlot( "Application write external storage privilege check...", () -> {
+			if (ContextCompat.checkSelfPermission( this,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+				// Permission is not granted
+				ActivityCompat.requestPermissions( this,
+						new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 10 );
+			}
+			return true;
+		} );
 		final InitializationTask privilegeInternetCheckTask = new InitializationTask.Builder()
 				                                                      .withMessage( "Application internet privilege check..." )
 				                                                      .withState(
@@ -208,58 +201,37 @@ public class AppInitializationActivity extends NeoComActivity {
 			NeoComApplication.createCacheDirectories();
 			return true;
 		} );
-		final InitializationTask sdeFileCheckTask = new InitializationTask.Builder()
-				                                            .withMessage( "SDE database existence check..." )
-				                                            .withState( InitializationTask.InitializationTaskState.RUNNING )
-				                                            .withRetryable( true )
-				                                            .build();
-		this.taskSequencer.addTask( new ChainTask.Builder()
-				                            .withTaskModel( sdeFileCheckTask )
-				                            .withRunTask( () -> {
-//					                           try {
-					                            if (!this.sdeDatabaseExists()) {
-						                            this.fileSystem.copyFromAssets(
-								                            this.getResources().getString( R.string.sdedatabasefilename ), null );
-					                            }
-//					                           } catch (final NullPointerException npe) {
-//						                           return false;
-//					                           }
-					                            return true;
-				                            } )
-				                            .build() );
-		final InitializationTask validateSDEDatabaseVersionCheckTask = new InitializationTask.Builder()
-				                                                               .withMessage( "Validate SDE database version check..." )
-				                                                               .withState( InitializationTask.InitializationTaskState.RUNNING )
-				                                                               .withRetryable( true )
-				                                                               .build();
-		this.taskSequencer.addTask( new ChainTask.Builder()
-				                            .withTaskModel( validateSDEDatabaseVersionCheckTask )
-				                            .withRunTask( () -> {
-//					                           try {
-					                            final ISDEDatabaseAdapter sdeDatabase = NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter();
-					                            final int versionNumber = sdeDatabase.getDatabaseVersion();
-					                            logger.info( "--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Database " +
-							                                         "version: {}", versionNumber );
-					                            logger.info( "--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Configuration " +
-							                                         "version: {}", SDE_DB_VERSION );
-					                            if (versionNumber != SDE_DB_VERSION) { // Currently installed version mismatch.
-						                            new File( this.fileSystem.accessResource4Path(
-								                            this.getResources().getString( R.string.sdedatabasefilename ) ) )
-								                            .delete();
-						                            new File( this.fileSystem.accessResource4Path(
-								                            this.getResources().getString( R.string.sdedatabasefilename ) + "-journal" ) )
-								                            .delete();
-						                            if (!this.sdeDatabaseExists()) {
-							                            this.fileSystem.copyFromAssets(
-									                            this.getResources().getString( R.string.sdedatabasefilename ), null );
-						                            }
-					                            }
-//					                           } catch (final NullPointerException npe) {
-//						                           return false;
-//					                           }
-					                            return true;
-				                            } )
-				                            .build() );
+		// Check if the SDE database is already at the right place. If not copy it from assets.
+		this.createInitializationTaskSlot( "SDE database existence check...", () -> {
+			if (!NeoComApplication.sdeDatabaseExists()) {
+				this.fileSystem.copyFromAssets(
+						this.getResources().getString( R.string.sdedatabasefilename ), null );
+			}
+			return true;
+		} );
+		// Check that the SDE database version is the latest version. If not replace the instance.
+		this.createInitializationTaskSlot( "Validate SDE database version check...", () -> {
+			final ISDEDatabaseAdapter sdeDatabase = NeoComComponentFactory.getSingleton().getSDEDatabaseAdapter();
+			final int versionNumber = sdeDatabase.getDatabaseVersion();
+			logger.info( "--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Database " +
+					             "version: {}", versionNumber );
+			logger.info( "--[AppInitializationActivity.validateSDEDatabaseVersionCheckTask]> Configuration " +
+					             "version: {}", BuildConfig.SDE_DB_VERSION );
+			if (versionNumber != BuildConfig.SDE_DB_VERSION) { // Currently installed version mismatch.
+				new File( this.fileSystem.accessResource4Path(
+						this.getResources().getString( R.string.sdedatabasefilename ) ) )
+						.delete();
+				new File( this.fileSystem.accessResource4Path(
+						this.getResources().getString( R.string.sdedatabasefilename ) + "-journal" ) )
+						.delete();
+				if (!NeoComApplication.sdeDatabaseExists()) {
+					this.fileSystem.copyFromAssets(
+							this.getResources().getString( R.string.sdedatabasefilename ), null );
+				}
+			}
+			return true;
+		} );
+
 		final InitializationTask networkActiveCheckTask = new InitializationTask.Builder()
 				                                                  .withMessage( "Check the network is active..." )
 				                                                  .withState( InitializationTask.InitializationTaskState.RUNNING )
@@ -272,7 +244,8 @@ public class AppInitializationActivity extends NeoComActivity {
 						                            return true;
 					                            else
 						                            throw new NeoComRuntimeException(
-								                            "The network is disabled so the application cannot work properly." );
+								                            "The network is disabled. the application cannot continue properly."
+						                            );
 				                            } )
 				                            .build() );
 		this.createInitializationTaskSlot( "Connect to ESI server and download setup data...",
@@ -292,9 +265,5 @@ public class AppInitializationActivity extends NeoComActivity {
 				                            .withTaskModel( initializationTask )
 				                            .withRunTask( initializationCode )
 				                            .build() );
-	}
-
-	protected boolean sdeDatabaseExists() throws IOException {
-		return new File( this.fileSystem.accessResource4Path( this.getResources().getString( R.string.sdedatabasefilename ) ) ).exists();
 	}
 }

@@ -28,7 +28,7 @@ public class AppVersionController extends AndroidController<AppVersion> {
 	 */
 	@Override
 	public IRender buildRender( final Context context ) {
-		if (this.getRenderMode().equalsIgnoreCase( PageNamesType.INITIALIZATION.name() ))
+		if (this.getRenderMode().equalsIgnoreCase( PageNamesType.INITIALIZATION_ACTIONBAR.name() ))
 			return new NeoComActionBarRender( this, context );
 		return new AppVersionRender( this, context );
 	}
