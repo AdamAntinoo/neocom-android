@@ -25,6 +25,7 @@ import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
+import org.dimensinfin.eveonline.neocom.app.domain.RetryButton;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.LinearContainer;
 import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
@@ -122,17 +123,21 @@ public class AppInitializationActivity extends NeoComActivity {
 				                     .whenExceptionAction( () -> {
 					                     logger.info( "--[AppInitializationActivity.launchInitialization.whenExceptionAction]" );
 					                     // If there is an exception then get the detail information and setup the exception fields.
-					                     this.linearContainer.addModel(
-							                     new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );
+					                     this.linearContainer.addModel( new Spacer.Builder()
+							                                                    .withType( SpacerType.LINE_WHITE )
+							                                                    .build()
+					                     );
 					                     this.linearContainer.addModel( new InitializationException.Builder()
 							                                                    .withException( this.taskSequencer.getException() )
 							                                                    .withRetryable( this.taskSequencer.isRetryable() )
-							                                                    .build();
-					                     this.linearContainer.addModel( new RetryButton.Builder()
-							                                                    .withException( this.taskSequencer.getException() )
-							                                                    .withRetryable( this.taskSequencer.isRetryable() )
-							                                                    .build();
+							                                                    .build()
 					                     );
+					                     // Add the retry button if the error can be recovered.
+					                     if (this.taskSequencer.isRetryable())
+						                     this.linearContainer.addModel( new RetryButton.Builder()
+								                                                    .withMessage( "Restart the check process." )
+								                                                    .build()
+						                     );
 				                     } )
 				                     .build();
 		// Check that the application is available and the component factory is also present.
@@ -244,7 +249,7 @@ public class AppInitializationActivity extends NeoComActivity {
 						                            return true;
 					                            else
 						                            throw new NeoComRuntimeException(
-								                            "The network is disabled. the application cannot continue properly."
+								                            "The network is disabled. The application cannot continue properly."
 						                            );
 				                            } )
 				                            .build() );

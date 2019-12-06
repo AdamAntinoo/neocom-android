@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/uipanelborderdarkblue"
+	android:backgroundTint="@color/appgreydark">
+
+	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+		android:id="@+id/buttonLabel"
+		style="@style/AppTheme.Button.Label"
+		android:layout_centerHorizontal="true"
+		android:layout_margin="16dp"
+		android:text="@string/default_category" />
+
+	<ImageView
+		android:layout_width="10dp"
+		android:layout_height="10dp"
+		android:src="@drawable/topcornerred" />
+</RelativeLayout>

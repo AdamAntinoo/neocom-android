@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -21,7 +22,6 @@ import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.core.database.AndroidRawStatement;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
-import org.dimensinfin.eveonline.neocom.database.repositories.DatabaseVersionRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
@@ -62,12 +62,16 @@ public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 	 */
 	@Override
 	public Integer getDatabaseVersion() {
-		final DatabaseVersionRepository databaseVersionRepository = new DatabaseVersionRepository.Builder()
-				                                                            .withDatabaseVersionDao(this.getDatabaseVersionDao()).build();
-		final DatabaseVersion version = databaseVersionRepository.accessVersion();
-		return version.getVersionNumber();
+		try {
+			final List<DatabaseVersion> versionList = this.getDatabaseVersionDao().queryForEq("id", "CURRENT-VERSION");
+			if (null != versionList)
+				if (versionList.size() > 0)
+					return versionList.get(0).versionNumber;
+			return 0;
+		} catch (final SQLException sqle) {
+			return 0;
+		}
 	}
-
 	protected SQLiteDatabase getSDEDatabase() {
 		if (null == this.ccpDatabase) this.openSDEDB();
 		return this.ccpDatabase;
@@ -100,16 +104,6 @@ public class AndroidSDEDBHelper extends OrmLiteSqliteOpenHelper implements ISDED
 //		return ((null != this.databasePath) && (null != this.databaseName));
 		return true;
 	}
-//	private void createConnectionSource() throws SQLException {
-//		this.connectionSource = new JdbcPooledConnectionSource( this.schema + ":" +
-//				                                                        this.fileSystemAdapter.accessResource4Path(
-//				                                                        		this.databasePath + this.databaseName));
-//		this.connectionSource.setMaxConnectionAgeMillis(TimeUnit.MINUTES.toMillis(5)); // Keep the connections open for 5 minutes
-//		this.connectionSource.setCheckConnectionsEveryMillis(TimeUnit.SECONDS.toMillis(60));
-//		this.connectionSource.setTestBeforeGet(
-//				true); // Enable the testing of connections right before they are handed to the user
-//	}
-
 	private void onCreate( final ConnectionSource databaseConnection ) {
 	}
 

@@ -13,7 +13,6 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,11 +24,13 @@ import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppInitializationActivity;
-import org.dimensinfin.eveonline.neocom.app.controller.InitializationExceptionController;
+import org.dimensinfin.eveonline.neocom.app.render.InitializationExceptionRender;
+import org.dimensinfin.eveonline.neocom.app.render.RetryButtonRender;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
+import org.dimensinfin.eveonline.neocom.test.support.ristretto.NewRistretto;
 
 
 import cucumber.api.java.en.Given;
@@ -105,7 +106,7 @@ public class NC01AppInitializationActivity extends StepFramework {
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
 				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
-				Ristretto.updateDisplay();
+//				Ristretto.updateDisplay();
 			} );
 		} );
 	}
@@ -129,30 +130,32 @@ public class NC01AppInitializationActivity extends StepFramework {
 	public void the_LinearContainer_has_a_panel_with_the_next_information( final String panelType,
 	                                                                       final List<Map<String, String>> dataTable ) {
 		final LinearLayout linearContainer = Objects.requireNonNull( this.world.getActiveActivity().findViewById( R.id.initializationLayout ) );
-		final List<View> targetpanels = new ArrayList<>();
-		for (int i = 0; i < linearContainer.getChildCount(); i++) {
-			final Object controller = linearContainer.getChildAt( i ).getTag();
-			if (null != controller)
-				if (controller instanceof InitializationExceptionController)
-					targetpanels.add( linearContainer.getChildAt( i ) );
-		}
-		Assert.assertEquals( 1, targetpanels.size() );
-		Assert.assertTrue( this.validateInitializationException( dataTable.get( 0 ), targetpanels.get( 0 ) ) );
+		Assert.assertEquals( 1, NewRistretto.onContainer( linearContainer ).onRender( InitializationExceptionRender.class ).count() );
+		Assert.assertTrue( NewRistretto.onContainer( linearContainer ).onRender( InitializationExceptionRender.class ).check(
+				view -> validateInitializationException( dataTable.get( 0 ), view )
+		) );
 	}
+
 	@Then("the LinearContainer has a {string} button with the next information")
-	public void the_LinearContainer_has_a_button_with_the_next_information(final String buttonType,
-	                                                                       final List<Map<String, String>> dataTable) {
+	public void the_LinearContainer_has_a_button_with_the_next_information( final String buttonType,
+	                                                                        final List<Map<String, String>> dataTable ) {
 		final LinearLayout linearContainer = Objects.requireNonNull( this.world.getActiveActivity().findViewById( R.id.initializationLayout ) );
-		final List<View> targetpanels = new ArrayList<>();
-		for (int i = 0; i < linearContainer.getChildCount(); i++) {
-			final Object controller = linearContainer.getChildAt( i ).getTag();
-			if (null != controller)
-				if (controller instanceof RetryButton)
-					targetpanels.add( linearContainer.getChildAt( i ) );
-		}
-		Assert.assertEquals( 1, targetpanels.size() );
-		Assert.assertTrue( this.validateRetryButton( dataTable.get( 0 ), targetpanels.get( 0 ) ) );
+		Assert.assertEquals( 1, NewRistretto.onContainer( linearContainer ).onRender( RetryButtonRender.class ).count() );
+		Assert.assertTrue( NewRistretto.onContainer( linearContainer ).onRender( RetryButtonRender.class ).check(
+				view -> validateRetryButton( dataTable.get( 0 ), view )
+		) );
+
+//		final List<View> targetpanels = new ArrayList<>();
+//		for (int i = 0; i < linearContainer.getChildCount(); i++) {
+//			final Object controller = linearContainer.getChildAt( i ).getTag();
+//			if (null != controller)
+//				if (controller instanceof RetryButton)
+//					targetpanels.add( linearContainer.getChildAt( i ) );
+//		}
+//		Assert.assertEquals( 1, targetpanels.size() );
+//		Assert.assertTrue( this.validateRetryButton( dataTable.get( 0 ), targetpanels.get( 0 ) ) );
 	}
+
 	@When("completed the onCreate lifecycle phase")
 	public void completed_the_onCreate_lifecycle_phase() {
 		final ActivityScenario<AppInitializationActivity> activityScenario = this.world.getActivityScenario();
@@ -229,15 +232,24 @@ public class NC01AppInitializationActivity extends StepFramework {
 		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appName.getText().toString() );
 		Assert.assertEquals( expectedData.get( APP_NAME ), appName.getText().toString() );
 		final TextView appVersion = Objects.requireNonNull( obtainedView.findViewById( R.id.appVersion ) );
-		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appVersion.getText().toString() );
-		Assert.assertEquals( expectedData.get( APP_VERSION ), appName.getText().toString() );
+		AcceptanceNeoComLogger.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_VERSION ), appVersion.getText().toString() );
 		return true;
 	}
 
-	private boolean validateInitializationException( final Map<String, String> expectedData,
-	                                                 final View obtainedView ) {
+	private static boolean validateInitializationException( final Map<String, String> expectedData,
+	                                                        final View obtainedView ) {
 		final String MESSAGE = "Message";
 		final TextView message = Objects.requireNonNull( obtainedView.findViewById( R.id.message ) );
+		AcceptanceNeoComLogger.info( "[THEN] message: {}", message.getText().toString() );
+		Assert.assertEquals( expectedData.get( MESSAGE ), message.getText().toString() );
+		return true;
+	}
+
+	private boolean validateRetryButton( final Map<String, String> expectedData,
+	                                     final View obtainedView ) {
+		final String MESSAGE = "Message";
+		final TextView message = Objects.requireNonNull( obtainedView.findViewById( R.id.buttonLabel ) );
 		AcceptanceNeoComLogger.info( "[THEN] message: {}", message.getText().toString() );
 		Assert.assertEquals( expectedData.get( MESSAGE ), message.getText().toString() );
 		return true;

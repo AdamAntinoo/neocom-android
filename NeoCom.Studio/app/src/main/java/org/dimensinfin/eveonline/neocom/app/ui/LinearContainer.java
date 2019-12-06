@@ -21,8 +21,8 @@ public class LinearContainer {
 	private LinearContainer() { }
 
 	public void addModel( final ICollaboration model ) {
-		this.contents.add(model);
-		this.initializationLayout.addView(this.createView(model));
+		this.contents.add( model );
+		this.initializationLayout.addView( this.createView( model ) );
 	}
 
 	public void clear() {
@@ -35,14 +35,15 @@ public class LinearContainer {
 
 	public void needsUpdate() {
 		this.clear();
-		for (ICollaboration node : this.contents)
-			this.initializationLayout.addView(this.createView(node));
+		for (ICollaboration node : this.contents) {
+			this.initializationLayout.addView( this.createView( node ) );
+		}
 		this.initializationLayout.invalidate();
 	}
 
 	private View createView( final ICollaboration model ) {
-		final IRender render = this.factory.createController(model)
-				                           .buildRender(this.activity.getApplicationContext());
+		final IRender render = this.factory.createController( model )
+				                       .buildRender( this.activity.getApplicationContext() );
 		final View view = render.getView();
 		render.updateContent();
 		return view;
@@ -57,28 +58,28 @@ public class LinearContainer {
 		}
 
 		public LinearContainer.Builder withActivity( final Activity activity ) {
-			Objects.requireNonNull(activity);
+			Objects.requireNonNull( activity );
 			this.onConstruction.activity = activity;
 			return this;
 		}
 
 		public LinearContainer.Builder withLayoutId( final Integer layoutId ) {
-			Objects.requireNonNull(layoutId);
-			this.onConstruction.initializationLayout = this.onConstruction.activity.findViewById(layoutId);
-			Objects.requireNonNull(this.onConstruction.initializationLayout);
+			Objects.requireNonNull( layoutId );
+			this.onConstruction.initializationLayout = this.onConstruction.activity.findViewById( layoutId );
+			Objects.requireNonNull( this.onConstruction.initializationLayout );
 			return this;
 		}
 
 		public LinearContainer.Builder withFactory( final ControllerFactory factory ) {
-			Objects.requireNonNull(factory);
+			Objects.requireNonNull( factory );
 			this.onConstruction.factory = factory;
 			return this;
 		}
 
 		public LinearContainer build() {
-			Objects.requireNonNull(this.onConstruction.activity);
-			Objects.requireNonNull(this.onConstruction.initializationLayout);
-			Objects.requireNonNull(this.onConstruction.factory);
+			Objects.requireNonNull( this.onConstruction.activity );
+			Objects.requireNonNull( this.onConstruction.initializationLayout );
+			Objects.requireNonNull( this.onConstruction.factory );
 			return this.onConstruction;
 		}
 	}

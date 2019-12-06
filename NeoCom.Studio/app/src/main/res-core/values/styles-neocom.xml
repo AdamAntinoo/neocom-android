@@ -207,4 +207,14 @@
     </style>
     <!--D E P R E C A T E D-->
 
+ <!-- I N I T I A L I Z A T I O N-->
+    <style name="AppTheme.Button.Label" parent="AppTheme.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
 </resources>

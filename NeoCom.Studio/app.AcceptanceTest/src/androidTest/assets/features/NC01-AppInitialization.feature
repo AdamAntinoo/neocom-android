@@ -17,11 +17,11 @@ Feature: [NC01]-Acceptance for the application initialization process.
 	When the AppInitializationActivity activity lifecycle completes
 	Then there is a action bar of type AppVersion with the next fields
 	  | AppName  | AppVersion |
-	  | NeoComAT | 0.17.0     |
+	  | NeoComAT | v0.17.0     |
 	And "12" panels on the LinearContainer
 	And the LinearContainer has a "InitializationException" panel with the next information
 	  | Message                                                            |
 	  | The network is disabled. The application cannot continue properly. |
 	And the LinearContainer has a "Retry" button with the next information
-	  | Message                                                            |
+	  | Message                    |
 	  | Restart the check process. |

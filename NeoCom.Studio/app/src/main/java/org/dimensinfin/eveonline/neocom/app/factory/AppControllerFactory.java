@@ -12,6 +12,7 @@ import org.dimensinfin.eveonline.neocom.app.controller.NewLoginController;
 import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotController;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
+import org.dimensinfin.eveonline.neocom.app.controller.RetryButtonController;
 import org.dimensinfin.eveonline.neocom.app.controller.SplashActionBarController;
 import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.InitializationException;
@@ -19,6 +20,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.InitializationTask;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
+import org.dimensinfin.eveonline.neocom.app.domain.RetryButton;
 import org.dimensinfin.eveonline.neocom.app.ui.DashboardActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -47,6 +49,9 @@ public class AppControllerFactory extends ControllerFactory {
 		}
 		if (node instanceof InitializationException) {
 			return new InitializationExceptionController((InitializationException) node, this);
+		}
+		if (node instanceof RetryButton) {
+			return new RetryButtonController((RetryButton) node, this);
 		}
 
 
