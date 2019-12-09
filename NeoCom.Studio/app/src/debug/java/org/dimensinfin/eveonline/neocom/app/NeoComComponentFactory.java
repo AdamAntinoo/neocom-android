@@ -88,6 +88,10 @@ public class NeoComComponentFactory {
 		this.assetRepository = assetRepository;
 	}
 
+	public void replaceESIDataProvider( final ESIDataProvider dataProvider ) {
+		this.esiDataProvider = dataProvider;
+	}
+
 	// - A C C E S S O R S
 	public IConfigurationProvider getConfigurationProvider() {
 		try {

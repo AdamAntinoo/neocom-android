@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.eveonline.neocom.core.activity.NeoComActivity;
-
+import org.dimensinfin.eveonline.neocom.test.support.ristretto.ViewContainer;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -37,12 +39,40 @@ public class Ristretto {
 	}
 
 	// - F I L T E R I N G
+	public static ViewContainer onContainer( final LinearLayout linear ) {
+		final ViewContainer container = new ViewContainer();
+		for (int i = 0; i < linear.getChildCount(); i++)
+			container.add( linear.getChildAt( i ) );
+		return container;
+	}
+
+	public static ViewContainer onContainer( final ViewGroup linear ) {
+		final ViewContainer container = new ViewContainer();
+		for (int i = 0; i < linear.getChildCount(); i++)
+			container.add( linear.getChildAt( i ) );
+		return container;
+	}
 
 	// - A C T I V I T Y   M A N A G E M E N T
 	public static int activityPageCount() {
 		return ((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getCount();
 	}
 
+	public static ViewGroup accessHeaderContainer( final int page ) {
+		final Fragment fragment = Objects.requireNonNull(
+				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
+		);
+		return ((MVCPagerFragment) fragment).accessHeaderContainer();
+	}
+
+	public static ViewGroup accessDataContainer( final int page ) {
+		final Fragment fragment = Objects.requireNonNull(
+				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
+		);
+		return ((MVCPagerFragment) fragment).accessDataSectionContainer();
+	}
+
+	@Deprecated
 	public static List<IAndroidController> accessHeaderPanels( final int page ) {
 		final Fragment fragment = Objects.requireNonNull(
 				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
@@ -50,6 +80,7 @@ public class Ristretto {
 		return ((MVCPagerFragment) fragment).accessHeaderContents();
 	}
 
+	@Deprecated
 	public static List<IAndroidController> accessDataPanels( final int page ) {
 		final Fragment fragment = Objects.requireNonNull(
 				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )

@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
-import android.app.Activity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
@@ -9,16 +8,17 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Rule;
+import org.mockito.Mockito;
 
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AppSplashActivity;
-import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.esiswagger.model.GetStatusOk;
+import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
@@ -44,30 +44,27 @@ public class NC02AppSplashActivity extends StepFramework {
 	@Rule
 	public GrantPermissionRule permissionReadStorage = GrantPermissionRule.grant( Manifest.permission.READ_EXTERNAL_STORAGE );
 
-	private Integer selectedPage = 0;
 	private int jobCountAtStart = 0;
 
 	public NC02AppSplashActivity( final NeoComWorld world ) {
 		super( world );
 	}
 
-	public void initializeScenario() throws IOException, SQLException {
-		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
-		this.stopScheduler();
-		this.initializeApplicationStorage();
-		this.initializeApplicationEsi();
-		this.deleteDatabaseRecords();
-	}
-
 	@Given("the AppSplashActivity")
-	public void the_AppSplashActivity() throws IOException, SQLException {
-		this.initializeScenario();
+	public void the_AppSplashActivity() {
 		AcceptanceNeoComLogger.info( "[GIVEN] the AppSplashActivity" );
 	}
 
 	@When("the AppSplashActivity activity lifecycle completes for page {string}")
 	public void the_AppSplashActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
 		AcceptanceNeoComLogger.info( "[WHEN] the AppSplashActivity activity lifecycle completes for page {string}" );
+		AcceptanceNeoComLogger.info( "Replacing the ESI data provider to control data values..." );
+		final ESIDataProvider splashEsiDataProvider = Mockito.mock( ESIDataProvider.class );
+		final GetStatusOk mockStatus = new GetStatusOk();
+		mockStatus.setPlayers( 21765 );
+		Mockito.when( splashEsiDataProvider.getUniverseStatus( Mockito.anyString() ) )
+				.thenReturn( mockStatus );
+		NeoComComponentFactory.getSingleton().replaceESIDataProvider( splashEsiDataProvider );
 		AcceptanceNeoComLogger.info( "Going to launch the scenario with the AppSplashActivity..." );
 		this.jobCountAtStart = JobScheduler.getJobScheduler().getJobCount();
 		AcceptanceNeoComLogger.info( "Registering the number of schedules before activating page... {}",
@@ -108,11 +105,11 @@ public class NC02AppSplashActivity extends StepFramework {
 		Assert.assertEquals( this.jobCountAtStart + Integer.parseInt( jobCountIncrease ), jobCount );
 	}
 
-	@Given("a clear Scheduler")
-	public void a_clear_Scheduler() {
-		JobScheduler.getJobScheduler().clear();
-		Assert.assertEquals( 0, JobScheduler.getJobScheduler().getJobCount() );
-	}
+//	@Given("a clear Scheduler")
+//	public void a_clear_Scheduler() {
+//		JobScheduler.getJobScheduler().clear();
+//		Assert.assertEquals( 0, JobScheduler.getJobScheduler().getJobCount() );
+//	}
 
 	//	@Then("the Credential is added to the data sources")
 	public void the_Credential_is_added_to_the_data_sources() {
@@ -131,40 +128,14 @@ public class NC02AppSplashActivity extends StepFramework {
 		Assert.assertEquals( 1, JobScheduler.getJobScheduler().getJobCount() );
 	}
 
-//	@Given("the next Credentials registered")
-//	public void the_next_Credentials_registered( final List<Map<String, String>> dataTable ) throws SQLException {
-//		final Map<String, String> row = dataTable.get( 0 );
-//		Objects.requireNonNull( row );
-//		final Credential credential = new CucumberTable2CredentialConverter().convert( row );
-//		Objects.requireNonNull( credential );
-//		// Clear database records.
-//		this.credentialRepository = new SupportCredentialRepository.Builder()
-//				                            .withCredentialDao( NeoComComponentFactory.getSingleton().getNeoComDBHelper().getCredentialDao() )
-//				                            .build();
-//		this.credentialRepository.deleteAll();
-//		this.credentialRepository.persist( credential );
+//	@When("the AppSplashActivity activity lifecycle completes")
+//	public void the_AppSplashActivity_activity_lifecycle_completes() {
+//		NeoComLogger.info( "The test has passed by the lifecycle completion." );
+//		final Activity activity = this.world.getActiveActivity();
+//		final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
+//		final Stage stage = registry.getLifecycleStageOf( activity );
+//		Assert.assertEquals( Stage.STARTED, stage );
 //	}
-
-	@When("the AppSplashActivity activity lifecycle completes")
-	public void the_AppSplashActivity_activity_lifecycle_completes() {
-		NeoComLogger.info( "The test has passed by the lifecycle completion." );
-		final Activity activity = this.world.getActiveActivity();
-		final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
-		final Stage stage = registry.getLifecycleStageOf( activity );
-		Assert.assertEquals( Stage.STARTED, stage );
-	}
-
-	//	@Then("there is a action bar of type SplashActionBar with the next fields")
-	public void there_is_a_action_bar_of_type_SplashActionBar_with_the_next_fields( io.cucumber.datatable.DataTable dataTable ) {
-		// Write code here that turns the phrase above into concrete actions
-		// For automatic transformation, change DataTable to one of
-		// E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-		// Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-		// Double, Byte, Short, Long, BigInteger or BigDecimal.
-		//
-		// For other transformations you can register a DataTableType.
-		throw new cucumber.api.PendingException();
-	}
 
 	//	@Then("the header section has a {string} panel with the next information")
 	public void the_header_section_has_a_panel_with_the_next_information( String string, io.cucumber.datatable.DataTable dataTable ) {

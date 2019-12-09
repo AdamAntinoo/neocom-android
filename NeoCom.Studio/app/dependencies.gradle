@@ -18,11 +18,12 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.annimon:stream:1.1.9'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+//    implementation 'com.fernandocejas:arrow:1.0.0'
 
     // L I B R A R I E S
     implementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
     implementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
-    implementation "org.dimensinfin:AndroidMVC:5.18.0@aar"
+    implementation "org.dimensinfin:AndroidMVC:5.18.1@aar"
     implementation 'me.relex:circleindicator:2.1.0'
 //    implementation project(':app.Features')
 //    implementation project(':app.Annotations')
