@@ -1,36 +1,46 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 
+import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
-
+import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -43,6 +53,9 @@ public class NC00SupportAndCoreSteps {
 
 	private NeoComWorld world;
 	private List<String> recording = new ArrayList<>();
+	// -  C O M P O N E N T S
+	private Context applicationContext = NeoComComponentFactory.getSingleton().getApplication().getApplicationContext();
+	private IFileSystem fileSystemAdapter = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 
 	public NC00SupportAndCoreSteps( final NeoComWorld world ) {
 		this.world = world;
@@ -179,6 +192,52 @@ public class NC00SupportAndCoreSteps {
 	}
 
 	// - C O M M O N   S T E P S
+	@Given("the application storage is initialized")
+	public void the_application_storage_is_initialized() {
+		this.initializeApplicationStorage();
+		this.initializeApplicationEsi();
+	}
+
+	@Given("the scheduler is disabled")
+	public void the_scheduler_is_disabled() {
+		AcceptanceNeoComLogger.info( "[GIVEN] the scheduler is disabled" );
+		this.stopScheduler();
+	}
+
+	@Given("the NeoCom database is initialized empty")
+	public void the_NeoCom_database_is_initialized_empty() {
+		this.deleteDatabaseRecords();
+	}
+
+	@Given("the following Credentials into my repository")
+	public void the_following_Credentials_into_my_repository( final List<Map<String, String>> dataTable ) throws SQLException {
+		AcceptanceNeoComLogger.info( "[GIVEN] the following Credentials into my repository" );
+		for (Map<String, String> row : dataTable) {
+			final Credential credential = new CucumberTable2CredentialConverter().convert( row );
+			this.world.getCredentialRepository().persist( credential );
+		}
+	}
+
+	@Then("there is a action bar of type {string} with the next fields")
+	public void there_is_a_action_bar_of_type_with_the_next_fields( final String actionBarType,
+	                                                                final List<Map<String, String>> dataTable ) {
+		AcceptanceNeoComLogger.info( "[THEN] there is a action bar of type {string} with the next fields" );
+		final ActionBar actionBar = Objects.requireNonNull( this.world.getActiveActivity().getActionBar() );
+		final View view = actionBar.getCustomView();
+		Assert.assertNotNull( view );
+		switch (actionBarType) {
+			case "AppVersion":
+				Assert.assertTrue( this.validateNeoComActionBar( dataTable.get( 0 ), view ) );
+				break;
+			case "SplashActionBar":
+				Assert.assertTrue( this.validateSplashActionBar( dataTable.get( 0 ), view ) );
+				break;
+			case "DashboardActionBar":
+				Assert.assertTrue( this.validateDashboardActionBar( dataTable.get( 0 ), view ) );
+				break;
+		}
+	}
+
 	@Then("{string} panels on the {string}")
 	public void panels_on_the( final String numberOfPanels, final String section ) {
 		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
@@ -192,18 +251,98 @@ public class NC00SupportAndCoreSteps {
 		}
 	}
 
-	@Given("the following Credentials into my repository")
-	public void the_following_Credentials_into_my_repository( final List<Map<String, String>> dataTable ) throws SQLException {
-		AcceptanceNeoComLogger.info( "[GIVEN] the following Credentials into my repository" );
-		for (Map<String, String> row : dataTable) {
-			final Credential credential = new CucumberTable2CredentialConverter().convert( row );
-			this.world.getCredentialRepository().persist( credential );
-		}
-	}
-
 	@Given("the next {string} identifier for the CAPSULEER_IDENTIFIER")
 	public void the_next_identifier_for_the_CAPSULEER_IDENTIFIER( String capsuleerIdentifier ) {
 		this.world.setCapsuleerIdentifier( Integer.parseInt( capsuleerIdentifier ) );
-//		this.world.setAuthorizationIntent( this.authorizationIntent( this.world.getActiveActivity().getClass() ) );
 	}
+
+	// - M E T H O D S   F O R   I N I T I A L I Z A T I O N
+	private void initializeApplicationStorage() {
+		AcceptanceNeoComLogger.enter();
+		final boolean createAppResult = NeoComApplication.createAppDir();
+		Assert.assertTrue( createAppResult );
+		final boolean createPublicAppResult = NeoComApplication.createPublicAppDir();
+//		Assert.assertTrue( createPublicAppResult );
+		final boolean createCacheResult = NeoComApplication.createCacheDirectories();
+		Assert.assertTrue( createCacheResult );
+		if (!NeoComApplication.sdeDatabaseExists()) {
+			this.fileSystemAdapter.copyFromAssets(
+					this.applicationContext.getResources().getString( R.string.sdedatabasefilename ), null );
+		}
+		AcceptanceNeoComLogger.exit();
+	}
+	private void initializeApplicationEsi() {
+		NeoComComponentFactory.getSingleton().getESIDataProvider();
+	}
+
+	private void stopScheduler() {
+		final SharedPreferences.Editor preferencesEditor = PreferenceManager.getDefaultSharedPreferences(
+				InstrumentationRegistry.getInstrumentation().getContext()
+		).edit();
+		preferencesEditor.putBoolean( PreferenceKeys.prefkey_AllowScheduler.name(), false );
+		preferencesEditor.commit();
+	}
+
+	private void deleteDatabaseRecords() {
+		this.world.getCredentialRepository().deleteAll();
+	}
+
+	private boolean validateNeoComActionBar( final Map<String, String> expectedData,
+	                                         final View obtainedView ) {
+		final String APP_NAME = "AppName";
+		final String APP_VERSION = "AppVersion";
+
+		final TextView appName = Objects.requireNonNull( obtainedView.findViewById( R.id.appName ) );
+		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appName.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_NAME ), appName.getText().toString() );
+		final TextView appVersion = Objects.requireNonNull( obtainedView.findViewById( R.id.appVersion ) );
+		AcceptanceNeoComLogger.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_VERSION ), appVersion.getText().toString() );
+		return true;
+	}
+
+	private boolean validateSplashActionBar( final Map<String, String> expectedData,
+	                                     final View obtainedView ) {
+		final String APP_NAME = "AppName";
+		final String APP_VERSION = "AppVersion";
+		final String SERVER_NAME = "ServerName";
+		final String SERVER_STATE = "ServerState";
+		final String PILOT_COUNT = "PilotCount";
+
+		final TextView appName = Objects.requireNonNull( obtainedView.findViewById( R.id.appName ) );
+		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appName.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_NAME ), appName.getText().toString() );
+		final TextView appVersion = Objects.requireNonNull( obtainedView.findViewById( R.id.appVersion ) );
+		AcceptanceNeoComLogger.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_VERSION ), appVersion.getText().toString() );
+		final TextView serverName = Objects.requireNonNull( obtainedView.findViewById( R.id.serverName ) );
+		AcceptanceNeoComLogger.info( "[THEN] serverName: {}", serverName.getText().toString() );
+		Assert.assertEquals( expectedData.get( SERVER_NAME ), serverName.getText().toString() );
+		final TextView serverStatus = Objects.requireNonNull( obtainedView.findViewById( R.id.serverStatus ) );
+		AcceptanceNeoComLogger.info( "[THEN] serverStatus: {}", serverStatus.getText().toString() );
+		Assert.assertEquals( expectedData.get( SERVER_STATE ), serverStatus.getText().toString() );
+		final TextView capsuleersNumber = Objects.requireNonNull( obtainedView.findViewById( R.id.capsuleersNumber ) );
+		AcceptanceNeoComLogger.info( "[THEN] capsuleersNumber: {}", capsuleersNumber.getText().toString() );
+		Assert.assertEquals( expectedData.get( PILOT_COUNT ), capsuleersNumber.getText().toString() );
+		return true;
+	}
+
+	private boolean validateDashboardActionBar( final Map<String, String> expectedData,
+	                                        final View obtainedView ) {
+		final String APP_NAME = "AppName";
+		final String APP_VERSION = "AppVersion";
+		final String PILOT_NAME = "PilotName";
+
+		final TextView appName = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarTitleLeft ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarTitleLeft: {}", appName.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_NAME ), appName.getText().toString() );
+		final TextView appVersion = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarTitleRight ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarTitleRight: {}", appVersion.getText().toString() );
+		Assert.assertEquals( expectedData.get( APP_VERSION ), appVersion.getText().toString() );
+		final TextView pilotName = Objects.requireNonNull( obtainedView.findViewById( R.id.toolBarSubTitle ) );
+		AcceptanceNeoComLogger.info( "[THEN] toolBarSubTitle: {}", pilotName.getText().toString() );
+		Assert.assertEquals( expectedData.get( PILOT_NAME ), pilotName.getText().toString() );
+		return true;
+	}
+
 }

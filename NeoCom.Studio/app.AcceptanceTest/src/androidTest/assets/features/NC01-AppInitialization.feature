@@ -15,7 +15,7 @@ Feature: [NC01]-Acceptance for the application initialization process.
   check step.
 	And the network is disabled
 	When the AppInitializationActivity activity lifecycle completes
-	Then there is a action bar of type AppVersion with the next fields
+	Then there is a action bar of type "AppVersion" with the next fields
 	  | AppName  | AppVersion |
 	  | NeoComAT | v0.17.0     |
 	And "12" panels on the LinearContainer

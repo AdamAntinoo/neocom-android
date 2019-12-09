@@ -30,7 +30,7 @@ public class MVC04RunDataSource {
 	private MVCWorld world;
 	private AcceptanceActivity04 activity;
 	private MVC04Fragment fragment;
-	private MVC04DataSource dataSource;
+	private MVCDataSource dataSource;
 	private IDataSource registeredDataSouce;
 
 	public MVC04RunDataSource( final MVCWorld world ) {

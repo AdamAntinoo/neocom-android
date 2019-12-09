@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Rule;
 
-import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.app.activity.AuthorizationFlowActivity;
 import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
@@ -55,18 +54,18 @@ public class NC05AuthorizationFlowActivity extends StepFramework {
 		super( world );
 	}
 
-	public void initializeScenario() throws IOException, SQLException {
-		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
-		this.stopScheduler();
-		this.initializeApplicationStorage();
-		this.initializeApplicationEsi();
-		this.deleteDatabaseRecords();
-		NeoComComponentFactory.getSingleton().getESIDataProvider();
-	}
+//	public void initializeScenario() throws IOException, SQLException {
+//		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
+////		this.stopScheduler();
+////		this.initializeApplicationStorage();
+////		this.initializeApplicationEsi();
+////		this.deleteDatabaseRecords();
+//		NeoComComponentFactory.getSingleton().getESIDataProvider();
+//	}
 
 	@Given("the AuthorizationFlowActivity")
 	public void the_AuthorizationFlowActivity() throws IOException, SQLException {
-		this.initializeScenario();
+//		this.initializeScenario();
 		AcceptanceNeoComLogger.info( "[GIVEN] the AuthorizationFlowActivity" );
 	}
 

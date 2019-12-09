@@ -63,8 +63,8 @@ public class NC04AssetsDisplay extends AuthorizedStep {
 
 	public void initializeScenario() throws IOException {
 		AcceptanceNeoComLogger.info( "[BEFORE] initializeScenario" );
-		this.stopScheduler();
-		this.initializeApplicationStorage();
+//		this.stopScheduler();
+//		this.initializeApplicationStorage();
 		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
 

@@ -1,7 +1,6 @@
 package org.dimensinfin.eveonline.neocom.test.steps;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,23 +60,6 @@ public class NC01AppInitializationActivity extends StepFramework {
 		AcceptanceNeoComLogger.info( "[GIVEN] the AppInitializationActivity" );
 		Assert.assertNotNull( NeoComComponentFactory.getSingleton() );
 		Assert.assertNotNull( NeoComComponentFactory.getSingleton().getApplication() );
-//		logger.info("-- [the_AppInitializationActiviy_activity]> Storing application");
-//		this.world.setApplication((NeoComApplication) application);
-		// Create the activity scenario.
-		final ActivityScenario<AppInitializationActivity> activityScenario = ActivityScenario.launch(
-				AppInitializationActivity.class );
-		activityScenario.onActivity( ( activity ) -> {
-			logger.info( "-- [the_AppInitializationActiviy_activity]> Storing activity" );
-//			this.world.setActiveActivity(activity);
-		} );
-//		logger.info("-- [the_AppInitializationActiviy_activity]> Storing activity scenario");
-//		this.world.setActivityScenario(activityScenario);
-	}
-
-	@Given("the scheduler is disabled")
-	public void the_scheduler_is_disabled() {
-		AcceptanceNeoComLogger.info( "[GIVEN] the scheduler is disabled" );
-		this.stopScheduler();
 	}
 
 	@Given("the network is disabled")
@@ -106,17 +88,8 @@ public class NC01AppInitializationActivity extends StepFramework {
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
 				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
-//				Ristretto.updateDisplay();
 			} );
 		} );
-	}
-
-	@Then("there is a action bar of type AppVersion with the next fields")
-	public void there_is_a_action_bar_of_type_AppVersion_with_the_next_fields( final List<Map<String, String>> dataTable ) {
-		AcceptanceNeoComLogger.info( "[THEN] there is a action bar of type AppVersion with the next fields" );
-		final ActionBar actionBar = Objects.requireNonNull( this.world.getActiveActivity().getActionBar() );
-		final View view = actionBar.getCustomView();
-		Assert.assertTrue( this.validateNeoComActionBar( dataTable.get( 0 ), view ) );
 	}
 
 	@Then("{string} panels on the LinearContainer")
@@ -224,20 +197,8 @@ public class NC01AppInitializationActivity extends StepFramework {
 		this.world.getActivityScenario().close();
 	}
 
-	private boolean validateNeoComActionBar( final Map<String, String> expectedData,
-	                                         final View obtainedView ) {
-		final String APP_NAME = "AppName";
-		final String APP_VERSION = "AppVersion";
-		final TextView appName = Objects.requireNonNull( obtainedView.findViewById( R.id.appName ) );
-		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appName.getText().toString() );
-		Assert.assertEquals( expectedData.get( APP_NAME ), appName.getText().toString() );
-		final TextView appVersion = Objects.requireNonNull( obtainedView.findViewById( R.id.appVersion ) );
-		AcceptanceNeoComLogger.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
-		Assert.assertEquals( expectedData.get( APP_VERSION ), appVersion.getText().toString() );
-		return true;
-	}
 
-	private static boolean validateInitializationException( final Map<String, String> expectedData,
+	private boolean validateInitializationException( final Map<String, String> expectedData,
 	                                                        final View obtainedView ) {
 		final String MESSAGE = "Message";
 		final TextView message = Objects.requireNonNull( obtainedView.findViewById( R.id.message ) );

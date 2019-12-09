@@ -1,9 +1,7 @@
 package org.dimensinfin.eveonline.neocom.test.support;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -16,18 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
-import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 
 public class StepFramework {
 	protected static Logger logger = LoggerFactory.getLogger( StepFramework.class );
@@ -44,33 +39,7 @@ public class StepFramework {
 		Ristretto.setWorld( this.world );
 	}
 
-	public void initializeApplicationStorage() throws IOException {
-		AcceptanceNeoComLogger.enter();
-		final boolean createAppResult = NeoComApplication.createAppDir();
-		Assert.assertTrue( createAppResult );
-		final boolean createPublicAppResult = NeoComApplication.createPublicAppDir();
-//		Assert.assertTrue( createPublicAppResult );
-		final boolean createCacheResult = NeoComApplication.createCacheDirectories();
-		Assert.assertTrue( createCacheResult );
-		if (!this.sdeDatabaseExists()) {
-			this.fileSystemAdapter.copyFromAssets(
-					this.getResources().getString( R.string.sdedatabasefilename ), null );
-		}
-		AcceptanceNeoComLogger.exit();
-	}
 
-	public void initializeApplicationEsi() {
-		NeoComComponentFactory.getSingleton().getESIDataProvider();
-	}
-
-	protected void stopScheduler() {
-		final SharedPreferences.Editor preferencesEditor = PreferenceManager.getDefaultSharedPreferences(
-				InstrumentationRegistry.getInstrumentation().getContext()
-		).edit();
-		preferencesEditor.putBoolean( PreferenceKeys.prefkey_AllowScheduler.name(), false );
-		preferencesEditor.commit();
-
-	}
 
 	protected void grantPermissions() {
 		AcceptanceNeoComLogger.info( "[BEFORE] grantPermissions" );
@@ -96,9 +65,6 @@ public class StepFramework {
 				.executeShellCommand( "pm revoke ${getTargetContext().packageName} android.permission.ACCESS_NETWORK_STATE" );
 	}
 
-	protected void deleteDatabaseRecords() throws SQLException {
-		this.world.getCredentialRepository().deleteAll();
-	}
 
 
 	// -

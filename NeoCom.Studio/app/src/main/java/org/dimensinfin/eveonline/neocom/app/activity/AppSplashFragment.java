@@ -9,33 +9,33 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.datasource.SplashActionsDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 
 public class AppSplashFragment extends MVCPagerFragment {
 	@Override
 	public IControllerFactory createFactory() {
-		return new AppControllerFactory(this.getVariant())
-				       .registerActivity(PageNamesType.PILOT_DASHBOARD.name(), PilotDashboardActivity.class)
-				       .registerActivity(PageNamesType.AUTHORIZATION.name(), AuthorizationFlowActivity.class);
+		return new AppControllerFactory( this.getVariant() )
+				       .registerActivity( PageNamesType.PILOT_DASHBOARD.name(), PilotDashboardActivity.class )
+				       .registerActivity( PageNamesType.AUTHORIZATION.name(), AuthorizationFlowActivity.class );
 	}
 
 	@Override
 	public IDataSource createDS() {
 		return new SplashActionsDataSource.Builder()
-				       .addIdentifier(this.getVariant())
-				       .addIdentifier("SPLASH")
-				       .withVariant(this.getVariant())
-				       .withExtras(this.getExtras())
-				       .withFactory(this.createFactory())
-				       .withName(this.getActivityContext().getResources().getString(R.string.appname))
-				       .withVersion(this.getActivityContext().getResources().getString(R.string.appversion))
-				       .withCredentialRepository(NeoComComponentFactory.getSingleton().getCredentialRepository())
-					   .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
-					   .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
-					   .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
+				       .addIdentifier( this.getVariant() )
+				       .addIdentifier( "SPLASH" )
+				       .withVariant( this.getVariant() )
+				       .withExtras( this.getExtras() )
+				       .withFactory( this.createFactory() )
+				       .withName( this.getActivityContext().getResources().getString( R.string.appname ) )
+				       .withVersion( this.getActivityContext().getResources().getString( R.string.appversion ) )
+				       .withCredentialRepository( NeoComComponentFactory.getSingleton().getCredentialRepository() )
+				       .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
+				       .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
+				       .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
 				       .build();
 	}
 
@@ -44,10 +44,11 @@ public class AppSplashFragment extends MVCPagerFragment {
 		return new RenderViewGenerator.Builder<SplashActionBar>()
 				       .withContext( this.getActivityContext() )
 				       .withModel( new SplashActionBar.Builder()
-						                   .withPreferences(PreferenceManager.getDefaultSharedPreferences(
-								                   this.getActivityContext()))
+						                   .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
+						                   .withPreferences( PreferenceManager.getDefaultSharedPreferences(
+								                   this.getActivityContext() ) )
 						                   .build() )
-				       .withFactory(  new AppControllerFactory(this.getVariant()))
+				       .withFactory( new AppControllerFactory( this.getVariant() ) )
 				       .generateView();
 	}
 }
