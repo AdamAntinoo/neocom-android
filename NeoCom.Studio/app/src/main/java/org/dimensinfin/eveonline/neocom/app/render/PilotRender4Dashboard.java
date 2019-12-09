@@ -106,10 +106,12 @@ public class PilotRender4Dashboard extends NeoComRender {
 					this.getController().getModel().getCorporationId()
 			) );
 			final String link = this.getCorporationIconUrl( this.getController().getModel().getCorporationId() );
-			this.corporationName.setText( this.corporationData.getName() );
-			this.corporationDataBlock.setVisibility( View.VISIBLE );
-			this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
-			handler.post( () -> Picasso.get().load( link ).into( this.corporationIcon ) );
+			handler.post( () -> {
+				Picasso.get().load( link ).into( this.corporationIcon );
+				this.corporationName.setText( this.corporationData.getName() );
+				this.corporationDataBlock.setVisibility( View.VISIBLE );
+				this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+			} );
 		} );
 		this.corporationDataBlock.setVisibility( View.GONE );
 	}
@@ -124,10 +126,12 @@ public class PilotRender4Dashboard extends NeoComRender {
 							this.corporationData.getAllianceId()
 					) );
 					final String link = this.getAllianceIconUrl( this.corporationData.getAllianceId() );
-					this.allianceName.setText( this.allianceData.getName() );
-					this.allianceDataBlock.setVisibility( View.VISIBLE );
-					this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
-					handler.post( () -> Picasso.get().load( link ).into( this.allianceIcon ) );
+					handler.post( () -> {
+						Picasso.get().load( link ).into( this.allianceIcon );
+						this.allianceName.setText( this.allianceData.getName() );
+						this.allianceDataBlock.setVisibility( View.VISIBLE );
+						this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+					} );
 				}
 			}
 		} );

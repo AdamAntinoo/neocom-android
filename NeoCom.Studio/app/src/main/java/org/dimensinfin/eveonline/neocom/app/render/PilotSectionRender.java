@@ -11,9 +11,11 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
+import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.PilotSectionController;
 import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 public class PilotSectionRender extends NeoComRender {
 	// - U I   F I E L D S
@@ -58,10 +60,11 @@ public class PilotSectionRender extends NeoComRender {
 		this.sectionLabel.setText( this.getController().getModel().getLabel() );
 		this.sectionData.setText( "-" );
 		MVCScheduler.backgroundExecutor.submit( () -> {
+			NeoComLogger.info( "Accessing sectionData. {}", this.getController().getModel().getDataFormatted() );
 			final String data = this.getController().getModel().getDataFormatted();
 			handler.post( () -> {
 				this.sectionData.setText( data );
-				this.getView().invalidate();
+				this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
 			} );
 		} );
 		this.activateActivityLauncher();
@@ -72,15 +75,16 @@ public class PilotSectionRender extends NeoComRender {
 			this.clickBlock.setVisibility( View.VISIBLE );
 			if (!this.getController().getModel().isCompleted()) {
 				this.clickIcon.setImageDrawable( getDrawable( R.drawable.progress_spinner_white ) );
-				this.clickIcon.setTag( new Integer( R.drawable.progress_spinner_white ) );
-//				Animation rotation = AnimationUtils.loadAnimation( getContext(), R.anim.clockwise_rotation );
-//				rotation.setRepeatCount( Animation.INFINITE );
-//				if (!BuildConfig.DEBUG) this.clickIcon.startAnimation( rotation );
-			} else
+				this.clickIcon.setTag( R.drawable.progress_spinner_white );
+			} else {
 				this.clickIcon.setImageDrawable( getDrawable( R.drawable.multiarrowright ) );
+				this.clickIcon.setTag( R.drawable.multiarrowright );
+				this.getController().sendChangeEvent( EEvents.EVENT_REFRESHDATA.name() );
+			}
 		} else {
 			this.clickBlock.setVisibility( View.INVISIBLE );
-			this.clickIcon.setTag( new Integer( R.drawable.multiarrowright ) );
+			this.clickIcon.setImageDrawable( getDrawable( R.drawable.multiarrowright ) );
+			this.clickIcon.setTag( R.drawable.multiarrowright );
 		}
 	}
 }
