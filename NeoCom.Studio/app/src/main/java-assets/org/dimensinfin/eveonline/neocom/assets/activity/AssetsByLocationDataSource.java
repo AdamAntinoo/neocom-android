@@ -3,7 +3,7 @@ package org.dimensinfin.eveonline.neocom.assets.activity;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
+import org.dimensinfin.eveonline.neocom.asset.service.AssetProvider;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.container.FacetedExpandableContainer;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;

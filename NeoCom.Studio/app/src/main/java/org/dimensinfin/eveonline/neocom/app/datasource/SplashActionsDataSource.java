@@ -16,7 +16,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
-import org.dimensinfin.eveonline.neocom.asset.processor.AssetDownloadProcessorJob;
+import org.dimensinfin.eveonline.neocom.asset.service.AssetDownloadProcessorJob;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -25,12 +25,9 @@ import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
 /**
- * This is the first data source to be created. It belongs to the Splash activity that will show two sets of data. The first
- * set is shown on the header and are the list of initialisation tasks and their current status.
- * The second set are the available credentials for the server selected, be it the production or the testing.
- *
- * Both sets of data require network access so I have to add a network detection and change the data source results depending on the
- * state of that detection.
+ * This data source will read all registered credentials on the repository and generate a record for each one of them. During the process it should
+ * check the credential validity and if valid synchronize the new credential data to the backend server so it can delegate some periodic tasks.
+ * After credential synchronization then we can start the local scheduled tasks to update the local repository.
  */
 public class SplashActionsDataSource extends MVCDataSource {
 	private String name;

@@ -29,7 +29,7 @@ android {
             debuggable false
             shrinkResources true
             minifyEnabled true
-            useProguard true
+//            useProguard true
 
             resValue "string", "appname", "NeoCom"
             resValue "string", "appversion", android.defaultConfig.versionName
@@ -48,10 +48,8 @@ android {
             debuggable true
             shrinkResources false
             minifyEnabled false
-            useProguard false
+//            useProguard false
             testCoverageEnabled true
-
-//            resValue "string", "propertiesLocation", "properties.development"
         }
     }
     sourceSets {

@@ -45,22 +45,29 @@ public class NeoComComponentFactory {
 		return singleton;
 	}
 
+	/**
+	 * The singleton is not created on first request because it requires the application instance. So if the application did not call the
+	 * initialisation then this throws an exception as a safeguard.
+	 * @return
+	 */
 	public static NeoComComponentFactory getSingleton() {
 		if (null == singleton)
 			throw new NeoComRuntimeException( "NeoCom global singleton is not instantiated. Please complete initialisation." );
 		return singleton;
 	}
 
+	// - COMPONENTS
 	private IConfigurationProvider configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	private RetrofitFactory retrofitFactory;
 	private StoreCacheManager storeCacheManager;
 	private ESIDataProvider esiDataProvider;
 	private ESIUniverseDataProvider esiUniverseDataProvider;
+	private LocationCatalogService locationCatalogService;
+	private StoreCacheManager storageCache;
 
 	private AndroidNeoComDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
-	private LocationCatalogService locationCatalogService;
 
 	//	@Deprecated
 //	private DataDownloaderService downloaderService;
@@ -70,8 +77,6 @@ public class NeoComComponentFactory {
 	private MiningRepository miningRepository;
 	private PlanetaryRepository planetaryRepository;
 
-	private StoreCacheManager storageCache;
-
 	// - G E T T E R S
 	public NeoComApplication getApplication() {
 		if (null == application)
@@ -79,7 +84,7 @@ public class NeoComComponentFactory {
 		return application;
 	}
 
-	// - R E P L A C E M E N T S
+	// - R E P L A C E M E N T S -- D E B U G   O N L Y
 	public void replaceCredentialRepository( final CredentialRepository credentialRepository ) {
 		this.credentialRepository = credentialRepository;
 	}
@@ -111,7 +116,7 @@ public class NeoComComponentFactory {
 
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter)
-			fileSystemAdapter = new AndroidFileSystemAdapter.Builder()
+			this.fileSystemAdapter = new AndroidFileSystemAdapter.Builder()
 					                    .withApplicationContext( application )
 					                    .withApplicationDirectory( application.getResources().getString( R.string.appname ) )
 					                    .build();

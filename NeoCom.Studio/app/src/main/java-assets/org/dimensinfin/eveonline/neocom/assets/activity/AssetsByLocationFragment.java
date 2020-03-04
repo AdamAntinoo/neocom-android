@@ -6,11 +6,11 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.AuthenticatedFragment;
 import org.dimensinfin.eveonline.neocom.app.ui.PlanetaryActionBar;
-import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
+import org.dimensinfin.eveonline.neocom.asset.service.AssetProvider;
+import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 
 public class AssetsByLocationFragment extends AuthenticatedFragment {

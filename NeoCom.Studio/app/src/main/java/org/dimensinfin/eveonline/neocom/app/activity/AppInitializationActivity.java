@@ -116,9 +116,7 @@ public class AppInitializationActivity extends NeoComActivity {
 				                     .whenSuccessAction( () -> {
 					                     // When the initialization completes we can move to the splash activity.
 					                     logger.info( "--[AppInitializationActivity.launchInitialization.whenSuccessAction]" );
-					                     this.runOnUiThread( () ->
-							                                         this.startActivity( new Intent( this, AppSplashActivity.class ) )
-					                     );
+					                     this.runOnUiThread( () -> this.startActivity( new Intent( this, AppSplashActivity.class ) ) );
 				                     } )
 				                     .whenExceptionAction( () -> {
 					                     logger.info( "--[AppInitializationActivity.launchInitialization.whenExceptionAction]" );

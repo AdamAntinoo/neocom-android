@@ -3,9 +3,9 @@ package org.dimensinfin.eveonline.neocom.assets.activity;
 import android.os.Bundle;
 
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.activity.core.ACredentialActivity;
-import org.dimensinfin.eveonline.neocom.asset.provider.AssetProvider;
+import org.dimensinfin.eveonline.neocom.asset.service.AssetProvider;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 
 /**

@@ -1,7 +1,7 @@
 // - A N D R O I D    S U P P O R T
 dependencies {
-    implementation 'androidx.fragment:fragment:1.1.0'
-    implementation 'androidx.core:core:1.1.0'
+    implementation 'androidx.fragment:fragment:1.2.2'
+    implementation 'androidx.core:core:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
 }
 // - K O T L I N
@@ -18,7 +18,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.annimon:stream:1.1.9'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-//    implementation 'com.fernandocejas:arrow:1.0.0'
 
     // L I B R A R I E S
     implementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
@@ -27,9 +26,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
 //    implementation project(':app.Features')
 //    implementation project(':app.Annotations')
-//    implementation project(':NeoCom.DataManagement')
-    implementation "org.dimensinfin:NeoCom.DataManagement:$neocomDatamanagementVersion"
-    implementation "org.dimensinfin:NeoCom.Annotations:0.18.0"
+    implementation "org.dimensinfin:NeoCom.DataManagement:0.19.2"
+    implementation "org.dimensinfin:NeoCom.Annotations:0.19.0"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S
