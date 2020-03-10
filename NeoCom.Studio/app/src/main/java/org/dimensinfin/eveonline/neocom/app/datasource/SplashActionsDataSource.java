@@ -21,12 +21,14 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.miningextraction.service.MiningExtractionDownloader;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.scheduler.CredentialJobGenerator;
-import org.dimensinfin.eveonline.neocom.scheduler.ISchedulerConfiguration;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
+import org.dimensinfin.eveonline.neocom.service.scheduler.CredentialJobGeneratorJob;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
+import org.dimensinfin.eveonline.neocom.service.scheduler.conf.ISchedulerConfiguration;
+import org.dimensinfin.eveonline.neocom.service.scheduler.domain.CronSchedulePropertyDefinitions;
 import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
 /**
@@ -36,18 +38,20 @@ import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
  */
 public class SplashActionsDataSource extends MVCDataSource {
 	private static final String CREDENTIAL_LIST_PANEL_TITLE = "CREDENTIAL LIST";
+	private static final String DEFAULT_CREDENTIAL_JOB_GENERATOR_SCHEDULE = "0/5 - *";
 	private String name;
 	private String version;
 
 	// -  C O M P O N E N T S
-	private IConfigurationProvider configurationService;
+	private IConfigurationService configurationService;
 	private ESIDataProvider esiDataProvider;
 	private LocationCatalogService locationCatalogService;
-	private CredentialRepository credentialRepository;
 	private AssetRepository assetRepository;
+	private CredentialRepository credentialRepository;
 	private MiningRepository miningRepository;
 	private ISchedulerConfiguration schedulerConfiguration;
 	private NeoComBackendService backendService;
+	private MiningExtractionDownloader miningExtractionDownloader;
 
 	@LogEnterExit
 	@Override
@@ -59,14 +63,21 @@ public class SplashActionsDataSource extends MVCDataSource {
 				                        .withAppVersion( this.version )
 				                        .build() );
 		// Make sure the credential job generator is registered.
-		JobScheduler.getJobScheduler().registerJob( new CredentialJobGenerator.Builder()
-				                                            .withConfigurationService( this.configurationService )
-				                                            .withCredentialRepository( this.credentialRepository )
-				                                            .withMiningRepository( this.miningRepository )
-				                                            .withEsiDataProvider( this.esiDataProvider )
-				                                            .withLocationCatalogService( this.locationCatalogService )
-				                                            .withSchedulerConfiguration( this.schedulerConfiguration )
-				                                            .build() );
+		JobScheduler.getJobScheduler().registerJob(
+				new CredentialJobGeneratorJob.Builder()
+						.withConfigurationService( this.configurationService )
+						.withAssetRepository( this.assetRepository )
+						.withCredentialRepository( this.credentialRepository )
+						.withMiningRepository( this.miningRepository )
+						.withEsiDataProvider( this.esiDataProvider )
+						.withLocationCatalogService( this.locationCatalogService )
+						.withSchedulerConfiguration( this.schedulerConfiguration )
+						.withMiningExtractionsDownloader( this.miningExtractionDownloader )
+						.addCronSchedule( this.configurationService.getResourceString(
+								CronSchedulePropertyDefinitions.CRON_SCHEDULE_CREDENTIAL_JOB_GENERATOR,
+								DEFAULT_CREDENTIAL_JOB_GENERATOR_SCHEDULE ) )
+						.build()
+		);
 		NeoComLogger.exit();
 	}
 
@@ -146,6 +157,10 @@ public class SplashActionsDataSource extends MVCDataSource {
 	public static class Builder extends MVCDataSource.Builder<SplashActionsDataSource, SplashActionsDataSource.Builder> {
 		private SplashActionsDataSource onConstruction;
 
+		public Builder() {
+			super();
+			this.onConstruction = new SplashActionsDataSource();
+		}
 		@Override
 		protected SplashActionsDataSource getActual() {
 			if (null == this.onConstruction) this.onConstruction = new SplashActionsDataSource();
@@ -185,7 +200,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			return this;
 		}
 
-		public SplashActionsDataSource.Builder withConfigurationService( final IConfigurationProvider configurationService ) {
+		public SplashActionsDataSource.Builder withConfigurationService( final IConfigurationService configurationService ) {
 			Objects.requireNonNull( configurationService );
 			this.onConstruction.configurationService = configurationService;
 			return this;
@@ -215,6 +230,12 @@ public class SplashActionsDataSource extends MVCDataSource {
 			return this;
 		}
 
+		public SplashActionsDataSource.Builder withMiningExtractionsDownloader( final MiningExtractionDownloader miningExtractionDownloader ) {
+			Objects.requireNonNull( miningExtractionDownloader );
+			this.onConstruction.miningExtractionDownloader = miningExtractionDownloader;
+			return this;
+		}
+
 		public SplashActionsDataSource build() {
 			super.build();
 			Objects.requireNonNull( this.onConstruction.configurationService );
@@ -225,6 +246,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			Objects.requireNonNull( this.onConstruction.miningRepository );
 			Objects.requireNonNull( this.onConstruction.schedulerConfiguration );
 			Objects.requireNonNull( this.onConstruction.backendService );
+			Objects.requireNonNull( this.onConstruction.miningExtractionDownloader );
 			return this.onConstruction;
 		}
 	}
