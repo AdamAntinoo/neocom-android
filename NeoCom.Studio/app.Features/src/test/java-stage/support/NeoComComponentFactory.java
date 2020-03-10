@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -24,7 +24,7 @@ public class NeoComComponentFactory {
 	public static final String DEFAULT_ESI_SERVER = "Tranquility";
 	protected static Logger logger = LoggerFactory.getLogger(NeoComComponentFactory.class);
 	private static NeoComComponentFactory singleton;
-	private IConfigurationProvider configurationProvider;
+	private IConfigurationService configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	private ESIDataAdapter esiDataAdapter;
 	private NeoComSupportDBAdapter neocomDBAdapter;
@@ -154,7 +154,7 @@ public class NeoComComponentFactory {
 		return this.fileSystemAdapter;
 	}
 
-	public IConfigurationProvider getConfigurationProvider() {
+	public IConfigurationService getConfigurationProvider() {
 		if (null == this.configurationProvider) {
 			this.configurationProvider = new SBConfigurationProvider.Builder("acceptancetests.properties").build();
 		}

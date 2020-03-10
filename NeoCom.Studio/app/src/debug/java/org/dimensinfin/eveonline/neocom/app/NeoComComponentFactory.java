@@ -23,7 +23,7 @@ import org.dimensinfin.eveonline.neocom.domain.NeoItem;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 import org.dimensinfin.eveonline.neocom.provider.RetrofitFactory;
 import org.dimensinfin.eveonline.neocom.updater.NeoComUpdater;
@@ -57,7 +57,7 @@ public class NeoComComponentFactory {
 	}
 
 	// - COMPONENTS
-	private IConfigurationProvider configurationProvider;
+	private IConfigurationService configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	private RetrofitFactory retrofitFactory;
 	private StoreCacheManager storeCacheManager;
@@ -98,7 +98,7 @@ public class NeoComComponentFactory {
 	}
 
 	// - A C C E S S O R S
-	public IConfigurationProvider getConfigurationProvider() {
+	public IConfigurationService getConfigurationProvider() {
 //		try {
 			if (null == this.configurationProvider) {
 				this.configurationProvider = new AndroidConfigurationService.Builder()

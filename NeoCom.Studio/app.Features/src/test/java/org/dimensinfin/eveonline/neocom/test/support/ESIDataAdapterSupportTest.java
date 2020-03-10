@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.mockito.Mockito;
 
 import org.dimensinfin.eveonline.neocom.adapters.ESIDataAdapter;
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.adapters.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
@@ -15,7 +15,7 @@ import org.dimensinfin.eveonline.neocom.domain.LocationClass;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 public class ESIDataAdapterSupportTest {
-	protected IConfigurationProvider configurationProvider;
+	protected IConfigurationService configurationProvider;
 	protected IFileSystem fileSystemAdapter;
 	protected LocationCatalogService locationCatalogService;
 	protected SupportNeoComRetrofitFactory.Builder retrofitFactoryBuilder;

@@ -2,7 +2,7 @@ package org.dimensinfin.eveonline.neocom.test.support;
 
 import java.util.Objects;
 
-import org.dimensinfin.eveonline.neocom.adapters.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.adapters.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.adapters.IFileSystem;
 import org.dimensinfin.eveonline.neocom.adapters.NeoComRetrofitFactory;
 import org.dimensinfin.eveonline.neocom.auth.NeoComRetrofitNoOAuthHTTP;
@@ -33,7 +33,7 @@ public class SupportNeoComRetrofitFactory extends NeoComRetrofitFactory {
 			this.onConstruction = new SupportNeoComRetrofitFactory();
 		}
 
-		public SupportNeoComRetrofitFactory.Builder withConfigurationProvider( final IConfigurationProvider configurationProvider ) {
+		public SupportNeoComRetrofitFactory.Builder withConfigurationProvider( final IConfigurationService configurationProvider ) {
 			Objects.requireNonNull( configurationProvider );
 			this.onConstruction.configurationProvider = configurationProvider;
 			return this;

@@ -36,7 +36,7 @@ import org.dimensinfin.eveonline.neocom.auth.TokenVerification;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
@@ -68,7 +68,7 @@ public class AuthorizationFlowActivity extends Activity {
 
 	// -  C O M P O N E N T S
 	private SharedPreferences preferences;
-	private IConfigurationProvider configurationProvider;
+	private IConfigurationService configurationProvider;
 	private ESIDataProvider esiDataAdapter;
 	private NeoComOauth2Flow oauthFlow;
 	private CredentialRepository credentialRepository;

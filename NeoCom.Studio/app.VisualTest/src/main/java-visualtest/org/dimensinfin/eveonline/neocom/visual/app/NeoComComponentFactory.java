@@ -18,7 +18,7 @@ import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.PlanetaryRepository;
 import org.dimensinfin.eveonline.neocom.domain.EveItem;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.interfaces.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.interfaces.IFileSystem;
 import org.dimensinfin.eveonline.neocom.market.MarketDataSet;
 import org.dimensinfin.eveonline.neocom.services.DataDownloaderService;
@@ -42,7 +42,7 @@ public class NeoComComponentFactory {
 	private static NeoComComponentFactory singleton; // The singleton for the factory. This should be created at start time and setting the application.
 	private static Application application; // The link to the application that is required by the component factory.
 	protected CredentialRepository credentialRepository;
-	private IConfigurationProvider configurationProvider;
+	private IConfigurationService configurationProvider;
 	private IFileSystem fileSystemAdapter;
 	@Deprecated
 	private IGlobalPreferencesManager preferencesProvider;
@@ -79,7 +79,7 @@ public class NeoComComponentFactory {
 	}
 
 	// - A C C E S S O R S
-	public IConfigurationProvider getConfigurationProvider() {
+	public IConfigurationService getConfigurationProvider() {
 		if (null == this.configurationProvider) {
 			this.configurationProvider = new AndroidConfigurationProvider.Builder(
 					application.getResources().getString(R.string.propertiesLocation))

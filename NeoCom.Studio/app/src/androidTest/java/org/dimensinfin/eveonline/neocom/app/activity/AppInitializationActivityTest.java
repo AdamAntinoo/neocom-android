@@ -17,12 +17,12 @@ import org.junit.runner.RunWith;
 
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 @RunWith(AndroidJUnit4.class)
 public class AppInitializationActivityTest {
-	private IConfigurationProvider configurationProvider;
+	private IConfigurationService configurationProvider;
 	private IFileSystem fileSystem;
 
 	@Before

@@ -21,7 +21,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 
 public class StepFramework {
@@ -31,7 +31,7 @@ public class StepFramework {
 	// -  C O M P O N E N T S
 	protected Context applicationContext = NeoComComponentFactory.getSingleton().getApplication().getApplicationContext();
 	protected IFileSystem fileSystemAdapter = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
-	protected IConfigurationProvider configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+	protected IConfigurationService configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
 //	protected SupportCredentialRepository credentialRepository;
 
 	public StepFramework( final NeoComWorld world ) {
