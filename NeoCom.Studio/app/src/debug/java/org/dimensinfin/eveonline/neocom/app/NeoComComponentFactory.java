@@ -12,7 +12,9 @@ import org.dimensinfin.eveonline.neocom.adapter.StoreCacheManager;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationService;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
+import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
 import org.dimensinfin.eveonline.neocom.database.ISDEDatabaseAdapter;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -25,6 +27,7 @@ import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.provider.ESIUniverseDataProvider;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
+import org.dimensinfin.eveonline.neocom.provider.IPreferencesProvider;
 import org.dimensinfin.eveonline.neocom.provider.RetrofitFactory;
 import org.dimensinfin.eveonline.neocom.updater.NeoComUpdater;
 
@@ -48,7 +51,6 @@ public class NeoComComponentFactory {
 	/**
 	 * The singleton is not created on first request because it requires the application instance. So if the application did not call the
 	 * initialisation then this throws an exception as a safeguard.
-	 * @return
 	 */
 	public static NeoComComponentFactory getSingleton() {
 		if (null == singleton)
@@ -65,6 +67,8 @@ public class NeoComComponentFactory {
 	private ESIUniverseDataProvider esiUniverseDataProvider;
 	private LocationCatalogService locationCatalogService;
 	private StoreCacheManager storageCache;
+	private NeoComBackendService backendService;
+	private AndroidPreferencesProvider preferencesProvider;
 
 	private AndroidNeoComDBHelper neocomDBHelper;
 	private ISDEDatabaseAdapter sdeDatabaseAdapter;
@@ -98,35 +102,46 @@ public class NeoComComponentFactory {
 	}
 
 	// - A C C E S S O R S
-	public IConfigurationService getConfigurationProvider() {
-//		try {
-			if (null == this.configurationProvider) {
-				this.configurationProvider = new AndroidConfigurationService.Builder()
-						                             .withApplicationContext( application )
-						                             .withConfigurationDirectory(
-								                             application.getResources().getString( R.string.propertiesLocation ) )
-						                             .build();
-			}
-//		} catch (final IOException ioe) {
-//			singleton = null;
-//			throw new NeoComRuntimeException( "Configuration provider initialization exception. Application not configured." );
-//		}
+	public IPreferencesProvider getPreferencesProvider() {
+		if (null == this.preferencesProvider)
+			this.preferencesProvider = new AndroidPreferencesProvider.Builder()
+					                           .withApplication( this.getApplication() )
+					                           .build();
+		return this.preferencesProvider;
+	}
+
+	public NeoComBackendService getBackendService() {
+		if (null == this.backendService)
+			this.backendService = new NeoComBackendService.Builder()
+					                      .withRetrofitFactory( this.getRetrofitFactory() )
+					                      .build();
+		return this.backendService;
+	}
+
+	public IConfigurationService getConfigurationService() {
+		if (null == this.configurationProvider) {
+			this.configurationProvider = new AndroidConfigurationService.Builder()
+					                             .withApplicationContext( application )
+					                             .withConfigurationDirectory(
+							                             application.getResources().getString( R.string.propertiesLocation ) )
+					                             .build();
+		}
 		return this.configurationProvider;
 	}
 
 	public IFileSystem getFileSystemAdapter() {
 		if (null == this.fileSystemAdapter)
 			this.fileSystemAdapter = new AndroidFileSystemAdapter.Builder()
-					                    .withApplicationContext( application )
-					                    .withApplicationDirectory( application.getResources().getString( R.string.appname ) )
-					                    .build();
+					                         .withApplicationContext( application )
+					                         .withApplicationDirectory( application.getResources().getString( R.string.appname ) )
+					                         .build();
 		return this.fileSystemAdapter;
 	}
 
 	public RetrofitFactory getRetrofitFactory() {
 		if (null == this.retrofitFactory) {
 			this.retrofitFactory = new RetrofitFactory.Builder()
-					                       .withConfigurationProvider( this.getConfigurationProvider() )
+					                       .withConfigurationProvider( this.getConfigurationService() )
 					                       .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                       .build();
 		}
@@ -136,7 +151,7 @@ public class NeoComComponentFactory {
 	public StoreCacheManager getStoreCacheManager() {
 		if (null == this.storeCacheManager) {
 			this.storeCacheManager = new StoreCacheManager.Builder()
-					                         .withConfigurationProvider( this.getConfigurationProvider() )
+					                         .withConfigurationProvider( this.getConfigurationService() )
 					                         .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                         .withRetrofitFactory( this.getRetrofitFactory() )
 					                         .build();
@@ -147,7 +162,7 @@ public class NeoComComponentFactory {
 	public ESIDataProvider getESIDataProvider() {
 		if (null == this.esiDataProvider) {
 			this.esiDataProvider = new ESIDataProvider.Builder()
-					                       .withConfigurationProvider( this.getConfigurationProvider() )
+					                       .withConfigurationProvider( this.getConfigurationService() )
 					                       .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                       .withLocationCatalogService( this.getLocationCatalogService() )
 					                       .withStoreCacheManager( this.getStoreCacheManager() )
@@ -161,7 +176,7 @@ public class NeoComComponentFactory {
 	public ESIUniverseDataProvider getESIUniverseDataProvider() {
 		if (null == this.esiUniverseDataProvider) {
 			this.esiUniverseDataProvider = new ESIUniverseDataProvider.Builder()
-					                               .withConfigurationProvider( this.getConfigurationProvider() )
+					                               .withConfigurationProvider( this.getConfigurationService() )
 					                               .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                               .withRetrofitFactory( this.getRetrofitFactory() )
 					                               .withStoreCacheManager( this.getStoreCacheManager() )
@@ -189,7 +204,7 @@ public class NeoComComponentFactory {
 	public LocationCatalogService getLocationCatalogService() {
 		if (null == this.locationCatalogService) {
 			this.locationCatalogService = new LocationCatalogService.Builder()
-					                              .withConfigurationProvider( this.getConfigurationProvider() )
+					                              .withConfigurationProvider( this.getConfigurationService() )
 					                              .withFileSystemAdapter( this.getFileSystemAdapter() )
 					                              .withRetrofitFactory( this.getRetrofitFactory() )
 					                              .withESIUniverseDataProvider( this.getESIUniverseDataProvider() )

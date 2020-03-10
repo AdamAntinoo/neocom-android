@@ -28,7 +28,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.miningextraction.service.MiningExtractionDownloader;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
@@ -45,7 +44,6 @@ class SplashActionsDataSourceTest {
 	private MiningRepository miningRepository;
 	private ISchedulerConfiguration schedulerConfiguration;
 	private NeoComBackendService backendService;
-	private MiningExtractionDownloader miningExtractionDownloader;
 
 	@BeforeEach
 	void setUp() {
@@ -60,7 +58,6 @@ class SplashActionsDataSourceTest {
 		this.miningRepository = Mockito.mock( MiningRepository.class );
 		this.schedulerConfiguration = Mockito.mock( ISchedulerConfiguration.class );
 		this.backendService = Mockito.mock( NeoComBackendService.class );
-		this.miningExtractionDownloader = Mockito.mock(MiningExtractionDownloader.class);
 	}
 
 	@Test
@@ -80,7 +77,6 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
-														   .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -108,7 +104,6 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
-				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -462,7 +457,6 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
-				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -507,7 +501,6 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( backendServiceLocal )
-				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -547,7 +540,6 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
-				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();

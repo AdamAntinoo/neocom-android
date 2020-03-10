@@ -62,8 +62,7 @@ public class NC02AppSplashActivity extends StepFramework {
 		final ESIDataProvider splashEsiDataProvider = Mockito.mock( ESIDataProvider.class );
 		final GetStatusOk mockStatus = new GetStatusOk();
 		mockStatus.setPlayers( 21765 );
-		Mockito.when( splashEsiDataProvider.getUniverseStatus( Mockito.anyString() ) )
-				.thenReturn( mockStatus );
+		Mockito.when( splashEsiDataProvider.getUniverseStatus( Mockito.anyString() ) ).thenReturn( mockStatus );
 		NeoComComponentFactory.getSingleton().replaceESIDataProvider( splashEsiDataProvider );
 		AcceptanceNeoComLogger.info( "Going to launch the scenario with the AppSplashActivity..." );
 		this.jobCountAtStart = JobScheduler.getJobScheduler().getJobCount();

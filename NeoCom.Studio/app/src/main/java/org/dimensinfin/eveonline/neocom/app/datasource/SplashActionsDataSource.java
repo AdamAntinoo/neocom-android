@@ -21,7 +21,6 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
-import org.dimensinfin.eveonline.neocom.miningextraction.service.MiningExtractionDownloader;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
 import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
@@ -51,7 +50,6 @@ public class SplashActionsDataSource extends MVCDataSource {
 	private MiningRepository miningRepository;
 	private ISchedulerConfiguration schedulerConfiguration;
 	private NeoComBackendService backendService;
-	private MiningExtractionDownloader miningExtractionDownloader;
 
 	@LogEnterExit
 	@Override
@@ -72,7 +70,6 @@ public class SplashActionsDataSource extends MVCDataSource {
 						.withEsiDataProvider( this.esiDataProvider )
 						.withLocationCatalogService( this.locationCatalogService )
 						.withSchedulerConfiguration( this.schedulerConfiguration )
-						.withMiningExtractionsDownloader( this.miningExtractionDownloader )
 						.addCronSchedule( this.configurationService.getResourceString(
 								CronSchedulePropertyDefinitions.CRON_SCHEDULE_CREDENTIAL_JOB_GENERATOR,
 								DEFAULT_CREDENTIAL_JOB_GENERATOR_SCHEDULE ) )
@@ -161,6 +158,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			super();
 			this.onConstruction = new SplashActionsDataSource();
 		}
+
 		@Override
 		protected SplashActionsDataSource getActual() {
 			if (null == this.onConstruction) this.onConstruction = new SplashActionsDataSource();
@@ -230,12 +228,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			return this;
 		}
 
-		public SplashActionsDataSource.Builder withMiningExtractionsDownloader( final MiningExtractionDownloader miningExtractionDownloader ) {
-			Objects.requireNonNull( miningExtractionDownloader );
-			this.onConstruction.miningExtractionDownloader = miningExtractionDownloader;
-			return this;
-		}
-
+		@Override
 		public SplashActionsDataSource build() {
 			super.build();
 			Objects.requireNonNull( this.onConstruction.configurationService );
@@ -246,7 +239,6 @@ public class SplashActionsDataSource extends MVCDataSource {
 			Objects.requireNonNull( this.onConstruction.miningRepository );
 			Objects.requireNonNull( this.onConstruction.schedulerConfiguration );
 			Objects.requireNonNull( this.onConstruction.backendService );
-			Objects.requireNonNull( this.onConstruction.miningExtractionDownloader );
 			return this.onConstruction;
 		}
 	}

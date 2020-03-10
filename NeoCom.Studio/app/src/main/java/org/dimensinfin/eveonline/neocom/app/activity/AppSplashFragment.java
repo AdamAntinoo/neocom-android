@@ -10,6 +10,7 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSchedulerConfiguration;
 import org.dimensinfin.eveonline.neocom.app.datasource.SplashActionsDataSource;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
@@ -33,10 +34,16 @@ public class AppSplashFragment extends MVCPagerFragment {
 				       .withFactory( this.createFactory() )
 				       .withName( this.getActivityContext().getResources().getString( R.string.appname ) )
 				       .withVersion( this.getActivityContext().getResources().getString( R.string.appversion ) )
+				       .withConfigurationService( NeoComComponentFactory.getSingleton().getConfigurationService() )
 				       .withCredentialRepository( NeoComComponentFactory.getSingleton().getCredentialRepository() )
 				       .withAssetRepository( NeoComComponentFactory.getSingleton().getAssetRepository() )
+				       .withMiningRepository( NeoComComponentFactory.getSingleton().getMiningRepository() )
 				       .withEsiDataProvider( NeoComComponentFactory.getSingleton().getESIDataProvider() )
 				       .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
+				       .withBackendService( NeoComComponentFactory.getSingleton().getBackendService() )
+				       .withSchedulerConfiguration( new AndroidSchedulerConfiguration.Builder()
+						                                    .withPreferencesProvider( NeoComComponentFactory.getSingleton().getPreferencesProvider() )
+						                                    .build() )
 				       .build();
 	}
 
