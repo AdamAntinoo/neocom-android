@@ -10,7 +10,7 @@ public class CredentialPersistent {
 	private CredentialRepository credentialRepository;
 
 	public void persist( final Credential credential ) throws SQLException {
-		this.credentialRepository.persist(credential);
+		this.credentialRepository.persist( credential );
 	}
 
 	// - B U I L D E R
@@ -27,7 +27,7 @@ public class CredentialPersistent {
 		}
 
 		public CredentialPersistent build() {
-			Objects.requireNonNull(this.onConstruction.credentialRepository);
+			Objects.requireNonNull( this.onConstruction.credentialRepository );
 			return this.onConstruction;
 		}
 	}

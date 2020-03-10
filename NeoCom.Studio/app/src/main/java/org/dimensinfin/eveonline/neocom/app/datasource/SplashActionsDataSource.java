@@ -92,7 +92,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			this.addModelContents( new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );
 			this.addModelContents( new NewLoginAction() ); // Add the node to display the new New Login Button.
 		} catch (final RuntimeException runtime) {
-			logger.info( "-- [SplashActionsDataSource.collaborate2Model]> RuntimeException: {}", runtime.getMessage() );
+			NeoComLogger.info( "RuntimeException: {}", runtime );
 			this.addModelContents( new ExceptionReport( runtime ) );
 			// Add the node to display the new New Login Button.
 			this.addModelContents( new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );
@@ -127,15 +127,14 @@ public class SplashActionsDataSource extends MVCDataSource {
 	public synchronized void receiveEvent( final IntercommunicationEvent event ) {
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_REFRESHDATA.name() )) {
 			final Object target = event.getNewValue();
-			if ((null != target) && (target instanceof CredentialController)) { // This only applies to Credentials
+			if (target instanceof CredentialController) { // This only applies to Credentials
 				try {
 					new CredentialPersistent.Builder()
 							.withCredentialRepository( this.credentialRepository )
 							.build()
 							.persist( ((CredentialController) target).getModel() );
-				} catch (SQLException sqle) {
-					logger.info( "EX [SplashActionsDataSource.receiveEvent]> Exception persisting Credential update: {}",
-							sqle.getMessage() );
+				} catch (final SQLException sqle) {
+					NeoComLogger.info( "Exception persisting Credential update.", sqle.getCause().toString() );
 				}
 			}
 			return;
@@ -159,12 +158,12 @@ public class SplashActionsDataSource extends MVCDataSource {
 		}
 
 		public SplashActionsDataSource.Builder withName( final String name ) {
-			this.onConstruction.name = name;
+			if (null != name) this.onConstruction.name = name;
 			return this;
 		}
 
 		public SplashActionsDataSource.Builder withVersion( final String version ) {
-			this.onConstruction.version = version;
+			if (null != version) this.onConstruction.version = version;
 			return this;
 		}
 
@@ -217,7 +216,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 		}
 
 		public SplashActionsDataSource build() {
-			final SplashActionsDataSource instance = super.build();
+			super.build();
 			Objects.requireNonNull( this.onConstruction.configurationService );
 			Objects.requireNonNull( this.onConstruction.esiDataProvider );
 			Objects.requireNonNull( this.onConstruction.locationCatalogService );
@@ -226,7 +225,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 			Objects.requireNonNull( this.onConstruction.miningRepository );
 			Objects.requireNonNull( this.onConstruction.schedulerConfiguration );
 			Objects.requireNonNull( this.onConstruction.backendService );
-			return instance;
+			return this.onConstruction;
 		}
 	}
 }

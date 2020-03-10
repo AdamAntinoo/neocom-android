@@ -4,5 +4,7 @@ AndroidSchedulerConfiguration
 IPreferencesProvider - moves to DM
 MiningExtractionProcess - moves to DM
 CredentialJobGenerator - moves to DM
-AndroidPreferencesProvider
+AndroidPreferencesService
 ISchedulerConfiguration
+CredentialPersistent
+
