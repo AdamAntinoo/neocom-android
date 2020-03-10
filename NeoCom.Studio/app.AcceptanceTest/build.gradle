@@ -7,6 +7,9 @@ apply from: '../app/dependencies.gradle'
 
 android {
     compileSdkVersion 28
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
+    }
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         testApplicationId "org.dimensinfin.eveonline.neocom.test"
@@ -14,7 +17,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 30
-        versionName "0.18.0"
+        versionName "0.19.4"
         project.archivesBaseName = "NCAcceptanceTests-$versionName"
         project.version = android.defaultConfig.versionName
     }
@@ -36,7 +39,6 @@ android {
             debuggable true
             shrinkResources false
             minifyEnabled false
-            useProguard false
             testCoverageEnabled true
         }
     }

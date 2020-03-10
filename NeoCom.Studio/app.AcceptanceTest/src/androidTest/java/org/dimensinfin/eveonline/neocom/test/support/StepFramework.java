@@ -9,7 +9,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +30,7 @@ public class StepFramework {
 	// -  C O M P O N E N T S
 	protected Context applicationContext = NeoComComponentFactory.getSingleton().getApplication().getApplicationContext();
 	protected IFileSystem fileSystemAdapter = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
-	protected IConfigurationService configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+	protected IConfigurationService configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationService();
 //	protected SupportCredentialRepository credentialRepository;
 
 	public StepFramework( final NeoComWorld world ) {

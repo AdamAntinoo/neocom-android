@@ -1,10 +1,11 @@
 package org.dimensinfin.eveonline.neocom.test.support.converters;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.dimensinfin.eveonline.neocom.asset.converter.GetCharactersCharacterIdAsset2NeoAssetConverter;
+import org.dimensinfin.eveonline.neocom.asset.converter.EsiAssets200Ok2NeoAssetConverter;
+import org.dimensinfin.eveonline.neocom.asset.converter.GetCharactersCharacterIdAsset2EsiAssets200OkConverter;
+import org.dimensinfin.eveonline.neocom.asset.domain.EsiAssets200Ok;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.esiswagger.model.GetCharactersCharacterIdAssets200Ok;
 
@@ -35,21 +36,16 @@ public class CucumberTable2NeoAssetConverter extends CucumberTableConverter<NeoA
 
 	@Override
 	public NeoAsset convert( final Map<String, String> cucumberRow ) {
-		final GetCharactersCharacterIdAssets200Ok esiAsset = new GetCharactersCharacterIdAssets200Ok();
-		esiAsset.setIsSingleton( Boolean.parseBoolean( cucumberRow.get( IS_SINGLETON ) ) );
-		esiAsset.setItemId( Long.parseLong( cucumberRow.get( ITEM_ID ) ) );
-		esiAsset.setLocationFlag( this.decodeLocationFlag( cucumberRow.get( LOCATION_FLAG ) ) );
-		esiAsset.setLocationType( this.decodeLocationType( cucumberRow.get( LOCATION_TYPE ) ) );
-		esiAsset.setLocationId( Long.parseLong( cucumberRow.get( LOCATION_ID ) ) );
-		esiAsset.setQuantity( Integer.parseInt( cucumberRow.get( QUANTITY ) ) );
-		esiAsset.setTypeId( Integer.parseInt( cucumberRow.get( TYPE_ID ) ) );
-		final NeoAsset newAsset;
-		try {
-			newAsset = new GetCharactersCharacterIdAsset2NeoAssetConverter().convert( esiAsset );
-		} catch (final IOException ioe) {
-			return null;
-		}
-		return newAsset;
+		final GetCharactersCharacterIdAssets200Ok esiAssetOk = new GetCharactersCharacterIdAssets200Ok();
+		esiAssetOk.setIsSingleton( Boolean.parseBoolean( cucumberRow.get( IS_SINGLETON ) ) );
+		esiAssetOk.setItemId( Long.parseLong( cucumberRow.get( ITEM_ID ) ) );
+		esiAssetOk.setLocationFlag( this.decodeLocationFlag( cucumberRow.get( LOCATION_FLAG ) ) );
+		esiAssetOk.setLocationType( this.decodeLocationType( cucumberRow.get( LOCATION_TYPE ) ) );
+		esiAssetOk.setLocationId( Long.parseLong( cucumberRow.get( LOCATION_ID ) ) );
+		esiAssetOk.setQuantity( Integer.parseInt( cucumberRow.get( QUANTITY ) ) );
+		esiAssetOk.setTypeId( Integer.parseInt( cucumberRow.get( TYPE_ID ) ) );
+		final EsiAssets200Ok newEsiAsset = new GetCharactersCharacterIdAsset2EsiAssets200OkConverter().convert( esiAssetOk );
+		return new EsiAssets200Ok2NeoAssetConverter().convert( newEsiAsset );
 	}
 
 	private GetCharactersCharacterIdAssets200Ok.LocationFlagEnum decodeLocationFlag( final String flagValue ) {

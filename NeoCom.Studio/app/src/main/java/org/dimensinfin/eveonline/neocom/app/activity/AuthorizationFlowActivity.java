@@ -82,7 +82,7 @@ public class AuthorizationFlowActivity extends Activity {
 		this.runOnUiThread( () -> {
 			final String esiServer = this.preferences.getString( DATASOURCE_PREFERENCE, ESIDataProvider.DEFAULT_ESI_SERVER ).toLowerCase();
 			final Uri url = Uri.parse( new NeoComOauth2Flow.Builder()
-					                           .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationProvider() )
+					                           .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationService() )
 					                           .build()
 					                           .generateLoginUrl( esiServer )
 			);
@@ -288,11 +288,11 @@ public class AuthorizationFlowActivity extends Activity {
 	}
 
 	private void injectComponents() {
-		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationService();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences( this );
 		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getESIDataProvider();
 		this.oauthFlow = new NeoComOauth2Flow.Builder()
-				                 .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationProvider() )
+				                 .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationService() )
 				                 .build();
 		this.credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 	}

@@ -27,7 +27,7 @@ public class AppInitializationActivityTest {
 
 	@Before
 	public void connectComponents() {
-		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationProvider();
+		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationService();
 		this.fileSystem = NeoComComponentFactory.getSingleton().getFileSystemAdapter();
 	}
 

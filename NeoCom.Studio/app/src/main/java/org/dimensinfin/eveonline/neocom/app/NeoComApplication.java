@@ -77,7 +77,7 @@ public class NeoComApplication extends Application {
 				, NeoComComponentFactory.getSingleton().getApplication().getApplicationContext()
 						  .getResources().getString( R.string.appname ) +
 						  "/" +
-						  NeoComComponentFactory.getSingleton().getConfigurationProvider()
+						  NeoComComponentFactory.getSingleton().getConfigurationService()
 								  .getResourceString( "P.cache.directory.path" ) );
 		cachedir.mkdir();
 		return cachedir.exists();

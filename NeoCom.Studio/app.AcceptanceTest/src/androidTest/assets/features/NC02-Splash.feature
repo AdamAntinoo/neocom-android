@@ -22,12 +22,12 @@ Feature: [NC02]-Display the list of current registered and valid Credentials.
 	Then the AppSplashActivity has "1" pages
 	And there is a action bar of type "SplashActionBar" with the next fields
 	  | AppName  | AppVersion | ServerName  | ServerState | PilotCount |
-	  | NeoComAT | 0.17.0     | TRANQUILITY | ONLINE      | 21,765    |
+	  | NeoComAT | 0.19.4     | TRANQUILITY | ONLINE      | 21,765     |
 	And "1" panels on the "HeaderSection"
 	And "4" panels on the "DataSection"
 	And the header section has a "AppInfoPanel" panel with the next information
 	  | AppName  | AppVersion |
-	  | NeoComAT | 0.17.0     |
+	  | NeoComAT | 0.19.4     |
 	And the data section has a "Credential" panel with the next information
 	  | PilotName   | PilotId       | PilotRace | PilotBalance   | PilotAssetCount |
 	  | Tip Tophane | [#2113197470] | CALDARI   | 240,134.82 ISK | 40              |
