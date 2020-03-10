@@ -16,11 +16,16 @@ import org.dimensinfin.eveonline.neocom.app.domain.AppVersion;
 import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
-import org.dimensinfin.eveonline.neocom.asset.service.AssetDownloadProcessorJob;
+import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.scheduler.CredentialJobGenerator;
+import org.dimensinfin.eveonline.neocom.scheduler.ISchedulerConfiguration;
+import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
@@ -30,52 +35,57 @@ import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
  * After credential synchronization then we can start the local scheduled tasks to update the local repository.
  */
 public class SplashActionsDataSource extends MVCDataSource {
+	private static final String CREDENTIAL_LIST_PANEL_TITLE = "CREDENTIAL LIST";
 	private String name;
 	private String version;
 
 	// -  C O M P O N E N T S
-	private CredentialRepository credentialRepository;
-	private AssetRepository assetRepository;
+	private IConfigurationProvider configurationService;
 	private ESIDataProvider esiDataProvider;
 	private LocationCatalogService locationCatalogService;
+	private CredentialRepository credentialRepository;
+	private AssetRepository assetRepository;
+	private MiningRepository miningRepository;
+	private ISchedulerConfiguration schedulerConfiguration;
+	private NeoComBackendService backendService;
 
 	@LogEnterExit
 	@Override
 	public void prepareModel() {
 		// - S E C T I O N   H E A D E R
-		logger.info( ">> [SplashActionsDataSource.prepareModel]" );
+		NeoComLogger.enter();
 		this.addHeaderContents( new AppVersion.Builder()
 				                        .withAppName( this.name )
 				                        .withAppVersion( this.version )
 				                        .build() );
-		logger.info( "<< [SplashActionsDataSource.prepareModel]" );
+		// Make sure the credential job generator is registered.
+		JobScheduler.getJobScheduler().registerJob( new CredentialJobGenerator.Builder()
+				                                            .withConfigurationService( this.configurationService )
+				                                            .withCredentialRepository( this.credentialRepository )
+				                                            .withMiningRepository( this.miningRepository )
+				                                            .withEsiDataProvider( this.esiDataProvider )
+				                                            .withLocationCatalogService( this.locationCatalogService )
+				                                            .withSchedulerConfiguration( this.schedulerConfiguration )
+				                                            .build() );
+		NeoComLogger.exit();
 	}
 
 	@LogEnterExit
 	@Override
 	public void collaborate2Model() {
+		NeoComLogger.enter();
 		try {
-			logger.info( ">> [SplashActionsDataSource.collaborate2Model]" );
 			// - S E C T I O N   D A T A
 			// Add the panel title up front of the Credential list.
-			this.addModelContents( new PanelTitle( "CREDENTIAL LIST" ) );
+			this.addModelContents( new PanelTitle( CREDENTIAL_LIST_PANEL_TITLE ) );
 			for (Credential credential : this.credentialRepository.accessAllCredentials()) {
 				if (this.validateCredential( credential )) { // Validate credentials so incomplete credentials are removed.
 					this.addModelContents( credential );
-					logger.info( "-- [CredentialListDataSource.collaborate2Model]> Adding '{}' to the _dataModelRoot"
-							, credential.getAccountName() );
-					new CredentialSchedulerGenerator( credential )
-							.defineJobs( credentialLambda -> JobScheduler.getJobScheduler()
-									                                 .registerJob(
-											                                 new AssetDownloadProcessorJob.Builder()
-													                                 .withCredential( credentialLambda )
-													                                 .withAssetRepository( this.assetRepository )
-													                                 .withEsiDataProvider( this.esiDataProvider )
-													                                 .withLocationCatalogService( this.locationCatalogService )
-													                                 .addCronSchedule( "0/15 - *" )
-													                                 .build()
-									                                 )
-							);
+					NeoComLogger.info( "Adding '{}' to the _dataModelRoot", credential.getAccountName() );
+					// Synchronize the credential data to the backend server and get the new authorization token.
+					final String jwtToken = this.synchronizeCredential( credential );
+					if (null != jwtToken) credential.setJwtToken( jwtToken );
+					// Prepare the jobs to launch
 					new CredentialUpdater( credential ).update( false );
 				}
 			}
@@ -87,14 +97,25 @@ public class SplashActionsDataSource extends MVCDataSource {
 			// Add the node to display the new New Login Button.
 			this.addModelContents( new Spacer.Builder().withType( SpacerType.LINE_WHITE ).build() );
 			this.addModelContents( new NewLoginAction() );
+		} finally {
+			NeoComLogger.exit();
 		}
-		logger.info( "<< [SplashActionsDataSource.collaborate2Model]" );
 	}
 
 	private boolean validateCredential( final Credential credential ) {
 		return !credential.getRefreshToken().equalsIgnoreCase( "-TOKEN-" );
 	}
 
+	/**
+	 * Store the credential on the backend repository to allow unattended periodic tasks. If the process fails the tokes is null so this feature
+	 * will get disabled automatically.
+	 *
+	 * @param credential the credential to share with the backend.
+	 * @return the JWT token to be used on next call to the backend to retrieve data.
+	 */
+	private String synchronizeCredential( final Credential credential ) {
+		return this.backendService.putCredential( credential ).getJwtToken();
+	}
 
 	/**
 	 * Detect events from the controllers and if the affect the Credentials (because they have updaters) then try to persist the
@@ -153,15 +174,39 @@ public class SplashActionsDataSource extends MVCDataSource {
 			return this;
 		}
 
+		public SplashActionsDataSource.Builder withMiningRepository( final MiningRepository miningRepository ) {
+			Objects.requireNonNull( miningRepository );
+			this.onConstruction.miningRepository = miningRepository;
+			return this;
+		}
+
 		public SplashActionsDataSource.Builder withAssetRepository( final AssetRepository assetRepository ) {
 			Objects.requireNonNull( assetRepository );
 			this.onConstruction.assetRepository = assetRepository;
 			return this;
 		}
 
+		public SplashActionsDataSource.Builder withConfigurationService( final IConfigurationProvider configurationService ) {
+			Objects.requireNonNull( configurationService );
+			this.onConstruction.configurationService = configurationService;
+			return this;
+		}
+
 		public SplashActionsDataSource.Builder withEsiDataProvider( final ESIDataProvider esiDataProvider ) {
 			Objects.requireNonNull( esiDataProvider );
 			this.onConstruction.esiDataProvider = esiDataProvider;
+			return this;
+		}
+
+		public SplashActionsDataSource.Builder withBackendService( final NeoComBackendService backendService ) {
+			Objects.requireNonNull( backendService );
+			this.onConstruction.backendService = backendService;
+			return this;
+		}
+
+		public SplashActionsDataSource.Builder withSchedulerConfiguration( final ISchedulerConfiguration schedulerConfiguration ) {
+			Objects.requireNonNull( schedulerConfiguration );
+			this.onConstruction.schedulerConfiguration = schedulerConfiguration;
 			return this;
 		}
 
@@ -173,10 +218,14 @@ public class SplashActionsDataSource extends MVCDataSource {
 
 		public SplashActionsDataSource build() {
 			final SplashActionsDataSource instance = super.build();
-			Objects.requireNonNull( this.onConstruction.credentialRepository );
-			Objects.requireNonNull( this.onConstruction.assetRepository );
+			Objects.requireNonNull( this.onConstruction.configurationService );
 			Objects.requireNonNull( this.onConstruction.esiDataProvider );
 			Objects.requireNonNull( this.onConstruction.locationCatalogService );
+			Objects.requireNonNull( this.onConstruction.credentialRepository );
+			Objects.requireNonNull( this.onConstruction.assetRepository );
+			Objects.requireNonNull( this.onConstruction.miningRepository );
+			Objects.requireNonNull( this.onConstruction.schedulerConfiguration );
+			Objects.requireNonNull( this.onConstruction.backendService );
 			return instance;
 		}
 	}
