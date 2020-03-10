@@ -419,12 +419,12 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 				daoVersion.createOrUpdate( new DatabaseVersion( NEOCOM_DB_VERSION ) );
 				this.recreateTable( databaseConnection, Credential.class, newVersion ); // Recreate the credential because new fields
 			}
-			if (oldVersion < 121) {
+			if (oldVersion < 101) {
 				this.recreateTable( databaseConnection, DatabaseVersion.class, newVersion ); // Recreate the credential because new fields
 				final Dao<DatabaseVersion, Integer> daoVersion = this.getVersionDao();
 				daoVersion.createOrUpdate( new DatabaseVersion( NEOCOM_DB_VERSION ) );
 				this.recreateTable( databaseConnection, Credential.class, newVersion ); // Recreate the credential because new fields
-				this.recreateTable( databaseConnection, NeoAsset.class, newVersion );
+//				this.recreateTable( databaseConnection, NeoAsset.class, newVersion );
 			}
 		} catch (SQLException sqle) {
 			logger.warn( "W- [AndroidNeoComDBHelper.readDatabaseVersion]> Database exception: " + sqle.getMessage() );
