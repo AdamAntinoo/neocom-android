@@ -22,6 +22,7 @@ public class CredentialPersistent {
 		}
 
 		public Builder withCredentialRepository( final CredentialRepository credentialRepository ) {
+			Objects.requireNonNull( credentialRepository );
 			this.onConstruction.credentialRepository = credentialRepository;
 			return this;
 		}

@@ -1,7 +1,9 @@
 package org.dimensinfin.eveonline.neocom.app.adapters;
 
+import java.util.Objects;
+
 import org.dimensinfin.eveonline.neocom.provider.IPreferencesProvider;
-import org.dimensinfin.eveonline.neocom.scheduler.ISchedulerConfiguration;
+import org.dimensinfin.eveonline.neocom.service.scheduler.conf.ISchedulerConfiguration;
 
 public class AndroidSchedulerConfiguration implements ISchedulerConfiguration {
 	private static final String ALLOWED_TORUN_SETTING = "S.scheduler.allowedtorun";
@@ -36,11 +38,13 @@ public class AndroidSchedulerConfiguration implements ISchedulerConfiguration {
 		}
 
 		public AndroidSchedulerConfiguration.Builder withPreferencesProvider( final IPreferencesProvider preferencesProvider ) {
+			Objects.requireNonNull( preferencesProvider );
 			this.onConstruction.preferencesProvider = preferencesProvider;
 			return this;
 		}
 
 		public AndroidSchedulerConfiguration build() {
+			Objects.requireNonNull( this.onConstruction.preferencesProvider );
 			return this.onConstruction;
 		}
 	}

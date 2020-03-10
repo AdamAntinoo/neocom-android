@@ -2,6 +2,7 @@ package org.dimensinfin.eveonline.neocom.app.activity;
 
 import android.preference.PreferenceManager;
 import android.view.View;
+import androidx.annotation.WorkerThread;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
@@ -39,6 +40,7 @@ public class AppSplashFragment extends MVCPagerFragment {
 				       .build();
 	}
 
+	@WorkerThread
 	@Override
 	public View generateActionBarView() {
 		return new RenderViewGenerator.Builder<SplashActionBar>()
