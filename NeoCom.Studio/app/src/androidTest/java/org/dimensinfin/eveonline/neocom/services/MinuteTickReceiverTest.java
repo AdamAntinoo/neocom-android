@@ -46,12 +46,17 @@ public class MinuteTickReceiverTest {
 		JobScheduler.getJobScheduler().clear();
 		JobScheduler.getJobScheduler().registerJob( new Job() {
 			@Override
+			public int getUniqueIdentifier() {
+				return 0;
+			}
+
+			@Override
 			public Boolean call() throws Exception {
 				return sensorSpy.signalCallExecuted();
 			}
 		} );
-		Assert.assertTrue( JobScheduler.getJobScheduler().needsNetwork() );
-		Assert.assertTrue( JobScheduler.getJobScheduler().needsStorage() );
+		Assert.assertEquals( 1, JobScheduler.getJobScheduler().getJobCount() );
+//		Assert.assertTrue( JobScheduler.getJobScheduler().needsStorage() );
 	}
 
 	@Test

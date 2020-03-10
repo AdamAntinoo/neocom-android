@@ -28,15 +28,16 @@ import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.miningextraction.service.MiningExtractionDownloader;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationProvider;
-import org.dimensinfin.eveonline.neocom.scheduler.ISchedulerConfiguration;
+import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
+import org.dimensinfin.eveonline.neocom.service.scheduler.conf.ISchedulerConfiguration;
 
 class SplashActionsDataSourceTest {
 	private Bundle extras;
 	private ControllerFactory factory;
-	private IConfigurationProvider configurationService;
+	private IConfigurationService configurationService;
 	private ESIDataProvider esiDataProvider;
 	private LocationCatalogService locationCatalogService;
 	private CredentialRepository credentialRepository;
@@ -44,13 +45,14 @@ class SplashActionsDataSourceTest {
 	private MiningRepository miningRepository;
 	private ISchedulerConfiguration schedulerConfiguration;
 	private NeoComBackendService backendService;
+	private MiningExtractionDownloader miningExtractionDownloader;
 
 	@BeforeEach
 	void setUp() {
 		// Given
 		this.extras = new Bundle();
 		this.factory = Mockito.mock( ControllerFactory.class );
-		this.configurationService = Mockito.mock( IConfigurationProvider.class );
+		this.configurationService = Mockito.mock( IConfigurationService.class );
 		this.esiDataProvider = Mockito.mock( ESIDataProvider.class );
 		this.locationCatalogService = Mockito.mock( LocationCatalogService.class );
 		this.credentialRepository = Mockito.mock( CredentialRepository.class );
@@ -58,6 +60,7 @@ class SplashActionsDataSourceTest {
 		this.miningRepository = Mockito.mock( MiningRepository.class );
 		this.schedulerConfiguration = Mockito.mock( ISchedulerConfiguration.class );
 		this.backendService = Mockito.mock( NeoComBackendService.class );
+		this.miningExtractionDownloader = Mockito.mock(MiningExtractionDownloader.class);
 	}
 
 	@Test
@@ -77,6 +80,7 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
+														   .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -104,6 +108,7 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
+				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -439,6 +444,8 @@ class SplashActionsDataSourceTest {
 
 	@Test
 	void prepareModel() {
+		// When
+		Mockito.when( this.configurationService.getResourceString(Mockito.anyString(),Mockito.anyString()) ).thenReturn( "* - *" );
 		// Test
 		final SplashActionsDataSource dataSource = new SplashActionsDataSource.Builder()
 				                                           .addIdentifier( 123 )
@@ -455,6 +462,7 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
+				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -465,7 +473,6 @@ class SplashActionsDataSourceTest {
 		Assertions.assertTrue( item instanceof AppVersion );
 		Assertions.assertEquals( 1, JobScheduler.getJobScheduler().getJobCount() );
 	}
-
 	@Test
 	public void collaborate2Model() {
 		// Given
@@ -500,6 +507,7 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( backendServiceLocal )
+				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
@@ -539,6 +547,7 @@ class SplashActionsDataSourceTest {
 				                                           .withMiningRepository( this.miningRepository )
 				                                           .withSchedulerConfiguration( this.schedulerConfiguration )
 				                                           .withBackendService( this.backendService )
+				                                           .withMiningExtractionsDownloader( this.miningExtractionDownloader )
 				                                           .withName( "-TEST-APPLICATION-NAME-" )
 				                                           .withVersion( "-TEST-APPLICATION-VERSION-" )
 				                                           .build();
