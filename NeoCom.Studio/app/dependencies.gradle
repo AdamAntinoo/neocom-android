@@ -19,6 +19,13 @@ dependencies {
     implementation 'com.annimon:stream:1.1.9'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 
+    // HTTP CLIENT
+    implementation('com.google.http-client:google-http-client-android:1.21.0') {
+        exclude(group: 'com.google.android', module: 'android')
+    }
+    implementation 'com.google.http-client:google-http-client-gson:1.21.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+
     // L I B R A R I E S
     implementation "org.dimensinfin:CoreBase.core:$neocomCoreBaseVersion"
     implementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
@@ -26,8 +33,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
 //    implementation project(':app.Features')
 //    implementation project(':app.Annotations')
-    implementation "org.dimensinfin:NeoCom.DataManagement:0.19.2"
     implementation "org.dimensinfin:NeoCom.Annotations:0.19.0"
+    implementation "org.dimensinfin:NeoCom.DataManagement:0.19.3"
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S
