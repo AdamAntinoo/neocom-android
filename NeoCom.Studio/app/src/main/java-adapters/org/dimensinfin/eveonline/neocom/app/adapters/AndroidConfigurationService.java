@@ -21,14 +21,6 @@ public class AndroidConfigurationService extends AConfigurationService {
 
 	// - C O N S T R U C T O R S
 	private AndroidConfigurationService() {}
-//	private AndroidConfigurationProvider( final String propertiesFolder ) {
-//		super(propertiesFolder);
-//	}
-
-	public AndroidConfigurationService setApplicationContext( final Context applicationContext ) {
-		this.applicationContext = applicationContext;
-		return this;
-	}
 
 	public void readAllProperties() {
 		NeoComLogger.enter();
@@ -43,7 +35,7 @@ public class AndroidConfigurationService extends AConfigurationService {
 						final String filePath = getResourceLocation() + "/" + fileName;
 						properties.load( this.applicationContext.getAssets().open( filePath ) );
 						// Copy properties to globals.
-						configurationProperties.putAll( properties );
+						this.configurationProperties.putAll( properties );
 					} catch (IOException ioe) {
 						NeoComLogger.error( "Exception reading properties file " + fileName, ioe );
 						ioe.printStackTrace();
@@ -63,12 +55,10 @@ public class AndroidConfigurationService extends AConfigurationService {
 		final List<String> propertyFiles = new ArrayList<>();
 
 		try {
-			final String[] list = this.applicationContext.getAssets().list( path );
+			final String[] list = Objects.requireNonNull( this.applicationContext.getAssets().list( path ) );
 			if (list.length > 0) {
 				for (String file : list) {
-					if (file.indexOf(
-							"." ) < 0) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
-						//						System.out.println("This is a folder = "+path+"/"+file);
+					if (!file.contains( "." )) { // <<-- check if filename has a . then it is a file - hopefully directory names dont have .
 						final List<String> dirList = getResourceFiles(
 								file ); // <<-- To get subdirectory files and directories list and check
 						// Copy the file list to the results.
@@ -79,8 +69,10 @@ public class AndroidConfigurationService extends AConfigurationService {
 					}
 				}
 			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+		} catch (final IOException ioe) {
+			NeoComLogger.error( ioe );
+		} catch (final NullPointerException npe) {
+			return new ArrayList<>();
 		}
 		return propertyFiles;
 	}
@@ -88,6 +80,11 @@ public class AndroidConfigurationService extends AConfigurationService {
 	// - B U I L D E R
 	public static class Builder extends AConfigurationService.Builder<AndroidConfigurationService, AndroidConfigurationService.Builder> {
 		private AndroidConfigurationService onConstruction;
+
+		public Builder() {
+			super();
+			this.onConstruction = new AndroidConfigurationService();
+		}
 
 		@Override
 		protected AndroidConfigurationService getActual() {

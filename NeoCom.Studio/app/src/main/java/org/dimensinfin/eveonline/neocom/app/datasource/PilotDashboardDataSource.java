@@ -94,6 +94,10 @@ public class PilotDashboardDataSource extends MVCDataSource {
 	// - B U I L D E R
 	public static class Builder extends MVCDataSource.Builder<PilotDashboardDataSource, PilotDashboardDataSource.Builder> {
 		private PilotDashboardDataSource onConstruction;
+		public Builder() {
+			super();
+			this.onConstruction = new PilotDashboardDataSource();
+		}
 
 		@Override
 		protected PilotDashboardDataSource getActual() {

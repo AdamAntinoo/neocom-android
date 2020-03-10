@@ -31,6 +31,10 @@ public class Pilot4DashboardRenderValidator extends PanelValidator {
 	public static class Builder extends PanelValidator.Builder<Pilot4DashboardRenderValidator, Pilot4DashboardRenderValidator.Builder> {
 		private Pilot4DashboardRenderValidator onConstruction;
 
+		public Builder() {
+			super();
+			this.onConstruction = new Pilot4DashboardRenderValidator();
+		}
 		@Override
 		protected Pilot4DashboardRenderValidator getActual() {
 			if (null == this.onConstruction) this.onConstruction = new Pilot4DashboardRenderValidator();

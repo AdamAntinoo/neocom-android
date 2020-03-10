@@ -48,6 +48,10 @@ public class AssetsByLocationDataSource extends MVCDataSource {
 	public static class Builder extends MVCDataSource.Builder<AssetsByLocationDataSource, AssetsByLocationDataSource.Builder> {
 		private AssetsByLocationDataSource onConstruction;
 
+		public Builder() {
+			super();
+			this.onConstruction = new AssetsByLocationDataSource();
+		}
 		@Override
 		protected AssetsByLocationDataSource getActual() {
 			if (null == this.onConstruction) this.onConstruction = new AssetsByLocationDataSource();

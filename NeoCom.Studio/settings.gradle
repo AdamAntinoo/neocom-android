@@ -1,5 +1,5 @@
 include ':app'
-include ':app.AcceptanceTest'
+//include ':app.AcceptanceTest'
 //include ':app.VisualTest'
 //include ':NeoCom.Annotations'
 //project(':NeoCom.Annotations').projectDir = new File('/home/adam/Development/NeoCom/neocom-datamanagement/NeoCom.Annotations')

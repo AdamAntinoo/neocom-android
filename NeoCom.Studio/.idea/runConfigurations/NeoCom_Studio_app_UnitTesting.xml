@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="NeoCom.Studio.app UnitTesting" type="AndroidJUnit" factoryName="Android JUnit">
+    <module name="NeoCom.Studio.app" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.eveonline.neocom.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="directory" />
+    <option name="PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+    <dir value="$PROJECT_DIR$/app/src/test/java/org/dimensinfin/eveonline/neocom/app" />
+    <method v="2">
+      <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

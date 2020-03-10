@@ -25,6 +25,10 @@ public class AppVersionRenderValidator extends PanelValidator {
 	public static class Builder extends PanelValidator.Builder<AppVersionRenderValidator, AppVersionRenderValidator.Builder> {
 		private AppVersionRenderValidator onConstruction;
 
+		public Builder() {
+			super();
+			this.onConstruction = new AppVersionRenderValidator();
+		}
 		@Override
 		protected AppVersionRenderValidator getActual() {
 			if (null == this.onConstruction) this.onConstruction = new AppVersionRenderValidator();

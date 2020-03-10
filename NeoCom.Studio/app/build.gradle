@@ -11,6 +11,9 @@ apply from: './dependencies.gradle'
 
 android {
     compileSdkVersion 28
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
+    }
     defaultConfig {
         applicationId "org.dimensinfin.eveonline.neocom"
         testApplicationId "org.dimensinfin.eveonline.neocom.instrumentation"

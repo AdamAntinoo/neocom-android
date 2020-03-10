@@ -62,6 +62,10 @@ public class MiningLedgerDataSourceAll extends MiningLedgerDataSourceToday {
 	public static class Builder extends MVCDataSource.Builder<MiningLedgerDataSourceAll, MiningLedgerDataSourceAll.Builder> {
 		private MiningLedgerDataSourceAll onConstruction;
 
+		public Builder() {
+			super();
+			this.onConstruction = new MiningLedgerDataSourceAll();
+		}
 		@Override
 		protected MiningLedgerDataSourceAll getActual() {
 			if (null == this.onConstruction)
