@@ -9,7 +9,6 @@ import org.joda.time.LocalTime;
 
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
 import org.dimensinfin.eveonline.neocom.annotation.Singleton;
-import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
 import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
@@ -41,10 +40,10 @@ public class MinuteTickReceiver extends BroadcastReceiver {
 	public void onReceive( final Context context, final Intent intent ) {
 		NeoComLogger.enter( "{}:{}", LocalTime.now().getHourOfDay() + "", LocalTime.now().getMinuteOfHour() + "" );
 		if (this.allowed2Run( context )) {
-			if (JobScheduler.getJobScheduler().needsNetwork())
-				if (!NeoComApplication.checkNetworkAccess()) return;
-			if (JobScheduler.getJobScheduler().needsStorage())
-				if (!NeoComApplication.checkSDCardAvailability()) return;
+//			if (JobScheduler.getJobScheduler().needsNetwork())
+//				if (!NeoComApplication.checkNetworkAccess()) return;
+//			if (JobScheduler.getJobScheduler().needsStorage())
+//				if (!NeoComApplication.checkSDCardAvailability()) return;
 		} else return;
 		JobScheduler.getJobScheduler().runSchedule();
 		NeoComLogger.exit();

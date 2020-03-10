@@ -9,7 +9,7 @@ import java.util.Objects;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.adapter.StoreCacheManager;
-import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationProvider;
+import org.dimensinfin.eveonline.neocom.app.adapters.AndroidConfigurationService;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidFileSystemAdapter;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidNeoComDBHelper;
 import org.dimensinfin.eveonline.neocom.app.adapters.AndroidSDEDBHelper;
@@ -99,18 +99,18 @@ public class NeoComComponentFactory {
 
 	// - A C C E S S O R S
 	public IConfigurationProvider getConfigurationProvider() {
-		try {
+//		try {
 			if (null == this.configurationProvider) {
-				this.configurationProvider = new AndroidConfigurationProvider.Builder()
+				this.configurationProvider = new AndroidConfigurationService.Builder()
 						                             .withApplicationContext( application )
 						                             .withConfigurationDirectory(
 								                             application.getResources().getString( R.string.propertiesLocation ) )
 						                             .build();
 			}
-		} catch (final IOException ioe) {
-			singleton = null;
-			throw new NeoComRuntimeException( "Configuration provider initialization exception. Application not configured." );
-		}
+//		} catch (final IOException ioe) {
+//			singleton = null;
+//			throw new NeoComRuntimeException( "Configuration provider initialization exception. Application not configured." );
+//		}
 		return this.configurationProvider;
 	}
 

@@ -19,13 +19,12 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.DatabaseVersion;
-import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtractionEntity;
 import org.dimensinfin.eveonline.neocom.database.entities.NeoAsset;
 import org.dimensinfin.eveonline.neocom.database.repositories.DatabaseVersionRepository;
 import org.dimensinfin.eveonline.neocom.domain.EsiLocation;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
-
 
 import static org.dimensinfin.eveonline.neocom.BuildConfig.NEOCOM_DB_VERSION;
 
@@ -52,7 +51,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<DatabaseVersion, Integer> versionDao;
 	private Dao<Credential, String> credentialDao;
 	private Dao<EsiLocation, String> locationDao;
-	private Dao<MiningExtraction, String> miningExtractionDao;
+	private Dao<MiningExtractionEntity, String> miningExtractionDao;
 	private Dao<NeoAsset, UUID> assetDao;
 //	private Dao<TimeStamp, String> timeStampDao;
 //	private Dao<Property, String> propertyDao;
@@ -231,9 +230,9 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 //		return this.fittingRequestDao;
 //	}
 
-	public Dao<MiningExtraction, String> getMiningExtractionDao() throws SQLException {
+	public Dao<MiningExtractionEntity, String> getMiningExtractionDao() throws SQLException {
 		if (null == this.miningExtractionDao) {
-			this.miningExtractionDao = DaoManager.createDao( this.getConnectionSource(), MiningExtraction.class );
+			this.miningExtractionDao = DaoManager.createDao( this.getConnectionSource(), MiningExtractionEntity.class );
 		}
 		return this.miningExtractionDao;
 	}
@@ -399,7 +398,7 @@ public class AndroidNeoComDBHelper extends OrmLiteSqliteOpenHelper {
 //			logger.warn("SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage());
 //		}
 		try {
-			TableUtils.createTableIfNotExists( databaseConnection, MiningExtraction.class );
+			TableUtils.createTableIfNotExists( databaseConnection, MiningExtractionEntity.class );
 		} catch (SQLException sqle) {
 			logger.warn( "SQL [AndroidNeoComDBHelper.onCreate]> SQL NeoComDatabase: {}", sqle.getMessage() );
 		}
