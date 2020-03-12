@@ -26,17 +26,16 @@ import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
-import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.app.domain.WarningPanel;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
-import org.dimensinfin.eveonline.neocom.auth.NeoComOauth2Flow;
+import org.dimensinfin.eveonline.neocom.auth.NeoComOAuth2Flow;
 import org.dimensinfin.eveonline.neocom.auth.TokenVerification;
+import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
+import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
 import org.dimensinfin.eveonline.neocom.provider.ESIDataProvider;
-import org.dimensinfin.eveonline.neocom.provider.IConfigurationService;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.updater.CredentialUpdater;
 
@@ -58,7 +57,7 @@ public class AuthorizationFlowActivity extends Activity {
 //			                                        "?response_type=code&" +
 //			                                        "redirect_uri=eveauth-neocom%3A%2F%2Fesiauthentication&" +
 //			                                        "scope=publicData esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-mail.read_mail.v1 esi-skills.read_skills.v1 esi-skills.read_skillqueue.v1 esi-wallet.read_character_wallet.v1 esi-wallet.read_corporation_wallet.v1 esi-search.search_structures.v1 esi-clones.read_clones.v1 esi-universe.read_structures.v1 esi-assets.read_assets.v1 esi-planets.manage_planets.v1 esi-fittings.read_fittings.v1 esi-industry.read_character_jobs.v1 esi-markets.read_character_orders.v1 esi-characters.read_blueprints.v1 esi-contracts.read_character_contracts.v1 esi-clones.read_implants.v1 esi-wallet.read_corporation_wallets.v1 esi-characters.read_notifications.v1 esi-corporations.read_divisions.v1 esi-assets.read_corporation_assets.v1 esi-corporations.read_blueprints.v1 esi-contracts.read_corporation_contracts.v1 esi-industry.read_corporation_jobs.v1 esi-markets.read_corporation_orders.v1 esi-industry.read_character_mining.v1 esi-industry.read_corporation_mining.v1";
-	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
+//	private static final String DATASOURCE_PREFERENCE = "prefkey_dataSourceList";
 //	private static final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
 //	private static Logger logger = LoggerFactory.getLogger( AuthorizationFlowActivity.class );
 
@@ -68,9 +67,9 @@ public class AuthorizationFlowActivity extends Activity {
 
 	// -  C O M P O N E N T S
 	private SharedPreferences preferences;
-	private IConfigurationService configurationProvider;
-	private ESIDataProvider esiDataAdapter;
-	private NeoComOauth2Flow oauthFlow;
+//	private IConfigurationService configurationProvider;
+//	private ESIDataProvider esiDataAdapter;
+	private NeoComOAuth2Flow oauthFlow;
 	private CredentialRepository credentialRepository;
 
 	/**
@@ -80,17 +79,11 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread( () -> {
-			final String esiServer = this.preferences.getString( DATASOURCE_PREFERENCE, ESIDataProvider.DEFAULT_ESI_SERVER ).toLowerCase();
-			final Uri url = Uri.parse( new NeoComOauth2Flow.Builder()
-					                           .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationService() )
+			final Uri url = Uri.parse( new NeoComOAuth2Flow.Builder()
+					                           .withConfigurationService( NeoComComponentFactory.getSingleton().getConfigurationService() )
 					                           .build()
-					                           .generateLoginUrl( esiServer )
+					                           .generateLoginUrl()
 			);
-			// TODO - Create the URL with a library generator.
-//			final String state = Base64.encodeBytes(
-//					this.configurationProvider.getResourceString( "P.esi.authorization.state" ).getBytes() );
-//			final String clientId = this.configurationProvider.getResourceString( "P.esi." + esiServer + ".authorization.clientid" );
-//			final Uri url = Uri.parse( LOGIN_URL + "&client_id=" + clientId + "&state=" + state );
 			final Intent intent = new Intent( Intent.ACTION_VIEW, url );
 			intent.putExtra( Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName() );
 			startActivity( intent );
@@ -197,36 +190,40 @@ public class AuthorizationFlowActivity extends Activity {
 	protected void onNewIntent( final Intent intent ) {
 		NeoComLogger.enter();
 		super.onNewIntent( intent );
-		if (null != intent) {
-			final Bundle extras = this.getIntent().getExtras();
-			// Check that we have the tag identifier to detect if we are reaching this point from the Part.
-			final String tag = Objects.requireNonNull( extras.getString( EExtras.FIRE_AUTHORIZATION_FLOW.name() ) );
-			if (tag.equalsIgnoreCase( "NEW-LOGIN-PART" )) {
-				// Fire the credential authorization flow on a background task.
-				MVCScheduler.backgroundExecutor.submit( () -> {
-					this.onFireAuth();
-				} );
-			} else {
-				if (Intent.ACTION_VIEW.equals( intent.getAction() )) {
-					if (null == intent.getData()) {
-					} else {
-						// Get the state and verify we are the caller.
-						final Uri urlData = intent.getData();
-						final String state = urlData.getQueryParameter( "state" );
-						if (state.equals( "NEOCOM-VERIFICATION-STATE" )) {
-							final String authCode = urlData.getQueryParameter( "code" );
-							if (StringUtils.isNotBlank( authCode )) {
-								// Fire the conversion to the authenticated Credential but do it on background.
-								MVCScheduler.backgroundExecutor.submit( () -> {
-									this.registerInBackground( authCode, state );
-								} );
+		try {
+			this.injectComponents(); // Inject components.
+			this.connectUI();
+			if (null != intent) {
+				final Bundle extras = this.getIntent().getExtras();
+				// Check that we have the tag identifier to detect if we are reaching this point from the Part.
+				final String tag = Objects.requireNonNull( Objects.requireNonNull( extras ).getString( EExtras.FIRE_AUTHORIZATION_FLOW.name() ) );
+				if (tag.equalsIgnoreCase( "NEW-LOGIN-PART" )) {
+					// Fire the credential authorization flow on a background task.
+					MVCScheduler.backgroundExecutor.submit( this::onFireAuth );
+				} else {
+					if (Intent.ACTION_VIEW.equals( intent.getAction() )) {
+						if (null == intent.getData()) {
+						} else {
+							// Get the state and verify we are the caller.
+							final Uri urlData = intent.getData();
+							final String state = urlData.getQueryParameter( "state" );
+							if (Objects.requireNonNull( state ).equals( "NEOCOM-VERIFICATION-STATE" )) {
+								final String authCode = urlData.getQueryParameter( "code" );
+								if (StringUtils.isNotBlank( authCode )) {
+									// Fire the conversion to the authenticated Credential but do it on background.
+									MVCScheduler.backgroundExecutor.submit( () -> {
+										this.registerInBackground( authCode, state );
+									} );
+								}
 							}
 						}
 					}
 				}
 			}
+		} catch (final RuntimeException rtex) {
+			rtex.printStackTrace();
+			this.showException( rtex ); // Show any exception data on the empty page.
 		}
-		connectUI();
 		NeoComLogger.exit();
 	}
 
@@ -288,11 +285,11 @@ public class AuthorizationFlowActivity extends Activity {
 	}
 
 	private void injectComponents() {
-		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationService();
+//		this.configurationProvider = NeoComComponentFactory.getSingleton().getConfigurationService();
 		this.preferences = PreferenceManager.getDefaultSharedPreferences( this );
-		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getESIDataProvider();
-		this.oauthFlow = new NeoComOauth2Flow.Builder()
-				                 .withConfigurationProvider( NeoComComponentFactory.getSingleton().getConfigurationService() )
+//		this.esiDataAdapter = NeoComComponentFactory.getSingleton().getESIDataProvider();
+		this.oauthFlow = new NeoComOAuth2Flow.Builder()
+				                 .withConfigurationService( NeoComComponentFactory.getSingleton().getConfigurationService() )
 				                 .build();
 		this.credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 	}
