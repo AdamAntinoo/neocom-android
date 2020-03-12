@@ -17,6 +17,7 @@ import org.dimensinfin.eveonline.neocom.app.domain.NewLoginAction;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.persisters.CredentialPersistent;
 import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
+import org.dimensinfin.eveonline.neocom.backend.rest.v1.CredentialStoreResponse;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.repositories.AssetRepository;
 import org.dimensinfin.eveonline.neocom.database.repositories.CredentialRepository;
@@ -122,7 +123,9 @@ public class SplashActionsDataSource extends MVCDataSource {
 	 * @return the JWT token to be used on next call to the backend to retrieve data.
 	 */
 	private String synchronizeCredential( final Credential credential ) {
-		return this.backendService.putCredential( credential ).getJwtToken();
+		final CredentialStoreResponse credentialResponse = this.backendService.putCredential( credential );
+		if (null != credentialResponse) return credentialResponse.getJwtToken();
+		else return null;
 	}
 
 	/**
