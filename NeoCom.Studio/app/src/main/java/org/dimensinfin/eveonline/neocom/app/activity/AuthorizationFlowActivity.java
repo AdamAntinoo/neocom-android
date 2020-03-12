@@ -67,7 +67,7 @@ public class AuthorizationFlowActivity extends Activity {
 
 	// -  C O M P O N E N T S
 	private SharedPreferences preferences;
-//	private IConfigurationService configurationProvider;
+	//	private IConfigurationService configurationProvider;
 //	private ESIDataProvider esiDataAdapter;
 	private NeoComOAuth2Flow oauthFlow;
 	private CredentialRepository credentialRepository;
@@ -79,11 +79,7 @@ public class AuthorizationFlowActivity extends Activity {
 	 */
 	protected void onFireAuth() {
 		this.runOnUiThread( () -> {
-			final Uri url = Uri.parse( new NeoComOAuth2Flow.Builder()
-					                           .withConfigurationService( NeoComComponentFactory.getSingleton().getConfigurationService() )
-					                           .build()
-					                           .generateLoginUrl()
-			);
+			final Uri url = Uri.parse( this.oauthFlow.generateLoginUrl() );
 			final Intent intent = new Intent( Intent.ACTION_VIEW, url );
 			intent.putExtra( Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName() );
 			startActivity( intent );
@@ -141,7 +137,6 @@ public class AuthorizationFlowActivity extends Activity {
 					final Uri urlData = intent.getData();
 					final String state = urlData.getQueryParameter( "state" );
 					if (this.oauthFlow.verifyState( state )) {
-//						if (state.equals( "NEOCOM-VERIFICATION-STATE" )) {
 						final String authCode = urlData.getQueryParameter( "code" );
 						if (StringUtils.isNotBlank( authCode )) {
 							// Fire the conversion to the authenticated Credential but do it on background.
