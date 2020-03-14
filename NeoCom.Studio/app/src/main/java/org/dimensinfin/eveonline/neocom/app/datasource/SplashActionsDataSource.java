@@ -123,7 +123,7 @@ public class SplashActionsDataSource extends MVCDataSource {
 	 * @return the JWT token to be used on next call to the backend to retrieve data.
 	 */
 	private String synchronizeCredential( final Credential credential ) {
-		final CredentialStoreResponse credentialResponse = this.backendService.putCredential( credential );
+		final CredentialStoreResponse credentialResponse = this.backendService.storeCredential( credential );
 		if (null != credentialResponse) return credentialResponse.getJwtToken();
 		else return null;
 	}

@@ -251,12 +251,11 @@ public class AuthorizationFlowActivity extends Activity {
 		this.oauthFlow.onStartFlow( authCode, state, esiServer );
 		if (this.oauthFlow.verifyState( state )) {
 			final TokenVerification tokenStore = this.oauthFlow.onTranslationStep();
-			NeoComLogger.info( "-- [AuthorizationFlowActivity.registerInBackground]> Character verification OK." );
+			NeoComLogger.info( "Character verification OK." );
 			// Create the credential and store it on the application repository.
 			this.credentialRepository = NeoComComponentFactory.getSingleton().getCredentialRepository();
 			final int newAccountIdentifier = Long.valueOf( tokenStore.getVerifyCharacterResponse().getCharacterID() ).intValue();
 			final Credential credential = new Credential.Builder( newAccountIdentifier )
-					                              .withAccountId( newAccountIdentifier )
 					                              .withAccountName( tokenStore.getVerifyCharacterResponse().getCharacterName() )
 					                              .withTokenType( tokenStore.getTokenTranslationResponse().getTokenType() )
 					                              .withAccessToken( tokenStore.getTokenTranslationResponse().getAccessToken() )

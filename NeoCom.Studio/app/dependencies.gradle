@@ -31,7 +31,7 @@ dependencies {
     implementation "org.dimensinfin:ESI.SwaggerApi:$neocomESISwaggerVersion"
     implementation "org.dimensinfin:AndroidMVC:5.18.1@aar"
     implementation "org.dimensinfin:NeoCom.Annotations:0.19.0"
-    implementation "org.dimensinfin:NeoCom.DataManagement:0.19.4"
+    implementation "org.dimensinfin:NeoCom.DataManagement:0.19.5"
     implementation 'me.relex:circleindicator:2.1.0'
 }
 

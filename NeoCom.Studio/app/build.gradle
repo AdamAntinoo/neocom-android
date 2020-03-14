@@ -71,6 +71,7 @@ android {
             srcDirs += 'src/main/res-ui'
             srcDirs += 'src/main/res-layouts'
             srcDirs += 'src/main/res-assets'
+            srcDirs += 'src/main/res-mining'
         }
         debug.java {
         }
