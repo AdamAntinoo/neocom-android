@@ -31,3 +31,5 @@
 >* ResourceFacetedRender
 >* MiningExtraction4View
 >* MiningExtractionAggregatorContainer
+>* DailyExtractionResourcesContainerRender
+>* DailyExtractionResourcesContainer

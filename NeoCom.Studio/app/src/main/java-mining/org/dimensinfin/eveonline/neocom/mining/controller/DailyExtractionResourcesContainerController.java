@@ -10,15 +10,15 @@ import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 
 public class DailyExtractionResourcesContainerController extends NeoComController<DailyExtractionResourcesContainer> implements IContainer {
 
 	// - C O N S T R U C T O R
 	public DailyExtractionResourcesContainerController( @NonNull final DailyExtractionResourcesContainer model, @NonNull final IControllerFactory factory ) {
-		super(model, factory);
-		this.setTheme(SpacerType.LINE_GREEN);
+		super( model, factory );
+		this.setTheme( SpacerType.LINE_GREEN );
 	}
 
 	// - I C O N T A I N E R
@@ -29,14 +29,14 @@ public class DailyExtractionResourcesContainerController extends NeoComControlle
 
 	@Override
 	public IRender buildRender( final Context context ) {
-		return new DailyExtractionResourcesContainerRender(this, context);
+		return new DailyExtractionResourcesContainerRender( this, context );
 	}
 
 	// - I T E M P A C K R E N D E R
-	public static class DailyExtractionResourcesContainerRender extends NeoComRenderv2 {
+	public static class DailyExtractionResourcesContainerRender extends NeoComRender {
 		// - C O N S T R U C T O R S
 		public DailyExtractionResourcesContainerRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
-			super(controller, context);
+			super( controller, context );
 		}
 
 		@Override

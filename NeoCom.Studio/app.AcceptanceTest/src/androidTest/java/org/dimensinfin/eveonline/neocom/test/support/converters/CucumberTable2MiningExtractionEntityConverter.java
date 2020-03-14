@@ -4,6 +4,10 @@ import org.dimensinfin.eveonline.neocom.database.entities.MiningExtractionEntity
 
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class CucumberTable2MiningExtractionEntityConverter extends CucumberTableConverter<MiningExtractionEntity> {
 	private static final String ID = "id";
 	private static final String TYPE_ID = "typeId";
@@ -20,9 +24,14 @@ public class CucumberTable2MiningExtractionEntityConverter extends CucumberTable
 				       .withTypeId( Integer.parseInt( cucumberRow.get( TYPE_ID ) ) )
 				       .withSolarSystemId( Integer.parseInt( cucumberRow.get( SOLAR_SYSTEM_ID ) ) )
 				       .withQuantity( Long.parseLong( cucumberRow.get( QUANTITY ) ) )
-				       .withExtractionDateName( cucumberRow.get( EXTRACTION_DATE_NAME ) )
+				       .withExtractionDateName( this.accessExtractionDate(cucumberRow.get(EXTRACTION_DATE_NAME)) )
 				       .withExtractionHour( Integer.parseInt( cucumberRow.get( EXTRACTION_HOUR ) ) )
 				       .withOwnerId( Integer.parseInt( cucumberRow.get( OWNER_ID ) ) )
 				       .build();
 	}
+	private String accessExtractionDate( final String dateString ) {
+		if (dateString.equalsIgnoreCase("<today>")) return LocalDate.now().toString( MiningExtractionEntity.EXTRACTION_DATE_FORMAT );
+		else return dateString;
+	}
+
 }

@@ -11,6 +11,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.ActivityTestRule;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +29,9 @@ import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
+import org.dimensinfin.eveonline.neocom.database.entities.MiningExtractionEntity;
 import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
@@ -40,10 +43,12 @@ public class NeoComWorld {
 	private ActivityScenario<PilotDashboardActivity> pilotDashboardScenario;
 	private ActivityScenario<AssetDisplayActivity> assetDisplayScenario;
 	private ActivityScenario<AuthorizationFlowActivity> authorizationFlowScenario;
+	private ActivityScenario<MiningLedgerActivity> miningLedgerActivityScenario;
 	private Activity activeActivity;
 	private Integer selectedPage = 0;
 	private Integer capsuleerIdentifier;
 	private Intent authorizationIntent;
+	private List<MiningExtractionEntity> backendTodayMiningExtractionsResponse;
 	// - C O M P O N E N T S
 	private SupportCredentialRepository credentialRepository;
 	private SupportMiningRepository miningRepository;
@@ -82,6 +87,24 @@ public class NeoComWorld {
 		} catch (final SQLException sqle) {
 			AcceptanceNeoComLogger.error( sqle );
 		}
+	}
+
+	public ActivityScenario<MiningLedgerActivity> getMiningLedgerActivityScenario() {
+		return this.miningLedgerActivityScenario;
+	}
+
+	public List<MiningExtractionEntity> getBackendTodayMiningExtractionsResponse() {
+		return this.backendTodayMiningExtractionsResponse;
+	}
+
+	public NeoComWorld setBackendTodayMiningExtractionsResponse( final List<MiningExtractionEntity> backendTodayMiningExtractionsResponse ) {
+		this.backendTodayMiningExtractionsResponse = backendTodayMiningExtractionsResponse;
+		return this;
+	}
+
+	public NeoComWorld setMiningLedgerActivityScenario( final ActivityScenario<MiningLedgerActivity> miningLedgerActivityScenario ) {
+		this.miningLedgerActivityScenario = miningLedgerActivityScenario;
+		return this;
 	}
 
 	public ActivityScenario<AppInitializationActivity> getAppInitializationActivityScenario() {

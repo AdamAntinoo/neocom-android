@@ -22,9 +22,11 @@ import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.app.domain.PilotSection;
 import org.dimensinfin.eveonline.neocom.app.domain.RetryButton;
 import org.dimensinfin.eveonline.neocom.app.ui.DashboardActionBar;
+import org.dimensinfin.eveonline.neocom.app.ui.MiningActionBar;
 import org.dimensinfin.eveonline.neocom.app.ui.SplashActionBar;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.domain.Pilot;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningActionBarController;
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {
@@ -53,8 +55,6 @@ public class AppControllerFactory extends ControllerFactory {
 		if (node instanceof RetryButton) {
 			return new RetryButtonController((RetryButton) node, this);
 		}
-
-
 		if (node instanceof Pilot) {
 			return new PilotController((Pilot) node, this);
 		}
@@ -64,25 +64,11 @@ public class AppControllerFactory extends ControllerFactory {
 		if (node instanceof NewLoginAction) {
 			return new NewLoginController((NewLoginAction) node, this);
 		}
-//		if (node instanceof InitialisationTask) {
-//			return new InitialisationTaskController((InitialisationTask) node, this);
-//		}
 		if (node instanceof PanelTitle) {
 			return new PanelTitleController.Builder((PanelTitle) node, this)
 					       .withVariant(this.getVariant())
 					       .build();
 		}
-
-//		if (node instanceof PilotV3) {
-//			return new PilotV3Controller.Builder((PilotV3) node, this)
-//					       .withVariant(this.getVariant())
-//					       .build();
-//		}
-//		if (node instanceof NeoComMenuBar) {
-//			return new NeoComDashboardMenuController.Builder((NeoComMenuBar) node, this)
-//					.withVariant(this.getVariant())
-//					.build();
-//		}
 		if (node instanceof PilotSection) {
 			return new PilotSectionController((PilotSection) node, this);
 		}
@@ -97,9 +83,9 @@ public class AppControllerFactory extends ControllerFactory {
 //		if (node instanceof PlanetaryActionBar) {
 //			return new AssetActionBarController((PlanetaryActionBar) node, this);
 //		}
-//		if (node instanceof MiningActionBar) {
-//			return new MiningActionBarController((MiningActionBar) node, this);
-//		}
+		if (node instanceof MiningActionBar) {
+			return new MiningActionBarController((MiningActionBar) node, this);
+		}
 		return super.createController(node);
 	}
 }

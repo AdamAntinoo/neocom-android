@@ -101,6 +101,10 @@ public class NeoComComponentFactory {
 		this.esiDataProvider = dataProvider;
 	}
 
+	public void replaceBackendService( final NeoComBackendService backendService ) {
+		this.backendService = backendService;
+	}
+
 	// - A C C E S S O R S
 	public IPreferencesProvider getPreferencesProvider() {
 		if (null == this.preferencesProvider)
@@ -342,4 +346,5 @@ public class NeoComComponentFactory {
 		}
 		return this.planetaryRepository;
 	}
+
 }

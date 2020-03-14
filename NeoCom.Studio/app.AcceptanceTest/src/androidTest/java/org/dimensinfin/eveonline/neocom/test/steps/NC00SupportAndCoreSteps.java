@@ -238,6 +238,18 @@ public class NC00SupportAndCoreSteps {
 		}
 	}
 
+	@Then("stop on debug point")
+	public void stop_on_debug_point() throws InterruptedException {
+		Ristretto.waitForBackground( () -> {
+			Ristretto.waitForCompletion( () -> {
+				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+				Ristretto.updateDisplay();
+			} );
+		} );
+		Thread.sleep( TimeUnit.SECONDS.toMillis( 15 ) );
+		final int dummy = 0;
+	}
+
 	@Then("{string} panels on the {string}")
 	public void panels_on_the( final String numberOfPanels, final String section ) {
 		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
@@ -271,6 +283,7 @@ public class NC00SupportAndCoreSteps {
 		}
 		AcceptanceNeoComLogger.exit();
 	}
+
 	private void initializeApplicationEsi() {
 		NeoComComponentFactory.getSingleton().getESIDataProvider();
 	}
@@ -302,7 +315,7 @@ public class NC00SupportAndCoreSteps {
 	}
 
 	private boolean validateSplashActionBar( final Map<String, String> expectedData,
-	                                     final View obtainedView ) {
+	                                         final View obtainedView ) {
 		final String APP_NAME = "AppName";
 		final String APP_VERSION = "AppVersion";
 		final String SERVER_NAME = "ServerName";
@@ -328,7 +341,7 @@ public class NC00SupportAndCoreSteps {
 	}
 
 	private boolean validateDashboardActionBar( final Map<String, String> expectedData,
-	                                        final View obtainedView ) {
+	                                            final View obtainedView ) {
 		final String APP_NAME = "AppName";
 		final String APP_VERSION = "AppVersion";
 		final String PILOT_NAME = "PilotName";
