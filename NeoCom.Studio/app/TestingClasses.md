@@ -21,16 +21,16 @@
 
 [CLASSES CURRENT DEVELOPMENT]
 >* MinuteTickTimer
->* MiingLedgerDataSourceToday
+>* MiningLedgerDataSourceToday
 >* MiningLedgerFragment
 >* MiningControllerFactory
 >* MiningActionBarController
 >* MiningExtractionAggregationController
->* MiningResourceController
->* MiningExtractionResourceRender
 >* ResourceFacetedRender
 >* MiningExtraction4View
 >* MiningExtractionAggregatorContainer
+> MiningResourceController
+>* MiningExtractionResourceRender
 > DailyExtractionResourcesContainerRender
 > DailyExtractionResourcesContainerController
 

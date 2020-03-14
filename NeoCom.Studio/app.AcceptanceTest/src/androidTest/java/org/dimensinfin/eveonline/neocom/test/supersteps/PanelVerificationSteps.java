@@ -7,13 +7,17 @@ import android.widget.TextView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
+import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.StepFramework;
-
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -22,115 +26,95 @@ public class PanelVerificationSteps extends StepFramework {
 	private static final String FIELD_IDENTIFIER = "fieldIdentifier";
 	private static final String FIELD_VALUE = "fieldValue";
 
-	private static final String MININGRESOURCE_RESOURCENAME = "resourceName";
-	private static final String MININGRESOURCE_RESOURCEIDENTIFIER = "resourceIdentifier";
-	private static final String MININGRESOURCE_QUANTITY = "quantity";
-	private static final String MININGRESOURCE_VALUE = "value";
-
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL = "nameTypeLabel";
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL = "quantityLabel";
-	private static final String DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL = "valueLabel";
-
 	public PanelVerificationSteps( final NeoComWorld world ) {
-		super(world);
+		super( world );
 	}
 
 	@And("check a action bar {string} with the next contents")
 	public void checkAActionBarWithNextContents( final String actionBarType, final List<Map<String, String>> cucumberTable ) {
 		switch (actionBarType) {
 			case "MiningActionBar":
-				Assert.assertTrue(this.validateMiningActionBar(this.world.getActiveActivity().getActionBar().getCustomView(), cucumberTable));
+				Assert.assertTrue( this.validateMiningActionBar( this.world.getActiveActivity().getActionBar().getCustomView(), cucumberTable ) );
 				break;
 			default:
-				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");
-		}
-	}
-
-	@And("check a {string} panel with the next contents")
-	public void checkAPanelWithTheNextContents( final String panelTypeName, final List<Map<String, String>> cucumberTable ) {
-		View panel;
-		switch (panelTypeName) {
-//			case "MiningResource":
-//				panel = this.searchFirstPanelByClass(Resource.class, this.world.getHeaderContainer());
-//				Assert.assertNotNull(panel);
-//				Assert.assertTrue(this.validateMiningResourcePanel(panel, cucumberTable));
-//				break;
-//			case "DailyExtractionResourcesContainer":
-//				panel = this.searchFirstPanelByClass(DailyExtractionResourcesContainer.class, this.world.getHeaderContainer());
-//				Assert.assertNotNull(panel);
-//				Assert.assertTrue(this.validateDailyExtractionResourcesContainerPanel(panel, cucumberTable));
-//				break;
-			default:
-				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");
+				throw new NullPointerException( "The panel type is not defined on the list of registered verifiers." );
 		}
 	}
 
 	private boolean validateMiningActionBar( final View actionBar, final List<Map<String, String>> cucumberTable ) {
-		Assert.assertNotNull(actionBar);
+		Assert.assertNotNull( actionBar );
 		for (Map<String, String> row : cucumberTable) {
 			TextView field;
-			switch (row.get(FIELD_IDENTIFIER)) {
+			switch (row.get( FIELD_IDENTIFIER )) {
 				case "titleTopLeft":
-					field = actionBar.findViewById(R.id.toolBarTitleLeft);
-					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
+					field = actionBar.findViewById( R.id.toolBarTitleLeft );
+					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
 					return true;
 				case "subtitle":
-					field = actionBar.findViewById(R.id.toolBarSubTitle);
-					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
+					field = actionBar.findViewById( R.id.toolBarSubTitle );
+					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
 					return true;
 			}
 		}
 		return false;
 	}
 
-//	private boolean validateMiningResourcePanel( final View panel, final List<Map<String, String>> cucumberTable ) {
-//		Assert.assertNotNull(panel);
-//		for (Map<String, String> row : cucumberTable) {
-//			TextView field;
-//			switch (row.get(FIELD_IDENTIFIER)) {
-//				case MININGRESOURCE_RESOURCENAME:
-//					field = panel.findViewById(R.id.resourceName);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//				case MININGRESOURCE_RESOURCEIDENTIFIER:
-//					field = panel.findViewById(R.id.resourceIdentifier);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//				case MININGRESOURCE_QUANTITY:
-//					field = panel.findViewById(R.id.quantity);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//				case MININGRESOURCE_VALUE:
-//					field = panel.findViewById(R.id.value);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//			}
-//		}
-//		return false;
-//	}
+	private boolean validateMiningResourcePanel( final View panel, final List<Map<String, String>> cucumberTable ) {
+		final String RESOURCENAME = "resourceName";
+		final String RESOURCEIDENTIFIER = "resourceIdentifier";
+		final String QUANTITY = "quantity";
+		final String VALUE = "value";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertEquals( row.get( RESOURCENAME ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceName ) ).getText().toString()  );
+		Assert.assertEquals( row.get( RESOURCEIDENTIFIER ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceIdentifier ) ).getText().toString()  );
+		Assert.assertEquals( row.get( QUANTITY ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantity ) ).getText().toString()  );
+		Assert.assertEquals( row.get( VALUE ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.value ) ).getText().toString()  );
+		return true;
+	}
 
-//	private boolean validateDailyExtractionResourcesContainerPanel( final View panel,
-//	                                                                final List<Map<String, String>> cucumberTable ) {
-//		Assert.assertNotNull(panel);
-//		for (Map<String, String> row : cucumberTable) {
-//			TextView field;
-//			switch (row.get(FIELD_IDENTIFIER)) {
-//				case DAILYEXTRACTIONRESOURCESCONTAINER_NAMETYPE_LABEL:
-//					field = panel.findViewById(R.id.nameTypeLabel);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//				case DAILYEXTRACTIONRESOURCESCONTAINER_QUANTITY_LABEL:
-//					field = panel.findViewById(R.id.quantityLabel);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//				case DAILYEXTRACTIONRESOURCESCONTAINER_VALUE_LABEL:
-//					field = panel.findViewById(R.id.valueLabel);
-//					Assert.assertEquals(row.get(FIELD_VALUE), field.getText());
-//					return true;
-//			}
-//		}
-//		return false;
-//	}
+	@And("check a {string} panel with the next contents")
+	public void checkAPanelWithTheNextContents( final String panelTypeName, final List<Map<String, String>> cucumberTable ) {
+		List<IAndroidController> panelsMatching;
+		switch (panelTypeName) {
+			case "MiningResource":
+				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+						MiningResourceController.class );
+				Assert.assertNotNull( panelsMatching );
+				Assert.assertTrue( panelsMatching.size() > 0 );
+				Assert.assertTrue( this.validateMiningResourcePanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
+				break;
+			case "DailyExtractionResourcesContainer":
+				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+						DailyExtractionResourcesContainerController.class );
+				Assert.assertNotNull( panelsMatching );
+				Assert.assertTrue( panelsMatching.size() > 0 );
+				Assert.assertTrue( this.validateDailyExtractionResourcesContainerPanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
+				break;
+			default:
+				throw new NullPointerException( "The panel type is not defined on the list of registered verifiers." );
+		}
+	}
+
+	private boolean validateDailyExtractionResourcesContainerPanel( final View panel,
+	                                                                final List<Map<String, String>> cucumberTable ) {
+		final String NAMETYPE_LABEL = "nameTypeLabel";
+		final String QUANTITY_LABEL = "quantityLabel";
+		final String VALUE_LABEL = "valueLabel";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertTrue( row.get( NAMETYPE_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.nameTypeLabel ) ).getText().toString().toUpperCase() ) );
+		Assert.assertTrue( row.get( QUANTITY_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantityLabel ) ).getText().toString().toUpperCase() ) );
+		Assert.assertTrue( row.get( VALUE_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.valueLabel ) ).getText().toString().toUpperCase() ) );
+		return true;
+	}
 
 	@And("render a panel with {string} and the next contents")
 	public void renderAPanelWithAndTheNextContents( final String renderClassName,
@@ -139,8 +123,8 @@ public class PanelVerificationSteps extends StepFramework {
 		switch (renderClassName) {
 			case "ResourceAggregatorContainer4EsiLocationFacetRender":
 			case "ResourceAggregatorContainer4LocalTimeFacetRender":
-				panel = this.searchFirstPanelByRenderClass(renderClassName, this.world.getDataSectionContainer());
-				Assert.assertNotNull(panel);
+				panel = this.searchFirstPanelByRenderClass( renderClassName, this.world.getDataSectionContainer() );
+				Assert.assertNotNull( panel );
 //				Assert.assertTrue(new ResourceAggregatorContainer4EsiLocationFacetPanelValidator.Builder()
 //						                  .withPanel(panel)
 //						                  .withCucumberTable(cucumberTable)
@@ -148,19 +132,19 @@ public class PanelVerificationSteps extends StepFramework {
 //						                  .validate());
 				break;
 			default:
-				throw new NullPointerException("The panel type is not defined on the list of registered verifiers.");
+				throw new NullPointerException( "The panel type is not defined on the list of registered verifiers." );
 		}
 	}
 
 	@Then("the header container has {string} panels")
 	public void theHeaderContainerHasPanels( final String panelCount ) {
 		final ViewGroup header = this.world.getHeaderContainer();
-		Assert.assertEquals(Integer.parseInt(panelCount), header.getChildCount());
+		Assert.assertEquals( Integer.parseInt( panelCount ), header.getChildCount() );
 	}
 
 	@Then("the data container has {string} panels")
 	public void theDataContainerHasPanels( final String panelCount ) {
 		final ListView data = this.world.getDataSectionContainer();
-		Assert.assertEquals(Integer.parseInt(panelCount), data.getChildCount());
+		Assert.assertEquals( Integer.parseInt( panelCount ), data.getChildCount() );
 	}
 }

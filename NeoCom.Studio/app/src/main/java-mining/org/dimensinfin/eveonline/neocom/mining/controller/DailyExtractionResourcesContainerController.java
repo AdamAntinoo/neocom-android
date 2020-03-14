@@ -3,13 +3,10 @@ package org.dimensinfin.eveonline.neocom.mining.controller;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.render.MVCRender;
-import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
 import org.dimensinfin.eveonline.neocom.mining.render.DailyExtractionResourcesContainerRender;

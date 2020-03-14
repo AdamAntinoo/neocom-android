@@ -26,6 +26,9 @@ public class MiningControllerFactory extends AppControllerFactory {
 			return new DailyExtractionResourcesContainerController((DailyExtractionResourcesContainer) node, this)
 					       .setRenderMode(this.getVariant());
 		}
+		if (node instanceof Resource) {
+			return new MiningResourceController((Resource) node, this).setRenderMode(this.getVariant());
+		}
 		if (node instanceof MiningExtractionAggregatorAsPanelTitle) {
 			return new MiningExtractionAggregatorController((MiningExtractionAggregatorAsPanelTitle) node, this)
 					       .setRenderMode(this.getVariant());
@@ -33,9 +36,6 @@ public class MiningControllerFactory extends AppControllerFactory {
 		if (node instanceof MiningExtraction4View) {
 			return new MiningExtractionController((MiningExtraction4View) node, this)
 					       .setRenderMode(this.getVariant());
-		}
-		if (node instanceof Resource) {
-			return new MiningResourceController((Resource) node, this).setRenderMode(this.getVariant());
 		}
 //		if (node instanceof MiningExtractionAggregatorController) {
 //			if ( ((MiningExtractionAggregatorContainer<?>) node).getFacetDelegate() instanceof EsiLocation)

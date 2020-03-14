@@ -28,12 +28,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.NeoComApplication;
 import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
 import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
 import org.dimensinfin.eveonline.neocom.database.entities.Credential;
+import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
 import org.dimensinfin.eveonline.neocom.provider.IFileSystem;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
@@ -42,6 +44,7 @@ import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
 import org.dimensinfin.eveonline.neocom.test.support.converters.CucumberTable2CredentialConverter;
 import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -84,7 +87,6 @@ public class NC00SupportAndCoreSteps {
 		} );
 		this.record( "STEP 05" );
 	}
-
 	@When("performing the background synchronization test")
 	public void performing_the_background_sunchronization_test() {
 		AcceptanceNeoComLogger.info( "performing the test..." );

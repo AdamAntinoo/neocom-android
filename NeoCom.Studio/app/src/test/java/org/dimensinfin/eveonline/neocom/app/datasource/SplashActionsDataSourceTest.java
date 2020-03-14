@@ -482,7 +482,7 @@ class SplashActionsDataSourceTest {
 		Mockito.when( credentialRepositoryLocal.accessAllCredentials() ).thenReturn( credentialList );
 		Mockito.when( credential.getRefreshToken() ).thenReturn( "-TEST-REFRESH-DUMMY-TOKEN-" );
 		Mockito.when( credential.getAccountName() ).thenReturn( "-TEST-ACCOUNT-NAME-" );
-		Mockito.when( backendServiceLocal.putCredential( Mockito.any( Credential.class ) ) ).thenReturn( credentialStoreResponse );
+		Mockito.when( backendServiceLocal.storeCredential( Mockito.any( Credential.class ) ) ).thenReturn( credentialStoreResponse );
 		Mockito.when( credentialStoreResponse.getJwtToken() ).thenReturn( "-JWT-TOKEN-" );
 		Mockito.when( credential.getLastUpdateTime() ).thenReturn( DateTime.now() );
 		// Test

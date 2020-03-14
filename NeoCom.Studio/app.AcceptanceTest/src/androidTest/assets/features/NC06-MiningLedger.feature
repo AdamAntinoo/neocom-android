@@ -6,34 +6,45 @@ Feature: [NC06P0] Acceptance actions related to the Mining Ledger features shown
   by hour with the resources mined during that period of time.
 
   Background:
-    Given the MiningLegderActivity
-    And the application storage is initialized
-    And the scheduler is disabled
-    And the following Credentials into my repository
-      | uniqueCredential       | accountId  | accountName   | dataSource  | accessToken                                                                                                                                                                         | refreshToken                                                                                                                                                                                     | scope                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | walletBalance   | assetsCount | raceName | miningValue |
-      | tranquility.92223647   | 92223647   | Beth Ripley   | tranquility | CfDJ8HHFK/DOe6xKoNPHamc0mCW+m3KssaFdj/Gz5yz6LbeUZqk4wH1O/p+at7oiNS9OHwO+YY3wjMe+mXBCSsLKWMnbIf7qXeRyIb4hZZ1EAcrifvXRyD5V+V9NR8f2ti5LTx/QwAwo8g89dRmJyuHoDBFi0D0lpfxJOh9csWRWbozG    | bQuMWmfQ8pDzPKaUtkYzFrlrdbajWLbroV6c49QSxPhli3OT2GLqoErgddXgwa2yTWsNEj7zOemFsmey-C4zZE-VV6tdlPHDEUS5w_aU8ckotYF1Ppc3DSdvRGeuVgxLM5CsZq1eNVlQIqyaZDj4aGHk7mRhjuYI8hzhct9Y9vATrF_DdYqvuxhw8RHtfQUc | publicData esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-mail.read_mail.v1 esi-skills.read_skills.v1 esi-skills.read_skillqueue.v1 esi-wallet.read_character_wallet.v1 esi-wallet.read_corporation_wallet.v1 esi-search.search_structures.v1 esi-clones.read_clones.v1 esi-universe.read_structures.v1 esi-assets.read_assets.v1 esi-planets.manage_planets.v1 esi-fittings.read_fittings.v1 esi-industry.read_character_jobs.v1 esi-markets.read_character_orders.v1 esi-characters.read_blueprints.v1 esi-contracts.read_character_contracts.v1 esi-clones.read_implants.v1 esi-wallet.read_corporation_wallets.v1 esi-characters.read_notifications.v1 esi-corporations.read_divisions.v1 esi-assets.read_corporation_assets.v1 esi-corporations.read_blueprints.v1 esi-contracts.read_corporation_contracts.v1 esi-industry.read_corporation_jobs.v1 esi-markets.read_corporation_orders.v1 esi-industry.read_character_mining.v1 esi-industry.read_corporation_mining.v1 | 2.76586637596E9 | 1290        | Minmatar | 0.0         |
-    And the next "92223647" identifier for the CAPSULEER_IDENTIFIER
-    And the following MiningExtractionEntity on backend response
-      | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
-      | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | <today>            | 11             | 92223647 |
-      | 2019-08-07:11-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | <today>            | 11             | 92223647 |
-      | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | <today>            | 11             | 92223647 |
-      | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | <today>            | 10             | 92223647 |
-      | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | <today>            | 10             | 92223647 |
+	Given the MiningLegderActivity
+	And the application storage is initialized
+	And the scheduler is disabled
+	And the following Credentials into my repository
+	  | uniqueCredential     | accountId | accountName | dataSource  | accessToken                                                                                                                                                                      | refreshToken                                                                                                                                                                                     | scope                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | walletBalance   | assetsCount | raceName | miningValue |
+	  | tranquility.92223647 | 92223647  | Beth Ripley | tranquility | CfDJ8HHFK/DOe6xKoNPHamc0mCW+m3KssaFdj/Gz5yz6LbeUZqk4wH1O/p+at7oiNS9OHwO+YY3wjMe+mXBCSsLKWMnbIf7qXeRyIb4hZZ1EAcrifvXRyD5V+V9NR8f2ti5LTx/QwAwo8g89dRmJyuHoDBFi0D0lpfxJOh9csWRWbozG | bQuMWmfQ8pDzPKaUtkYzFrlrdbajWLbroV6c49QSxPhli3OT2GLqoErgddXgwa2yTWsNEj7zOemFsmey-C4zZE-VV6tdlPHDEUS5w_aU8ckotYF1Ppc3DSdvRGeuVgxLM5CsZq1eNVlQIqyaZDj4aGHk7mRhjuYI8hzhct9Y9vATrF_DdYqvuxhw8RHtfQUc | publicData esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-mail.read_mail.v1 esi-skills.read_skills.v1 esi-skills.read_skillqueue.v1 esi-wallet.read_character_wallet.v1 esi-wallet.read_corporation_wallet.v1 esi-search.search_structures.v1 esi-clones.read_clones.v1 esi-universe.read_structures.v1 esi-assets.read_assets.v1 esi-planets.manage_planets.v1 esi-fittings.read_fittings.v1 esi-industry.read_character_jobs.v1 esi-markets.read_character_orders.v1 esi-characters.read_blueprints.v1 esi-contracts.read_character_contracts.v1 esi-clones.read_implants.v1 esi-wallet.read_corporation_wallets.v1 esi-characters.read_notifications.v1 esi-corporations.read_divisions.v1 esi-assets.read_corporation_assets.v1 esi-corporations.read_blueprints.v1 esi-contracts.read_corporation_contracts.v1 esi-industry.read_corporation_jobs.v1 esi-markets.read_corporation_orders.v1 esi-industry.read_character_mining.v1 esi-industry.read_corporation_mining.v1 | 2.76586637596E9 | 1290        | Minmatar | 0.0         |
+	And the next "92223647" identifier for the CAPSULEER_IDENTIFIER
+	And the following MiningExtractionEntity on backend response
+	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
+	  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | <today>            | 11             | 92223647 |
+	  | 2019-08-07:11-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | <today>            | 11             | 92223647 |
+	  | 2019-08-07:11-30001735-17459-92223647 | 17459  | 30001735      | 23576    | 17682 | <today>            | 11             | 92223647 |
+	  | 2019-08-07:10-30001735-17471-92223647 | 17471  | 30001735      | 19276    | 0     | <today>            | 10             | 92223647 |
+	  | 2019-08-07:10-30001735-17459-92223647 | 17459  | 30001735      | 5894     | 0     | <today>            | 10             | 92223647 |
 
   @NC06P0.01 @MiningLedgerActivity
   Scenario: [NC06P0.01][ACTIONBAR] Mining daily data action bar.
-    When the MiningLegderActivity activity lifecycle completes for page "0"
-    Then the MiningLegderActivity has "1" pages
+	When the MiningLegderActivity activity lifecycle completes for page "0"
+	Then the MiningLegderActivity has "1" pages
 #    And there is a action bar of type "MiningActionBar" with the next fields
 #      | Title  | Subtitle |
 #      | Beth Ripley | PLANET INSTALLATIONS - DETAILS   |
-#    And "0" panels on the "HeaderSection"
+	And "6" panels on the "HeaderSection"
+	And check a "DailyExtractionResourcesContainer" panel with the next contents
+	  | nameTypeLabel           | quantityLabel | valueLabel |
+	  | RESOURCE NAME [#TYPEID] | QUANTITY      | VALUE      |
+	And check a "MiningResource" panel with the next contents
+	  | resourceName   | resourceIdentifier | quantity | value          |
+	  | Dense Veldspar | [#17471]           | 25,432   | 414,541.60 ISK |
+#      | fieldIdentifier    | fieldValue      |
+#      | resourceName       | Solid Pyroxeres |
+#      | resourceIdentifier | [#17459]        |
+#      | quantity           | 23.576          |
+#      | value              | -23,576.00 ISK  |
 #    And "5" panels on the "DataSection"
 #    And the header section has a "AppInfoPanel" panel with the next information
 #      | AppName  | AppVersion |
 #      | NeoComAT | 0.19.4     |
-  And stop on debug point
+	And stop on debug point
 
 
 
