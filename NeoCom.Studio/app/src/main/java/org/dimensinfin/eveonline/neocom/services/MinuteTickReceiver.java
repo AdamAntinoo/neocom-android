@@ -11,7 +11,6 @@ import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
 import org.dimensinfin.eveonline.neocom.annotation.Singleton;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.service.scheduler.JobScheduler;
-import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
 
 /**
  * This class is a one minute timer activated at startup. It will call upon the list of schedulers configured if the minute counter matches the
@@ -22,13 +21,7 @@ import org.dimensinfin.eveonline.neocom.ui.PreferenceKeys;
  */
 @Singleton
 public class MinuteTickReceiver extends BroadcastReceiver {
-//	private SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences();
-//	private Context context;
-
-	// - C O N S T R U C T O R S
-//	public MinuteTickReceiver( final Context context ) {
-//		this.context = context;
-//	}
+	private static final String ALLOW_SCHEDULER_PREFERENCE_KEY = "prefkey_AllowScheduler";
 
 	/**
 	 * Receive an intent on every minute tick.
@@ -38,40 +31,17 @@ public class MinuteTickReceiver extends BroadcastReceiver {
 	@LogEnterExit
 	@Override
 	public void onReceive( final Context context, final Intent intent ) {
-		NeoComLogger.enter( "{}:{}", LocalTime.now().getHourOfDay() + "", LocalTime.now().getMinuteOfHour() + "" );
+		NeoComLogger.enter( "{}:{}",
+				String.format( Integer.toString( LocalTime.now().getHourOfDay() ), "%d02" ),
+				String.format( Integer.toString( LocalTime.now().getMinuteOfHour() ), "%d02" ) );
 		if (this.allowed2Run( context )) {
-//			if (JobScheduler.getJobScheduler().needsNetwork())
-//				if (!NeoComApplication.checkNetworkAccess()) return;
-//			if (JobScheduler.getJobScheduler().needsStorage())
-//				if (!NeoComApplication.checkSDCardAvailability()) return;
+			JobScheduler.getJobScheduler().runSchedule();
 		} else return;
-		JobScheduler.getJobScheduler().runSchedule();
 		NeoComLogger.exit();
 	}
 
 	protected boolean allowed2Run( final Context context ) {
 		return PreferenceManager.getDefaultSharedPreferences( context )
-				       .getBoolean( PreferenceKeys.prefkey_AllowScheduler.name(), true );
+				       .getBoolean( ALLOW_SCHEDULER_PREFERENCE_KEY, true );
 	}
-
-	// - B U I L D E R
-//	public static class Builder {
-//		private MinuteTickReceiver onConstruction;
-//
-//		public Builder( final Context context ) {
-//			this.onConstruction = new MinuteTickReceiver( context );
-////			this.onConstruction.preferences = PreferenceManager.getDefaultSharedPreferences(
-////					NeoComComponentFactory.getSingleton().getApplication()
-////			);
-//		}
-//
-//		public MinuteTickReceiver build() {
-////			Objects.requireNonNull(this.onConstruction.context);
-//			//			Objects.requireNonNull(this.onConstruction.configurationProvider);
-//			this.onConstruction.preferences = PreferenceManager.getDefaultSharedPreferences(
-//					NeoComComponentFactory.getSingleton().getApplication()
-//			);
-//			return this.onConstruction;
-//		}
-//	}
 }
