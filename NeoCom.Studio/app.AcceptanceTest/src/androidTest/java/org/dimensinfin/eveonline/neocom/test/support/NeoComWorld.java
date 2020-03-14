@@ -28,8 +28,10 @@ import org.dimensinfin.eveonline.neocom.app.activity.PilotDashboardActivity;
 import org.dimensinfin.eveonline.neocom.assets.activity.AssetDisplayActivity;
 import org.dimensinfin.eveonline.neocom.core.activity.SettingsActivity;
 import org.dimensinfin.eveonline.neocom.core.domain.EExtras;
+import org.dimensinfin.eveonline.neocom.database.repositories.MiningRepository;
 import org.dimensinfin.eveonline.neocom.service.logger.NeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportCredentialRepository;
+import org.dimensinfin.eveonline.neocom.test.support.adapters.SupportMiningRepository;
 
 public class NeoComWorld {
 	private ActivityScenario<AppInitializationActivity> appInitializationActivityScenario;
@@ -44,6 +46,7 @@ public class NeoComWorld {
 	private Intent authorizationIntent;
 	// - C O M P O N E N T S
 	private SupportCredentialRepository credentialRepository;
+	private SupportMiningRepository miningRepository;
 
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool( 1 );
 	private NeoComApplication application;
@@ -61,13 +64,23 @@ public class NeoComWorld {
 		NeoComLogger.info( "Registering global components..." );
 		try {
 			this.credentialRepository = new SupportCredentialRepository.Builder()
-					                            .withCredentialDao(
-							                            NeoComComponentFactory.getSingleton()
-									                            .getNeoComDBHelper().getCredentialDao() )
+					                            .withCredentialDao( NeoComComponentFactory.getSingleton()
+							                                                .getNeoComDBHelper().getCredentialDao() )
 					                            .build();
 			NeoComComponentFactory.getSingleton().setCredentialRepository( this.credentialRepository );
 		} catch (final SQLException sqle) {
-			sqle.printStackTrace();
+			AcceptanceNeoComLogger.error( sqle );
+		}
+		try {
+			this.miningRepository = new SupportMiningRepository.Builder()
+					                        .withMiningExtractionDao( NeoComComponentFactory.getSingleton()
+							                                                  .getNeoComDBHelper().getMiningExtractionDao() )
+					                        .withLocationCatalogService( NeoComComponentFactory.getSingleton()
+							                                                     .getLocationCatalogService() )
+					                        .build();
+			NeoComComponentFactory.getSingleton().setMiningRepository( this.miningRepository );
+		} catch (final SQLException sqle) {
+			AcceptanceNeoComLogger.error( sqle );
 		}
 	}
 
@@ -173,12 +186,11 @@ public class NeoComWorld {
 		return authorizationIntent;
 	}
 
-// ---------------------------------------------------------------
+	public SupportMiningRepository getMiningRepository() {
+		return this.miningRepository;
+	}
 
-	//	public ExecutorService getExecutor() {
-//		return backgroundExecutor;
-//	}
-//
+	// ---------------------------------------------------------------
 	public NeoComApplication getApplication() {
 		return this.application;
 	}
@@ -196,18 +208,6 @@ public class NeoComWorld {
 		this.activityScenario = activityScenario;
 		return this;
 	}
-
-	//
-//
-//	public View getActivePanel() {
-//		return this.activePanel;
-//	}
-//
-//	public NeoComWorld setActivePanel( final View activePanel ) {
-//		this.activePanel = activePanel;
-//		return this;
-//	}
-//
 	public MVCRender getActiveRender() {
 		return this.activeRender;
 	}
@@ -216,65 +216,12 @@ public class NeoComWorld {
 		this.activeRender = activeRender;
 		return this;
 	}
-
-	//
-//	// --------------------------------------------------------------
-//	public View getActionBar() {
-//		return this.actionBar;
-//	}
-//
-//	public NeoComWorld setActionBar( final View actionBar ) {
-//		this.actionBar = actionBar;
-//		return this;
-//	}
-//
-//
-//	public ActivityTestRule getActivityRule() {
-//		return this.activityRule;
-//	}
-//
-//	public NeoComWorld setActivityRule( final ActivityTestRule activityRule ) {
-//		this.activityRule = activityRule;
-//		return this;
-//	}
-//
-//
-//	public MVCPagerFragment getFragment() {
-//		return this.fragment;
-//	}
-//
-//	public NeoComWorld setFragment( final MVCPagerFragment fragment ) {
-//		this.fragment = fragment;
-//		return this;
-//	}
-//
 	public ViewGroup getHeaderContainer() {
 		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessHeaderContainer();
 	}
-
-	//
-////	public NeoComWorld setHeaderContainer( final ViewGroup headerContainer ) {
-////		this.headerContainer = headerContainer;
-////		return this;
-////	}
-//
 	public ListView getDataSectionContainer() {
 		Objects.requireNonNull( this.fragment );
 		return this.fragment.accessDataSectionContainer();
 	}
-//
-////	public NeoComWorld setDataSectionContainer( final ListView dataSectionContainer ) {
-////		this.dataSectionContainer = dataSectionContainer;
-////		return this;
-////	}
-//
-//	public LocalDate getTodayDate() {
-//		return this.todayDate;
-//	}
-//
-//	public NeoComWorld setTodayDate( final LocalDate todayDate ) {
-//		this.todayDate = todayDate;
-//		return this;
-//	}
 }
