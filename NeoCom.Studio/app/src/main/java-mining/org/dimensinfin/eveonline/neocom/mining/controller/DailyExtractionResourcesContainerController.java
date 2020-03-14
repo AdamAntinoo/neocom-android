@@ -8,10 +8,11 @@ import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.SpacerType;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.controller.core.NeoComController;
-import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.render.DailyExtractionResourcesContainerRender;
 
 public class DailyExtractionResourcesContainerController extends NeoComController<DailyExtractionResourcesContainer> implements IContainer {
 
@@ -30,34 +31,5 @@ public class DailyExtractionResourcesContainerController extends NeoComControlle
 	@Override
 	public IRender buildRender( final Context context ) {
 		return new DailyExtractionResourcesContainerRender( this, context );
-	}
-
-	// - I T E M P A C K R E N D E R
-	public static class DailyExtractionResourcesContainerRender extends NeoComRender {
-		// - C O N S T R U C T O R S
-		public DailyExtractionResourcesContainerRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
-			super( controller, context );
-		}
-
-		@Override
-		public DailyExtractionResourcesContainerController getController() {
-			return (DailyExtractionResourcesContainerController) super.getController();
-		}
-
-		// - I R E N D E R   I N T E R F A C E
-		@Override
-		public int accessLayoutReference() {
-			return R.layout.resource4mininglistheader;
-		}
-
-		@Override
-		public void initializeViews() {
-			super.initializeViews();
-		}
-
-		@Override
-		public void updateContent() {
-			super.updateContent();
-		}
 	}
 }
