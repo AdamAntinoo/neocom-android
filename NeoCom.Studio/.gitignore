@@ -3,7 +3,7 @@
 .gradle
 
 .idea/modules.xml
-.idea/workspace.xml
+#.idea/workspace.xml
 .idea/sonarIssues.xml
 .idea/sonarlint/
 .idea/libraries/

@@ -10,7 +10,7 @@ buildscript {
 //        maven { url "https://kotlin.bintray.com/kotlinx/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -46,4 +46,8 @@ ext {
     neocomCoreBaseVersion = '3.2.0'
     neocomESISwaggerVersion = '4.18.0'
     neocomDataManagementVersion = '0.18.1'
+}
+
+wrapper {
+    gradleVersion = '5.4.1'
 }

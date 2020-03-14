@@ -17,7 +17,7 @@ android {
         minSdkVersion 21 // Required because the colony drawing.
         targetSdkVersion 28
         versionCode 30
-        versionName "0.19.4"
+        versionName "0.19.5"
         project.archivesBaseName = "NCAcceptanceTests-$versionName"
         project.version = android.defaultConfig.versionName
     }
@@ -97,8 +97,6 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'me.relex:circleindicator:2.1.0'
-//    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
-
     implementation 'org.slf4j:slf4j-android:1.7.26'
 }
 // - T E S T I N G
