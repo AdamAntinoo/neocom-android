@@ -13,7 +13,6 @@ import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.app.ui.MiningActionBar;
 import org.dimensinfin.eveonline.neocom.core.domain.PageNamesType;
 import org.dimensinfin.eveonline.neocom.exception.NeoComRuntimeException;
-import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceAll;
 import org.dimensinfin.eveonline.neocom.mining.datasource.MiningLedgerDataSourceToday;
 
 public class MiningLedgerFragment extends AuthenticatedFragment {
@@ -38,16 +37,16 @@ public class MiningLedgerFragment extends AuthenticatedFragment {
 						   .withBackendService( NeoComComponentFactory.getSingleton().getBackendService() )
 						   .withLocationCatalogService( NeoComComponentFactory.getSingleton().getLocationCatalogService() )
 					       .build();
-		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_ALL.name()))
-			return new MiningLedgerDataSourceAll.Builder()
-					       .addIdentifier(this.getVariant())
-					       .addIdentifier(this.getCredential().getAccountId())
-					       .withVariant(this.getVariant())
-					       .withExtras(this.getExtras())
-					       .withFactory(this.createFactory())
-					       .withCredential(this.getCredential())
-					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
-					       .build();
+//		if (this.getVariant().equalsIgnoreCase(PageNamesType.MINING_EXTRACTIONS_ALL.name()))
+//			return new MiningLedgerDataSourceAll.Builder()
+//					       .addIdentifier(this.getVariant())
+//					       .addIdentifier(this.getCredential().getAccountId())
+//					       .withVariant(this.getVariant())
+//					       .withExtras(this.getExtras())
+//					       .withFactory(this.createFactory())
+//					       .withCredential(this.getCredential())
+//					       .withMiningRepository(NeoComComponentFactory.getSingleton().getMiningRepository())
+//					       .build();
 		throw new NeoComRuntimeException("Mining variant has not defined Data Source to generate content.");
 	}
 
