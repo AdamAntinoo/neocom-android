@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1399ebf5-e313-4f05-a5b9-870e0484d8ed" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2MiningExtractionEntityConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.AcceptanceTest/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app.AcceptanceTest/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature" beforeDir="false" afterPath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/NeoComAndroidJUnitRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/NeoComAndroidJUnitRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC06MiningLedger.java" beforeDir="false" afterPath="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC06MiningLedger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
@@ -35,29 +42,93 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="22" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="22" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC02AppSplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="-327">
+              <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC06MiningLedger.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="52" column="91" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="91" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2MiningExtractionEntityConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+            <state relative-caret-position="300">
+              <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2CredentialConverter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="17" column="69" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC00SupportAndCoreSteps.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="218" column="5" lean-forward="true" selection-start-line="212" selection-start-column="60" selection-end-line="218" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC02-Splash.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="30" selection-start-line="27" selection-end-line="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC03-PilotDashboard.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="22" lean-forward="true" selection-start-line="20" selection-end-line="22" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>clean appl</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -66,6 +137,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app.AcceptanceTest/build.gradle" />
+        <option value="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature" />
+        <option value="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC06MiningLedger.java" />
+        <option value="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2MiningExtractionEntityConverter.java" />
       </list>
     </option>
   </component>
@@ -77,7 +152,7 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <autoscrollToSource AndroidView="true" />
       <autoscrollFromSource AndroidView="true" />
       <foldersAlwaysOnTop value="true" />
@@ -86,6 +161,70 @@
       <pane id="AndroidView">
         <subPane>
           <expand>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="steps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="support" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="neocom" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="support" type="462c0819:PsiDirectoryNode" />
+              <item name="converters" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="assets" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app.AcceptanceTest" type="feadf853:AndroidModuleNode" />
+              <item name="assets" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="features" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
             <path>
               <item name="NeoCom.Studio" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -102,6 +241,62 @@
               <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
               <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="neocom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="neocom" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NeoCom.Studio" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NeoCom.Studio" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app.AcceptanceTest" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="neocom" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="steps" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -115,7 +310,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="memory.settings.postsync.do.not.ask.for.project" value="true" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -129,7 +324,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app.AcceptanceTest">
+  <component name="RunManager" selected="Cucumber java.Feature: NC06-MiningLedger">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -243,6 +438,29 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Feature: NC06-MiningLedger" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="4" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature" />
+      <option name="GLUE" value="org.dimensinfin.eveonline.neocom.test.steps org.dimensinfin.eveonline.neocom.test.supersteps" />
+      <option name="MAIN_CLASS_NAME" value="cucumber.api.cli.Main" />
+      <module name="app.AcceptanceTest" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm4SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: NC06-MiningLedger" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cucumber.api.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cucumber java.Feature: NC06-MiningLedger" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -257,8 +475,17 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Feature__NC06-MiningLedger - 2020.03.14 at 10h 15m 31s.xml">
+      <configuration name="Feature: NC06-MiningLedger" configurationId="CucumberJavaRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Feature__NC06-MiningLedger - 2020.03.14 at 10h 27m 00s.xml">
+      <configuration name="Feature: NC06-MiningLedger" configurationId="CucumberJavaRunConfigurationType" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1600" height="828" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="1" />
@@ -269,14 +496,16 @@
       <window_info id="Image Layers" order="6" />
       <window_info id="Designer" order="7" />
       <window_info id="Resources Explorer" order="8" />
+      <window_info anchor="bottom" id="Run" weight="0.32904148" />
       <window_info anchor="bottom" id="SonarQube" />
       <window_info anchor="bottom" id="SonarLint" />
+      <window_info anchor="bottom" id="Debug" />
       <window_info anchor="bottom" id="Logcat" order="0" />
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="4" />
-      <window_info anchor="bottom" id="Build" order="5" visible="true" weight="0.32904148" />
+      <window_info anchor="bottom" id="Build" order="5" weight="0.32904148" />
       <window_info anchor="bottom" id="Android Profiler" order="6" show_stripe_button="false" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -299,8 +528,87 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/dependencies.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="66" column="64" selection-start-line="66" selection-start-column="64" selection-end-line="66" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC01-AppInitialization.feature">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC03-PilotDashboard.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="22" lean-forward="true" selection-start-line="20" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC02-Splash.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="30" selection-start-line="27" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC02AppSplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-327">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC03PilotDashboard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-96">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC00SupportAndCoreSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="218" column="5" lean-forward="true" selection-start-line="212" selection-start-column="60" selection-end-line="218" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/steps/NC06MiningLedger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="52" column="91" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/assets/features/NC06-MiningLedger.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="22" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2CredentialConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="17" column="69" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.AcceptanceTest/src/androidTest/java/org/dimensinfin/eveonline/neocom/test/support/converters/CucumberTable2MiningExtractionEntityConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

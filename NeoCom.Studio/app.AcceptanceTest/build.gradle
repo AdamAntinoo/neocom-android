@@ -50,7 +50,7 @@ android {
             srcDirs += project(':app').file('src/main/java')
             srcDirs += project(':app').file('src/main/java-adapters')
             srcDirs += project(':app').file('src/main/java-assets')
-            srcDirs += project(':app').file('src/main/java-datamanagement')
+            srcDirs += project(':app').file('src/main/java-mining')
         }
         debug.java {
             srcDirs += project(':app').file('src/debug/java')
@@ -64,6 +64,7 @@ android {
             srcDirs += project(':app').file('src/main/res-layouts')
             srcDirs += project(':app').file('src/main/res-assets')
             srcDirs += project(':app').file('src/main/res-fitting')
+            srcDirs += project(':app').file('src/main/res-mining')
         }
     }
 
