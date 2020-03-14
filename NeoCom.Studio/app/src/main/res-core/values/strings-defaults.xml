@@ -49,6 +49,8 @@
     <string name="default_assetidentifier">1003457663</string>
     <string name="default_completedskills">2 of 18 skills</string>
     <string name="default_constellationname">Contellation</string>
+    <string name="default_planetname">Esescama</string>
+
 
     <string name="default_isk">234,567,809.52 ISK</string>
     <string name="default_isk_intermediate">132.45M ISK</string>

@@ -13,7 +13,8 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.app.render.NeoComRenderv2;
+import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
+import org.dimensinfin.eveonline.neocom.mining.domain.MiningExtractionAggregatorAsPanelTitle;
 
 public class MiningExtractionAggregatorController extends AndroidController<MiningExtractionAggregatorAsPanelTitle> implements PropertyChangeListener {
 
@@ -43,7 +44,7 @@ public class MiningExtractionAggregatorController extends AndroidController<Mini
 	}
 
 	// - I T E M P A C K R E N D E R
-	public static class MiningExtractionAggregatorRender extends NeoComRenderv2 {
+	public static class MiningExtractionAggregatorRender extends NeoComRender {
 		// - U I   F I E L D S
 		private TextView title;
 		private TextView volume;

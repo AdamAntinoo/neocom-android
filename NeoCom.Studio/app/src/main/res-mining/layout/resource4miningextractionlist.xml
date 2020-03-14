@@ -7,8 +7,8 @@
     <ImageView
         android:id="@+id/nodeIcon"
         style="@style/AppTheme.NodeIcon"
-        android:layout_width="@dimen/halfnodeiconsize"
-        android:layout_height="@dimen/halfnodeiconsize"
+        android:layout_width="@dimen/nodeiconsizesmall"
+        android:layout_height="@dimen/nodeiconsizesmall"
         android:src="@drawable/defaulticonplaceholder"
         android:visibility="visible" />
 

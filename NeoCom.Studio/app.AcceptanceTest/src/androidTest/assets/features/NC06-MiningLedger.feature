@@ -1,10 +1,12 @@
-@NC02P0 @MiningLedgerActivity
+@NC06 @MiningLedgerActivity
 Feature: [NC02P0] Acceptance actions related to the Mining Ledger features shown at the page 0 for daily extractions.
 
   Daily mining extractions will report a panel with the aggregated resources mined during the date of today and
   then separated panels for each mining location if there are more then one and section aggregated
   by hour with the resources mined during that period of time.
 
+  Background:
+	Given the AppSplashActivity
 #  Background:
 #	Given an initialized application
 #	And the application access privileges

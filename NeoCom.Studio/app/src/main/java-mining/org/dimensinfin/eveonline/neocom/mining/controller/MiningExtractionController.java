@@ -6,31 +6,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
-import com.squareup.picasso.Picasso;
-
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.eveonline.neocom.R;
 import org.dimensinfin.eveonline.neocom.app.render.core.NeoComRender;
-import org.dimensinfin.eveonline.neocom.database.entities.MiningExtraction;
+import org.dimensinfin.eveonline.neocom.mining.domain.MiningExtraction4View;
 
-public class MiningExtractionController extends AndroidController<MiningExtraction> {
-	public MiningExtractionController( @NonNull final MiningExtraction model, @NonNull final IControllerFactory factory ) {
+public class MiningExtractionController extends AndroidController<MiningExtraction4View> {
+	public MiningExtractionController( @NonNull final MiningExtraction4View model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
-//		model.addPropertyChangeListener(this);
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
-	public IRender buildRender( final Context context ) {
+	public IRender buildRender( @NonNull final Context context ) {
 		return new MiningExtractionRenderV5(this, context);
-	}
-
-	@Override
-	public long getModelId() {
-		return 0;
 	}
 
 	// - M I N I N G E X T R A C T I O N R E N D E R
@@ -58,32 +50,32 @@ public class MiningExtractionController extends AndroidController<MiningExtracti
 		@Override
 		public void initializeViews() {
 			super.initializeViews();
-			nodeIcon = this.getView().findViewById(R.id.nodeIcon);
-			resourceName = this.getView().findViewById(R.id.resourceName);
-			resourceTypeId = this.getView().findViewById(R.id.resourceTypeId);
-			delta = this.getView().findViewById(R.id.delta);
-			quantity = this.getView().findViewById(R.id.quantity);
-			separatorLabel = this.getView().findViewById(R.id.separatorLabel);
-			extractionHour = this.getView().findViewById(R.id.extractionHour);
-			extractionValue = this.getView().findViewById(R.id.extractionValue);
+			this.nodeIcon = this.getView().findViewById(R.id.nodeIcon);
+			this.resourceName = this.getView().findViewById(R.id.resourceName);
+			this.resourceTypeId = this.getView().findViewById(R.id.resourceTypeId);
+			this.delta = this.getView().findViewById(R.id.delta);
+			this.quantity = this.getView().findViewById(R.id.quantity);
+			this.separatorLabel = this.getView().findViewById(R.id.separatorLabel);
+			this.extractionHour = this.getView().findViewById(R.id.extractionHour);
+			this.extractionValue = this.getView().findViewById(R.id.extractionValue);
 		}
 
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			String link = this.getController().getModel().getURLForItem();
-			Picasso.get().load(link).into(nodeIcon);
-			resourceName.setText(this.getController().getModel().getResourceName());
-			resourceTypeId.setText("[#" + this.getController().getModel().getTypeId() + "]");
-			delta.setText(this.accessDelta());
-			quantity.setText(this.accessQuantity());
+//			String link = this.getController().getModel().getURLForItem();
+//			Picasso.get().load(link).into(nodeIcon);
+			this.resourceName.setText(this.getController().getModel().getName());
+			this.resourceTypeId.setText("[#" + this.getController().getModel().getTypeId() + "]");
+			this.delta.setText(this.accessDelta());
+			this.quantity.setText(this.accessQuantity());
 			// Hide some elements if the delta os ZERO
 			if (this.getController().getModel().getDelta() < 1) {
-				delta.setVisibility(View.INVISIBLE);
-				separatorLabel.setVisibility(View.INVISIBLE);
+				this.delta.setVisibility(View.INVISIBLE);
+				this.separatorLabel.setVisibility(View.INVISIBLE);
 			}
-			extractionHour.setText("Hour: " + this.accessExtractionHour());
-			extractionValue.setText(this.accessExtractionValue());
+			this.extractionHour.setText("Hour: " + this.accessExtractionHour());
+			this.extractionValue.setText(this.accessExtractionValue());
 		}
 
 		@Override

@@ -18,3 +18,16 @@
 [CLASSES PROBABLE FROM DATA MANAGEMENT]
 * Credential
 * CredentialRepository
+
+[CLASSES CURRENT DEVELOPMENT]
+>* MinuteTickTimer
+>* MiingLedgerDataSourceToday
+>* MiningLedgerFragment
+>* MiningControllerFactory
+>* MiningActionBarController
+>* MiningExtractionAggregationController
+>* MiningResourceController
+>* MiningExtractionResourceRender
+>* ResourceFacetedRender
+>* MiningExtraction4View
+>* MiningExtractionAggregatorContainer

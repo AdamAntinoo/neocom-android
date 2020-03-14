@@ -1,4 +1,4 @@
-package org.dimensinfin.eveonline.neocom.mining;
+package org.dimensinfin.eveonline.neocom.mining.domain;
 
 import java.util.ArrayList;
 import java.util.List;
