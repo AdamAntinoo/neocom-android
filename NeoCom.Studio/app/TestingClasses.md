@@ -10,7 +10,6 @@
 - SplashActionBar
 - CredentialController
 - NewLoginAction
-- PanelTitle
 
 [CLASSES FROM MVC]
 - ExceptionReport
@@ -25,12 +24,16 @@
 >* MiningLedgerFragment
 >* MiningControllerFactory
 >* MiningActionBarController
->* MiningExtractionAggregationController
 >* ResourceFacetedRender
 >* MiningExtraction4View
->* MiningExtractionAggregatorContainer
-> MiningResourceController
+>* PanelTitleRender
 >* MiningExtractionResourceRender
+> MiningResourceController
 > DailyExtractionResourcesContainerRender
 > DailyExtractionResourcesContainerController
-
+> PanelTitle
+> PanelTitleController
+> MiningExtractionAggregatorContainer
+> MiningExtractionAggregatorContainerController
+>* AggregationPanelTitle
+>* MiningExtractionAggregatorController

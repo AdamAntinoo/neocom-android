@@ -30,7 +30,7 @@ import org.dimensinfin.eveonline.neocom.mining.controller.MiningActionBarControl
 
 public class AppControllerFactory extends ControllerFactory {
 	public AppControllerFactory( final String selectedVariant ) {
-		super(selectedVariant);
+		super( selectedVariant );
 	}
 
 	/**
@@ -42,50 +42,50 @@ public class AppControllerFactory extends ControllerFactory {
 	 */
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
-		logger.info("-- [AppControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName());
+		logger.info( "-- [AppControllerFactory.createController]> Node class: {}", node.getClass().getSimpleName() );
 		if (node instanceof AppVersion) {
-			return new AppVersionController((AppVersion) node, this).setRenderMode( this.getVariant() );
+			return new AppVersionController( (AppVersion) node, this ).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof InitializationTask) {
-			return new InitializationTaskController((InitializationTask) node, this);
+			return new InitializationTaskController( (InitializationTask) node, this );
 		}
 		if (node instanceof InitializationException) {
-			return new InitializationExceptionController((InitializationException) node, this);
+			return new InitializationExceptionController( (InitializationException) node, this );
 		}
 		if (node instanceof RetryButton) {
-			return new RetryButtonController((RetryButton) node, this);
+			return new RetryButtonController( (RetryButton) node, this );
 		}
 		if (node instanceof Pilot) {
-			return new PilotController((Pilot) node, this);
+			return new PilotController( (Pilot) node, this );
 		}
 		if (node instanceof Credential) {
-			return new CredentialController((Credential) node, this);
+			return new CredentialController( (Credential) node, this );
 		}
 		if (node instanceof NewLoginAction) {
-			return new NewLoginController((NewLoginAction) node, this);
+			return new NewLoginController( (NewLoginAction) node, this );
 		}
 		if (node instanceof PanelTitle) {
-			return new PanelTitleController.Builder((PanelTitle) node, this)
-					       .withVariant(this.getVariant())
+			return new PanelTitleController.Builder( (PanelTitle) node, this )
+					       .withVariant( this.getVariant() )
 					       .build();
 		}
 		if (node instanceof PilotSection) {
-			return new PilotSectionController((PilotSection) node, this);
+			return new PilotSectionController( (PilotSection) node, this );
 		}
 
 		// - A C T I O N B A R S
 		if (node instanceof SplashActionBar) {
-			return new SplashActionBarController((SplashActionBar) node, this);
+			return new SplashActionBarController( (SplashActionBar) node, this );
 		}
 		if (node instanceof DashboardActionBar) {
-			return new NeoComActionBarController((DashboardActionBar) node, this);
+			return new NeoComActionBarController( (DashboardActionBar) node, this );
 		}
 //		if (node instanceof PlanetaryActionBar) {
 //			return new AssetActionBarController((PlanetaryActionBar) node, this);
 //		}
 		if (node instanceof MiningActionBar) {
-			return new MiningActionBarController((MiningActionBar) node, this);
+			return new MiningActionBarController( (MiningActionBar) node, this );
 		}
-		return super.createController(node);
+		return super.createController( node );
 	}
 }

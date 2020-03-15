@@ -35,16 +35,38 @@ Feature: [NC06P0] Acceptance actions related to the Mining Ledger features shown
 	And check a "MiningResource" panel with the next contents
 	  | resourceName   | resourceIdentifier | quantity | value          |
 	  | Dense Veldspar | [#17471]           | 25,432   | 414,541.60 ISK |
-#      | fieldIdentifier    | fieldValue      |
-#      | resourceName       | Solid Pyroxeres |
-#      | resourceIdentifier | [#17459]        |
-#      | quantity           | 23.576          |
-#      | value              | -23,576.00 ISK  |
-#    And "5" panels on the "DataSection"
-#    And the header section has a "AppInfoPanel" panel with the next information
-#      | AppName  | AppVersion |
-#      | NeoComAT | 0.19.4     |
+#	And "6" panels on the "DataSection"
+#	And check a "PanelTitle" panel with the next contents
+#	  | title                        |
+#	  | TODAY MINING EXTRACTIONS [5] |
+#	And check a "MiningExtractionAggregatorContainer" panel with the next contents
+#	  | title                        |
+#	  | TODAY MINING EXTRACTIONS [5] |
 	And stop on debug point
+
+  @NC06P0.02 @MiningLedgerActivity
+  Scenario: [NC06P0.02][ACTIONBAR] Mining daily minings extractions resource list.
+	When the MiningLegderActivity activity lifecycle completes for page "0"
+	Then the MiningLegderActivity has "1" pages
+#    And there is a action bar of type "MiningActionBar" with the next fields
+#      | Title  | Subtitle |
+#      | Beth Ripley | PLANET INSTALLATIONS - DETAILS   |
+	And "6" panels on the "HeaderSection"
+	And check a "DailyExtractionResourcesContainer" panel with the next contents
+	  | nameTypeLabel           | quantityLabel | valueLabel |
+	  | RESOURCE NAME [#TYPEID] | QUANTITY      | VALUE      |
+	And check a "MiningResource" panel with the next contents
+	  | resourceName   | resourceIdentifier | quantity | value          |
+	  | Dense Veldspar | [#17471]           | 25,432   | 414,541.60 ISK |
+#	And "6" panels on the "DataSection"
+#	And check a "PanelTitle" panel with the next contents
+#	  | title                        |
+#	  | TODAY MINING EXTRACTIONS [5] |
+#	And check a "MiningExtractionAggregatorContainer" panel with the next contents
+#	  | title                        |
+#	  | TODAY MINING EXTRACTIONS [5] |
+	And stop on debug point
+
 
 
 

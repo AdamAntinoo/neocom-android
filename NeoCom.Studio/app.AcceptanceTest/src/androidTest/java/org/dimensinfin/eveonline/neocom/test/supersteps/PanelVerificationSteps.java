@@ -13,7 +13,9 @@ import org.junit.Assert;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.eveonline.neocom.R;
+import org.dimensinfin.eveonline.neocom.app.controller.PanelTitleController;
 import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
+import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionAggregatorController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
 import org.dimensinfin.eveonline.neocom.test.support.Ristretto;
@@ -41,42 +43,6 @@ public class PanelVerificationSteps extends StepFramework {
 		}
 	}
 
-	private boolean validateMiningActionBar( final View actionBar, final List<Map<String, String>> cucumberTable ) {
-		Assert.assertNotNull( actionBar );
-		for (Map<String, String> row : cucumberTable) {
-			TextView field;
-			switch (row.get( FIELD_IDENTIFIER )) {
-				case "titleTopLeft":
-					field = actionBar.findViewById( R.id.toolBarTitleLeft );
-					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
-					return true;
-				case "subtitle":
-					field = actionBar.findViewById( R.id.toolBarSubTitle );
-					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
-					return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean validateMiningResourcePanel( final View panel, final List<Map<String, String>> cucumberTable ) {
-		final String RESOURCENAME = "resourceName";
-		final String RESOURCEIDENTIFIER = "resourceIdentifier";
-		final String QUANTITY = "quantity";
-		final String VALUE = "value";
-		Assert.assertNotNull( panel );
-		final Map<String, String> row = cucumberTable.get( 0 );
-		Assert.assertEquals( row.get( RESOURCENAME ),
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceName ) ).getText().toString()  );
-		Assert.assertEquals( row.get( RESOURCEIDENTIFIER ),
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceIdentifier ) ).getText().toString()  );
-		Assert.assertEquals( row.get( QUANTITY ),
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantity ) ).getText().toString()  );
-		Assert.assertEquals( row.get( VALUE ),
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.value ) ).getText().toString()  );
-		return true;
-	}
-
 	@And("check a {string} panel with the next contents")
 	public void checkAPanelWithTheNextContents( final String panelTypeName, final List<Map<String, String>> cucumberTable ) {
 		List<IAndroidController> panelsMatching;
@@ -95,25 +61,23 @@ public class PanelVerificationSteps extends StepFramework {
 				Assert.assertTrue( panelsMatching.size() > 0 );
 				Assert.assertTrue( this.validateDailyExtractionResourcesContainerPanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
 				break;
+			case "PanelTitle":
+				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+						PanelTitleController.class );
+				Assert.assertNotNull( panelsMatching );
+				Assert.assertTrue( panelsMatching.size() > 0 );
+				Assert.assertTrue( this.validatePanelTitlePanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
+				break;
+			case "MiningExtractionAggregatorContainer":
+				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+						MiningExtractionAggregatorController.class );
+				Assert.assertNotNull( panelsMatching );
+				Assert.assertTrue( panelsMatching.size() > 0 );
+				Assert.assertTrue( this.validatePanelTitlePanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
+				break;
 			default:
 				throw new NullPointerException( "The panel type is not defined on the list of registered verifiers." );
 		}
-	}
-
-	private boolean validateDailyExtractionResourcesContainerPanel( final View panel,
-	                                                                final List<Map<String, String>> cucumberTable ) {
-		final String NAMETYPE_LABEL = "nameTypeLabel";
-		final String QUANTITY_LABEL = "quantityLabel";
-		final String VALUE_LABEL = "valueLabel";
-		Assert.assertNotNull( panel );
-		final Map<String, String> row = cucumberTable.get( 0 );
-		Assert.assertTrue( row.get( NAMETYPE_LABEL ).equals(
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.nameTypeLabel ) ).getText().toString().toUpperCase() ) );
-		Assert.assertTrue( row.get( QUANTITY_LABEL ).equals(
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantityLabel ) ).getText().toString().toUpperCase() ) );
-		Assert.assertTrue( row.get( VALUE_LABEL ).equals(
-				Objects.requireNonNull( (TextView) panel.findViewById( R.id.valueLabel ) ).getText().toString().toUpperCase() ) );
-		return true;
 	}
 
 	@And("render a panel with {string} and the next contents")
@@ -146,5 +110,66 @@ public class PanelVerificationSteps extends StepFramework {
 	public void theDataContainerHasPanels( final String panelCount ) {
 		final ListView data = this.world.getDataSectionContainer();
 		Assert.assertEquals( Integer.parseInt( panelCount ), data.getChildCount() );
+	}
+
+	private boolean validatePanelTitlePanel( final View panel, final List<Map<String, String>> cucumberTable ) {
+		final String TITLE = "title";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertEquals( row.get( TITLE ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.title ) ).getText().toString() );
+		return true;
+	}
+
+	private boolean validateMiningActionBar( final View actionBar, final List<Map<String, String>> cucumberTable ) {
+		Assert.assertNotNull( actionBar );
+		for (Map<String, String> row : cucumberTable) {
+			TextView field;
+			switch (row.get( FIELD_IDENTIFIER )) {
+				case "titleTopLeft":
+					field = actionBar.findViewById( R.id.toolBarTitleLeft );
+					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
+					return true;
+				case "subtitle":
+					field = actionBar.findViewById( R.id.toolBarSubTitle );
+					Assert.assertEquals( row.get( FIELD_VALUE ), field.getText() );
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean validateMiningResourcePanel( final View panel, final List<Map<String, String>> cucumberTable ) {
+		final String RESOURCENAME = "resourceName";
+		final String RESOURCEIDENTIFIER = "resourceIdentifier";
+		final String QUANTITY = "quantity";
+		final String VALUE = "value";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertEquals( row.get( RESOURCENAME ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceName ) ).getText().toString() );
+		Assert.assertEquals( row.get( RESOURCEIDENTIFIER ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.resourceIdentifier ) ).getText().toString() );
+		Assert.assertEquals( row.get( QUANTITY ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantity ) ).getText().toString() );
+		Assert.assertEquals( row.get( VALUE ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.value ) ).getText().toString() );
+		return true;
+	}
+
+	private boolean validateDailyExtractionResourcesContainerPanel( final View panel,
+	                                                                final List<Map<String, String>> cucumberTable ) {
+		final String NAMETYPE_LABEL = "nameTypeLabel";
+		final String QUANTITY_LABEL = "quantityLabel";
+		final String VALUE_LABEL = "valueLabel";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertTrue( row.get( NAMETYPE_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.nameTypeLabel ) ).getText().toString().toUpperCase() ) );
+		Assert.assertTrue( row.get( QUANTITY_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.quantityLabel ) ).getText().toString().toUpperCase() ) );
+		Assert.assertTrue( row.get( VALUE_LABEL ).equals(
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.valueLabel ) ).getText().toString().toUpperCase() ) );
+		return true;
 	}
 }
