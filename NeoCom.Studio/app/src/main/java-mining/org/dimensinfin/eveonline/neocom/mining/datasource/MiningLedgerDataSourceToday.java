@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.adapter.LocationCatalogService;
 import org.dimensinfin.eveonline.neocom.app.domain.PanelTitle;
 import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
@@ -110,8 +111,13 @@ public class MiningLedgerDataSourceToday extends MVCDataSource {
 		if (this.extractions.isEmpty()) title.setTitle( "There are no Mining Extractions Today." );
 		else title.setTitle( "TODAY MINING EXTRACTIONS [" + this.extractions.size() + "]" );
 		this.addModelContents( title );
-		for (MiningExtractionAggregatorContainer panel : this.extractionSystems)
-			this.addModelContents( panel );
+		// This is a special case where the model should add the elements inthe hierrchy dependency.
+		for (MiningExtractionAggregatorContainer<SpaceSystem> panel : this.extractionSystems) {
+//			final List v = panel.collaborate2Model( this.getVariant() );
+			this.addModelContents(panel);
+			for ( ICollaboration node  : panel.collaborate2Model( this.getVariant() ))
+				this.addModelContents(node);
+		}
 	}
 
 	private void calculateDelta( final MiningExtraction extraction, final Map<String, MiningExtraction> ids ) {
