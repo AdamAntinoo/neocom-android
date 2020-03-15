@@ -35,5 +35,9 @@
 > PanelTitleController
 > MiningExtractionAggregatorContainer
 > MiningExtractionAggregatorContainerController
->* AggregationPanelTitle
+> AggregationPanelTitle
 >* MiningExtractionAggregatorController
+>* MiningExtractionAggregatorContainerToAggregationPanelTitleConverter
+>* AggregationPanelTitleController
+>* AggregationPanelTitleRender
+

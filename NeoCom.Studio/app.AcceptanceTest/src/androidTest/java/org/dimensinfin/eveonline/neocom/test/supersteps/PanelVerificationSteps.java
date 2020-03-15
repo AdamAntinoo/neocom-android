@@ -62,22 +62,37 @@ public class PanelVerificationSteps extends StepFramework {
 				Assert.assertTrue( this.validateDailyExtractionResourcesContainerPanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
 				break;
 			case "PanelTitle":
-				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+				panelsMatching = Ristretto.withType( Ristretto.accessDataPanels( this.world.getSelectedPage() ),
 						PanelTitleController.class );
 				Assert.assertNotNull( panelsMatching );
 				Assert.assertTrue( panelsMatching.size() > 0 );
 				Assert.assertTrue( this.validatePanelTitlePanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
 				break;
-			case "MiningExtractionAggregatorContainer":
-				panelsMatching = Ristretto.withType( Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
+			case "MiningExtractionAggregatorContainer.SpaceSystem":
+				panelsMatching = Ristretto.withType( Ristretto.accessDataPanels( this.world.getSelectedPage() ),
 						MiningExtractionAggregatorController.class );
 				Assert.assertNotNull( panelsMatching );
 				Assert.assertTrue( panelsMatching.size() > 0 );
-				Assert.assertTrue( this.validatePanelTitlePanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
+				Assert.assertTrue( this.validateMiningExtractionAggregatorContainerSpaceSystemPanel( panelsMatching.get( 0 ).getViewCache(), cucumberTable ) );
 				break;
 			default:
 				throw new NullPointerException( "The panel type is not defined on the list of registered verifiers." );
 		}
+	}
+
+	private boolean validateMiningExtractionAggregatorContainerSpaceSystemPanel( final View panel, final List<Map<String, String>> cucumberTable ) {
+		final String TITLE = "Title";
+		final String VOLUME = "Volume";
+		final String MARKETVALUE = "MarketValue";
+		Assert.assertNotNull( panel );
+		final Map<String, String> row = cucumberTable.get( 0 );
+		Assert.assertEquals( row.get( TITLE ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.title ) ).getText().toString() );
+		Assert.assertEquals( row.get( VOLUME ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.volume ) ).getText().toString() );
+		Assert.assertEquals( row.get( MARKETVALUE ),
+				Objects.requireNonNull( (TextView) panel.findViewById( R.id.marketValue ) ).getText().toString() );
+		return true;
 	}
 
 	@And("render a panel with {string} and the next contents")

@@ -72,7 +72,6 @@ public class Ristretto {
 		return ((MVCPagerFragment) fragment).accessDataSectionContainer();
 	}
 
-	@Deprecated
 	public static List<IAndroidController> accessHeaderPanels( final int page ) {
 		final Fragment fragment = Objects.requireNonNull(
 				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )
@@ -80,7 +79,6 @@ public class Ristretto {
 		return ((MVCPagerFragment) fragment).accessHeaderContents();
 	}
 
-	@Deprecated
 	public static List<IAndroidController> accessDataPanels( final int page ) {
 		final Fragment fragment = Objects.requireNonNull(
 				((MVCMultiPageActivity) world.getActiveActivity()).accessPageAdapter().getItem( page )

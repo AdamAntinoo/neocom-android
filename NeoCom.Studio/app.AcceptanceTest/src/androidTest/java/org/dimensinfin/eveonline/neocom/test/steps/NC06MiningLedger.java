@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
-import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
-import org.dimensinfin.eveonline.neocom.database.entities.Credential;
-import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.mockito.Mockito;
 
+import org.dimensinfin.eveonline.neocom.app.NeoComComponentFactory;
+import org.dimensinfin.eveonline.neocom.backend.NeoComBackendService;
+import org.dimensinfin.eveonline.neocom.database.entities.Credential;
 import org.dimensinfin.eveonline.neocom.database.entities.MiningExtractionEntity;
+import org.dimensinfin.eveonline.neocom.mining.activity.MiningLedgerActivity;
 import org.dimensinfin.eveonline.neocom.test.support.AcceptanceNeoComLogger;
 import org.dimensinfin.eveonline.neocom.test.support.AuthorizedStep;
 import org.dimensinfin.eveonline.neocom.test.support.NeoComWorld;
@@ -68,9 +68,9 @@ public class NC06MiningLedger extends AuthorizedStep {
 			this.world.getMiningRepository().persist( miningExtraction );
 		}
 	}
-	@Given("the following MiningExtractionEntity on backend response")
-	public void the_following_MiningExtractionEntity_on_backend_response( final List<Map<String, String>> dataTable ) throws SQLException {
-		AcceptanceNeoComLogger.info( "[GIVEN] the following MiningExtractionEntity on backend response" );
+	@Given("the following MiningExtractionEntity on backend repository")
+	public void the_following_MiningExtractionEntity_on_backend_repository( final List<Map<String, String>> dataTable ) throws SQLException {
+		AcceptanceNeoComLogger.info( "[GIVEN] the following MiningExtractionEntity on backend repository" );
 		final List<MiningExtractionEntity> backendTodayMiningExtractionsResponse = new ArrayList<>(  );
 		for (Map<String, String> row : dataTable) {
 			final MiningExtractionEntity miningExtraction = new CucumberTable2MiningExtractionEntityConverter().convert( row );

@@ -13,7 +13,7 @@ Feature: [NC06P0] Acceptance actions related to the Mining Ledger features shown
 	  | uniqueCredential     | accountId | accountName | dataSource  | accessToken                                                                                                                                                                      | refreshToken                                                                                                                                                                                     | scope                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | walletBalance   | assetsCount | raceName | miningValue |
 	  | tranquility.92223647 | 92223647  | Beth Ripley | tranquility | CfDJ8HHFK/DOe6xKoNPHamc0mCW+m3KssaFdj/Gz5yz6LbeUZqk4wH1O/p+at7oiNS9OHwO+YY3wjMe+mXBCSsLKWMnbIf7qXeRyIb4hZZ1EAcrifvXRyD5V+V9NR8f2ti5LTx/QwAwo8g89dRmJyuHoDBFi0D0lpfxJOh9csWRWbozG | bQuMWmfQ8pDzPKaUtkYzFrlrdbajWLbroV6c49QSxPhli3OT2GLqoErgddXgwa2yTWsNEj7zOemFsmey-C4zZE-VV6tdlPHDEUS5w_aU8ckotYF1Ppc3DSdvRGeuVgxLM5CsZq1eNVlQIqyaZDj4aGHk7mRhjuYI8hzhct9Y9vATrF_DdYqvuxhw8RHtfQUc | publicData esi-location.read_location.v1 esi-location.read_ship_type.v1 esi-mail.read_mail.v1 esi-skills.read_skills.v1 esi-skills.read_skillqueue.v1 esi-wallet.read_character_wallet.v1 esi-wallet.read_corporation_wallet.v1 esi-search.search_structures.v1 esi-clones.read_clones.v1 esi-universe.read_structures.v1 esi-assets.read_assets.v1 esi-planets.manage_planets.v1 esi-fittings.read_fittings.v1 esi-industry.read_character_jobs.v1 esi-markets.read_character_orders.v1 esi-characters.read_blueprints.v1 esi-contracts.read_character_contracts.v1 esi-clones.read_implants.v1 esi-wallet.read_corporation_wallets.v1 esi-characters.read_notifications.v1 esi-corporations.read_divisions.v1 esi-assets.read_corporation_assets.v1 esi-corporations.read_blueprints.v1 esi-contracts.read_corporation_contracts.v1 esi-industry.read_corporation_jobs.v1 esi-markets.read_corporation_orders.v1 esi-industry.read_character_mining.v1 esi-industry.read_corporation_mining.v1 | 2.76586637596E9 | 1290        | Minmatar | 0.0         |
 	And the next "92223647" identifier for the CAPSULEER_IDENTIFIER
-	And the following MiningExtractionEntity on backend response
+	And the following MiningExtractionEntity on backend repository
 	  | id                                    | typeId | solarSystemId | quantity | delta | extractionDateName | extractionHour | ownerId  |
 	  | 2019-08-07:11-30001735-17471-92223647 | 17471  | 30001735      | 25432    | 6156  | <today>            | 11             | 92223647 |
 	  | 2019-08-07:11-30001735-17464-92223647 | 17464  | 30001735      | 30348    | 0     | <today>            | 11             | 92223647 |
@@ -25,32 +25,14 @@ Feature: [NC06P0] Acceptance actions related to the Mining Ledger features shown
   Scenario: [NC06P0.01][ACTIONBAR] Mining daily data action bar.
 	When the MiningLegderActivity activity lifecycle completes for page "0"
 	Then the MiningLegderActivity has "1" pages
-#    And there is a action bar of type "MiningActionBar" with the next fields
-#      | Title  | Subtitle |
-#      | Beth Ripley | PLANET INSTALLATIONS - DETAILS   |
-	And "6" panels on the "HeaderSection"
-	And check a "DailyExtractionResourcesContainer" panel with the next contents
-	  | nameTypeLabel           | quantityLabel | valueLabel |
-	  | RESOURCE NAME [#TYPEID] | QUANTITY      | VALUE      |
-	And check a "MiningResource" panel with the next contents
-	  | resourceName   | resourceIdentifier | quantity | value          |
-	  | Dense Veldspar | [#17471]           | 25,432   | 414,541.60 ISK |
-#	And "6" panels on the "DataSection"
-#	And check a "PanelTitle" panel with the next contents
-#	  | title                        |
-#	  | TODAY MINING EXTRACTIONS [5] |
-#	And check a "MiningExtractionAggregatorContainer" panel with the next contents
-#	  | title                        |
-#	  | TODAY MINING EXTRACTIONS [5] |
-	And stop on debug point
+	And there is a action bar of type "MiningActionBar" with the next fields
+	  | Title       | Subtitle                 |
+	  | Beth Ripley | TODAY MINING EXTRACTIONS |
 
   @NC06P0.02 @MiningLedgerActivity
-  Scenario: [NC06P0.02][ACTIONBAR] Mining daily minings extractions resource list.
+  Scenario: [NC06P0.02][ACTIONBAR] Mining daily mining extractions resource list on header panel.
 	When the MiningLegderActivity activity lifecycle completes for page "0"
 	Then the MiningLegderActivity has "1" pages
-#    And there is a action bar of type "MiningActionBar" with the next fields
-#      | Title  | Subtitle |
-#      | Beth Ripley | PLANET INSTALLATIONS - DETAILS   |
 	And "6" panels on the "HeaderSection"
 	And check a "DailyExtractionResourcesContainer" panel with the next contents
 	  | nameTypeLabel           | quantityLabel | valueLabel |
@@ -58,13 +40,18 @@ Feature: [NC06P0] Acceptance actions related to the Mining Ledger features shown
 	And check a "MiningResource" panel with the next contents
 	  | resourceName   | resourceIdentifier | quantity | value          |
 	  | Dense Veldspar | [#17471]           | 25,432   | 414,541.60 ISK |
-#	And "6" panels on the "DataSection"
+
+  @NC06P0.03 @MiningLedgerActivity
+  Scenario: [NC06P0.03][ACTIONBAR] Mining daily mining extractions extractions list classified by system and then hour from the data model data.
+	When the MiningLegderActivity activity lifecycle completes for page "0"
+	Then the MiningLegderActivity has "1" pages
+	And "7" panels on the "DataSection"
 #	And check a "PanelTitle" panel with the next contents
 #	  | title                        |
 #	  | TODAY MINING EXTRACTIONS [5] |
-#	And check a "MiningExtractionAggregatorContainer" panel with the next contents
-#	  | title                        |
-#	  | TODAY MINING EXTRACTIONS [5] |
+#	And check a "MiningExtractionAggregatorContainer.SpaceSystem" panel with the next contents
+#	  | Title | Volume | MarketValue |
+#	  | Uhodoh |17,864.0    | 2,676183.80 ISK    |
 	And stop on debug point
 
 

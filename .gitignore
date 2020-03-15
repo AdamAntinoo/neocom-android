@@ -1,13 +1,3 @@
-*.ods#
-*.odt#
-*.diff
-*.db
-*.log
-*.store
-
-traces/OutboxSources/
-Documentation/NeoCom.javadoc/
-
-NeoCom\.Studio/app/libs/
+# Proof Of Concept projects
 POCs/
 

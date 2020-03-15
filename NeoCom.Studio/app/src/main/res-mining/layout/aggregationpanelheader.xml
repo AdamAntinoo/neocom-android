@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/blacktraslucent80">
+
+    <org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+        android:id="@+id/title"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/standardmargin"
+        android:singleLine="true"
+        android:text="@string/default_paneltitle"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/volume"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/marketValue"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="@string/default_volume"
+        android:textSize="12sp" />
+
+    <org.dimensinfin.android.mvc.fonts.PrototypeTextView
+        android:id="@+id/marketValue"
+        style="@style/AppTheme.StockCounter"
+        android:layout_width="140dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/standardmargin"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="@string/default_isk"
+        android:textSize="12sp"/>
+</RelativeLayout>

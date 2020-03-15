@@ -7,11 +7,10 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.eveonline.neocom.app.factory.AppControllerFactory;
 import org.dimensinfin.eveonline.neocom.industry.Resource;
 import org.dimensinfin.eveonline.neocom.mining.DailyExtractionResourcesContainer;
+import org.dimensinfin.eveonline.neocom.mining.controller.AggregationPanelTitleController;
 import org.dimensinfin.eveonline.neocom.mining.controller.DailyExtractionResourcesContainerController;
-import org.dimensinfin.eveonline.neocom.mining.controller.MiningExtractionAggregatorController;
 import org.dimensinfin.eveonline.neocom.mining.controller.MiningResourceController;
 import org.dimensinfin.eveonline.neocom.mining.converter.MiningExtractionAggregatorContainerToAggregationPanelTitleConverter;
-import org.dimensinfin.eveonline.neocom.mining.domain.AggregationPanelTitle;
 import org.dimensinfin.eveonline.neocom.mining.domain.MiningExtractionAggregatorContainer;
 
 /**
@@ -32,7 +31,7 @@ public class MiningControllerFactory extends AppControllerFactory {
 			return new MiningResourceController( (Resource) node, this ).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof MiningExtractionAggregatorContainer) {
-			return new MiningExtractionAggregatorController(
+			return new AggregationPanelTitleController(
 					Objects.requireNonNull( new MiningExtractionAggregatorContainerToAggregationPanelTitleConverter()
 							                        .convert( (MiningExtractionAggregatorContainer) node )
 					), this )

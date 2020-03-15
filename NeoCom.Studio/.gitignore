@@ -1,6 +1,7 @@
 # - Android Studio
 *.iml
 .gradle
+*.db
 
 .idea/modules.xml
 .idea/workspace.xml
